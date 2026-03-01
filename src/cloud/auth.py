@@ -41,7 +41,6 @@ class AuthResult:
     error: str | None = None
     user_id: str | None = None
     email: str | None = None
-    confirm_email: bool = False   # True when Supabase sends a confirmation email
 
 
 @dataclass
@@ -57,8 +56,7 @@ class GoogleAuthState:
 # ── Public API ────────────────────────────────────────────────────────────────
 
 def sign_up(email: str, password: str) -> AuthResult:
-    """Create a new account. Returns AuthResult with confirm_email=True if
-    the Supabase project requires email confirmation before login."""
+    """Create a new account and sign in immediately."""
     client = _client()
     if client is None:
         return AuthResult(ok=False, error="Supabase is not configured.")
@@ -66,16 +64,11 @@ def sign_up(email: str, password: str) -> AuthResult:
         res = client.auth.sign_up({"email": email, "password": password})
         if res.user is None:
             return AuthResult(ok=False, error="Sign up failed. Try again.")
-        # session is None when email confirmation is required
-        confirm_needed = res.session is None
-        if not confirm_needed:
+        if res.session:
             _save_session(res)
-        return AuthResult(
-            ok=True,
-            user_id=str(res.user.id),
-            email=res.user.email,
-            confirm_email=confirm_needed,
-        )
+            return AuthResult(ok=True, user_id=str(res.user.id), email=res.user.email)
+        # No session returned — sign in immediately to get one
+        return sign_in(email, password)
     except Exception as exc:
         return AuthResult(ok=False, error=_friendly(exc))
 
@@ -140,7 +133,7 @@ def start_google_auth() -> GoogleAuthState | AuthResult:
     try:
         res = client.auth.sign_in_with_oauth({
             "provider": "google",
-            "options": {"redirect_to": f"http://127.0.0.1:{port}/callback"},
+            "options": {"redirect_to": f"https://hiba-chaabnia.github.io/LeetVibe/?port={port}"},
         })
         state.oauth_url = res.url
     except Exception as exc:
@@ -150,32 +143,7 @@ def start_google_auth() -> GoogleAuthState | AuthResult:
     return state
 
 
-# Tiny HTML page served at /callback.
-# JavaScript reads both the URL hash (implicit flow) and query params (PKCE
-# flow), then POSTs the tokens/code to /result so our server can capture them.
-_CALLBACK_HTML = b"""\
-<!DOCTYPE html><html>
-<head><title>LeetVibe</title>
-<style>body{font-family:sans-serif;text-align:center;padding-top:25vh;background:#0f0f0f;color:#eee}</style>
-</head>
-<script>window.onload=function(){
-  var h=new URLSearchParams(window.location.hash.slice(1));
-  var q=new URLSearchParams(window.location.search);
-  var p=new URLSearchParams();
-  var err=h.get('error')||q.get('error');
-  var at=h.get('access_token')||q.get('access_token');
-  var rt=h.get('refresh_token')||q.get('refresh_token');
-  var code=q.get('code');
-  if(err)       p.set('error',err);
-  else if(at)  {p.set('access_token',at);if(rt)p.set('refresh_token',rt);}
-  else if(code) p.set('code',code);
-  var msg=document.getElementById('msg');
-  fetch('/result?'+p.toString()).then(function(){
-    msg.textContent=err?'Sign-in failed. You can close this tab.':'All done! You can close this tab.';
-  });
-};</script>
-<body><h2 id="msg">Completing sign-in&hellip;</h2></body></html>
-"""
+_PAGES_URL = "https://hiba-chaabnia.github.io/LeetVibe/"
 
 
 def _start_callback_server(state: GoogleAuthState) -> None:
@@ -183,18 +151,16 @@ def _start_callback_server(state: GoogleAuthState) -> None:
 
     class _Handler(http.server.BaseHTTPRequestHandler):
         def do_GET(self):
-            if self.path.startswith("/callback"):
-                self.send_response(200)
-                self.send_header("Content-Type", "text/html; charset=utf-8")
-                self.end_headers()
-                self.wfile.write(_CALLBACK_HTML)
-            elif self.path.startswith("/result"):
-                self.send_response(204)
-                self.end_headers()
+            if self.path.startswith("/result"):
                 params = dict(urllib.parse.parse_qsl(
                     urllib.parse.urlparse(self.path).query
                 ))
                 _resolve(state, params)
+                # Redirect the browser back to GitHub Pages to show the result
+                location = _PAGES_URL + ("?auth=done" if state.result and state.result.ok else "?auth=error")
+                self.send_response(302)
+                self.send_header("Location", location)
+                self.end_headers()
             else:
                 self.send_response(404)
                 self.end_headers()
@@ -285,5 +251,9 @@ def _friendly(exc: Exception) -> str:
         return "Password must be at least 6 characters."
     if "Unable to validate" in msg or "network" in msg.lower():
         return "Network error. Check your connection and try again."
+    if "email rate limit" in msg.lower():
+        return "Too many sign-up attempts. Please wait a few minutes and try again."
+    if "email not confirmed" in msg.lower():
+        return "This account's email was never confirmed. Please delete it and sign up again."
     # Fall back to the raw message, capped at 80 chars
     return msg[:80]

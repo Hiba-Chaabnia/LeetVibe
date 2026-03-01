@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import VerticalScroll
@@ -56,9 +57,10 @@ class StatsScreen(Screen):
         yield Static("📊  LeetVibe Statistics", id="stats-header")
         with VerticalScroll(id="stats-scroll"):
             yield Static(id="library-card", classes="stat-card")
+            yield Static(id="cloud-card", classes="stat-card")
             yield Static(id="wandb-card", classes="stat-card")
             yield Static(id="skills-card", classes="stat-card")
-        yield StatusBar(nav_hint="[ESC] Back", id="stats-status")
+        yield StatusBar(hints=[("ESC", "Back", None)], id="stats-status")
 
     def on_mount(self) -> None:
         # Load config to ensure env vars are populated
@@ -68,6 +70,8 @@ class StatsScreen(Screen):
         except Exception:
             pass
         self._render_library()
+        self._render_cloud_placeholder()
+        self._load_cloud_stats()
         self._render_wandb()
         self._render_skills()
 
@@ -93,6 +97,46 @@ class StatsScreen(Screen):
             f"  [{_RED}]★[/{_RED}] Hard    [{_RED}]{hard:,}[/{_RED}]\n"
         )
         self.query_one("#library-card", Static).update(text)
+
+    def _render_cloud_placeholder(self) -> None:
+        self.query_one("#cloud-card", Static).update(
+            f"[bold {_FIRE}]Cloud Sync[/bold {_FIRE}]\n\n  [dim]Loading…[/dim]"
+        )
+
+    @work(thread=True)
+    def _load_cloud_stats(self) -> None:
+        from ...cloud.auth import load_session
+        from ...cloud.db import get_session_stats
+        session = load_session()
+        stats = get_session_stats() if session else None
+        self.app.call_from_thread(self._render_cloud, session, stats)
+
+    def _render_cloud(self, session, stats) -> None:
+        try:
+            card = self.query_one("#cloud-card", Static)
+        except Exception:
+            return  # screen already unmounted
+
+        if not session:
+            text = (
+                f"[bold {_FIRE}]Cloud Sync[/bold {_FIRE}]\n\n"
+                "  Status: [bold #888888]not signed in[/bold #888888]\n"
+                "  [dim]Sign in from the Home screen to sync sessions and chat history.[/dim]\n"
+            )
+        else:
+            email = session.get("email", "")
+            count = stats.get("session_count", 0) if stats else 0
+            last = stats.get("last_updated") if stats else None
+            last_str = last[:10] if last else "—"
+            text = (
+                f"[bold {_FIRE}]Cloud Sync[/bold {_FIRE}]\n\n"
+                f"  Status  :  [bold {_GREEN}]signed in[/bold {_GREEN}]\n"
+                f"  Account :  [bold white]{email}[/bold white]\n"
+                f"  Sessions:  [bold white]{count}[/bold white]\n"
+                f"  Last sync: [bold white]{last_str}[/bold white]\n\n"
+                f"  [dim]Chat history and progress are synced automatically.[/dim]\n"
+            )
+        card.update(text)
 
     def _render_wandb(self) -> None:
         import os

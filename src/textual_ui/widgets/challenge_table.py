@@ -34,12 +34,21 @@ class ChallengeTable(DataTable):
     def on_mount(self) -> None:
         self.cursor_type = "row"
         self.zebra_stripes = True
-        self.add_columns("Title", "Difficulty", "Topics", "Solution")
+        self.add_columns("Title", "Difficulty", "Topics", "Solved", "Solution")
 
-    def populate(self, challenges: list[Challenge]) -> None:
+    def populate(
+        self,
+        challenges: list[Challenge],
+        solved_slugs: set[str] | None = None,
+    ) -> None:
         """Clear and repopulate the table with the given challenges."""
         self.clear()
         for ch in challenges:
+            solved_cell = (
+                Text("✓ solved", style="bold #00C44F")
+                if (solved_slugs is not None and ch.id in solved_slugs)
+                else Text("—", style="dim #888888")
+            )
             solution = (
                 Text("✓ yes", style="bold #00C44F")
                 if ch.has_solutions
@@ -49,6 +58,7 @@ class ChallengeTable(DataTable):
                 ch.title,
                 _difficulty_badge(ch.difficulty),
                 Text(", ".join(ch.topics[:3]) or "—", style="dim"),
+                solved_cell,
                 solution,
                 key=ch.id,
             )
@@ -60,8 +70,14 @@ class ChallengeTable(DataTable):
         topic: str,
         query: str,
         has_solution: str = "all",
+        solved_slugs: set[str] | None = None,
+        is_solved: str = "all",
     ) -> list[Challenge]:
-        """Return filtered subset and repopulate table."""
+        """Return filtered subset and repopulate table.
+
+        ``is_solved`` accepts ``"all"``, ``"yes"`` (only solved), or ``"no"``
+        (only unsolved).  Requires ``solved_slugs`` to have any effect.
+        """
         filtered = challenges
 
         if difficulty and difficulty != "all":
@@ -75,9 +91,15 @@ class ChallengeTable(DataTable):
         elif has_solution == "no":
             filtered = [c for c in filtered if not c.has_solutions]
 
+        if solved_slugs is not None:
+            if is_solved == "yes":
+                filtered = [c for c in filtered if c.id in solved_slugs]
+            elif is_solved == "no":
+                filtered = [c for c in filtered if c.id not in solved_slugs]
+
         if query:
             q = query.lower()
             filtered = [c for c in filtered if q in c.title.lower()]
 
-        self.populate(filtered)
+        self.populate(filtered, solved_slugs)
         return filtered

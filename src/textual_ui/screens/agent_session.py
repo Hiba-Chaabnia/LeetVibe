@@ -233,7 +233,7 @@ class AgentSessionScreen(Screen):
     BINDINGS = [
         Binding("escape", "pop_screen", "← Back"),
         Binding("s", "stop_agent", "■ Stop", show=False),
-        Binding("ctrl+o", "toggle_steps", "Toggle Steps", show=False),
+        Binding("ctrl+o", "toggle_history", "Prior Session", show=False),
     ]
 
     DEFAULT_CSS = f"""
@@ -263,12 +263,31 @@ class AgentSessionScreen(Screen):
         height: 1;
         color: #aaaaaa;
     }}
-    #btn-back:hover {{ background: #2a2a2a; color: #e0e0e0; }}
+    #btn-back:hover  {{ background: #2a2a2a; color: #e0e0e0; }}
     #btn-stop        {{ color: {_RED}; }}
     #btn-stop:hover  {{ background: #2a0000; }}
     #btn-copy        {{ color: {_GREEN}; }}
     #btn-copy:hover  {{ background: #0a2a0a; }}
     #btn-copy:disabled {{ color: #333333; }}
+    #btn-reset       {{ color: #888888; }}
+    #btn-reset:hover {{ background: #2a2a2a; color: #e0e0e0; }}
+    #btn-reset:disabled {{ color: #333333; }}
+
+    /* ── Prior history panel ─────────────────────────────────── */
+    #prior-history {{
+        width: 100%;
+        height: auto;
+        background: #0e0e0e;
+        border-bottom: solid #333333;
+        padding: 0 1 1 1;
+        display: none;
+    }}
+    #prior-history-title {{
+        color: #555555;
+        text-style: italic;
+        padding: 0 1;
+        margin-bottom: 1;
+    }}
 
     /* ── Chat scroll (fills remaining space) ─────────────────────── */
     ChatScroll {{
@@ -349,6 +368,8 @@ class AgentSessionScreen(Screen):
         self._spinner_timer = None   # Timer | None
         self._session_done = False   # guard against double _on_agent_done
         self._cloud_session_id: str | None = None  # set once by _run_agent
+        self._prior_messages: list[dict] = []      # saved messages from last session
+        self._history_visible = False              # Ctrl+O toggle state
 
     # ── Layout ────────────────────────────────────────────────────────
 
@@ -366,9 +387,15 @@ class AgentSessionScreen(Screen):
                 id="session-title",
             )
             yield Button("⎘ Copy Code", id="btn-copy", disabled=True)
+            yield Button("↺ Reset", id="btn-reset")
             yield Button("■ Stop", id="btn-stop")
 
         with ChatScroll(id="chat-scroll"):
+            with VerticalGroup(id="prior-history"):
+                yield Static(
+                    "── Prior session ──────────────────────",
+                    id="prior-history-title",
+                )
             yield VerticalGroup(id="messages")
 
         with Vertical(id="chat-input-container"):
@@ -383,9 +410,9 @@ class AgentSessionScreen(Screen):
 
         yield StatusBar(
             hints=[
-                ("Esc",    "Back",         self.action_pop_screen),
-                ("S",      "Stop",         self.action_stop_agent),
-                ("Ctrl+O", "Toggle Steps", self.action_toggle_steps),
+                ("Esc",    "Back",          self.action_pop_screen),
+                ("S",      "Stop",          self.action_stop_agent),
+                ("Ctrl+O", "Prior Session", self.action_toggle_history),
             ],
             show_count=False,
             id="session-status",
@@ -493,10 +520,12 @@ class AgentSessionScreen(Screen):
                 self._agent.inject_history(
                     [{"role": "system", "content": system}, *prior_messages]
                 )
+                self._prior_messages = prior_messages
+                self.app.call_from_thread(self._render_prior_history, prior_messages)
                 self.app.call_from_thread(
                     self._write_line,
                     "[dim]📎  Resumed from last session — "
-                    "ask a follow-up question below.[/dim]",
+                    "press Ctrl+O to view prior conversation.[/dim]",
                 )
             else:
                 # Fresh session: run the full solve workflow
@@ -518,6 +547,25 @@ class AgentSessionScreen(Screen):
             if self._cloud_session_id and self._agent is not None:
                 save_messages(self._cloud_session_id, self._agent._messages)
             self.app.call_from_thread(self._on_agent_done)
+
+    # ── Prior history rendering ───────────────────────────────────────
+
+    def _render_prior_history(self, messages: list[dict]) -> None:
+        """Populate the #prior-history container with saved messages."""
+        container = self.query_one("#prior-history", VerticalGroup)
+        for msg in messages:
+            role = msg.get("role", "")
+            content = str(msg.get("content") or "").strip()
+            if not content:
+                continue
+            if role == "user":
+                safe = content.replace("[", r"\[")
+                container.mount(UserMessage(safe))
+            elif role == "assistant":
+                block = AssistantBlock()
+                container.mount(block)
+                for line in content.splitlines():
+                    block.write_line(line)
 
     # ── Thread-safe UI helpers ────────────────────────────────────────
 
@@ -650,6 +698,10 @@ class AgentSessionScreen(Screen):
             self._submit_chat()
         elif btn == "btn-copy":
             self._copy_last_code()
+        elif btn == "btn-reset":
+            self._running = False
+            self.query_one("#btn-reset", Button).disabled = True
+            self._do_reset()
 
     def _copy_last_code(self) -> None:
         """Copy the last code block from the conversation to the clipboard."""
@@ -670,6 +722,18 @@ class AgentSessionScreen(Screen):
         btn.label = "⎘ Copy Code"
         btn.disabled = False
 
+    @work(thread=True)
+    def _do_reset(self) -> None:
+        """Delete cloud messages then switch to a fresh session screen."""
+        from ...cloud.db import reset_session
+        ch = self._challenge
+        problem_slug = getattr(ch, "title_slug", None) or ch.title
+        reset_session(problem_slug, self._mode)
+        self.app.call_from_thread(
+            self.app.switch_screen,
+            AgentSessionScreen(ch, self._mode, self._user_code),
+        )
+
     # ── Actions ───────────────────────────────────────────────────────
 
     def action_pop_screen(self) -> None:
@@ -679,8 +743,10 @@ class AgentSessionScreen(Screen):
         self._running = False
         self._on_agent_done()
 
-    def action_toggle_steps(self) -> None:
-        """Ctrl+O — toggle visibility of background step content."""
-        self._steps_visible = not self._steps_visible
-        for block in self.query(BackgroundStep):
-            block.toggle_content(self._steps_visible)
+    def action_toggle_history(self) -> None:
+        """Ctrl+O — toggle visibility of the prior session conversation."""
+        self._history_visible = not self._history_visible
+        panel = self.query_one("#prior-history", VerticalGroup)
+        panel.display = self._history_visible
+        if self._history_visible:
+            self._scroll_to_bottom()

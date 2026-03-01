@@ -20,6 +20,14 @@ from .challenge_detail import ChallengeDetailScreen
 _TOGGLE_INACTIVE_LABEL = "Solution: All"
 _TOGGLE_ACTIVE_LABEL   = "✓  Has Solution"
 
+# 3-state cycle for solved filter
+_SOLVED_LABELS = {
+    "all": "Solved: All",
+    "yes": "✓  Solved Only",
+    "no":  "✗  Unsolved",
+}
+_SOLVED_NEXT = {"all": "yes", "yes": "no", "no": "all"}
+
 
 class ChallengeListScreen(Screen):
     BINDINGS = [
@@ -31,6 +39,7 @@ class ChallengeListScreen(Screen):
     filter_difficulty: reactive[str] = reactive("all")
     filter_topic: reactive[str] = reactive("all")
     filter_solution: reactive[str] = reactive("all")
+    filter_solved: reactive[str] = reactive("all")
     search_query: reactive[str] = reactive("")
 
     def __init__(self, mode: str = "learn") -> None:
@@ -38,6 +47,7 @@ class ChallengeListScreen(Screen):
         self._mode = mode
         self._all_challenges: list[Challenge] = []
         self._filtered_count: int = 0
+        self._solved_slugs: set[str] | None = None
 
     def compose(self) -> ComposeResult:
         footer_hints = [
@@ -61,6 +71,7 @@ class ChallengeListScreen(Screen):
                 allow_blank=False,
             ),
             Button(_TOGGLE_INACTIVE_LABEL, id="btn-solution-toggle"),
+            Button(_SOLVED_LABELS["all"], id="btn-solved-toggle"),
             Input(placeholder="Search title…", id="search-input"),
             id="list-header",
         )
@@ -74,16 +85,26 @@ class ChallengeListScreen(Screen):
 
     def on_mount(self) -> None:
         self._load_challenges()
+        self._load_solved_slugs()
 
     @work(thread=True)
     def _load_challenges(self) -> list[Challenge]:
         return load_all_challenges()
+
+    @work(thread=True)
+    def _load_solved_slugs(self) -> set[str]:
+        from ...cloud.db import get_solved_slugs
+        return get_solved_slugs()
 
     def on_worker_state_changed(self, event: Worker.StateChanged) -> None:
         if event.worker.name == "_load_challenges" and event.state == WorkerState.SUCCESS:
             self._all_challenges = event.worker.result or []
             self._populate_topic_filter()
             self._repopulate()
+        elif event.worker.name == "_load_solved_slugs" and event.state == WorkerState.SUCCESS:
+            self._solved_slugs = event.worker.result or set()
+            if self._all_challenges:
+                self._repopulate()
 
     def _populate_topic_filter(self) -> None:
         topics = sorted({t for ch in self._all_challenges for t in ch.topics if t})
@@ -112,6 +133,23 @@ class ChallengeListScreen(Screen):
         except Exception:
             pass
 
+    def watch_filter_solved(self, value: str) -> None:
+        if self._all_challenges:
+            self._repopulate()
+        try:
+            btn = self.query_one("#btn-solved-toggle", Button)
+            btn.label = _SOLVED_LABELS[value]
+            if value == "yes":
+                btn.add_class("sol-active")
+                btn.remove_class("solved-no")
+            elif value == "no":
+                btn.remove_class("sol-active")
+                btn.add_class("solved-no")
+            else:
+                btn.remove_class("sol-active", "solved-no")
+        except Exception:
+            pass
+
     def watch_search_query(self, value: str) -> None:
         if self._all_challenges:
             self._repopulate()
@@ -124,6 +162,8 @@ class ChallengeListScreen(Screen):
             self.filter_topic,
             self.search_query,
             self.filter_solution,
+            self._solved_slugs,
+            self.filter_solved,
         )
         self._filtered_count = len(filtered)
         self.query_one("#list-status", StatusBar).update_count(
@@ -134,6 +174,9 @@ class ChallengeListScreen(Screen):
         if event.button.id == "btn-solution-toggle":
             # 2-state toggle: all ↔ has-solution
             self.filter_solution = "yes" if self.filter_solution == "all" else "all"
+        elif event.button.id == "btn-solved-toggle":
+            # 3-state cycle: all → yes → no → all
+            self.filter_solved = _SOLVED_NEXT[self.filter_solved]
 
     def on_select_changed(self, event: Select.Changed) -> None:
         if event.select.id == "difficulty-filter":

@@ -82,6 +82,14 @@ Screen {
     color: $muted;
 }
 
+#auth-label {
+    width: 60;
+    height: 1;
+    text-align: center;
+    color: $muted;
+    margin: 0 0 0 0;
+}
+
 
 /* ============================================================
    ChallengeListScreen
@@ -149,6 +157,33 @@ Screen {
     color: $easy;
     border: tall $easy;
     background: #0a2a0a;
+}
+
+#btn-solved-toggle {
+    width: auto;
+    min-width: 16;
+    height: 3;
+    margin: 0 1;
+    border: tall $muted;
+    background: transparent;
+    color: $text;
+}
+
+#btn-solved-toggle:hover {
+    border: tall $brand;
+    color: $brand;
+}
+
+#btn-solved-toggle.sol-active {
+    color: $easy;
+    border: tall $easy;
+    background: #0a2a0a;
+}
+
+#btn-solved-toggle.solved-no {
+    color: $hard;
+    border: tall $hard;
+    background: #2a0a0a;
 }
 
 #search-input {

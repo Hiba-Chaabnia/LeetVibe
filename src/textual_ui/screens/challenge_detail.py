@@ -32,6 +32,14 @@ from ...code_runner import CaseResult, run_tests
 from ..widgets.challenge_card import ChallengeCard
 from ..widgets.status_bar import StatusBar
 
+# ── Auth helper (fast local file check — safe to call in compose) ──────────────
+def _is_logged_in() -> bool:
+    try:
+        from ...cloud.auth import load_session
+        return bool(load_session())
+    except Exception:
+        return False
+
 # ── Defaults ───────────────────────────────────────────────────────────────────
 _DEFAULT_PYTHON = "class Solution:\n    def solve(self):\n        pass\n"
 
@@ -89,7 +97,7 @@ class ChallengeDetailScreen(Screen):
     }
     /* All top-bar buttons share base compact style */
     #btn-problem-list, #btn-prev, #btn-next,
-    #btn-run, #btn-submit, #btn-solution {
+    #btn-run, #btn-submit, #btn-feedback, #btn-solution {
         border: none;
         background: transparent;
         padding: 0 1;
@@ -100,13 +108,16 @@ class ChallengeDetailScreen(Screen):
     #btn-prev:disabled, #btn-next:disabled   { color: #444444; }
     #btn-run                                 { color: #00C44F; }
     #btn-submit                              { color: #4A9EFF; }
+    #btn-feedback                            { color: #888888; }
     #btn-solution                            { color: #FF8205; }
     #btn-problem-list:hover, #btn-prev:hover, #btn-next:hover {
         background: #2a2a2a;
         color: #e0e0e0;
     }
-    #btn-run:hover    { background: #1a3a1a; }
-    #btn-submit:hover { background: #102040; }
+    #btn-run:hover      { background: #1a3a1a; }
+    #btn-submit:hover   { background: #102040; }
+    #btn-submit:disabled { color: #444444; }
+    #btn-feedback:hover { background: #2a2a2a; color: #e0e0e0; }
     #btn-solution:hover { background: #3a2200; color: #FFB300; }
 
     /* ── Main body ───────────────────────────────────────────────── */
@@ -169,6 +180,8 @@ class ChallengeDetailScreen(Screen):
         self._index = index
         self._mode = mode
         self._solution_shown = False
+        self._logged_in = _is_logged_in()
+        self._cloud_session_id: str | None = None
 
     def compose(self) -> ComposeResult:
         ch = self._challenge
@@ -183,7 +196,9 @@ class ChallengeDetailScreen(Screen):
                 yield Button(f"{_I_NEXT}  Next",         id="btn-next",     disabled=at_end)
             with Horizontal(id="action-section"):
                 yield Button(f"{_I_RUN}  Run",           id="btn-run")
-                yield Button(f"{_I_SUBMIT}  Submit",     id="btn-submit")
+                if self._logged_in:
+                    yield Button(f"{_I_SUBMIT}  Submit", id="btn-submit")
+                    yield Button("✉  Feedback",          id="btn-feedback")
             with Horizontal(id="sol-section"):
                 if ch.has_solutions:
                     yield Button(f"{_I_EYE}  Solution",  id="btn-solution")
@@ -334,12 +349,26 @@ class ChallengeDetailScreen(Screen):
             self._run_code(code, snippet, ch.test_cases, ch.expected_outputs)
 
         elif btn == "btn-submit":
-            self.notify("Submit feature coming soon!", title="Submit", severity="information")
+            code = self.query_one("#code-editor", TextArea).text
+            ch = self._challenge
+            snippet = ch.python_snippet or _DEFAULT_PYTHON
+            self.query_one("#btn-submit", Button).disabled = True
+            self._submit_code(code, snippet, ch.test_cases, ch.expected_outputs)
+
+        elif btn == "btn-feedback":
+            from .feedback import FeedbackModal
+            self.app.push_screen(
+                FeedbackModal(
+                    problem_slug=self._challenge.id,
+                    session_id=self._cloud_session_id,
+                ),
+                self._on_feedback_result,
+            )
 
         elif btn == "btn-solution":
             self._toggle_solution()
 
-    # ── Run worker ─────────────────────────────────────────────────────
+    # ── Run / Submit workers ────────────────────────────────────────────
 
     @work(thread=True)
     def _run_code(
@@ -351,16 +380,85 @@ class ChallengeDetailScreen(Screen):
     ) -> list[CaseResult]:
         return run_tests(code, snippet, test_cases, expected_outputs)
 
+    @work(thread=True)
+    def _submit_code(
+        self,
+        code: str,
+        snippet: str,
+        test_cases: list[list[str]],
+        expected_outputs: list[str],
+    ) -> list[CaseResult]:
+        return run_tests(code, snippet, test_cases, expected_outputs)
+
     def on_worker_state_changed(self, event: Worker.StateChanged) -> None:
-        if event.worker.name != "_run_code":
+        if event.worker.name == "_run_code":
+            self.query_one("#btn-run", Button).disabled = False
+            if event.state == WorkerState.SUCCESS:
+                self._display_results(event.worker.result or [])
+            elif event.state == WorkerState.ERROR:
+                table = self.query_one("#result-table", DataTable)
+                table.clear()
+                table.add_row("—", "—", "—", "—", RichText("Internal error", style="bold red"))
+
+        elif event.worker.name == "_submit_code":
+            if self._logged_in:
+                try:
+                    self.query_one("#btn-submit", Button).disabled = False
+                except Exception:
+                    pass
+            if event.state == WorkerState.SUCCESS:
+                self._handle_submit_results(event.worker.result or [])
+            elif event.state == WorkerState.ERROR:
+                self.notify("Submission failed due to an error.", severity="error")
+
+    def _handle_submit_results(self, results: list[CaseResult]) -> None:
+        """Check submit results; mark solved in DB if all pass."""
+        if not results:
+            self.notify("No test cases to run.", severity="warning")
             return
-        self.query_one("#btn-run", Button).disabled = False
-        if event.state == WorkerState.SUCCESS:
-            self._display_results(event.worker.result or [])
-        elif event.state == WorkerState.ERROR:
-            table = self.query_one("#result-table", DataTable)
-            table.clear()
-            table.add_row("—", "—", "—", "—", RichText("Internal error", style="bold red"))
+
+        passed = sum(1 for r in results if r.passed is True)
+        total = len(results)
+
+        if passed == total:
+            self._display_results(results)
+            self.query_one("#testcase-tabs", TabbedContent).active = "tab-result"
+            self.notify(
+                f"All {total} test case(s) passed! Saving solution…",
+                title="Accepted",
+                severity="information",
+            )
+            code = self.query_one("#code-editor", TextArea).text
+            self._save_solution(code)
+        else:
+            self._display_results(results)
+            self.query_one("#testcase-tabs", TabbedContent).active = "tab-result"
+            self.notify(
+                f"{passed}/{total} test case(s) passed. Keep going!",
+                title="Wrong Answer",
+                severity="warning",
+            )
+
+    @work(thread=True)
+    def _save_solution(self, code: str) -> None:
+        from ...cloud.db import mark_solved
+        ch = self._challenge
+        ok = mark_solved(ch.id, ch.difficulty, code)
+        self.app.call_from_thread(self._on_solution_saved, ok)
+
+    def _on_solution_saved(self, ok: bool) -> None:
+        if ok:
+            self.notify("Solution saved to your profile!", title="Solved", severity="information")
+        else:
+            self.notify(
+                "Solved locally, but couldn't save to cloud.",
+                title="Sync error",
+                severity="warning",
+            )
+
+    def _on_feedback_result(self, submitted: bool) -> None:
+        if submitted:
+            self.notify("Feedback sent. Thank you!", severity="information")
 
     @staticmethod
     def _fmt_value(v: object) -> str:

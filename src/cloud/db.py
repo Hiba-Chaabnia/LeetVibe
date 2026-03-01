@@ -221,6 +221,79 @@ def reset_session(problem_slug: str, mode: str) -> bool:
         return False
 
 
+# ── Stats ─────────────────────────────────────────────────────────────────────
+
+def get_session_stats() -> dict:
+    """Return aggregate stats for the current user's cloud sessions.
+
+    Returns a dict with ``session_count`` and ``last_updated`` (ISO string or None).
+    Safe to call when not logged in — returns zero values.
+    """
+    client = _authed_client()
+    if client is None:
+        return {"session_count": 0, "last_updated": None}
+    try:
+        res = (
+            client.table("chat_sessions")
+            .select("id, updated_at")
+            .order("updated_at", desc=True)
+            .execute()
+        )
+        data = res.data or []
+        return {
+            "session_count": len(data),
+            "last_updated": data[0]["updated_at"] if data else None,
+        }
+    except Exception:
+        return {"session_count": 0, "last_updated": None}
+
+
+# ── Solved problems ───────────────────────────────────────────────────────────
+
+def mark_solved(problem_slug: str, difficulty: str, code: str) -> bool:
+    """Record that the current user solved a problem and save their code.
+
+    Uses upsert so re-submitting an already-solved problem just updates the
+    stored code rather than inserting a duplicate row.
+    Returns True on success, False when not logged in or on error.
+    """
+    client = _authed_client()
+    if client is None:
+        return False
+    user_id = _current_user_id(client)
+    if user_id is None:
+        return False
+    try:
+        client.table("user_solutions").upsert(
+            {
+                "user_id": user_id,
+                "problem_slug": problem_slug,
+                "difficulty": difficulty,
+                "code": code,
+            },
+            on_conflict="user_id,problem_slug",
+        ).execute()
+        return True
+    except Exception:
+        return False
+
+
+def get_solved_slugs() -> set[str]:
+    """Return the set of problem slugs the current user has solved.
+
+    Returns an empty set when not logged in or on error — callers can treat
+    an empty set the same as "no solved problems yet".
+    """
+    client = _authed_client()
+    if client is None:
+        return set()
+    try:
+        res = client.table("user_solutions").select("problem_slug").execute()
+        return {row["problem_slug"] for row in res.data or []}
+    except Exception:
+        return set()
+
+
 # ── Feedback ──────────────────────────────────────────────────────────────────
 
 def submit_feedback(
