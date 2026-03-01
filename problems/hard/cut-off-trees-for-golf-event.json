@@ -1,0 +1,55 @@
+{
+  "questionId": "675",
+  "title": "Cut Off Trees for Golf Event",
+  "titleSlug": "cut-off-trees-for-golf-event",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are asked to cut off all the trees in a forest for a golf event. The forest is represented as an m x n matrix. In this matrix:\n\n• 0 means the cell cannot be walked through.\n\n• 1 represents an empty cell that can be walked through.\n\n• A number greater than 1 represents a tree in a cell that can be walked through, and this number is the tree's height.\n\nIn one step, you can walk in any of the four directions: north, east, south, and west. If you are standing in a cell with a tree, you can choose whether to cut it off.\n\nYou must cut off the trees in order from shortest to tallest. When you cut off a tree, the value at its cell becomes 1 (an empty cell).\n\nStarting from the point (0, 0), return the minimum steps you need to walk to cut off all the trees. If you cannot cut off all the trees, return -1.\n\nNote: The input is generated such that no two trees have the same height, and there is at least one tree needs to be cut off.\n\nExample 1:\n\nInput: forest = [[1,2,3],[0,0,4],[7,6,5]]\nOutput: 6\nExplanation: Following the path above allows you to cut off the trees from shortest to tallest in 6 steps.\n\nExample 2:\n\nInput: forest = [[1,2,3],[0,0,0],[7,6,5]]\nOutput: -1\nExplanation: The trees in the bottom row cannot be accessed as the middle row is blocked.\n\nExample 3:\n\nInput: forest = [[2,3,4],[0,0,5],[8,7,6]]\nOutput: 6\nExplanation: You can follow the same path as Example 1 to cut off all the trees.\n    Note that you can cut off the first tree at (0, 0) before making any steps.\n\nConstraints:\n\n• m == forest.length\n\n• n == forest[i].length\n\n• 1 <= m, n <= 50\n\n• 0 <= forest[i][j] <= 109\n\n• Heights of all trees are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def cutOffTree(self, forest):\n        \"\"\"\n        :type forest: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2,3],[0,0,4],[7,6,5]]"
+    ],
+    [
+      "[[1,2,3],[0,0,0],[7,6,5]]"
+    ],
+    [
+      "[[2,3,4],[0,0,5],[8,7,6]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "-1",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from heapq import heappush, heappop\nfrom collections import deque\n\ndef cutOffTree(forest: List[List[int]]) -> int:\n    if not forest or not forest[0]: return 0\n    m, n = len(forest), len(forest[0])\n    trees = []\n    \n    for i in range(m):\n        for j in range(n):\n            if forest[i][j] > 1:\n                heappush(trees, (forest[i][j], i, j))\n    \n    startX, startY = 0, 0\n    totalSteps = 0\n    while trees:\n        tree, endX, endY = heappop(trees)\n        steps = bfs(forest, startX, startY, endX, endY)\n        if steps == -1:\n            return -1\n        totalSteps += steps\n        startX, startY = endX, endY\n    \n    return totalSteps\n\ndef bfs(forest, startX, startY, endX, endY):\n    if startX == endX and startY == endY:\n        return 0\n        \n    m, n = len(forest), len(forest[0])\n    visited = [[False] * n for _ in range(m)]\n    q = deque([(startX, startY, 0)])\n    visited[startX][startY] = True\n    dirs = [-1, 0, 1, 0, -1]\n    \n    while q:\n        x, y, steps = q.popleft()\n        for k in range(4):\n            newX, newY = x + dirs[k], y + dirs[k+1]\n            if 0 <= newX < m and 0 <= newY < n and not visited[newX][newY] and forest[newX][newY] != 0:\n                if newX == endX and newY == endY:\n                    return steps + 1\n                q.append((newX, newY, steps + 1))\n                visited[newX][newY] = True\n    \n    return -1",
+    "explanation": "1. Traverse the matrix, adding the tree positions to a trees list.\n2. Sort the trees list by tree height.\n3. For each tree in the list, apply Breadth-First Search (BFS) to find the minimum steps to cut the tree from the previous tree or the starting point.\n4. If any BFS returns -1, return -1, otherwise, return the sum of all steps taken in BFS."
+  },
+  "similarQuestions": "[]"
+}

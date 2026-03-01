@@ -1,0 +1,47 @@
+{
+  "questionId": "741",
+  "title": "Cherry Pickup",
+  "titleSlug": "cherry-pickup",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an n x n grid representing a field of cherries, each cell is one of three possible integers.\n\n• 0 means the cell is empty, so you can pass through,\n\n• 1 means the cell contains a cherry that you can pick up and pass through, or\n\n• -1 means the cell contains a thorn that blocks your way.\n\nReturn the maximum number of cherries you can collect by following the rules below:\n\n• Starting at the position (0, 0) and reaching (n - 1, n - 1) by moving right or down through valid path cells (cells with value 0 or 1).\n\n• After reaching (n - 1, n - 1), returning to (0, 0) by moving left or up through valid path cells.\n\n• When passing through a path cell containing a cherry, you pick it up, and the cell becomes an empty cell 0.\n\n• If there is no valid path between (0, 0) and (n - 1, n - 1), then no cherries can be collected.\n\nExample 1:\n\nInput: grid = [[0,1,-1],[1,0,-1],[1,1,1]]\nOutput: 5\nExplanation: The player started at (0, 0) and went down, down, right right to reach (2, 2).\n    4 cherries were picked up during this single trip, and the matrix becomes [[0,1,-1],[0,0,-1],[0,0,0]].\n    Then, the player went left, up, up, left to return home, picking up one more cherry.\n    The total number of cherries picked up is 5, and this is the maximum possible.\n\nExample 2:\n\nInput: grid = [[1,1,-1],[1,-1,1],[-1,1,1]]\nOutput: 0\n\nConstraints:\n\n• n == grid.length\n\n• n == grid[i].length\n\n• 1 <= n <= 50\n\n• grid[i][j] is -1, 0, or 1.\n\n• grid[0][0] != -1\n\n• grid[n - 1][n - 1] != -1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def cherryPickup(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,1,-1],[1,0,-1],[1,1,1]]"
+    ],
+    [
+      "[[1,1,-1],[1,-1,1],[-1,1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def cherryPickup(self, grid: List[List[int]]) -> int:\n        def dp(r1, c1, c2):\n            r2 = r1 + c1 - c2\n            if (r1 == len(grid) or r2 == len(grid) or c1 == len(grid) or c2 == len(grid) or\n                grid[r1][c1] == -1 or grid[r2][c2] == -1):\n                return float('-inf')\n            elif r1 == len(grid) - 1 and c1 == len(grid) - 1:\n                return grid[r1][c1]\n            elif memo[r1][c1][c2] != float('-inf'):\n                return memo[r1][c1][c2]\n            else:\n                memo[r1][c1][c2] = grid[r1][c1] + (r1 != r2) * grid[r2][c2]\n                max_cherries = max(dp(r1 + 1, c1, c2 + 1), dp(r1, c1 + 1, c2 + 1),\n                                   dp(r1 + 1, c1, c2), dp(r1, c1 + 1, c2))\n                memo[r1][c1][c2] += max_cherries\n            \n            return memo[r1][c1][c2]\n        \n        N = len(grid)\n        memo = [[[float('-inf')] * N for _1 in range(N)] for _2 in range(N)]\n        return max(0, dp(0, 0, 0))",
+    "explanation": "The algorithm is based on Dynamic Programming. The main idea is to traverse the grid twice - first from (0, 0) to (n-1, n-1) and then back to (0, 0) - using two different paths.\n\nWe use memoization to store values of the cherries collected at each step to avoid recomputations. The dp function takes three variables (r1, c1, and c2) as inputs, where r1 and c1 represent the row and column of the first path, and c2 represents the column of the second path. We then calculate the row of the second path (r2) using the formula r2 = r1 + c1 - c2.\n\nThe function checks the base cases for invalid inputs or if cherries collected are already calculated (memoized), then it returns the memoized value.\n\nThe main algorithm calculates the cherries for the current step by adding the cherries in the current cell r1 and c1, and if the paths are different, it adds cherries of r2 and c2 too. After that, it computes the maximum cherries from four possible ways to move (right, down) for both paths and adds it to the memoized table.\n\nFinally, the algorithm returns memo[r1][c1][c2] as the maximum cherries collected.\n\nAt the end, the function returns the maximum cherries collected between (0, 0) and (n-1, n-1) using two different paths, making sure it's not negative."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Path Sum\", \"titleSlug\": \"minimum-path-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Dungeon Game\", \"titleSlug\": \"dungeon-game\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Path Quality of a Graph\", \"titleSlug\": \"maximum-path-quality-of-a-graph\", \"difficulty\": \"Hard\"}, {\"title\": \"Paths in Matrix Whose Sum Is Divisible by K\", \"titleSlug\": \"paths-in-matrix-whose-sum-is-divisible-by-k\", \"difficulty\": \"Hard\"}]"
+}

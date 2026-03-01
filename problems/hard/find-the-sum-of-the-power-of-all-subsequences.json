@@ -1,0 +1,54 @@
+{
+  "questionId": "3345",
+  "title": "Find the Sum of the Power of All Subsequences",
+  "titleSlug": "find-the-sum-of-the-power-of-all-subsequences",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums of length n and a positive integer k.\n\nThe power of an array of integers is defined as the number of subsequences with their sum equal to k.\n\nReturn the sum of power of all subsequences of nums.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput:   nums = [1,2,3], k = 3\n\nOutput:   6\n\nExplanation: There are 5 subsequences of nums with non-zero power:\n\n• The subsequence [1,2,3] has 2 subsequences with sum == 3: [1,2,3] and [1,2,3].\n\n• The subsequence [1,2,3] has 1 subsequence with sum == 3: [1,2,3].\n\n• The subsequence [1,2,3] has 1 subsequence with sum == 3: [1,2,3].\n\n• The subsequence [1,2,3] has 1 subsequence with sum == 3: [1,2,3].\n\n• The subsequence [1,2,3] has 1 subsequence with sum == 3: [1,2,3].\n\nHence the answer is 2 + 1 + 1 + 1 + 1 = 6.\n\nExample 2:\n\nInput:   nums = [2,3,3], k = 5\n\nOutput:   4\n\nExplanation: There are 3 subsequences of nums with non-zero power:\n\n• The subsequence [2,3,3] has 2 subsequences with sum == 5: [2,3,3] and [2,3,3].\n\n• The subsequence [2,3,3] has 1 subsequence with sum == 5: [2,3,3].\n\n• The subsequence [2,3,3] has 1 subsequence with sum == 5: [2,3,3].\n\nHence the answer is 2 + 1 + 1 = 4.\n\nExample 3:\n\nInput:   nums = [1,2,3], k = 7\n\nOutput:   0\n\nExplanation: There exists no subsequence with sum 7. Hence all subsequences of nums have power = 0.\n\nConstraints:\n\n• 1 <= n <= 100\n\n• 1 <= nums[i] <= 104\n\n• 1 <= k <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumOfPower(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If there is a subsequence of length j with the sum of elements k, it contributes 2<sup>n - j</sup> to the answer.",
+    "Let dp[i][j] represent the number of subsequences in the subarray nums[0..i] which have a sum of j.",
+    "We can find the dp[i][k] for all 0 <= i <= n-1 and multiply them with 2<sup>n - j</sup> to get final answer."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "3"
+    ],
+    [
+      "[2,3,3]",
+      "5"
+    ],
+    [
+      "[1,2,3]",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumOfPower(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        MOD = 10**9 + 7\n        n = len(nums)\n        MAX_SUM = k  # Only care about sums up to k\n        \n        # dp[i][s] = number of subsequences in nums[0..i-1] with sum = s\n        dp = [[0] * (MAX_SUM + 1) for _ in range(n + 1)]\n        dp[0][0] = 1  # Empty subsequence has sum 0\n        \n        # Fill DP table\n        for i in range(n):\n            for s in range(MAX_SUM + 1):\n                # Don't include nums[i]\n                dp[i + 1][s] = dp[i][s]\n                \n                # Include nums[i]\n                if s >= nums[i]:\n                    dp[i + 1][s] = (dp[i + 1][s] + dp[i][s - nums[i]]) % MOD\n        \n        result = 0\n        \n        # For each subsequence length j with sum = k\n        # It contributes 2^(n-j) to the answer\n        # (because it's contained in 2^(n-j) supersequences)\n        \n        # But we need to count subsequences by length\n        # Use different DP: dp2[i][j][s] = count of length-j subsequences with sum s\n        \n        # Actually, simpler: compute number of subsequences with sum k by length\n        dp2 = [[[0] * (MAX_SUM + 1) for _ in range(n + 1)] for _ in range(n + 1)]\n        dp2[0][0][0] = 1  # 0 elements, sum 0\n        \n        for i in range(n):\n            for j in range(i + 1):\n                for s in range(MAX_SUM + 1):\n                    if dp2[i][j][s] > 0:\n                        # Don't include nums[i]\n                        dp2[i + 1][j][s] = (dp2[i + 1][j][s] + dp2[i][j][s]) % MOD\n                        \n                        # Include nums[i]\n                        if s + nums[i] <= MAX_SUM and j + 1 <= n:\n                            dp2[i + 1][j + 1][s + nums[i]] = (dp2[i + 1][j + 1][s + nums[i]] + dp2[i][j][s]) % MOD\n        \n        # Sum contributions\n        for length in range(1, n + 1):\n            count = dp2[n][length][k]\n            if count > 0:\n                # Each such subsequence contributes 2^(n-length)\n                contrib = count * pow(2, n - length, MOD) % MOD\n                result = (result + contrib) % MOD\n        \n        return result",
+    "explanation": "This solution uses DP with length tracking:\n\n1. **Problem Understanding**:\n   - Power of subsequence = count of subsequences with sum = k\n   - Sum power over all subsequences of nums\n\n2. **Key Insight**:\n   - If subsequence S has power p:\n   - S appears in 2^(n - |S|) supersequences\n   - Each supersequence containing S contributes |S|'s power p\n\n3. **DP State for Length**:\n   - dp2[i][j][s] = count of length-j subsequences\n     in nums[0..i-1] with sum = s\n   - dp2[0][0][0] = 1 (empty subsequence)\n\n4. **DP Transitions**:\n   - For each position i and element nums[i]:\n     - Option 1: Don't include: dp2[i+1][j][s] += dp2[i][j][s]\n     - Option 2: Include: dp2[i+1][j+1][s+nums[i]] += dp2[i][j][s]\n\n5. **Calculating Answer**:\n   - For each length j: count subsequences with sum k and length j\n   - Each contributes: count * 2^(n-j)\n   - Sum all contributions\n\n6. **Why 2^(n-j) Factor**:\n   - Subsequence of length j can be extended in 2^(n-j) ways\n   - Each extension is a distinct supersequence\n   - The power contribution is the same for all extensions\n\nTime Complexity: O(n² * k)\nSpace Complexity: O(n² * k)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Subsequences That Satisfy the Given Sum Condition\", \"titleSlug\": \"number-of-subsequences-that-satisfy-the-given-sum-condition\", \"difficulty\": \"Medium\"}]"
+}

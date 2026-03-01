@@ -1,0 +1,46 @@
+{
+  "questionId": "2727",
+  "title": "Number of Senior Citizens",
+  "titleSlug": "number-of-senior-citizens",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a 0-indexed array of strings details. Each element of details provides information about a given passenger compressed into a string of length 15. The system is such that:\n\n• The first ten characters consist of the phone number of passengers.\n\n• The next character denotes the gender of the person.\n\n• The following two characters are used to indicate the age of the person.\n\n• The last two characters determine the seat allotted to that person.\n\nReturn the number of passengers who are strictly more than 60 years old.\n\nExample 1:\n\nInput: details = [\"7868190130M7522\",\"5303914400F9211\",\"9273338290F4010\"]\nOutput: 2\nExplanation: The passengers at indices 0, 1, and 2 have ages 75, 92, and 40. Thus, there are 2 people who are over 60 years old.\n\nExample 2:\n\nInput: details = [\"1313579440F2036\",\"2921522980M5644\"]\nOutput: 0\nExplanation: None of the passengers are older than 60.\n\nConstraints:\n\n• 1 <= details.length <= 100\n\n• details[i].length == 15\n\n• details[i] consists of digits from '0' to '9'.\n\n• details[i][10] is either 'M' or 'F' or 'O'.\n\n• The phone numbers and seat numbers of the passengers are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSeniors(self, details):\n        \"\"\"\n        :type details: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Convert the value at index 11 and 12 to a numerical value.",
+    "The age of the person at index i is equal to details[i][11]*10+details[i][12]."
+  ],
+  "testCases": [
+    [
+      "[\"7868190130M7522\",\"5303914400F9211\",\"9273338290F4010\"]"
+    ],
+    [
+      "[\"1313579440F2036\",\"2921522980M5644\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countSeniors(self, details):\n        return sum(1 for d in details if int(d[11:13]) > 60)",
+    "explanation": "Each detail string encodes age at characters 11-12; count passengers with age strictly greater than 60. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "1364",
+  "title": "Tuple with Same Product",
+  "titleSlug": "tuple-with-same-product",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an array nums of distinct positive integers, return the number of tuples (a, b, c, d) such that a * b = c * d where a, b, c, and d are elements of nums, and a != b != c != d.\n\nExample 1:\n\nInput: nums = [2,3,4,6]\nOutput: 8\nExplanation: There are 8 valid tuples:\n    (2,6,3,4) , (2,6,4,3) , (6,2,3,4) , (6,2,4,3)\n    (3,4,2,6) , (4,3,2,6) , (3,4,6,2) , (4,3,6,2)\n\nExample 2:\n\nInput: nums = [1,2,4,5,10]\nOutput: 16\nExplanation: There are 16 valid tuples:\n    (1,10,2,5) , (1,10,5,2) , (10,1,2,5) , (10,1,5,2)\n    (2,5,1,10) , (2,5,10,1) , (5,2,1,10) , (5,2,10,1)\n    (2,10,4,5) , (2,10,5,4) , (10,2,4,5) , (10,2,5,4)\n    (4,5,2,10) , (4,5,10,2) , (5,4,2,10) , (5,4,10,2)\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 104\n\n• All elements in nums are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def tupleSameProduct(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that all of the integers are distinct. This means that each time a product is formed it must be formed by two unique integers.",
+    "Count the frequency of each product of 2 distinct numbers. Then calculate the permutations formed."
+  ],
+  "testCases": [
+    [
+      "[2,3,4,6]"
+    ],
+    [
+      "[1,2,4,5,10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "16"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

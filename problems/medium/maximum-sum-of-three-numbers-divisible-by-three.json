@@ -1,0 +1,56 @@
+{
+  "questionId": "4160",
+  "title": "Maximum Sum of Three Numbers Divisible by Three",
+  "titleSlug": "maximum-sum-of-three-numbers-divisible-by-three",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nYour task is to choose exactly three integers from nums such that their sum is divisible by three.\n\nReturn the maximum possible sum of such a triplet. If no such triplet exists, return 0.\n\nExample 1:\n\nInput: nums = [4,2,3,1]\n\nOutput: 9\n\nExplanation: The valid triplets whose sum is divisible by 3 are:\n\n• (4, 2, 3) with a sum of 4 + 2 + 3 = 9.\n\n• (2, 3, 1) with a sum of 2 + 3 + 1 = 6.\n\nThus, the answer is 9.\n\nExample 2:\n\nInput: nums = [2,1,5]\n\nOutput: 0\n\nExplanation: No triplet forms a sum divisible by 3, so the answer is 0.\n\nConstraints:\n\n• 3 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Split numbers into groups by x % 3.",
+    "Only four valid combinations for sum % 3 == 0.",
+    "Possible combinations are 0 + 0 + 0, 1 + 1 + 1, 2 + 2 + 2, 0 + 1 + 2.",
+    "Sort groups descending, try each combo using top values."
+  ],
+  "testCases": [
+    [
+      "[4,2,3,1]"
+    ],
+    [
+      "[2,1,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumSum(self, nums):\n        # Group by remainder mod 3\n        groups = [[], [], []]\n        for v in nums:\n            groups[v % 3].append(v)\n        for g in groups:\n            g.sort(reverse=True)\n\n        def top(g, cnt):\n            return sum(g[:cnt]) if len(g) >= cnt else None\n\n        ans = 0\n        # Case 1: 0+0+0\n        v = top(groups[0], 3)\n        if v is not None: ans = max(ans, v)\n        # Case 2: 1+1+1\n        v = top(groups[1], 3)\n        if v is not None: ans = max(ans, v)\n        # Case 3: 2+2+2\n        v = top(groups[2], 3)\n        if v is not None: ans = max(ans, v)\n        # Case 4: 0+1+2\n        if groups[0] and groups[1] and groups[2]:\n            ans = max(ans, groups[0][0] + groups[1][0] + groups[2][0])\n        return ans",
+    "explanation": "Group numbers by their remainder mod 3. Valid triplets with sum divisible by 3 come from combinations: (0,0,0), (1,1,1), (2,2,2), or (0,1,2). For each combination, take the top values from each group. Return the maximum sum.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

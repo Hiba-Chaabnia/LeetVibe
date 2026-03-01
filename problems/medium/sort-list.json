@@ -1,0 +1,48 @@
+{
+  "questionId": "148",
+  "title": "Sort List",
+  "titleSlug": "sort-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Merge Sort",
+      "slug": "merge-sort"
+    }
+  ],
+  "content": "Given the head of a linked list, return the list after sorting it in ascending order.\n\nExample 1:\n\nInput: head = [4,2,1,3]\nOutput: [1,2,3,4]\n\nExample 2:\n\nInput: head = [-1,5,3,4,0]\nOutput: [-1,0,3,4,5]\n\nExample 3:\n\nInput: head = []\nOutput: []\n\nConstraints:\n\n• The number of nodes in the list is in the range [0, 5 * 104].\n\n• -105 <= Node.val <= 105\n\nFollow up: Can you sort the linked list in O(n logn) time and O(1) memory (i.e. constant space)?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def sortList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,2,1,3]",
+      "[-1,5,3,4,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,3,4]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Merge Two Sorted Lists\", \"titleSlug\": \"merge-two-sorted-lists\", \"difficulty\": \"Easy\"}, {\"title\": \"Sort Colors\", \"titleSlug\": \"sort-colors\", \"difficulty\": \"Medium\"}, {\"title\": \"Insertion Sort List\", \"titleSlug\": \"insertion-sort-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Sort Linked List Already Sorted Using Absolute Values\", \"titleSlug\": \"sort-linked-list-already-sorted-using-absolute-values\", \"difficulty\": \"Medium\"}]"
+}

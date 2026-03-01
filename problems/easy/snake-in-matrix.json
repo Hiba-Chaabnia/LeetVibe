@@ -1,0 +1,51 @@
+{
+  "questionId": "3533",
+  "title": "Snake in Matrix",
+  "titleSlug": "snake-in-matrix",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "There is a snake in an n x n matrix grid and can move in four possible directions. Each cell in the grid is identified by the position: grid[i][j] = (i * n) + j.\n\nThe snake starts at cell 0 and follows a sequence of commands.\n\nYou are given an integer n representing the size of the grid and an array of strings commands where each command[i] is either \"UP\", \"RIGHT\", \"DOWN\", and \"LEFT\". It's guaranteed that the snake will remain within the grid boundaries throughout its movement.\n\nReturn the position of the final cell where the snake ends up after executing commands.\n\nExample 1:\n\nInput: n = 2, commands = [\"RIGHT\",\"DOWN\"]\n\nOutput: 3\n\nExplanation: \t\t\t\t0\n\t\t\t\t1\n\n\t\t\t\t2\n\t\t\t\t3\n\n\t\t\t\t0\n\t\t\t\t1\n\n\t\t\t\t2\n\t\t\t\t3\n\n\t\t\t\t0\n\t\t\t\t1\n\n\t\t\t\t2\n\t\t\t\t3\n\nExample 2:\n\nInput: n = 3, commands = [\"DOWN\",\"RIGHT\",\"UP\"]\n\nOutput: 1\n\nExplanation: \t\t\t\t0\n\t\t\t\t1\n\t\t\t\t2\n\n\t\t\t\t3\n\t\t\t\t4\n\t\t\t\t5\n\n\t\t\t\t6\n\t\t\t\t7\n\t\t\t\t8\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t2\n\n\t\t\t\t3\n\t\t\t\t4\n\t\t\t\t5\n\n\t\t\t\t6\n\t\t\t\t7\n\t\t\t\t8\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t2\n\n\t\t\t\t3\n\t\t\t\t4\n\t\t\t\t5\n\n\t\t\t\t6\n\t\t\t\t7\n\t\t\t\t8\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t2\n\n\t\t\t\t3\n\t\t\t\t4\n\t\t\t\t5\n\n\t\t\t\t6\n\t\t\t\t7\n\t\t\t\t8\n\nConstraints:\n\n• 2 <= n <= 10\n\n• 1 <= commands.length <= 100\n\n• commands consists only of \"UP\", \"RIGHT\", \"DOWN\", and \"LEFT\".\n\n• The input is generated such the snake will not move outside of the boundaries.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def finalPositionOfSnake(self, n, commands):\n        \"\"\"\n        :type n: int\n        :type commands: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to update the row and column of the snake after each command."
+  ],
+  "testCases": [
+    [
+      "2",
+      "[\"RIGHT\",\"DOWN\"]"
+    ],
+    [
+      "3",
+      "[\"DOWN\",\"RIGHT\",\"UP\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def finalPositionOfSnake(self, n, commands):\n        r = c = 0\n        for cmd in commands:\n            if cmd == 'UP': r -= 1\n            elif cmd == 'DOWN': r += 1\n            elif cmd == 'LEFT': c -= 1\n            elif cmd == 'RIGHT': c += 1\n        return r * n + c",
+    "explanation": "Simulate the snake's position; the cell value at (r, c) in an n×n matrix is r*n+c. O(k) time."
+  },
+  "similarQuestions": "[]"
+}

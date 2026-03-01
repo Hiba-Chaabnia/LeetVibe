@@ -1,0 +1,49 @@
+{
+  "questionId": "16",
+  "title": "3Sum Closest",
+  "titleSlug": "3sum-closest",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array nums of length n and an integer target, find three integers at distinct indices in nums such that the sum is closest to target.\n\nReturn the sum of the three integers.\n\nYou may assume that each input would have exactly one solution.\n\nExample 1:\n\nInput: nums = [-1,2,1,-4], target = 1\nOutput: 2\nExplanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).\n\nExample 2:\n\nInput: nums = [0,0,0], target = 1\nOutput: 0\nExplanation: The sum that is closest to the target is 0. (0 + 0 + 0 = 0).\n\nConstraints:\n\n• 3 <= nums.length <= 500\n\n• -1000 <= nums[i] <= 1000\n\n• -104 <= target <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def threeSumClosest(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[-1,2,1,-4]",
+      "1"
+    ],
+    [
+      "[0,0,0]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def threeSumClosest(nums, target):\n    nums.sort()\n    closest = sum(nums[:3])\n    for i in range(len(nums) - 2):\n        left, right = i + 1, len(nums) - 1\n        while left < right:\n            cur_sum = nums[i] + nums[left] + nums[right]\n            if cur_sum == target:\n                return cur_sum\n            if abs(target - cur_sum) < abs(target - closest):\n                closest = cur_sum\n            if cur_sum < target:\n                left += 1\n            else:\n                right -= 1\n    return closest",
+    "explanation": "1. Sort the input array `nums`.\n2. Initialize the `closest` variable to be the sum of the first three elements.\n3. Iterate through the sorted array with a pointer `i` running from the first element to the third-to-last element.\n4. Initialize two-pointers `left` (set to `i + 1`) and `right` (set to the last element).\n5. While `left` is less than `right`:\n    a. Calculate the current sum `cur_sum` using the elements at positions `i`, `left`, and `right`.\n    b. If `cur_sum` is equal to `target`, return it as the closest sum.\n    c. Update the `closest` sum if the difference between `target` and `cur_sum` is less than the difference between `target` and `closest`.\n    d. Move the `left` pointer forward if `cur_sum` is less than `target`, otherwise move the `right` pointer backward.\n6. Return the `closest` sum found."
+  },
+  "similarQuestions": "[{\"title\": \"3Sum\", \"titleSlug\": \"3sum\", \"difficulty\": \"Medium\"}, {\"title\": \"3Sum Smaller\", \"titleSlug\": \"3sum-smaller\", \"difficulty\": \"Medium\"}]"
+}

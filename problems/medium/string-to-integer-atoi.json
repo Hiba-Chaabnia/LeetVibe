@@ -1,0 +1,51 @@
+{
+  "questionId": "8",
+  "title": "String to Integer (atoi)",
+  "titleSlug": "string-to-integer-atoi",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.\n\nThe algorithm for myAtoi(string s) is as follows:\n\n• Whitespace: Ignore any leading whitespace (\" \").\n\n• Signedness: Determine the sign by checking if the next character is '-' or '+', assuming positivity if neither present.\n\n• Conversion: Read the integer by skipping leading zeros until a non-digit character is encountered or the end of the string is reached. If no digits were read, then the result is 0.\n\n• Rounding: If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then round the integer to remain in the range. Specifically, integers less than -231 should be rounded to -231, and integers greater than 231 - 1 should be rounded to 231 - 1.\n\nReturn the integer as the final result.\n\nExample 1:\n\nInput: s = \"42\"\n\nOutput: 42\n\nExplanation:     The underlined characters are what is read in and the caret is the current reader position.\n    Step 1: \"42\" (no characters read because there is no leading whitespace)\n             ^\n    Step 2: \"42\" (no characters read because there is neither a '-' nor '+')\n             ^\n    Step 3: \"42\" (\"42\" is read in)\n               ^\n\nExample 2:\n\nInput: s = \" -042\"\n\nOutput: -42\n\nExplanation:     Step 1: \"   -042\" (leading whitespace is read and ignored)\n                ^\n    Step 2: \"   -042\" ('-' is read, so the result should be negative)\n                 ^\n    Step 3: \"   -042\" (\"042\" is read in, leading zeros ignored in the result)\n                   ^\n\nExample 3:\n\nInput: s = \"1337c0d3\"\n\nOutput: 1337\n\nExplanation:     Step 1: \"1337c0d3\" (no characters read because there is no leading whitespace)\n             ^\n    Step 2: \"1337c0d3\" (no characters read because there is neither a '-' nor '+')\n             ^\n    Step 3: \"1337c0d3\" (\"1337\" is read in; reading stops because the next character is a non-digit)\n                 ^\n\nExample 4:\n\nInput: s = \"0-1\"\n\nOutput: 0\n\nExplanation:     Step 1: \"0-1\" (no characters read because there is no leading whitespace)\n             ^\n    Step 2: \"0-1\" (no characters read because there is neither a '-' nor '+')\n             ^\n    Step 3: \"0-1\" (\"0\" is read in; reading stops because the next character is a non-digit)\n              ^\n\nExample 5:\n\nInput: s = \"words and 987\"\n\nOutput: 0\n\nExplanation: Reading stops at the first non-digit character 'w'.\n\nConstraints:\n\n• 0 <= s.length <= 200\n\n• s consists of English letters (lower-case and upper-case), digits (0-9), ' ', '+', '-', and '.'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def myAtoi(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"42\""
+    ],
+    [
+      "\"   -042\""
+    ],
+    [
+      "\"1337c0d3\""
+    ],
+    [
+      "\"0-1\""
+    ],
+    [
+      "\"words and 987\""
+    ]
+  ],
+  "expectedOutputs": [
+    "42",
+    "-42",
+    "1337",
+    "0",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def myAtoi(s):\n    result, i, sign = 0, 0, 1\n    while i < len(s) and s[i] == ' ': i += 1\n    if i < len(s) and (s[i] == '-' or s[i] == '+'):\n        sign = -1 if s[i] == '-' else 1\n        i += 1\n    while i < len(s) and s[i].isdigit():\n        result = result * 10 + int(s[i])\n        i += 1\n        if result * sign > 2**31 - 1: return 2**31 - 1\n        if result * sign < -2**31: return -2**31\n    return result * sign",
+    "explanation": "1. Initialize `result` as 0, index `i` as 0, and `sign` as 1 (positive).\n2. Loop through the string until a non-space character is found or the end of the string is reached.\n3. If the current character is '+' or '-', update the `sign` according to the character and increment the index `i`.\n4. If a digit is found, multiply the previous `result` by 10 and add the digit to it. Increment the index `i`.\n5. Check if the result multiplied by the sign is out of the 32-bit signed integer range. If so, return the appropriate boundary value.\n6. When no more digits are found, return the final result multiplied by the sign."
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Integer\", \"titleSlug\": \"reverse-integer\", \"difficulty\": \"Medium\"}, {\"title\": \"Valid Number\", \"titleSlug\": \"valid-number\", \"difficulty\": \"Hard\"}, {\"title\": \"Check if Numbers Are Ascending in a Sentence\", \"titleSlug\": \"check-if-numbers-are-ascending-in-a-sentence\", \"difficulty\": \"Easy\"}]"
+}

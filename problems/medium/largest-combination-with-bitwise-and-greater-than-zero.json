@@ -1,0 +1,55 @@
+{
+  "questionId": "2356",
+  "title": "Largest Combination With Bitwise AND Greater Than Zero",
+  "titleSlug": "largest-combination-with-bitwise-and-greater-than-zero",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "The bitwise AND of an array nums is the bitwise AND of all integers in nums.\n\n• For example, for nums = [1, 5, 3], the bitwise AND is equal to 1 & 5 & 3 = 1.\n\n• Also, for nums = [7], the bitwise AND is 7.\n\nYou are given an array of positive integers candidates. Compute the bitwise AND for all possible combinations of elements in the candidates array.\n\nReturn the size of the largest combination of candidates with a bitwise AND greater than 0.\n\nExample 1:\n\nInput: candidates = [16,17,71,62,12,24,14]\nOutput: 4\nExplanation: The combination [16,17,62,24] has a bitwise AND of 16 & 17 & 62 & 24 = 16 > 0.\n    The size of the combination is 4.\n    It can be shown that no combination with a size greater than 4 has a bitwise AND greater than 0.\n    Note that more than one combination may have the largest size.\n    For example, the combination [62,12,24,14] has a bitwise AND of 62 & 12 & 24 & 14 = 8 > 0.\n\nExample 2:\n\nInput: candidates = [8,8]\nOutput: 2\nExplanation: The largest combination [8,8] has a bitwise AND of 8 & 8 = 8 > 0.\n    The size of the combination is 2, so we return 2.\n\nConstraints:\n\n• 1 <= candidates.length <= 105\n\n• 1 <= candidates[i] <= 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestCombination(self, candidates):\n        \"\"\"\n        :type candidates: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For the bitwise AND to be greater than zero, at least one bit should be 1 for every number in the combination.",
+    "The candidates are 24 bits long, so for every bit position, we can calculate the size of the largest combination such that the bitwise AND will have a 1 at that bit position."
+  ],
+  "testCases": [
+    [
+      "[16,17,71,62,12,24,14]"
+    ],
+    [
+      "[8,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def largestCombination(self, candidates):\n        \"\"\"\n        :type candidates: List[int]\n        :rtype: int\n        \"\"\"\n        max_combination = 0\n        \n        # Check each bit position (numbers up to 10^7 need ~24 bits)\n        for bit in range(24):\n            count = 0\n            for num in candidates:\n                # Check if bit is set\n                if num & (1 << bit):\n                    count += 1\n            max_combination = max(max_combination, count)\n        \n        return max_combination",
+    "explanation": "For each bit position, count how many numbers have that bit set. Maximum count is the answer.",
+    "complexity": "Time: O(n * 24) = O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Count Number of Maximum Bitwise-OR Subsets\", \"titleSlug\": \"count-number-of-maximum-bitwise-or-subsets\", \"difficulty\": \"Medium\"}]"
+}

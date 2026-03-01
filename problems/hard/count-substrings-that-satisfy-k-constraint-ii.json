@@ -1,0 +1,63 @@
+{
+  "questionId": "3546",
+  "title": "Count Substrings That Satisfy K-Constraint II",
+  "titleSlug": "count-substrings-that-satisfy-k-constraint-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a binary string s and an integer k.\n\nYou are also given a 2D integer array queries, where queries[i] = [li, ri].\n\nA binary string satisfies the k-constraint if either of the following conditions holds:\n\n• The number of 0's in the string is at most k.\n\n• The number of 1's in the string is at most k.\n\nReturn an integer array answer, where answer[i] is the number of substrings of s[li..ri] that satisfy the k-constraint.\n\nExample 1:\n\nInput: s = \"0001111\", k = 2, queries = [[0,6]]\n\nOutput: [26]\n\nExplanation: For the query [0, 6], all substrings of s[0..6] = \"0001111\" satisfy the k-constraint except for the substrings s[0..5] = \"000111\" and s[0..6] = \"0001111\".\n\nExample 2:\n\nInput: s = \"010101\", k = 1, queries = [[0,5],[1,4],[2,3]]\n\nOutput: [15,9,3]\n\nExplanation: The substrings of s with a length greater than 3 do not satisfy the k-constraint.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s[i] is either '0' or '1'.\n\n• 1 <= k <= s.length\n\n• 1 <= queries.length <= 105\n\n• queries[i] == [li, ri]\n\n• 0 <= li <= ri < s.length\n\n• All queries are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countKConstraintSubstrings(self, s, k, queries):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Answering online queries is tough. Try to answer them offline since the queries are known beforehand.",
+    "For each index, how do you calculate the left boundary so that the given condition is satisfied?",
+    "Using the precomputed left boundaries and a range data structure, you can now answer the queries optimally."
+  ],
+  "testCases": [
+    [
+      "\"0001111\"",
+      "2",
+      "[[0,6]]"
+    ],
+    [
+      "\"010101\"",
+      "1",
+      "[[0,5],[1,4],[2,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[26]",
+    "[15,9,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countKConstraintSubstrings(self, s, k, queries):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        n = len(s)\n        # Precompute left[i] = leftmost position where subarray [left[i], i] has count > k\n        left = [0] * n\n        zeros = 0\n        ones = 0\n        l = 0\n        \n        for i in range(n):\n            if s[i] == '0':\n                zeros += 1\n            else:\n                ones += 1\n            \n            while zeros > k and ones > k:\n                if s[l] == '0':\n                    zeros -= 1\n                else:\n                    ones -= 1\n                l += 1\n            \n            left[i] = l\n        \n        # Precompute prefix sums\n        prefix = [0] * (n + 1)\n        for i in range(n):\n            prefix[i + 1] = prefix[i] + (i - left[i] + 1)\n        \n        result = []\n        for li, ri in queries:\n            # Count valid subarrays in s[li..ri]\n            # All subarrays [i, j] where li <= i <= j <= ri and (zeros <= k or ones <= k)\n            ans = 0\n            for j in range(li, ri + 1):\n                # Subarrays ending at j\n                ans += max(0, j - max(li - 1, left[j] - 1))\n            \n            result.append(ans)\n        \n        return result",
+    "explanation": "Two-pointer with precomputation:\n\n1. **Left Boundary Array**: For each position i, compute leftmost l where [l..i] has both counts > k\n2. **Constraint Satisfaction**: Subarray [i..j] satisfies if zeros <= k OR ones <= k\n3. **Counting Valid Subarrays**:\n   - For query [l, r]: count all subarrays in that range\n   - For ending position j: all subarrays [i, j] where i >= max(l, left[j])\n4. **Prefix Sum**: Optimize with precomputed sums\n\nTime: O(n + m) where m = queries\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

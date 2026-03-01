@@ -1,0 +1,53 @@
+{
+  "questionId": "2108",
+  "title": "Minimize the Difference Between Target and Chosen Elements",
+  "titleSlug": "minimize-the-difference-between-target-and-chosen-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n integer matrix mat and an integer target.\n\nChoose one integer from each row in the matrix such that the absolute difference between target and the sum of the chosen elements is minimized.\n\nReturn the minimum absolute difference.\n\nThe absolute difference between two numbers a and b is the absolute value of a - b.\n\nExample 1:\n\nInput: mat = [[1,2,3],[4,5,6],[7,8,9]], target = 13\nOutput: 0\nExplanation: One possible choice is to:\n    - Choose 1 from the first row.\n    - Choose 5 from the second row.\n    - Choose 7 from the third row.\n    The sum of the chosen elements is 13, which equals the target, so the absolute difference is 0.\n\nExample 2:\n\nInput: mat = [[1],[2],[3]], target = 100\nOutput: 94\nExplanation: The best possible choice is to:\n    - Choose 1 from the first row.\n    - Choose 2 from the second row.\n    - Choose 3 from the third row.\n    The sum of the chosen elements is 6, and the absolute difference is 94.\n\nExample 3:\n\nInput: mat = [[1,2,9,8,7]], target = 6\nOutput: 1\nExplanation: The best choice is to choose 7 from the first row.\n    The absolute difference is 1.\n\nConstraints:\n\n• m == mat.length\n\n• n == mat[i].length\n\n• 1 <= m, n <= 70\n\n• 1 <= mat[i][j] <= 70\n\n• 1 <= target <= 800",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimizeTheDifference(self, mat, target):\n        \"\"\"\n        :type mat: List[List[int]]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The sum of chosen elements will not be too large. Consider using a hash set to record all possible sums while iterating each row.",
+    "Instead of keeping track of all possible sums, since in each row, we are adding positive numbers, only keep those that can be a candidate, not exceeding the target by too much."
+  ],
+  "testCases": [
+    [
+      "[[1,2,3],[4,5,6],[7,8,9]]",
+      "13"
+    ],
+    [
+      "[[1],[2],[3]]",
+      "100"
+    ],
+    [
+      "[[1,2,9,8,7]]",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "94",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Partition Equal Subset Sum\", \"titleSlug\": \"partition-equal-subset-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Closest Subsequence Sum\", \"titleSlug\": \"closest-subsequence-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Number of Points with Cost\", \"titleSlug\": \"maximum-number-of-points-with-cost\", \"difficulty\": \"Medium\"}]"
+}

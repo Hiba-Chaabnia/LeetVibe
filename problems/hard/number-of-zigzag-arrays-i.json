@@ -1,0 +1,51 @@
+{
+  "questionId": "3962",
+  "title": "Number of ZigZag Arrays I",
+  "titleSlug": "number-of-zigzag-arrays-i",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given three integers n, l, and r.\n\nA ZigZag array of length n is defined as follows:\n\n• Each element lies in the range [l, r].\n\n• No two adjacent elements are equal.\n\n• No three consecutive elements form a strictly increasing or strictly decreasing sequence.\n\nReturn the total number of valid ZigZag arrays.\n\nSince the answer may be large, return it modulo 109 + 7.\n\nA sequence is said to be strictly increasing if each element is strictly greater than its previous one (if exists).\n\nA sequence is said to be strictly decreasing if each element is strictly smaller than its previous one (if exists).\n\nExample 1:\n\nInput: n = 3, l = 4, r = 5\n\nOutput: 2\n\nExplanation: There are only 2 valid ZigZag arrays of length n = 3 using values in the range [4, 5]:\n\n• [4, 5, 4]\n\n• [5, 4, 5]​​​​​​​\n\nExample 2:\n\nInput: n = 3, l = 1, r = 3\n\nOutput: 10\n\nExplanation: There are 10 valid ZigZag arrays of length n = 3 using values in the range [1, 3]:\n\n• [1, 2, 1], [1, 3, 1], [1, 3, 2]\n\n• [2, 1, 2], [2, 1, 3], [2, 3, 1], [2, 3, 2]\n\n• [3, 1, 2], [3, 1, 3], [3, 2, 3]\n\nAll arrays meet the ZigZag conditions.\n\nConstraints:\n\n• 3 <= n <= 2000\n\n• 1 <= l < r <= 2000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def zigZagArrays(self, n, l, r):\n        \"\"\"\n        :type n: int\n        :type l: int\n        :type r: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming: let dp[i][dir][x] be the count of length-i sequences ending at value x where dir is the required next comparison (0 = down, 1 = up).",
+    "If the required move is up (dir=1) do dp[i+1][0][y] += sum(dp[i][1][x]) for x < y; if the required move is down (dir=0) do dp[i+1][1][y] += sum(dp[i][0][x]) for x > y.",
+    "Speed up with prefix/suffix sums so each layer updates in O(m) instead of O(m<sup>2</sup>); take values mod 10<sup>9</sup>+7."
+  ],
+  "testCases": [
+    [
+      "3",
+      "4",
+      "5"
+    ],
+    [
+      "3",
+      "1",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def zigZagArrays(self, n, l, r):\n        MOD = 10**9 + 7\n        m = r - l + 1\n        # dp[dir][x] = count of sequences of current length ending at value x\n        # where dir=0 means next must go down, dir=1 means next must go up\n        # Start: any value, direction determined by first move\n        # For length 1: all m values, both dirs\n        # For length 2: first step must be either up or down\n        # dp[0][x] = next must go down (last step was up, ended at x)\n        # dp[1][x] = next must go up (last step was down, ended at x)\n        # Initialize for length 1:\n        # Direction is determined after placing second element\n        # Let's define: after placing elements [0..i], dp[i][dir][x-l]\n        # dir = what the LAST step was (so next must be opposite)\n        if n == 1:\n            return m % MOD\n        # Offset: index 0..m-1 represents values l..r\n        dp = [[0] * m for _ in range(2)]  # dp[last_dir][val_idx]\n        # For length 1, no last direction. For length 2:\n        # If second > first: last_dir = up (0-indexed: up=1), next must go down\n        # Use: up=1, down=0\n        # dp[1][y] = number of sequences of len 2 ending at y, last step was up (next must down)\n        # = number of x < y = y (0-indexed y has y choices: 0..y-1)\n        # dp[0][y] = last step was down (next must up)\n        # = number of x > y = m-1-y\n        for y in range(m):\n            dp[1][y] = y       # y choices for x < y (values l..l+y-1)\n            dp[0][y] = m-1-y   # m-1-y choices for x > y\n        # For each subsequent length, use prefix sums\n        for step in range(2, n):\n            new_dp = [[0] * m for _ in range(2)]\n            # new_dp[1][y] = sum of dp[0][x] for x < y (last step up, came from down)\n            psum_down = [0] * (m + 1)  # psum_down[y] = sum dp[0][0..y-1]\n            for x in range(m):\n                psum_down[x+1] = (psum_down[x] + dp[0][x]) % MOD\n            for y in range(m):\n                new_dp[1][y] = psum_down[y]  # sum x < y of dp[0][x]\n            # new_dp[0][y] = sum of dp[1][x] for x > y (last step down, came from up)\n            ssum_up = [0] * (m + 1)  # ssum_up[y] = sum dp[1][y..m-1]\n            for x in range(m - 1, -1, -1):\n                ssum_up[x] = (ssum_up[x+1] + dp[1][x]) % MOD\n            for y in range(m):\n                new_dp[0][y] = ssum_up[y+1]  # sum x > y of dp[1][x]\n            dp = new_dp\n        return (sum(dp[0]) + sum(dp[1])) % MOD",
+    "explanation": "DP: dp[last_dir][val] = count of sequences ending at val with last step in direction last_dir. For next step: if last was down (0), next must be up (go to larger value); if last was up (1), next must go to smaller value. Use prefix/suffix sums for O(m) transitions. n,m ≤ 2000.\n\nTime: O(n * m). Space: O(m)."
+  },
+  "similarQuestions": "[]"
+}

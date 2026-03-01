@@ -1,0 +1,55 @@
+{
+  "questionId": "3789",
+  "title": "Maximize Subarrays After Removing One Conflicting Pair",
+  "titleSlug": "maximize-subarrays-after-removing-one-conflicting-pair",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer n which represents an array nums containing the numbers from 1 to n in order. Additionally, you are given a 2D array conflictingPairs, where conflictingPairs[i] = [a, b] indicates that a and b form a conflicting pair.\n\nRemove exactly one element from conflictingPairs. Afterward, count the number of non-empty subarrays of nums which do not contain both a and b for any remaining conflicting pair [a, b].\n\nReturn the maximum number of subarrays possible after removing exactly one conflicting pair.\n\nExample 1:\n\nInput: n = 4, conflictingPairs = [[2,3],[1,4]]\n\nOutput: 9\n\nExplanation:\n\n• Remove [2, 3] from conflictingPairs. Now, conflictingPairs = [[1, 4]].\n\n• There are 9 subarrays in nums where [1, 4] do not appear together. They are [1], [2], [3], [4], [1, 2], [2, 3], [3, 4], [1, 2, 3] and [2, 3, 4].\n\n• The maximum number of subarrays we can achieve after removing one element from conflictingPairs is 9.\n\nExample 2:\n\nInput: n = 5, conflictingPairs = [[1,2],[2,5],[3,5]]\n\nOutput: 12\n\nExplanation:\n\n• Remove [1, 2] from conflictingPairs. Now, conflictingPairs = [[2, 5], [3, 5]].\n\n• There are 12 subarrays in nums where [2, 5] and [3, 5] do not appear together.\n\n• The maximum number of subarrays we can achieve after removing one element from conflictingPairs is 12.\n\nConstraints:\n\n• 2 <= n <= 105\n\n• 1 <= conflictingPairs.length <= 2 * n\n\n• conflictingPairs[i].length == 2\n\n• 1 <= conflictingPairs[i][j] <= n\n\n• conflictingPairs[i][0] != conflictingPairs[i][1]",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSubarrays(self, n, conflictingPairs):\n        \"\"\"\n        :type n: int\n        :type conflictingPairs: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let f[i] (where i = 1, 2, 3, ..., n) be the end index of the longest valid subarray (without any conflicting pair) starting at index i.",
+    "The answer is: sigma(f[i] - i + 1) for i in [1..n], which simplifies to: sigma(f[i]) - n * (n + 1) / 2 + n.",
+    "Focus on maintaining f[i].",
+    "If we have a conflicting pair (x, y) with x < y: 1. Sort the conflicting pairs by y values in non-increasing order.  2. Update each prefix of the f array accordingly.",
+    "Use a segment tree or another suitable data structure to maintain the range update and sum query efficiently."
+  ],
+  "testCases": [
+    [
+      "4",
+      "[[2,3],[1,4]]"
+    ],
+    [
+      "5",
+      "[[1,2],[2,5],[3,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "12"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,52 @@
+{
+  "questionId": "2251",
+  "title": "Number of Ways to Divide a Long Corridor",
+  "titleSlug": "number-of-ways-to-divide-a-long-corridor",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Along a long library corridor, there is a line of seats and decorative plants. You are given a 0-indexed string corridor of length n consisting of letters 'S' and 'P' where each 'S' represents a seat and each 'P' represents a plant.\n\nOne room divider has already been installed to the left of index 0, and another to the right of index n - 1. Additional room dividers can be installed. For each position between indices i - 1 and i (1 <= i <= n - 1), at most one divider can be installed.\n\nDivide the corridor into non-overlapping sections, where each section has exactly two seats with any number of plants. There may be multiple ways to perform the division. Two ways are different if there is a position with a room divider installed in the first way but not in the second way.\n\nReturn the number of ways to divide the corridor. Since the answer may be very large, return it modulo 109 + 7. If there is no way, return 0.\n\nExample 1:\n\nInput: corridor = \"SSPPSPS\"\nOutput: 3\nExplanation: There are 3 different ways to divide the corridor.\n    The black bars in the above image indicate the two room dividers already installed.\n    Note that in each of the ways, each section has exactly two seats.\n\nExample 2:\n\nInput: corridor = \"PPSPSP\"\nOutput: 1\nExplanation: There is only 1 way to divide the corridor, by not installing any additional dividers.\n    Installing any would create some section that does not have exactly two seats.\n\nExample 3:\n\nInput: corridor = \"S\"\nOutput: 0\nExplanation: There is no way to divide the corridor because there will always be a section that does not have exactly two seats.\n\nConstraints:\n\n• n == corridor.length\n\n• 1 <= n <= 105\n\n• corridor[i] is either 'S' or 'P'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfWays(self, corridor):\n        \"\"\"\n        :type corridor: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Divide the corridor into segments. Each segment has two seats, starts precisely with one seat, and ends precisely with the other seat.",
+    "How many dividers can you install between two adjacent segments? You must install precisely one. Otherwise, you would have created a section with not exactly two seats.",
+    "If there are k plants between two adjacent segments, there are k + 1 positions (ways) you could install the divider you must install.",
+    "The problem now becomes: Find the product of all possible positions between every two adjacent segments."
+  ],
+  "testCases": [
+    [
+      "\"SSPPSPS\""
+    ],
+    [
+      "\"PPSPSP\""
+    ],
+    [
+      "\"S\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Decode Ways II\", \"titleSlug\": \"decode-ways-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Cost to Cut a Stick\", \"titleSlug\": \"minimum-cost-to-cut-a-stick\", \"difficulty\": \"Hard\"}, {\"title\": \"Ways to Split Array Into Three Subarrays\", \"titleSlug\": \"ways-to-split-array-into-three-subarrays\", \"difficulty\": \"Medium\"}]"
+}

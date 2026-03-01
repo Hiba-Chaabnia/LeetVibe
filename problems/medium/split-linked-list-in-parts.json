@@ -1,0 +1,39 @@
+{
+  "questionId": "725",
+  "title": "Split Linked List in Parts",
+  "titleSlug": "split-linked-list-in-parts",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    }
+  ],
+  "content": "Given the head of a singly linked list and an integer k, split the linked list into k consecutive linked list parts.\n\nThe length of each part should be as equal as possible: no two parts should have a size differing by more than one. This may lead to some parts being null.\n\nThe parts should be in the order of occurrence in the input list, and parts occurring earlier should always have a size greater than or equal to parts occurring later.\n\nReturn an array of the k parts.\n\nExample 1:\n\nInput: head = [1,2,3], k = 5\nOutput: [[1],[2],[3],[],[]]\nExplanation:\n    The first element output[0] has output[0].val = 1, output[0].next = null.\n    The last element output[4] is null, but its string representation as a ListNode is [].\n\nExample 2:\n\nInput: head = [1,2,3,4,5,6,7,8,9,10], k = 3\nOutput: [[1,2,3,4],[5,6,7],[8,9,10]]\nExplanation:\n    The input has been split into consecutive parts with size difference at most 1, and earlier parts are a larger size than the later parts.\n\nConstraints:\n\n• The number of nodes in the list is in the range [0, 1000].\n\n• 0 <= Node.val <= 1000\n\n• 1 <= k <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def splitListToParts(self, head, k):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :type k: int\n        :rtype: List[Optional[ListNode]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If there are N nodes in the list, and k parts, then every part has N/k elements, except the first N%k parts have an extra one."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "5"
+    ],
+    [
+      "[1,2,3,4,5,6,7,8,9,10]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1],[2],[3],[],[]]",
+    "[[1,2,3,4],[5,6,7],[8,9,10]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Rotate List\", \"titleSlug\": \"rotate-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Odd Even Linked List\", \"titleSlug\": \"odd-even-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Split a Circular Linked List\", \"titleSlug\": \"split-a-circular-linked-list\", \"difficulty\": \"Medium\"}]"
+}

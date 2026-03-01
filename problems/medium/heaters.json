@@ -1,0 +1,58 @@
+{
+  "questionId": "475",
+  "title": "Heaters",
+  "titleSlug": "heaters",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Winter is coming! During the contest, your first job is to design a standard heater with a fixed warm radius to warm all the houses.\n\nEvery house can be warmed, as long as the house is within the heater's warm radius range.\n\nGiven the positions of houses and heaters on a horizontal line, return the minimum radius standard of heaters so that those heaters could cover all houses.\n\nNotice that all the heaters follow your radius standard, and the warm radius will be the same.\n\nExample 1:\n\nInput: houses = [1,2,3], heaters = [2]\nOutput: 1\nExplanation: The only heater was placed in the position 2, and if we use the radius 1 standard, then all the houses can be warmed.\n\nExample 2:\n\nInput: houses = [1,2,3,4], heaters = [1,4]\nOutput: 1\nExplanation: The two heaters were placed at positions 1 and 4. We need to use a radius 1 standard, then all the houses can be warmed.\n\nExample 3:\n\nInput: houses = [1,5], heaters = [2]\nOutput: 3\n\nConstraints:\n\n• 1 <= houses.length, heaters.length <= 3 * 104\n\n• 1 <= houses[i], heaters[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findRadius(self, houses, heaters):\n        \"\"\"\n        :type houses: List[int]\n        :type heaters: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "[2]"
+    ],
+    [
+      "[1,2,3,4]",
+      "[1,4]"
+    ],
+    [
+      "[1,5]",
+      "[2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findRadius(houses, heaters):\n    houses.sort()\n    heaters.sort()\n    result, i = 0, 0\n\n    for house in houses:\n        while i < len(heaters) - 1 and abs(heaters[i + 1] - house) <= abs(heaters[i] - house):\n            i += 1\n        result = max(result, abs(heaters[i] - house))\n\n    return result",
+    "explanation": "1. Sort both the arrays `houses` and `heaters`.\n2. Initialize two variables `result` and `i` to store the minimum required radius and the current heater index, respectively.\n3. Iterate through the `houses` array.\n   1. Using a nested while loop:\n   2. Increment `i` until the current heater is closer to the current house than the next heater.\n   3. Update `result` with the maximum distance between a house and a heater we have seen so far.\n4. After iterating through all houses, `result` contains the minimum radius for the heaters to cover all houses."
+  },
+  "similarQuestions": "[]"
+}

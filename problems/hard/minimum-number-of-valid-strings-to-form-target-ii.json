@@ -1,0 +1,81 @@
+{
+  "questionId": "3557",
+  "title": "Minimum Number of Valid Strings to Form Target II",
+  "titleSlug": "minimum-number-of-valid-strings-to-form-target-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are given an array of strings words and a string target.\n\nA string x is called valid if x is a prefix of any string in words.\n\nReturn the minimum number of valid strings that can be concatenated to form target. If it is not possible to form target, return -1.\n\nExample 1:\n\nInput: words = [\"abc\",\"aaaaa\",\"bcdef\"], target = \"aabcdabc\"\n\nOutput: 3\n\nExplanation: The target string can be formed by concatenating:\n\n• Prefix of length 2 of words[1], i.e. \"aa\".\n\n• Prefix of length 3 of words[2], i.e. \"bcd\".\n\n• Prefix of length 3 of words[0], i.e. \"abc\".\n\nExample 2:\n\nInput: words = [\"abababab\",\"ab\"], target = \"ababaababa\"\n\nOutput: 2\n\nExplanation: The target string can be formed by concatenating:\n\n• Prefix of length 5 of words[0], i.e. \"ababa\".\n\n• Prefix of length 5 of words[0], i.e. \"ababa\".\n\nExample 3:\n\nInput: words = [\"abcdef\"], target = \"xyz\"\n\nOutput: -1\n\nConstraints:\n\n• 1 <= words.length <= 100\n\n• 1 <= words[i].length <= 5 * 104\n\n• The input is generated such that sum(words[i].length) <= 105.\n\n• words[i] consists only of lowercase English letters.\n\n• 1 <= target.length <= 5 * 104\n\n• target consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minValidStrings(self, words, target):\n        \"\"\"\n        :type words: List[str]\n        :type target: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let dp[i] be the minimum cost to form the prefix of length i of target.",
+    "Use Rabin-Karp to hash every prefix and store it in a HashSet.",
+    "Use Binary search to find the longest substring starting at index i (target[i..j]) that has a hash present in the HashSet.",
+    "Inverse Modulo precomputation can optimise hash calculation.",
+    "Use Lazy Segment Tree, or basic Segment Tree to update dp[i..j].",
+    "Is it possible to use two TreeSets to update dp[i..j]?"
+  ],
+  "testCases": [
+    [
+      "[\"abc\",\"aaaaa\",\"bcdef\"]",
+      "\"aabcdabc\""
+    ],
+    [
+      "[\"abababab\",\"ab\"]",
+      "\"ababaababa\""
+    ],
+    [
+      "[\"abcdef\"]",
+      "\"xyz\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minValidStrings(self, words, target):\n        \"\"\"\n        :type words: List[str]\n        :type target: str\n        :rtype: int\n        \"\"\"\n        # Build Trie of all prefixes\n        class TrieNode:\n            def __init__(self):\n                self.children = {}\n                self.is_prefix = False\n        \n        root = TrieNode()\n        \n        # Insert all prefixes of all words\n        for word in words:\n            node = root\n            for char in word:\n                if char not in node.children:\n                    node.children[char] = TrieNode()\n                node = node.children[char]\n                node.is_prefix = True\n        \n        # DP: dp[i] = minimum strings needed to form target[0:i]\n        n = len(target)\n        dp = [float('inf')] * (n + 1)\n        dp[0] = 0\n        \n        for i in range(n):\n            if dp[i] == float('inf'):\n                continue\n            \n            # Try to extend from position i\n            node = root\n            for j in range(i, n):\n                char = target[j]\n                if char not in node.children:\n                    break  # Can't extend further\n                \n                node = node.children[char]\n                # After adding character at position j, we've matched target[i:j+1]\n                # This is a valid prefix of some word\n                dp[j + 1] = min(dp[j + 1], dp[i] + 1)\n        \n        return dp[n] if dp[n] != float('inf') else -1",
+    "explanation": "This solution uses Trie with DP for prefix matching:\n\n1. **Problem Understanding**:\n   - Valid string: must be a prefix of some word in words\n   - Form target by concatenating valid strings\n   - Find minimum number of concatenations\n\n2. **Trie Construction**:\n   - Build Trie of ALL prefixes of all words\n   - Mark each node as a valid prefix endpoint\n   - Example: word \"abc\" contributes prefixes \"a\", \"ab\", \"abc\"\n\n3. **DP Definition**:\n   - dp[i] = minimum valid strings needed to form target[0:i]\n   - Base case: dp[0] = 0 (empty string)\n\n4. **Transition**:\n   - For each position i where dp[i] is valid:\n     - Try to match target[i:] with prefixes in Trie\n     - Start from root, go character by character\n     - For each matched character at position j:\n       - We've found a valid prefix: target[i:j+1]\n       - Update: dp[j+1] = min(dp[j+1], dp[i] + 1)\n\n5. **Trie Traversal**:\n   - Navigate Trie using target characters\n   - If character not in Trie, stop (no longer matching any prefix)\n   - Each position in Trie represents a valid prefix match\n\n6. **Answer**: dp[n] = minimum valid strings to form entire target\n\nTime Complexity: O(N * sum(len(words)) + N * M) where M = max match length\nSpace Complexity: O(N * sum(len(words))) for Trie"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cost to Convert String II\", \"titleSlug\": \"minimum-cost-to-convert-string-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Construct String with Minimum Cost\", \"titleSlug\": \"construct-string-with-minimum-cost\", \"difficulty\": \"Hard\"}]"
+}

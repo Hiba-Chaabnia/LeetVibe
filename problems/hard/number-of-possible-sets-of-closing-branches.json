@@ -1,0 +1,64 @@
+{
+  "questionId": "3217",
+  "title": "Number of Possible Sets of Closing Branches",
+  "titleSlug": "number-of-possible-sets-of-closing-branches",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "There is a company with n branches across the country, some of which are connected by roads. Initially, all branches are reachable from each other by traveling some roads.\n\nThe company has realized that they are spending an excessive amount of time traveling between their branches. As a result, they have decided to close down some of these branches (possibly none). However, they want to ensure that the remaining branches have a distance of at most maxDistance from each other.\n\nThe distance between two branches is the minimum total traveled length needed to reach one branch from another.\n\nYou are given integers n, maxDistance, and a 0-indexed 2D array roads, where roads[i] = [ui, vi, wi] represents the undirected road between branches ui and vi with length wi.\n\nReturn the number of possible sets of closing branches, so that any branch has a distance of at most maxDistance from any other.\n\nNote that, after closing a branch, the company will no longer have access to any roads connected to it.\n\nNote that, multiple roads are allowed.\n\nExample 1:\n\nInput: n = 3, maxDistance = 5, roads = [[0,1,2],[1,2,10],[0,2,10]]\nOutput: 5\nExplanation: The possible sets of closing branches are:\n    - The set [2], after closing, active branches are [0,1] and they are reachable to each other within distance 2.\n    - The set [0,1], after closing, the active branch is [2].\n    - The set [1,2], after closing, the active branch is [0].\n    - The set [0,2], after closing, the active branch is [1].\n    - The set [0,1,2], after closing, there are no active branches.\n    It can be proven, that there are only 5 possible sets of closing branches.\n\nExample 2:\n\nInput: n = 3, maxDistance = 5, roads = [[0,1,20],[0,1,10],[1,2,2],[0,2,2]]\nOutput: 7\nExplanation: The possible sets of closing branches are:\n    - The set [], after closing, active branches are [0,1,2] and they are reachable to each other within distance 4.\n    - The set [0], after closing, active branches are [1,2] and they are reachable to each other within distance 2.\n    - The set [1], after closing, active branches are [0,2] and they are reachable to each other within distance 2.\n    - The set [0,1], after closing, the active branch is [2].\n    - The set [1,2], after closing, the active branch is [0].\n    - The set [0,2], after closing, the active branch is [1].\n    - The set [0,1,2], after closing, there are no active branches.\n    It can be proven, that there are only 7 possible sets of closing branches.\n\nExample 3:\n\nInput: n = 1, maxDistance = 10, roads = []\nOutput: 2\nExplanation: The possible sets of closing branches are:\n    - The set [], after closing, the active branch is [0].\n    - The set [0], after closing, there are no active branches.\n    It can be proven, that there are only 2 possible sets of closing branches.\n\nConstraints:\n\n• 1 <= n <= 10\n\n• 1 <= maxDistance <= 105\n\n• 0 <= roads.length <= 1000\n\n• roads[i].length == 3\n\n• 0 <= ui, vi <= n - 1\n\n• ui != vi\n\n• 1 <= wi <= 1000\n\n• All branches are reachable from each other by traveling some roads.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfSets(self, n, maxDistance, roads):\n        \"\"\"\n        :type n: int\n        :type maxDistance: int\n        :type roads: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try all the possibilities of closing branches.",
+    "On the vertices that are not closed, use Floyd-Warshall algorithm to find the shortest paths."
+  ],
+  "testCases": [
+    [
+      "3",
+      "5",
+      "[[0,1,2],[1,2,10],[0,2,10]]"
+    ],
+    [
+      "3",
+      "5",
+      "[[0,1,20],[0,1,10],[1,2,2],[0,2,2]]"
+    ],
+    [
+      "1",
+      "10",
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "7",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

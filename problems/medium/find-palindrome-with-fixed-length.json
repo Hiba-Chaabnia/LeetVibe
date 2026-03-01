@@ -1,0 +1,49 @@
+{
+  "questionId": "1375",
+  "title": "Find Palindrome With Fixed Length",
+  "titleSlug": "find-palindrome-with-fixed-length",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given an integer array queries and a positive integer intLength, return an array answer where answer[i] is either the queries[i]th smallest positive palindrome of length intLength or -1 if no such palindrome exists.\n\nA palindrome is a number that reads the same backwards and forwards. Palindromes cannot have leading zeros.\n\nExample 1:\n\nInput: queries = [1,2,3,4,5,90], intLength = 3\nOutput: [101,111,121,131,141,999]\nExplanation:\n    The first few palindromes of length 3 are:\n    101, 111, 121, 131, 141, 151, 161, 171, 181, 191, 202, ...\n    The 90th palindrome of length 3 is 999.\n\nExample 2:\n\nInput: queries = [2,4,6], intLength = 4\nOutput: [1111,1331,1551]\nExplanation:\n    The first six palindromes of length 4 are:\n    1001, 1111, 1221, 1331, 1441, and 1551.\n\nConstraints:\n\n• 1 <= queries.length <= 5 * 104\n\n• 1 <= queries[i] <= 109\n\n• 1 <= intLength <= 15",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kthPalindrome(self, queries, intLength):\n        \"\"\"\n        :type queries: List[int]\n        :type intLength: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For any value of queries[i] and intLength, how can you check if there exists at least queries[i] palindromes of length intLength?",
+    "Since a palindrome reads the same forwards and backwards, consider how you can efficiently find the first half (ceil(intLength/2) digits) of the palindrome."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5,90]",
+      "3"
+    ],
+    [
+      "[2,4,6]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[101,111,121,131,141,999]",
+    "[1111,1331,1551]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def kthPalindrome(self, queries, intLength):\n        \"\"\"\n        :type queries: List[int]\n        :type intLength: int\n        :rtype: List[int]\n        \"\"\"\n        result = []\n        half_len = (intLength + 1) // 2\n        \n        # Number of palindromes of given length\n        # For odd length, we can vary first ceil(n/2) digits\n        # For even length, we can vary first n/2 digits\n        start = 10 ** (half_len - 1)\n        end = 10 ** half_len\n        \n        for q in queries:\n            if q > end - start:\n                result.append(-1)\n            else:\n                # Get the qth palindrome\n                half = start + q - 1\n                half_str = str(half)\n                \n                if intLength % 2 == 0:\n                    # Even length: mirror the half\n                    palindrome = half_str + half_str[::-1]\n                else:\n                    # Odd length: mirror without last digit\n                    palindrome = half_str + half_str[-2::-1]\n                \n                result.append(int(palindrome))\n        \n        return result",
+    "explanation": "Palindromes are determined by their first half. Generate the qth half and mirror it. Handle odd/even length differently.",
+    "complexity": "Time: O(q * L) where L is length. Space: O(1) aside from output."
+  },
+  "similarQuestions": "[{\"title\": \"Palindrome Number\", \"titleSlug\": \"palindrome-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Closest Palindrome\", \"titleSlug\": \"find-the-closest-palindrome\", \"difficulty\": \"Hard\"}, {\"title\": \"Lexicographically Smallest Beautiful String\", \"titleSlug\": \"lexicographically-smallest-beautiful-string\", \"difficulty\": \"Hard\"}]"
+}

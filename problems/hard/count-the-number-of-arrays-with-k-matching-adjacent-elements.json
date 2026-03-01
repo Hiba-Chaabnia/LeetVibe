@@ -1,0 +1,57 @@
+{
+  "questionId": "3682",
+  "title": "Count the Number of Arrays with K Matching Adjacent Elements",
+  "titleSlug": "count-the-number-of-arrays-with-k-matching-adjacent-elements",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given three integers n, m, k. A good array arr of size n is defined as follows:\n\n• Each element in arr is in the inclusive range [1, m].\n\n• Exactly k indices i (where 1 <= i < n) satisfy the condition arr[i - 1] == arr[i].\n\nReturn the number of good arrays that can be formed.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: n = 3, m = 2, k = 1\n\nOutput: 4\n\nExplanation:\n\n• There are 4 good arrays. They are [1, 1, 2], [1, 2, 2], [2, 1, 1] and [2, 2, 1].\n\n• Hence, the answer is 4.\n\nExample 2:\n\nInput: n = 4, m = 2, k = 2\n\nOutput: 6\n\nExplanation:\n\n• The good arrays are [1, 1, 1, 2], [1, 1, 2, 2], [1, 2, 2, 2], [2, 1, 1, 1], [2, 2, 1, 1] and [2, 2, 2, 1].\n\n• Hence, the answer is 6.\n\nExample 3:\n\nInput: n = 5, m = 2, k = 0\n\nOutput: 2\n\nExplanation:\n\n• The good arrays are [1, 2, 1, 2, 1] and [2, 1, 2, 1, 2]. Hence, the answer is 2.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• 1 <= m <= 105\n\n• 0 <= k <= n - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countGoodArrays(self, n, m, k):\n        \"\"\"\n        :type n: int\n        :type m: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The first position arr[0] has m choices.",
+    "For each of the remaining n - 1 indices, 0 < i < n, select k positions from left to right and set arr[i] = arr[i - 1].",
+    "For all other indices, set arr[i] != arr[i - 1] with (m - 1) choices for each of the n - 1 - k positions."
+  ],
+  "testCases": [
+    [
+      "3",
+      "2",
+      "1"
+    ],
+    [
+      "4",
+      "2",
+      "2"
+    ],
+    [
+      "5",
+      "2",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "6",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countGoodArrays(self, n, m, k):\n        \"\"\"\n        :type n: int\n        :type m: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        MOD = 10**9 + 7\n        \n        # Precompute factorials and combinations\n        def comb(n, r):\n            if r > n or r < 0:\n                return 0\n            if r == 0 or r == n:\n                return 1\n            result = 1\n            for i in range(r):\n                result = result * (n - i) % MOD\n                result = result * pow(i + 1, MOD - 2, MOD) % MOD\n            return result\n        \n        # First position: m choices\n        # Select k positions from n-1 to match: C(n-1, k)\n        # For remaining n-1-k positions: (m-1)^(n-1-k)\n        \n        result = m * comb(n - 1, k) % MOD\n        result = result * pow(m - 1, n - 1 - k, MOD) % MOD\n        \n        return result",
+    "explanation": "Combinatorial counting:\n\n1. **Array Structure**:\n   - arr[0] = any of m values\n   - Exactly k positions match previous element\n   - Rest differ from previous\n\n2. **Counting**:\n   - First element: m choices\n   - Choose k positions from n-1 to match: C(n-1, k)\n   - For those k positions: automatic (match previous)\n   - For n-1-k positions: m-1 choices each (differ from previous)\n\n3. **Formula**: m * C(n-1, k) * (m-1)^(n-1-k)\n\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Good Numbers\", \"titleSlug\": \"count-good-numbers\", \"difficulty\": \"Medium\"}]"
+}

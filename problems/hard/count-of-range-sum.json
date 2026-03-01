@@ -1,0 +1,67 @@
+{
+  "questionId": "327",
+  "title": "Count of Range Sum",
+  "titleSlug": "count-of-range-sum",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Merge Sort",
+      "slug": "merge-sort"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "Given an integer array nums and two integers lower and upper, return the number of range sums that lie in [lower, upper] inclusive.\n\nRange sum S(i, j) is defined as the sum of the elements in nums between indices i and j inclusive, where i <= j.\n\nExample 1:\n\nInput: nums = [-2,5,-1], lower = -2, upper = 2\nOutput: 3\nExplanation: The three ranges are: [0,0], [2,2], and [0,2] and their respective sums are: -2, -1, 2.\n\nExample 2:\n\nInput: nums = [0], lower = 0, upper = 0\nOutput: 1\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -231 <= nums[i] <= 231 - 1\n\n• -105 <= lower <= upper <= 105\n\n• The answer is guaranteed to fit in a 32-bit integer.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countRangeSum(self, nums, lower, upper):\n        \"\"\"\n        :type nums: List[int]\n        :type lower: int\n        :type upper: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[-2,5,-1]",
+      "-2",
+      "2"
+    ],
+    [
+      "[0]",
+      "0",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def countRangeSum(nums, lower, upper):\n    sums = [0] * (len(nums) + 1)\n    for i in range(len(nums)):\n        sums[i + 1] = sums[i] + nums[i]\n\n    def mergeSort(start, end):\n        if start == end:\n            return 0\n        mid = start + (end - start) // 2\n        count = mergeSort(start, mid) + mergeSort(mid + 1, end)\n\n        j, k = mid + 1, mid + 1\n        for i in range(start, mid + 1):\n            while j <= end and sums[j] - sums[i] < lower: j += 1\n            while k <= end and sums[k] - sums[i] <= upper: k += 1\n            count += k - j\n\n        sums[start:end + 1] = sorted(sums[start:end + 1])\n        return count\n\n    return mergeSort(0, len(nums))",
+    "explanation": "The algorithm is based on the divide-and-conquer strategy. First, we calculate the cumulative sums of the input array. Then, we apply a modified merge-sort function to count the number of range sums that lie in the [lower, upper] interval.\n\nDuring the merge-sort, for each subarray from index i to mid, we find the first `j` and the first `k` that meet the following conditions:\n- `sums[j] - sums[i] >= lower`, and\n- `sums[k] - sums[i] > upper`.\n\nThe number of range sums in this subarray that lie in the [lower, upper] interval is `k - j`. We add this count to the result.\n\nFinally, we merge the sorted partitions of the subarray.\n\nThis process is repeated recursively for all subarrays until only one element remains. At the end, the function should return the total count of range sums that lie in the [lower, upper] interval."
+  },
+  "similarQuestions": "[{\"title\": \"Count of Smaller Numbers After Self\", \"titleSlug\": \"count-of-smaller-numbers-after-self\", \"difficulty\": \"Hard\"}, {\"title\": \"Reverse Pairs\", \"titleSlug\": \"reverse-pairs\", \"difficulty\": \"Hard\"}, {\"title\": \"Count the Number of Fair Pairs\", \"titleSlug\": \"count-the-number-of-fair-pairs\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Number of Copy Arrays\", \"titleSlug\": \"find-the-number-of-copy-arrays\", \"difficulty\": \"Medium\"}]"
+}

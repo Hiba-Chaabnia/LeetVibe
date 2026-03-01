@@ -1,0 +1,52 @@
+{
+  "questionId": "3922",
+  "title": "Minimum Moves to Reach Target in Grid",
+  "titleSlug": "minimum-moves-to-reach-target-in-grid",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given four integers sx, sy, tx, and ty, representing two points (sx, sy) and (tx, ty) on an infinitely large 2D grid.\n\nYou start at (sx, sy).\n\nAt any point (x, y), define m = max(x, y). You can either:\n\n• Move to (x + m, y), or\n\n• Move to (x, y + m).\n\nReturn the minimum number of moves required to reach (tx, ty). If it is impossible to reach the target, return -1.\n\nExample 1:\n\nInput: sx = 1, sy = 2, tx = 5, ty = 4\n\nOutput: 2\n\nExplanation: The optimal path is:\n\n• Move 1: max(1, 2) = 2. Increase the y-coordinate by 2, moving from (1, 2) to (1, 2 + 2) = (1, 4).\n\n• Move 2: max(1, 4) = 4. Increase the x-coordinate by 4, moving from (1, 4) to (1 + 4, 4) = (5, 4).\n\nThus, the minimum number of moves to reach (5, 4) is 2.\n\nExample 2:\n\nInput: sx = 0, sy = 1, tx = 2, ty = 3\n\nOutput: 3\n\nExplanation: The optimal path is:\n\n• Move 1: max(0, 1) = 1. Increase the x-coordinate by 1, moving from (0, 1) to (0 + 1, 1) = (1, 1).\n\n• Move 2: max(1, 1) = 1. Increase the x-coordinate by 1, moving from (1, 1) to (1 + 1, 1) = (2, 1).\n\n• Move 3: max(2, 1) = 2. Increase the y-coordinate by 2, moving from (2, 1) to (2, 1 + 2) = (2, 3).\n\nThus, the minimum number of moves to reach (2, 3) is 3.\n\nExample 3:\n\nInput: sx = 1, sy = 1, tx = 2, ty = 2\n\nOutput: -1\n\nExplanation:\n\n• It is impossible to reach (2, 2) from (1, 1) using the allowed moves. Thus, the answer is -1.\n\nConstraints:\n\n• 0 <= sx <= tx <= 109\n\n• 0 <= sy <= ty <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMoves(self, sx, sy, tx, ty):\n        \"\"\"\n        :type sx: int\n        :type sy: int\n        :type tx: int\n        :type ty: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Work backwards from (tx, ty) to (sx, sy), undoing one move at each step.",
+    "If the larger coordinate >= 2 × (the smaller), undo by halving the larger; otherwise undo by subtracting the smaller from the larger.",
+    "Count these undo-steps until you hit (sx, sy) (return the count), or return -1 if you drop below or get stuck."
+  ],
+  "testCases": [
+    [
+      "1",
+      "2",
+      "5",
+      "4"
+    ],
+    [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    [
+      "1",
+      "1",
+      "2",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

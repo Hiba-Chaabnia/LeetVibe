@@ -1,0 +1,62 @@
+{
+  "questionId": "3853",
+  "title": "Minimum Weighted Subgraph With the Required Paths II",
+  "titleSlug": "minimum-weighted-subgraph-with-the-required-paths-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    }
+  ],
+  "content": "You are given an undirected weighted tree with n nodes, numbered from 0 to n - 1. It is represented by a 2D integer array edges of length n - 1, where edges[i] = [ui, vi, wi] indicates that there is an edge between nodes ui and vi with weight wi.​\n\nAdditionally, you are given a 2D integer array queries, where queries[j] = [src1j, src2j, destj].\n\nReturn an array answer of length equal to queries.length, where answer[j] is the minimum total weight of a subtree such that it is possible to reach destj from both src1j and src2j using edges in this subtree.\n\nA subtree here is any connected subset of nodes and edges of the original tree forming a valid tree.\n\nExample 1:\n\nInput: edges = [[0,1,2],[1,2,3],[1,3,5],[1,4,4],[2,5,6]], queries = [[2,3,4],[0,2,5]]\n\nOutput: [12,11]\n\nExplanation: The blue edges represent one of the subtrees that yield the optimal answer.\n\n•\n\tanswer[0]: The total weight of the selected subtree that ensures a path from src1 = 2 and src2 = 3 to dest = 4 is 3 + 5 + 4 = 12.\n\n•\n\tanswer[1]: The total weight of the selected subtree that ensures a path from src1 = 0 and src2 = 2 to dest = 5 is 2 + 3 + 6 = 11.\n\nExample 2:\n\nInput: edges = [[1,0,8],[0,2,7]], queries = [[0,1,2]]\n\nOutput: [15]\n\nExplanation:\n\n• answer[0]: The total weight of the selected subtree that ensures a path from src1 = 0 and src2 = 1 to dest = 2 is 8 + 7 = 15.\n\nConstraints:\n\n• 3 <= n <= 105\n\n• edges.length == n - 1\n\n• edges[i].length == 3\n\n• 0 <= ui, vi < n\n\n• 1 <= wi <= 104\n\n• 1 <= queries.length <= 105\n\n• queries[j].length == 3\n\n• 0 <= src1j, src2j, destj < n\n\n• src1j, src2j, and destj are pairwise distinct.\n\n• The input is generated such that edges represents a valid tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumWeight(self, edges, queries):\n        \"\"\"\n        :type edges: List[List[int]]\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Binary lifting",
+    "Find the lowest common ancestor (LCA) of any two nodes using binary lifting",
+    "For any node x, let f(x) be the distance from the root to x. Then for two nodes x and y:d(x, y) = f(x) + f(y) - 2 * f(LCA(x, y))",
+    "For three nodes a, b and c, the minimum total weight of the subtree connecting all three is:(d(a, b) + d(b, c) + d(c, a)) / 2, where d(x, y) is the distance between nodes x and y"
+  ],
+  "testCases": [
+    [
+      "[[0,1,2],[1,2,3],[1,3,5],[1,4,4],[2,5,6]]",
+      "[[2,3,4],[0,2,5]]"
+    ],
+    [
+      "[[1,0,8],[0,2,7]]",
+      "[[0,1,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[12,11]",
+    "[15]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumWeight(self, edges, queries):\n        \"\"\"\n        :type edges: List[List[int]]\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        from collections import defaultdict\n        import heapq\n        \n        n = len(edges) + 1\n        graph = defaultdict(list)\n        \n        for u, v, w in edges:\n            graph[u].append((v, w))\n            graph[v].append((u, w))\n        \n        def dijkstra(start, n):\n            dist = [float('inf')] * n\n            dist[start] = 0\n            heap = [(0, start)]\n            \n            while heap:\n                d, u = heapq.heappop(heap)\n                if d > dist[u]:\n                    continue\n                for v, w in graph[u]:\n                    if dist[u] + w < dist[v]:\n                        dist[v] = dist[u] + w\n                        heapq.heappush(heap, (dist[v], v))\n            \n            return dist\n        \n        results = []\n        \n        for src1, src2, dest in queries:\n            # Compute distances from src1, src2, and dest\n            dist_src1 = dijkstra(src1, n)\n            dist_src2 = dijkstra(src2, n)\n            dist_dest = dijkstra(dest, n)\n            \n            # Minimum subtree weight connecting src1, src2, and dest\n            # Formula: (dist(src1, dest) + dist(src2, dest) + dist(src1, src2)) / 2\n            d1 = dist_src1[dest]\n            d2 = dist_src2[dest]\n            d12 = dist_src1[src2]\n            \n            if d1 == float('inf') or d2 == float('inf') or d12 == float('inf'):\n                results.append(-1)\n            else:\n                # The minimum weight is the sum of two shortest paths minus their overlap\n                # Which equals (d1 + d2 + d12) / 2\n                min_weight = (d1 + d2 + d12) // 2\n                results.append(min_weight)\n        \n        return results",
+    "explanation": "This solution uses Dijkstra's algorithm and mathematical properties of trees:\n\n1. **Problem Understanding**: Find minimum weight subtree that connects src1, src2, and dest.\n\n2. **Key Insight - Tree Property**:\n   - In a tree, any three nodes form a unique minimal subtree\n   - The weight of this minimal subtree can be computed using the formula:\n   - min_weight = (distance(src1, dest) + distance(src2, dest) + distance(src1, src2)) / 2\n   - This works because the three pairwise distances count each edge in the minimal subtree twice except the \"center\" point, which is counted 3 times\n\n3. **Algorithm**:\n   - Run Dijkstra from src1 to find distances to all nodes\n   - Run Dijkstra from src2 to find distances to all nodes\n   - Calculate the three required distances\n   - Apply the formula\n\n4. **Why the Formula Works**:\n   - If the three nodes form a path src1-x-src2-y-dest:\n     - dist(src1, dest) = src1→x→src2→y→dest (includes all edges)\n     - dist(src2, dest) = src2→y→dest (includes y→dest edges)\n     - dist(src1, src2) = src1→x→src2 (includes src1→src2 edges)\n     - Sum counts each edge the right number of times\n   - Division by 2 accounts for double counting\n\n5. **Complexity**:\n   - Per query: O((N + E) log N) for two Dijkstra runs\n   - With Q queries: O(Q * (N + E) log N)\n\nTime Complexity: O(Q * (N + E) log N)\nSpace Complexity: O(N + E)"
+  },
+  "similarQuestions": "[]"
+}

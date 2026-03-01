@@ -1,0 +1,52 @@
+{
+  "questionId": "1667",
+  "title": "Find Kth Bit in Nth Binary String",
+  "titleSlug": "find-kth-bit-in-nth-binary-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given two positive integers n and k, the binary string Sn is formed as follows:\n\n• S1 = \"0\"\n\n• Si = Si - 1 + \"1\" + reverse(invert(Si - 1)) for i > 1\n\nWhere + denotes the concatenation operation, reverse(x) returns the reversed string x, and invert(x) inverts all the bits in x (0 changes to 1 and 1 changes to 0).\n\nFor example, the first four strings in the above sequence are:\n\n• S1 = \"0\"\n\n• S2 = \"011\"\n\n• S3 = \"0111001\"\n\n• S4 = \"011100110110001\"\n\nReturn the kth bit in Sn. It is guaranteed that k is valid for the given n.\n\nExample 1:\n\nInput: n = 3, k = 1\nOutput: \"0\"\nExplanation: S3 is \"0111001\".\n    The 1st bit is \"0\".\n\nExample 2:\n\nInput: n = 4, k = 11\nOutput: \"1\"\nExplanation: S4 is \"011100110110001\".\n    The 11th bit is \"1\".\n\nConstraints:\n\n• 1 <= n <= 20\n\n• 1 <= k <= 2n - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findKthBit(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since n is small, we can simply simulate the process of constructing S1 to Sn."
+  ],
+  "testCases": [
+    [
+      "3",
+      "1"
+    ],
+    [
+      "4",
+      "11"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"0\"",
+    "\"1\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def findKthBit(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: str\n        \"\"\"\n        # For small n, we can build the string recursively\n        # S_n has length 2^n - 1\n        # S_n = S_(n-1) + \"1\" + invert(reverse(S_(n-1)))\n        \n        def get_bit(n, k):\n            # Base case\n            if n == 1:\n                return \"0\"\n            \n            length = (1 << n) - 1  # 2^n - 1\n            mid = (length + 1) // 2  # Middle position\n            \n            if k < mid:\n                # In left part: S_(n-1)\n                return get_bit(n - 1, k)\n            elif k == mid:\n                # Middle bit\n                return \"1\"\n            else:\n                # In right part: invert(reverse(S_(n-1)))\n                # Position from right of S_(n-1)\n                pos_from_end = length - k + 1\n                bit = get_bit(n - 1, pos_from_end)\n                # Invert the bit\n                return \"1\" if bit == \"0\" else \"0\"\n        \n        return get_bit(n, k)",
+    "explanation": "Recursively find the kth bit by understanding the structure of the string. S_n = S_(n-1) + '1' + invert(reverse(S_(n-1))). For position k, determine which part it falls into and recurse accordingly.",
+    "complexity": "Time: O(n) - recursion depth is n. Space: O(n) - recursion stack."
+  },
+  "similarQuestions": "[]"
+}

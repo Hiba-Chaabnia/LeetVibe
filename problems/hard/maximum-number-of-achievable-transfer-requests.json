@@ -1,0 +1,61 @@
+{
+  "questionId": "1723",
+  "title": "Maximum Number of Achievable Transfer Requests",
+  "titleSlug": "maximum-number-of-achievable-transfer-requests",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "We have n buildings numbered from 0 to n - 1. Each building has a number of employees. It's transfer season, and some employees want to change the building they reside in.\n\nYou are given an array requests where requests[i] = [fromi, toi] represents an employee's request to transfer from building fromi to building toi.\n\nAll buildings are full, so a list of requests is achievable only if for each building, the net change in employee transfers is zero. This means the number of employees leaving is equal to the number of employees moving in. For example if n = 3 and two employees are leaving building 0, one is leaving building 1, and one is leaving building 2, there should be two employees moving to building 0, one employee moving to building 1, and one employee moving to building 2.\n\nReturn the maximum number of achievable requests.\n\nExample 1:\n\nInput: n = 5, requests = [[0,1],[1,0],[0,1],[1,2],[2,0],[3,4]]\nOutput: 5\n    Explantion: Let's see the requests:\n    From building 0 we have employees x and y and both want to move to building 1.\n    From building 1 we have employees a and b and they want to move to buildings 2 and 0 respectively.\n    From building 2 we have employee z and they want to move to building 0.\n    From building 3 we have employee c and they want to move to building 4.\n    From building 4 we don't have any requests.\n    We can achieve the requests of users x and b by swapping their places.\n    We can achieve the requests of users y, a and z by swapping the places in the 3 buildings.\n\nExample 2:\n\nInput: n = 3, requests = [[0,0],[1,2],[2,1]]\nOutput: 3\n    Explantion: Let's see the requests:\n    From building 0 we have employee x and they want to stay in the same building 0.\n    From building 1 we have employee y and they want to move to building 2.\n    From building 2 we have employee z and they want to move to building 1.\n    We can achieve all the requests.\n\nExample 3:\n\nInput: n = 4, requests = [[0,3],[3,1],[1,2],[2,0]]\nOutput: 4\n\nConstraints:\n\n• 1 <= n <= 20\n\n• 1 <= requests.length <= 16\n\n• requests[i].length == 2\n\n• 0 <= fromi, toi < n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumRequests(self, n, requests):\n        \"\"\"\n        :type n: int\n        :type requests: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think brute force",
+    "When is a subset of requests okay?"
+  ],
+  "testCases": [
+    [
+      "5",
+      "[[0,1],[1,0],[0,1],[1,2],[2,0],[3,4]]"
+    ],
+    [
+      "3",
+      "[[0,0],[1,2],[2,1]]"
+    ],
+    [
+      "4",
+      "[[0,3],[3,1],[1,2],[2,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maximumRequests(n, requests):\n    req_size = len(requests)\n    max_requests = 0\n\n    for i in range(1 << req_size):\n        net_transfers = [0] * n\n        count = 0\n        \n        for j in range(req_size):\n            if i & (1 << j):\n                net_transfers[requests[j][0]] -= 1\n                net_transfers[requests[j][1]] += 1\n                count += 1\n\n        valid = all(val == 0 for val in net_transfers)\n\n        if valid:\n            max_requests = max(max_requests, count)\n\n    return max_requests",
+    "explanation": "To solve this problem, we need to iterate through all the possible combinations of employee requests, and for each combination, we check if it satisfies the building transfer constraints where the net change of employees to every building is 0. Here we use a bit manipulation technique to represent different subsets.\n\nWe start by iterating over all integers from 0 to 2^requests.length. For each such integer, we iterate over each bit and, if it is set, include the corresponding request from the list of requests. Then, we calculate the net employee changes in each building based on this subset of requests. If after updating the net employee changes, all the entries in the building change array are still 0, it means the current subset of requests meets the requirements.\n\nWe then update the maximum number of achievable requests if the current count of requests is greater than the previous maximum one. We return the maximum achievable number of requests after checking all sets of requests.\n\nThe time complexity of this solution is O(2^R * (R + N)), where R is requests.length and N is the number of buildings."
+  },
+  "similarQuestions": "[]"
+}

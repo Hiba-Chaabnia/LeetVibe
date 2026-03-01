@@ -1,0 +1,58 @@
+{
+  "questionId": "4152",
+  "title": "Minimum Subarray Length With Distinct Sum At Least K",
+  "titleSlug": "minimum-subarray-length-with-distinct-sum-at-least-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nReturn the minimum length of a subarray whose sum of the distinct values present in that subarray (each value counted once) is at least k. If no such subarray exists, return -1.\n\nExample 1:\n\nInput: nums = [2,2,3,1], k = 4\n\nOutput: 2\n\nExplanation: The subarray [2, 3] has distinct elements {2, 3} whose sum is 2 + 3 = 5, which is ​​​​​​​at least k = 4. Thus, the answer is 2.\n\nExample 2:\n\nInput: nums = [3,2,3,4], k = 5\n\nOutput: 2\n\nExplanation: The subarray [3, 2] has distinct elements {3, 2} whose sum is 3 + 2 = 5, which is ​​​​​​​at least k = 5. Thus, the answer is 2.\n\nExample 3:\n\nInput: nums = [5,5,4], k = 5\n\nOutput: 1\n\nExplanation: The subarray [5] has distinct elements {5} whose sum is 5, which is at least k = 5. Thus, the answer is 1.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105\n\n• 1 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minLength(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a two-pointer sliding window that expands the right end until the window's sum of values that occur exactly once reaches at least k.",
+    "When that happens, greedily advance the left pointer to shrink the window as much as possible while keeping the unique-sum >= k, updating the minimum length.",
+    "Maintain a frequency counter to update the unique-sum when an element's count flips between unique and non-unique"
+  ],
+  "testCases": [
+    [
+      "[2,2,3,1]",
+      "4"
+    ],
+    [
+      "[3,2,3,4]",
+      "5"
+    ],
+    [
+      "[5,5,4]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def minLength(self, nums, k):\n        freq = defaultdict(int)\n        distinct_sum = 0\n        ans = float('inf')\n        left = 0\n        for right in range(len(nums)):\n            v = nums[right]\n            if freq[v] == 0:\n                distinct_sum += v\n            elif freq[v] == 1:\n                distinct_sum -= v\n            freq[v] += 1\n            while distinct_sum >= k and left <= right:\n                ans = min(ans, right - left + 1)\n                lv = nums[left]\n                freq[lv] -= 1\n                if freq[lv] == 1:\n                    distinct_sum += lv\n                elif freq[lv] == 0:\n                    distinct_sum -= lv\n                left += 1\n        return ans if ans != float('inf') else -1",
+    "explanation": "Sliding window with frequency map. 'Distinct sum' = sum of values appearing exactly once in the window. Adding value v: if freq[v] was 0 add v, if it was 1 subtract v (no longer unique). Removing left value: if freq drops to 1 add it back, if drops to 0 subtract it. Shrink from left whenever distinct_sum >= k, recording window size.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

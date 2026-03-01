@@ -1,0 +1,44 @@
+{
+  "questionId": "80",
+  "title": "Remove Duplicates from Sorted Array II",
+  "titleSlug": "remove-duplicates-from-sorted-array-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "Given an integer array nums sorted in non-decreasing order, remove some duplicates in-place such that each unique element appears at most twice. The relative order of the elements should be kept the same.\n\nSince it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.\n\nReturn k after placing the final result in the first k slots of nums.\n\nDo not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.\n\nCustom Judge:\n\nThe judge will test your solution with the following code:\n\n    int[] nums = [...]; // Input array\n    int[] expectedNums = [...]; // The expected answer with correct length\n\n    int k = removeDuplicates(nums); // Calls your implementation\n\n    assert k == expectedNums.length;\n    for (int i = 0; i If all assertions pass, then your solution will be accepted.\n\nExample 1:\n\nInput: nums = [1,1,1,2,2,3]\nOutput: 5, nums = [1,1,2,2,3,_]\nExplanation: Your function should return k = 5, with the first five elements of nums being 1, 1, 2, 2 and 3 respectively.\n    It does not matter what you leave beyond the returned k (hence they are underscores).\n\nExample 2:\n\nInput: nums = [0,0,1,1,1,1,2,3,3]\nOutput: 7, nums = [0,0,1,1,2,3,3,_,_]\nExplanation: Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3 and 3 respectively.\n    It does not matter what you leave beyond the returned k (hence they are underscores).\n\nConstraints:\n\n• 1 <= nums.length <= 3 * 104\n\n• -104 <= nums[i] <= 104\n\n• nums is sorted in non-decreasing order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeDuplicates(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,1,1,2,2,3]"
+    ],
+    [
+      "[0,0,1,1,1,1,2,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5, nums = [1,1,2,2,3,_]",
+    "7, nums = [0,0,1,1,2,3,3,_,_]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def removeDuplicates(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        k = 0\n        \n        for num in nums:\n            # Keep if less than 2 occurrences\n            if k < 2 or num != nums[k-2]:\n                nums[k] = num\n                k += 1\n        \n        return k",
+    "explanation": "Two-pointer. Allow each number up to 2 times: check if current != nums[k-2].",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Remove Duplicates from Sorted Array\", \"titleSlug\": \"remove-duplicates-from-sorted-array\", \"difficulty\": \"Easy\"}]"
+}

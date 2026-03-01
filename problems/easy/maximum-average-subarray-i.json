@@ -1,0 +1,45 @@
+{
+  "questionId": "643",
+  "title": "Maximum Average Subarray I",
+  "titleSlug": "maximum-average-subarray-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an integer array nums consisting of n elements, and an integer k.\n\nFind a contiguous subarray whose length is equal to k that has the maximum average value and return this value. Any answer with a calculation error less than 10-5 will be accepted.\n\nExample 1:\n\nInput: nums = [1,12,-5,-6,50,3], k = 4\nOutput: 12.75000\nExplanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75\n\nExample 2:\n\nInput: nums = [5], k = 1\nOutput: 5.00000\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= k <= n <= 105\n\n• -104 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMaxAverage(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,12,-5,-6,50,3]",
+      "4"
+    ],
+    [
+      "[5]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "12.75000",
+    "5.00000"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findMaxAverage(nums, k):\n    n = len(nums)\n    sum_ = sum(nums[:k])\n    max_avg = sum_ / k\n    for i in range(k, n):\n        sum_ = sum_ - nums[i - k] + nums[i]\n        max_avg = max(max_avg, sum_ / k)\n    return max_avg",
+    "explanation": "1. Initialize the sum with the first `k` elements of the input array.\n2. Calculate the average by dividing the sum by `k` and store it in `max_avg`.\n3. Loop through the input array from index `k` to the end.\n4. For each element, update the sum by subtracting the element at the left side of the sliding window (with `k` length) and adding the current element.\n5. Calculate the average again and update the `max_avg` if the current average is higher than the previous `max_avg`.\n6. Return `max_avg` after the loop ends."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Average Subarray II\", \"titleSlug\": \"maximum-average-subarray-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"K Radius Subarray Averages\", \"titleSlug\": \"k-radius-subarray-averages\", \"difficulty\": \"Medium\"}]"
+}

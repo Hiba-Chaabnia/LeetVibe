@@ -1,0 +1,46 @@
+{
+  "questionId": "238",
+  "title": "Product of Array Except Self",
+  "titleSlug": "product-of-array-except-self",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].\n\nThe product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.\n\nYou must write an algorithm that runs in O(n) time and without using the division operation.\n\nExample 1:\n\nInput: nums = [1,2,3,4]\nOutput: [24,12,8,6]\nExample 2:\n\nInput: nums = [-1,1,0,-3,3]\nOutput: [0,0,9,0,0]\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• -30 <= nums[i] <= 30\n\n• The input is generated such that answer[i] is guaranteed to fit in a 32-bit integer.\n\nFollow up: Can you solve the problem in O(1) extra space complexity? (The output array does not count as extra space for space complexity analysis.)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def productExceptSelf(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think how you can efficiently utilize prefix and suffix products to calculate the product of all elements except self for each index. Can you pre-compute the prefix and suffix products in linear time to avoid redundant calculations?",
+    "Can you minimize additional space usage by reusing memory or modifying the input array to store intermediate results?"
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4]"
+    ],
+    [
+      "[-1,1,0,-3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[24,12,8,6]",
+    "[0,0,9,0,0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def productExceptSelf(nums):\n    n = len(nums)\n    answer = [1] * n\n    \n    left = 1\n    for i in range(n):\n        answer[i] *= left\n        left *= nums[i]\n    \n    right = 1\n    for i in range(n - 1, -1, -1):\n        answer[i] *= right\n        right *= nums[i]\n    \n    return answer",
+    "explanation": "The basic idea is to create an array `answer` with the same size as `nums`. We start by initializing all elements of the `answer` array to 1.\n\nWe then perform two passes through the `nums` array. During the first pass, we keep track of the running product of elements to the left of the current index in a variable called `left`, and we multiply the corresponding element in the `answer` array by this running product.\n\nDuring the second pass, we move in the reverse direction, and we perform a similar operation for the elements to the right of the current index using a variable called `right`. This will result in `answer[i]` being equal to the product of all elements in the `nums` array except for the current element, `nums[i]`.\n\nSince we only have two passes through the input array, the algorithm has an O(n) time complexity."
+  },
+  "similarQuestions": "[{\"title\": \"Trapping Rain Water\", \"titleSlug\": \"trapping-rain-water\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Product Subarray\", \"titleSlug\": \"maximum-product-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Paint House II\", \"titleSlug\": \"paint-house-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Difference in Sums After Removal of Elements\", \"titleSlug\": \"minimum-difference-in-sums-after-removal-of-elements\", \"difficulty\": \"Hard\"}, {\"title\": \"Construct Product Matrix\", \"titleSlug\": \"construct-product-matrix\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Sum of Array Product of Magical Sequences\", \"titleSlug\": \"find-sum-of-array-product-of-magical-sequences\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,49 @@
+{
+  "questionId": "438",
+  "title": "Find All Anagrams in a String",
+  "titleSlug": "find-all-anagrams-in-a-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given two strings s and p, return an array of all the start indices of p's anagrams in s. You may return the answer in any order.\n\nExample 1:\n\nInput: s = \"cbaebabacd\", p = \"abc\"\nOutput: [0,6]\nExplanation:\n    The substring with start index = 0 is \"cba\", which is an anagram of \"abc\".\n    The substring with start index = 6 is \"bac\", which is an anagram of \"abc\".\n\nExample 2:\n\nInput: s = \"abab\", p = \"ab\"\nOutput: [0,1,2]\nExplanation:\n    The substring with start index = 0 is \"ab\", which is an anagram of \"ab\".\n    The substring with start index = 1 is \"ba\", which is an anagram of \"ab\".\n    The substring with start index = 2 is \"ab\", which is an anagram of \"ab\".\n\nConstraints:\n\n• 1 <= s.length, p.length <= 3 * 104\n\n• s and p consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findAnagrams(self, s, p):\n        \"\"\"\n        :type s: str\n        :type p: str\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"cbaebabacd\"",
+      "\"abc\""
+    ],
+    [
+      "\"abab\"",
+      "\"ab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,6]",
+    "[0,1,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findAnagrams(self, s, p):\n        if len(p) > len(s):\n            return []\n        from collections import Counter\n        p_count = Counter(p)\n        window_count = Counter(s[:len(p)])\n        result = []\n        if window_count == p_count:\n            result.append(0)\n        for i in range(len(p), len(s)):\n            window_count[s[i]] += 1\n            left_char = s[i - len(p)]\n            window_count[left_char] -= 1\n            if window_count[left_char] == 0:\n                del window_count[left_char]\n            if window_count == p_count:\n                result.append(i - len(p) + 1)\n        return result",
+    "explanation": "Sliding window with character frequency comparison.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Valid Anagram\", \"titleSlug\": \"valid-anagram\", \"difficulty\": \"Easy\"}, {\"title\": \"Permutation in String\", \"titleSlug\": \"permutation-in-string\", \"difficulty\": \"Medium\"}]"
+}

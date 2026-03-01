@@ -1,0 +1,55 @@
+{
+  "questionId": "3445",
+  "title": "Lexicographically Minimum String After Removing Stars",
+  "titleSlug": "lexicographically-minimum-string-after-removing-stars",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given a string s. It may contain any number of '*' characters. Your task is to remove all '*' characters.\n\nWhile there is a '*', do the following operation:\n\n• Delete the leftmost '*' and the smallest non-'*' character to its left. If there are several smallest characters, you can delete any of them.\n\nReturn the lexicographically smallest resulting string after removing all '*' characters.\n\nExample 1:\n\nInput: s = \"aaba*\"\n\nOutput: \"aab\"\n\nExplanation: We should delete one of the 'a' characters with '*'. If we choose s[3], s becomes the lexicographically smallest.\n\nExample 2:\n\nInput: s = \"abc\"\n\nOutput: \"abc\"\n\nExplanation: There is no '*' in the string.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists only of lowercase English letters and '*'.\n\n• The input is generated such that it is possible to delete all '*' characters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def clearStars(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"aaba*\""
+    ],
+    [
+      "\"abc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"aab\"",
+    "\"abc\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def clearStars(self, s):\n        # For each '*', remove it and the smallest (rightmost if tie) char to its left.\n        # Use 26 stacks (one per char), track which indices are deleted.\n        stacks = [[] for _ in range(26)]\n        deleted = [False] * len(s)\n        for i, c in enumerate(s):\n            if c == '*':\n                deleted[i] = True\n                # Find smallest char available\n                for ch in range(26):\n                    if stacks[ch]:\n                        j = stacks[ch].pop()\n                        deleted[j] = True\n                        break\n            else:\n                stacks[ord(c) - ord('a')].append(i)\n        return ''.join(s[i] for i in range(len(s)) if not deleted[i])",
+    "explanation": "Maintain 26 stacks (one per letter) of available indices. For each '*', find the smallest available character (scan a-z), pop its rightmost index, mark both deleted. Build result from non-deleted indices.\n\nTime: O(26n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

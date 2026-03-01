@@ -1,0 +1,54 @@
+{
+  "questionId": "3986",
+  "title": "Maximum Path Score in a Grid",
+  "titleSlug": "maximum-path-score-in-a-grid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n grid where each cell contains one of the values 0, 1, or 2. You are also given an integer k.\n\nYou start from the top-left corner (0, 0) and want to reach the bottom-right corner (m - 1, n - 1) by moving only right or down.\n\nEach cell contributes a specific score and incurs an associated cost, according to their cell values:\n\n• 0: adds 0 to your score and costs 0.\n\n• 1: adds 1 to your score and costs 1.\n\n• 2: adds 2 to your score and costs 1. ​​​​​​​\n\nReturn the maximum score achievable without exceeding a total cost of k, or -1 if no valid path exists.\n\nNote: If you reach the last cell but the total cost exceeds k, the path is invalid.\n\nExample 1:\n\nInput: grid = [[0, 1],[2, 0]], k = 1\n\nOutput: 2\n\nExplanation:​​​​​​​\n\nThe optimal path is:\n\n\t\t\t\tCell\n\t\t\t\tgrid[i][j]\n\t\t\t\tScore\n\t\t\t\tTotal\n\n\t\t\tScore\n\t\t\t\tCost\n\t\t\t\tTotal\n\n\t\t\tCost\n\n\t\t\t\t(0, 0)\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t0\n\n\t\t\t\t(1, 0)\n\t\t\t\t2\n\t\t\t\t2\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t(1, 1)\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t2\n\t\t\t\t0\n\t\t\t\t1\n\nThus, the maximum possible score is 2.\n\nExample 2:\n\nInput: grid = [[0, 1],[1, 2]], k = 1\n\nOutput: -1\n\nExplanation: There is no path that reaches cell (1, 1)​​​​​​​ without exceeding cost k. Thus, the answer is -1.\n\nConstraints:\n\n• 1 <= m, n <= 200\n\n• 0 <= k <= 103​​​​​​​\n\n• ​​​​​​​grid[0][0] == 0\n\n• 0 <= grid[i][j] <= 2",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxPathScore(self, grid, k):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "Let dp[i][j][c] = max score at cell (i,j) with total cost exactly c (0 <= c <= k).",
+    "Update dp[i][j][c] from (i-1,j) and (i,j-1) using cost = (grid[i][j] == 0 ? 0 : 1) and score = grid[i][j].",
+    "Answer = max(dp[m-1][n-1][c]) for c=0..k, or -1 if none."
+  ],
+  "testCases": [
+    [
+      "[[0, 1],[2, 0]]",
+      "1"
+    ],
+    [
+      "[[0, 1],[1, 2]]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxPathScore(self, grid, k):\n        m, n = len(grid), len(grid[0])\n        INF = float('-inf')\n        # dp[i][j][c] = max score at (i,j) with total cost exactly c\n        dp = [[[INF] * (k + 1) for _ in range(n)] for _ in range(m)]\n        dp[0][0][0] = 0\n\n        for i in range(m):\n            for j in range(n):\n                cost = 0 if grid[i][j] == 0 else 1\n                score = grid[i][j]\n                for c in range(k + 1):\n                    if i == 0 and j == 0:\n                        prev = 0 if c == 0 else INF\n                    else:\n                        prev = INF\n                        if i > 0 and dp[i-1][j][c - cost] != INF and c >= cost:\n                            prev = max(prev, dp[i-1][j][c - cost])\n                        if j > 0 and dp[i][j-1][c - cost] != INF and c >= cost:\n                            prev = max(prev, dp[i][j-1][c - cost])\n                    if prev != INF:\n                        dp[i][j][c] = prev + score\n\n        ans = max(dp[m-1][n-1][c] for c in range(k + 1))\n        return ans if ans != INF else -1",
+    "explanation": "DP where dp[i][j][c] = max score reaching cell (i,j) with total cost exactly c. Cell cost is 0 if grid value is 0, else 1. Cell score is the grid value. Transitions from top and left neighbors. Answer = max over all valid costs at (m-1, n-1), or -1 if unreachable.\n\nTime: O(m*n*k). Space: O(m*n*k)."
+  },
+  "similarQuestions": "[]"
+}

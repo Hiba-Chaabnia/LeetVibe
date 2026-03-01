@@ -1,0 +1,48 @@
+{
+  "questionId": "2288",
+  "title": "Count Operations to Obtain Zero",
+  "titleSlug": "count-operations-to-obtain-zero",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given two non-negative integers num1 and num2.\n\nIn one operation, if num1 >= num2, you must subtract num2 from num1, otherwise subtract num1 from num2.\n\n• For example, if num1 = 5 and num2 = 4, subtract num2 from num1, thus obtaining num1 = 1 and num2 = 4. However, if num1 = 4 and num2 = 5, after one operation, num1 = 4 and num2 = 1.\n\nReturn the number of operations required to make either num1 = 0 or num2 = 0.\n\nExample 1:\n\nInput: num1 = 2, num2 = 3\nOutput: 3\nExplanation:\n    - Operation 1: num1 = 2, num2 = 3. Since num1  num2, we subtract num2 from num1.\n    - Operation 3: num1 = 1, num2 = 1. Since num1 == num2, we subtract num2 from num1.\n    Now num1 = 0 and num2 = 1. Since num1 == 0, we do not need to perform any further operations.\n    So the total number of operations required is 3.\n\nExample 2:\n\nInput: num1 = 10, num2 = 10\nOutput: 1\nExplanation:\n    - Operation 1: num1 = 10, num2 = 10. Since num1 == num2, we subtract num2 from num1 and get num1 = 10 - 10 = 0.\n    Now num1 = 0 and num2 = 10. Since num1 == 0, we are done.\n    So the total number of operations required is 1.\n\nConstraints:\n\n• 0 <= num1, num2 <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countOperations(self, num1, num2):\n        \"\"\"\n        :type num1: int\n        :type num2: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try simulating the process until either of the two integers is zero.",
+    "Count the number of operations done."
+  ],
+  "testCases": [
+    [
+      "2",
+      "3"
+    ],
+    [
+      "10",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countOperations(self, num1, num2):\n        ops = 0\n        while num1 > 0 and num2 > 0:\n            if num1 >= num2:\n                ops += num1 // num2\n                num1 %= num2\n            else:\n                ops += num2 // num1\n                num2 %= num1\n        return ops",
+    "explanation": "Like GCD: use division to batch subtractions."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Steps to Reduce a Number to Zero\", \"titleSlug\": \"number-of-steps-to-reduce-a-number-to-zero\", \"difficulty\": \"Easy\"}]"
+}

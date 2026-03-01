@@ -1,0 +1,57 @@
+{
+  "questionId": "2700",
+  "title": "Substring XOR Queries",
+  "titleSlug": "substring-xor-queries",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a binary string s, and a 2D integer array queries where queries[i] = [firsti, secondi].\n\nFor the ith query, find the shortest substring of s whose decimal value, val, yields secondi when bitwise XORed with firsti. In other words, val ^ firsti == secondi.\n\nThe answer to the ith query is the endpoints (0-indexed) of the substring [lefti, righti] or [-1, -1] if no such substring exists. If there are multiple answers, choose the one with the minimum lefti.\n\nReturn an array ans where ans[i] = [lefti, righti] is the answer to the ith query.\n\nA substring is a contiguous non-empty sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"101101\", queries = [[0,5],[1,2]]\nOutput: [[0,2],[2,3]]\nExplanation: For the first query the substring in range [0,2] is \"101\" which has a decimal value of 5, and 5 ^ 0 = 5, hence the answer to the first query is [0,2]. In the second query, the substring in range [2,3] is \"11\", and has a decimal value of 3, and 3 ^ 1 = 2. So, [2,3] is returned for the second query.\n\nExample 2:\n\nInput: s = \"0101\", queries = [[12,8]]\nOutput: [[-1,-1]]\nExplanation: In this example there is no substring that answers the query, hence [-1,-1] is returned.\n\nExample 3:\n\nInput: s = \"1\", queries = [[4,5]]\nOutput: [[0,0]]\nExplanation: For this example, the substring in range [0,0] has a decimal value of 1, and 1 ^ 4 = 5. So, the answer is [0,0].\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s[i] is either '0' or '1'.\n\n• 1 <= queries.length <= 105\n\n• 0 <= firsti, secondi <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def substringXorQueries(self, s, queries):\n        \"\"\"\n        :type s: str\n        :type queries: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You do not need to consider substrings having lengths greater than 30.",
+    "Pre-process all substrings with lengths not greater than 30, and add the best endpoints to a dictionary."
+  ],
+  "testCases": [
+    [
+      "\"101101\"",
+      "[[0,5],[1,2]]"
+    ],
+    [
+      "\"0101\"",
+      "[[12,8]]"
+    ],
+    [
+      "\"1\"",
+      "[[4,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[0,2],[2,3]]",
+    "[[-1,-1]]",
+    "[[0,0]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"String Matching in an Array\", \"titleSlug\": \"string-matching-in-an-array\", \"difficulty\": \"Easy\"}]"
+}

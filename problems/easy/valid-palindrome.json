@@ -1,0 +1,47 @@
+{
+  "questionId": "125",
+  "title": "Valid Palindrome",
+  "titleSlug": "valid-palindrome",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.\n\nGiven a string s, return true if it is a palindrome, or false otherwise.\n\nExample 1:\n\nInput: s = \"A man, a plan, a canal: Panama\"\nOutput: true\nExplanation: \"amanaplanacanalpanama\" is a palindrome.\n\nExample 2:\n\nInput: s = \"race a car\"\nOutput: false\nExplanation: \"raceacar\" is not a palindrome.\n\nExample 3:\n\nInput: s = \" \"\nOutput: true\nExplanation: s is an empty string \"\" after removing non-alphanumeric characters.\n    Since an empty string reads the same forward and backward, it is a palindrome.\n\nConstraints:\n\n• 1 <= s.length <= 2 * 105\n\n• s consists only of printable ASCII characters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"A man, a plan, a canal: Panama\""
+    ],
+    [
+      "\"race a car\""
+    ],
+    [
+      "\" \""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def isPalindrome(s: str) -> bool:\n    cleaned = \"\".join(c.lower() for c in s if c.isalnum())\n    left, right = 0, len(cleaned) - 1\n    while left < right:\n        if cleaned[left] != cleaned[right]:\n            return False\n        left += 1\n        right -= 1\n    return True",
+    "explanation": "1. Clean the given string by removing non-alphanumeric characters and converting uppercase letters to lowercase.\n2. Initialize two pointers: `left` pointing to the beginning of the cleaned string and `right` pointing to the end.\n3. Iterate through the cleaning string, comparing the characters at the `left` and `right` pointers. If they are not equal, return `false` as it's not a palindrome.\n4. If the loop completes, it means the input string is a palindrome, so return `true`."
+  },
+  "similarQuestions": "[{\"title\": \"Palindrome Linked List\", \"titleSlug\": \"palindrome-linked-list\", \"difficulty\": \"Easy\"}, {\"title\": \"Valid Palindrome II\", \"titleSlug\": \"valid-palindrome-ii\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Product of the Length of Two Palindromic Subsequences\", \"titleSlug\": \"maximum-product-of-the-length-of-two-palindromic-subsequences\", \"difficulty\": \"Medium\"}, {\"title\": \"Find First Palindromic String in the Array\", \"titleSlug\": \"find-first-palindromic-string-in-the-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Valid Palindrome IV\", \"titleSlug\": \"valid-palindrome-iv\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Palindromes After Operations\", \"titleSlug\": \"maximum-palindromes-after-operations\", \"difficulty\": \"Medium\"}]"
+}

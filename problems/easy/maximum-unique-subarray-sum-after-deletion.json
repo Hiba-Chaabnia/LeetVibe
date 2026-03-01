@@ -1,0 +1,54 @@
+{
+  "questionId": "3788",
+  "title": "Maximum Unique Subarray Sum After Deletion",
+  "titleSlug": "maximum-unique-subarray-sum-after-deletion",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nYou are allowed to delete any number of elements from nums without making it empty. After performing the deletions, select a subarray of nums such that:\n\n• All elements in the subarray are unique.\n\n• The sum of the elements in the subarray is maximized.\n\nReturn the maximum sum of such a subarray.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5]\n\nOutput: 15\n\nExplanation: Select the entire array without deleting any element to obtain the maximum sum.\n\nExample 2:\n\nInput: nums = [1,1,0,1,1]\n\nOutput: 1\n\nExplanation: Delete the element nums[0] == 1, nums[1] == 1, nums[2] == 0, and nums[3] == 1. Select the entire array [1] to obtain the maximum sum.\n\nExample 3:\n\nInput: nums = [1,2,-1,-2,1,0,-1]\n\nOutput: 3\n\nExplanation: Delete the elements nums[2] == -1 and nums[3] == -2, and select the subarray [2, 1] from [1, 2, 1, 0, -1] to obtain the maximum sum.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• -100 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If the maximum element in the array is less than zero, the answer is the maximum element.",
+    "Otherwise, the answer is the sum of all unique values that are greater than or equal to zero."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[1,1,0,1,1]"
+    ],
+    [
+      "[1,2,-1,-2,1,0,-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "15",
+    "1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxSum(self, nums):\n        seen = set()\n        total = 0\n        for x in nums:\n            if x > 0 and x not in seen:\n                seen.add(x)\n                total += x\n        return total",
+    "explanation": "Keep each unique positive value exactly once; negative and zero values only reduce the sum. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Subarray Sum with One Deletion\", \"titleSlug\": \"maximum-subarray-sum-with-one-deletion\", \"difficulty\": \"Medium\"}]"
+}

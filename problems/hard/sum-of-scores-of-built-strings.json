@@ -1,0 +1,58 @@
+{
+  "questionId": "2326",
+  "title": "Sum of Scores of Built Strings",
+  "titleSlug": "sum-of-scores-of-built-strings",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "Suffix Array",
+      "slug": "suffix-array"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are building a string s of length n one character at a time, prepending each new character to the front of the string. The strings are labeled from 1 to n, where the string with length i is labeled si.\n\n• For example, for s = \"abaca\", s1 == \"a\", s2 == \"ca\", s3 == \"aca\", etc.\n\nThe score of si is the length of the longest common prefix between si and sn (Note that s == sn).\n\nGiven the final string s, return the sum of the score of every si.\n\nExample 1:\n\nInput: s = \"babab\"\nOutput: 9\nExplanation:\n    For s1 == \"b\", the longest common prefix is \"b\" which has a score of 1.\n    For s2 == \"ab\", there is no common prefix so the score is 0.\n    For s3 == \"bab\", the longest common prefix is \"bab\" which has a score of 3.\n    For s4 == \"abab\", there is no common prefix so the score is 0.\n    For s5 == \"babab\", the longest common prefix is \"babab\" which has a score of 5.\n    The sum of the scores is 1 + 0 + 3 + 0 + 5 = 9, so we return 9.\n\nExample 2:\n\nInput: s = \"azbazbzaz\"\nOutput: 14\nExplanation:\n    For s2 == \"az\", the longest common prefix is \"az\" which has a score of 2.\n    For s6 == \"azbzaz\", the longest common prefix is \"azb\" which has a score of 3.\n    For s9 == \"azbazbzaz\", the longest common prefix is \"azbazbzaz\" which has a score of 9.\n    For all other si, the score is 0.\n    The sum of the scores is 2 + 3 + 9 = 14, so we return 14.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumScores(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Each s_i is a suffix of the string s, so consider algorithms that can determine the longest prefix that is also a suffix.",
+    "Could you use the Z array from the Z algorithm to find the score of each s_i?"
+  ],
+  "testCases": [
+    [
+      "\"babab\""
+    ],
+    [
+      "\"azbazbzaz\""
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "14"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Happy Prefix\", \"titleSlug\": \"longest-happy-prefix\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "1160",
+  "title": "Letter Tile Possibilities",
+  "titleSlug": "letter-tile-possibilities",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You have n  tiles, where each tile has one letter tiles[i] printed on it.\n\nReturn the number of possible non-empty sequences of letters you can make using the letters printed on those tiles.\n\nExample 1:\n\nInput: tiles = \"AAB\"\nOutput: 8\nExplanation: The possible sequences are \"A\", \"B\", \"AA\", \"AB\", \"BA\", \"AAB\", \"ABA\", \"BAA\".\n\nExample 2:\n\nInput: tiles = \"AAABBC\"\nOutput: 188\n\nExample 3:\n\nInput: tiles = \"V\"\nOutput: 1\n\nConstraints:\n\n• 1 <= tiles.length <= 7\n\n• tiles consists of uppercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numTilePossibilities(self, tiles):\n        \"\"\"\n        :type tiles: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to build the string with a backtracking DFS by considering what you can put in every position."
+  ],
+  "testCases": [
+    [
+      "\"AAB\""
+    ],
+    [
+      "\"AAABBC\""
+    ],
+    [
+      "\"V\""
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "188",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def numTilePossibilities(self, tiles):\n        \"\"\"\n        :type tiles: str\n        :rtype: int\n        \"\"\"\n        from collections import Counter\n        \n        count = Counter(tiles)\n        \n        def backtrack():\n            total = 0\n            for tile in count:\n                if count[tile] > 0:\n                    total += 1  # Count this sequence\n                    count[tile] -= 1\n                    total += backtrack()  # Continue building\n                    count[tile] += 1\n            return total\n        \n        return backtrack()",
+    "explanation": "DFS backtracking. For each available tile, count it and recurse. Backtrack to try other paths.",
+    "complexity": "Time: O(n * n!). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

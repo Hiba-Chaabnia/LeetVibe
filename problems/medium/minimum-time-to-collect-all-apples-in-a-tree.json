@@ -1,0 +1,60 @@
+{
+  "questionId": "1554",
+  "title": "Minimum Time to Collect All Apples in a Tree",
+  "titleSlug": "minimum-time-to-collect-all-apples-in-a-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "Given an undirected tree consisting of n vertices numbered from 0 to n-1, which has some apples in their vertices. You spend 1 second to walk over one edge of the tree. Return the minimum time in seconds you have to spend to collect all apples in the tree, starting at vertex 0 and coming back to this vertex.\n\nThe edges of the undirected tree are given in the array edges, where edges[i] = [ai, bi] means that exists an edge connecting the vertices ai and bi. Additionally, there is a boolean array hasApple, where hasApple[i] = true means that vertex i has an apple; otherwise, it does not have any apple.\n\nExample 1:\n\nInput: n = 7, edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]], hasApple = [false,false,true,false,true,true,false]\nOutput: 8\nExplanation: The figure above represents the given tree where red vertices have an apple. One optimal path to collect all apples is shown by the green arrows.\n\nExample 2:\n\nInput: n = 7, edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]], hasApple = [false,false,true,false,false,true,false]\nOutput: 6\nExplanation: The figure above represents the given tree where red vertices have an apple. One optimal path to collect all apples is shown by the green arrows.\n\nExample 3:\n\nInput: n = 7, edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]], hasApple = [false,false,false,false,false,false,false]\nOutput: 0\n\nConstraints:\n\n• 1 <= n <= 105\n\n• edges.length == n - 1\n\n• edges[i].length == 2\n\n• 0 <= ai < bi <= n - 1\n\n• hasApple.length == n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minTime(self, n, edges, hasApple):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type hasApple: List[bool]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that if a node u contains an apple then all edges in the path from the root to the node u have to be used forward and backward (2 times).",
+    "Therefore use a depth-first search (DFS) to check if an edge will be used or not."
+  ],
+  "testCases": [
+    [
+      "7",
+      "[[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]]",
+      "[false,false,true,false,true,true,false]"
+    ],
+    [
+      "7",
+      "[[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]]",
+      "[false,false,true,false,false,true,false]"
+    ],
+    [
+      "7",
+      "[[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]]",
+      "[false,false,false,false,false,false,false]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "6",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

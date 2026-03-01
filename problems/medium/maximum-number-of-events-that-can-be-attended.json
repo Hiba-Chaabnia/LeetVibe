@@ -1,0 +1,54 @@
+{
+  "questionId": "1478",
+  "title": "Maximum Number of Events That Can Be Attended",
+  "titleSlug": "maximum-number-of-events-that-can-be-attended",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given an array of events where events[i] = [startDayi, endDayi]. Every event i starts at startDayi and ends at endDayi.\n\nYou can attend an event i at any day d where startDayi <= d <= endDayi. You can only attend one event at any time d.\n\nReturn the maximum number of events you can attend.\n\nExample 1:\n\nInput: events = [[1,2],[2,3],[3,4]]\nOutput: 3\nExplanation: You can attend all the three events.\n    One way to attend them all is as shown.\n    Attend the first event on day 1.\n    Attend the second event on day 2.\n    Attend the third event on day 3.\n\nExample 2:\n\nInput: events= [[1,2],[2,3],[3,4],[1,2]]\nOutput: 4\n\nConstraints:\n\n• 1 <= events.length <= 105\n\n• events[i].length == 2\n\n• 1 <= startDayi <= endDayi <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxEvents(self, events):\n        \"\"\"\n        :type events: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the events by the start time and in case of tie by the end time in ascending order.",
+    "Loop over the sorted events. Attend as much as you can and keep the last day occupied. When you try to attend new event keep in mind the first day you can attend a new event in."
+  ],
+  "testCases": [
+    [
+      "[[1,2],[2,3],[3,4]]"
+    ],
+    [
+      "[[1,2],[2,3],[3,4],[1,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\ndef maxEvents(events: List[List[int]]) -> int:\n    events.sort(key=lambda x: x[0])\n    min_heap = []\n    event_count, day = 0, 0\n\n    for event in events:\n        while min_heap and min_heap[0] < event[0]:\n            heapq.heappop(min_heap)\n        heapq.heappush(min_heap, event[1])\n        event_count += 1\n        day += 1\n\n    return event_count",
+    "explanation": "First, we sort the `events` array by its start day in ascending order, using a custom compare function.\nThen, we create a min-heap to store the end day of each event.\n\nWe initialize `eventCount` and `day` to 0. Then, we iterate through the events.\n\nFor each event, we check if the min-heap contains any previously attended events whose end day is less than the start day of the current event. If there are any, we remove them from the min-heap (as they have no impact on the overall count anymore).\n\nAfter that, we push the end day of the current event into the min-heap and increment both the `eventCount` and `day`.\n\nAt the end, we return the `eventCount`, which represents the maximum number of events we could attend."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Number of Events That Can Be Attended II\", \"titleSlug\": \"maximum-number-of-events-that-can-be-attended-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Earnings From Taxi\", \"titleSlug\": \"maximum-earnings-from-taxi\", \"difficulty\": \"Medium\"}, {\"title\": \"Meeting Rooms III\", \"titleSlug\": \"meeting-rooms-iii\", \"difficulty\": \"Hard\"}]"
+}

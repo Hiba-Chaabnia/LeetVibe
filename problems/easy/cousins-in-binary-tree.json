@@ -1,0 +1,61 @@
+{
+  "questionId": "1035",
+  "title": "Cousins in Binary Tree",
+  "titleSlug": "cousins-in-binary-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree with unique values and the values of two different nodes of the tree x and y, return true if the nodes corresponding to the values x and y in the tree are cousins, or false otherwise.\n\nTwo nodes of a binary tree are cousins if they have the same depth with different parents.\n\nNote that in a binary tree, the root node is at the depth 0, and children of each depth k node are at the depth k + 1.\n\nExample 1:\n\nInput: root = [1,2,3,4], x = 4, y = 3\nOutput: false\n\nExample 2:\n\nInput: root = [1,2,3,null,4,null,5], x = 5, y = 4\nOutput: true\n\nExample 3:\n\nInput: root = [1,2,3,null,4], x = 2, y = 3\nOutput: false\n\nConstraints:\n\n• The number of nodes in the tree is in the range [2, 100].\n\n• 1 <= Node.val <= 100\n\n• Each node has a unique value.\n\n• x != y\n\n• x and y are exist in the tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isCousins(self, root, x, y):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type x: int\n        :type y: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4]",
+      "4",
+      "3"
+    ],
+    [
+      "[1,2,3,null,4,null,5]",
+      "5",
+      "4"
+    ],
+    [
+      "[1,2,3,null,4]",
+      "2",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isCousins(self, root, x, y):\n        from collections import deque\n        queue = deque([(root, None, 0)])\n        x_info = None\n        y_info = None\n        while queue:\n            node, parent, depth = queue.popleft()\n            if node.val == x:\n                x_info = (parent, depth)\n            if node.val == y:\n                y_info = (parent, depth)\n            if x_info and y_info:\n                break\n            if node.left:\n                queue.append((node.left, node.val, depth + 1))\n            if node.right:\n                queue.append((node.right, node.val, depth + 1))\n        return (x_info is not None and y_info is not None\n                and x_info[0] != y_info[0] and x_info[1] == y_info[1])",
+    "explanation": "BFS tracking parent and depth. Cousins if same depth, different parents.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Binary Tree Level Order Traversal\", \"titleSlug\": \"binary-tree-level-order-traversal\", \"difficulty\": \"Medium\"}, {\"title\": \"Cousins in Binary Tree II\", \"titleSlug\": \"cousins-in-binary-tree-ii\", \"difficulty\": \"Medium\"}]"
+}

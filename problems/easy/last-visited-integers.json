@@ -1,0 +1,45 @@
+{
+  "questionId": "3164",
+  "title": "Last Visited Integers",
+  "titleSlug": "last-visited-integers",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given an integer array nums where nums[i] is either a positive integer or -1. We need to find for each -1 the respective positive integer, which we call the last visited integer.\n\nTo achieve this goal, let's define two empty arrays: seen and ans.\n\nStart iterating from the beginning of the array nums.\n\n• If a positive integer is encountered, prepend it to the front of seen.\n\n• If -1 is encountered, let k be the number of consecutive -1s seen so far (including the current -1),\n\n• If k is less than or equal to the length of seen, append the k-th element of seen to ans.\n\n• If k is strictly greater than the length of seen, append -1 to ans.\n\nReturn the array ans.\n\nExample 1:\n\nInput: nums = [1,2,-1,-1,-1]\n\nOutput: [2,1,-1]\n\nExplanation: Start with seen = [] and ans = [].\n\n• Process nums[0]: The first element in nums is 1. We prepend it to the front of seen. Now, seen == [1].\n\n• Process nums[1]: The next element is 2. We prepend it to the front of seen. Now, seen == [2, 1].\n\n• Process nums[2]: The next element is -1. This is the first occurrence of -1, so k == 1. We look for the first element in seen. We append 2 to ans. Now, ans == [2].\n\n• Process nums[3]: Another -1. This is the second consecutive -1, so k == 2. The second element in seen is 1, so we append 1 to ans. Now, ans == [2, 1].\n\n• Process nums[4]: Another -1, the third in a row, making k = 3. However, seen only has two elements ([2, 1]). Since k is greater than the number of elements in seen, we append -1 to ans. Finally, ans == [2, 1, -1].\n\nExample 2:\n\nInput: nums = [1,-1,2,-1,-1]\n\nOutput: [1,2,1]\n\nExplanation: Start with seen = [] and ans = [].\n\n• Process nums[0]: The first element in nums is 1. We prepend it to the front of seen. Now, seen == [1].\n\n• Process nums[1]: The next element is -1. This is the first occurrence of -1, so k == 1. We look for the first element in seen, which is 1. Append 1 to ans. Now, ans == [1].\n\n• Process nums[2]: The next element is 2. Prepend this to the front of seen. Now, seen == [2, 1].\n\n• Process nums[3]: The next element is -1. This -1 is not consecutive to the first -1 since 2 was in between. Thus, k resets to 1. The first element in seen is 2, so append 2 to ans. Now, ans == [1, 2].\n\n• Process nums[4]: Another -1. This is consecutive to the previous -1, so k == 2. The second element in seen is 1, append 1 to ans. Finally, ans == [1, 2, 1].\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• nums[i] == -1 or 1 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lastVisitedIntegers(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It is sufficient to implement what the description is stating."
+  ],
+  "testCases": [
+    [
+      "[1,2,-1,-1,-1]"
+    ],
+    [
+      "[1,-1,2,-1,-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,1,-1]",
+    "[1,2,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def lastVisitedIntegers(self, nums):\n        seen = []\n        result = []\n        consec = 0\n        for x in nums:\n            if x != -1:\n                seen.append(x)\n                consec = 0\n            else:\n                consec += 1\n                idx = len(seen) - consec\n                result.append(seen[idx] if idx >= 0 else -1)\n        return result",
+    "explanation": "Maintain a list of seen positive integers and a consecutive-minus-one counter; each -1 looks up the k-th last integer where k is the current run length. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

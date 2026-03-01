@@ -1,0 +1,50 @@
+{
+  "questionId": "35",
+  "title": "Search Insert Position",
+  "titleSlug": "search-insert-position",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.\n\nYou must write an algorithm with O(log n) runtime complexity.\n\nExample 1:\n\nInput: nums = [1,3,5,6], target = 5\nOutput: 2\n\nExample 2:\n\nInput: nums = [1,3,5,6], target = 2\nOutput: 1\n\nExample 3:\n\nInput: nums = [1,3,5,6], target = 7\nOutput: 4\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• -104 <= nums[i] <= 104\n\n• nums contains distinct values sorted in ascending order.\n\n• -104 <= target <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def searchInsert(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,3,5,6]",
+      "5"
+    ],
+    [
+      "[1,3,5,6]",
+      "2"
+    ],
+    [
+      "[1,3,5,6]",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def searchInsert(nums, target):\n    left, right = 0, len(nums) - 1\n    while left <= right:\n        mid = left + (right - left) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return left",
+    "explanation": "The given problem requires a binary search algorithm. We define two pointers, `left` and `right`, initially set to the first and last index of the array. We then enter a loop that continues as long as left is less than or equal to right. Inside the loop, we calculate the middle index, `mid`, as the average of left and right. If the value at this middle index is equal to the target value, we return the middle index. If the middle value is less than the target value, we set left to `mid + 1`, meaning we search the right half of the remaining array. If the middle value is greater than the target value, we set the right to `mid - 1`, meaning we search the left half of the remaining array. After the loop, if the target value is not found, we return the value of the left pointer, which represents the index where the target value should be inserted."
+  },
+  "similarQuestions": "[{\"title\": \"First Bad Version\", \"titleSlug\": \"first-bad-version\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Operations to Exceed Threshold Value I\", \"titleSlug\": \"minimum-operations-to-exceed-threshold-value-i\", \"difficulty\": \"Easy\"}]"
+}

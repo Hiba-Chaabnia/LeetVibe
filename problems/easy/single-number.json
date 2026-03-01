@@ -1,0 +1,49 @@
+{
+  "questionId": "136",
+  "title": "Single Number",
+  "titleSlug": "single-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.\n\nYou must implement a solution with a linear runtime complexity and use only constant extra space.\n\nExample 1:\n\nInput: nums = [2,2,1]\n\nOutput: 1\n\nExample 2:\n\nInput: nums = [4,1,2,1,2]\n\nOutput: 4\n\nExample 3:\n\nInput: nums = [1]\n\nOutput: 1\n\nConstraints:\n\n• 1 <= nums.length <= 3 * 104\n\n• -3 * 104 <= nums[i] <= 3 * 104\n\n• Each element in the array appears twice except for one element which appears only once.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think about the XOR (^) operator's property."
+  ],
+  "testCases": [
+    [
+      "[2,2,1]"
+    ],
+    [
+      "[4,1,2,1,2]"
+    ],
+    [
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def singleNumber(nums):\n    result = 0\n    for num in nums:\n        result ^= num\n    return result",
+    "explanation": "The algorithm utilizes the XOR bitwise operation. XOR is a binary operation that outputs 1 when the inputs differ and 0 when the inputs are the same. \n\nTo find the single element that appears once in the array, we XOR all elements in the array. Since every pair of identical numbers will cancel each other out as `a ^ a = 0`, the remaining XOR result would be the single unique number, as `0 ^ a = a`.\n\nThe algorithm processes the array once, giving it a linear time complexity of O(n), and only requires a constant amount of extra space to store the `result` variable, satisfying the requirements."
+  },
+  "similarQuestions": "[{\"title\": \"Single Number II\", \"titleSlug\": \"single-number-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Single Number III\", \"titleSlug\": \"single-number-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Missing Number\", \"titleSlug\": \"missing-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Duplicate Number\", \"titleSlug\": \"find-the-duplicate-number\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Difference\", \"titleSlug\": \"find-the-difference\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the XOR of Numbers Which Appear Twice\", \"titleSlug\": \"find-the-xor-of-numbers-which-appear-twice\", \"difficulty\": \"Easy\"}]"
+}

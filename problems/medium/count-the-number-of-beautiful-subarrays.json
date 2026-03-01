@@ -1,0 +1,51 @@
+{
+  "questionId": "2656",
+  "title": "Count the Number of Beautiful Subarrays",
+  "titleSlug": "count-the-number-of-beautiful-subarrays",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. In one operation, you can:\n\n• Choose two different indices i and j such that 0 <= i, j < nums.length.\n\n• Choose a non-negative integer k such that the kth bit (0-indexed) in the binary representation of nums[i] and nums[j] is 1.\n\n• Subtract 2k from nums[i] and nums[j].\n\nA subarray is beautiful if it is possible to make all of its elements equal to 0 after applying the above operation any number of times (including zero).\n\nReturn the number of beautiful subarrays in the array nums.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nNote: Subarrays where all elements are initially 0 are considered beautiful, as no operation is needed.\n\nExample 1:\n\nInput: nums = [4,3,1,2,4]\nOutput: 2\nExplanation: There are 2 beautiful subarrays in nums: [4,3,1,2,4] and [4,3,1,2,4].\n    - We can make all elements in the subarray [3,1,2] equal to 0 in the following way:\n      - Choose [3, 1, 2] and k = 1. Subtract 21 from both numbers. The subarray becomes [1, 1, 0].\n      - Choose [1, 1, 0] and k = 0. Subtract 20 from both numbers. The subarray becomes [0, 0, 0].\n    - We can make all elements in the subarray [4,3,1,2,4] equal to 0 in the following way:\n      - Choose [4, 3, 1, 2, 4] and k = 2. Subtract 22 from both numbers. The subarray becomes [0, 3, 1, 2, 0].\n      - Choose [0, 3, 1, 2, 0] and k = 0. Subtract 20 from both numbers. The subarray becomes [0, 2, 0, 2, 0].\n      - Choose [0, 2, 0, 2, 0] and k = 1. Subtract 21 from both numbers. The subarray becomes [0, 0, 0, 0, 0].\n\nExample 2:\n\nInput: nums = [1,10,4]\nOutput: 0\nExplanation: There are no beautiful subarrays in nums.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def beautifulSubarrays(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A subarray is beautiful if its xor is equal to zero.",
+    "Compute the prefix xor for every index, then the xor of subarray [left, right] is equal to zero if prefix_xor[left] ^ perfix_xor[right] == 0",
+    "Iterate from left to right and maintain a hash table to count the number of indices equal to the current prefix xor."
+  ],
+  "testCases": [
+    [
+      "[4,3,1,2,4]"
+    ],
+    [
+      "[1,10,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum XOR for Each Query\", \"titleSlug\": \"maximum-xor-for-each-query\", \"difficulty\": \"Medium\"}, {\"title\": \"Count the Number of Ideal Arrays\", \"titleSlug\": \"count-the-number-of-ideal-arrays\", \"difficulty\": \"Hard\"}]"
+}

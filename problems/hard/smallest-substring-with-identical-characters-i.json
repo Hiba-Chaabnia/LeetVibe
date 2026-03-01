@@ -1,0 +1,53 @@
+{
+  "questionId": "3690",
+  "title": "Smallest Substring With Identical Characters I",
+  "titleSlug": "smallest-substring-with-identical-characters-i",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a binary string s of length n and an integer numOps.\n\nYou are allowed to perform the following operation on s at most numOps times:\n\n• Select any index i (where 0 <= i < n) and flip s[i]. If s[i] == '1', change s[i] to '0' and vice versa.\n\nYou need to minimize the length of the longest substring of s such that all the characters in the substring are identical.\n\nReturn the minimum length after the operations.\n\nExample 1:\n\nInput: s = \"000001\", numOps = 1\n\nOutput: 2\n\nExplanation: By changing s[2] to '1', s becomes \"001001\". The longest substrings with identical characters are s[0..1] and s[3..4].\n\nExample 2:\n\nInput: s = \"0000\", numOps = 2\n\nOutput: 1\n\nExplanation: By changing s[0] and s[2] to '1', s becomes \"1010\".\n\nExample 3:\n\nInput: s = \"0101\", numOps = 0\n\nOutput: 1\n\nConstraints:\n\n• 1 <= n == s.length <= 1000\n\n• s consists only of '0' and '1'.\n\n• 0 <= numOps <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minLength(self, s, numOps):\n        \"\"\"\n        :type s: str\n        :type numOps: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we use binary search here?",
+    "Use DP for predicate function"
+  ],
+  "testCases": [
+    [
+      "\"000001\"",
+      "1"
+    ],
+    [
+      "\"0000\"",
+      "2"
+    ],
+    [
+      "\"0101\"",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

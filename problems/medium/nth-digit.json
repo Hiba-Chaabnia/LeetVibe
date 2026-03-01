@@ -1,0 +1,43 @@
+{
+  "questionId": "400",
+  "title": "Nth Digit",
+  "titleSlug": "nth-digit",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given an integer n, return the nth digit of the infinite integer sequence [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ...].\n\nExample 1:\n\nInput: n = 3\nOutput: 3\n\nExample 2:\n\nInput: n = 11\nOutput: 0\nExplanation: The 11th digit of the sequence 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ... is a 0, which is part of the number 10.\n\nConstraints:\n\n• 1 <= n <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findNthDigit(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "11"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findNthDigit(n):\n    size = 1\n    length = 9\n    start = 1\n\n    while n > length * size:\n        n -= length * size\n        size += 1\n        length *= 10\n        start *= 10\n\n    start += (n - 1) // size\n    s = str(start)\n    return int(s[(n - 1) % size])",
+    "explanation": "The solution works as follows:\n1. Initialize the `size` of each number at `1` (single-digit numbers), the `length` of numbers of that size at 9 (there are 9 single-digit numbers), and the `start` number of size `1` as `1`.\n2. Keep subtracting the total length of numbers of the current size from `n` as long as `n` is greater than the total length of numbers of that size.\n3. Increment `size` and multiply `length` and `start` by `10` when moving to the next size.\n4. Add `(n - 1) / size` to `start` (adjusted for index 0) to find the number in the sequence that contains the nth digit.\n5. Convert the found number to a string, and return the digit at position `(n - 1) % size`. In C++ and JavaScript, subtract '0' or use `parseInt` to convert the character back to an integer."
+  },
+  "similarQuestions": "[]"
+}

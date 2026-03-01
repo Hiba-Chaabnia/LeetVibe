@@ -1,0 +1,49 @@
+{
+  "questionId": "1115",
+  "title": "Valid Boomerang",
+  "titleSlug": "valid-boomerang",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "Given an array points where points[i] = [xi, yi] represents a point on the X-Y plane, return true if these points are a boomerang.\n\nA boomerang is a set of three points that are all distinct and not in a straight line.\n\nExample 1:\n\nInput: points = [[1,1],[2,3],[3,2]]\nOutput: true\nExample 2:\n\nInput: points = [[1,1],[2,2],[3,3]]\nOutput: false\n\nConstraints:\n\n• points.length == 3\n\n• points[i].length == 2\n\n• 0 <= xi, yi <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isBoomerang(self, points):\n        \"\"\"\n        :type points: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "3 points form a boomerang if and only if the triangle formed from them has non-zero area."
+  ],
+  "testCases": [
+    [
+      "[[1,1],[2,3],[3,2]]"
+    ],
+    [
+      "[[1,1],[2,2],[3,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isBoomerang(self, points):\n        p1, p2, p3 = points\n        return (p2[1] - p1[1]) * (p3[0] - p1[0]) != (p3[1] - p1[1]) * (p2[0] - p1[0])",
+    "explanation": "Check if slope p1->p2 differs from slope p1->p3 (non-collinear).\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

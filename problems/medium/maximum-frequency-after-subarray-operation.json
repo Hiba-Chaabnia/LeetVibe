@@ -1,0 +1,64 @@
+{
+  "questionId": "3751",
+  "title": "Maximum Frequency After Subarray Operation",
+  "titleSlug": "maximum-frequency-after-subarray-operation",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an array nums of length n. You are also given an integer k.\n\nYou perform the following operation on nums once:\n\n• Select a subarray nums[i..j] where 0 <= i <= j <= n - 1.\n\n• Select an integer x and add x to all the elements in nums[i..j].\n\nFind the maximum frequency of the value k after the operation.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5,6], k = 1\n\nOutput: 2\n\nExplanation: After adding -5 to nums[2..5], 1 has a frequency of 2 in [1, 2, -2, -1, 0, 1].\n\nExample 2:\n\nInput: nums = [10,2,3,4,5,5,4,3,2,2], k = 10\n\nOutput: 4\n\nExplanation: After adding 8 to nums[1..9], 10 has a frequency of 4 in [10, 10, 11, 12, 13, 13, 12, 11, 10, 10].\n\nConstraints:\n\n• 1 <= n == nums.length <= 105\n\n• 1 <= nums[i] <= 50\n\n• 1 <= k <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxFrequency(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Fix the element you want to convert to k.",
+    "Use prefix sums to optimize counting occurrences of an element."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6]",
+      "1"
+    ],
+    [
+      "[10,2,3,4,5,5,4,3,2,2]",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxFrequency(self, nums, k):\n        # We add x to a subarray nums[i..j], converting elements equal to (k-x) to k.\n        # Equivalently: pick a value v, select a contiguous subarray, convert all v's in it to k.\n        # The count of k = (existing k's outside subarray) + (k's in subarray) + (v's in subarray converted)\n        # = total_k + (v's in subarray) - (k's in subarray that were already k)\n        # To maximize: for each v != k, find subarray maximizing (#v's - #k's in it), add to count of k outside.\n        # This is max subarray sum where v->+1 and k->-1.\n\n        from collections import Counter\n        total_k = Counter(nums)[k]\n        n = len(nums)\n        ans = total_k  # do nothing\n\n        # Try each value v\n        for v in set(nums):\n            if v == k:\n                continue\n            # Kadane's on array where nums[i]=v -> +1, nums[i]=k -> -1, else 0\n            best = 0\n            cur = 0\n            for x in nums:\n                if x == v:\n                    cur += 1\n                elif x == k:\n                    cur -= 1\n                cur = max(cur, 0)\n                best = max(best, cur)\n            ans = max(ans, total_k + best)\n\n        return ans",
+    "explanation": "Adding x to a subarray converts all occurrences of (k-x) in it to k. For a fixed target value v = k-x, we want to maximize v-occurrences in the subarray minus k-occurrences (which would be double-counted). This is a maximum subarray sum problem with v→+1 and k→-1 scoring (Kadane's algorithm). Final answer = total existing k's + best gain.\n\nWith nums[i] in [1,50], at most 50 distinct values to try.\n\nTime: O(50*n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

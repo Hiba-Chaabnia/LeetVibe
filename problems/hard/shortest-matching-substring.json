@@ -1,0 +1,66 @@
+{
+  "questionId": "3692",
+  "title": "Shortest Matching Substring",
+  "titleSlug": "shortest-matching-substring",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "You are given a string s and a pattern string p, where p contains exactly two '*' characters.\n\nThe '*' in p matches any sequence of zero or more characters.\n\nReturn the length of the shortest substring in s that matches p. If there is no such substring, return -1.\n\nNote: The empty substring is considered valid.\n\nExample 1:\n\nInput: s = \"abaacbaecebce\", p = \"ba*c*ce\"\n\nOutput: 8\n\nExplanation: The shortest matching substring of p in s is \"baecebce\".\n\nExample 2:\n\nInput: s = \"baccbaadbc\", p = \"cc*baa*adb\"\n\nOutput: -1\n\nExplanation: There is no matching substring in s.\n\nExample 3:\n\nInput: s = \"a\", p = \"**\"\n\nOutput: 0\n\nExplanation: The empty substring is the shortest matching substring.\n\nExample 4:\n\nInput: s = \"madlogic\", p = \"*adlogi*\"\n\nOutput: 6\n\nExplanation: The shortest matching substring of p in s is \"adlogi\".\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• 2 <= p.length <= 105\n\n• s contains only lowercase English letters.\n\n• p contains only lowercase English letters and exactly two '*'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestMatchingSubstring(self, s, p):\n        \"\"\"\n        :type s: str\n        :type p: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The pattern string p can be divided into three segments.",
+    "Use the KMP algorithm to locate all occurrences of each segment in s."
+  ],
+  "testCases": [
+    [
+      "\"abaacbaecebce\"",
+      "\"ba*c*ce\""
+    ],
+    [
+      "\"baccbaadbc\"",
+      "\"cc*baa*adb\""
+    ],
+    [
+      "\"a\"",
+      "\"**\""
+    ],
+    [
+      "\"madlogic\"",
+      "\"*adlogi*\""
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "-1",
+    "0",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def shortestMatchingSubstring(self, s, p):\n        # Split p on '*' into 3 parts: p0, p1, p2\n        parts = p.split('*')\n        p0, p1, p2 = parts[0], parts[1], parts[2]\n        ns = len(s)\n        def kmp_all(text, pat):\n            if not pat: return list(range(len(text) + 1))\n            fail = [0] * len(pat)\n            j = 0\n            for i in range(1, len(pat)):\n                while j > 0 and pat[i] != pat[j]: j = fail[j-1]\n                if pat[i] == pat[j]: j += 1\n                fail[i] = j\n            res = []\n            j = 0\n            for i, c in enumerate(text):\n                while j > 0 and c != pat[j]: j = fail[j-1]\n                if c == pat[j]: j += 1\n                if j == len(pat):\n                    res.append(i - len(pat) + 1)  # start index\n                    j = fail[j-1]\n            return res\n        # Find all start positions of p0 in s\n        starts0 = kmp_all(s, p0)  # s[i..i+len(p0)-1] == p0\n        # Find all start positions of p1 in s\n        starts1 = kmp_all(s, p1)\n        # Find all start positions of p2 in s\n        starts2 = kmp_all(s, p2)\n        import bisect\n        best = float('inf')\n        for i0 in starts0:\n            # p0 ends at i0 + len(p0) - 1, so p1 must start at >= i0 + len(p0)\n            lo1 = i0 + len(p0)\n            idx1 = bisect.bisect_left(starts1, lo1)\n            if idx1 >= len(starts1): continue\n            i1 = starts1[idx1]\n            # p1 ends at i1 + len(p1) - 1, so p2 must start at >= i1 + len(p1)\n            lo2 = i1 + len(p1)\n            idx2 = bisect.bisect_left(starts2, lo2)\n            if idx2 >= len(starts2): continue\n            i2 = starts2[idx2]\n            # Matching substring: s[i0 .. i2+len(p2)-1]\n            length = i2 + len(p2) - i0\n            best = min(best, length)\n        return best if best != float('inf') else -1",
+    "explanation": "Split p on '*' into p0, p1, p2. Use KMP to find all occurrences of each part in s. For each start of p0 at i0: find leftmost start of p1 at ≥ i0+len(p0); find leftmost start of p2 at ≥ i1+len(p1). Record minimum total length i2+len(p2)-i0.\n\nTime: O(|s| + |p|). Space: O(|s|)."
+  },
+  "similarQuestions": "[]"
+}

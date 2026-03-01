@@ -1,0 +1,59 @@
+{
+  "questionId": "2059",
+  "title": "Unique Length-3 Palindromic Subsequences",
+  "titleSlug": "unique-length-3-palindromic-subsequences",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a string s, return the number of unique palindromes of length three that are a subsequence of s.\n\nNote that even if there are multiple ways to obtain the same subsequence, it is still only counted once.\n\nA palindrome is a string that reads the same forwards and backwards.\n\nA subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.\n\n• For example, \"ace\" is a subsequence of \"abcde\".\n\nExample 1:\n\nInput: s = \"aabca\"\nOutput: 3\nExplanation: The 3 palindromic subsequences of length 3 are:\n    - \"aba\" (subsequence of \"aabca\")\n    - \"aaa\" (subsequence of \"aabca\")\n    - \"aca\" (subsequence of \"aabca\")\n\nExample 2:\n\nInput: s = \"adc\"\nOutput: 0\nExplanation: There are no palindromic subsequences of length 3 in \"adc\".\n\nExample 3:\n\nInput: s = \"bbcbaba\"\nOutput: 4\nExplanation: The 4 palindromic subsequences of length 3 are:\n    - \"bbb\" (subsequence of \"bbcbaba\")\n    - \"bcb\" (subsequence of \"bbcbaba\")\n    - \"bab\" (subsequence of \"bbcbaba\")\n    - \"aba\" (subsequence of \"bbcbaba\")\n\nConstraints:\n\n• 3 <= s.length <= 105\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPalindromicSubsequence(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What is the maximum number of length-3 palindromic strings?",
+    "How can we keep track of the characters that appeared to the left of a given position?"
+  ],
+  "testCases": [
+    [
+      "\"aabca\""
+    ],
+    [
+      "\"adc\""
+    ],
+    [
+      "\"bbcbaba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def countPalindromicSubsequence(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        # For each char, find first and last occurrence\n        first = {}\n        last = {}\n        \n        for i, char in enumerate(s):\n            if char not in first:\n                first[char] = i\n            last[char] = i\n        \n        result = 0\n        \n        # For each char with gap >= 2, count unique middle chars\n        for char in first:\n            if last[char] - first[char] >= 2:\n                # Count unique chars between first and last\n                middle_chars = set(s[first[char] + 1 : last[char]])\n                result += len(middle_chars)\n        \n        return result",
+    "explanation": "For each char, if first-to-last gap ≥2, count unique middle chars.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Count Palindromic Subsequences\", \"titleSlug\": \"count-palindromic-subsequences\", \"difficulty\": \"Hard\"}]"
+}

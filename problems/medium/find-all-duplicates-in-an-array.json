@@ -1,0 +1,51 @@
+{
+  "questionId": "442",
+  "title": "Find All Duplicates in an Array",
+  "titleSlug": "find-all-duplicates-in-an-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears at most twice, return an array of all the integers that appears twice.\n\nYou must write an algorithm that runs in O(n) time and uses only constant auxiliary space, excluding the space needed to store the output\n\nExample 1:\n\nInput: nums = [4,3,2,7,8,2,3,1]\nOutput: [2,3]\nExample 2:\n\nInput: nums = [1,1,2]\nOutput: [1]\nExample 3:\n\nInput: nums = [1]\nOutput: []\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 105\n\n• 1 <= nums[i] <= n\n\n• Each element in nums appears once or twice.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findDuplicates(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,3,2,7,8,2,3,1]"
+    ],
+    [
+      "[1,1,2]"
+    ],
+    [
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3]",
+    "[1]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findDuplicates(self, nums):\n        result = []\n        for num in nums:\n            idx = abs(num) - 1\n            if nums[idx] < 0:\n                result.append(abs(num))\n            else:\n                nums[idx] = -nums[idx]\n        return result",
+    "explanation": "Mark visited by negating value at index. Duplicate if already negative.\nTime: O(n)\nSpace: O(1) (excluding output)"
+  },
+  "similarQuestions": "[{\"title\": \"Find All Numbers Disappeared in an Array\", \"titleSlug\": \"find-all-numbers-disappeared-in-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Sum of Distances\", \"titleSlug\": \"sum-of-distances\", \"difficulty\": \"Medium\"}, {\"title\": \"The Two Sneaky Numbers of Digitville\", \"titleSlug\": \"the-two-sneaky-numbers-of-digitville\", \"difficulty\": \"Easy\"}]"
+}

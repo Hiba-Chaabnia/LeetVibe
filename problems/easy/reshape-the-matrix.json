@@ -1,0 +1,56 @@
+{
+  "questionId": "566",
+  "title": "Reshape the Matrix",
+  "titleSlug": "reshape-the-matrix",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "In MATLAB, there is a handy function called reshape which can reshape an m x n matrix into a new one with a different size r x c keeping its original data.\n\nYou are given an m x n matrix mat and two integers r and c representing the number of rows and the number of columns of the wanted reshaped matrix.\n\nThe reshaped matrix should be filled with all the elements of the original matrix in the same row-traversing order as they were.\n\nIf the reshape operation with given parameters is possible and legal, output the new reshaped matrix; Otherwise, output the original matrix.\n\nExample 1:\n\nInput: mat = [[1,2],[3,4]], r = 1, c = 4\nOutput: [[1,2,3,4]]\n\nExample 2:\n\nInput: mat = [[1,2],[3,4]], r = 2, c = 4\nOutput: [[1,2],[3,4]]\n\nConstraints:\n\n• m == mat.length\n\n• n == mat[i].length\n\n• 1 <= m, n <= 100\n\n• -1000 <= mat[i][j] <= 1000\n\n• 1 <= r, c <= 300",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def matrixReshape(self, mat, r, c):\n        \"\"\"\n        :type mat: List[List[int]]\n        :type r: int\n        :type c: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Do you know how 2d matrix is stored in 1d memory? Try to map 2-dimensions into one.",
+    "M[i][j]=M[n*i+j] , where n is the number of cols. \r\nThis is the one way of converting 2-d indices into one 1-d index.  \r\nNow, how will you convert 1-d index into 2-d indices?",
+    "Try to use division and modulus to convert 1-d index into 2-d indices.",
+    "M[i] =>  M[i/n][i%n] Will it result in right mapping? Take some example and check this formula."
+  ],
+  "testCases": [
+    [
+      "[[1,2],[3,4]]",
+      "1",
+      "4"
+    ],
+    [
+      "[[1,2],[3,4]]",
+      "2",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,2,3,4]]",
+    "[[1,2],[3,4]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def matrixReshape(mat, r, c):\n    m, n = len(mat), len(mat[0])\n    if m * n != r * c:\n        return mat\n\n    reshaped = [[0] * c for _ in range(r)]\n    for i in range(m * n):\n        reshaped[i // c][i % c] = mat[i // n][i % n]\n\n    return reshaped",
+    "explanation": "The algorithm works by first checking if the reshape operation is possible. If the total number of elements in the original matrix (m * n) is not equal to the number of elements the reshaped matrix should have (r * c), the original matrix is returned.\n\nIf the reshape operation is possible, we create a new matrix of size r x c. We then iterate through each element index (i) of the original matrix and calculate the corresponding row and column in the reshaped matrix (i / c and i % c), assigning the value from the original matrix (mat[i / n][i % n]) to its position in the reshaped matrix.\n\nFinally, we return the reshaped matrix."
+  },
+  "similarQuestions": "[{\"title\": \"Convert 1D Array Into 2D Array\", \"titleSlug\": \"convert-1d-array-into-2d-array\", \"difficulty\": \"Easy\"}]"
+}

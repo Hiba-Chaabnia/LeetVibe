@@ -1,0 +1,44 @@
+{
+  "questionId": "386",
+  "title": "Lexicographical Numbers",
+  "titleSlug": "lexicographical-numbers",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    }
+  ],
+  "content": "Given an integer n, return all the numbers in the range [1, n] sorted in lexicographical order.\n\nYou must write an algorithm that runs in O(n) time and uses O(1) extra space.\n\nExample 1:\n\nInput: n = 13\nOutput: [1,10,11,12,13,2,3,4,5,6,7,8,9]\nExample 2:\n\nInput: n = 2\nOutput: [1,2]\n\nConstraints:\n\n• 1 <= n <= 5 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lexicalOrder(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "13"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,10,11,12,13,2,3,4,5,6,7,8,9]",
+    "[1,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def lexicalOrder(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        result = []\n        current = 1\n        \n        for _ in range(n):\n            result.append(current)\n            \n            # Try to go deeper (multiply by 10)\n            if current * 10 <= n:\n                current *= 10\n            else:\n                # Go to next number at same or higher level\n                while current % 10 == 9 or current + 1 > n:\n                    current //= 10\n                current += 1\n        \n        return result",
+    "explanation": "Start at 1. Try to go deeper by multiplying by 10. When stuck, backtrack and increment.",
+    "complexity": "Time: O(n). Space: O(1) excluding output."
+  },
+  "similarQuestions": "[]"
+}

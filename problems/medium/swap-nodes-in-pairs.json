@@ -1,0 +1,41 @@
+{
+  "questionId": "24",
+  "title": "Swap Nodes in Pairs",
+  "titleSlug": "swap-nodes-in-pairs",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed.)\n\nExample 1:\n\nInput: head = [1,2,3,4]\n\nOutput: [2,1,4,3]\n\nExplanation: Example 2:\n\nInput: head = []\n\nOutput: []\n\nExample 3:\n\nInput: head = [1]\n\nOutput: [1]\n\nExample 4:\n\nInput: head = [1,2,3]\n\nOutput: [2,1,3]\n\nConstraints:\n\n• The number of nodes in the list is in the range [0, 100].\n\n• 0 <= Node.val <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def swapPairs(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4]",
+      "[]"
+    ],
+    [
+      "[1]",
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,1,4,3]",
+    "[]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Reverse Nodes in k-Group\", \"titleSlug\": \"reverse-nodes-in-k-group\", \"difficulty\": \"Hard\"}, {\"title\": \"Swapping Nodes in a Linked List\", \"titleSlug\": \"swapping-nodes-in-a-linked-list\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "669",
+  "title": "Trim a Binary Search Tree",
+  "titleSlug": "trim-a-binary-search-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary search tree and the lowest and highest boundaries as low and high, trim the tree so that all its elements lies in [low, high]. Trimming the tree should not change the relative structure of the elements that will remain in the tree (i.e., any node's descendant should remain a descendant). It can be proven that there is a unique answer.\n\nReturn the root of the trimmed binary search tree. Note that the root may change depending on the given bounds.\n\nExample 1:\n\nInput: root = [1,0,2], low = 1, high = 2\nOutput: [1,null,2]\n\nExample 2:\n\nInput: root = [3,0,4,null,2,null,null,1], low = 1, high = 3\nOutput: [3,2,null,1]\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 104].\n\n• 0 <= Node.val <= 104\n\n• The value of each node in the tree is unique.\n\n• root is guaranteed to be a valid binary search tree.\n\n• 0 <= low <= high <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def trimBST(self, root, low, high):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type low: int\n        :type high: int\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,0,2]",
+      "1",
+      "2"
+    ],
+    [
+      "[3,0,4,null,2,null,null,1]",
+      "1",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,null,2]",
+    "[3,2,null,1]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

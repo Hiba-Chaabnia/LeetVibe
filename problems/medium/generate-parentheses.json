@@ -1,0 +1,48 @@
+{
+  "questionId": "22",
+  "title": "Generate Parentheses",
+  "titleSlug": "generate-parentheses",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n\nExample 1:\n\nInput: n = 3\nOutput: [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]\nExample 2:\n\nInput: n = 1\nOutput: [\"()\"]\n\nConstraints:\n\n• 1 <= n <= 8",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def generateParenthesis(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]",
+    "[\"()\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def generateParenthesis(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[str]\n        \"\"\"\n        result = []\n        \n        def backtrack(open_count, close_count, current):\n            if len(current) == 2 * n:\n                result.append(current)\n                return\n            \n            # Can always add open if we haven't used all\n            if open_count < n:\n                backtrack(open_count + 1, close_count, current + '(')\n            \n            # Can add close if less than open\n            if close_count < open_count:\n                backtrack(open_count, close_count + 1, current + ')')\n        \n        backtrack(0, 0, '')\n        return result",
+    "explanation": "Backtracking with constraints: open count <= n, close count <= open count at any point.",
+    "complexity": "Time: O(4^n / sqrt(n)) - Catalan number. Space: O(n) recursion depth."
+  },
+  "similarQuestions": "[{\"title\": \"Letter Combinations of a Phone Number\", \"titleSlug\": \"letter-combinations-of-a-phone-number\", \"difficulty\": \"Medium\"}, {\"title\": \"Valid Parentheses\", \"titleSlug\": \"valid-parentheses\", \"difficulty\": \"Easy\"}, {\"title\": \"Check if a Parentheses String Can Be Valid\", \"titleSlug\": \"check-if-a-parentheses-string-can-be-valid\", \"difficulty\": \"Medium\"}]"
+}

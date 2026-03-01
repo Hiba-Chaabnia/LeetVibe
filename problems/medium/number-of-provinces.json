@@ -1,0 +1,51 @@
+{
+  "questionId": "547",
+  "title": "Number of Provinces",
+  "titleSlug": "number-of-provinces",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c.\n\nA province is a group of directly or indirectly connected cities and no other cities outside of the group.\n\nYou are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, and isConnected[i][j] = 0 otherwise.\n\nReturn the total number of provinces.\n\nExample 1:\n\nInput: isConnected = [[1,1,0],[1,1,0],[0,0,1]]\nOutput: 2\n\nExample 2:\n\nInput: isConnected = [[1,0,0],[0,1,0],[0,0,1]]\nOutput: 3\n\nConstraints:\n\n• 1 <= n <= 200\n\n• n == isConnected.length\n\n• n == isConnected[i].length\n\n• isConnected[i][j] is 1 or 0.\n\n• isConnected[i][i] == 1\n\n• isConnected[i][j] == isConnected[j][i]",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findCircleNum(self, isConnected):\n        \"\"\"\n        :type isConnected: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,1,0],[1,1,0],[0,0,1]]"
+    ],
+    [
+      "[[1,0,0],[0,1,0],[0,0,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findCircleNum(isConnected):\n    def dfs(isConnected, visited, i):\n        visited[i] = True\n        for j in range(len(isConnected)):\n            if isConnected[i][j] == 1 and not visited[j]:\n                dfs(isConnected, visited, j)\n\n    provinces = 0\n    visited = [False] * len(isConnected)\n    for i in range(len(isConnected)):\n        if not visited[i]:\n            dfs(isConnected, visited, i)\n            provinces += 1\n    return provinces",
+    "explanation": "We can solve this problem by using Depth First Search (DFS) to traverse the graph of cities:\n\n1. Create a boolean array `visited` of size n (the number of cities) initialized with `false` values.\n2. Initialize a counter variable `provinces` to count the number of provinces and set it to 0.\n3. Iterate through each city from 0 to n-1.\n   - If the city has not been visited, call a DFS helper function to traverse the connected components.\n   - Increment the `provinces` counter for every new group of connected cities.\n4. In the DFS helper function, mark the given city `i` as visited.\n5. Iterate through all other cities from 0 to n-1.\n   - If the cities `i` and `j` are directly connected (isConnected[i][j] == 1) and city `j` has not been visited, call the DFS helper function with city `j`.\n6. Return the total number of provinces.\n\nThis algorithm ensures that all directly and indirectly connected cities are visited, and their connected components are counted as provinces. The time complexity of this algorithm is O(n^2) as in the worst case, we might have to visit all possible edge connections between cities."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Connected Components in an Undirected Graph\", \"titleSlug\": \"number-of-connected-components-in-an-undirected-graph\", \"difficulty\": \"Medium\"}, {\"title\": \"Robot Return to Origin\", \"titleSlug\": \"robot-return-to-origin\", \"difficulty\": \"Easy\"}, {\"title\": \"Sentence Similarity\", \"titleSlug\": \"sentence-similarity\", \"difficulty\": \"Easy\"}, {\"title\": \"Sentence Similarity II\", \"titleSlug\": \"sentence-similarity-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"The Earliest Moment When Everyone Become Friends\", \"titleSlug\": \"the-earliest-moment-when-everyone-become-friends\", \"difficulty\": \"Medium\"}, {\"title\": \"Detonate the Maximum Bombs\", \"titleSlug\": \"detonate-the-maximum-bombs\", \"difficulty\": \"Medium\"}]"
+}

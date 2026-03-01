@@ -1,0 +1,57 @@
+{
+  "questionId": "1334",
+  "title": "Sum of Numbers With Units Digit K",
+  "titleSlug": "sum-of-numbers-with-units-digit-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Given two integers num and k, consider a set of positive integers with the following properties:\n\n• The units digit of each integer is k.\n\n• The sum of the integers is num.\n\nReturn the minimum possible size of such a set, or -1 if no such set exists.\n\nNote:\n\n• The set can contain multiple instances of the same integer, and the sum of an empty set is considered 0.\n\n• The units digit of a number is the rightmost digit of the number.\n\nExample 1:\n\nInput: num = 58, k = 9\nOutput: 2\nExplanation:\n    One valid set is [9,49], as the sum is 58 and each integer has a units digit of 9.\n    Another valid set is [19,39].\n    It can be shown that 2 is the minimum possible size of a valid set.\n\nExample 2:\n\nInput: num = 37, k = 2\nOutput: -1\nExplanation: It is not possible to obtain a sum of 37 using only integers that have a units digit of 2.\n\nExample 3:\n\nInput: num = 0, k = 7\nOutput: 0\nExplanation: The sum of an empty set is considered 0.\n\nConstraints:\n\n• 0 <= num <= 3000\n\n• 0 <= k <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumNumbers(self, num, k):\n        \"\"\"\n        :type num: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try solving this recursively.",
+    "Create a method that takes an integer x as a parameter. This method returns the minimum possible size of a set where each number has units digit k and the sum of the numbers in the set is x."
+  ],
+  "testCases": [
+    [
+      "58",
+      "9"
+    ],
+    [
+      "37",
+      "2"
+    ],
+    [
+      "0",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "-1",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Digit Count in Range\", \"titleSlug\": \"digit-count-in-range\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Integers With Even Digit Sum\", \"titleSlug\": \"count-integers-with-even-digit-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Sum of Number and Its Reverse\", \"titleSlug\": \"sum-of-number-and-its-reverse\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "943",
+  "title": "Sum of Subarray Minimums",
+  "titleSlug": "sum-of-subarray-minimums",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "Given an array of integers arr, find the sum of min(b), where b ranges over every (contiguous) subarray of arr. Since the answer may be large, return the answer modulo 109 + 7.\n\nExample 1:\n\nInput: arr = [3,1,2,4]\nOutput: 17\nExplanation:\n    Subarrays are [3], [1], [2], [4], [3,1], [1,2], [2,4], [3,1,2], [1,2,4], [3,1,2,4].\n    Minimums are 3, 1, 2, 4, 1, 1, 2, 1, 1, 1.\n    Sum is 17.\n\nExample 2:\n\nInput: arr = [11,81,94,43,3]\nOutput: 444\n\nConstraints:\n\n• 1 <= arr.length <= 3 * 104\n\n• 1 <= arr[i] <= 3 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumSubarrayMins(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,1,2,4]"
+    ],
+    [
+      "[11,81,94,43,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "17",
+    "444"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Sum of Subarray Ranges\", \"titleSlug\": \"sum-of-subarray-ranges\", \"difficulty\": \"Medium\"}, {\"title\": \"Sum of Total Strength of Wizards\", \"titleSlug\": \"sum-of-total-strength-of-wizards\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,56 @@
+{
+  "questionId": "2730",
+  "title": "Maximum OR",
+  "titleSlug": "maximum-or",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums of length n and an integer k. In an operation, you can choose an element and multiply it by 2.\n\nReturn the maximum possible value of nums[0] | nums[1] | ... | nums[n - 1] that can be obtained after applying the operation on nums at most k times.\n\nNote that a | b denotes the bitwise or between two integers a and b.\n\nExample 1:\n\nInput: nums = [12,9], k = 1\nOutput: 30\nExplanation: If we apply the operation to index 1, our new array nums will be equal to [12,18]. Thus, we return the bitwise or of 12 and 18, which is 30.\n\nExample 2:\n\nInput: nums = [8,1,2], k = 2\nOutput: 35\nExplanation: If we apply the operation twice on index 0, we yield a new array of [32,1,2]. Thus, we return 32|1|2 = 35.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 1 <= k <= 15",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumOr(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The optimal solution should apply all the k operations on a single number.",
+    "Calculate the prefix or and the suffix or and perform k operations over each element, and maximize the answer."
+  ],
+  "testCases": [
+    [
+      "[12,9]",
+      "1"
+    ],
+    [
+      "[8,1,2]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "30",
+    "35"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumOr(self, nums, k):\n        n = len(nums)\n        # Optimal: apply all k multiplications to a single element\n        # Precompute prefix OR and suffix OR\n        prefix = [0] * (n + 1)\n        for i in range(n):\n            prefix[i+1] = prefix[i] | nums[i]\n        suffix = [0] * (n + 2)\n        for i in range(n-1, -1, -1):\n            suffix[i] = suffix[i+1] | nums[i]\n\n        ans = 0\n        for i in range(n):\n            # Apply all k ops to nums[i]: nums[i] << k\n            val = (nums[i] << k) | prefix[i] | suffix[i+1]\n            ans = max(ans, val)\n        return ans",
+    "explanation": "It's always optimal to concentrate all k doublings on a single element (spreading splits the highest bits). For each candidate element i, compute nums[i] * 2^k = nums[i] << k, then OR with the prefix OR of all elements before i and suffix OR of all elements after i.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,56 @@
+{
+  "questionId": "1647",
+  "title": "Can Convert String in K Moves",
+  "titleSlug": "can-convert-string-in-k-moves",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given two strings s and t, your goal is to convert s into t in k moves or less.\n\nDuring the ith (1 <= i <= k) move you can:\n\n• Choose any index j (1-indexed) from s, such that 1 <= j <= s.length and j has not been chosen in any previous move, and shift the character at that index i times.\n\n• Do nothing.\n\nShifting a character means replacing it by the next letter in the alphabet (wrapping around so that 'z' becomes 'a'). Shifting a character by i means applying the shift operations i times.\n\nRemember that any index j can be picked at most once.\n\nReturn true if it's possible to convert s into t in no more than k moves, otherwise return false.\n\nExample 1:\n\nInput: s = \"input\", t = \"ouput\", k = 9\nOutput: true\nExplanation: In the 6th move, we shift 'i' 6 times to get 'o'. And in the 7th move we shift 'n' to get 'u'.\n\nExample 2:\n\nInput: s = \"abc\", t = \"bcd\", k = 10\nOutput: false\nExplanation: We need to shift each character in s one time to convert it into t. We can shift 'a' to 'b' during the 1st move. However, there is no way to shift the other characters in the remaining moves to obtain t from s.\n\nExample 3:\n\nInput: s = \"aab\", t = \"bbb\", k = 27\nOutput: true\nExplanation: In the 1st move, we shift the first 'a' 1 time to get 'b'. In the 27th move, we shift the second 'a' 27 times to get 'b'.\n\nConstraints:\n\n• 1 <= s.length, t.length <= 10^5\n\n• 0 <= k <= 10^9\n\n• s, t contain only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canConvertString(self, s, t, k):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Observe that shifting a letter x times has the same effect of shifting the letter x + 26 times.",
+    "You need to check whether k is large enough to cover all shifts with the same remainder after modulo 26."
+  ],
+  "testCases": [
+    [
+      "\"input\"",
+      "\"ouput\"",
+      "9"
+    ],
+    [
+      "\"abc\"",
+      "\"bcd\"",
+      "10"
+    ],
+    [
+      "\"aab\"",
+      "\"bbb\"",
+      "27"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def canConvertString(s: str, t: str, k: int) -> bool:\n    if len(s) != len(t):\n        return False\n    count = [0] * 26\n    for i in range(len(s)):\n        diff = (ord(t[i]) - ord(s[i]) + 26) % 26\n        if diff > 0:\n            count[diff] += 1\n    for i in range(1, 26):\n        if count[i] > 0:\n            if count[i] * 26 - 26 + i > k:\n                return False\n    return True",
+    "explanation": "First, we check if the lengths of s and t are equal, if not then we return false. Then, we create an array named count with a size of 26 (the number of lowercase English letters) and initialize all its elements to 0. We iterate through the characters of both s and t and calculate the difference between the corresponding characters that need shifting to be equal. We increment the count of that difference by 1. Finally, we iterate through the count array, and for every element with a count greater than 0, we check if it's possible to make the needed shifts with the given number k. If it's not possible, we return false. If we pass through all the elements, then we return true as it's possible to convert s to t with the given number of moves k."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cost to Convert String I\", \"titleSlug\": \"minimum-cost-to-convert-string-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Cost to Convert String II\", \"titleSlug\": \"minimum-cost-to-convert-string-ii\", \"difficulty\": \"Hard\"}]"
+}

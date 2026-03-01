@@ -1,0 +1,53 @@
+{
+  "questionId": "1781",
+  "title": "Check If Two String Arrays are Equivalent",
+  "titleSlug": "check-if-two-string-arrays-are-equivalent",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given two string arrays word1 and word2, return true if the two arrays represent the same string, and false otherwise.\n\nA string is represented by an array if the array elements concatenated in order forms the string.\n\nExample 1:\n\nInput: word1 = [\"ab\", \"c\"], word2 = [\"a\", \"bc\"]\nOutput: true\nExplanation:\n    word1 represents string \"ab\" + \"c\" -> \"abc\"\n    word2 represents string \"a\" + \"bc\" -> \"abc\"\n    The strings are the same, so return true.\n\nExample 2:\n\nInput: word1 = [\"a\", \"cb\"], word2 = [\"ab\", \"c\"]\nOutput: false\n\nExample 3:\n\nInput: word1  = [\"abc\", \"d\", \"defg\"], word2 = [\"abcddefg\"]\nOutput: true\n\nConstraints:\n\n• 1 <= word1.length, word2.length <= 103\n\n• 1 <= word1[i].length, word2[i].length <= 103\n\n• 1 <= sum(word1[i].length), sum(word2[i].length) <= 103\n\n• word1[i] and word2[i] consist of lowercase letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def arrayStringsAreEqual(self, word1, word2):\n        \"\"\"\n        :type word1: List[str]\n        :type word2: List[str]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Concatenate all strings in the first array into a single string in the given order, the same for the second array.",
+    "Both arrays represent the same string if and only if the generated strings are the same."
+  ],
+  "testCases": [
+    [
+      "[\"ab\", \"c\"]",
+      "[\"a\", \"bc\"]"
+    ],
+    [
+      "[\"a\", \"cb\"]",
+      "[\"ab\", \"c\"]"
+    ],
+    [
+      "[\"abc\", \"d\", \"defg\"]",
+      "[\"abcddefg\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def arrayStringsAreEqual(self, word1, word2):\n        return ''.join(word1) == ''.join(word2)",
+    "explanation": "Concatenate arrays and compare strings."
+  },
+  "similarQuestions": "[{\"title\": \"Check if an Original String Exists Given Two Encoded Strings\", \"titleSlug\": \"check-if-an-original-string-exists-given-two-encoded-strings\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "778",
+  "title": "Reorganize String",
+  "titleSlug": "reorganize-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given a string s, rearrange the characters of s so that any two adjacent characters are not the same.\n\nReturn any possible rearrangement of s or return \"\" if not possible.\n\nExample 1:\n\nInput: s = \"aab\"\nOutput: \"aba\"\nExample 2:\n\nInput: s = \"aaab\"\nOutput: \"\"\n\nConstraints:\n\n• 1 <= s.length <= 500\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reorganizeString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Alternate placing the most common letters."
+  ],
+  "testCases": [
+    [
+      "\"aab\""
+    ],
+    [
+      "\"aaab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"aba\"",
+    "\"\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Rearrange String k Distance Apart\", \"titleSlug\": \"rearrange-string-k-distance-apart\", \"difficulty\": \"Hard\"}, {\"title\": \"Task Scheduler\", \"titleSlug\": \"task-scheduler\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Happy String\", \"titleSlug\": \"longest-happy-string\", \"difficulty\": \"Medium\"}]"
+}

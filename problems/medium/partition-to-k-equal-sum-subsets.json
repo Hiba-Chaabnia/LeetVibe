@@ -1,0 +1,63 @@
+{
+  "questionId": "698",
+  "title": "Partition to K Equal Sum Subsets",
+  "titleSlug": "partition-to-k-equal-sum-subsets",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, return true if it is possible to divide this array into k non-empty subsets whose sums are all equal.\n\nExample 1:\n\nInput: nums = [4,3,2,3,5,2,1], k = 4\nOutput: true\nExplanation: It is possible to divide it into 4 subsets (5), (1, 4), (2,3), (2,3) with equal sums.\n\nExample 2:\n\nInput: nums = [1,2,3,4], k = 3\nOutput: false\n\nConstraints:\n\n• 1 <= k <= nums.length <= 16\n\n• 1 <= nums[i] <= 104\n\n• The frequency of each element is in the range [1, 4].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canPartitionKSubsets(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can figure out what target each subset must sum to.  Then, let's recursively search, where at each call to our function, we choose which of k subsets the next value will join."
+  ],
+  "testCases": [
+    [
+      "[4,3,2,3,5,2,1]",
+      "4"
+    ],
+    [
+      "[1,2,3,4]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def canPartitionKSubsets(nums, k):\n    total_sum = sum(nums)\n    if total_sum % k != 0:\n        return False\n    target = total_sum // k\n    visited = [False] * len(nums)\n    return dfs(nums, visited, 0, target, 0, k)\n\ndef dfs(nums, visited, start, target, curr_sum, k):\n    if k == 1:\n        return True\n    if curr_sum == target:\n        return dfs(nums, visited, 0, target, 0, k - 1)\n    for i in range(start, len(nums)):\n        if not visited[i] and curr_sum + nums[i] <= target:\n            visited[i] = True\n            if dfs(nums, visited, i + 1, target, curr_sum + nums[i], k):\n                return True\n            visited[i] = False\n    return False",
+    "explanation": "The algorithm uses depth-first search (DFS) to find possible subsets that sum up to the target value. The target is calculated by dividing the total sum of the array by k. The DFS function takes the following parameters: nums (the array), visited (a boolean array to keep track of visited elements), start (starting index for the current subset), target (target sum), curr_sum (current sum of the current subset), and k (number of subsets).\n\nThe base case is when k == 1, which means we have successfully found k - 1 subsets and the remaining elements automatically form the last subset, so we return true. \n\nIf curr_sum equals target, we found a valid subset, and we continue the search with k - 1 subsets starting from the beginning of the array. \n\nThe algorithm iterates through the array elements, checks if the element has not been visited, and if adding the element to the curr_sum doesn't exceed the target. If both conditions are met, the element is marked as visited, and the DFS is called recursively with the updated curr_sum and starting index. If the recursive call returns true, we found a valid set of subsets and return true. Otherwise, we backtrack by marking the element as unvisited.\n\nIf the DFS function doesn't find a solution, it returns false, indicating that it's not possible to divide the array into k equal subsets."
+  },
+  "similarQuestions": "[{\"title\": \"Partition Equal Subset Sum\", \"titleSlug\": \"partition-equal-subset-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Fair Distribution of Cookies\", \"titleSlug\": \"fair-distribution-of-cookies\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Ways to Partition an Array\", \"titleSlug\": \"maximum-number-of-ways-to-partition-an-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Rows Covered by Columns\", \"titleSlug\": \"maximum-rows-covered-by-columns\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Product of Two Integers With No Common Bits\", \"titleSlug\": \"maximum-product-of-two-integers-with-no-common-bits\", \"difficulty\": \"Medium\"}]"
+}

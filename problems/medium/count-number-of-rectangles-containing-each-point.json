@@ -1,0 +1,61 @@
+{
+  "questionId": "2333",
+  "title": "Count Number of Rectangles Containing Each Point",
+  "titleSlug": "count-number-of-rectangles-containing-each-point",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 2D integer array rectangles where rectangles[i] = [li, hi] indicates that ith rectangle has a length of li and a height of hi. You are also given a 2D integer array points where points[j] = [xj, yj] is a point with coordinates (xj, yj).\n\nThe ith rectangle has its bottom-left corner point at the coordinates (0, 0) and its top-right corner point at (li, hi).\n\nReturn an integer array count of length points.length where count[j] is the number of rectangles that contain the jth point.\n\nThe ith rectangle contains the jth point if 0 <= xj <= li and 0 <= yj <= hi. Note that points that lie on the edges of a rectangle are also considered to be contained by that rectangle.\n\nExample 1:\n\nInput: rectangles = [[1,2],[2,3],[2,5]], points = [[2,1],[1,4]]\nOutput: [2,1]\nExplanation:\n    The first rectangle contains no points.\n    The second rectangle contains only the point (2, 1).\n    The third rectangle contains the points (2, 1) and (1, 4).\n    The number of rectangles that contain the point (2, 1) is 2.\n    The number of rectangles that contain the point (1, 4) is 1.\n    Therefore, we return [2, 1].\n\nExample 2:\n\nInput: rectangles = [[1,1],[2,2],[3,3]], points = [[1,3],[1,1]]\nOutput: [1,3]\nExplanation:\n    The first rectangle contains only the point (1, 1).\n    The second rectangle contains only the point (1, 1).\n    The third rectangle contains the points (1, 3) and (1, 1).\n    The number of rectangles that contain the point (1, 3) is 1.\n    The number of rectangles that contain the point (1, 1) is 3.\n    Therefore, we return [1, 3].\n\nConstraints:\n\n• 1 <= rectangles.length, points.length <= 5 * 104\n\n• rectangles[i].length == points[j].length == 2\n\n• 1 <= li, xj <= 109\n\n• 1 <= hi, yj <= 100\n\n• All the rectangles are unique.\n\n• All the points are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countRectangles(self, rectangles, points):\n        \"\"\"\n        :type rectangles: List[List[int]]\n        :type points: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The heights of the rectangles and the y-coordinates of the points are only at most 100, so for each point, we can iterate over the possible heights of the rectangles that contain a given point.",
+    "For a given point and height, can we efficiently count how many rectangles with that height contain our point?",
+    "Sort the rectangles at each height and use binary search."
+  ],
+  "testCases": [
+    [
+      "[[1,2],[2,3],[2,5]]",
+      "[[2,1],[1,4]]"
+    ],
+    [
+      "[[1,1],[2,2],[3,3]]",
+      "[[1,3],[1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,1]",
+    "[1,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countRectangles(self, rectangles, points):\n        from collections import defaultdict\n        import bisect\n        height_widths = defaultdict(list)\n        for l, h in rectangles:\n            height_widths[h].append(l)\n        for h in height_widths:\n            height_widths[h].sort()\n        result = []\n        for x, y in points:\n            count = 0\n            for h in range(y, 101):\n                if h in height_widths:\n                    idx = bisect.bisect_left(height_widths[h], x)\n                    count += len(height_widths[h]) - idx\n            result.append(count)\n        return result",
+    "explanation": "For each point (x,y), count rectangles with h>=y and l>=x. Binary search widths.\nTime: O(q * 100 * log(r))\nSpace: O(r)"
+  },
+  "similarQuestions": "[{\"title\": \"Queries on Number of Points Inside a Circle\", \"titleSlug\": \"queries-on-number-of-points-inside-a-circle\", \"difficulty\": \"Medium\"}]"
+}

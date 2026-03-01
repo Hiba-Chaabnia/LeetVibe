@@ -1,0 +1,51 @@
+{
+  "questionId": "1472",
+  "title": "Increasing Decreasing String",
+  "titleSlug": "increasing-decreasing-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s. Reorder the string using the following algorithm:\n\n• Remove the smallest character from s and append it to the result.\n\n• Remove the smallest character from s that is greater than the last appended character, and append it to the result.\n\n• Repeat step 2 until no more characters can be removed.\n\n• Remove the largest character from s and append it to the result.\n\n• Remove the largest character from s that is smaller than the last appended character, and append it to the result.\n\n• Repeat step 5 until no more characters can be removed.\n\n• Repeat steps 1 through 6 until all characters from s have been removed.\n\nIf the smallest or largest character appears more than once, you may choose any occurrence to append to the result.\n\nReturn the resulting string after reordering s using this algorithm.\n\nExample 1:\n\nInput: s = \"aaaabbbbcccc\"\nOutput: \"abccbaabccba\"\nExplanation: After steps 1, 2 and 3 of the first iteration, result = \"abc\"\n    After steps 4, 5 and 6 of the first iteration, result = \"abccba\"\n    First iteration is done. Now s = \"aabbcc\" and we go back to step 1\n    After steps 1, 2 and 3 of the second iteration, result = \"abccbaabc\"\n    After steps 4, 5 and 6 of the second iteration, result = \"abccbaabccba\"\n\nExample 2:\n\nInput: s = \"rat\"\nOutput: \"art\"\nExplanation: The word \"rat\" becomes \"art\" after re-ordering it with the mentioned algorithm.\n\nConstraints:\n\n• 1 <= s.length <= 500\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sortString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the frequency of each character.",
+    "Loop over all character from 'a' to 'z' and append the character if it exists and decrease frequency by 1. Do the same from 'z' to 'a'.",
+    "Keep repeating until the frequency of all characters is zero."
+  ],
+  "testCases": [
+    [
+      "\"aaaabbbbcccc\""
+    ],
+    [
+      "\"rat\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"abccbaabccba\"",
+    "\"art\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sortString(self, s):\n        from collections import Counter\n        freq = Counter(s)\n        result = []\n        while freq:\n            for char in sorted(freq.keys()):\n                result.append(char)\n                freq[char] -= 1\n                if freq[char] == 0:\n                    del freq[char]\n            for char in sorted(freq.keys(), reverse=True):\n                result.append(char)\n                freq[char] -= 1\n                if freq[char] == 0:\n                    del freq[char]\n        return ''.join(result)",
+    "explanation": "Alternate: ascending pass (a→z), descending pass (z→a). Repeat until empty.\nTime: O(n * 26)\nSpace: O(26)"
+  },
+  "similarQuestions": "[]"
+}

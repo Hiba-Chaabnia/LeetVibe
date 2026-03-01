@@ -1,0 +1,53 @@
+{
+  "questionId": "2713",
+  "title": "Find the Divisibility Array of a String",
+  "titleSlug": "find-the-divisibility-array-of-a-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a 0-indexed string word of length n consisting of digits, and a positive integer m.\n\nThe divisibility array div of word is an integer array of length n such that:\n\n• div[i] = 1 if the numeric value of word[0,...,i] is divisible by m, or\n\n• div[i] = 0 otherwise.\n\nReturn the divisibility array of word.\n\nExample 1:\n\nInput: word = \"998244353\", m = 3\nOutput: [1,1,0,0,0,1,1,0,0]\nExplanation: There are only 4 prefixes that are divisible by 3: \"9\", \"99\", \"998244\", and \"9982443\".\n\nExample 2:\n\nInput: word = \"1010\", m = 10\nOutput: [0,1,0,1]\nExplanation: There are only 2 prefixes that are divisible by 10: \"10\", and \"1010\".\n\nConstraints:\n\n• 1 <= n <= 105\n\n• word.length == n\n\n• word consists of digits from 0 to 9\n\n• 1 <= m <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def divisibilityArray(self, word, m):\n        \"\"\"\n        :type word: str\n        :type m: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can check if the numeric value of the prefix of the given string is divisible by m by computing the remainder of the numeric value of the prefix when divided by m.",
+    "The remainder of the numeric value of a prefix ending at index i can be computed from the remainder of the prefix ending at index i-1."
+  ],
+  "testCases": [
+    [
+      "\"998244353\"",
+      "3"
+    ],
+    [
+      "\"1010\"",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,1,0,0,0,1,1,0,0]",
+    "[0,1,0,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def divisibilityArray(self, word, m):\n        \"\"\"\n        :type word: str\n        :type m: int\n        :rtype: List[int]\n        \"\"\"\n        n = len(word)\n        result = [0] * n\n        remainder = 0\n        \n        for i in range(n):\n            remainder = (remainder * 10 + int(word[i])) % m\n            if remainder == 0:\n                result[i] = 1\n        \n        return result",
+    "explanation": "Build number digit by digit, tracking remainder mod m. Use modulo property: (a*10 + b) % m = ((a % m)*10 + b) % m.",
+    "complexity": "Time: O(n). Space: O(n) for result."
+  },
+  "similarQuestions": "[{\"title\": \"Subarray Sums Divisible by K\", \"titleSlug\": \"subarray-sums-divisible-by-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Make Sum Divisible by P\", \"titleSlug\": \"make-sum-divisible-by-p\", \"difficulty\": \"Medium\"}]"
+}

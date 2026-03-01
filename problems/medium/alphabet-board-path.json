@@ -1,0 +1,46 @@
+{
+  "questionId": "1238",
+  "title": "Alphabet Board Path",
+  "titleSlug": "alphabet-board-path",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "On an alphabet board, we start at position (0, 0), corresponding to character board[0][0].\n\nHere, board = [\"abcde\", \"fghij\", \"klmno\", \"pqrst\", \"uvwxy\", \"z\"], as shown in the diagram below.\n\nWe may make the following moves:\n\n• 'U' moves our position up one row, if the position exists on the board;\n\n• 'D' moves our position down one row, if the position exists on the board;\n\n• 'L' moves our position left one column, if the position exists on the board;\n\n• 'R' moves our position right one column, if the position exists on the board;\n\n• '!' adds the character board[r][c] at our current position (r, c) to the answer.\n\n(Here, the only positions that exist on the board are positions with letters on them.)\n\nReturn a sequence of moves that makes our answer equal to target in the minimum number of moves.  You may return any path that does so.\n\nExample 1:\n\nInput: target = \"leet\"\nOutput: \"DDR!UURRR!!DDD!\"\nExample 2:\n\nInput: target = \"code\"\nOutput: \"RR!DDRR!UUL!R!\"\n\nConstraints:\n\n• 1 <= target.length <= 100\n\n• target consists only of English lowercase letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def alphabetBoardPath(self, target):\n        \"\"\"\n        :type target: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Create a hashmap from letter to position on the board.",
+    "Now for each letter, try moving there in steps, where at each step you check if it is inside the boundaries of the board."
+  ],
+  "testCases": [
+    [
+      "\"leet\""
+    ],
+    [
+      "\"code\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"DDR!UURRR!!DDD!\"",
+    "\"RR!DDRR!UUL!R!\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def alphabetBoardPath(self, target):\n        board = [\"abcde\", \"fghij\", \"klmno\", \"pqrst\", \"uvwxy\", \"z\"]\n        pos = {c: (i, j) for i, row in enumerate(board) for j, c in enumerate(row)}\n        result = \"\"\n        r, c = 0, 0\n        for char in target:\n            nr, nc = pos[char]\n            while r != nr or c != nc:\n                if r < nr:\n                    result += \"D\"\n                    r += 1\n                elif r > nr:\n                    result += \"U\"\n                    r -= 1\n                elif c < nc:\n                    result += \"R\"\n                    c += 1\n                elif c > nc:\n                    result += \"L\"\n                    c -= 1\n            result += \"!\"\n        return result",
+    "explanation": "Map chars to positions. Move step by step (down/up first, then left/right). Add '!'.\nTime: O(n * 5) = O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

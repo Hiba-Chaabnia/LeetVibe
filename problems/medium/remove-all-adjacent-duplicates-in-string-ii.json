@@ -1,0 +1,53 @@
+{
+  "questionId": "1320",
+  "title": "Remove All Adjacent Duplicates in String II",
+  "titleSlug": "remove-all-adjacent-duplicates-in-string-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "You are given a string s and an integer k, a k duplicate removal consists of choosing k adjacent and equal letters from s and removing them, causing the left and the right side of the deleted substring to concatenate together.\n\nWe repeatedly make k duplicate removals on s until we no longer can.\n\nReturn the final string after all such duplicate removals have been made. It is guaranteed that the answer is unique.\n\nExample 1:\n\nInput: s = \"abcd\", k = 2\nOutput: \"abcd\"\nExplanation: There's nothing to delete.\n\nExample 2:\n\nInput: s = \"deeedbbcccbdaa\", k = 3\nOutput: \"aa\"\nExplanation:\n    First delete \"eee\" and \"ccc\", get \"ddbbbdaa\"\n    Then delete \"bbb\", get \"dddaa\"\n    Finally delete \"ddd\", get \"aa\"\n\nExample 3:\n\nInput: s = \"pbbcggttciiippooaais\", k = 2\nOutput: \"ps\"\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• 2 <= k <= 104\n\n• s only contains lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeDuplicates(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a stack to store the characters, when there are k same characters, delete them.",
+    "To make it more efficient, use a pair to store the value and the count of each character."
+  ],
+  "testCases": [
+    [
+      "\"abcd\"",
+      "2"
+    ],
+    [
+      "\"deeedbbcccbdaa\"",
+      "3"
+    ],
+    [
+      "\"pbbcggttciiippooaais\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"abcd\"",
+    "\"aa\"",
+    "\"ps\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def removeDuplicates(s: str, k: int) -> str:\n    stack = []\n    for c in s:\n        if not stack or stack[-1][0] != c:\n            stack.append((c, 1))\n        elif stack[-1][1] + 1 != k:\n            stack[-1] = (c, stack[-1][1] + 1)\n        else:\n            stack.pop()\n    return ''.join(c * count for c, count in stack)",
+    "explanation": "The algorithm makes use of a stack that stores the characters and their counts. For each character in the input string `s`, we check if the stack is empty or if the top of the stack has a different character. If either of these cases is true, we push the new character onto the stack along with a count of 1.\n\nIf the character is the same as the one on the top of the stack, we increment the count of that character. If the count reaches the value of `k`, we remove the character from the stack (its count is reset). We repeat this process for each character in the input string.\n\nAfter iteration, we construct the final result string from the stack contents. Each character is repeated as many times as the count associated with it on the stack. This string is the result after all of the `k`-duplicate removals have been made."
+  },
+  "similarQuestions": "[{\"title\": \"Remove All Adjacent Duplicates In String\", \"titleSlug\": \"remove-all-adjacent-duplicates-in-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Replace Non-Coprime Numbers in Array\", \"titleSlug\": \"replace-non-coprime-numbers-in-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimize String Length\", \"titleSlug\": \"minimize-string-length\", \"difficulty\": \"Easy\"}]"
+}

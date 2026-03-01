@@ -1,0 +1,49 @@
+{
+  "questionId": "1139",
+  "title": "Previous Permutation With One Swap",
+  "titleSlug": "previous-permutation-with-one-swap",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given an array of positive integers arr (not necessarily distinct), return the lexicographically largest permutation that is smaller than arr, that can be made with exactly one swap. If it cannot be done, then return the same array.\n\nNote that a swap exchanges the positions of two numbers arr[i] and arr[j]\n\nExample 1:\n\nInput: arr = [3,2,1]\nOutput: [3,1,2]\nExplanation: Swapping 2 and 1.\n\nExample 2:\n\nInput: arr = [1,1,5]\nOutput: [1,1,5]\nExplanation: This is already the smallest permutation.\n\nExample 3:\n\nInput: arr = [1,9,4,6,7]\nOutput: [1,7,4,6,9]\nExplanation: Swapping 9 and 7.\n\nConstraints:\n\n• 1 <= arr.length <= 104\n\n• 1 <= arr[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def prevPermOpt1(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You need to swap two values, one larger than the other.  Where is the larger one located?"
+  ],
+  "testCases": [
+    [
+      "[3,2,1]"
+    ],
+    [
+      "[1,1,5]"
+    ],
+    [
+      "[1,9,4,6,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,1,2]",
+    "[1,1,5]",
+    "[1,7,4,6,9]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def prevPermOpt1(arr):\n    n = len(arr)\n    for i in range(n - 2, -1, -1):\n        if arr[i] > arr[i + 1]:\n            j = i + 1\n            while j < n and arr[j] < arr[i]:\n                j += 1\n            arr[i], arr[j - 1] = arr[j - 1], arr[i]\n            break\n    return arr",
+    "explanation": "The algorithm consists of iterating through the array from right to left to find the first number `arr[i]` that's greater than its immediate right adjacent number, `arr[i + 1]`. Then, it iterates rightwards starting from the `arr[i]` until it finds the number just smaller than `arr[i]`, and it swaps them. This gives the lexicographically largest permutation smaller than `arr` in exactly one swap. If no such number `arr[i]` is found, it means the given array `arr` is already the smallest permutation possible, and the same array is returned."
+  },
+  "similarQuestions": "[]"
+}

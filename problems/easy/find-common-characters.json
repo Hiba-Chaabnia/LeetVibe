@@ -1,0 +1,47 @@
+{
+  "questionId": "1044",
+  "title": "Find Common Characters",
+  "titleSlug": "find-common-characters",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string array words, return an array of all characters that show up in all strings within the words (including duplicates). You may return the answer in any order.\n\nExample 1:\n\nInput: words = [\"bella\",\"label\",\"roller\"]\nOutput: [\"e\",\"l\",\"l\"]\nExample 2:\n\nInput: words = [\"cool\",\"lock\",\"cook\"]\nOutput: [\"c\",\"o\"]\n\nConstraints:\n\n• 1 <= words.length <= 100\n\n• 1 <= words[i].length <= 100\n\n• words[i] consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def commonChars(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"bella\",\"label\",\"roller\"]"
+    ],
+    [
+      "[\"cool\",\"lock\",\"cook\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"e\",\"l\",\"l\"]",
+    "[\"c\",\"o\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def commonChars(self, words):\n        from collections import Counter\n        common = Counter(words[0])\n        for word in words[1:]:\n            common &= Counter(word)\n        result = []\n        for char, count in common.items():\n            result.extend([char] * count)\n        return result",
+    "explanation": "Intersection of character frequencies across all words.\nTime: O(n*m)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Intersection of Two Arrays II\", \"titleSlug\": \"intersection-of-two-arrays-ii\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,60 @@
+{
+  "questionId": "3542",
+  "title": "Maximum Value Sum by Placing Three Rooks II",
+  "titleSlug": "maximum-value-sum-by-placing-three-rooks-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a m x n 2D array board representing a chessboard, where board[i][j] represents the value of the cell (i, j).\n\nRooks in the same row or column attack each other. You need to place three rooks on the chessboard such that the rooks do not attack each other.\n\nReturn the maximum sum of the cell values on which the rooks are placed.\n\nExample 1:\n\nInput: board = [[-3,1,1,1],[-3,1,-3,1],[-3,2,1,1]]\n\nOutput: 4\n\nExplanation: We can place the rooks in the cells (0, 2), (1, 3), and (2, 1) for a sum of 1 + 1 + 2 = 4.\n\nExample 2:\n\nInput: board = [[1,2,3],[4,5,6],[7,8,9]]\n\nOutput: 15\n\nExplanation: We can place the rooks in the cells (0, 0), (1, 1), and (2, 2) for a sum of 1 + 5 + 9 = 15.\n\nExample 3:\n\nInput: board = [[1,1,1],[1,1,1],[1,1,1]]\n\nOutput: 3\n\nExplanation: We can place the rooks in the cells (0, 2), (1, 1), and (2, 0) for a sum of 1 + 1 + 1 = 3.\n\nConstraints:\n\n• 3 <= m == board.length <= 500\n\n• 3 <= n == board[i].length <= 500\n\n• -109 <= board[i][j] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumValueSum(self, board):\n        \"\"\"\n        :type board: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Save the top 3 largest values in each row.",
+    "Select any row, and select any of the three values stored in it.",
+    "Get the top 4 values from all of the other 3 largest values of the other rows, which do not share the same column as the selected value.",
+    "Brute force the selection of 2 positions from the top 4 now."
+  ],
+  "testCases": [
+    [
+      "[[-3,1,1,1],[-3,1,-3,1],[-3,2,1,1]]"
+    ],
+    [
+      "[[1,2,3],[4,5,6],[7,8,9]]"
+    ],
+    [
+      "[[1,1,1],[1,1,1],[1,1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "15",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumValueSum(self, board):\n        \"\"\"\n        :type board: List[List[int]]\n        :rtype: int\n        \"\"\"\n        m, n = len(board), len(board[0])\n        \n        # Find top 3 values in each row\n        row_tops = []\n        for i in range(m):\n            tops = sorted(enumerate(board[i]), key=lambda x: -x[1])[:3]\n            row_tops.append(tops)\n        \n        max_sum = float('-inf')\n        \n        # Strategy: pick one row, pick one column from that row\n        # Then find best 2 positions from other rows that don't use that column\n        \n        for first_row in range(m):\n            for first_col, first_val in row_tops[first_row]:\n                # Now find best 2 positions from other rows, avoiding first_col\n                # Collect all (value, col, row) tuples from other rows\n                candidates = []\n                for row in range(m):\n                    if row == first_row:\n                        continue\n                    for col, val in row_tops[row]:\n                        if col != first_col:\n                            candidates.append((val, col, row))\n                \n                # Sort by value descending\n                candidates.sort(reverse=True)\n                \n                # Find best pair with different columns\n                if len(candidates) >= 2:\n                    for i in range(len(candidates)):\n                        for j in range(i + 1, len(candidates)):\n                            val_i, col_i, row_i = candidates[i]\n                            val_j, col_j, row_j = candidates[j]\n                            \n                            if col_i != col_j and row_i != row_j:\n                                current_sum = first_val + val_i + val_j\n                                max_sum = max(max_sum, current_sum)\n                                break  # Found best pair for this i\n                        \n                        if max_sum > float('-inf'):\n                            break  # Already found best pair\n        \n        return max_sum",
+    "explanation": "This solution uses optimized brute force for larger grids:\n\n1. **Problem Understanding** (same as I):\n   - Place 3 rooks on different rows and columns\n   - Maximize sum of values\n   - Grid can be up to 500x500 (much larger than I's 100x100)\n\n2. **Key Optimization**:\n   - Fix the first rook position\n   - From that row's top 3, pick one value\n   - Find best 2 positions from remaining rows\n   - All must be in different columns\n\n3. **Algorithm**:\n   - For each row and its top 3 columns (O(m * 3)):\n     - Collect all candidates from other rows, excluding first column (O(m * 3))\n     - Sort candidates by value (O(m log m))\n     - Find best pair with different columns and rows (O(m²) worst case, but early termination)\n\n4. **Optimization Trick**:\n   - Only consider top 3 from each row\n   - After sorting, first valid pair is optimal (greedy works)\n   - Early termination when valid pair found\n\n5. **Why This is Better for Large Grids**:\n   - Avoids O(m³) enumeration of all 3-row combinations\n   - Instead O(m * 3 * m * 3) = O(m²) but with better constants\n   - Sorting candidates is faster than brute force\n\nTime Complexity: O(m² log m) with early termination\nSpace Complexity: O(m) for storing candidates"
+  },
+  "similarQuestions": "[{\"title\": \"Available Captures for Rook\", \"titleSlug\": \"available-captures-for-rook\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,48 @@
+{
+  "questionId": "811",
+  "title": "Number of Subarrays with Bounded Maximum",
+  "titleSlug": "number-of-subarrays-with-bounded-maximum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "Given an integer array nums and two integers left and right, return the number of contiguous non-empty subarrays such that the value of the maximum array element in that subarray is in the range [left, right].\n\nThe test cases are generated so that the answer will fit in a 32-bit integer.\n\nExample 1:\n\nInput: nums = [2,1,4,3], left = 2, right = 3\nOutput: 3\nExplanation: There are three subarrays that meet the requirements: [2], [2, 1], [3].\n\nExample 2:\n\nInput: nums = [2,9,2,5,6], left = 2, right = 8\nOutput: 7\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 109\n\n• 0 <= left <= right <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSubarrayBoundedMax(self, nums, left, right):\n        \"\"\"\n        :type nums: List[int]\n        :type left: int\n        :type right: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,1,4,3]",
+      "2",
+      "3"
+    ],
+    [
+      "[2,9,2,5,6]",
+      "2",
+      "8"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "7"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def numSubarrayBoundedMax(self, nums, left, right):\n        \"\"\"\n        :type nums: List[int]\n        :type left: int\n        :type right: int\n        :rtype: int\n        \"\"\"\n        def countSubarrays(nums, limit):\n            # Count subarrays with max <= limit\n            count = 0\n            curr_count = 0\n            for num in nums:\n                if num <= limit:\n                    curr_count += 1\n                    count += curr_count\n                else:\n                    curr_count = 0\n            return count\n        \n        # Subarrays with max in [left, right] = max <= right - max <= left-1\n        return countSubarrays(nums, right) - countSubarrays(nums, left - 1)",
+    "explanation": "Count subarrays with max <= right minus those with max <= left-1.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Count Subarrays With Median K\", \"titleSlug\": \"count-subarrays-with-median-k\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Number of Subarrays Where Boundary Elements Are Maximum\", \"titleSlug\": \"find-the-number-of-subarrays-where-boundary-elements-are-maximum\", \"difficulty\": \"Hard\"}]"
+}

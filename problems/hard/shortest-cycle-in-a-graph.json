@@ -1,0 +1,44 @@
+{
+  "questionId": "2671",
+  "title": "Shortest Cycle in a Graph",
+  "titleSlug": "shortest-cycle-in-a-graph",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There is a bi-directional graph with n vertices, where each vertex is labeled from 0 to n - 1. The edges in the graph are represented by a given 2D integer array edges, where edges[i] = [ui, vi] denotes an edge between vertex ui and vertex vi. Every vertex pair is connected by at most one edge, and no vertex has an edge to itself.\n\nReturn the length of the shortest cycle in the graph. If no cycle exists, return -1.\n\nA cycle is a path that starts and ends at the same node, and each edge in the path is used only once.\n\nExample 1:\n\nInput: n = 7, edges = [[0,1],[1,2],[2,0],[3,4],[4,5],[5,6],[6,3]]\nOutput: 3\nExplanation: The cycle with the smallest length is : 0 -> 1 -> 2 -> 0\n\nExample 2:\n\nInput: n = 4, edges = [[0,1],[0,2]]\nOutput: -1\nExplanation: There are no cycles in this graph.\n\nConstraints:\n\n• 2 <= n <= 1000\n\n• 1 <= edges.length <= 1000\n\n• edges[i].length == 2\n\n• 0 <= ui, vi < n\n\n• ui != vi\n\n• There are no repeated edges.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findShortestCycle(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can BFS be used?",
+    "For each vertex u, calculate the length of the shortest cycle that contains vertex u using BFS"
+  ],
+  "testCases": [
+    [
+      "7",
+      "[[0,1],[1,2],[2,0],[3,4],[4,5],[5,6],[6,3]]"
+    ],
+    [
+      "4",
+      "[[0,1],[0,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Redundant Connection\", \"titleSlug\": \"redundant-connection\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Cycle in a Graph\", \"titleSlug\": \"longest-cycle-in-a-graph\", \"difficulty\": \"Hard\"}, {\"title\": \"Divide Nodes Into the Maximum Number of Groups\", \"titleSlug\": \"divide-nodes-into-the-maximum-number-of-groups\", \"difficulty\": \"Hard\"}]"
+}

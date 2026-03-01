@@ -1,0 +1,53 @@
+{
+  "questionId": "1684",
+  "title": "Find Latest Group of Size M",
+  "titleSlug": "find-latest-group-of-size-m",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given an array arr that represents a permutation of numbers from 1 to n.\n\nYou have a binary string of size n that initially has all its bits set to zero. At each step i (assuming both the binary string and arr are 1-indexed) from 1 to n, the bit at position arr[i] is set to 1.\n\nYou are also given an integer m. Find the latest step at which there exists a group of ones of length m. A group of ones is a contiguous substring of 1's such that it cannot be extended in either direction.\n\nReturn the latest step at which there exists a group of ones of length exactly m. If no such group exists, return -1.\n\nExample 1:\n\nInput: arr = [3,5,1,2,4], m = 1\nOutput: 4\nExplanation:\n    Step 1: \"00100\", groups: [\"1\"]\n    Step 2: \"00101\", groups: [\"1\", \"1\"]\n    Step 3: \"10101\", groups: [\"1\", \"1\", \"1\"]\n    Step 4: \"11101\", groups: [\"111\", \"1\"]\n    Step 5: \"11111\", groups: [\"11111\"]\n    The latest step at which there exists a group of size 1 is step 4.\n\nExample 2:\n\nInput: arr = [3,1,5,4,2], m = 2\nOutput: -1\nExplanation:\n    Step 1: \"00100\", groups: [\"1\"]\n    Step 2: \"10100\", groups: [\"1\", \"1\"]\n    Step 3: \"10101\", groups: [\"1\", \"1\", \"1\"]\n    Step 4: \"10111\", groups: [\"1\", \"111\"]\n    Step 5: \"11111\", groups: [\"11111\"]\n    No group of size 2 exists during any step.\n\nConstraints:\n\n• n == arr.length\n\n• 1 <= m <= n <= 105\n\n• 1 <= arr[i] <= n\n\n• All integers in arr are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findLatestStep(self, arr, m):\n        \"\"\"\n        :type arr: List[int]\n        :type m: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since the problem asks for the latest step, can you start the searching from the end of arr?",
+    "Use a map to store the current “1” groups.",
+    "At each step (going backwards) you need to split one group and update the map."
+  ],
+  "testCases": [
+    [
+      "[3,5,1,2,4]",
+      "1"
+    ],
+    [
+      "[3,1,5,4,2]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

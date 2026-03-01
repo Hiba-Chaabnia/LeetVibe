@@ -1,0 +1,35 @@
+{
+  "questionId": "951",
+  "title": "Partition Array into Disjoint Intervals",
+  "titleSlug": "partition-array-into-disjoint-intervals",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given an integer array nums, partition it into two (contiguous) subarrays left and right so that:\n\n• Every element in left is less than or equal to every element in right.\n\n• left and right are non-empty.\n\n• left has the smallest possible size.\n\nReturn the length of left after such a partitioning.\n\nTest cases are generated such that partitioning exists.\n\nExample 1:\n\nInput: nums = [5,0,3,8,6]\nOutput: 3\nExplanation: left = [5,0,3], right = [8,6]\n\nExample 2:\n\nInput: nums = [1,1,1,0,6,12]\nOutput: 4\nExplanation: left = [1,1,1,0], right = [6,12]\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• 0 <= nums[i] <= 106\n\n• There is at least one valid answer for the given input.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def partitionDisjoint(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[5,0,3,8,6]"
+    ],
+    [
+      "[1,1,1,0,6,12]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Sum of Beauty in the Array\", \"titleSlug\": \"sum-of-beauty-in-the-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Optimal Partition of String\", \"titleSlug\": \"optimal-partition-of-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Index of a Valid Split\", \"titleSlug\": \"minimum-index-of-a-valid-split\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Strength of K Disjoint Subarrays\", \"titleSlug\": \"maximum-strength-of-k-disjoint-subarrays\", \"difficulty\": \"Hard\"}]"
+}

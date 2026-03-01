@@ -1,0 +1,56 @@
+{
+  "questionId": "2889",
+  "title": "Number of Black Blocks",
+  "titleSlug": "number-of-black-blocks",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given two integers m and n representing the dimensions of a 0-indexed m x n grid.\n\nYou are also given a 0-indexed 2D integer matrix coordinates, where coordinates[i] = [x, y] indicates that the cell with coordinates [x, y] is colored black. All cells in the grid that do not appear in coordinates are white.\n\nA block is defined as a 2 x 2 submatrix of the grid. More formally, a block with cell [x, y] as its top-left corner where 0 <= x < m - 1 and 0 <= y < n - 1 contains the coordinates [x, y], [x + 1, y], [x, y + 1], and [x + 1, y + 1].\n\nReturn a 0-indexed integer array arr of size 5 such that arr[i] is the number of blocks that contains exactly i black cells.\n\nExample 1:\n\nInput: m = 3, n = 3, coordinates = [[0,0]]\nOutput: [3,1,0,0,0]\nExplanation: The grid looks like this:\n\n    There is only 1 block with one black cell, and it is the block starting with cell [0,0].\n    The other 3 blocks start with cells [0,1], [1,0] and [1,1]. They all have zero black cells.\n    Thus, we return [3,1,0,0,0].\n\nExample 2:\n\nInput: m = 3, n = 3, coordinates = [[0,0],[1,1],[0,2]]\nOutput: [0,2,2,0,0]\nExplanation: The grid looks like this:\n\n    There are 2 blocks with two black cells (the ones starting with cell coordinates [0,0] and [0,1]).\n    The other 2 blocks have starting cell coordinates of [1,0] and [1,1]. They both have 1 black cell.\n    Therefore, we return [0,2,2,0,0].\n\nConstraints:\n\n• 2 <= m <= 105\n\n• 2 <= n <= 105\n\n• 0 <= coordinates.length <= 104\n\n• coordinates[i].length == 2\n\n• 0 <= coordinates[i][0] < m\n\n• 0 <= coordinates[i][1] < n\n\n• It is guaranteed that coordinates contains pairwise distinct coordinates.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countBlackBlocks(self, m, n, coordinates):\n        \"\"\"\n        :type m: int\n        :type n: int\n        :type coordinates: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The number of blocks is too much but the number of black cells is less than that.",
+    "It means the number of blocks with at least one black cell is O(|coordinates|). let’s just hold them.",
+    "Iterate through the coordinates and update the block counts accordingly. For each coordinate, determine which block(s) it belongs to and increment the count of black cells for those block(s).",
+    "After processing all the coordinates, count the number of blocks with different numbers of black cells. You can use another data structure to keep track of the counts of blocks with 0 black cells, 1 black cell, and so on."
+  ],
+  "testCases": [
+    [
+      "3",
+      "3",
+      "[[0,0]]"
+    ],
+    [
+      "3",
+      "3",
+      "[[0,0],[1,1],[0,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,1,0,0,0]",
+    "[0,2,2,0,0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def countBlackBlocks(self, m, n, coordinates):\n        # A 2x2 block is identified by its top-left corner (r, c)\n        # where 0 <= r < m-1 and 0 <= c < n-1\n        # Black cell (x, y) belongs to blocks with top-left at:\n        # (x-1, y-1), (x-1, y), (x, y-1), (x, y)\n        block_count = defaultdict(int)\n        black = set(map(tuple, coordinates))\n\n        for x, y in coordinates:\n            for br in [x - 1, x]:\n                for bc in [y - 1, y]:\n                    if 0 <= br < m - 1 and 0 <= bc < n - 1:\n                        block_count[(br, bc)] += 1\n\n        ans = [0] * 5\n        for v in block_count.values():\n            ans[v] += 1\n        # Blocks with 0 black cells = total blocks - blocks with >= 1 black cell\n        total_blocks = (m - 1) * (n - 1)\n        ans[0] = total_blocks - len(block_count)\n        return ans",
+    "explanation": "A 2x2 block with top-left corner (r, c) contains cells (r,c), (r+1,c), (r,c+1), (r+1,c+1). Black cell (x, y) participates in blocks with top-left at (x-1, y-1), (x-1, y), (x, y-1), (x, y) — up to 4 blocks.\n\nWe iterate over all black cells and increment the count of each valid block. After processing all black cells, block_count[b] is the number of black cells in block b.\n\nBlocks with 0 black cells = total blocks - number of blocks with at least 1 black cell.\n\nTime complexity: O(|coordinates|). Space complexity: O(|coordinates|)."
+  },
+  "similarQuestions": "[]"
+}

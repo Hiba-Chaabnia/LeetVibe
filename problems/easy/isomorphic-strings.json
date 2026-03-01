@@ -1,0 +1,50 @@
+{
+  "questionId": "205",
+  "title": "Isomorphic Strings",
+  "titleSlug": "isomorphic-strings",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given two strings s and t, determine if they are isomorphic.\n\nTwo strings s and t are isomorphic if the characters in s can be replaced to get t.\n\nAll occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.\n\nExample 1:\n\nInput: s = \"egg\", t = \"add\"\n\nOutput: true\n\nExplanation: The strings s and t can be made identical by:\n\n• Mapping 'e' to 'a'.\n\n• Mapping 'g' to 'd'.\n\nExample 2:\n\nInput: s = \"f11\", t = \"b23\"\n\nOutput: false\n\nExplanation: The strings s and t can not be made identical as '1' needs to be mapped to both '2' and '3'.\n\nExample 3:\n\nInput: s = \"paper\", t = \"title\"\n\nOutput: true\n\nConstraints:\n\n• 1 <= s.length <= 5 * 104\n\n• t.length == s.length\n\n• s and t consist of any valid ascii character.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isIsomorphic(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"egg\"",
+      "\"add\""
+    ],
+    [
+      "\"foo\"",
+      "\"bar\""
+    ],
+    [
+      "\"paper\"",
+      "\"title\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isIsomorphic(self, s, t):\n        s_to_t = {}\n        t_to_s = {}\n        for c1, c2 in zip(s, t):\n            if c1 in s_to_t:\n                if s_to_t[c1] != c2:\n                    return False\n            else:\n                s_to_t[c1] = c2\n            if c2 in t_to_s:\n                if t_to_s[c2] != c1:\n                    return False\n            else:\n                t_to_s[c2] = c1\n        return True",
+    "explanation": "Bidirectional mapping: each char in s maps to exactly one in t and vice versa.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Word Pattern\", \"titleSlug\": \"word-pattern\", \"difficulty\": \"Easy\"}, {\"title\": \"Find and Replace Pattern\", \"titleSlug\": \"find-and-replace-pattern\", \"difficulty\": \"Medium\"}]"
+}

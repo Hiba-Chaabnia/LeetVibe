@@ -1,0 +1,68 @@
+{
+  "questionId": "3184",
+  "title": "Maximum Balanced Subsequence Sum",
+  "titleSlug": "maximum-balanced-subsequence-sum",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums.\n\nA subsequence of nums having length k and consisting of indices i0 < i1 < ... < ik-1 is balanced if the following holds:\n\n• nums[ij] - nums[ij-1] >= ij - ij-1, for every j in the range [1, k - 1].\n\nA subsequence of nums having length 1 is considered balanced.\n\nReturn an integer denoting the maximum possible sum of elements in a balanced subsequence of nums.\n\nA subsequence of an array is a new non-empty array that is formed from the original array by deleting some (possibly none) of the elements without disturbing the relative positions of the remaining elements.\n\nExample 1:\n\nInput: nums = [3,3,5,6]\nOutput: 14\nExplanation: In this example, the subsequence [3,5,6] consisting of indices 0, 2, and 3 can be selected.\n    nums[2] - nums[0] >= 2 - 0.\n    nums[3] - nums[2] >= 3 - 2.\n    Hence, it is a balanced subsequence, and its sum is the maximum among the balanced subsequences of nums.\n    The subsequence consisting of indices 1, 2, and 3 is also valid.\n    It can be shown that it is not possible to get a balanced subsequence with a sum greater than 14.\n\nExample 2:\n\nInput: nums = [5,-1,-3,8]\nOutput: 13\nExplanation: In this example, the subsequence [5,8] consisting of indices 0 and 3 can be selected.\n    nums[3] - nums[0] >= 3 - 0.\n    Hence, it is a balanced subsequence, and its sum is the maximum among the balanced subsequences of nums.\n    It can be shown that it is not possible to get a balanced subsequence with a sum greater than 13.\n\nExample 3:\n\nInput: nums = [-2,-1]\nOutput: -1\nExplanation: In this example, the subsequence [-1] can be selected.\n    It is a balanced subsequence, and its sum is the maximum among the balanced subsequences of nums.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxBalancedSubsequenceSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let dp[x] represent the maximum sum of a balanced subsequence ending at x.",
+    "Rewriting the formula nums[i<sub>j</sub>] - nums[i<sub>j-1</sub>] >= i<sub>j</sub> - i<sub>j-1</sub> gives nums[i<sub>j</sub>] - i<sub>j</sub> >= nums[i<sub>j-1</sub>] - i<sub>j-1</sub>.",
+    "So, for some index x, we need to find an index y, y < x, such that dp[x] = nums[x] + dp[y] is maximized, and nums[x] - x >= nums[y] - y.",
+    "There are many ways to achieve this. One method involves sorting the values of nums[x] - x for all indices x and using a segment/Fenwick tree with coordinate compression.",
+    "Hence, using a dictionary or map, let's call it dict, where dict[nums[x] - x] represents the position of the value, nums[x] - x, in the segment tree.",
+    "The tree is initialized with zeros initially.",
+    "For indices x in order from [0, n - 1], dp[x] = max(nums[x], nums[x] + the maximum query from the tree in the range [0, dict[nums[x] - x]]), and if dp[x] is greater than the value in the tree at position dict[nums[x] - x], we update the value in the tree.",
+    "The answer to the problem is the maximum value in dp."
+  ],
+  "testCases": [
+    [
+      "[3,3,5,6]"
+    ],
+    [
+      "[5,-1,-3,8]"
+    ],
+    [
+      "[-2,-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "14",
+    "13",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxBalancedSubsequenceSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # Transform: nums[i] - nums[j] >= i - j becomes nums[i] - i >= nums[j] - j\n        # So we need max(nums[x] - x + nums[j]) where j < i and nums[j] - j <= nums[i] - i\n        \n        # Use segment tree with coordinate compression\n        transformed = [(nums[i] - i, nums[i], i) for i in range(len(nums))]\n        \n        # Get all unique (nums[i] - i) values for coordinate compression\n        coords = sorted(set(t[0] for t in transformed))\n        coord_map = {v: i for i, v in enumerate(coords)}\n        \n        # Segment tree for range max query\n        class SegmentTree:\n            def __init__(self, size):\n                self.size = size\n                self.tree = [float('-inf')] * (4 * size)\n            \n            def update(self, idx, val, node=0, l=0, r=None):\n                if r is None:\n                    r = self.size - 1\n                if l == r:\n                    self.tree[node] = max(self.tree[node], val)\n                    return\n                mid = (l + r) // 2\n                if idx <= mid:\n                    self.update(idx, val, 2*node+1, l, mid)\n                else:\n                    self.update(idx, val, 2*node+2, mid+1, r)\n                self.tree[node] = max(self.tree[2*node+1], self.tree[2*node+2])\n            \n            def query(self, ql, qr, node=0, l=0, r=None):\n                if r is None:\n                    r = self.size - 1\n                if ql > qr or ql > r or qr < l:\n                    return float('-inf')\n                if ql <= l and r <= qr:\n                    return self.tree[node]\n                mid = (l + r) // 2\n                return max(self.query(ql, qr, 2*node+1, l, mid),\n                          self.query(ql, qr, 2*node+2, mid+1, r))\n        \n        seg_tree = SegmentTree(len(coords))\n        result = float('-inf')\n        \n        for trans_val, num, i in transformed:\n            coord_idx = coord_map[trans_val]\n            # Query max value for all coord_idx <= current\n            max_prev = seg_tree.query(0, coord_idx)\n            \n            # Current contribution\n            current_sum = num + max(0, max_prev)  # Can start fresh or extend\n            result = max(result, current_sum)\n            \n            # Update for future queries\n            seg_tree.update(coord_idx, current_sum)\n        \n        return result",
+    "explanation": "This solution uses segment tree with coordinate compression:\n\n1. **Problem Transformation**:\n   - Constraint: nums[i] - nums[j] >= i - j\n   - Rearrange: nums[i] - i >= nums[j] - j\n   - Define: transformed[i] = nums[i] - i\n   - Need: max sum where transformed values non-decreasing\n\n2. **DP Approach**:\n   - dp[i] = max sum of balanced subsequence ending at i\n   - dp[i] = nums[i] + max(dp[j]) for all j < i with transformed[j] <= transformed[i]\n   - If no such j, dp[i] = nums[i]\n\n3. **Efficient Range Query**:\n   - Naive: O(n²)\n   - Optimize: segment tree for range max query\n   - As we process in order of indices, query max for transformed values <= current\n\n4. **Coordinate Compression**:\n   - transformed values can be large\n   - Compress to indices in sorted unique set\n   - Map each transformed value to coordinate\n\n5. **Segment Tree Operations**:\n   - update(idx, val): set position idx = max(position, val)\n   - query(0, idx): get max value in range [0, idx]\n   - Enables O(log n) operations\n\n6. **Algorithm Flow**:\n   - Sort by index (given in order)\n   - For each position i:\n     - Get transformed value: nums[i] - i\n     - Find coordinate: coord_map[transformed[i]]\n     - Query: max dp value for all coords <= this coordinate\n     - Update: dp[i] = nums[i] + max_prev\n     - Store in segment tree\n\nTime Complexity: O(n log n)\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Pairs Satisfying Inequality\", \"titleSlug\": \"number-of-pairs-satisfying-inequality\", \"difficulty\": \"Hard\"}]"
+}

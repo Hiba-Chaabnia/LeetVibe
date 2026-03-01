@@ -1,0 +1,51 @@
+{
+  "questionId": "684",
+  "title": "Redundant Connection",
+  "titleSlug": "redundant-connection",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "In this problem, a tree is an undirected graph that is connected and has no cycles.\n\nYou are given a graph that started as a tree with n nodes labeled from 1 to n, with one additional edge added. The added edge has two different vertices chosen from 1 to n, and was not an edge that already existed. The graph is represented as an array edges of length n where edges[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the graph.\n\nReturn an edge that can be removed so that the resulting graph is a tree of n nodes. If there are multiple answers, return the answer that occurs last in the input.\n\nExample 1:\n\nInput: edges = [[1,2],[1,3],[2,3]]\nOutput: [2,3]\n\nExample 2:\n\nInput: edges = [[1,2],[2,3],[3,4],[1,4],[1,5]]\nOutput: [1,4]\n\nConstraints:\n\n• n == edges.length\n\n• 3 <= n <= 1000\n\n• edges[i].length == 2\n\n• 1 <= ai < bi <= edges.length\n\n• ai != bi\n\n• There are no repeated edges.\n\n• The given graph is connected.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findRedundantConnection(self, edges):\n        \"\"\"\n        :type edges: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2],[1,3],[2,3]]"
+    ],
+    [
+      "[[1,2],[2,3],[3,4],[1,4],[1,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3]",
+    "[1,4]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from typing import List\n\ndef findRedundantConnection(edges: List[List[int]]) -> List[int]:\n    def find(parent, x):\n        if parent[x] != x:\n            parent[x] = find(parent, parent[x])\n        return parent[x]\n\n    parent = list(range(len(edges) + 1))\n    for edge in edges:\n        root1 = find(parent, edge[0])\n        root2 = find(parent, edge[1])\n        if root1 == root2:\n            return edge\n        parent[root1] = root2\n    return []",
+    "explanation": "We are given a graph that was originally a tree but now has one additional edge. The goal is to find that extra edge and remove it to restore the origi\u0002nal tree structure. We can accomplish this using a disjoint set or Union-Find data structure. The key concept is that, in a tree, there is only one unique path between any two nodes. If we find two nodes that are already in the same set, then the edge connecting those nodes is the additional edge.\n\n1. Initialize the parent array with its index as the parent.\n2. Iterate through all the edges in the input graph.\n3. Perform the find operation to get the root of both nodes of the current edge.\n   - If the roots are the same, then these nodes already belong to the same set, meaning this edge is the additional one, so return it.\n   - Otherwise, unionize the sets by updating the parent of one of the roots.\n4. If we iterate through all edges and find no redundant edge, return an empty result. (This step should actually never be reached, since there is a guaran\u0002tee of a redundant edge in the input.)\n\nThis method guarantees that we find the extra edge, and as we traverse the edges in their input order, we satisfy the condition of returning the answer that occurs last in the input."
+  },
+  "similarQuestions": "[{\"title\": \"Redundant Connection II\", \"titleSlug\": \"redundant-connection-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Accounts Merge\", \"titleSlug\": \"accounts-merge\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Employees to Be Invited to a Meeting\", \"titleSlug\": \"maximum-employees-to-be-invited-to-a-meeting\", \"difficulty\": \"Hard\"}, {\"title\": \"Shortest Cycle in a Graph\", \"titleSlug\": \"shortest-cycle-in-a-graph\", \"difficulty\": \"Hard\"}]"
+}

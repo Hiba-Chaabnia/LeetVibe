@@ -1,0 +1,52 @@
+{
+  "questionId": "940",
+  "title": "Fruit Into Baskets",
+  "titleSlug": "fruit-into-baskets",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are visiting a farm that has a single row of fruit trees arranged from left to right. The trees are represented by an integer array fruits where fruits[i] is the type of fruit the ith tree produces.\n\nYou want to collect as much fruit as possible. However, the owner has some strict rules that you must follow:\n\n• You only have two baskets, and each basket can only hold a single type of fruit. There is no limit on the amount of fruit each basket can hold.\n\n• Starting from any tree of your choice, you must pick exactly one fruit from every tree (including the start tree) while moving to the right. The picked fruits must fit in one of your baskets.\n\n• Once you reach a tree with fruit that cannot fit in your baskets, you must stop.\n\nGiven the integer array fruits, return the maximum number of fruits you can pick.\n\nExample 1:\n\nInput: fruits = [1,2,1]\nOutput: 3\nExplanation: We can pick from all 3 trees.\n\nExample 2:\n\nInput: fruits = [0,1,2,2]\nOutput: 3\nExplanation: We can pick from trees [1,2,2].\n    If we had started at the first tree, we would only pick from trees [0,1].\n\nExample 3:\n\nInput: fruits = [1,2,3,2,2]\nOutput: 4\nExplanation: We can pick from trees [2,3,2,2].\n    If we had started at the first tree, we would only pick from trees [1,2].\n\nConstraints:\n\n• 1 <= fruits.length <= 105\n\n• 0 <= fruits[i] < fruits.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def totalFruit(self, fruits):\n        \"\"\"\n        :type fruits: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,1]"
+    ],
+    [
+      "[0,1,2,2]"
+    ],
+    [
+      "[1,2,3,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def totalFruit(self, fruits):\n        \"\"\"\n        :type fruits: List[int]\n        :rtype: int\n        \"\"\"\n        left = 0\n        basket = {}\n        max_len = 0\n        \n        for right in range(len(fruits)):\n            fruit = fruits[right]\n            basket[fruit] = basket.get(fruit, 0) + 1\n            \n            while len(basket) > 2:\n                left_fruit = fruits[left]\n                basket[left_fruit] -= 1\n                if basket[left_fruit] == 0:\n                    del basket[left_fruit]\n                left += 1\n            \n            max_len = max(max_len, right - left + 1)\n        \n        return max_len",
+    "explanation": "Sliding window with at most 2 fruit types. Expand right, contract left when exceeding 2 types.",
+    "complexity": "Time: O(n). Space: O(1) - at most 2 types."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Nice Subarray\", \"titleSlug\": \"longest-nice-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Fruits Into Baskets II\", \"titleSlug\": \"fruits-into-baskets-ii\", \"difficulty\": \"Easy\"}]"
+}

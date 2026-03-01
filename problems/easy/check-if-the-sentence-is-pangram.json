@@ -1,0 +1,46 @@
+{
+  "questionId": "1960",
+  "title": "Check if the Sentence Is Pangram",
+  "titleSlug": "check-if-the-sentence-is-pangram",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A pangram is a sentence where every letter of the English alphabet appears at least once.\n\nGiven a string sentence containing only lowercase English letters, return true if sentence is a pangram, or false otherwise.\n\nExample 1:\n\nInput: sentence = \"thequickbrownfoxjumpsoverthelazydog\"\nOutput: true\nExplanation: sentence contains at least one of every letter of the English alphabet.\n\nExample 2:\n\nInput: sentence = \"leetcode\"\nOutput: false\n\nConstraints:\n\n• 1 <= sentence.length <= 1000\n\n• sentence consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkIfPangram(self, sentence):\n        \"\"\"\n        :type sentence: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate over the string and mark each character as found (using a boolean array, bitmask, or any other similar way).",
+    "Check if the number of found characters equals the alphabet length."
+  ],
+  "testCases": [
+    [
+      "\"thequickbrownfoxjumpsoverthelazydog\""
+    ],
+    [
+      "\"leetcode\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkIfPangram(self, sentence):\n        return len(set(sentence)) >= 26",
+    "explanation": "Count unique letters. Need all 26 lowercase letters."
+  },
+  "similarQuestions": "[]"
+}

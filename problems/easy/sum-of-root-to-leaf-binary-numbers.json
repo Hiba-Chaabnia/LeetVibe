@@ -1,0 +1,49 @@
+{
+  "questionId": "1079",
+  "title": "Sum of Root To Leaf Binary Numbers",
+  "titleSlug": "sum-of-root-to-leaf-binary-numbers",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary tree where each node has a value 0 or 1. Each root-to-leaf path represents a binary number starting with the most significant bit.\n\n• For example, if the path is 0 -> 1 -> 1 -> 0 -> 1, then this could represent 01101 in binary, which is 13.\n\nFor all leaves in the tree, consider the numbers represented by the path from the root to that leaf. Return the sum of these numbers.\n\nThe test cases are generated so that the answer fits in a 32-bits integer.\n\nExample 1:\n\nInput: root = [1,0,1,0,1,0,1]\nOutput: 22\nExplanation: (100) + (101) + (110) + (111) = 4 + 5 + 6 + 7 = 22\n\nExample 2:\n\nInput: root = [0]\nOutput: 0\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 1000].\n\n• Node.val is 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def sumRootToLeaf(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find each path, then transform that path to an integer in base 10."
+  ],
+  "testCases": [
+    [
+      "[1,0,1,0,1,0,1]"
+    ],
+    [
+      "[0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "22",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumRootToLeaf(self, root):\n        def dfs(node, current):\n            if not node:\n                return 0\n            current = current * 2 + node.val\n            if not node.left and not node.right:\n                return current\n            return dfs(node.left, current) + dfs(node.right, current)\n        return dfs(root, 0)",
+    "explanation": "DFS building binary number. Sum leaf values (decimal).\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[]"
+}

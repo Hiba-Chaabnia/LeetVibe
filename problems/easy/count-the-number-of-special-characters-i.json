@@ -1,0 +1,49 @@
+{
+  "questionId": "3408",
+  "title": "Count the Number of Special Characters I",
+  "titleSlug": "count-the-number-of-special-characters-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string word. A letter is called special if it appears both in lowercase and uppercase in word.\n\nReturn the number of special letters in word.\n\nExample 1:\n\nInput: word = \"aaAbcBC\"\n\nOutput: 3\n\nExplanation: The special characters in word are 'a', 'b', and 'c'.\n\nExample 2:\n\nInput: word = \"abc\"\n\nOutput: 0\n\nExplanation: No character in word appears in uppercase.\n\nExample 3:\n\nInput: word = \"abBCab\"\n\nOutput: 1\n\nExplanation: The only special character in word is 'b'.\n\nConstraints:\n\n• 1 <= word.length <= 50\n\n• word consists of only lowercase and uppercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfSpecialChars(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints are small. For all 52 characters, check if they are present in word."
+  ],
+  "testCases": [
+    [
+      "\"aaAbcBC\""
+    ],
+    [
+      "\"abc\""
+    ],
+    [
+      "\"abBCab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfSpecialChars(self, word):\n        chars = set(word)\n        count = 0\n        for c in set(word):\n            if c.islower() and c.upper() in chars:\n                count += 1\n        return count",
+    "explanation": "Count letters whose lowercase and uppercase forms both appear in the word. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Detect Capital\", \"titleSlug\": \"detect-capital\", \"difficulty\": \"Easy\"}, {\"title\": \"Greatest English Letter in Upper and Lower Case\", \"titleSlug\": \"greatest-english-letter-in-upper-and-lower-case\", \"difficulty\": \"Easy\"}, {\"title\": \"Count the Number of Special Characters II\", \"titleSlug\": \"count-the-number-of-special-characters-ii\", \"difficulty\": \"Medium\"}]"
+}

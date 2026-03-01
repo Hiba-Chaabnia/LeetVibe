@@ -1,0 +1,53 @@
+{
+  "questionId": "3337",
+  "title": "Count Substrings Starting and Ending with Given Character",
+  "titleSlug": "count-substrings-starting-and-ending-with-given-character",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s and a character c. Return the total number of substrings of s that start and end with c.\n\nExample 1:\n\nInput: s = \"abada\", c = \"a\"\n\nOutput: 6\n\nExplanation: Substrings starting and ending with \"a\" are: \"abada\", \"abada\", \"abada\", \"abada\", \"abada\", \"abada\".\n\nExample 2:\n\nInput: s = \"zzz\", c = \"z\"\n\nOutput: 6\n\nExplanation: There are a total of 6 substrings in s and all start and end with \"z\".\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s and c consist only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSubstrings(self, s, c):\n        \"\"\"\n        :type s: str\n        :type c: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the number of characters 'c' in string s, let’s call it m.",
+    "We can select 2 numbers i and j such that i <= j are the start and end indices of substring. Note that i and j can be the same.",
+    "The answer is m * (m + 1) / 2."
+  ],
+  "testCases": [
+    [
+      "\"abada\"",
+      "\"a\""
+    ],
+    [
+      "\"zzz\"",
+      "\"z\""
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countSubstrings(self, s, c):\n        m = s.count(c)\n        return m * (m + 1) // 2",
+    "explanation": "Any substring starting and ending with c has both endpoints on c-positions. Count m occurrences of c; choose 2 (with repetition for single char): C(m+1,2) = m*(m+1)//2.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

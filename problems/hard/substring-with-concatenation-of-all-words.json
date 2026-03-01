@@ -1,0 +1,54 @@
+{
+  "questionId": "30",
+  "title": "Substring with Concatenation of All Words",
+  "titleSlug": "substring-with-concatenation-of-all-words",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a string s and an array of strings words. All the strings of words are of the same length.\n\nA concatenated string is a string that exactly contains all the strings of any permutation of words concatenated.\n\n• For example, if words = [\"ab\",\"cd\",\"ef\"], then \"abcdef\", \"abefcd\", \"cdabef\", \"cdefab\", \"efabcd\", and \"efcdab\" are all concatenated strings. \"acdbef\" is not a concatenated string because it is not the concatenation of any permutation of words.\n\nReturn an array of the starting indices of all the concatenated substrings in s. You can return the answer in any order.\n\nExample 1:\n\nInput: s = \"barfoothefoobarman\", words = [\"foo\",\"bar\"]\n\nOutput: [0,9]\n\nExplanation: The substring starting at 0 is \"barfoo\". It is the concatenation of [\"bar\",\"foo\"] which is a permutation of words.\n\nThe substring starting at 9 is \"foobar\". It is the concatenation of [\"foo\",\"bar\"] which is a permutation of words.\n\nExample 2:\n\nInput: s = \"wordgoodgoodgoodbestword\", words = [\"word\",\"good\",\"best\",\"word\"]\n\nOutput: []\n\nExplanation: There is no concatenated substring.\n\nExample 3:\n\nInput: s = \"barfoofoobarthefoobarman\", words = [\"bar\",\"foo\",\"the\"]\n\nOutput: [6,9,12]\n\nExplanation: The substring starting at 6 is \"foobarthe\". It is the concatenation of [\"foo\",\"bar\",\"the\"].\n\nThe substring starting at 9 is \"barthefoo\". It is the concatenation of [\"bar\",\"the\",\"foo\"].\n\nThe substring starting at 12 is \"thefoobar\". It is the concatenation of [\"the\",\"foo\",\"bar\"].\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• 1 <= words.length <= 5000\n\n• 1 <= words[i].length <= 30\n\n• s and words[i] consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findSubstring(self, s, words):\n        \"\"\"\n        :type s: str\n        :type words: List[str]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"barfoothefoobarman\"",
+      "[\"foo\",\"bar\"]"
+    ],
+    [
+      "\"wordgoodgoodgoodbestword\"",
+      "[\"word\",\"good\",\"best\",\"word\"]"
+    ],
+    [
+      "\"barfoofoobarthefoobarman\"",
+      "[\"bar\",\"foo\",\"the\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,9]",
+    "[]",
+    "[6,9,12]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\ndef findSubstring(s, words):\n    if not s or not words:\n        return []\n\n    word_count = Counter(words)\n    word_length = len(words[0])\n    total_words = len(words)\n    total_length = word_length * total_words\n    result = []\n\n    for i in range(len(s) - total_length + 1):\n        temp_word_count = Counter()\n        for j in range(total_words):\n            current_word = s[i + j * word_length:i + (j + 1) * word_length]\n            if current_word not in word_count:\n                break\n            temp_word_count[current_word] += 1\n            if temp_word_count[current_word] > word_count[current_word]:\n                break\n            if j + 1 == total_words:\n                result.append(i)\n\n    return result",
+    "explanation": "1. If the input string `s` or `words` array is empty, return an empty list.\n2. Create a hashmap `word_count` to store the count of each word present in the `words` array.\n3. Get the length of a single word, the total number of words, and the total length of the concatenated string.\n4. Iterate through the string `s` with an index `i`, starting from 0 and up to `s.size() - total_length`.\n5. For each index `i`, create a temporary hashmap `temp_word_count`, and iterate through the words starting from index `j` to `total_words - 1`.\n6. Extract the current word from the substring with the starting position `(i + j * word_length)`, and length `word_length`.\n7. Look for the current word in the hashmap `word_count`. If it's not present, break the loop and check the next index.\n8. Add the current word to the temporary hashmap `temp_word_count`. If the word's count in `temp_word_count` exceeds the count in `word_count`, break the loop.\n9. If all words are present in the substring and satisfy the required counts, add the current index `i` to the result list.\n10. Return the result list after processing all indices."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Window Substring\", \"titleSlug\": \"minimum-window-substring\", \"difficulty\": \"Hard\"}]"
+}

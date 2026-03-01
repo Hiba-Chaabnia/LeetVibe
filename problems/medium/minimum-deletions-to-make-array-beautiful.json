@@ -1,0 +1,46 @@
+{
+  "questionId": "1355",
+  "title": "Minimum Deletions to Make Array Beautiful",
+  "titleSlug": "minimum-deletions-to-make-array-beautiful",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. The array nums is beautiful if:\n\n• nums.length is even.\n\n• nums[i] != nums[i + 1] for all i % 2 == 0.\n\nNote that an empty array is considered beautiful.\n\nYou can delete any number of elements from nums. When you delete an element, all the elements to the right of the deleted element will be shifted one unit to the left to fill the gap created and all the elements to the left of the deleted element will remain unchanged.\n\nReturn the minimum number of elements to delete from nums to make it beautiful.\n\nExample 1:\n\nInput: nums = [1,1,2,3,5]\nOutput: 1\nExplanation: You can delete either nums[0] or nums[1] to make nums = [1,2,3,5] which is beautiful. It can be proven you need at least 1 deletion to make nums beautiful.\n\nExample 2:\n\nInput: nums = [1,1,2,2,3,3]\nOutput: 2\nExplanation: You can delete nums[0] and nums[5] to make nums = [1,2,2,3] which is beautiful. It can be proven you need at least 2 deletions to make nums beautiful.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDeletion(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Delete as many adjacent equal elements as necessary.",
+    "If the length of nums is odd after the entire process, delete the last element."
+  ],
+  "testCases": [
+    [
+      "[1,1,2,3,5]"
+    ],
+    [
+      "[1,1,2,2,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Deletions to Make Character Frequencies Unique\", \"titleSlug\": \"minimum-deletions-to-make-character-frequencies-unique\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Make the Array Alternating\", \"titleSlug\": \"minimum-operations-to-make-the-array-alternating\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "3677",
+  "title": "Maximum Amount of Money Robot Can Earn",
+  "titleSlug": "maximum-amount-of-money-robot-can-earn",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n grid. A robot starts at the top-left corner of the grid (0, 0) and wants to reach the bottom-right corner (m - 1, n - 1). The robot can move either right or down at any point in time.\n\nThe grid contains a value coins[i][j] in each cell:\n\n• If coins[i][j] >= 0, the robot gains that many coins.\n\n• If coins[i][j] < 0, the robot encounters a robber, and the robber steals the absolute value of coins[i][j] coins.\n\nThe robot has a special ability to neutralize robbers in at most 2 cells on its path, preventing them from stealing coins in those cells.\n\nNote: The robot's total coins can be negative.\n\nReturn the maximum profit the robot can gain on the route.\n\nExample 1:\n\nInput: coins = [[0,1,-1],[1,-2,3],[2,-3,4]]\n\nOutput: 8\n\nExplanation: An optimal path for maximum coins is:\n\n• Start at (0, 0) with 0 coins (total coins = 0).\n\n• Move to (0, 1), gaining 1 coin (total coins = 0 + 1 = 1).\n\n• Move to (1, 1), where there's a robber stealing 2 coins. The robot uses one neutralization here, avoiding the robbery (total coins = 1).\n\n• Move to (1, 2), gaining 3 coins (total coins = 1 + 3 = 4).\n\n• Move to (2, 2), gaining 4 coins (total coins = 4 + 4 = 8).\n\nExample 2:\n\nInput: coins = [[10,10,10],[10,10,10]]\n\nOutput: 40\n\nExplanation: An optimal path for maximum coins is:\n\n• Start at (0, 0) with 10 coins (total coins = 10).\n\n• Move to (0, 1), gaining 10 coins (total coins = 10 + 10 = 20).\n\n• Move to (0, 2), gaining another 10 coins (total coins = 20 + 10 = 30).\n\n• Move to (1, 2), gaining the final 10 coins (total coins = 30 + 10 = 40).\n\nConstraints:\n\n• m == coins.length\n\n• n == coins[i].length\n\n• 1 <= m, n <= 500\n\n• -1000 <= coins[i][j] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumAmount(self, coins):\n        \"\"\"\n        :type coins: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use Dynamic Programming.",
+    "Let dp[i][j][k] denote the maximum amount of money a robot can earn by starting at cell (i,j) and having neutralized k robbers."
+  ],
+  "testCases": [
+    [
+      "[[0,1,-1],[1,-2,3],[2,-3,4]]"
+    ],
+    [
+      "[[10,10,10],[10,10,10]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "40"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumAmount(self, coins):\n        m, n = len(coins), len(coins[0])\n        INF = float('-inf')\n        # dp[i][j][k] = max coins at (i,j) having neutralized k robbers (k=0,1,2)\n        dp = [[[INF]*3 for _ in range(n)] for _ in range(m)]\n        dp[0][0][0] = coins[0][0]\n        if coins[0][0] < 0:\n            dp[0][0][1] = 0  # neutralize (0,0)\n\n        for i in range(m):\n            for j in range(n):\n                for k in range(3):\n                    if dp[i][j][k] == INF:\n                        continue\n                    val = coins[i][j] if (i > 0 or j > 0) else 0  # already counted\n                    # Move right\n                    if j + 1 < n:\n                        nv = coins[i][j+1]\n                        for nk in range(k, 3):\n                            gain = 0 if (nk > k) else nv  # neutralize if nk > k\n                            if nk == k:\n                                gain = nv\n                                new_val = dp[i][j][k] + nv\n                            else:\n                                # Use one neutralization on (i, j+1)\n                                if nv < 0 and nk == k + 1:\n                                    new_val = dp[i][j][k] + 0\n                                else:\n                                    continue\n                            if new_val > dp[i][j+1][nk]:\n                                dp[i][j+1][nk] = new_val\n                    # Move down\n                    if i + 1 < m:\n                        nv = coins[i+1][j]\n                        for nk in range(k, 3):\n                            if nk == k:\n                                new_val = dp[i][j][k] + nv\n                            elif nk == k + 1 and nv < 0:\n                                new_val = dp[i][j][k] + 0\n                            else:\n                                continue\n                            if new_val > dp[i+1][j][nk]:\n                                dp[i+1][j][nk] = new_val\n\n        return max(dp[m-1][n-1])",
+    "explanation": "DP with state dp[i][j][k] = max coins at (i,j) having neutralized exactly k robbers (0,1,2). At each cell, either take the coin value normally or use a neutralization if coins[i][j] < 0 (count it as 0 instead). Transitions: move right or down.\n\nTime: O(m*n*3). Space: O(m*n*3)."
+  },
+  "similarQuestions": "[]"
+}

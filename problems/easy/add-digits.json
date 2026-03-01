@@ -1,0 +1,52 @@
+{
+  "questionId": "258",
+  "title": "Add Digits",
+  "titleSlug": "add-digits",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "Given an integer num, repeatedly add all its digits until the result has only one digit, and return it.\n\nExample 1:\n\nInput: num = 38\nOutput: 2\nExplanation: The process is\n    38 --> 3 + 8 --> 11\n    11 --> 1 + 1 --> 2\n    Since 2 has only one digit, return it.\n\nExample 2:\n\nInput: num = 0\nOutput: 0\n\nConstraints:\n\n• 0 <= num <= 231 - 1\n\nFollow up: Could you do it without any loop/recursion in O(1) runtime?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def addDigits(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A naive implementation of the above process is trivial. Could you come up with other methods?",
+    "What are all the possible results?",
+    "How do they occur, periodically or randomly?",
+    "You may find this <a href=\"https://en.wikipedia.org/wiki/Digital_root\" target=\"_blank\">Wikipedia article</a> useful."
+  ],
+  "testCases": [
+    [
+      "38"
+    ],
+    [
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def addDigits(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        if num == 0:\n            return 0\n        return 1 + (num - 1) % 9",
+    "explanation": "This is the Digital Root formula from number theory. Any number's repeated digit sum cycles through 1-9 with period 9. So the answer is simply num % 9, except when num is a multiple of 9 (result is 9, not 0). The formula 1 + (num - 1) % 9 handles both edge cases cleanly: num=0 returns 0 (handled separately), and multiples of 9 return 9 instead of 0."
+  },
+  "similarQuestions": "[{\"title\": \"Happy Number\", \"titleSlug\": \"happy-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Sum of Digits in the Minimum Number\", \"titleSlug\": \"sum-of-digits-in-the-minimum-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Sum of Digits of String After Convert\", \"titleSlug\": \"sum-of-digits-of-string-after-convert\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Sum of Four Digit Number After Splitting Digits\", \"titleSlug\": \"minimum-sum-of-four-digit-number-after-splitting-digits\", \"difficulty\": \"Easy\"}, {\"title\": \"Calculate Digit Sum of a String\", \"titleSlug\": \"calculate-digit-sum-of-a-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Difference Between Element Sum and Digit Sum of an Array\", \"titleSlug\": \"difference-between-element-sum-and-digit-sum-of-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Alternating Digit Sum\", \"titleSlug\": \"alternating-digit-sum\", \"difficulty\": \"Easy\"}]"
+}

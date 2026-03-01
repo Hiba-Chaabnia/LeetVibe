@@ -1,0 +1,54 @@
+{
+  "questionId": "1836",
+  "title": "Count Ways to Make Array With Product",
+  "titleSlug": "count-ways-to-make-array-with-product",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given a 2D integer array, queries. For each queries[i], where queries[i] = [ni, ki], find the number of different ways you can place positive integers into an array of size ni such that the product of the integers is ki. As the number of ways may be too large, the answer to the ith query is the number of ways modulo 109 + 7.\n\nReturn an integer array answer where answer.length == queries.length, and answer[i] is the answer to the ith query.\n\nExample 1:\n\nInput: queries = [[2,6],[5,1],[73,660]]\nOutput: [4,1,50734910]\nExplanation: Each query is independent.\n    [2,6]: There are 4 ways to fill an array of size 2 that multiply to 6: [1,6], [2,3], [3,2], [6,1].\n    [5,1]: There is 1 way to fill an array of size 5 that multiply to 1: [1,1,1,1,1].\n    [73,660]: There are 1050734917 ways to fill an array of size 73 that multiply to 660. 1050734917 modulo 109 + 7 = 50734910.\n\nExample 2:\n\nInput: queries = [[1,1],[2,2],[3,3],[4,4],[5,5]]\nOutput: [1,2,3,10,5]\n\nConstraints:\n\n• 1 <= queries.length <= 104\n\n• 1 <= ni, ki <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def waysToFillArray(self, queries):\n        \"\"\"\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Prime-factorize ki and count how many ways you can distribute the primes among the ni positions.",
+    "After prime factorizing ki, suppose there are x amount of prime factor. There are (x + n - 1) choose (n - 1) ways to distribute the x prime factors into n positions, allowing repetitions."
+  ],
+  "testCases": [
+    [
+      "[[2,6],[5,1],[73,660]]"
+    ],
+    [
+      "[[1,1],[2,2],[3,3],[4,4],[5,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[4,1,50734910]",
+    "[1,2,3,10,5]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count the Number of Ideal Arrays\", \"titleSlug\": \"count-the-number-of-ideal-arrays\", \"difficulty\": \"Hard\"}, {\"title\": \"Smallest Value After Replacing With Sum of Prime Factors\", \"titleSlug\": \"smallest-value-after-replacing-with-sum-of-prime-factors\", \"difficulty\": \"Medium\"}, {\"title\": \"Closest Prime Numbers in Range\", \"titleSlug\": \"closest-prime-numbers-in-range\", \"difficulty\": \"Medium\"}]"
+}

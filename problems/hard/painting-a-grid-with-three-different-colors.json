@@ -1,0 +1,45 @@
+{
+  "questionId": "2061",
+  "title": "Painting a Grid With Three Different Colors",
+  "titleSlug": "painting-a-grid-with-three-different-colors",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given two integers m and n. Consider an m x n grid where each cell is initially white. You can paint each cell red, green, or blue. All cells must be painted.\n\nReturn the number of ways to color the grid with no two adjacent cells having the same color. Since the answer can be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: m = 1, n = 1\nOutput: 3\nExplanation: The three possible colorings are shown in the image above.\n\nExample 2:\n\nInput: m = 1, n = 2\nOutput: 6\nExplanation: The six possible colorings are shown in the image above.\n\nExample 3:\n\nInput: m = 5, n = 5\nOutput: 580986\n\nConstraints:\n\n• 1 <= m <= 5\n\n• 1 <= n <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def colorTheGrid(self, m, n):\n        \"\"\"\n        :type m: int\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Represent each colored column by a bitmask based on each cell color.",
+    "Use bitmasks DP with state (currentCell, prevColumn)."
+  ],
+  "testCases": [
+    [
+      "1",
+      "1"
+    ],
+    [
+      "1",
+      "2"
+    ],
+    [
+      "5",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "6",
+    "580986"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Number of Ways to Paint N \\u00d7 3 Grid\", \"titleSlug\": \"number-of-ways-to-paint-n-3-grid\", \"difficulty\": \"Hard\"}]"
+}

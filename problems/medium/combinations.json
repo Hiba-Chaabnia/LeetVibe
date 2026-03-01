@@ -1,0 +1,41 @@
+{
+  "questionId": "77",
+  "title": "Combinations",
+  "titleSlug": "combinations",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "Given two integers n and k, return all possible combinations of k numbers chosen from the range [1, n].\n\nYou may return the answer in any order.\n\nExample 1:\n\nInput: n = 4, k = 2\nOutput: [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]\nExplanation: There are 4 choose 2 = 6 total combinations.\n    Note that combinations are unordered, i.e., [1,2] and [2,1] are considered to be the same combination.\n\nExample 2:\n\nInput: n = 1, k = 1\nOutput: [[1]]\nExplanation: There is 1 choose 1 = 1 total combination.\n\nConstraints:\n\n• 1 <= n <= 20\n\n• 1 <= k <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def combine(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "4",
+      "2"
+    ],
+    [
+      "1",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]",
+    "[[1]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from typing import List\n\ndef combine(n: int, k: int) -> List[List[int]]:\n    def backtrack(start, current_combination):\n        if len(current_combination) == k:\n            result.append(current_combination[:])\n\n        for i in range(start, n + 1):\n            current_combination.append(i)\n            backtrack(i + 1, current_combination)\n            current_combination.pop()\n\n    result = []\n    backtrack(1, [])\n    return result",
+    "explanation": "The algorithm uses a backtracking approach to generate all possible combinations of k numbers out of the range [1, n]. We create a helper function called `backtrack` that recursively generates combinations. In this helper function, we have a base case where if the size of the current combination is equal to k, we add it to the result. Otherwise, we iterate through the numbers from the start index to n, add the current number to the current combination, and make a recursive call with an incremented start index. After the call, we \"undo\" the decision by removing the number from the current combination (backtracking).\n\nThe main function initializes an empty result list, calls the `backtrack` function with a start index of 1 and an empty current combination list, and then returns the result list."
+  },
+  "similarQuestions": "[{\"title\": \"Combination Sum\", \"titleSlug\": \"combination-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Permutations\", \"titleSlug\": \"permutations\", \"difficulty\": \"Medium\"}]"
+}

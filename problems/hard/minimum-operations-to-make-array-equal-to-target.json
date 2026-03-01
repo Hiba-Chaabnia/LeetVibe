@@ -1,0 +1,60 @@
+{
+  "questionId": "3454",
+  "title": "Minimum Operations to Make Array Equal to Target",
+  "titleSlug": "minimum-operations-to-make-array-equal-to-target",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given two positive integer arrays nums and target, of the same length.\n\nIn a single operation, you can select any subarray of nums and increment each element within that subarray by 1 or decrement each element within that subarray by 1.\n\nReturn the minimum number of operations required to make nums equal to the array target.\n\nExample 1:\n\nInput: nums = [3,5,1,2], target = [4,6,2,4]\n\nOutput: 2\n\nExplanation: We will perform the following operations to make nums equal to target:\n\n- Increment nums[0..3] by 1, nums = [4,6,2,3].\n\n- Increment nums[3..3] by 1, nums = [4,6,2,4].\n\nExample 2:\n\nInput: nums = [1,3,2], target = [2,1,4]\n\nOutput: 5\n\nExplanation: We will perform the following operations to make nums equal to target:\n\n- Increment nums[0..0] by 1, nums = [2,3,2].\n\n- Decrement nums[1..1] by 1, nums = [2,2,2].\n\n- Decrement nums[1..1] by 1, nums = [2,1,2].\n\n- Increment nums[2..2] by 1, nums = [2,1,3].\n\n- Increment nums[2..2] by 1, nums = [2,1,4].\n\nConstraints:\n\n• 1 <= nums.length == target.length <= 105\n\n• 1 <= nums[i], target[i] <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumOperations(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Change nums'[i] = nums[i] - target[i], so our goal is to make nums' into all 0s.",
+    "Divide and conquer."
+  ],
+  "testCases": [
+    [
+      "[3,5,1,2]",
+      "[4,6,2,4]"
+    ],
+    [
+      "[1,3,2]",
+      "[2,1,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumOperations(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        \n        # Calculate differences\n        diff = [target[i] - nums[i] for i in range(n)]\n        \n        # Count operations using interval merging approach\n        # An operation on subarray [i, j] adds 1 to all elements in that range\n        \n        operations = 0\n        i = 0\n        \n        while i < n:\n            if diff[i] == 0:\n                i += 1\n                continue\n            \n            # Start an operation from position i\n            increment = diff[i]\n            operations += abs(increment)\n            \n            # Apply this increment to all consecutive elements that need the same direction\n            j = i\n            while j < n and diff[j] * increment > 0:\n                diff[j] -= increment\n                j += 1\n            \n            # After applying increment, continue from i\n            # (some elements might still need more operations in same direction)\n        \n        return operations",
+    "explanation": "This solution uses a greedy interval approach:\n\n1. **Problem Understanding**:\n   - Each operation: select subarray, increment all by 1 or decrement all by 1\n   - Transform nums to target with minimum operations\n\n2. **Difference Array**:\n   - diff[i] = target[i] - nums[i]\n   - Goal: make all diff values = 0\n   - Each operation affects a contiguous subarray\n\n3. **Greedy Strategy**:\n   - Process array left to right\n   - At position i with diff[i] != 0:\n     - Must perform |diff[i]| operations starting from i\n     - These operations apply to i and potentially beyond\n\n4. **Optimal Interval**:\n   - When we perform operation at position i:\n     - Continue as far right as possible while direction is consistent\n     - If diff[i] > 0 and diff[j] > 0: same operation helps both\n     - If diff[i] > 0 and diff[j] < 0: need different operations\n\n5. **Algorithm**:\n   - For each position i:\n     - Skip if diff[i] == 0 (already satisfied)\n     - Apply |diff[i]| operations of direction sign(diff[i])\n     - These operations affect from i to rightmost j where diff[j] has same sign\n     - Update diff values\n     - Continue\n\n6. **Example**:\n   - diff = [-2, 1, 3]\n   - At i=0: diff[0]=-2, apply 2 decrement operations\n     - Operation affects [0, j] where diff[j] <= 0\n     - j=1: diff[1]=-1 is positive, stop\n     - After: diff = [0, 3, 3]\n   - At i=1: diff[1]=3, apply 3 increment operations\n     - Affects [1, n]\n     - After: diff = [0, 0, 0]\n   - Total: 2 + 3 = 5\n\nTime Complexity: O(N)\nSpace Complexity: O(N)"
+  },
+  "similarQuestions": "[]"
+}

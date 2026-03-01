@@ -1,0 +1,49 @@
+{
+  "questionId": "4189",
+  "title": "Find Nth Smallest Integer With K One Bits",
+  "titleSlug": "find-nth-smallest-integer-with-k-one-bits",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given two positive integers n and k.\n\nReturn an integer denoting the nth smallest positive integer that has exactly k ones in its binary representation. It is guaranteed that the answer is strictly less than 250.\n\nExample 1:\n\nInput: n = 4, k = 2\n\nOutput: 9\n\nExplanation: The 4 smallest positive integers that have exactly k = 2 ones in their binary representations are:\n\n• 3 = 112\n\n• 5 = 1012\n\n• 6 = 1102\n\n• 9 = 10012\n\nExample 2:\n\nInput: n = 3, k = 1\n\nOutput: 4\n\nExplanation: The 3 smallest positive integers that have exactly k = 1 one in their binary representations are:\n\n• 1 = 12\n\n• 2 = 102\n\n• 4 = 1002\n\nConstraints:\n\n• 1 <= n <= 250\n\n• 1 <= k <= 50\n\n• The answer is strictly less than 250.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nthSmallest(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since the answer is strictly less than 2<sup>50</sup>, we can iterate over the number of bits (the length) of the result.",
+    "Precompute binomial coefficients C(n, k) to count how many numbers with exactly k set bits exist for a given length.",
+    "Determine the position of the most significant bit first, then greedily determine the remaining bits from MSB to LSB based on the remaining count n."
+  ],
+  "testCases": [
+    [
+      "4",
+      "2"
+    ],
+    [
+      "3",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

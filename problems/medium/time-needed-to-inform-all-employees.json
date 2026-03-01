@@ -1,0 +1,57 @@
+{
+  "questionId": "1492",
+  "title": "Time Needed to Inform All Employees",
+  "titleSlug": "time-needed-to-inform-all-employees",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "A company has n employees with a unique ID for each employee from 0 to n - 1. The head of the company is the one with headID.\n\nEach employee has one direct manager given in the manager array where manager[i] is the direct manager of the i-th employee, manager[headID] = -1. Also, it is guaranteed that the subordination relationships have a tree structure.\n\nThe head of the company wants to inform all the company employees of an urgent piece of news. He will inform his direct subordinates, and they will inform their subordinates, and so on until all employees know about the urgent news.\n\nThe i-th employee needs informTime[i] minutes to inform all of his direct subordinates (i.e., After informTime[i] minutes, all his direct subordinates can start spreading the news).\n\nReturn the number of minutes needed to inform all the employees about the urgent news.\n\nExample 1:\n\nInput: n = 1, headID = 0, manager = [-1], informTime = [0]\nOutput: 0\nExplanation: The head of the company is the only employee in the company.\n\nExample 2:\n\nInput: n = 6, headID = 2, manager = [2,2,-1,2,2,2], informTime = [0,0,1,0,0,0]\nOutput: 1\nExplanation: The head of the company with id = 2 is the direct manager of all the employees in the company and needs 1 minute to inform them all.\n    The tree structure of the employees in the company is shown.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• 0 <= headID < n\n\n• manager.length == n\n\n• 0 <= manager[i] < n\n\n• manager[headID] == -1\n\n• informTime.length == n\n\n• 0 <= informTime[i] <= 1000\n\n• informTime[i] == 0 if employee i has no subordinates.\n\n• It is guaranteed that all the employees can be informed.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numOfMinutes(self, n, headID, manager, informTime):\n        \"\"\"\n        :type n: int\n        :type headID: int\n        :type manager: List[int]\n        :type informTime: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The company can be represented as a tree, headID is always the root.",
+    "Store for each node the time needed to be informed of the news.",
+    "Answer is the max time a leaf node needs to be informed."
+  ],
+  "testCases": [
+    [
+      "1",
+      "0",
+      "[-1]",
+      "[0]"
+    ],
+    [
+      "6",
+      "2",
+      "[2,2,-1,2,2,2]",
+      "[0,0,1,0,0,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numOfMinutes(n, headID, manager, informTime):\n    subordinates = [[] for _ in range(n)]\n    for i in range(n):\n        if manager[i] != -1:\n            subordinates[manager[i]].append(i)\n    return dfs(headID, subordinates, informTime)\n\ndef dfs(employee, subordinates, informTime):\n    if informTime[employee] == 0:\n        return 0\n    max_time = 0\n    for i in subordinates[employee]:\n        max_time = max(max_time, dfs(i, subordinates, informTime))\n    return max_time + informTime[employee]",
+    "explanation": "The algorithm first builds a data structure (adjacency list) to represent the tree of subordinates, and then performs a depth-first search from the headID to find the maximum time taken to inform all employees. In each step of the DFS, it iterates through the direct subordinates of the current employee and calculates the time required for that employee to inform everyone. The maximum time from all possible subordinates is added to the current employee's informTime and returned. This continues recursively until the entire organization is processed."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Depth of Binary Tree\", \"titleSlug\": \"maximum-depth-of-binary-tree\", \"difficulty\": \"Easy\"}, {\"title\": \"Binary Tree Maximum Path Sum\", \"titleSlug\": \"binary-tree-maximum-path-sum\", \"difficulty\": \"Hard\"}]"
+}

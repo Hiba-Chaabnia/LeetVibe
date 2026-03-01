@@ -1,0 +1,49 @@
+{
+  "questionId": "144",
+  "title": "Binary Tree Preorder Traversal",
+  "titleSlug": "binary-tree-preorder-traversal",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the preorder traversal of its nodes' values.\n\nExample 1:\n\nInput: root = [1,null,2,3]\n\nOutput: [1,2,3]\n\nExplanation: Example 2:\n\nInput: root = [1,2,3,4,5,null,8,null,null,6,7,9]\n\nOutput: [1,2,4,5,6,7,3,8,9]\n\nExplanation: Example 3:\n\nInput: root = []\n\nOutput: []\n\nExample 4:\n\nInput: root = [1]\n\nOutput: [1]\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 100].\n\n• -100 <= Node.val <= 100\n\nFollow up: Recursive solution is trivial, could you do it iteratively?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def preorderTraversal(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,null,2,3]",
+      "[1,2,3,4,5,null,8,null,null,6,7,9]",
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def preorderTraversal(self, root):\n        result = []\n        stack = [root] if root else []\n        while stack:\n            node = stack.pop()\n            result.append(node.val)\n            if node.right:\n                stack.append(node.right)\n            if node.left:\n                stack.append(node.left)\n        return result",
+    "explanation": "Iterative preorder: Root -> Left -> Right. Push right then left (reverse order on stack)."
+  },
+  "similarQuestions": "[{\"title\": \"Binary Tree Inorder Traversal\", \"titleSlug\": \"binary-tree-inorder-traversal\", \"difficulty\": \"Easy\"}, {\"title\": \"Verify Preorder Sequence in Binary Search Tree\", \"titleSlug\": \"verify-preorder-sequence-in-binary-search-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"N-ary Tree Preorder Traversal\", \"titleSlug\": \"n-ary-tree-preorder-traversal\", \"difficulty\": \"Easy\"}, {\"title\": \"Kth Largest Sum in a Binary Tree\", \"titleSlug\": \"kth-largest-sum-in-a-binary-tree\", \"difficulty\": \"Medium\"}]"
+}

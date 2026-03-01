@@ -1,0 +1,67 @@
+{
+  "questionId": "1307",
+  "title": "Ugly Number III",
+  "titleSlug": "ugly-number-iii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "An ugly number is a positive integer that is divisible by a, b, or c.\n\nGiven four integers n, a, b, and c, return the nth ugly number.\n\nExample 1:\n\nInput: n = 3, a = 2, b = 3, c = 5\nOutput: 4\nExplanation: The ugly numbers are 2, 3, 4, 5, 6, 8, 9, 10... The 3rd is 4.\n\nExample 2:\n\nInput: n = 4, a = 2, b = 3, c = 4\nOutput: 6\nExplanation: The ugly numbers are 2, 3, 4, 6, 8, 9, 10, 12... The 4th is 6.\n\nExample 3:\n\nInput: n = 5, a = 2, b = 11, c = 13\nOutput: 10\nExplanation: The ugly numbers are 2, 4, 6, 8, 10, 11, 12, 13... The 5th is 10.\n\nConstraints:\n\n• 1 <= n, a, b, c <= 109\n\n• 1 <= a * b * c <= 1018\n\n• It is guaranteed that the result will be in range [1, 2 * 109].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nthUglyNumber(self, n, a, b, c):\n        \"\"\"\n        :type n: int\n        :type a: int\n        :type b: int\n        :type c: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Write a function f(k) to determine how many ugly numbers smaller than k. As f(k) is non-decreasing, try binary search.",
+    "Find all ugly numbers in [1, LCM(a, b, c)] (LCM is Least Common Multiple). Use inclusion-exclusion principle to expand the result."
+  ],
+  "testCases": [
+    [
+      "3",
+      "2",
+      "3",
+      "5"
+    ],
+    [
+      "4",
+      "2",
+      "3",
+      "4"
+    ],
+    [
+      "5",
+      "2",
+      "11",
+      "13"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "6",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import math\n\ndef nthUglyNumber(n, a, b, c):\n    left, right = 1, int(2e9)\n    lcm_ab, lcm_ac, lcm_bc = a * b // math.gcd(a, b), a * c // math.gcd(a, c), b * c // math.gcd(b, c)\n    lcm_abc = a * lcm_bc // math.gcd(a, lcm_bc)\n\n    while left < right:\n        mid = left + (right - left) // 2\n        count = mid // a + mid // b + mid // c - mid // lcm_ab - mid // lcm_ac - mid // lcm_bc + mid // lcm_abc\n        if count < n:\n            left = mid + 1\n        else:\n            right = mid\n    return left",
+    "explanation": "The algorithm uses binary search to find the nth ugly number. It first calculates the Least Common Multiple (LCM) of the given a, b, and c, and also the LCM of all the possible pairs along with the LCM of all three.\n\nNext, it sets the range of the search from 1 to 2 * 10^9. In each iteration, it sets the middle point and calculates the count of ugly numbers that can be obtained up to the middle point by adding the number of multiples of a, b, and c and then subtracting the multiples of their LCMs and then adding back the multiples of the LCM of all three.\n\nIf the count is less than n, it means the nth ugly number is more than the middle point, so we update the left-boundary, else we update the right-boundary. The process continues until the left and right boundaries collapse.\n\nFinally, the left boundary is returned as the nth ugly number."
+  },
+  "similarQuestions": "[{\"title\": \"Ugly Number II\", \"titleSlug\": \"ugly-number-ii\", \"difficulty\": \"Medium\"}]"
+}

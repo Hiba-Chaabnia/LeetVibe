@@ -1,0 +1,47 @@
+{
+  "questionId": "1196",
+  "title": "Filling Bookcase Shelves",
+  "titleSlug": "filling-bookcase-shelves",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an array books where books[i] = [thicknessi, heighti] indicates the thickness and height of the ith book. You are also given an integer shelfWidth.\n\nWe want to place these books in order onto bookcase shelves that have a total width shelfWidth.\n\nWe choose some of the books to place on this shelf such that the sum of their thickness is less than or equal to shelfWidth, then build another level of the shelf of the bookcase so that the total height of the bookcase has increased by the maximum height of the books we just put down. We repeat this process until there are no more books to place.\n\nNote that at each step of the above process, the order of the books we place is the same order as the given sequence of books.\n\n• For example, if we have an ordered list of 5 books, we might place the first and second book onto the first shelf, the third book on the second shelf, and the fourth and fifth book on the last shelf.\n\nReturn the minimum possible height that the total bookshelf can be after placing shelves in this manner.\n\nExample 1:\n\nInput: books = [[1,1],[2,3],[2,3],[1,1],[1,1],[1,1],[1,2]], shelfWidth = 4\nOutput: 6\nExplanation:\n    The sum of the heights of the 3 shelves is 1 + 3 + 2 = 6.\n    Notice that book number 2 does not have to be on the first shelf.\n\nExample 2:\n\nInput: books = [[1,3],[2,4],[3,2]], shelfWidth = 6\nOutput: 4\n\nConstraints:\n\n• 1 <= books.length <= 1000\n\n• 1 <= thicknessi <= shelfWidth <= 1000\n\n• 1 <= heighti <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minHeightShelves(self, books, shelfWidth):\n        \"\"\"\n        :type books: List[List[int]]\n        :type shelfWidth: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming:  dp(i) will be the answer to the problem for books[i:]."
+  ],
+  "testCases": [
+    [
+      "[[1,1],[2,3],[2,3],[1,1],[1,1],[1,1],[1,2]]",
+      "4"
+    ],
+    [
+      "[[1,3],[2,4],[3,2]]",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minHeightShelves(self, books, shelfWidth):\n        n = len(books)\n        dp = [float('inf')] * (n + 1)\n        dp[0] = 0\n        for i in range(1, n + 1):\n            width = 0\n            height = 0\n            for j in range(i - 1, -1, -1):\n                width += books[j][0]\n                if width > shelfWidth:\n                    break\n                height = max(height, books[j][1])\n                dp[i] = min(dp[i], dp[j] + height)\n        return dp[n]",
+    "explanation": "DP. dp[i] = min height for books 0..i-1. Try all shelf endings.\nTime: O(n²)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

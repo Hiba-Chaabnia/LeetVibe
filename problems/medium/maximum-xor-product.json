@@ -1,0 +1,61 @@
+{
+  "questionId": "3192",
+  "title": "Maximum Xor Product",
+  "titleSlug": "maximum-xor-product",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given three integers a, b, and n, return the maximum value of (a XOR x) * (b XOR x) where 0 <= x < 2n.\n\nSince the answer may be too large, return it modulo 109 + 7.\n\nNote that XOR is the bitwise XOR operation.\n\nExample 1:\n\nInput: a = 12, b = 5, n = 4\nOutput: 98\nExplanation: For x = 2, (a XOR x) = 14 and (b XOR x) = 7. Hence, (a XOR x) * (b XOR x) = 98.\n    It can be shown that 98 is the maximum value of (a XOR x) * (b XOR x) for all 0 Example 2:\n\nInput: a = 6, b = 7 , n = 5\nOutput: 930\nExplanation: For x = 25, (a XOR x) = 31 and (b XOR x) = 30. Hence, (a XOR x) * (b XOR x) = 930.\n    It can be shown that 930 is the maximum value of (a XOR x) * (b XOR x) for all 0 Example 3:\n\nInput: a = 1, b = 6, n = 3\nOutput: 12\nExplanation: For x = 5, (a XOR x) = 4 and (b XOR x) = 3. Hence, (a XOR x) * (b XOR x) = 12.\n    It can be shown that 12 is the maximum value of (a XOR x) * (b XOR x) for all 0\n\nConstraints:\n\n• 0 <= a, b < 250\n\n• 0 <= n <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumXorProduct(self, a, b, n):\n        \"\"\"\n        :type a: int\n        :type b: int\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate over bits from most significant to least significant.",
+    "For the i<sup>th</sup> bit, if both a and b have the same value, we can always make x’s i<sup>th</sup> bit different from a and b, so a ^ x and b ^ x both have the i<sup>th</sup></cod> bit set.",
+    "Otherwise, we can only set the i<sup>th</sup> bit of one of a ^ x or b ^ x. Depending on the previous bits of  a ^ x or b ^ x, we should set the smaller value’s i<sup>th</sup> bit."
+  ],
+  "testCases": [
+    [
+      "12",
+      "5",
+      "4"
+    ],
+    [
+      "6",
+      "7",
+      "5"
+    ],
+    [
+      "1",
+      "6",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "98",
+    "930",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumXorProduct(self, a, b, n):\n        MOD = 10**9 + 7\n        # Process bits from n-1 down to 0\n        # For each bit position i < n:\n        # - If a's bit == b's bit: set x's bit to 1 (both get the bit set -> both increase)\n        # - If a's bit != b's bit: set x's bit to 1 for the currently smaller value\n        #   (give the bit to the smaller one to balance and maximize product)\n        # Bits >= n in x are fixed at 0; bits of a and b at positions >= n stay unchanged.\n\n        # Track the resulting values of a XOR x and b XOR x\n        ra, rb = a, b\n        for i in range(n - 1, -1, -1):\n            bit_a = (a >> i) & 1\n            bit_b = (b >> i) & 1\n            if bit_a == bit_b:\n                # Set x's bit i to 1: both ra and rb get this bit set\n                ra |= (1 << i)\n                rb |= (1 << i)\n            else:\n                # One has the bit, one doesn't. Give it to the smaller.\n                if ra < rb:\n                    ra |= (1 << i)\n                    rb &= ~(1 << i)\n                else:\n                    rb |= (1 << i)\n                    ra &= ~(1 << i)\n        return (ra % MOD) * (rb % MOD) % MOD",
+    "explanation": "Greedily set bits of x from the most significant to least significant (within [0, n-1]).\n\nFor bit i: if a and b have the same bit, set x's bit to 1 so both (a XOR x) and (b XOR x) gain this bit — always beneficial. If they differ, one already has this bit and one doesn't. Give the bit to the currently smaller value (set x's bit so the smaller one gets it) to maximize the product (balancing increases product more than concentrating).\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum XOR After Operations \", \"titleSlug\": \"maximum-xor-after-operations\", \"difficulty\": \"Medium\"}]"
+}

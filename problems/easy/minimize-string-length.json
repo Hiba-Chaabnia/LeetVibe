@@ -1,0 +1,50 @@
+{
+  "questionId": "2825",
+  "title": "Minimize String Length",
+  "titleSlug": "minimize-string-length",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s, you have two types of operation:\n\n• Choose an index i in the string, and let c be the character in position i. Delete the closest occurrence of c to the left of i (if exists).\n\n• Choose an index i in the string, and let c be the character in position i. Delete the closest occurrence of c to the right of i (if exists).\n\nYour task is to minimize the length of s by performing the above operations zero or more times.\n\nReturn an integer denoting the length of the minimized string.\n\nExample 1:\n\nInput: s = \"aaabc\"\n\nOutput: 3\n\nExplanation:\n\n• Operation 2: we choose i = 1 so c is 'a', then we remove s[2] as it is closest 'a' character to the right of s[1].\n\n\ts becomes \"aabc\" after this.\n\n• Operation 1: we choose i = 1 so c is 'a', then we remove s[0] as it is closest 'a' character to the left of s[1].\n\n\ts becomes \"abc\" after this.\n\nExample 2:\n\nInput: s = \"cbbd\"\n\nOutput: 3\n\nExplanation:\n\n• Operation 1: we choose i = 2 so c is 'b', then we remove s[1] as it is closest 'b' character to the left of s[1].\n\n\ts becomes \"cbd\" after this.\n\nExample 3:\n\nInput: s = \"baadccab\"\n\nOutput: 4\n\nExplanation:\n\n• Operation 1: we choose i = 6 so c is 'a', then we remove s[2] as it is closest 'a' character to the left of s[6].\n\n\ts becomes \"badccab\" after this.\n\n• Operation 2: we choose i = 0 so c is 'b', then we remove s[6] as it is closest 'b' character to the right of s[0].\n\n\ts becomes \"badcca\" fter this.\n\n• Operation 2: we choose i = 3 so c is 'c', then we remove s[4] as it is closest 'c' character to the right of s[3].\n\n\ts becomes \"badca\" after this.\n\n• Operation 1: we choose i = 4 so c is 'a', then we remove s[1] as it is closest 'a' character to the left of s[4].\n\n\ts becomes \"bdca\" after this.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s contains only lowercase English letters",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimizedStringLength(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The minimized string will not contain duplicate characters.",
+    "The minimized string will contain all distinct characters of the original string."
+  ],
+  "testCases": [
+    [
+      "\"aaabc\""
+    ],
+    [
+      "\"cbbd\""
+    ],
+    [
+      "\"baadccab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimizedStringLength(self, s):\n        return len(set(s))",
+    "explanation": "The minimum length equals the number of distinct characters since we can always reduce each group to one occurrence. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Remove All Adjacent Duplicates In String\", \"titleSlug\": \"remove-all-adjacent-duplicates-in-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Remove All Adjacent Duplicates in String II\", \"titleSlug\": \"remove-all-adjacent-duplicates-in-string-ii\", \"difficulty\": \"Medium\"}]"
+}

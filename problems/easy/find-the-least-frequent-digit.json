@@ -1,0 +1,53 @@
+{
+  "questionId": "3994",
+  "title": "Find The Least Frequent Digit",
+  "titleSlug": "find-the-least-frequent-digit",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an integer n, find the digit that occurs least frequently in its decimal representation. If multiple digits have the same frequency, choose the smallest digit.\n\nReturn the chosen digit as an integer.\n\nThe frequency of a digit x is the number of times it appears in the decimal representation of n.\n\nExample 1:\n\nInput: n = 1553322\n\nOutput: 1\n\nExplanation: The least frequent digit in n is 1, which appears only once. All other digits appear twice.\n\nExample 2:\n\nInput: n = 723344511\n\nOutput: 2\n\nExplanation: The least frequent digits in n are 7, 2, and 5; each appears only once.\n\nConstraints:\n\n• 1 <= n <= 231​​​​​​​ - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getLeastFrequentDigit(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "1553322"
+    ],
+    [
+      "723344511"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getLeastFrequentDigit(self, n):\n        from collections import Counter\n        cnt = Counter(str(n))\n        min_freq = min(cnt.values())\n        return min(int(d) for d, f in cnt.items() if f == min_freq)",
+    "explanation": "Count digit frequencies; return the smallest digit among those with minimum frequency. O(log n) time."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "2585",
+  "title": "Delete Greatest Value in Each Row",
+  "titleSlug": "delete-greatest-value-in-each-row",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an m x n matrix grid consisting of positive integers.\n\nPerform the following operation until grid becomes empty:\n\n• Delete the element with the greatest value from each row. If multiple such elements exist, delete any of them.\n\n• Add the maximum of deleted elements to the answer.\n\nNote that the number of columns decreases by one after each operation.\n\nReturn the answer after performing the operations described above.\n\nExample 1:\n\nInput: grid = [[1,2,4],[3,3,1]]\nOutput: 8\nExplanation: The diagram above shows the removed values in each step.\n    - In the first operation, we remove 4 from the first row and 3 from the second row (notice that, there are two cells with value 3 and we can remove any of them). We add 4 to the answer.\n    - In the second operation, we remove 2 from the first row and 3 from the second row. We add 3 to the answer.\n    - In the third operation, we remove 1 from the first row and 1 from the second row. We add 1 to the answer.\n    The final answer = 4 + 3 + 1 = 8.\n\nExample 2:\n\nInput: grid = [[10]]\nOutput: 10\nExplanation: The diagram above shows the removed values in each step.\n    - In the first operation, we remove 10 from the first row. We add 10 to the answer.\n    The final answer = 10.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 50\n\n• 1 <= grid[i][j] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def deleteGreatestValue(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate from the first to the last row and if there exist some unmarked cells, take a maximum from them and mark that cell as visited.",
+    "Add a maximum of newly marked cells to answer and repeat that operation until the whole matrix becomes marked."
+  ],
+  "testCases": [
+    [
+      "[[1,2,4],[3,3,1]]"
+    ],
+    [
+      "[[10]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def deleteGreatestValue(self, grid):\n        for row in grid:\n            row.sort()\n        result = 0\n        for col in range(len(grid[0])):\n            max_val = 0\n            for row in range(len(grid)):\n                max_val = max(max_val, grid[row][col])\n            result += max_val\n        return result",
+    "explanation": "Sort each row. For each column, find max and add to result.\nTime: O(m*n*log(n))\nSpace: O(1) if we can modify input"
+  },
+  "similarQuestions": "[{\"title\": \"Equal Row and Column Pairs\", \"titleSlug\": \"equal-row-and-column-pairs\", \"difficulty\": \"Medium\"}]"
+}

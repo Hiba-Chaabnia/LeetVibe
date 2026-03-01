@@ -1,0 +1,49 @@
+{
+  "questionId": "1335",
+  "title": "Maximum Candies Allocated to K Children",
+  "titleSlug": "maximum-candies-allocated-to-k-children",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array candies. Each element in the array denotes a pile of candies of size candies[i]. You can divide each pile into any number of sub piles, but you cannot merge two piles together.\n\nYou are also given an integer k. You should allocate piles of candies to k children such that each child gets the same number of candies. Each child can be allocated candies from only one pile of candies and some piles of candies may go unused.\n\nReturn the maximum number of candies each child can get.\n\nExample 1:\n\nInput: candies = [5,8,6], k = 3\nOutput: 5\nExplanation: We can divide candies[1] into 2 piles of size 5 and 3, and candies[2] into 2 piles of size 5 and 1. We now have five piles of candies of sizes 5, 5, 3, 5, and 1. We can allocate the 3 piles of size 5 to 3 children. It can be proven that each child cannot receive more than 5 candies.\n\nExample 2:\n\nInput: candies = [2,5], k = 11\nOutput: 0\nExplanation: There are 11 children but only 7 candies in total, so it is impossible to ensure each child receives at least one candy. Thus, each child gets no candy and the answer is 0.\n\nConstraints:\n\n• 1 <= candies.length <= 105\n\n• 1 <= candies[i] <= 107\n\n• 1 <= k <= 1012",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumCandies(self, candies, k):\n        \"\"\"\n        :type candies: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For a fixed number of candies c, how can you check if each child can get c candies?",
+    "Use binary search to find the maximum c as the answer."
+  ],
+  "testCases": [
+    [
+      "[5,8,6]",
+      "3"
+    ],
+    [
+      "[2,5]",
+      "11"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maximumCandies(self, candies, k):\n        \"\"\"\n        :type candies: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        def canAllocate(num_candies_each):\n            # Check if we can give num_candies_each to k children\n            total_children = 0\n            for pile in candies:\n                total_children += pile // num_candies_each\n                if total_children >= k:\n                    return True\n            return total_children >= k\n        \n        left, right = 1, sum(candies) // k\n        result = 0\n        \n        while left <= right:\n            mid = (left + right) // 2\n            if canAllocate(mid):\n                result = mid\n                left = mid + 1\n            else:\n                right = mid - 1\n        \n        return result",
+    "explanation": "Binary search on answer. For each candidate, check if we can allocate that many candies to k children.",
+    "complexity": "Time: O(n log(sum/k)). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Koko Eating Bananas\", \"titleSlug\": \"koko-eating-bananas\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Limit of Balls in a Bag\", \"titleSlug\": \"minimum-limit-of-balls-in-a-bag\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Speed to Arrive on Time\", \"titleSlug\": \"minimum-speed-to-arrive-on-time\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Removable Characters\", \"titleSlug\": \"maximum-number-of-removable-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimized Maximum of Products Distributed to Any Store\", \"titleSlug\": \"minimized-maximum-of-products-distributed-to-any-store\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Time to Complete Trips\", \"titleSlug\": \"minimum-time-to-complete-trips\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimize Maximum of Array\", \"titleSlug\": \"minimize-maximum-of-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximize Happiness of Selected Children\", \"titleSlug\": \"maximize-happiness-of-selected-children\", \"difficulty\": \"Medium\"}]"
+}

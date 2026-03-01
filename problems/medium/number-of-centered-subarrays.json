@@ -1,0 +1,49 @@
+{
+  "questionId": "4129",
+  "title": "Number of Centered Subarrays",
+  "titleSlug": "number-of-centered-subarrays",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nA subarray of nums is called centered if the sum of its elements is equal to at least one element within that same subarray.\n\nReturn the number of centered subarrays of nums.\n\nExample 1:\n\nInput: nums = [-1,1,0]\n\nOutput: 5\n\nExplanation:\n\n• All single-element subarrays ([-1], [1], [0]) are centered.\n\n• The subarray [1, 0] has a sum of 1, which is present in the subarray.\n\n• The subarray [-1, 1, 0] has a sum of 0, which is present in the subarray.\n\n• Thus, the answer is 5.\n\nExample 2:\n\nInput: nums = [2,-3]\n\nOutput: 2\n\nExplanation: Only single-element subarrays ([2], [-3]) are centered.\n\nConstraints:\n\n• 1 <= nums.length <= 500\n\n• -105 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def centeredSubarrays(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Generate all subarrays and use a hashmap to check whether the sum exists in the generated subarrays."
+  ],
+  "testCases": [
+    [
+      "[-1,1,0]"
+    ],
+    [
+      "[2,-3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def centeredSubarrays(self, nums):\n        n = len(nums)\n        count = 0\n        for i in range(n):\n            total = 0\n            elements = set()\n            for j in range(i, n):\n                total += nums[j]\n                elements.add(nums[j])\n                if total in elements:\n                    count += 1\n        return count",
+    "explanation": "For each starting index i, we expand the subarray to the right, maintaining the running sum and a set of elements in the subarray. At each step, we check if the current sum is present in the element set.\n\nWith n <= 500, the O(n^2) brute force with O(n) set operations is O(n^3) worst case — but in practice much faster due to early containment checks.\n\nNote: single-element subarrays [x] always satisfy sum = x which is in the subarray, so they're always counted.\n\nTime complexity: O(n^2) average (O(n^3) worst case). Space complexity: O(n)."
+  },
+  "similarQuestions": "[]"
+}

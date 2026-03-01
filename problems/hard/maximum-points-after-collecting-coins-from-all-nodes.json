@@ -1,0 +1,67 @@
+{
+  "questionId": "3179",
+  "title": "Maximum Points After Collecting Coins From All Nodes",
+  "titleSlug": "maximum-points-after-collecting-coins-from-all-nodes",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "There exists an undirected tree rooted at node 0 with n nodes labeled from 0 to n - 1. You are given a 2D integer array edges of length n - 1, where edges[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the tree. You are also given a 0-indexed array coins of size n where coins[i] indicates the number of coins in the vertex i, and an integer k.\n\nStarting from the root, you have to collect all the coins such that the coins at a node can only be collected if the coins of its ancestors have been already collected.\n\nCoins at nodei can be collected in one of the following ways:\n\n• Collect all the coins, but you will get coins[i] - k points. If coins[i] - k is negative then you will lose abs(coins[i] - k) points.\n\n• Collect all the coins, but you will get floor(coins[i] / 2) points. If this way is used, then for all the nodej present in the subtree of nodei, coins[j] will get reduced to floor(coins[j] / 2).\n\nReturn the maximum points you can get after collecting the coins from all the tree nodes.\n\nExample 1:\n\nInput: edges = [[0,1],[1,2],[2,3]], coins = [10,10,3,3], k = 5\nOutput: 11\nExplanation:\n    Collect all the coins from node 0 using the first way. Total points = 10 - 5 = 5.\n    Collect all the coins from node 1 using the first way. Total points = 5 + (10 - 5) = 10.\n    Collect all the coins from node 2 using the second way so coins left at node 3 will be floor(3 / 2) = 1. Total points = 10 + floor(3 / 2) = 11.\n    Collect all the coins from node 3 using the second way. Total points = 11 + floor(1 / 2) = 11.\n    It can be shown that the maximum points we can get after collecting coins from all the nodes is 11.\n\nExample 2:\n\nInput: edges = [[0,1],[0,2]], coins = [8,4,4], k = 0\nOutput: 16\nExplanation:\n    Coins will be collected from all the nodes using the first way. Therefore, total points = (8 - 0) + (4 - 0) + (4 - 0) = 16.\n\nConstraints:\n\n• n == coins.length\n\n• 2 <= n <= 105\n\n• 0 <= coins[i] <= 104\n\n• edges.length == n - 1\n\n• 0 <= edges[i][0], edges[i][1] < n\n\n• 0 <= k <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumPoints(self, edges, coins, k):\n        \"\"\"\n        :type edges: List[List[int]]\n        :type coins: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let dp[x][t] be the maximum points we can get from the subtree rooted at node x and the second operation has been used t times in its ancestors.",
+    "Note that the value of each node <= 10<sup>4</sup>, so when t >= 14 dp[x][t] is always 0.",
+    "General equation will be: dp[x][t] = max((coins[x] >> t) - k + sigma(dp[y][t]), (coins[x] >> (t + 1)) + sigma(dp[y][t + 1])) where nodes denoted by y in the sigma, are the direct children of node x."
+  ],
+  "testCases": [
+    [
+      "[[0,1],[1,2],[2,3]]",
+      "[10,10,3,3]",
+      "5"
+    ],
+    [
+      "[[0,1],[0,2]]",
+      "[8,4,4]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "11",
+    "16"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumPoints(self, edges, coins, k):\n        \"\"\"\n        :type edges: List[List[int]]\n        :type coins: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        from collections import defaultdict\n        \n        n = len(coins)\n        graph = defaultdict(list)\n        \n        for u, v in edges:\n            graph[u].append(v)\n            graph[v].append(u)\n        \n        # dp[node][times] = max points from subtree rooted at node\n        # times = number of times we've used the second operation on ancestors\n        memo = {}\n        \n        def dfs(node, parent, times):\n            \"\"\"Return max points from subtree at node\n            times = halving operations used by ancestors\n            \"\"\"\n            # After 14 halvings, coins[node] becomes 0\n            if times >= 14:\n                return 0\n            \n            if (node, times) in memo:\n                return memo[(node, times)]\n            \n            # Option 1: Use first way (coins[node] - k)\n            option1 = (coins[node] >> times) - k  # coins[node] // (2^times) - k\n            for child in graph[node]:\n                if child != parent:\n                    option1 += dfs(child, node, times)\n            \n            # Option 2: Use second way (coins[node] // 2)\n            # This halves coins for entire subtree\n            option2 = (coins[node] >> (times + 1))  # coins[node] // (2^(times+1))\n            for child in graph[node]:\n                if child != parent:\n                    option2 += dfs(child, node, times + 1)\n            \n            result = max(option1, option2)\n            memo[(node, times)] = result\n            return result\n        \n        return dfs(0, -1, 0)",
+    "explanation": "This solution uses tree DP with state tracking:\n\n1. **Problem Understanding**:\n   - Collect coins from all nodes in tree (must visit ancestors first)\n   - Two ways per node:\n     - Way 1: Get coins[i] - k points\n     - Way 2: Get coins[i] // 2 points, but halves all descendant coins\n   - Find maximum points\n\n2. **Key Observation**:\n   - coins[i] <= 10^4, so after 14 halvings, becomes 0\n   - states limited by: nodes (n) and times (14)\n   - Total states: O(14*n)\n\n3. **DP State**:\n   - dp[node][times]:\n     - node: current node in tree\n     - times: number of halvings applied by ancestors\n     - Returns: max points from subtree\n\n4. **Transitions**:\n   - **Option 1**: Don't use second way\n     - Get: (coins[node] >> times) - k\n     - Children use same times (no additional halving)\n   - **Option 2**: Use second way\n     - Get: coins[node] >> (times + 1)  (one more halving)\n     - Children use times + 1 (inherit the halving)\n\n5. **Why Greedy DP Works**:\n   - Each node independently chooses way 1 or 2\n   - Choice affects only subtree below\n   - Optimal substructure holds\n   - Memoization avoids recomputation\n\nTime Complexity: O(14 * n) for DP states, O(n) for graph traversal = O(n)\nSpace Complexity: O(14 * n) for memoization"
+  },
+  "similarQuestions": "[]"
+}

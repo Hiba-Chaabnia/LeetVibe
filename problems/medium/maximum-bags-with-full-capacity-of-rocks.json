@@ -1,0 +1,55 @@
+{
+  "questionId": "2366",
+  "title": "Maximum Bags With Full Capacity of Rocks",
+  "titleSlug": "maximum-bags-with-full-capacity-of-rocks",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You have n bags numbered from 0 to n - 1. You are given two 0-indexed integer arrays capacity and rocks. The ith bag can hold a maximum of capacity[i] rocks and currently contains rocks[i] rocks. You are also given an integer additionalRocks, the number of additional rocks you can place in any of the bags.\n\nReturn the maximum number of bags that could have full capacity after placing the additional rocks in some bags.\n\nExample 1:\n\nInput: capacity = [2,3,4,5], rocks = [1,2,4,4], additionalRocks = 2\nOutput: 3\nExplanation:\n    Place 1 rock in bag 0 and 1 rock in bag 1.\n    The number of rocks in each bag are now [2,3,4,4].\n    Bags 0, 1, and 2 have full capacity.\n    There are 3 bags at full capacity, so we return 3.\n    It can be shown that it is not possible to have more than 3 bags at full capacity.\n    Note that there may be other ways of placing the rocks that result in an answer of 3.\n\nExample 2:\n\nInput: capacity = [10,2,2], rocks = [2,2,0], additionalRocks = 100\nOutput: 3\nExplanation:\n    Place 8 rocks in bag 0 and 2 rocks in bag 2.\n    The number of rocks in each bag are now [10,2,2].\n    Bags 0, 1, and 2 have full capacity.\n    There are 3 bags at full capacity, so we return 3.\n    It can be shown that it is not possible to have more than 3 bags at full capacity.\n    Note that we did not use all of the additional rocks.\n\nConstraints:\n\n• n == capacity.length == rocks.length\n\n• 1 <= n <= 5 * 104\n\n• 1 <= capacity[i] <= 109\n\n• 0 <= rocks[i] <= capacity[i]\n\n• 1 <= additionalRocks <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumBags(self, capacity, rocks, additionalRocks):\n        \"\"\"\n        :type capacity: List[int]\n        :type rocks: List[int]\n        :type additionalRocks: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Which bag should you fill completely first?",
+    "Can you think of a greedy solution?"
+  ],
+  "testCases": [
+    [
+      "[2,3,4,5]",
+      "[1,2,4,4]",
+      "2"
+    ],
+    [
+      "[10,2,2]",
+      "[2,2,0]",
+      "100"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maximumBags(self, capacity, rocks, additionalRocks):\n        \"\"\"\n        :type capacity: List[int]\n        :type rocks: List[int]\n        :type additionalRocks: int\n        :rtype: int\n        \"\"\"\n        # Calculate remaining space for each bag\n        remaining = [capacity[i] - rocks[i] for i in range(len(capacity))]\n        remaining.sort()\n        \n        full_bags = 0\n        for space in remaining:\n            if additionalRocks >= space:\n                additionalRocks -= space\n                full_bags += 1\n            else:\n                break\n        \n        return full_bags",
+    "explanation": "Greedy: fill bags with smallest remaining space first. Sort remaining spaces and fill in order.",
+    "complexity": "Time: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Capacity To Ship Packages Within D Days\", \"titleSlug\": \"capacity-to-ship-packages-within-d-days\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Units on a Truck\", \"titleSlug\": \"maximum-units-on-a-truck\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "1210",
+  "title": "Mean of Array After Removing Some Elements",
+  "titleSlug": "mean-of-array-after-removing-some-elements",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array arr, return the mean of the remaining integers after removing the smallest 5% and the largest 5% of the elements.\n\nAnswers within 10-5 of the actual answer will be considered accepted.\n\nExample 1:\n\nInput: arr = [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3]\nOutput: 2.00000\nExplanation: After erasing the minimum and the maximum values of this array, all elements are equal to 2, so the mean is 2.\n\nExample 2:\n\nInput: arr = [6,2,7,5,1,2,0,3,10,2,5,0,5,5,0,8,7,6,8,0]\nOutput: 4.00000\n\nExample 3:\n\nInput: arr = [6,0,7,0,7,5,7,8,3,4,0,7,8,1,6,8,1,1,2,4,8,1,9,5,4,3,8,5,10,8,6,6,1,0,6,10,8,2,3,4]\nOutput: 4.77778\n\nConstraints:\n\n• 20 <= arr.length <= 1000\n\n• arr.length is a multiple of 20.\n\n• 0 <= arr[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def trimMean(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the given array.",
+    "Remove the first and last 5% of the sorted array."
+  ],
+  "testCases": [
+    [
+      "[1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3]"
+    ],
+    [
+      "[6,2,7,5,1,2,0,3,10,2,5,0,5,5,0,8,7,6,8,0]"
+    ],
+    [
+      "[6,0,7,0,7,5,7,8,3,4,0,7,8,1,6,8,1,1,2,4,8,1,9,5,4,3,8,5,10,8,6,6,1,0,6,10,8,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2.00000",
+    "4.00000",
+    "4.77778"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def trimMean(self, arr):\n        arr.sort()\n        n = len(arr)\n        skip = n // 20\n        return sum(arr[skip:n-skip]) / (n - 2*skip)",
+    "explanation": "Sort, remove first and last 5%. Calculate mean of remaining.\nTime: O(n*log(n))\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

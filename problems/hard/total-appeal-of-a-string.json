@@ -1,0 +1,48 @@
+{
+  "questionId": "2340",
+  "title": "Total Appeal of A String",
+  "titleSlug": "total-appeal-of-a-string",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "The appeal of a string is the number of distinct characters found in the string.\n\n• For example, the appeal of \"abbca\" is 3 because it has 3 distinct characters: 'a', 'b', and 'c'.\n\nGiven a string s, return the total appeal of all of its substrings.\n\nA substring is a contiguous sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"abbca\"\nOutput: 28\nExplanation: The following are the substrings of \"abbca\":\n    - Substrings of length 1: \"a\", \"b\", \"b\", \"c\", \"a\" have an appeal of 1, 1, 1, 1, and 1 respectively. The sum is 5.\n    - Substrings of length 2: \"ab\", \"bb\", \"bc\", \"ca\" have an appeal of 2, 1, 2, and 2 respectively. The sum is 7.\n    - Substrings of length 3: \"abb\", \"bbc\", \"bca\" have an appeal of 2, 2, and 3 respectively. The sum is 7.\n    - Substrings of length 4: \"abbc\", \"bbca\" have an appeal of 3 and 3 respectively. The sum is 6.\n    - Substrings of length 5: \"abbca\" has an appeal of 3. The sum is 3.\n    The total sum is 5 + 7 + 7 + 6 + 3 = 28.\n\nExample 2:\n\nInput: s = \"code\"\nOutput: 20\nExplanation: The following are the substrings of \"code\":\n    - Substrings of length 1: \"c\", \"o\", \"d\", \"e\" have an appeal of 1, 1, 1, and 1 respectively. The sum is 4.\n    - Substrings of length 2: \"co\", \"od\", \"de\" have an appeal of 2, 2, and 2 respectively. The sum is 6.\n    - Substrings of length 3: \"cod\", \"ode\" have an appeal of 3 and 3 respectively. The sum is 6.\n    - Substrings of length 4: \"code\" has an appeal of 4. The sum is 4.\n    The total sum is 4 + 6 + 6 + 4 = 20.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def appealSum(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider the set of substrings that end at a certain index i. Then, consider a specific alphabetic character. How do you count the number of substrings ending at index i that contain that character?",
+    "The number of substrings that contain the alphabetic character is equivalent to 1 plus the index of the last occurrence of the character before index i + 1.",
+    "The total appeal of all substrings ending at index i is the total sum of the number of substrings that contain each alphabetic character.",
+    "To find the total appeal of all substrings, we simply sum up the total appeal for each index."
+  ],
+  "testCases": [
+    [
+      "\"abbca\""
+    ],
+    [
+      "\"code\""
+    ]
+  ],
+  "expectedOutputs": [
+    "28",
+    "20"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count Unique Characters of All Substrings of a Given String\", \"titleSlug\": \"count-unique-characters-of-all-substrings-of-a-given-string\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Vowel Substrings of a String\", \"titleSlug\": \"count-vowel-substrings-of-a-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Vowels of All Substrings\", \"titleSlug\": \"vowels-of-all-substrings\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Median of the Uniqueness Array\", \"titleSlug\": \"find-the-median-of-the-uniqueness-array\", \"difficulty\": \"Hard\"}]"
+}

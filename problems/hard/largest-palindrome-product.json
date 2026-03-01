@@ -1,0 +1,43 @@
+{
+  "questionId": "479",
+  "title": "Largest Palindrome Product",
+  "titleSlug": "largest-palindrome-product",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Given an integer n, return the largest palindromic integer that can be represented as the product of two n-digits integers. Since the answer can be very large, return it modulo 1337.\n\nExample 1:\n\nInput: n = 2\nOutput: 987\nExplanation: 99 x 91 = 9009, 9009 % 1337 = 987\n\nExample 2:\n\nInput: n = 1\nOutput: 9\n\nConstraints:\n\n• 1 <= n <= 8",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestPalindrome(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "2"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "987",
+    "9"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def largestPalindrome(n):\n    if n == 1: \n        return 9\n    upper_limit = 10**n - 1\n    lower_limit = upper_limit // 10\n    for i in range(upper_limit, lower_limit, -1):\n        temp = i\n        reverse = 0\n        while temp != 0:\n            reverse = reverse * 10 + temp % 10\n            temp //= 10\n        palindrome = i * (10**n) + reverse\n        for j in range(upper_limit, lower_limit, -1):\n            product = palindrome // j\n            if palindrome % j == 0 and product <= upper_limit:\n                return palindrome % 1337\n    return -1",
+    "explanation": "1. If n is 1, return 9 (the largest palindromic product of two 1-digit numbers is 9).\n2. Calculate the upper and lower limits for the n-digit numbers.\n3. Loop through the numbers in reverse order, starting from the upper limit down to the lower limit.\n4. Within the loop, find the reverse of the current iteration number.\n5. Calculate the possible palindrome by concatenating the current number and its reverse.\n6. Loop through the numbers again to find the two factors of the palindrome.\n7. If a palindrome with valid factors is found, return the palindrome modulo 1337.\n8. If no such palindrome is found, return -1."
+  },
+  "similarQuestions": "[]"
+}

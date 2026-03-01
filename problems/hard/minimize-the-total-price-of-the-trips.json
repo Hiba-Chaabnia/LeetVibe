@@ -1,0 +1,65 @@
+{
+  "questionId": "2739",
+  "title": "Minimize the Total Price of the Trips",
+  "titleSlug": "minimize-the-total-price-of-the-trips",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There exists an undirected and unrooted tree with n nodes indexed from 0 to n - 1. You are given the integer n and a 2D integer array edges of length n - 1, where edges[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the tree.\n\nEach node has an associated price. You are given an integer array price, where price[i] is the price of the ith node.\n\nThe price sum of a given path is the sum of the prices of all nodes lying on that path.\n\nAdditionally, you are given a 2D integer array trips, where trips[i] = [starti, endi] indicates that you start the ith trip from the node starti and travel to the node endi by any path you like.\n\nBefore performing your first trip, you can choose some non-adjacent nodes and halve the prices.\n\nReturn the minimum total price sum to perform all the given trips.\n\nExample 1:\n\nInput: n = 4, edges = [[0,1],[1,2],[1,3]], price = [2,2,10,6], trips = [[0,3],[2,1],[2,3]]\nOutput: 23\nExplanation: The diagram above denotes the tree after rooting it at node 2. The first part shows the initial tree and the second part shows the tree after choosing nodes 0, 2, and 3, and making their price half.\n    For the 1st trip, we choose path [0,1,3]. The price sum of that path is 1 + 2 + 3 = 6.\n    For the 2nd trip, we choose path [2,1]. The price sum of that path is 2 + 5 = 7.\n    For the 3rd trip, we choose path [2,1,3]. The price sum of that path is 5 + 2 + 3 = 10.\n    The total price sum of all trips is 6 + 7 + 10 = 23.\n    It can be proven, that 23 is the minimum answer that we can achieve.\n\nExample 2:\n\nInput: n = 2, edges = [[0,1]], price = [2,2], trips = [[0,0]]\nOutput: 1\nExplanation: The diagram above denotes the tree after rooting it at node 0. The first part shows the initial tree and the second part shows the tree after choosing node 0, and making its price half.\n    For the 1st trip, we choose path [0]. The price sum of that path is 1.\n    The total price sum of all trips is 1. It can be proven, that 1 is the minimum answer that we can achieve.\n\nConstraints:\n\n• 1 <= n <= 50\n\n• edges.length == n - 1\n\n• 0 <= ai, bi <= n - 1\n\n• edges represents a valid tree.\n\n• price.length == n\n\n• price[i] is an even integer.\n\n• 1 <= price[i] <= 1000\n\n• 1 <= trips.length <= 100\n\n• 0 <= starti, endi <= n - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumTotalPrice(self, n, edges, price, trips):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type price: List[int]\n        :type trips: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The final answer is the price[i] * freq[i], where freq[i] is the number of times node i was visited during the trip, and price[i] is the final price.",
+    "To find freq[i] we will use dfs or bfs for each trip and update every node on the path start and end.",
+    "Finally, to find the final price[i] we will use dynamic programming on the tree. Let dp(v, 0/1) denote the minimum total price with the node v’s price being halved or not."
+  ],
+  "testCases": [
+    [
+      "4",
+      "[[0,1],[1,2],[1,3]]",
+      "[2,2,10,6]",
+      "[[0,3],[2,1],[2,3]]"
+    ],
+    [
+      "2",
+      "[[0,1]]",
+      "[2,2]",
+      "[[0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "23",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumTotalPrice(self, n, edges, price, trips):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type price: List[int]\n        :type trips: List[List[int]]\n        :rtype: int\n        \"\"\"\n        from collections import defaultdict, deque\n        \n        # Build adjacency list\n        graph = defaultdict(list)\n        for u, v in edges:\n            graph[u].append(v)\n            graph[v].append(u)\n        \n        # Count frequency of each node in all trips\n        freq = [0] * n\n        \n        def find_path(start, end):\n            \"\"\"BFS to find path from start to end\"\"\"\n            if start == end:\n                return [start]\n            \n            visited = {start}\n            queue = deque([(start, [start])])\n            \n            while queue:\n                node, path = queue.popleft()\n                for neighbor in graph[node]:\n                    if neighbor not in visited:\n                        new_path = path + [neighbor]\n                        if neighbor == end:\n                            return new_path\n                        visited.add(neighbor)\n                        queue.append((neighbor, new_path))\n            \n            return []\n        \n        # For each trip, find path and increment frequency\n        for start, end in trips:\n            path = find_path(start, end)\n            for node in path:\n                freq[node] += 1\n        \n        # DP on tree: dp[node][0/1] = min cost\n        # 0 = node is not halved, 1 = node is halved\n        \n        visited = set()\n        dp = [[0, 0] for _ in range(n)]\n        \n        def dfs(node, parent):\n            visited.add(node)\n            # dp[node][0] = cost if node not halved\n            # dp[node][1] = cost if node halved\n            \n            dp[node][0] = price[node] * freq[node]\n            dp[node][1] = (price[node] // 2) * freq[node]\n            \n            for neighbor in graph[node]:\n                if neighbor != parent and neighbor not in visited:\n                    dfs(neighbor, node)\n                    \n                    # If current node is not halved, neighbor can be either\n                    dp[node][0] += min(dp[neighbor][0], dp[neighbor][1])\n                    \n                    # If current node is halved, neighbor cannot be halved\n                    # (non-adjacent nodes can't both be halved)\n                    dp[node][1] += dp[neighbor][0]\n        \n        # Run DFS from node 0\n        dfs(0, -1)\n        \n        return min(dp[0][0], dp[0][1])",
+    "explanation": "This solution uses tree DP with path finding:\n\n1. **Problem Understanding**:\n   - Undirected tree with node prices\n   - Multiple trips traversing paths in tree\n   - Can halve prices of non-adjacent nodes\n   - Minimize total cost (price[i] * frequency[i])\n\n2. **Algorithm Steps**:\n   - Step 1: Find path for each trip (BFS in tree)\n   - Step 2: Count frequency of each node in all paths\n   - Step 3: DP to choose which non-adjacent nodes to halve\n\n3. **Path Finding**:\n   - Tree has unique path between any two nodes\n   - Use BFS to find path from start to end\n   - Increment frequency counter for all nodes in path\n\n4. **DP on Tree**:\n   - dp[node][0] = min cost if node is NOT halved\n   - dp[node][1] = min cost if node IS halved\n   - Constraint: if node is halved, adjacent nodes cannot be halved\n\n5. **DP Transitions**:\n   - If node not halved (state 0):\n     - Cost = price[node] * freq[node]\n     - Children can be halved or not: add min(dp[child][0], dp[child][1])\n   - If node halved (state 1):\n     - Cost = (price[node]//2) * freq[node]\n     - Children cannot be halved: add dp[child][0]\n\n6. **Tree DP Property**:\n   - No node is adjacent to non-adjacent nodes (by definition)\n   - DP correctly enforces non-adjacency constraint\n   - Works because tree structure makes adjacency clear\n\nTime Complexity: O(T*n) for T trips with BFS + O(n) for DP = O(T*n)\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[]"
+}

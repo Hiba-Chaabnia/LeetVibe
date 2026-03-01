@@ -1,0 +1,55 @@
+{
+  "questionId": "71",
+  "title": "Simplify Path",
+  "titleSlug": "simplify-path",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "You are given an absolute path for a Unix-style file system, which always begins with a slash '/'. Your task is to transform this absolute path into its simplified canonical path.\n\nThe rules of a Unix-style file system are as follows:\n\n• A single period '.' represents the current directory.\n\n• A double period '..' represents the previous/parent directory.\n\n• Multiple consecutive slashes such as '//' and '///' are treated as a single slash '/'.\n\n• Any sequence of periods that does not match the rules above should be treated as a valid directory or file name. For example, '...' and '....' are valid directory or file names.\n\nThe simplified canonical path should follow these rules:\n\n• The path must start with a single slash '/'.\n\n• Directories within the path must be separated by exactly one slash '/'.\n\n• The path must not end with a slash '/', unless it is the root directory.\n\n• The path must not have any single or double periods ('.' and '..') used to denote current or parent directories.\n\nReturn the simplified canonical path.\n\nExample 1:\n\nInput: path = \"/home/\"\n\nOutput: \"/home\"\n\nExplanation: The trailing slash should be removed.\n\nExample 2:\n\nInput: path = \"/home//foo/\"\n\nOutput: \"/home/foo\"\n\nExplanation: Multiple consecutive slashes are replaced by a single one.\n\nExample 3:\n\nInput: path = \"/home/user/Documents/../Pictures\"\n\nOutput: \"/home/user/Pictures\"\n\nExplanation: A double period \"..\" refers to the directory up a level (the parent directory).\n\nExample 4:\n\nInput: path = \"/../\"\n\nOutput: \"/\"\n\nExplanation: Going one level up from the root directory is not possible.\n\nExample 5:\n\nInput: path = \"/.../a/../b/c/../d/./\"\n\nOutput: \"/.../b/d\"\n\nExplanation: \"...\" is a valid name for a directory in this problem.\n\nConstraints:\n\n• 1 <= path.length <= 3000\n\n• path consists of English letters, digits, period '.', slash '/' or '_'.\n\n• path is a valid absolute Unix path.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def simplifyPath(self, path):\n        \"\"\"\n        :type path: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"/home/\""
+    ],
+    [
+      "\"/home//foo/\""
+    ],
+    [
+      "\"/home/user/Documents/../Pictures\""
+    ],
+    [
+      "\"/../\""
+    ],
+    [
+      "\"/.../a/../b/c/../d/./\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"/home\"",
+    "\"/home/foo\"",
+    "\"/home/user/Pictures\"",
+    "\"/\"",
+    "\"/.../b/d\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def simplifyPath(path: str) -> str:\n    stack = []\n    parts = path.split(\"/\")\n\n    for part in parts:\n        if not part or part == \".\":\n            continue\n        if part == \"..\":\n            if stack:\n                stack.pop()\n        else:\n            stack.append(part)\n\n    return \"/\" + \"/\".join(stack)",
+    "explanation": "The algorithm uses a stack to keep track of the directory hierarchy. It starts by splitting the input string by '/', iterating over each part, and processing them according to the following rules:\n1. If the part is empty or \".\", skip it.\n2. If the part is \"..\", pop off the top element of the stack (if it's non-empty).\n3. Otherwise, push the part onto the stack.\n\nAfter processing all parts, concatenate the elements in the stack separated by '/' and return the canonical path.\n\nThe implementations are very similar across the four languages, with differences stemming primarily from the syntax and conventions of each language."
+  },
+  "similarQuestions": "[]"
+}

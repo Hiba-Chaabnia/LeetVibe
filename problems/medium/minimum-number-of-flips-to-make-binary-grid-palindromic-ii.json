@@ -1,0 +1,50 @@
+{
+  "questionId": "3524",
+  "title": "Minimum Number of Flips to Make Binary Grid Palindromic II",
+  "titleSlug": "minimum-number-of-flips-to-make-binary-grid-palindromic-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n binary matrix grid.\n\nA row or column is considered palindromic if its values read the same forward and backward.\n\nYou can flip any number of cells in grid from 0 to 1, or from 1 to 0.\n\nReturn the minimum number of cells that need to be flipped to make all rows and columns palindromic, and the total number of 1's in grid divisible by 4.\n\nExample 1:\n\nInput: grid = [[1,0,0],[0,1,0],[0,0,1]]\n\nOutput: 3\n\nExplanation: Example 2:\n\nInput: grid = [[0,1],[0,1],[0,0]]\n\nOutput: 2\n\nExplanation: Example 3:\n\nInput: grid = [[1],[1]]\n\nOutput: 2\n\nExplanation: Constraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m * n <= 2 * 105\n\n• 0 <= grid[i][j] <= 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minFlips(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each (x, y), find (m - 1 - x, y), (m - 1 - x, n - 1 - y), and (x, n - 1 - y); they should be the same.",
+    "Note that we need to specially handle the middle row (column) if the number of rows (columns) is odd."
+  ],
+  "testCases": [
+    [
+      "[[1,0,0],[0,1,0],[0,0,1]]"
+    ],
+    [
+      "[[0,1],[0,1],[0,0]]"
+    ],
+    [
+      "[[1],[1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

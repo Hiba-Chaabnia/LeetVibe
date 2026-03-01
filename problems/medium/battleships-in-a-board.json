@@ -1,0 +1,47 @@
+{
+  "questionId": "419",
+  "title": "Battleships in a Board",
+  "titleSlug": "battleships-in-a-board",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given an m x n matrix board where each cell is a battleship 'X' or empty '.', return the number of the battleships on board.\n\nBattleships can only be placed horizontally or vertically on board. In other words, they can only be made of the shape 1 x k (1 row, k columns) or k x 1 (k rows, 1 column), where k can be of any size. At least one horizontal or vertical cell separates between two battleships (i.e., there are no adjacent battleships).\n\nExample 1:\n\nInput: board = [[\"X\",\".\",\".\",\"X\"],[\".\",\".\",\".\",\"X\"],[\".\",\".\",\".\",\"X\"]]\nOutput: 2\n\nExample 2:\n\nInput: board = [[\".\"]]\nOutput: 0\n\nConstraints:\n\n• m == board.length\n\n• n == board[i].length\n\n• 1 <= m, n <= 200\n\n• board[i][j] is either '.' or 'X'.\n\nFollow up: Could you do it in one-pass, using only O(1) extra memory and without modifying the values board?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countBattleships(self, board):\n        \"\"\"\n        :type board: List[List[str]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[\"X\",\".\",\".\",\"X\"],[\".\",\".\",\".\",\"X\"],[\".\",\".\",\".\",\"X\"]]"
+    ],
+    [
+      "[[\".\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countBattleships(self, board):\n        count = 0\n        for i in range(len(board)):\n            for j in range(len(board[0])):\n                if board[i][j] == 'X':\n                    if (i == 0 or board[i-1][j] != 'X') and (j == 0 or board[i][j-1] != 'X'):\n                        count += 1\n        return count",
+    "explanation": "Count only top-left cells of battleships (no X above or to the left).\nTime: O(m*n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Islands\", \"titleSlug\": \"number-of-islands\", \"difficulty\": \"Medium\"}, {\"title\": \"Walls and Gates\", \"titleSlug\": \"walls-and-gates\", \"difficulty\": \"Medium\"}, {\"title\": \"Max Area of Island\", \"titleSlug\": \"max-area-of-island\", \"difficulty\": \"Medium\"}, {\"title\": \"Rotting Oranges\", \"titleSlug\": \"rotting-oranges\", \"difficulty\": \"Medium\"}]"
+}

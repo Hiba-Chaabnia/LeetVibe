@@ -1,0 +1,59 @@
+{
+  "questionId": "853",
+  "title": "Most Profit Assigning Work",
+  "titleSlug": "most-profit-assigning-work",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You have n jobs and m workers. You are given three arrays: difficulty, profit, and worker where:\n\n• difficulty[i] and profit[i] are the difficulty and the profit of the ith job, and\n\n• worker[j] is the ability of jth worker (i.e., the jth worker can only complete a job with difficulty at most worker[j]).\n\nEvery worker can be assigned at most one job, but one job can be completed multiple times.\n\n• For example, if three workers attempt the same job that pays $1, then the total profit will be $3. If a worker cannot complete any job, their profit is $0.\n\nReturn the maximum profit we can achieve after assigning the workers to the jobs.\n\nExample 1:\n\nInput: difficulty = [2,4,6,8,10], profit = [10,20,30,40,50], worker = [4,5,6,7]\nOutput: 100\nExplanation: Workers are assigned jobs of difficulty [4,4,6,6] and they get a profit of [20,20,30,30] separately.\n\nExample 2:\n\nInput: difficulty = [85,47,57], profit = [24,66,99], worker = [40,25,25]\nOutput: 0\n\nConstraints:\n\n• n == difficulty.length\n\n• n == profit.length\n\n• m == worker.length\n\n• 1 <= n, m <= 104\n\n• 1 <= difficulty[i], profit[i], worker[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxProfitAssignment(self, difficulty, profit, worker):\n        \"\"\"\n        :type difficulty: List[int]\n        :type profit: List[int]\n        :type worker: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,4,6,8,10]",
+      "[10,20,30,40,50]",
+      "[4,5,6,7]"
+    ],
+    [
+      "[85,47,57]",
+      "[24,66,99]",
+      "[40,25,25]"
+    ]
+  ],
+  "expectedOutputs": [
+    "100",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxProfitAssignment(difficulty, profit, worker):\n    n = len(difficulty)\n    jobs = sorted(zip(difficulty, profit))\n    worker.sort()\n\n    max_profit = 0\n    total_profit = 0\n    job_idx = 0\n\n    for w in worker:\n        while job_idx < n and w >= jobs[job_idx][0]:\n            max_profit = max(max_profit, jobs[job_idx][1])\n            job_idx += 1\n        total_profit += max_profit\n\n    return total_profit",
+    "explanation": "1. Combine the difficulty and profit arrays into one array, called jobs, containing pairs of the values (in JavaScript, arrays of arrays), and sort it based on the difficulty values.\n2. Sort the worker array in ascending order.\n3. Initially, set the max_profit and total_profit to 0, and job_idx to 0.\n4. Iterate over the worker array.\n   a. Inside the loop, while job_idx is less than n (number of jobs) and the current worker's ability is greater than or equal to the current job's difficulty, update the max_profit to be the maximum of the current max_profit and the current job's profit, and increment job_idx.\n   b. After the inner loop, add max_profit to the total_profit.\n5. Return the total_profit."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Number of Tasks You Can Assign\", \"titleSlug\": \"maximum-number-of-tasks-you-can-assign\", \"difficulty\": \"Hard\"}, {\"title\": \"Successful Pairs of Spells and Potions\", \"titleSlug\": \"successful-pairs-of-spells-and-potions\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Matching of Players With Trainers\", \"titleSlug\": \"maximum-matching-of-players-with-trainers\", \"difficulty\": \"Medium\"}]"
+}

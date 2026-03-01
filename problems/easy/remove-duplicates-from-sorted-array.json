@@ -1,0 +1,47 @@
+{
+  "questionId": "26",
+  "title": "Remove Duplicates from Sorted Array",
+  "titleSlug": "remove-duplicates-from-sorted-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same.\n\nConsider the number of unique elements in nums to be k​​​​​​​​​​​​​​. After removing duplicates, return the number of unique elements k.\n\nThe first k elements of nums should contain the unique numbers in sorted order. The remaining elements beyond index k - 1 can be ignored.\n\nCustom Judge:\n\nThe judge will test your solution with the following code:\n\n    int[] nums = [...]; // Input array\n    int[] expectedNums = [...]; // The expected answer with correct length\n\n    int k = removeDuplicates(nums); // Calls your implementation\n\n    assert k == expectedNums.length;\n    for (int i = 0; i If all assertions pass, then your solution will be accepted.\n\nExample 1:\n\nInput: nums = [1,1,2]\nOutput: 2, nums = [1,2,_]\nExplanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.\n    It does not matter what you leave beyond the returned k (hence they are underscores).\n\nExample 2:\n\nInput: nums = [0,0,1,1,1,2,2,3,3,4]\nOutput: 5, nums = [0,1,2,3,4,_,_,_,_,_]\nExplanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.\n    It does not matter what you leave beyond the returned k (hence they are underscores).\n\nConstraints:\n\n• 1 <= nums.length <= 3 * 104\n\n• -100 <= nums[i] <= 100\n\n• nums is sorted in non-decreasing order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeDuplicates(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "In this problem, the key point to focus on is the input array being sorted. As far as duplicate elements are concerned, what is their positioning in the array when the given array is sorted? Look at the image below for the answer. If we know the position of one of the elements, do we also know the positioning of all the duplicate elements?\r\n\r\n<br>\r\n<img src=\"https://assets.leetcode.com/uploads/2019/10/20/hint_rem_dup.png\" width=\"500\"/>",
+    "We need to modify the array in-place and the size of the final array would potentially be smaller than the size of the input array. So, we ought to use a two-pointer approach here. One, that would keep track of the current element in the original array and another one for just the unique elements.",
+    "Essentially, once an element is encountered, you simply need to <b>bypass</b> its duplicates and move on to the next unique element."
+  ],
+  "testCases": [
+    [
+      "[1,1,2]"
+    ],
+    [
+      "[0,0,1,1,1,2,2,3,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2, nums = [1,2,_]",
+    "5, nums = [0,1,2,3,4,_,_,_,_,_]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def removeDuplicates(nums):\n    if not nums: return 0\n    i = 0\n    for j in range(1, len(nums)):\n        if nums[j] != nums[i]:\n            i += 1\n            nums[i] = nums[j]\n    return i + 1",
+    "explanation": "We use two pointers `i` and `j`. `i` starts at the first element and `j` at the second. We go through the array with `j` and compare the elements at the two pointers. If they are different, it means we found a unique element, so we move `i` to the next position and copy the value from `j` to `i`. When we finish going through the array, the length of the unique part is `i+1`."
+  },
+  "similarQuestions": "[{\"title\": \"Remove Element\", \"titleSlug\": \"remove-element\", \"difficulty\": \"Easy\"}, {\"title\": \"Remove Duplicates from Sorted Array II\", \"titleSlug\": \"remove-duplicates-from-sorted-array-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Apply Operations to an Array\", \"titleSlug\": \"apply-operations-to-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Sum of Distances\", \"titleSlug\": \"sum-of-distances\", \"difficulty\": \"Medium\"}]"
+}

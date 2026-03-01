@@ -1,0 +1,272 @@
+/* ============================================================
+   LeetVibe TUI — Fire-gradient dark theme
+   ============================================================ */
+
+/* --- Color palette --- */
+$grad1: #FFD700;
+$grad2: #FFAF00;
+$grad3: #FF8205;
+$grad4: #FA500F;
+$grad5: #E92700;
+
+$brand: #FF8205;
+$easy: #00C44F;
+$medium: #FFB300;
+$hard: #E53935;
+$trading: #00BCD4;
+$muted: #888888;
+$text: #e0e0e0;
+
+
+/* ============================================================
+   Global
+   ============================================================ */
+
+Screen {
+    background: #121212;
+    color: $text;
+}
+
+
+/* ============================================================
+   HomeScreen
+   ============================================================ */
+
+#home-banner {
+    text-align: center;
+    height: auto;
+    padding: 1 4;
+    color: $grad1;
+}
+
+#home-scroll {
+    height: 1fr;
+    align: center middle;
+}
+
+#home-content {
+    height: auto;
+    width: auto;
+    align: center middle;
+}
+
+#home-center {
+    height: auto;
+    align: center middle;
+    padding: 1 4;
+}
+
+#main-menu {
+    width: 60;
+    border: round $brand;
+    background: transparent;
+    padding: 1 2;
+}
+
+#main-menu > .option-list--option {
+    padding: 0 1;
+    color: $text;
+}
+
+#main-menu > .option-list--option-highlighted {
+    background: $brand;
+    color: #000000;
+    text-style: bold;
+}
+
+#home-status {
+    dock: bottom;
+    height: 1;
+    background: transparent;
+    padding: 0 2;
+    color: $muted;
+}
+
+
+/* ============================================================
+   ChallengeListScreen
+   ============================================================ */
+
+#list-header {
+    height: auto;
+    background: transparent;
+    padding: 0 1;
+    border-bottom: solid $brand;
+    align: left middle;
+}
+
+#list-title {
+    width: auto;
+    padding: 0 2;
+    color: $grad2;
+    text-style: bold;
+}
+
+#difficulty-filter {
+    width: 22;
+    margin: 0 1;
+    border: none;
+}
+
+#difficulty-filter > SelectCurrent {
+    overflow: hidden;
+}
+
+#difficulty-filter > SelectCurrent > #label {
+    overflow: hidden;
+}
+
+#topic-filter {
+    width: 26;
+    margin: 0 1;
+    border: none;
+}
+
+#topic-filter > SelectCurrent {
+    overflow: hidden;
+}
+
+#topic-filter > SelectCurrent > #label {
+    overflow: hidden;
+}
+
+#btn-solution-toggle {
+    width: auto;
+    min-width: 18;
+    height: 3;
+    margin: 0 1;
+    border: tall $muted;
+    background: transparent;
+    color: $text;
+}
+
+#btn-solution-toggle:hover {
+    border: tall $brand;
+    color: $brand;
+}
+
+#btn-solution-toggle.sol-active {
+    color: $easy;
+    border: tall $easy;
+    background: #0a2a0a;
+}
+
+#search-input {
+    width: 1fr;
+    margin: 0 1;
+}
+
+#search-input:focus {
+    border: tall $brand;
+}
+
+ChallengeTable {
+    height: 1fr;
+    background: transparent;
+}
+
+ChallengeTable > .datatable--header {
+    background: transparent;
+    color: $grad2;
+    text-style: bold;
+}
+
+ChallengeTable > .datatable--cursor {
+    background: $brand;
+    color: #000000;
+    text-style: bold;
+}
+
+ChallengeTable > .datatable--even-row {
+    background: transparent;
+}
+
+ChallengeTable > .datatable--odd-row {
+    background: transparent;
+}
+
+#list-status {
+    dock: bottom;
+    height: 1;
+    background: transparent;
+    padding: 0 2;
+    color: $muted;
+}
+
+
+/* ============================================================
+   ChallengeDetailScreen
+   All screen-specific styles live in ChallengeDetailScreen.DEFAULT_CSS.
+   Only global utilities remain here.
+   ============================================================ */
+
+.hidden {
+    display: none;
+}
+
+/* Header override */
+Header {
+    background: transparent;
+    color: $grad2;
+    text-style: bold;
+    border-bottom: solid $brand;
+}
+
+
+/* ============================================================
+   Select widget
+   ============================================================ */
+
+Select {
+    background: transparent;
+    border: tall $muted;
+    color: $text;
+    width: 22;
+}
+
+Select:focus {
+    border: tall $brand;
+}
+
+Select > SelectCurrent {
+    color: $text;
+    background: transparent;
+}
+
+Select > SelectOverlay {
+    background: transparent;
+    border: tall $brand;
+}
+
+Select > SelectOverlay > .option-list--option {
+    color: $text;
+}
+
+Select > SelectOverlay > .option-list--option-highlighted {
+    background: $brand;
+    color: #000000;
+}
+
+
+/* ============================================================
+   Input widget
+   ============================================================ */
+
+Input {
+    background: transparent;
+    border: tall $muted;
+    color: $text;
+}
+
+Input:focus {
+    border: tall $brand;
+}
+
+
+/* ============================================================
+   Loading indicator
+   ============================================================ */
+
+LoadingIndicator {
+    color: $brand;
+}

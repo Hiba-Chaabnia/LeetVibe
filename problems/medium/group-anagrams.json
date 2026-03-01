@@ -1,0 +1,51 @@
+{
+  "questionId": "49",
+  "title": "Group Anagrams",
+  "titleSlug": "group-anagrams",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array of strings strs, group the anagrams together. You can return the answer in any order.\n\nExample 1:\n\nInput: strs = [\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]\n\nOutput: [[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]\n\nExplanation:\n\n• There is no string in strs that can be rearranged to form \"bat\".\n\n• The strings \"nat\" and \"tan\" are anagrams as they can be rearranged to form each other.\n\n• The strings \"ate\", \"eat\", and \"tea\" are anagrams as they can be rearranged to form each other.\n\nExample 2:\n\nInput: strs = [\"\"]\n\nOutput: [[\"\"]]\n\nExample 3:\n\nInput: strs = [\"a\"]\n\nOutput: [[\"a\"]]\n\nConstraints:\n\n• 1 <= strs.length <= 104\n\n• 0 <= strs[i].length <= 100\n\n• strs[i] consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def groupAnagrams(self, strs):\n        \"\"\"\n        :type strs: List[str]\n        :rtype: List[List[str]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]"
+    ],
+    [
+      "[\"\"]"
+    ],
+    [
+      "[\"a\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]",
+    "[[\"\"]]",
+    "[[\"a\"]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Valid Anagram\", \"titleSlug\": \"valid-anagram\", \"difficulty\": \"Easy\"}, {\"title\": \"Group Shifted Strings\", \"titleSlug\": \"group-shifted-strings\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Resultant Array After Removing Anagrams\", \"titleSlug\": \"find-resultant-array-after-removing-anagrams\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Anagrams\", \"titleSlug\": \"count-anagrams\", \"difficulty\": \"Hard\"}]"
+}

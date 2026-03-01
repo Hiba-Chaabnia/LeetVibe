@@ -1,0 +1,49 @@
+{
+  "questionId": "4186",
+  "title": "Count Residue Prefixes",
+  "titleSlug": "count-residue-prefixes",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string s consisting only of lowercase English letters.\n\nA prefix of s is called a residue if the number of distinct characters in the prefix is equal to len(prefix) % 3.\n\nReturn the count of residue prefixes in s.\n\nA prefix of a string is a non-empty substring that starts from the beginning of the string and extends to any point within it.\n\nExample 1:\n\nInput: s = \"abc\"\n\nOutput: 2\n\nExplanation:​​​​​​​\n\n• Prefix \"a\" has 1 distinct character and length modulo 3 is 1, so it is a residue.\n\n• Prefix \"ab\" has 2 distinct characters and length modulo 3 is 2, so it is a residue.\n\n• Prefix \"abc\" does not satisfy the condition. Thus, the answer is 2.\n\nExample 2:\n\nInput: s = \"dd\"\n\nOutput: 1\n\nExplanation:\n\n• Prefix \"d\" has 1 distinct character and length modulo 3 is 1, so it is a residue.\n\n• Prefix \"dd\" has 1 distinct character but length modulo 3 is 2, so it is not a residue. Thus, the answer is 1.\n\nExample 3:\n\nInput: s = \"bob\"\n\nOutput: 2\n\nExplanation:\n\n• Prefix \"b\" has 1 distinct character and length modulo 3 is 1, so it is a residue.\n\n• Prefix \"bo\" has 2 distinct characters and length mod 3 is 2, so it is a residue. Thus, the answer is 2.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def residuePrefixes(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "\"abc\""
+    ],
+    [
+      "\"dd\""
+    ],
+    [
+      "\"bob\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def residuePrefixes(self, s):\n        count = 0\n        distinct = set()\n        for i, c in enumerate(s):\n            distinct.add(c)\n            if len(distinct) == (i + 1) % 3:\n                count += 1\n        return count",
+    "explanation": "Track distinct chars; check if count equals prefix length mod 3."
+  },
+  "similarQuestions": "[]"
+}

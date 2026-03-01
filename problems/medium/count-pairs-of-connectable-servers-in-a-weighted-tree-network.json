@@ -1,0 +1,52 @@
+{
+  "questionId": "3326",
+  "title": "Count Pairs of Connectable Servers in a Weighted Tree Network",
+  "titleSlug": "count-pairs-of-connectable-servers-in-a-weighted-tree-network",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    }
+  ],
+  "content": "You are given an unrooted weighted tree with n vertices representing servers numbered from 0 to n - 1, an array edges where edges[i] = [ai, bi, weighti] represents a bidirectional edge between vertices ai and bi of weight weighti. You are also given an integer signalSpeed.\n\nTwo servers a and b are connectable through a server c if:\n\n• a < b, a != c and b != c.\n\n• The distance from c to a is divisible by signalSpeed.\n\n• The distance from c to b is divisible by signalSpeed.\n\n• The path from c to b and the path from c to a do not share any edges.\n\nReturn an integer array count of length n where count[i] is the number of server pairs that are connectable through the server i.\n\nExample 1:\n\nInput: edges = [[0,1,1],[1,2,5],[2,3,13],[3,4,9],[4,5,2]], signalSpeed = 1\nOutput: [0,4,6,6,4,0]\nExplanation: Since signalSpeed is 1, count[c] is equal to the number of pairs of paths that start at c and do not share any edges.\n    In the case of the given path graph, count[c] is equal to the number of servers to the left of c multiplied by the servers to the right of c.\n\nExample 2:\n\nInput: edges = [[0,6,3],[6,5,3],[0,3,1],[3,2,7],[3,1,6],[3,4,2]], signalSpeed = 3\nOutput: [2,0,0,0,0,0,2]\nExplanation: Through server 0, there are 2 pairs of connectable servers: (4, 5) and (4, 6).\n    Through server 6, there are 2 pairs of connectable servers: (4, 5) and (0, 5).\n    It can be shown that no two servers are connectable through servers other than 0 and 6.\n\nConstraints:\n\n• 2 <= n <= 1000\n\n• edges.length == n - 1\n\n• edges[i].length == 3\n\n• 0 <= ai, bi < n\n\n• edges[i] = [ai, bi, weighti]\n\n• 1 <= weighti <= 106\n\n• 1 <= signalSpeed <= 106\n\n• The input is generated such that edges represents a valid tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPairsOfConnectableServers(self, edges, signalSpeed):\n        \"\"\"\n        :type edges: List[List[int]]\n        :type signalSpeed: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Take each node as the root of the tree, run DFS, and save for each node i, the number of nodes in the subtree rooted at i whose distance to the root is divisible by signalSpeed.",
+    "If the root has m children named c<sub>1</sub>, c<sub>2</sub>, …, c<sub>m</sub> that respectively have num[c<sub>1</sub>], num[c<sub>2</sub>], …, num[c<sub>m</sub>] nodes in their subtrees whose distance is divisible by signalSpeed. Then, there are ((S - num[c<sub>i</sub>]) * num[c<sub>i</sub>]) / 2that are connectable through the root that we have fixed, where S is the sum of num[c<sub>i</sub>]."
+  ],
+  "testCases": [
+    [
+      "[[0,1,1],[1,2,5],[2,3,13],[3,4,9],[4,5,2]]",
+      "1"
+    ],
+    [
+      "[[0,6,3],[6,5,3],[0,3,1],[3,2,7],[3,1,6],[3,4,2]]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,4,6,6,4,0]",
+    "[2,0,0,0,0,0,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def countPairsOfConnectableServers(self, edges, signalSpeed):\n        n = len(edges) + 1\n        adj = defaultdict(list)\n        for a, b, w in edges:\n            adj[a].append((b, w))\n            adj[b].append((a, w))\n        def dfs(u, parent, dist):\n            cnt = 1 if dist % signalSpeed == 0 else 0\n            for v, w in adj[u]:\n                if v != parent:\n                    cnt += dfs(v, u, dist + w)\n            return cnt\n        result = [0] * n\n        for root in range(n):\n            subtree_counts = [dfs(v, root, w) for v, w in adj[root]]\n            S = sum(subtree_counts)\n            total = 0\n            running = 0\n            for c in subtree_counts:\n                total += c * (S - running - c)\n                running += c\n            result[root] = total\n        return result",
+    "explanation": "For each root, DFS each child subtree counting nodes reachable with distance divisible by signalSpeed. Count pairs from different subtrees using running sum: for each subtree c_i, add c_i * (remaining sum). n ≤ 1000 so O(n²) is fine.\n\nTime: O(n²). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Height Trees\", \"titleSlug\": \"minimum-height-trees\", \"difficulty\": \"Medium\"}, {\"title\": \"Sum of Distances in Tree\", \"titleSlug\": \"sum-of-distances-in-tree\", \"difficulty\": \"Hard\"}]"
+}

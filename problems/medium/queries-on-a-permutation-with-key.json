@@ -1,0 +1,53 @@
+{
+  "questionId": "1525",
+  "title": "Queries on a Permutation With Key",
+  "titleSlug": "queries-on-a-permutation-with-key",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given the array queries of positive integers between 1 and m, you have to process all queries[i] (from i=0 to i=queries.length-1) according to the following rules:\n\n• In the beginning, you have the permutation P=[1,2,3,...,m].\n\n• For the current i, find the position of queries[i] in the permutation P (indexing from 0) and then move this at the beginning of the permutation P. Notice that the position of queries[i] in P is the result for queries[i].\n\nReturn an array containing the result for the given queries.\n\nExample 1:\n\nInput: queries = [3,1,2,1], m = 5\nOutput: [2,1,2,1]\nExplanation: The queries are processed as follow:\n    For i=0: queries[i]=3, P=[1,2,3,4,5], position of 3 in P is 2, then we move 3 to the beginning of P resulting in P=[3,1,2,4,5].\n    For i=1: queries[i]=1, P=[3,1,2,4,5], position of 1 in P is 1, then we move 1 to the beginning of P resulting in P=[1,3,2,4,5].\n    For i=2: queries[i]=2, P=[1,3,2,4,5], position of 2 in P is 2, then we move 2 to the beginning of P resulting in P=[2,1,3,4,5].\n    For i=3: queries[i]=1, P=[2,1,3,4,5], position of 1 in P is 1, then we move 1 to the beginning of P resulting in P=[1,2,3,4,5].\n    Therefore, the array containing the result is [2,1,2,1].\n\nExample 2:\n\nInput: queries = [4,1,2,2], m = 4\nOutput: [3,1,2,0]\n\nExample 3:\n\nInput: queries = [7,5,5,8,3], m = 8\nOutput: [6,5,0,7,5]\n\nConstraints:\n\n• 1 <= m <= 10^3\n\n• 1 <= queries.length <= m\n\n• 1 <= queries[i] <= m",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def processQueries(self, queries, m):\n        \"\"\"\n        :type queries: List[int]\n        :type m: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Create the permutation P=[1,2,...,m], it could be a list for example.",
+    "For each i, find the position of queries[i] with a simple scan over P and then move this to the beginning."
+  ],
+  "testCases": [
+    [
+      "[3,1,2,1]",
+      "5"
+    ],
+    [
+      "[4,1,2,2]",
+      "4"
+    ],
+    [
+      "[7,5,5,8,3]",
+      "8"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,1,2,1]",
+    "[3,1,2,0]",
+    "[6,5,0,7,5]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

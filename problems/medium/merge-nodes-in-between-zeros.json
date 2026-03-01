@@ -1,0 +1,46 @@
+{
+  "questionId": "2299",
+  "title": "Merge Nodes in Between Zeros",
+  "titleSlug": "merge-nodes-in-between-zeros",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given the head of a linked list, which contains a series of integers separated by 0's. The beginning and end of the linked list will have Node.val == 0.\n\nFor every two consecutive 0's, merge all the nodes lying in between them into a single node whose value is the sum of all the merged nodes. The modified list should not contain any 0's.\n\nReturn the head of the modified linked list.\n\nExample 1:\n\nInput: head = [0,3,1,0,4,5,2,0]\nOutput: [4,11]\nExplanation:\n    The above figure represents the given linked list. The modified list contains\n    - The sum of the nodes marked in green: 3 + 1 = 4.\n    - The sum of the nodes marked in red: 4 + 5 + 2 = 11.\n\nExample 2:\n\nInput: head = [0,1,0,3,0,2,2,0]\nOutput: [1,3,4]\nExplanation:\n    The above figure represents the given linked list. The modified list contains\n    - The sum of the nodes marked in green: 1 = 1.\n    - The sum of the nodes marked in red: 3 = 3.\n    - The sum of the nodes marked in yellow: 2 + 2 = 4.\n\nConstraints:\n\n• The number of nodes in the list is in the range [3, 2 * 105].\n\n• 0 <= Node.val <= 1000\n\n• There are no two consecutive nodes with Node.val == 0.\n\n• The beginning and end of the linked list have Node.val == 0.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def mergeNodes(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can you use two pointers to modify the original list into the new list?",
+    "Have a pointer traverse the entire linked list, while another pointer looks at a node that is currently being modified.",
+    "Keep on summing the values of the nodes between the traversal pointer and the modifying pointer until the former comes across a ‘0’. In that case, the modifying pointer is incremented to modify the next node.",
+    "Do not forget to have the next pointer of the final node of the modified list point to null."
+  ],
+  "testCases": [
+    [
+      "[0,3,1,0,4,5,2,0]",
+      "[0,1,0,3,0,2,2,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[4,11]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def mergeNodes(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        dummy = ListNode(0)\n        current = dummy\n        node_sum = 0\n        \n        ptr = head.next  # Start after first 0\n        \n        while ptr:\n            if ptr.val == 0:\n                # End of group, create new node with sum\n                current.next = ListNode(node_sum)\n                current = current.next\n                node_sum = 0\n            else:\n                node_sum += ptr.val\n            \n            ptr = ptr.next\n        \n        return dummy.next",
+    "explanation": "Traverse list, accumulate values between zeros, create new node for each group sum.",
+    "complexity": "Time: O(n). Space: O(1) excluding output list."
+  },
+  "similarQuestions": "[{\"title\": \"Linked List Components\", \"titleSlug\": \"linked-list-components\", \"difficulty\": \"Medium\"}]"
+}

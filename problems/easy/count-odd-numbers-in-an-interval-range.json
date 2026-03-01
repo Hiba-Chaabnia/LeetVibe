@@ -1,0 +1,44 @@
+{
+  "questionId": "1630",
+  "title": "Count Odd Numbers in an Interval Range",
+  "titleSlug": "count-odd-numbers-in-an-interval-range",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given two non-negative integers low and high. Return the count of odd numbers between low and high (inclusive).\n\nExample 1:\n\nInput: low = 3, high = 7\nOutput: 3\nExplanation: The odd numbers between 3 and 7 are [3,5,7].\n\nExample 2:\n\nInput: low = 8, high = 10\nOutput: 1\nExplanation: The odd numbers between 8 and 10 are [9].\n\nConstraints:\n\n• 0 <= low <= high <= 10^9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countOdds(self, low, high):\n        \"\"\"\n        :type low: int\n        :type high: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If the range (high - low + 1) is even, the number of even and odd numbers in this range will be the same.",
+    "If the range (high - low + 1) is odd, the solution will depend on the parity of high and low."
+  ],
+  "testCases": [
+    [
+      "3",
+      "7"
+    ],
+    [
+      "8",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countOdds(self, low, high):\n        return (high - low) // 2 + (1 if high % 2 == 1 else 0)",
+    "explanation": "Count odd numbers: (high-low)//2 gives even count, add 1 if high is odd.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Check if Bitwise OR Has Trailing Zeros\", \"titleSlug\": \"check-if-bitwise-or-has-trailing-zeros\", \"difficulty\": \"Easy\"}]"
+}

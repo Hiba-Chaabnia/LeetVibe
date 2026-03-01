@@ -1,0 +1,45 @@
+{
+  "questionId": "650",
+  "title": "2 Keys Keyboard",
+  "titleSlug": "2-keys-keyboard",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "There is only one character 'A' on the screen of a notepad. You can perform one of two operations on this notepad for each step:\n\n• Copy All: You can copy all the characters present on the screen (a partial copy is not allowed).\n\n• Paste: You can paste the characters which are copied last time.\n\nGiven an integer n, return the minimum number of operations to get the character 'A' exactly n times on the screen.\n\nExample 1:\n\nInput: n = 3\nOutput: 3\nExplanation: Initially, we have one character 'A'.\n    In step 1, we use Copy All operation.\n    In step 2, we use Paste operation to get 'AA'.\n    In step 3, we use Paste operation to get 'AAA'.\n\nExample 2:\n\nInput: n = 1\nOutput: 0\n\nConstraints:\n\n• 1 <= n <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSteps(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How many characters may be there in the clipboard at the last step if n = 3? n = 7? n = 10? n = 24?"
+  ],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minSteps(self, n):\n        if n == 1:\n            return 0\n        steps = 0\n        factor = 2\n        while n > 1:\n            while n % factor == 0:\n                steps += factor\n                n //= factor\n            factor += 1\n        return steps",
+    "explanation": "Prime factorization approach. Sum all prime factors. E.g., n=6: 2*3, steps=2+3=5\nTime: O(sqrt(n))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"4 Keys Keyboard\", \"titleSlug\": \"4-keys-keyboard\", \"difficulty\": \"Medium\"}, {\"title\": \"Broken Calculator\", \"titleSlug\": \"broken-calculator\", \"difficulty\": \"Medium\"}, {\"title\": \"Smallest Value After Replacing With Sum of Prime Factors\", \"titleSlug\": \"smallest-value-after-replacing-with-sum-of-prime-factors\", \"difficulty\": \"Medium\"}, {\"title\": \"Distinct Prime Factors of Product of Array\", \"titleSlug\": \"distinct-prime-factors-of-product-of-array\", \"difficulty\": \"Medium\"}]"
+}

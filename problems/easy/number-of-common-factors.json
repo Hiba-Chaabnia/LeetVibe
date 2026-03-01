@@ -1,0 +1,51 @@
+{
+  "questionId": "2507",
+  "title": "Number of Common Factors",
+  "titleSlug": "number-of-common-factors",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "Given two positive integers a and b, return the number of common factors of a and b.\n\nAn integer x is a common factor of a and b if x divides both a and b.\n\nExample 1:\n\nInput: a = 12, b = 6\nOutput: 4\nExplanation: The common factors of 12 and 6 are 1, 2, 3, 6.\n\nExample 2:\n\nInput: a = 25, b = 30\nOutput: 2\nExplanation: The common factors of 25 and 30 are 1, 5.\n\nConstraints:\n\n• 1 <= a, b <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def commonFactors(self, a, b):\n        \"\"\"\n        :type a: int\n        :type b: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each integer in range [1,1000], check if it’s divisible by both A and B."
+  ],
+  "testCases": [
+    [
+      "12",
+      "6"
+    ],
+    [
+      "25",
+      "30"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def commonFactors(self, a, b):\n        from math import gcd\n        g = gcd(a, b)\n        count = 0\n        for i in range(1, int(g**0.5) + 1):\n            if g % i == 0:\n                count += 1\n                if i != g // i:\n                    count += 1\n        return count",
+    "explanation": "GCD(a,b). Count divisors of GCD using sqrt optimization.\nTime: O(sqrt(gcd))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Primes\", \"titleSlug\": \"count-primes\", \"difficulty\": \"Medium\"}]"
+}

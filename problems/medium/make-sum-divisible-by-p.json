@@ -1,0 +1,58 @@
+{
+  "questionId": "1694",
+  "title": "Make Sum Divisible by P",
+  "titleSlug": "make-sum-divisible-by-p",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given an array of positive integers nums, remove the smallest subarray (possibly empty) such that the sum of the remaining elements is divisible by p. It is not allowed to remove the whole array.\n\nReturn the length of the smallest subarray that you need to remove, or -1 if it's impossible.\n\nA subarray is defined as a contiguous block of elements in the array.\n\nExample 1:\n\nInput: nums = [3,1,4,2], p = 6\nOutput: 1\nExplanation: The sum of the elements in nums is 10, which is not divisible by 6. We can remove the subarray [4], and the sum of the remaining elements is 6, which is divisible by 6.\n\nExample 2:\n\nInput: nums = [6,3,5,2], p = 9\nOutput: 2\nExplanation: We cannot remove a single element to get a sum divisible by 9. The best way is to remove the subarray [5,2], leaving us with [6,3] with sum 9.\n\nExample 3:\n\nInput: nums = [1,2,3], p = 3\nOutput: 0\nExplanation: Here the sum is 6. which is already divisible by 3. Thus we do not need to remove anything.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 1 <= p <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSubarray(self, nums, p):\n        \"\"\"\n        :type nums: List[int]\n        :type p: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use prefix sums to calculate the subarray sums.",
+    "Suppose you know the remainder for the sum of the entire array. How does removing a subarray affect that remainder? What remainder does the subarray need to have in order to make the rest of the array sum up to be divisible by k?",
+    "Use a map to keep track of the rightmost index for every prefix sum % p."
+  ],
+  "testCases": [
+    [
+      "[3,1,4,2]",
+      "6"
+    ],
+    [
+      "[6,3,5,2]",
+      "9"
+    ],
+    [
+      "[1,2,3]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minSubarray(nums, p):\n    n, res, need, cur = len(nums), len(nums), 0, 0\n    for num in nums:\n        need = (need + num) % p\n    if need == 0:\n        return 0\n    last_seen = {0: -1}\n    for i, num in enumerate(nums):\n        cur = (cur + num) % p\n        last_seen[cur] = i\n        res = min(res, i - last_seen.get((cur - need + p) % p, -n))\n    return res if res < n else -1",
+    "explanation": "1. First, find the remainder `need` when the sum of the array is divided by `p`.\n2. If `need` is 0, the sum is already divisible by `p`, so return 0.\n3. Otherwise, create a hashmap `last_seen` to store the last seen index of each remainder when the sum from the start of the array is divided by `p`. Initialize with 0 mapped to `-1`.\n4. Iterate through the array, updating the current remainder `cur`.\n5. For each remainder, update the last seen index in `last_seen` hashmap and calculate the minimum length subarray to remove by finding the difference between the current index and the last seen index of `cur-need+p` modulo `p`. Update the result if the calculated length is smaller.\n6. If the final result is smaller than the array length, return the result, otherwise, return -1."
+  },
+  "similarQuestions": "[{\"title\": \"Subarray Sums Divisible by K\", \"titleSlug\": \"subarray-sums-divisible-by-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Divisibility Array of a String\", \"titleSlug\": \"find-the-divisibility-array-of-a-string\", \"difficulty\": \"Medium\"}]"
+}

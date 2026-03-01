@@ -1,0 +1,54 @@
+{
+  "questionId": "3230",
+  "title": "Remove Adjacent Almost-Equal Characters",
+  "titleSlug": "remove-adjacent-almost-equal-characters",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed string word.\n\nIn one operation, you can pick any index i of word and change word[i] to any lowercase English letter.\n\nReturn the minimum number of operations needed to remove all adjacent almost-equal characters from word.\n\nTwo characters a and b are almost-equal if a == b or a and b are adjacent in the alphabet.\n\nExample 1:\n\nInput: word = \"aaaaa\"\nOutput: 2\nExplanation: We can change word into \"acaca\" which does not have any adjacent almost-equal characters.\n    It can be shown that the minimum number of operations needed to remove all adjacent almost-equal characters from word is 2.\n\nExample 2:\n\nInput: word = \"abddez\"\nOutput: 2\nExplanation: We can change word into \"ybdoez\" which does not have any adjacent almost-equal characters.\n    It can be shown that the minimum number of operations needed to remove all adjacent almost-equal characters from word is 2.\n\nExample 3:\n\nInput: word = \"zyxyxyz\"\nOutput: 3\nExplanation: We can change word into \"zaxaxaz\" which does not have any adjacent almost-equal characters.\n    It can be shown that the minimum number of operations needed to remove all adjacent almost-equal characters from word is 3.\n\nConstraints:\n\n• 1 <= word.length <= 100\n\n• word consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeAlmostEqualCharacters(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For i > 0, if word[i] and word[i - 1] are adjacent, we will change word[i] to another character. Which character should we change it to?",
+    "We will change word[i] to some character that is not adjacent to word[i - 1] nor word[i + 1] (if it exists). Such a character always exists. However, since the problem does not ask for the final state of the string, It is enough to prove that the character exists and we do not need to find it."
+  ],
+  "testCases": [
+    [
+      "\"aaaaa\""
+    ],
+    [
+      "\"abddez\""
+    ],
+    [
+      "\"zyxyxyz\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def removeAlmostEqualCharacters(self, word):\n        ops = 0\n        i = 1\n        while i < len(word):\n            diff = abs(ord(word[i]) - ord(word[i - 1]))\n            if diff <= 1:\n                ops += 1\n                i += 2  # skip next character (we changed word[i] to fix this)\n            else:\n                i += 1\n        return ops",
+    "explanation": "Greedy approach: scan from left to right. When we find a pair (word[i-1], word[i]) that are almost-equal (|ord difference| <= 1), we must change one of them.\n\nOptimally, we change word[i] (the right one) to a character that is not almost-equal to either word[i-1] or word[i+1]. Such a character always exists (e.g., there's always a letter at distance >= 2 from both neighbors). After this change, we skip position i+1 as the next comparison partner (since we've just fixed position i).\n\nBy greedily resolving each conflict at position i and jumping by 2, we avoid unnecessary double-counting.\n\nTime complexity: O(n). Space complexity: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Changes To Make Alternating Binary String\", \"titleSlug\": \"minimum-changes-to-make-alternating-binary-string\", \"difficulty\": \"Easy\"}]"
+}

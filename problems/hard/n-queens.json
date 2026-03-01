@@ -1,0 +1,43 @@
+{
+  "questionId": "51",
+  "title": "N-Queens",
+  "titleSlug": "n-queens",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.\n\nGiven an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.\n\nEach solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.\n\nExample 1:\n\nInput: n = 4\nOutput: [[\".Q..\",\"...Q\",\"Q...\",\"..Q.\"],[\"..Q.\",\"Q...\",\"...Q\",\".Q..\"]]\nExplanation: There exist two distinct solutions to the 4-queens puzzle as shown above\n\nExample 2:\n\nInput: n = 1\nOutput: [[\"Q\"]]\n\nConstraints:\n\n• 1 <= n <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def solveNQueens(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[List[str]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "4"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[\".Q..\",\"...Q\",\"Q...\",\"..Q.\"],[\"..Q.\",\"Q...\",\"...Q\",\".Q..\"]]",
+    "[[\"Q\"]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def solveNQueens(n):\n    def isSafe(board, row, col):\n        for i in range(col):\n            if board[row][i] == 'Q': return False\n        i, j = row, col\n        while i >= 0 and j >= 0:\n            if board[i][j] == 'Q': return False\n            i, j = i - 1, j - 1\n        i, j = row, col\n        while i < n and j >= 0:\n            if board[i][j] == 'Q': return False\n            i, j = i + 1, j - 1\n        return True\n\n    def solve(result, board, n, col):\n        if col == n:\n            result.append(board.copy())\n            return\n        for row in range(n):\n            if isSafe(board, row, col):\n                board[row] = board[row][:col] + 'Q' + board[row][col + 1:]\n                solve(result, board, n, col + 1)\n                board[row] = board[row][:col] + '.' + board[row][col + 1:]\n\n    result, board = [], ['.' * n for _ in range(n)]\n    solve(result, board, n, 0)\n    return result",
+    "explanation": "The algorithm uses the backtracking approach to solve the N-Queens puzzle. The idea is to place queens one by one in different columns, starting from the leftmost column. When placing a queen, check if that position is safe from all previously placed queens in terms of the horizontal, diagonal, and anti-diagonal directions. If the selected position is safe, move on to the next column and try to place another queen there. If no safe positions are found in the current column, then go back to the previous column and move the queen to another safe position. Repeat this process until all queens are placed in a valid configuration or all possible arrangements have been tried. During the process, whenever we successfully place `n` queens on the board, add that configuration to our result list. Finally, return the list of all unique solutions found."
+  },
+  "similarQuestions": "[{\"title\": \"N-Queens II\", \"titleSlug\": \"n-queens-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Grid Illumination\", \"titleSlug\": \"grid-illumination\", \"difficulty\": \"Hard\"}]"
+}

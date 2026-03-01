@@ -1,0 +1,47 @@
+{
+  "questionId": "132",
+  "title": "Palindrome Partitioning II",
+  "titleSlug": "palindrome-partitioning-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given a string s, partition s such that every substring of the partition is a palindrome.\n\nReturn the minimum cuts needed for a palindrome partitioning of s.\n\nExample 1:\n\nInput: s = \"aab\"\nOutput: 1\nExplanation: The palindrome partitioning [\"aa\",\"b\"] could be produced using 1 cut.\n\nExample 2:\n\nInput: s = \"a\"\nOutput: 0\n\nExample 3:\n\nInput: s = \"ab\"\nOutput: 1\n\nConstraints:\n\n• 1 <= s.length <= 2000\n\n• s consists of lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCut(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"aab\""
+    ],
+    [
+      "\"a\""
+    ],
+    [
+      "\"ab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minCut(s):\n    n = len(s)\n    dp = [i - 1 for i in range(n + 1)]\n    is_palindrome = [[False] * n for _ in range(n)]\n    \n    for j in range(1, n):\n        for i in range(j, -1, -1):\n            if s[i] == s[j] and (j - i < 2 or is_palindrome[i + 1][j - 1]):\n                is_palindrome[i][j] = True\n                dp[j + 1] = min(dp[j + 1], dp[i] + 1)\n                \n    return dp[n]",
+    "explanation": "The solution uses dynamic programming with an array `dp` of length `n+1` representing  the minimum cuts. `is_palindrome` is a 2D matrix that stores whether the substring from `i` to `j` of string `s` is palindromic or not.\n\nWe first initialize the `dp` array with values (i-1) for each index 'i'. This represents the maximum possible cuts needed to satisfy the condition.\n\nThen, we iterate over the string in a nested loop. For each substring `s[i:j]`, we check if it is a palindrome. If it is a palindrome, we'll update the `dp` array with the minimum value between the current value of the `dp` array and the value of the `dp` array at `[i]` plus 1. By doing this, we are considering all possible cuts for a palindromic partition of string `s`.\n\nFinally, we return the last element in the `dp` array, representing the minimum cuts needed for a palindrome partitioning of string `s`."
+  },
+  "similarQuestions": "[{\"title\": \"Palindrome Partitioning\", \"titleSlug\": \"palindrome-partitioning\", \"difficulty\": \"Medium\"}, {\"title\": \"Palindrome Partitioning IV\", \"titleSlug\": \"palindrome-partitioning-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Number of Non-overlapping Palindrome Substrings\", \"titleSlug\": \"maximum-number-of-non-overlapping-palindrome-substrings\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Great Partitions\", \"titleSlug\": \"number-of-great-partitions\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "2146",
+  "title": "Check if Word Can Be Placed In Crossword",
+  "titleSlug": "check-if-word-can-be-placed-in-crossword",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an m x n matrix board, representing the current state of a crossword puzzle. The crossword contains lowercase English letters (from solved words), ' ' to represent any empty cells, and '#' to represent any blocked cells.\n\nA word can be placed horizontally (left to right or right to left) or vertically (top to bottom or bottom to top) in the board if:\n\n• It does not occupy a cell containing the character '#'.\n\n• The cell each letter is placed in must either be ' ' (empty) or match the letter already on the board.\n\n• There must not be any empty cells ' ' or other lowercase letters directly left or right of the word if the word was placed horizontally.\n\n• There must not be any empty cells ' ' or other lowercase letters directly above or below the word if the word was placed vertically.\n\nGiven a string word, return true if word can be placed in board, or false otherwise.\n\nExample 1:\n\nInput: board = [[\"#\", \" \", \"#\"], [\" \", \" \", \"#\"], [\"#\", \"c\", \" \"]], word = \"abc\"\nOutput: true\nExplanation: The word \"abc\" can be placed as shown above (top to bottom).\n\nExample 2:\n\nInput: board = [[\" \", \"#\", \"a\"], [\" \", \"#\", \"c\"], [\" \", \"#\", \"a\"]], word = \"ac\"\nOutput: false\nExplanation: It is impossible to place the word because there will always be a space/letter above or below it.\n\nExample 3:\n\nInput: board = [[\"#\", \" \", \"#\"], [\" \", \" \", \"#\"], [\"#\", \" \", \"c\"]], word = \"ca\"\nOutput: true\nExplanation: The word \"ca\" can be placed as shown above (right to left).\n\nConstraints:\n\n• m == board.length\n\n• n == board[i].length\n\n• 1 <= m * n <= 2 * 105\n\n• board[i][j] will be ' ', '#', or a lowercase English letter.\n\n• 1 <= word.length <= max(m, n)\n\n• word will contain only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def placeWordInCrossword(self, board, word):\n        \"\"\"\n        :type board: List[List[str]]\n        :type word: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Check all possible placements for the word.",
+    "There is a limited number of places where a word can start."
+  ],
+  "testCases": [
+    [
+      "[[\"#\",\" \",\"#\"],[\" \",\" \",\"#\"],[\"#\",\"c\",\" \"]]",
+      "\"abc\""
+    ],
+    [
+      "[[\" \",\"#\",\"a\"],[\" \",\"#\", \"c\"],[\" \",\"#\",\"a\"]]",
+      "\"ac\""
+    ],
+    [
+      "[[\"#\",\" \",\"#\"],[\" \",\" \",\"#\"],[\"#\",\" \",\"c\"]]",
+      "\"ca\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def placeWordInCrossword(self, board, word):\n        m, n = len(board), len(board[0])\n        word_reversed = word[::-1]\n        def can_place(r, c, dr, dc, w):\n            for i in range(len(w)):\n                nr, nc = r + i * dr, c + i * dc\n                if nr < 0 or nr >= m or nc < 0 or nc >= n or board[nr][nc] == '#':\n                    return False\n                if board[nr][nc] != ' ' and board[nr][nc] != w[i]:\n                    return False\n            if r - dr >= 0 and r - dr < m and c - dc >= 0 and c - dc < n and board[r-dr][c-dc] != '#':\n                return False\n            r, c = r + len(w) * dr, c + len(w) * dc\n            if r >= 0 and r < m and c >= 0 and c < n and board[r][c] != '#':\n                return False\n            return True\n        for i in range(m):\n            for j in range(n):\n                if board[i][j] != '#':\n                    for w in [word, word_reversed]:\n                        if can_place(i, j, 0, 1, w) or can_place(i, j, 1, 0, w):\n                            return True\n        return False",
+    "explanation": "Check all positions and directions. Verify word fits and boundaries are blocked.\nTime: O(m*n*w)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

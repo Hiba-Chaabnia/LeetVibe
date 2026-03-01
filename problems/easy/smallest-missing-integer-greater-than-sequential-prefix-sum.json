@@ -1,0 +1,49 @@
+{
+  "questionId": "3236",
+  "title": "Smallest Missing Integer Greater Than Sequential Prefix Sum",
+  "titleSlug": "smallest-missing-integer-greater-than-sequential-prefix-sum",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed array of integers nums.\n\nA prefix nums[0..i] is sequential if, for all 1 <= j <= i, nums[j] = nums[j - 1] + 1. In particular, the prefix consisting only of nums[0] is sequential.\n\nReturn the smallest integer x missing from nums such that x is greater than or equal to the sum of the longest sequential prefix.\n\nExample 1:\n\nInput: nums = [1,2,3,2,5]\nOutput: 6\nExplanation: The longest sequential prefix of nums is [1,2,3] with a sum of 6. 6 is not in the array, therefore 6 is the smallest missing integer greater than or equal to the sum of the longest sequential prefix.\n\nExample 2:\n\nInput: nums = [3,4,5,1,12,14,13]\nOutput: 15\nExplanation: The longest sequential prefix of nums is [3,4,5] with a sum of 12. 12, 13, and 14 belong to the array while 15 does not. Therefore 15 is the smallest missing integer greater than or equal to the sum of the longest sequential prefix.\n\nConstraints:\n\n• 1 <= nums.length <= 50\n\n• 1 <= nums[i] <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def missingInteger(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "To find the longest sequential prefix, iterate from left to right. For a fixed i, if nums[i] != nums[i - 1] + 1 then the longest sequential prefix ends at i - 1."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,2,5]"
+    ],
+    [
+      "[3,4,5,1,12,14,13]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "15"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def missingInteger(self, nums):\n        prefix_sum = nums[0]\n        for i in range(1, len(nums)):\n            if nums[i] == nums[i - 1] + 1:\n                prefix_sum += nums[i]\n            else:\n                break\n        s = set(nums)\n        x = prefix_sum\n        while x in s:\n            x += 1\n        return x",
+    "explanation": "Extend the sequential prefix; compute its sum; find the first integer >= that sum not in the array. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Common Prefix\", \"titleSlug\": \"longest-common-prefix\", \"difficulty\": \"Easy\"}, {\"title\": \"First Missing Positive\", \"titleSlug\": \"first-missing-positive\", \"difficulty\": \"Hard\"}, {\"title\": \"Next Greater Element I\", \"titleSlug\": \"next-greater-element-i\", \"difficulty\": \"Easy\"}]"
+}

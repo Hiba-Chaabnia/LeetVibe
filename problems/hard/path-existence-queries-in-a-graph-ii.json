@@ -1,0 +1,80 @@
+{
+  "questionId": "3852",
+  "title": "Path Existence Queries in a Graph II",
+  "titleSlug": "path-existence-queries-in-a-graph-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer n representing the number of nodes in a graph, labeled from 0 to n - 1.\n\nYou are also given an integer array nums of length n and an integer maxDiff.\n\nAn undirected edge exists between nodes i and j if the absolute difference between nums[i] and nums[j] is at most maxDiff (i.e., |nums[i] - nums[j]| <= maxDiff).\n\nYou are also given a 2D integer array queries. For each queries[i] = [ui, vi], find the minimum distance between nodes ui and vi. If no path exists between the two nodes, return -1 for that query.\n\nReturn an array answer, where answer[i] is the result of the ith query.\n\nNote: The edges between the nodes are unweighted.\n\nExample 1:\n\nInput: n = 5, nums = [1,8,3,4,2], maxDiff = 3, queries = [[0,3],[2,4]]\n\nOutput: [1,1]\n\nExplanation: The resulting graph is:\n\n\t\t\t\tQuery\n\t\t\t\tShortest Path\n\t\t\t\tMinimum Distance\n\n\t\t\t\t[0, 3]\n\t\t\t\t0 → 3\n\t\t\t\t1\n\n\t\t\t\t[2, 4]\n\t\t\t\t2 → 4\n\t\t\t\t1\n\nThus, the output is [1, 1].\n\nExample 2:\n\nInput: n = 5, nums = [5,3,1,9,10], maxDiff = 2, queries = [[0,1],[0,2],[2,3],[4,3]]\n\nOutput: [1,2,-1,1]\n\nExplanation: The resulting graph is:\n\n\t\t\t\tQuery\n\t\t\t\tShortest Path\n\t\t\t\tMinimum Distance\n\n\t\t\t\t[0, 1]\n\t\t\t\t0 → 1\n\t\t\t\t1\n\n\t\t\t\t[0, 2]\n\t\t\t\t0 → 1 → 2\n\t\t\t\t2\n\n\t\t\t\t[2, 3]\n\t\t\t\tNone\n\t\t\t\t-1\n\n\t\t\t\t[4, 3]\n\t\t\t\t3 → 4\n\t\t\t\t1\n\nThus, the output is [1, 2, -1, 1].\n\nExample 3:\n\nInput: n = 3, nums = [3,6,1], maxDiff = 1, queries = [[0,0],[0,1],[1,2]]\n\nOutput: [0,-1,-1]\n\nExplanation: There are no edges between any two nodes because:\n\n• Nodes 0 and 1: |nums[0] - nums[1]| = |3 - 6| = 3 > 1\n\n• Nodes 0 and 2: |nums[0] - nums[2]| = |3 - 1| = 2 > 1\n\n• Nodes 1 and 2: |nums[1] - nums[2]| = |6 - 1| = 5 > 1\n\nThus, no node can reach any other node, and the output is [0, -1, -1].\n\nConstraints:\n\n• 1 <= n == nums.length <= 105\n\n• 0 <= nums[i] <= 105\n\n• 0 <= maxDiff <= 105\n\n• 1 <= queries.length <= 105\n\n• queries[i] == [ui, vi]\n\n• 0 <= ui, vi < n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def pathExistenceQueries(self, n, nums, maxDiff, queries):\n        \"\"\"\n        :type n: int\n        :type nums: List[int]\n        :type maxDiff: int\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the nodes according to nums[i].",
+    "Can we use binary jumping?",
+    "Use binary jumping with a sparse table data structure."
+  ],
+  "testCases": [
+    [
+      "5",
+      "[1,8,3,4,2]",
+      "3",
+      "[[0,3],[2,4]]"
+    ],
+    [
+      "5",
+      "[5,3,1,9,10]",
+      "2",
+      "[[0,1],[0,2],[2,3],[4,3]]"
+    ],
+    [
+      "3",
+      "[3,6,1]",
+      "1",
+      "[[0,0],[0,1],[1,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,1]",
+    "[1,2,-1,1]",
+    "[0,-1,-1]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,61 @@
+{
+  "questionId": "808",
+  "title": "Number of Matching Subsequences",
+  "titleSlug": "number-of-matching-subsequences",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given a string s and an array of strings words, return the number of words[i] that is a subsequence of s.\n\nA subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.\n\n• For example, \"ace\" is a subsequence of \"abcde\".\n\nExample 1:\n\nInput: s = \"abcde\", words = [\"a\",\"bb\",\"acd\",\"ace\"]\nOutput: 3\nExplanation: There are three strings in words that are a subsequence of s: \"a\", \"acd\", \"ace\".\n\nExample 2:\n\nInput: s = \"dsahjpjauf\", words = [\"ahjpjau\",\"ja\",\"ahbwzgqnuk\",\"tnmlanowax\"]\nOutput: 2\n\nConstraints:\n\n• 1 <= s.length <= 5 * 104\n\n• 1 <= words.length <= 5000\n\n• 1 <= words[i].length <= 50\n\n• s and words[i] consist of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numMatchingSubseq(self, s, words):\n        \"\"\"\n        :type s: str\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"abcde\"",
+      "[\"a\",\"bb\",\"acd\",\"ace\"]"
+    ],
+    [
+      "\"dsahjpjauf\"",
+      "[\"ahjpjau\",\"ja\",\"ahbwzgqnuk\",\"tnmlanowax\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Is Subsequence\", \"titleSlug\": \"is-subsequence\", \"difficulty\": \"Easy\"}, {\"title\": \"Shortest Way to Form String\", \"titleSlug\": \"shortest-way-to-form-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Vowel Substrings of a String\", \"titleSlug\": \"count-vowel-substrings-of-a-string\", \"difficulty\": \"Easy\"}]"
+}

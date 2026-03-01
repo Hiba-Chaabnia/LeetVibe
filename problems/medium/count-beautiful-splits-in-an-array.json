@@ -1,0 +1,45 @@
+{
+  "questionId": "3686",
+  "title": "Count Beautiful Splits in an Array",
+  "titleSlug": "count-beautiful-splits-in-an-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an array nums.\n\nA split of an array nums is beautiful if:\n\n• The array nums is split into three subarrays: nums1, nums2, and nums3, such that nums can be formed by concatenating nums1, nums2, and nums3 in that order.\n\n• The subarray nums1 is a prefix of nums2 OR nums2 is a prefix of nums3.\n\nReturn the number of ways you can make this split.\n\nExample 1:\n\nInput: nums = [1,1,2,1]\n\nOutput: 2\n\nExplanation: The beautiful splits are:\n\n• A split with nums1 = [1], nums2 = [1,2], nums3 = [1].\n\n• A split with nums1 = [1], nums2 = [1], nums3 = [2,1].\n\nExample 2:\n\nInput: nums = [1,2,3,4]\n\nOutput: 0\n\nExplanation: There are 0 beautiful splits.\n\nConstraints:\n\n• 1 <= nums.length <= 5000\n\n• 0 <= nums[i] <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def beautifulSplits(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use 2D dynamic programming to find the maximum matching prefix."
+  ],
+  "testCases": [
+    [
+      "[1,1,2,1]"
+    ],
+    [
+      "[1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def beautifulSplits(self, nums):\n        n = len(nums)\n        # lcp[i][j] = length of longest common prefix of nums[i:] and nums[j:]\n        lcp = [[0] * (n + 1) for _ in range(n + 1)]\n        for i in range(n - 1, -1, -1):\n            for j in range(n - 1, i - 1, -1):\n                if nums[i] == nums[j]:\n                    lcp[i][j] = lcp[i+1][j+1] + 1\n                # else lcp[i][j] = 0 (already)\n        ans = 0\n        for i in range(1, n - 1):\n            for j in range(i + 1, n):\n                # nums1 = nums[0..i-1], nums2 = nums[i..j-1], nums3 = nums[j..n-1]\n                # Condition 1: nums1 is prefix of nums2 <=> lcp[0][i] >= i (len(nums1)=i, nums2 starts at i)\n                cond1 = lcp[0][i] >= i\n                # Condition 2: nums2 is prefix of nums3 <=> lcp[i][j] >= j-i\n                cond2 = lcp[i][j] >= j - i\n                if cond1 or cond2:\n                    ans += 1\n        return ans",
+    "explanation": "Precompute 2D LCP table bottom-up: lcp[i][j] = longest common prefix of nums[i:] and nums[j:]. For split (i, j): condition1 = lcp[0][i] >= i means nums[0..i-1] is prefix of nums[i..j-1]; condition2 = lcp[i][j] >= j-i means nums[i..j-1] is prefix of nums[j..n-1].\n\nTime: O(n²). Space: O(n²)."
+  },
+  "similarQuestions": "[]"
+}

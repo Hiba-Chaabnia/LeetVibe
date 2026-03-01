@@ -1,0 +1,32 @@
+[settings]
+model = "mistral-large-latest"
+
+[[mcp_servers]]
+name = "test_runner"
+transport = "stdio"
+command = "python"
+args = ["skills/test_runner/server.py"]
+
+[[mcp_servers]]
+name = "voice_narrator"
+transport = "stdio"
+command = "python"
+args = ["skills/voice_narrator/server.py"]
+
+[[mcp_servers]]
+name = "complexity_analyzer"
+transport = "stdio"
+command = "python"
+args = ["skills/complexity_analyzer/server.py"]
+
+[[mcp_servers]]
+name = "teaching_mode"
+transport = "stdio"
+command = "python"
+args = ["skills/teaching_mode/server.py"]
+
+[[mcp_servers]]
+name = "progress_tracker"
+transport = "stdio"
+command = "python"
+args = ["skills/progress_tracker/server.py"]

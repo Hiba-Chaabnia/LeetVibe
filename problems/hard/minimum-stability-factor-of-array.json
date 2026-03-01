@@ -1,0 +1,70 @@
+{
+  "questionId": "3920",
+  "title": "Minimum Stability Factor of Array",
+  "titleSlug": "minimum-stability-factor-of-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer maxC.\n\nA subarray is called stable if the highest common factor (HCF) of all its elements is greater than or equal to 2.\n\nThe stability factor of an array is defined as the length of its longest stable subarray.\n\nYou may modify at most maxC elements of the array to any integer.\n\nReturn the minimum possible stability factor of the array after at most maxC modifications. If no stable subarray remains, return 0.\n\nNote:\n\n• The highest common factor (HCF) of an array is the largest integer that evenly divides all the array elements.\n\n• A subarray of length 1 is stable if its only element is greater than or equal to 2, since HCF([x]) = x.\n\nExample 1:\n\nInput: nums = [3,5,10], maxC = 1\n\nOutput: 1\n\nExplanation:\n\n• The stable subarray [5, 10] has HCF = 5, which has a stability factor of 2.\n\n• Since maxC = 1, one optimal strategy is to change nums[1] to 7, resulting in nums = [3, 7, 10].\n\n• Now, no subarray of length greater than 1 has HCF >= 2. Thus, the minimum possible stability factor is 1.\n\nExample 2:\n\nInput: nums = [2,6,8], maxC = 2\n\nOutput: 1\n\nExplanation:\n\n• The subarray [2, 6, 8] has HCF = 2, which has a stability factor of 3.\n\n• Since maxC = 2, one optimal strategy is to change nums[1] to 3 and nums[2] to 5, resulting in nums = [2, 3, 5].\n\n• Now, no subarray of length greater than 1 has HCF >= 2. Thus, the minimum possible stability factor is 1.\n\nExample 3:\n\nInput: nums = [2,4,9,6], maxC = 1\n\nOutput: 2\n\nExplanation:\n\n• The stable subarrays are:\n\n• [2, 4] with HCF = 2 and stability factor of 2.\n\n• [9, 6] with HCF = 3 and stability factor of 2.\n\n• Since maxC = 1, the stability factor of 2 cannot be reduced due to two separate stable subarrays. Thus, the minimum possible stability factor is 2.\n\nConstraints:\n\n• 1 <= n == nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 0 <= maxC <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minStable(self, nums, maxC):\n        \"\"\"\n        :type nums: List[int]\n        :type maxC: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Binary‐search the target length k",
+    "For each k, use fast range‐GCD queries",
+    "Greedily \"hit\" every window of size k+1 with an edit if its GCD > 1"
+  ],
+  "testCases": [
+    [
+      "[3,5,10]",
+      "1"
+    ],
+    [
+      "[2,6,8]",
+      "2"
+    ],
+    [
+      "[2,4,9,6]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minStable(self, nums, maxC):\n        \"\"\"\n        :type nums: List[int]\n        :type maxC: int\n        :rtype: int\n        \"\"\"\n        from math import gcd\n        from functools import reduce\n        \n        def compute_gcd(arr):\n            return reduce(gcd, arr)\n        \n        def can_achieve(target_len):\n            # Check if we can reduce max stable subarray length to < target_len using at most maxC edits\n            edits_needed = 0\n            i = 0\n            while i < len(nums):\n                # Check subarrays of length target_len + 1\n                if i + target_len < len(nums):\n                    subarray = nums[i:i+target_len+1]\n                    if compute_gcd(subarray) >= 2:\n                        # This subarray is stable, we need to break it\n                        edits_needed += 1\n                        i += target_len + 1\n                    else:\n                        i += 1\n                else:\n                    break\n            \n            return edits_needed <= maxC\n        \n        # Binary search on answer\n        left, right = 1, len(nums)\n        result = len(nums)\n        \n        while left <= right:\n            mid = (left + right) // 2\n            if can_achieve(mid):\n                result = mid\n                right = mid - 1\n            else:\n                left = mid + 1\n        \n        return result",
+    "explanation": "This solution uses binary search combined with a greedy verification approach:\n\n1. **Problem Understanding**: We want to minimize the maximum length of subarrays with GCD ≥ 2 after at most maxC modifications.\n\n2. **Binary Search**: Search for the minimum possible stability factor (answer) from 1 to n.\n\n3. **Verification Function (can_achieve)**:\n   - For a target length k, check if we can break all stable subarrays of length k+1\n   - Use greedy approach: scan left to right\n   - When we find a stable subarray of length k+1, mark it as edited\n   - Count total edits needed\n   - Return true if edits ≤ maxC\n\n4. **Greedy Strategy**: When we encounter a stable subarray of length k+1, we can remove one element from it (edit it), forcing the next check to start from position i+k+1. This ensures we don't unnecessarily edit multiple subarrays.\n\n5. **GCD Calculation**: Use Python's built-in gcd from math library with functools.reduce to compute GCD of an array.\n\nTime Complexity: O(N² * log N) for binary search and verification\nSpace Complexity: O(1)"
+  },
+  "similarQuestions": "[]"
+}

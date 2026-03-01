@@ -1,0 +1,60 @@
+{
+  "questionId": "1604",
+  "title": "Least Number of Unique Integers after K Removals",
+  "titleSlug": "least-number-of-unique-integers-after-k-removals",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an array of integers arr and an integer k. Find the least number of unique integers after removing exactly k elements.\n\nExample 1:\n\nInput: arr = [5,5,4], k = 1\nOutput: 1\nExplanation: Remove the single 4, only 5 is left.\n\nExample 2:\n\nInput: arr = [4,3,1,1,3,3,2], k = 3\nOutput: 2\nExplanation: Remove 4, 2 and either one of the two 1s or three 3s. 1 and 3 will be left.\n\nConstraints:\n\n• 1 <= arr.length <= 10^5\n\n• 1 <= arr[i] <= 10^9\n\n• 0 <= k <= arr.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\r\n    def findLeastNumOfUniqueInts(self, arr, k):\r\n        \"\"\"\r\n        :type arr: List[int]\r\n        :type k: int\r\n        :rtype: int\r\n        \"\"\""
+    }
+  ],
+  "hints": [
+    "Use a map to count the frequencies of the numbers in the array.",
+    "An optimal strategy is to remove the numbers with the smallest count first."
+  ],
+  "testCases": [
+    [
+      "[5,5,4]",
+      "1"
+    ],
+    [
+      "[4,3,1,1,3,3,2]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\nimport heapq\n\ndef findLeastNumOfUniqueInts(arr, k):\n    count = Counter(arr)\n    pq = list(count.values())\n    heapq.heapify(pq)\n    while k > 0:\n        k -= heapq.heappop(pq)\n    return len(pq) if k == 0 else len(pq) + 1",
+    "explanation": "The algorithm first counts the frequency of each unique integer in the array using a hashmap/dictionary. Then the frequencies are put into a min-heap/priority queue. The algorithm then removes k elements, taking into consideration the least frequent integers first (popping from the min-heap). After k elements are removed, the size of the priority queue is the number of remaining unique integers. If k is exactly 0, return the size of the priority queue, otherwise, return the size + 1 (as the last integer's frequency was not completely removed from the queue)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Number of Distinct Elements After Operations\", \"titleSlug\": \"maximum-number-of-distinct-elements-after-operations\", \"difficulty\": \"Medium\"}]"
+}

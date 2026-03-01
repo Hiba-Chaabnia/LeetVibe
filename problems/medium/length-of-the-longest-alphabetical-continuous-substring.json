@@ -1,0 +1,38 @@
+{
+  "questionId": "2492",
+  "title": "Length of the Longest Alphabetical Continuous Substring",
+  "titleSlug": "length-of-the-longest-alphabetical-continuous-substring",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "An alphabetical continuous string is a string consisting of consecutive letters in the alphabet. In other words, it is any substring of the string \"abcdefghijklmnopqrstuvwxyz\".\n\n• For example, \"abc\" is an alphabetical continuous string, while \"acb\" and \"za\" are not.\n\nGiven a string s consisting of lowercase letters only, return the length of the longest alphabetical continuous substring.\n\nExample 1:\n\nInput: s = \"abacaba\"\nOutput: 2\nExplanation: There are 4 distinct continuous substrings: \"a\", \"b\", \"c\" and \"ab\".\n    \"ab\" is the longest continuous substring.\n\nExample 2:\n\nInput: s = \"abcde\"\nOutput: 5\nExplanation: \"abcde\" is the longest continuous substring.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of only English lowercase letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestContinuousSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What is the longest possible continuous substring?",
+    "The size of the longest possible continuous substring is at most 26, so we can just brute force the answer."
+  ],
+  "testCases": [
+    [
+      "\"abacaba\""
+    ],
+    [
+      "\"abcde\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "5"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Consecutive Sequence\", \"titleSlug\": \"longest-consecutive-sequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Arithmetic Slices\", \"titleSlug\": \"arithmetic-slices\", \"difficulty\": \"Medium\"}, {\"title\": \"Max Consecutive Ones\", \"titleSlug\": \"max-consecutive-ones\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Number of Vowels in a Substring of Given Length\", \"titleSlug\": \"maximum-number-of-vowels-in-a-substring-of-given-length\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Zero-Filled Subarrays\", \"titleSlug\": \"number-of-zero-filled-subarrays\", \"difficulty\": \"Medium\"}]"
+}

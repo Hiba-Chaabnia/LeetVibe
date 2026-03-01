@@ -1,0 +1,75 @@
+{
+  "questionId": "1727",
+  "title": "Cat and Mouse II",
+  "titleSlug": "cat-and-mouse-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Topological Sort",
+      "slug": "topological-sort"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "A game is played by a cat and a mouse named Cat and Mouse.\n\nThe environment is represented by a grid of size rows x cols, where each element is a wall, floor, player (Cat, Mouse), or food.\n\n• Players are represented by the characters 'C'(Cat),'M'(Mouse).\n\n• Floors are represented by the character '.' and can be walked on.\n\n• Walls are represented by the character '#' and cannot be walked on.\n\n• Food is represented by the character 'F' and can be walked on.\n\n• There is only one of each character 'C', 'M', and 'F' in grid.\n\nMouse and Cat play according to the following rules:\n\n• Mouse moves first, then they take turns to move.\n\n• During each turn, Cat and Mouse can jump in one of the four directions (left, right, up, down). They cannot jump over the wall nor outside of the grid.\n\n• catJump, mouseJump are the maximum lengths Cat and Mouse can jump at a time, respectively. Cat and Mouse can jump less than the maximum length.\n\n• Staying in the same position is allowed.\n\n• Mouse can jump over Cat.\n\nThe game can end in 4 ways:\n\n• If Cat occupies the same position as Mouse, Cat wins.\n\n• If Cat reaches the food first, Cat wins.\n\n• If Mouse reaches the food first, Mouse wins.\n\n• If Mouse cannot get to the food within 1000 turns, Cat wins.\n\nGiven a rows x cols matrix grid and two integers catJump and mouseJump, return true if Mouse can win the game if both Cat and Mouse play optimally, otherwise return false.\n\nExample 1:\n\nInput: grid = [\"####F\",\"#C...\",\"M....\"], catJump = 1, mouseJump = 2\nOutput: true\nExplanation: Cat cannot catch Mouse on its turn nor can it get the food before Mouse.\n\nExample 2:\n\nInput: grid = [\"M.C...F\"], catJump = 1, mouseJump = 4\nOutput: true\n\nExample 3:\n\nInput: grid = [\"M.C...F\"], catJump = 1, mouseJump = 3\nOutput: false\n\nConstraints:\n\n• rows == grid.length\n\n• cols = grid[i].length\n\n• 1 <= rows, cols <= 8\n\n• grid[i][j] consist only of characters 'C', 'M', 'F', '.', and '#'.\n\n• There is only one of each character 'C', 'M', and 'F' in grid.\n\n• 1 <= catJump, mouseJump <= 8",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canMouseWin(self, grid, catJump, mouseJump):\n        \"\"\"\n        :type grid: List[str]\n        :type catJump: int\n        :type mouseJump: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try working backward: consider all trivial states you know to be winning or losing, and work backward to determine which other states can be labeled as winning or losing."
+  ],
+  "testCases": [
+    [
+      "[\"####F\",\"#C...\",\"M....\"]",
+      "1",
+      "2"
+    ],
+    [
+      "[\"M.C...F\"]",
+      "1",
+      "4"
+    ],
+    [
+      "[\"M.C...F\"]",
+      "1",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Escape The Ghosts\", \"titleSlug\": \"escape-the-ghosts\", \"difficulty\": \"Medium\"}, {\"title\": \"Cat and Mouse\", \"titleSlug\": \"cat-and-mouse\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "207",
+  "title": "Course Schedule",
+  "titleSlug": "course-schedule",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Topological Sort",
+      "slug": "topological-sort"
+    }
+  ],
+  "content": "There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.\n\n• For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.\n\nReturn true if you can finish all courses. Otherwise, return false.\n\nExample 1:\n\nInput: numCourses = 2, prerequisites = [[1,0]]\nOutput: true\nExplanation: There are a total of 2 courses to take.\n    To take course 1 you should have finished course 0. So it is possible.\n\nExample 2:\n\nInput: numCourses = 2, prerequisites = [[1,0],[0,1]]\nOutput: false\nExplanation: There are a total of 2 courses to take.\n    To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.\n\nConstraints:\n\n• 1 <= numCourses <= 2000\n\n• 0 <= prerequisites.length <= 5000\n\n• prerequisites[i].length == 2\n\n• 0 <= ai, bi < numCourses\n\n• All the pairs prerequisites[i] are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canFinish(self, numCourses, prerequisites):\n        \"\"\"\n        :type numCourses: int\n        :type prerequisites: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "This problem is equivalent to finding if a cycle exists in a directed graph. If a cycle exists, no topological ordering exists and therefore it will be impossible to take all courses.",
+    "<a href=\"https://www.cs.princeton.edu/~wayne/kleinberg-tardos/pdf/03Graphs.pdf\" target=\"_blank\">Topological Sort via DFS</a> - A great tutorial explaining the basic concepts of Topological Sort.",
+    "Topological sort could also be done via <a href=\"http://en.wikipedia.org/wiki/Topological_sorting#Algorithms\" target=\"_blank\">BFS</a>."
+  ],
+  "testCases": [
+    [
+      "2",
+      "[[1,0]]"
+    ],
+    [
+      "2",
+      "[[1,0],[0,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict, deque\n\ndef canFinish(numCourses, prerequisites):\n    adj = defaultdict(list)\n    inDegree = [0] * numCourses\n    \n    for a, b in prerequisites:\n        adj[b].append(a)\n        inDegree[a] += 1\n    \n    q = deque([i for i in range(numCourses) if inDegree[i]==0])\n    \n    while q:\n        currCourse = q.popleft()\n        numCourses -= 1\n        \n        for nextCourse in adj[currCourse]:\n            inDegree[nextCourse] -= 1\n            if inDegree[nextCourse] == 0:\n                q.append(nextCourse)\n    \n    return numCourses == 0",
+    "explanation": "The algorithm uses the topological sorting approach utilizing Kahn's Algorithm to solve this problem. We maintain an adjacency list to represent the graph and a list of in-degrees for each vertex (course) Mark the vertices with in-degree 0 and add them to a queue (these are starter courses). Then, we process each node (course) in the queue, decrease in-degrees of their neighbors (courses they unlock). If the in-degree of any neighbor becomes 0, add it to the queue. In the end, if we have processed all courses, return true; otherwise, return false if any course is not processed."
+  },
+  "similarQuestions": "[{\"title\": \"Course Schedule II\", \"titleSlug\": \"course-schedule-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Graph Valid Tree\", \"titleSlug\": \"graph-valid-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Height Trees\", \"titleSlug\": \"minimum-height-trees\", \"difficulty\": \"Medium\"}, {\"title\": \"Course Schedule III\", \"titleSlug\": \"course-schedule-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Build a Matrix With Conditions\", \"titleSlug\": \"build-a-matrix-with-conditions\", \"difficulty\": \"Hard\"}]"
+}

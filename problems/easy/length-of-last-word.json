@@ -1,0 +1,43 @@
+{
+  "questionId": "58",
+  "title": "Length of Last Word",
+  "titleSlug": "length-of-last-word",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s consisting of words and spaces, return the length of the last word in the string.\n\nA word is a maximal substring consisting of non-space characters only.\n\nExample 1:\n\nInput: s = \"Hello World\"\nOutput: 5\nExplanation: The last word is \"World\" with length 5.\n\nExample 2:\n\nInput: s = \"   fly me   to   the moon  \"\nOutput: 4\nExplanation: The last word is \"moon\" with length 4.\n\nExample 3:\n\nInput: s = \"luffy is still joyboy\"\nOutput: 6\nExplanation: The last word is \"joyboy\" with length 6.\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s consists of only English letters and spaces ' '.\n\n• There will be at least one word in s.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lengthOfLastWord(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"Hello World\""
+    ],
+    [
+      "\"   fly me   to   the moon  \""
+    ],
+    [
+      "\"luffy is still joyboy\""
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "4",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def lengthOfLastWord(self, s):\n        words = s.split()\n        return len(words[-1]) if words else 0",
+    "explanation": "Split by spaces. Return length of last word.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

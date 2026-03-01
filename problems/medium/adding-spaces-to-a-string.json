@@ -1,0 +1,62 @@
+{
+  "questionId": "2232",
+  "title": "Adding Spaces to a String",
+  "titleSlug": "adding-spaces-to-a-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a 0-indexed string s and a 0-indexed integer array spaces that describes the indices in the original string where spaces will be added. Each space should be inserted before the character at the given index.\n\n• For example, given s = \"EnjoyYourCoffee\" and spaces = [5, 9], we place spaces before 'Y' and 'C', which are at indices 5 and 9 respectively. Thus, we obtain \"Enjoy Your Coffee\".\n\nReturn the modified string after the spaces have been added.\n\nExample 1:\n\nInput: s = \"LeetcodeHelpsMeLearn\", spaces = [8,13,15]\nOutput: \"Leetcode Helps Me Learn\"\nExplanation:\n    The indices 8, 13, and 15 correspond to the underlined characters in \"LeetcodeHelpsMeLearn\".\n    We then place spaces before those characters.\n\nExample 2:\n\nInput: s = \"icodeinpython\", spaces = [1,5,7,9]\nOutput: \"i code in py thon\"\nExplanation:\n    The indices 1, 5, 7, and 9 correspond to the underlined characters in \"icodeinpython\".\n    We then place spaces before those characters.\n\nExample 3:\n\nInput: s = \"spacing\", spaces = [0,1,2,3,4,5,6]\nOutput: \" s p a c i n g\"\nExplanation:\n    We are also able to place spaces before the first character of the string.\n\nConstraints:\n\n• 1 <= s.length <= 3 * 105\n\n• s consists only of lowercase and uppercase English letters.\n\n• 1 <= spaces.length <= 3 * 105\n\n• 0 <= spaces[i] <= s.length - 1\n\n• All the values of spaces are strictly increasing.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def addSpaces(self, s, spaces):\n        \"\"\"\n        :type s: str\n        :type spaces: List[int]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Create a new string, initially empty, as the modified string. Iterate through the original string and append each character of the original string to the new string. However, each time you reach a character that requires a space before it, append a space before appending the character.",
+    "Since the array of indices for the space locations is sorted, use a pointer to keep track of the next index to place a space. Only increment the pointer once a space has been appended.",
+    "Ensure that your append operation can be done in O(1)."
+  ],
+  "testCases": [
+    [
+      "\"LeetcodeHelpsMeLearn\"",
+      "[8,13,15]"
+    ],
+    [
+      "\"icodeinpython\"",
+      "[1,5,7,9]"
+    ],
+    [
+      "\"spacing\"",
+      "[0,1,2,3,4,5,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Leetcode Helps Me Learn\"",
+    "\"i code in py thon\"",
+    "\" s p a c i n g\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def addSpaces(self, s, spaces):\n        result = []\n        space_idx = 0\n        for i, char in enumerate(s):\n            if space_idx < len(spaces) and i == spaces[space_idx]:\n                result.append(' ')\n                space_idx += 1\n            result.append(char)\n        return ''.join(result)",
+    "explanation": "Iterate through string. Add space when index matches spaces array. Two pointers.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

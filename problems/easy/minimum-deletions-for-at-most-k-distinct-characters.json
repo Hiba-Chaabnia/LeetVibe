@@ -1,0 +1,67 @@
+{
+  "questionId": "3871",
+  "title": "Minimum Deletions for At Most K Distinct Characters",
+  "titleSlug": "minimum-deletions-for-at-most-k-distinct-characters",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters, and an integer k.\n\nYour task is to delete some (possibly none) of the characters in the string so that the number of distinct characters in the resulting string is at most k.\n\nReturn the minimum number of deletions required to achieve this.\n\nExample 1:\n\nInput: s = \"abc\", k = 2\n\nOutput: 1\n\nExplanation:\n\n• s has three distinct characters: 'a', 'b' and 'c', each with a frequency of 1.\n\n• Since we can have at most k = 2 distinct characters, remove all occurrences of any one character from the string.\n\n• For example, removing all occurrences of 'c' results in at most k distinct characters. Thus, the answer is 1.\n\nExample 2:\n\nInput: s = \"aabb\", k = 2\n\nOutput: 0\n\nExplanation:\n\n• s has two distinct characters ('a' and 'b') with frequencies of 2 and 2, respectively.\n\n• Since we can have at most k = 2 distinct characters, no deletions are required. Thus, the answer is 0.\n\nExample 3:\n\nInput: s = \"yyyzz\", k = 1\n\nOutput: 2\n\nExplanation:\n\n• s has two distinct characters ('y' and 'z') with frequencies of 3 and 2, respectively.\n\n• Since we can have at most k = 1 distinct character, remove all occurrences of any one character from the string.\n\n• Removing all 'z' results in at most k distinct characters. Thus, the answer is 2.\n\nConstraints:\n\n• 1 <= s.length <= 16\n\n• 1 <= k <= 16\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDeletion(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Compute the frequency of each character in s and collect these into a list counts.",
+    "Sort counts in ascending order.",
+    "Let d = (number of distinct characters) – k. If d <= 0, return 0.",
+    "Otherwise, the minimum deletions is the sum of the first d entries in counts (removing the d least-frequent characters)."
+  ],
+  "testCases": [
+    [
+      "\"abc\"",
+      "2"
+    ],
+    [
+      "\"aabb\"",
+      "2"
+    ],
+    [
+      "\"yyyzz\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minDeletion(self, s, k):\n        from collections import Counter\n        cnt = Counter(s)\n        if len(cnt) <= k:\n            return 0\n        freqs = sorted(cnt.values())\n        remove = len(cnt) - k\n        return sum(freqs[:remove])",
+    "explanation": "Sort character frequencies; to reduce to k distinct chars, greedily remove the least-frequent ones; return the total removed characters. O(n log n) time."
+  },
+  "similarQuestions": "[]"
+}

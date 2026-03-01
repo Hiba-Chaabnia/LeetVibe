@@ -1,0 +1,54 @@
+{
+  "questionId": "1228",
+  "title": "Minimum Cost Tree From Leaf Values",
+  "titleSlug": "minimum-cost-tree-from-leaf-values",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "Given an array arr of positive integers, consider all binary trees such that:\n\n• Each node has either 0 or 2 children;\n\n• The values of arr correspond to the values of each leaf in an in-order traversal of the tree.\n\n• The value of each non-leaf node is equal to the product of the largest leaf value in its left and right subtree, respectively.\n\nAmong all possible binary trees considered, return the smallest possible sum of the values of each non-leaf node. It is guaranteed this sum fits into a 32-bit integer.\n\nA node is a leaf if and only if it has zero children.\n\nExample 1:\n\nInput: arr = [6,2,4]\nOutput: 32\nExplanation: There are two possible trees shown.\n    The first has a non-leaf node sum 36, and the second has non-leaf node sum 32.\n\nExample 2:\n\nInput: arr = [4,11]\nOutput: 44\n\nConstraints:\n\n• 2 <= arr.length <= 40\n\n• 1 <= arr[i] <= 15\n\n• It is guaranteed that the answer fits into a 32-bit signed integer (i.e., it is less than 231).",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mctFromLeafValues(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Do a DP, where dp(i, j) is the answer for the subarray arr[i]..arr[j].",
+    "For each possible way to partition the subarray i <= k < j, the answer is max(arr[i]..arr[k]) * max(arr[k+1]..arr[j]) + dp(i, k) + dp(k+1, j)."
+  ],
+  "testCases": [
+    [
+      "[6,2,4]"
+    ],
+    [
+      "[4,11]"
+    ]
+  ],
+  "expectedOutputs": [
+    "32",
+    "44"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

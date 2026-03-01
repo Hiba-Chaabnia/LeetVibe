@@ -1,0 +1,59 @@
+{
+  "questionId": "456",
+  "title": "132 Pattern",
+  "titleSlug": "132-pattern",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "Given an array of n integers nums, a 132 pattern is a subsequence of three integers nums[i], nums[j] and nums[k] such that i < j < k and nums[i] < nums[k] < nums[j].\n\nReturn true if there is a 132 pattern in nums, otherwise, return false.\n\nExample 1:\n\nInput: nums = [1,2,3,4]\nOutput: false\nExplanation: There is no 132 pattern in the sequence.\n\nExample 2:\n\nInput: nums = [3,1,4,2]\nOutput: true\nExplanation: There is a 132 pattern in the sequence: [1, 4, 2].\n\nExample 3:\n\nInput: nums = [-1,3,2,0]\nOutput: true\nExplanation: There are three 132 patterns in the sequence: [-1, 3, 2], [-1, 3, 0] and [-1, 2, 0].\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 2 * 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def find132pattern(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4]"
+    ],
+    [
+      "[3,1,4,2]"
+    ],
+    [
+      "[-1,3,2,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def find132pattern(nums):\n    third, stack = float('-inf'), []\n    for num in reversed(nums):\n        if num < third:\n            return True\n        while stack and stack[-1] < num:\n            third = stack.pop()\n        stack.append(num)\n    return False",
+    "explanation": "To find the 132 pattern, we iterate through the array from the end to the beginning. We use a stack to keep track of potential third elements (nums[k]) in the 132 pattern. We also keep track of the maximum third element found so far. If we find a number that is smaller than the maximum third element, we know that a 132 pattern exists.\n\nIn the Java and Python implementations, we also create a separate array to store the minimum values found so far from the start of the array, which helps in identifying the first element (nums[i]) in the 132 pattern. This step can be skipped in C++ and JavaScript implementations by directly comparing the first element (nums[i]) with the maximum third element stored in the stack.\n\nDuring the iteration, we check if the current number is smaller than the maximum third element, which would mean a 132 pattern has been found. If not, we update the maximum third element and the stack as necessary to continue searching for the 132 pattern. Finally, we return whether the 132 pattern has been found."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "1587",
+  "title": "Parallel Courses II",
+  "titleSlug": "parallel-courses-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given an array relations where relations[i] = [prevCoursei, nextCoursei], representing a prerequisite relationship between course prevCoursei and course nextCoursei: course prevCoursei has to be taken before course nextCoursei. Also, you are given the integer k.\n\nIn one semester, you can take at most k courses as long as you have taken all the prerequisites in the previous semesters for the courses you are taking.\n\nReturn the minimum number of semesters needed to take all courses. The testcases will be generated such that it is possible to take every course.\n\nExample 1:\n\nInput: n = 4, relations = [[2,1],[3,1],[1,4]], k = 2\nOutput: 3\nExplanation: The figure above represents the given graph.\n    In the first semester, you can take courses 2 and 3.\n    In the second semester, you can take course 1.\n    In the third semester, you can take course 4.\n\nExample 2:\n\nInput: n = 5, relations = [[2,1],[3,1],[4,1],[1,5]], k = 2\nOutput: 4\nExplanation: The figure above represents the given graph.\n    In the first semester, you can only take courses 2 and 3 since you cannot take more than two per semester.\n    In the second semester, you can take course 4.\n    In the third semester, you can take course 1.\n    In the fourth semester, you can take course 5.\n\nConstraints:\n\n• 1 <= n <= 15\n\n• 1 <= k <= n\n\n• 0 <= relations.length <= n * (n-1) / 2\n\n• relations[i].length == 2\n\n• 1 <= prevCoursei, nextCoursei <= n\n\n• prevCoursei != nextCoursei\n\n• All the pairs [prevCoursei, nextCoursei] are unique.\n\n• The given graph is a directed acyclic graph.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minNumberOfSemesters(self, n, relations, k):\n        \"\"\"\n        :type n: int\n        :type relations: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use backtracking with states (bitmask, degrees) where bitmask represents the set of courses, if the ith bit is 1 then the ith course was taken, otherwise, you can take the ith course. Degrees represent the degree for each course (nodes in the graph).",
+    "Note that you can only take nodes (courses) with degree = 0 and it is optimal at every step in the backtracking take the maximum number of courses limited by k."
+  ],
+  "testCases": [
+    [
+      "4",
+      "[[2,1],[3,1],[1,4]]",
+      "2"
+    ],
+    [
+      "5",
+      "[[2,1],[3,1],[4,1],[1,5]]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Parallel Courses\", \"titleSlug\": \"parallel-courses\", \"difficulty\": \"Medium\"}]"
+}

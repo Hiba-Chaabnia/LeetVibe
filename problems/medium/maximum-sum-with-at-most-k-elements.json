@@ -1,0 +1,62 @@
+{
+  "questionId": "3764",
+  "title": "Maximum Sum With at Most K Elements",
+  "titleSlug": "maximum-sum-with-at-most-k-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a 2D integer matrix grid of size n x m, an integer array limits of length n, and an integer k. The task is to find the maximum sum of at most k elements from the matrix grid such that:\n\n•\n\tThe number of elements taken from the ith row of grid does not exceed limits[i].\n\nReturn the maximum sum.\n\nExample 1:\n\nInput: grid = [[1,2],[3,4]], limits = [1,2], k = 2\n\nOutput: 7\n\nExplanation:\n\n• From the second row, we can take at most 2 elements. The elements taken are 4 and 3.\n\n• The maximum possible sum of at most 2 selected elements is 4 + 3 = 7.\n\nExample 2:\n\nInput: grid = [[5,3,7],[8,2,6]], limits = [2,2], k = 3\n\nOutput: 21\n\nExplanation:\n\n• From the first row, we can take at most 2 elements. The element taken is 7.\n\n• From the second row, we can take at most 2 elements. The elements taken are 8 and 6.\n\n• The maximum possible sum of at most 3 selected elements is 7 + 8 + 6 = 21.\n\nConstraints:\n\n• n == grid.length == limits.length\n\n• m == grid[i].length\n\n• 1 <= n, m <= 500\n\n• 0 <= grid[i][j] <= 105\n\n• 0 <= limits[i] <= m\n\n• 0 <= k <= min(n * m, sum(limits))",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSum(self, grid, limits, k):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type limits: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort each row in descending order and extract the top limits[i] elements.",
+    "Use a max-heap to efficiently pick the largest k elements across all rows."
+  ],
+  "testCases": [
+    [
+      "[[1,2],[3,4]]",
+      "[1,2]",
+      "2"
+    ],
+    [
+      "[[5,3,7],[8,2,6]]",
+      "[2,2]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "21"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def maxSum(self, grid, limits, k):\n        # Collect top limits[i] elements from each row\n        candidates = []\n        for i, row in enumerate(grid):\n            top = sorted(row, reverse=True)[:limits[i]]\n            candidates.extend(top)\n        # Take the top k from all candidates\n        candidates.sort(reverse=True)\n        return sum(candidates[:k])",
+    "explanation": "From each row i, only the top limits[i] elements can ever be chosen (others are dominated). Collect all such candidates, sort globally, and take the top k.\n\nTime: O(n*m log m + N log N) where N = sum(limits). Space: O(N)."
+  },
+  "similarQuestions": "[]"
+}

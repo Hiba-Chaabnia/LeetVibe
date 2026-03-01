@@ -1,0 +1,63 @@
+{
+  "questionId": "1499",
+  "title": "Maximum Performance of a Team",
+  "titleSlug": "maximum-performance-of-a-team",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given two integers n and k and two integer arrays speed and efficiency both of length n. There are n engineers numbered from 1 to n. speed[i] and efficiency[i] represent the speed and efficiency of the ith engineer respectively.\n\nChoose at most k different engineers out of the n engineers to form a team with the maximum performance.\n\nThe performance of a team is the sum of its engineers' speeds multiplied by the minimum efficiency among its engineers.\n\nReturn the maximum performance of this team. Since the answer can be a huge number, return it modulo 109 + 7.\n\nExample 1:\n\nInput: n = 6, speed = [2,10,3,1,5,8], efficiency = [5,4,3,9,7,2], k = 2\nOutput: 60\nExplanation:\n    We have the maximum performance of the team by selecting engineer 2 (with speed=10 and efficiency=4) and engineer 5 (with speed=5 and efficiency=7). That is, performance = (10 + 5) * min(4, 7) = 60.\n\nExample 2:\n\nInput: n = 6, speed = [2,10,3,1,5,8], efficiency = [5,4,3,9,7,2], k = 3\nOutput: 68\nExplanation:\n    This is the same example as the first but k = 3. We can select engineer 1, engineer 2 and engineer 5 to get the maximum performance of the team. That is, performance = (2 + 10 + 5) * min(5, 4, 7) = 68.\n\nExample 3:\n\nInput: n = 6, speed = [2,10,3,1,5,8], efficiency = [5,4,3,9,7,2], k = 4\nOutput: 72\n\nConstraints:\n\n• 1 <= k <= n <= 105\n\n• speed.length == n\n\n• efficiency.length == n\n\n• 1 <= speed[i] <= 105\n\n• 1 <= efficiency[i] <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxPerformance(self, n, speed, efficiency, k):\n        \"\"\"\n        :type n: int\n        :type speed: List[int]\n        :type efficiency: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep track of the engineers by their efficiency in decreasing order.",
+    "Starting from one engineer, to build a team, it suffices to bring K-1 more engineers who have higher efficiencies as well as high speeds."
+  ],
+  "testCases": [
+    [
+      "6",
+      "[2,10,3,1,5,8]",
+      "[5,4,3,9,7,2]",
+      "2"
+    ],
+    [
+      "6",
+      "[2,10,3,1,5,8]",
+      "[5,4,3,9,7,2]",
+      "3"
+    ],
+    [
+      "6",
+      "[2,10,3,1,5,8]",
+      "[5,4,3,9,7,2]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "60",
+    "68",
+    "72"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Fruits Harvested After at Most K Steps\", \"titleSlug\": \"maximum-fruits-harvested-after-at-most-k-steps\", \"difficulty\": \"Hard\"}]"
+}

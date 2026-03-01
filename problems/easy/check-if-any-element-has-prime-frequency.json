@@ -1,0 +1,62 @@
+{
+  "questionId": "3914",
+  "title": "Check if Any Element Has Prime Frequency",
+  "titleSlug": "check-if-any-element-has-prime-frequency",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nReturn true if the frequency of any element of the array is prime, otherwise, return false.\n\nThe frequency of an element x is the number of times it occurs in the array.\n\nA prime number is a natural number greater than 1 with only two factors, 1 and itself.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5,4]\n\nOutput: true\n\nExplanation: 4 has a frequency of two, which is a prime number.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5]\n\nOutput: false\n\nExplanation: All elements have a frequency of one.\n\nExample 3:\n\nInput: nums = [2,2,2,4,4]\n\nOutput: true\n\nExplanation: Both 2 and 4 have a prime frequency.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 0 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkPrimeFrequency(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Implement a function to check if a number is prime",
+    "Find the frequencies of all the distinct elements in the array (using data structures like map in C++), check if there is any element with prime frequency"
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5,4]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[2,2,2,4,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkPrimeFrequency(self, nums):\n        from collections import Counter\n        def is_prime(n):\n            if n < 2: return False\n            for i in range(2, int(n**0.5) + 1):\n                if n % i == 0: return False\n            return True\n        freq = Counter(nums)\n        return any(is_prime(v) for v in freq.values())",
+    "explanation": "Count frequencies; check if any is prime."
+  },
+  "similarQuestions": "[]"
+}

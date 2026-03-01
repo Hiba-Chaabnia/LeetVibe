@@ -1,0 +1,46 @@
+{
+  "questionId": "6",
+  "title": "Zigzag Conversion",
+  "titleSlug": "zigzag-conversion",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "The string \"PAYPALISHIRING\" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)\n\n    P   A   H   N\n    A P L S I I G\n    Y   I   R\n\nAnd then read line by line: \"PAHNAPLSIIGYIR\"\n\nWrite the code that will take a string and make this conversion given a number of rows:\n\n    string convert(string s, int numRows);\n\nExample 1:\n\nInput: s = \"PAYPALISHIRING\", numRows = 3\nOutput: \"PAHNAPLSIIGYIR\"\n\nExample 2:\n\nInput: s = \"PAYPALISHIRING\", numRows = 4\nOutput: \"PINALSIGYAHRPI\"\nExplanation:\n    P     I    N\n    A   L S  I G\n    Y A   H R\n    P     I\n\nExample 3:\n\nInput: s = \"A\", numRows = 1\nOutput: \"A\"\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s consists of English letters (lower-case and upper-case), ',' and '.'.\n\n• 1 <= numRows <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def convert(self, s, numRows):\n        \"\"\"\n        :type s: str\n        :type numRows: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"PAYPALISHIRING\"",
+      "3"
+    ],
+    [
+      "\"PAYPALISHIRING\"",
+      "4"
+    ],
+    [
+      "\"A\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"PAHNAPLSIIGYIR\"",
+    "\"PINALSIGYAHRPI\"",
+    "\"A\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def convert(s: str, numRows: int) -> str:\n    if numRows == 1 or numRows >= len(s):\n        return s\n\n    rows = [\"\"] * numRows\n    curRow = 0\n    goingDown = False\n\n    for c in s:\n        rows[curRow] += c\n        if curRow == 0 or curRow == numRows - 1:\n            goingDown = not goingDown\n        curRow += 1 if goingDown else -1\n\n    return \"\".join(rows)",
+    "explanation": "1. If the number of rows is 1 or is greater than or equal to the length of the string, the string is just returned as is.\n2. Create an array called \"rows\" to contain the characters that would reside in each row of the zigzag pattern.\n3. Iterate through the string one character at a time.\n4. For each character in the string, place it into the appropriate row of the \"rows\" array.\n5. Determine whether the next character should be placed in the row above or below the current row by checking if the current row is 0 (at the top) or equal to the number of rows minus 1 (at the bottom). If at the top or the bottom, the direction will change.\n6. Update the current row index according to the direction (going up or down).\n7. After iterating through the entire string, join the rows array into a single string and return it."
+  },
+  "similarQuestions": "[]"
+}

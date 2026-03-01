@@ -1,0 +1,52 @@
+{
+  "questionId": "2312",
+  "title": "Most Frequent Number Following Key In an Array",
+  "titleSlug": "most-frequent-number-following-key-in-an-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. You are also given an integer key, which is present in nums.\n\nFor every unique integer target in nums, count the number of times target immediately follows an occurrence of key in nums. In other words, count the number of indices i such that:\n\n• 0 <= i <= nums.length - 2,\n\n• nums[i] == key and,\n\n• nums[i + 1] == target.\n\nReturn the target with the maximum count. The test cases will be generated such that the target with maximum count is unique.\n\nExample 1:\n\nInput: nums = [1,100,200,1,100], key = 1\nOutput: 100\nExplanation: For target = 100, there are 2 occurrences at indices 1 and 4 which follow an occurrence of key.\n    No other integers follow an occurrence of key, so we return 100.\n\nExample 2:\n\nInput: nums = [2,2,2,2,3], key = 2\nOutput: 2\nExplanation: For target = 2, there are 3 occurrences at indices 1, 2, and 3 which follow an occurrence of key.\n    For target = 3, there is only one occurrence at index 4 which follows an occurrence of key.\n    target = 2 has the maximum number of occurrences following an occurrence of key, so we return 2.\n\nConstraints:\n\n• 2 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 1000\n\n• The test cases will be generated such that the answer is unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mostFrequent(self, nums, key):\n        \"\"\"\n        :type nums: List[int]\n        :type key: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the number of times each target value follows the key in the array.",
+    "Choose the target with the maximum count and return it."
+  ],
+  "testCases": [
+    [
+      "[1,100,200,1,100]",
+      "1"
+    ],
+    [
+      "[2,2,2,2,3]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "100",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def mostFrequent(self, nums, key):\n        from collections import Counter\n        following = [nums[i+1] for i in range(len(nums)-1) if nums[i] == key]\n        return Counter(following).most_common(1)[0][0]",
+    "explanation": "Find all numbers following the key. Return most frequent.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Sort Array by Increasing Frequency\", \"titleSlug\": \"sort-array-by-increasing-frequency\", \"difficulty\": \"Easy\"}]"
+}

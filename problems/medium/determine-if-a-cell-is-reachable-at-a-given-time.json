@@ -1,0 +1,51 @@
+{
+  "questionId": "3056",
+  "title": "Determine if a Cell Is Reachable at a Given Time",
+  "titleSlug": "determine-if-a-cell-is-reachable-at-a-given-time",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given four integers sx, sy, fx, fy, and a non-negative integer t.\n\nIn an infinite 2D grid, you start at the cell (sx, sy). Each second, you must move to any of its adjacent cells.\n\nReturn true if you can reach cell (fx, fy) after exactly t seconds, or false otherwise.\n\nA cell's adjacent cells are the 8 cells around it that share at least one corner with it. You can visit the same cell several times.\n\nExample 1:\n\nInput: sx = 2, sy = 4, fx = 7, fy = 7, t = 6\nOutput: true\nExplanation: Starting at cell (2, 4), we can reach cell (7, 7) in exactly 6 seconds by going through the cells depicted in the picture above.\n\nExample 2:\n\nInput: sx = 3, sy = 1, fx = 7, fy = 3, t = 3\nOutput: false\nExplanation: Starting at cell (3, 1), it takes at least 4 seconds to reach cell (7, 3) by going through the cells depicted in the picture above. Hence, we cannot reach cell (7, 3) at the third second.\n\nConstraints:\n\n• 1 <= sx, sy, fx, fy <= 109\n\n• 0 <= t <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isReachableAtTime(self, sx, sy, fx, fy, t):\n        \"\"\"\n        :type sx: int\n        :type sy: int\n        :type fx: int\n        :type fy: int\n        :type t: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Minimum time to reach the cell should be less than or equal to given time.",
+    "The answer is true if t is greater or equal than the Chebyshev distance from (sx, sy) to (fx, fy). However, there is one more edge case to be considered.",
+    "The answer is false If sx == fx and sy == fy"
+  ],
+  "testCases": [
+    [
+      "2",
+      "4",
+      "7",
+      "7",
+      "6"
+    ],
+    [
+      "3",
+      "1",
+      "7",
+      "3",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isReachableAtTime(self, sx, sy, fx, fy, t):\n        dx = abs(fx - sx)\n        dy = abs(fy - sy)\n        min_steps = max(dx, dy)  # Chebyshev distance\n        if dx == 0 and dy == 0:\n            return t == 0 or t >= 2  # can go out and come back, but t=1 is impossible at same cell (must move)\n            # Actually: if same cell, t=0 trivially true; t=1 means must move away and can't return\n        return t >= min_steps",
+    "explanation": "Chebyshev distance = max(|fx-sx|, |fy-sy|) = minimum steps. If start == end and t == 1, impossible (must move away, can't return in 1 step). Otherwise t >= min_steps suffices (can waste time going back and forth).\n\nTime: O(1). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Reaching Points\", \"titleSlug\": \"reaching-points\", \"difficulty\": \"Hard\"}]"
+}

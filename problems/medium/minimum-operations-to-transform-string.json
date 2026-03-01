@@ -1,0 +1,47 @@
+{
+  "questionId": "3999",
+  "title": "Minimum Operations to Transform String",
+  "titleSlug": "minimum-operations-to-transform-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a string s consisting only of lowercase English letters.\n\nYou can perform the following operation any number of times (including zero):\n\n•\n\tChoose any character c in the string and replace every occurrence of c with the next lowercase letter in the English alphabet.\n\nReturn the minimum number of operations required to transform s into a string consisting of only 'a' characters.\n\nNote: Consider the alphabet as circular, thus 'a' comes after 'z'.\n\nExample 1:\n\nInput: s = \"yz\"\n\nOutput: 2\n\nExplanation:\n\n• Change 'y' to 'z' to get \"zz\".\n\n• Change 'z' to 'a' to get \"aa\".\n\n• Thus, the answer is 2.\n\nExample 2:\n\nInput: s = \"a\"\n\nOutput: 0\n\nExplanation:\n\n• The string \"a\" only consists of 'a'​​​​​​​ characters. Thus, the answer is 0.\n\nConstraints:\n\n• 1 <= s.length <= 5 * 105\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Each operation shifts every occurrence of a chosen character forward by one in the alphabet (with wrap-around).",
+    "For any character c, the number of moves required to turn it into 'a' is (26 - (ord(c) - ord('a'))) % 26.",
+    "You can plan operations so characters that need more shifts are advanced first and cause merges that don't increase the total number of moves; therefore the minimum number of moves equals the maximum, over characters appearing in s, of (26 - (ord(c) - ord('a'))) % 26."
+  ],
+  "testCases": [
+    [
+      "\"yz\""
+    ],
+    [
+      "\"a\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, s):\n        seen = set(s)\n        ans = 0\n        for c in seen:\n            steps = (26 - (ord(c) - ord('a'))) % 26\n            ans = max(ans, steps)\n        return ans",
+    "explanation": "Each operation picks a character and advances every occurrence of it by one alphabet position (circularly). To turn character c into 'a', we need (26 - index(c)) % 26 steps. We can always schedule operations optimally: process characters needing the most shifts first. As we advance characters they may merge with others, but this never increases the total beyond the maximum individual requirement. Answer = max steps over all distinct characters in s.\n\nTime: O(|s|). Space: O(1) (at most 26 distinct chars)."
+  },
+  "similarQuestions": "[]"
+}

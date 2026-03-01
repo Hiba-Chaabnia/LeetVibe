@@ -1,0 +1,51 @@
+{
+  "questionId": "3047",
+  "title": "Maximum Element-Sum of a Complete Subset of Indices",
+  "titleSlug": "maximum-element-sum-of-a-complete-subset-of-indices",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given a 1-indexed array nums. Your task is to select a complete subset from nums where every pair of selected indices multiplied is a perfect square,. i. e. if you select ai and aj, i * j must be a perfect square.\n\nReturn the sum of the complete subset with the maximum sum.\n\nExample 1:\n\nInput: nums = [8,7,3,5,7,2,4,9]\n\nOutput: 16\n\nExplanation: We select elements at indices 2 and 8 and 2 * 8 is a perfect square.\n\nExample 2:\n\nInput: nums = [8,10,3,8,1,13,7,9,4]\n\nOutput: 20\n\nExplanation: We select elements at indices 1, 4, and 9. 1 * 4, 1 * 9, 4 * 9 are perfect squares.\n\nConstraints:\n\n• 1 <= n == nums.length <= 104\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Define <strong>P(x)</strong> as the product of primes <strong>p</strong> with odd exponents in <strong>x</strong>'s factorization. Examples: For x = 18, factorization 2<sup>1</sup> × 3<sup>2</sup>, <strong>P(18) = 2</strong>; for x = 45, factorization 3<sup>2</sup> × 5<sup>1</sup>, <strong>P(45) = 5</strong>; for x = 50, factorization 2<sup>1</sup> × 5<sup>2</sup>, <strong>P(50) = 2</strong>; for x = 210, factorization 2<sup>1</sup> × 3<sup>1</sup> × 5<sup>1</sup> × 7<sup>1</sup>, <strong>P(210) = 210</strong>.",
+    "If P(i) = P(j), nums[i] and nums[j] can be grouped together.",
+    "Pick the group with the largest sum."
+  ],
+  "testCases": [
+    [
+      "[8,7,3,5,7,2,4,9]"
+    ],
+    [
+      "[8,10,3,8,1,13,7,9,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "16",
+    "20"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        def get_square_free_part(n):\n            \"\"\"Get product of primes with odd exponents in factorization of n\"\"\"\n            result = 1\n            d = 2\n            while d * d <= n:\n                count = 0\n                while n % d == 0:\n                    count += 1\n                    n //= d\n                if count % 2 == 1:\n                    result *= d\n                d += 1\n            if n > 1:\n                result *= n\n            return result\n        \n        # Group numbers by their square-free part\n        groups = {}\n        for i, num in enumerate(nums):\n            idx = i + 1  # 1-indexed\n            sf = get_square_free_part(idx)\n            if sf not in groups:\n                groups[sf] = []\n            groups[sf].append(num)\n        \n        # For each group, sum all values\n        max_sum = 0\n        for sf in groups:\n            group_sum = sum(groups[sf])\n            max_sum = max(max_sum, group_sum)\n        \n        return max_sum",
+    "explanation": "This solution uses square-free factorization grouping:\n\n1. **Problem Understanding**:\n   - Select subset of indices where any two indices i,j: i*j is perfect square\n   - Maximize sum of values at selected indices\n   - Return sum\n\n2. **Key Insight - Square-Free Part**:\n   - Define P(n) = product of primes with odd exponents in n's factorization\n   - Example: P(18) = 2 (since 18 = 2¹ × 3²)\n   - If P(i) = P(j), then i*j is perfect square\n   - Reason: i = P(i) × a², j = P(j) × b²\n             i*j = P(i)² × a² × b² (perfect square)\n\n3. **Grouping Algorithm**:\n   - For each index i (1-indexed):\n     - Calculate square-free part P(i)\n     - Group all indices with same P(i)\n   - All indices in same group form complete set\n   - Sum values at these indices\n\n4. **Square-Free Calculation**:\n   - Factor n using trial division\n   - For each prime factor p:\n     - Count exponent\n     - If exponent odd, include p in result\n   - P(n) = product of such primes\n\n5. **Finding Maximum**:\n   - For each group, calculate sum\n   - Return maximum group sum\n   - This is complete subset with max sum\n\n6. **Example**:\n   - nums = [8,7,3,5,7,2,4,9]\n   - Indices: 1(P=1), 2(P=2), 3(P=3), 4(P=1), 5(P=5), 6(P=6), 7(P=7), 8(P=2)\n   - Group P=1: indices [1,4] → nums[0] + nums[3] = 8 + 5 = 13? (0-indexed)\n   - Actually 1-indexed: nums[0]=8, nums[3]=5, ...\n   - Group P=2: indices [2,8] → nums[1] + nums[7] = 7 + 9 = 16\n\nTime Complexity: O(n * sqrt(max_idx))\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Constrained Subsequence Sum\", \"titleSlug\": \"constrained-subsequence-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Alternating Subsequence Sum\", \"titleSlug\": \"maximum-alternating-subsequence-sum\", \"difficulty\": \"Medium\"}]"
+}

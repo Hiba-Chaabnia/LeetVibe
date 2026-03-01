@@ -1,0 +1,64 @@
+{
+  "questionId": "3197",
+  "title": "Maximum Strong Pair XOR II",
+  "titleSlug": "maximum-strong-pair-xor-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. A pair of integers x and y is called a strong pair if it satisfies the condition:\n\n• |x - y| <= min(x, y)\n\nYou need to select two integers from nums such that they form a strong pair and their bitwise XOR is the maximum among all strong pairs in the array.\n\nReturn the maximum XOR value out of all possible strong pairs in the array nums.\n\nNote that you can pick the same integer twice to form a pair.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5]\nOutput: 7\nExplanation: There are 11 strong pairs in the array nums: (1, 1), (1, 2), (2, 2), (2, 3), (2, 4), (3, 3), (3, 4), (3, 5), (4, 4), (4, 5) and (5, 5).\n    The maximum XOR possible from these pairs is 3 XOR 4 = 7.\n\nExample 2:\n\nInput: nums = [10,100]\nOutput: 0\nExplanation: There are 2 strong pairs in the array nums: (10, 10) and (100, 100).\n    The maximum XOR possible from these pairs is 10 XOR 10 = 0 since the pair (100, 100) also gives 100 XOR 100 = 0.\n\nExample 3:\n\nInput: nums = [500,520,2500,3000]\nOutput: 1020\nExplanation: There are 6 strong pairs in the array nums: (500, 500), (500, 520), (520, 520), (2500, 2500), (2500, 3000) and (3000, 3000).\n    The maximum XOR possible from these pairs is 500 XOR 520 = 1020 since the only other non-zero XOR value is 2500 XOR 3000 = 636.\n\nConstraints:\n\n• 1 <= nums.length <= 5 * 104\n\n• 1 <= nums[i] <= 220 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumStrongPairXor(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the array, now let x <= y which means |x - y| <= min(x, y) can now be written as y - x <= x or in other words, y <= 2 * x.",
+    "If x and y have the same number of bits, try makingy’s bits different from x if possible for each bit starting from the second most significant bit.",
+    "If y has 1 more bit than x and y <= 2 * x use the idea about Digit DP to make y’s prefix smaller than 2 * x + 1 as well as trying to make each bit different from x using a Hashmap.",
+    "Alternatively, use Trie data structure to find the pair with maximum XOR."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[10,100]"
+    ],
+    [
+      "[500,520,2500,3000]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "0",
+    "1020"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumStrongPairXor(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        max_xor = 0\n        \n        # For each number as the larger value\n        for i in range(len(nums)):\n            y = nums[i]\n            # Find all x where y - x <= x (i.e., y <= 2*x)\n            # Equivalently: x >= y/2\n            min_x = (y + 1) // 2  # Ceiling division\n            \n            # Binary search for leftmost x >= min_x\n            left, right = 0, i\n            start_idx = i + 1\n            \n            for j in range(i):\n                if nums[j] >= min_x:\n                    start_idx = min(start_idx, j)\n            \n            # Try all valid x with y\n            for j in range(start_idx, i + 1):\n                x = nums[j]\n                if abs(x - y) <= min(x, y):\n                    max_xor = max(max_xor, x ^ y)\n        \n        return max_xor",
+    "explanation": "This solution uses sorting with constraint checking:\n\n1. **Problem Understanding**:\n   - Strong pair: |x - y| <= min(x, y)\n   - Find maximum XOR among all strong pairs\n   - Can pick same number twice\n\n2. **Strong Pair Condition Simplification**:\n   - Let x <= y\n   - Then |x - y| = y - x\n   - min(x, y) = x\n   - Condition: y - x <= x\n   - Equivalently: y <= 2*x\n   - Or: x >= y/2\n\n3. **Algorithm**:\n   - Sort array\n   - For each y as the larger value:\n     - Find all x where x >= y/2 and x < y\n     - These form strong pairs with y\n     - Calculate XOR for each pair\n\n4. **Why Sorting Helps**:\n   - For fixed y, valid x values form contiguous range\n   - Can use binary search or two-pointer\n   - Iterate through valid x values\n\n5. **Optimization**:\n   - Build XOR Trie or use Gaussian elimination for better performance\n   - Current solution is O(n²) worst case but adequate\n\nTime Complexity: O(n²) for all pairs\nSpace Complexity: O(1) excluding input"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum XOR of Two Numbers in an Array\", \"titleSlug\": \"maximum-xor-of-two-numbers-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum XOR With an Element From Array\", \"titleSlug\": \"maximum-xor-with-an-element-from-array\", \"difficulty\": \"Hard\"}]"
+}

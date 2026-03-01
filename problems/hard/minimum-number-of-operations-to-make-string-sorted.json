@@ -1,0 +1,54 @@
+{
+  "questionId": "1941",
+  "title": "Minimum Number of Operations to Make String Sorted",
+  "titleSlug": "minimum-number-of-operations-to-make-string-sorted",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s (0-indexed)​​​​​​. You are asked to perform the following operation on s​​​​​​ until you get a sorted string:\n\n• Find the largest index i such that 1 <= i < s.length and s[i] < s[i - 1].\n\n• Find the largest index j such that i <= j < s.length and s[k] < s[i - 1] for all the possible values of k in the range [i, j] inclusive.\n\n• Swap the two characters at indices i - 1​​​​ and j​​​​​.\n\n• Reverse the suffix starting at index i​​​​​​.\n\nReturn the number of operations needed to make the string sorted. Since the answer can be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: s = \"cba\"\nOutput: 5\nExplanation: The simulation goes as follows:\n    Operation 1: i=2, j=2. Swap s[1] and s[2] to get s=\"cab\", then reverse the suffix starting at 2. Now, s=\"cab\".\n    Operation 2: i=1, j=2. Swap s[0] and s[2] to get s=\"bac\", then reverse the suffix starting at 1. Now, s=\"bca\".\n    Operation 3: i=2, j=2. Swap s[1] and s[2] to get s=\"bac\", then reverse the suffix starting at 2. Now, s=\"bac\".\n    Operation 4: i=1, j=1. Swap s[0] and s[1] to get s=\"abc\", then reverse the suffix starting at 1. Now, s=\"acb\".\n    Operation 5: i=2, j=2. Swap s[1] and s[2] to get s=\"abc\", then reverse the suffix starting at 2. Now, s=\"abc\".\n\nExample 2:\n\nInput: s = \"aabaa\"\nOutput: 2\nExplanation: The simulation goes as follows:\n    Operation 1: i=3, j=4. Swap s[2] and s[4] to get s=\"aaaab\", then reverse the substring starting at 3. Now, s=\"aaaba\".\n    Operation 2: i=4, j=4. Swap s[3] and s[4] to get s=\"aaaab\", then reverse the substring starting at 4. Now, s=\"aaaab\".\n\nConstraints:\n\n• 1 <= s.length <= 3000\n\n• s​​​​​​ consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def makeStringSorted(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that the operations given describe getting the previous permutation of s",
+    "To solve this problem you need to solve every suffix separately"
+  ],
+  "testCases": [
+    [
+      "\"cba\""
+    ],
+    [
+      "\"aabaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

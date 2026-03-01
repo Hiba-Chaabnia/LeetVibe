@@ -1,0 +1,60 @@
+{
+  "questionId": "3516",
+  "title": "Design Neighbor Sum Service",
+  "titleSlug": "design-neighbor-sum-service",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Design",
+      "slug": "design"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a n x n 2D array grid containing distinct elements in the range [0, n2 - 1].\n\nImplement the NeighborSum class:\n\n• NeighborSum(int [][]grid) initializes the object.\n\n• int adjacentSum(int value) returns the sum of elements which are adjacent neighbors of value, that is either to the top, left, right, or bottom of value in grid.\n\n• int diagonalSum(int value) returns the sum of elements which are diagonal neighbors of value, that is either to the top-left, top-right, bottom-left, or bottom-right of value in grid.\n\nExample 1:\n\nInput:\n\n[\"NeighborSum\", \"adjacentSum\", \"adjacentSum\", \"diagonalSum\", \"diagonalSum\"]\n\n[[[[0, 1, 2], [3, 4, 5], [6, 7, 8]]], [1], [4], [4], [8]]\n\nOutput: [null, 6, 16, 16, 4]\n\nExplanation:\n\n• The adjacent neighbors of 1 are 0, 2, and 4.\n\n• The adjacent neighbors of 4 are 1, 3, 5, and 7.\n\n• The diagonal neighbors of 4 are 0, 2, 6, and 8.\n\n• The diagonal neighbor of 8 is 4.\n\nExample 2:\n\nInput:\n\n[\"NeighborSum\", \"adjacentSum\", \"diagonalSum\"]\n\n[[[[1, 2, 0, 3], [4, 7, 15, 6], [8, 9, 10, 11], [12, 13, 14, 5]]], [15], [9]]\n\nOutput: [null, 23, 45]\n\nExplanation:\n\n• The adjacent neighbors of 15 are 0, 10, 7, and 6.\n\n• The diagonal neighbors of 9 are 4, 12, 14, and 15.\n\nConstraints:\n\n• 3 <= n == grid.length == grid[0].length <= 10\n\n• 0 <= grid[i][j] <= n2 - 1\n\n• All grid[i][j] are distinct.\n\n• value in adjacentSum and diagonalSum will be in the range [0, n2 - 1].\n\n• At most 2 * n2 calls will be made to adjacentSum and diagonalSum.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class NeighborSum(object):\n\n    def __init__(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        \"\"\"\n        \n\n    def adjacentSum(self, value):\n        \"\"\"\n        :type value: int\n        :rtype: int\n        \"\"\"\n        \n\n    def diagonalSum(self, value):\n        \"\"\"\n        :type value: int\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your NeighborSum object will be instantiated and called as such:\n# obj = NeighborSum(grid)\n# param_1 = obj.adjacentSum(value)\n# param_2 = obj.diagonalSum(value)"
+    }
+  ],
+  "hints": [
+    "Find the cell (i, j) in which the element is present.",
+    "You can store the coordinates for each value."
+  ],
+  "testCases": [
+    [
+      "[\"NeighborSum\",\"adjacentSum\",\"adjacentSum\",\"diagonalSum\",\"diagonalSum\"]",
+      "[[[[0,1,2],[3,4,5],[6,7,8]]],[1],[4],[4],[8]]"
+    ],
+    [
+      "[\"NeighborSum\",\"adjacentSum\",\"diagonalSum\"]",
+      "[[[[1,2,0,3],[4,7,15,6],[8,9,10,11],[12,13,14,5]]],[15],[9]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[null, 6, 16, 16, 4]",
+    "[null, 23, 45]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class NeighborSum(object):\n    def __init__(self, grid):\n        self.grid = grid\n        self.n = len(grid)\n        self.pos = {}\n        for i in range(self.n):\n            for j in range(self.n):\n                self.pos[grid[i][j]] = (i, j)\n    def adjacentSum(self, value):\n        r, c = self.pos[value]\n        total = 0\n        for dr, dc in [(0,1), (0,-1), (1,0), (-1,0)]:\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < self.n and 0 <= nc < self.n:\n                total += self.grid[nr][nc]\n        return total\n    def diagonalSum(self, value):\n        r, c = self.pos[value]\n        total = 0\n        for dr, dc in [(1,1), (1,-1), (-1,1), (-1,-1)]:\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < self.n and 0 <= nc < self.n:\n                total += self.grid[nr][nc]\n        return total",
+    "explanation": "Precompute position of each value. Query with 4 directions (adjacent or diagonal).\nInit: O(n²), Query: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Matrix Block Sum\", \"titleSlug\": \"matrix-block-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Array With Elements Not Equal to Average of Neighbors\", \"titleSlug\": \"array-with-elements-not-equal-to-average-of-neighbors\", \"difficulty\": \"Medium\"}]"
+}

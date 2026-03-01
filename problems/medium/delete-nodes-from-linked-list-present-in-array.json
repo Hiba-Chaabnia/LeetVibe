@@ -1,0 +1,57 @@
+{
+  "questionId": "3501",
+  "title": "Delete Nodes From Linked List Present in Array",
+  "titleSlug": "delete-nodes-from-linked-list-present-in-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    }
+  ],
+  "content": "You are given an array of integers nums and the head of a linked list. Return the head of the modified linked list after removing all nodes from the linked list that have a value that exists in nums.\n\nExample 1:\n\nInput: nums = [1,2,3], head = [1,2,3,4,5]\n\nOutput: [4,5]\n\nExplanation: Remove the nodes with values 1, 2, and 3.\n\nExample 2:\n\nInput: nums = [1], head = [1,2,1,2,1,2]\n\nOutput: [2,2,2]\n\nExplanation: Remove the nodes with value 1.\n\nExample 3:\n\nInput: nums = [5], head = [1,2,3,4]\n\nOutput: [1,2,3,4]\n\nExplanation: No node has value 5.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105\n\n• All elements in nums are unique.\n\n• The number of nodes in the given list is in the range [1, 105].\n\n• 1 <= Node.val <= 105\n\n• The input is generated such that there is at least one node in the linked list that has a value not present in nums.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def modifiedList(self, nums, head):\n        \"\"\"\n        :type nums: List[int]\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Add all elements of nums into a Set.",
+    "Scan the list to check if the current element should be deleted by checking the Set."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[1]",
+      "[1,2,1,2,1,2]"
+    ],
+    [
+      "[5]",
+      "[1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[4,5]",
+    "[2,2,2]",
+    "[1,2,3,4]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def modifiedList(self, nums, head):\n        nums_set = set(nums)\n        dummy = ListNode(0)\n        dummy.next = head\n        prev = dummy\n        while prev.next:\n            if prev.next.val in nums_set:\n                prev.next = prev.next.next\n            else:\n                prev = prev.next\n        return dummy.next",
+    "explanation": "Use set for O(1) lookup. Traverse and remove nodes in nums.\nTime: O(n)\nSpace: O(m)"
+  },
+  "similarQuestions": "[{\"title\": \"Remove Linked List Elements\", \"titleSlug\": \"remove-linked-list-elements\", \"difficulty\": \"Easy\"}, {\"title\": \"Delete Node in a Linked List\", \"titleSlug\": \"delete-node-in-a-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Remove Nodes From Linked List\", \"titleSlug\": \"remove-nodes-from-linked-list\", \"difficulty\": \"Medium\"}]"
+}

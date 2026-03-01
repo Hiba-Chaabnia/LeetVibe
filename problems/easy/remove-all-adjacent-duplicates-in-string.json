@@ -1,0 +1,45 @@
+{
+  "questionId": "1128",
+  "title": "Remove All Adjacent Duplicates In String",
+  "titleSlug": "remove-all-adjacent-duplicates-in-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters. A duplicate removal consists of choosing two adjacent and equal letters and removing them.\n\nWe repeatedly make duplicate removals on s until we no longer can.\n\nReturn the final string after all such duplicate removals have been made. It can be proven that the answer is unique.\n\nExample 1:\n\nInput: s = \"abbaca\"\nOutput: \"ca\"\nExplanation:\n    For example, in \"abbaca\" we could remove \"bb\" since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is \"aaca\", of which only \"aa\" is possible, so the final string is \"ca\".\n\nExample 2:\n\nInput: s = \"azxxzy\"\nOutput: \"ay\"\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeDuplicates(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a stack to process everything greedily."
+  ],
+  "testCases": [
+    [
+      "\"abbaca\""
+    ],
+    [
+      "\"azxxzy\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"ca\"",
+    "\"ay\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def removeDuplicates(self, s):\n        stack = []\n        for char in s:\n            if stack and stack[-1] == char:\n                stack.pop()\n            else:\n                stack.append(char)\n        return ''.join(stack)",
+    "explanation": "Use stack. If top matches current char, pop. Else push. Join result.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Remove All Adjacent Duplicates in String II\", \"titleSlug\": \"remove-all-adjacent-duplicates-in-string-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Removing Stars From a String\", \"titleSlug\": \"removing-stars-from-a-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimize String Length\", \"titleSlug\": \"minimize-string-length\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "3776",
+  "title": "Find Minimum Cost to Remove Array Elements",
+  "titleSlug": "find-minimum-cost-to-remove-array-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums. Your task is to remove all elements from the array by performing one of the following operations at each step until nums is empty:\n\n• Choose any two elements from the first three elements of nums and remove them. The cost of this operation is the maximum of the two elements removed.\n\n• If fewer than three elements remain in nums, remove all the remaining elements in a single operation. The cost of this operation is the maximum of the remaining elements.\n\nReturn the minimum cost required to remove all the elements.\n\nExample 1:\n\nInput: nums = [6,2,8,4]\n\nOutput: 12\n\nExplanation: Initially, nums = [6, 2, 8, 4].\n\n• In the first operation, remove nums[0] = 6 and nums[2] = 8 with a cost of max(6, 8) = 8. Now, nums = [2, 4].\n\n• In the second operation, remove the remaining elements with a cost of max(2, 4) = 4.\n\nThe cost to remove all elements is 8 + 4 = 12. This is the minimum cost to remove all elements in nums. Hence, the output is 12.\n\nExample 2:\n\nInput: nums = [2,1,3,3]\n\nOutput: 5\n\nExplanation: Initially, nums = [2, 1, 3, 3].\n\n• In the first operation, remove nums[0] = 2 and nums[1] = 1 with a cost of max(2, 1) = 2. Now, nums = [3, 3].\n\n• In the second operation remove the remaining elements with a cost of max(3, 3) = 3.\n\nThe cost to remove all elements is 2 + 3 = 5. This is the minimum cost to remove all elements in nums. Hence, the output is 5.\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCost(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we use dynamic programming here?",
+    "Use dynamic programming. The process guarantees that the remaining elements form a prefix of the array with at most one previous element.",
+    "Define the state as dp[i][j], where i represents the last remaining element and j represents the starting index of the current prefix."
+  ],
+  "testCases": [
+    [
+      "[6,2,8,4]"
+    ],
+    [
+      "[2,1,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minCost(self, nums):\n        n = len(nums)\n        # After each pair removal from first 3, one element 'carries over'.\n        # dp[i][j] = min cost to remove nums[i..n-1] where j is the carry-over element\n        # (j=0 means no carry-over)\n        # State: (start_index, carry_over_value)\n        from functools import lru_cache\n        @lru_cache(maxsize=None)\n        def dp(i, carry):\n            # Remove elements starting at index i with carry-over 'carry' (0 = none)\n            remaining = n - i\n            if carry != 0:\n                remaining += 1\n            if remaining == 0:\n                return 0\n            if remaining == 1:\n                v = nums[i] if carry == 0 else (carry if i >= n else max(carry, nums[i]))\n                # Just one element left (either carry or first)\n                if carry != 0 and i < n:\n                    return max(carry, nums[i])\n                elif carry != 0:\n                    return carry\n                else:\n                    return nums[i]\n            if remaining == 2:\n                if carry != 0 and i < n:\n                    return max(carry, nums[i])\n                elif i + 1 < n:\n                    return max(nums[i], nums[i+1])\n                return carry\n            # At least 3 elements. Front 3 are: carry (if any) + nums[i], nums[i+1], ...\n            if carry != 0:\n                front = [carry, nums[i], nums[i+1]]\n                # Choose 2 of 3 to remove; keep 1 as new carry\n                best = float('inf')\n                for skip in range(3):\n                    removed = [front[k] for k in range(3) if k != skip]\n                    cost = max(removed)\n                    best = min(best, cost + dp(i+2, front[skip]))\n                return best\n            else:\n                front = [nums[i], nums[i+1], nums[i+2]]\n                best = float('inf')\n                for skip in range(3):\n                    removed = [front[k] for k in range(3) if k != skip]\n                    cost = max(removed)\n                    best = min(best, cost + dp(i+3, front[skip]))\n                return best\n        return dp(0, 0)",
+    "explanation": "DP with state (index, carry-over element). At each step, the 'front 3' are the carry-over (if any) plus next elements. Choose which one to keep; pay max of the removed two. Recurse with the kept element as new carry-over.\n\nTime: O(n²). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Difference in Sums After Removal of Elements\", \"titleSlug\": \"minimum-difference-in-sums-after-removal-of-elements\", \"difficulty\": \"Hard\"}]"
+}

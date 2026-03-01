@@ -1,0 +1,55 @@
+{
+  "questionId": "2324",
+  "title": "Find Triangular Sum of an Array",
+  "titleSlug": "find-triangular-sum-of-an-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums, where nums[i] is a digit between 0 and 9 (inclusive).\n\nThe triangular sum of nums is the value of the only element present in nums after the following process terminates:\n\n• Let nums comprise of n elements. If n == 1, end the process. Otherwise, create a new 0-indexed integer array newNums of length n - 1.\n\n• For each index i, where 0 <= i < n - 1, assign the value of newNums[i] as (nums[i] + nums[i+1]) % 10, where % denotes modulo operator.\n\n• Replace the array nums with newNums.\n\n• Repeat the entire process starting from step 1.\n\nReturn the triangular sum of nums.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5]\nOutput: 8\nExplanation:\n    The above diagram depicts the process from which we obtain the triangular sum of the array.\n\nExample 2:\n\nInput: nums = [5]\nOutput: 5\nExplanation:\n    Since there is only one element in nums, the triangular sum is the value of that element itself.\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 0 <= nums[i] <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def triangularSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try simulating the entire process.",
+    "To reduce space, use a temporary array to update nums in every step instead of creating a new array at each step."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def triangularSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        while len(nums) > 1:\n            new_nums = []\n            for i in range(len(nums) - 1):\n                new_nums.append((nums[i] + nums[i + 1]) % 10)\n            nums = new_nums\n        \n        return nums[0]",
+    "explanation": "Repeatedly create new array where each element is sum of adjacent elements mod 10, until single element remains.",
+    "complexity": "Time: O(n²). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Pascal's Triangle II\", \"titleSlug\": \"pascals-triangle-ii\", \"difficulty\": \"Easy\"}, {\"title\": \"Calculate Digit Sum of a String\", \"titleSlug\": \"calculate-digit-sum-of-a-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Min Max Game\", \"titleSlug\": \"min-max-game\", \"difficulty\": \"Easy\"}]"
+}

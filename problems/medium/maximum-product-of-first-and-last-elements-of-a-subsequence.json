@@ -1,0 +1,49 @@
+{
+  "questionId": "3755",
+  "title": "Maximum Product of First and Last Elements of a Subsequence",
+  "titleSlug": "maximum-product-of-first-and-last-elements-of-a-subsequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer m.\n\nReturn the maximum product of the first and last elements of any subsequence of nums of size m.\n\nExample 1:\n\nInput: nums = [-1,-9,2,3,-2,-3,1], m = 1\n\nOutput: 81\n\nExplanation: The subsequence [-9] has the largest product of the first and last elements: -9 * -9 = 81. Therefore, the answer is 81.\n\nExample 2:\n\nInput: nums = [1,3,-5,5,6,-4], m = 3\n\nOutput: 20\n\nExplanation: The subsequence [-5, 6, -4] has the largest product of the first and last elements.\n\nExample 3:\n\nInput: nums = [2,-1,2,-6,5,2,-5,7], m = 2\n\nOutput: 35\n\nExplanation: The subsequence [5, 7] has the largest product of the first and last elements.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -105 <= nums[i] <= 105\n\n• 1 <= m <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumProduct(self, nums, m):\n        \"\"\"\n        :type nums: List[int]\n        :type m: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can select nums[i] as the first element of the subsequence, and the last one can be any of nums[i + m - 1], nums[i + m], ..., nums[n - 1].",
+    "If we select the first element from the largest i, the suffix just gets longer, and we can update the minimum and maximum values dynamically."
+  ],
+  "testCases": [
+    [
+      "[-1,-9,2,3,-2,-3,1]",
+      "1"
+    ],
+    [
+      "[1,3,-5,5,6,-4]",
+      "3"
+    ],
+    [
+      "[2,-1,2,-6,5,2,-5,7]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "81",
+    "20",
+    "35"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

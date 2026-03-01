@@ -1,0 +1,54 @@
+{
+  "questionId": "599",
+  "title": "Minimum Index Sum of Two Lists",
+  "titleSlug": "minimum-index-sum-of-two-lists",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given two arrays of strings list1 and list2, find the common strings with the least index sum.\n\nA common string is a string that appeared in both list1 and list2.\n\nA common string with the least index sum is a common string such that if it appeared at list1[i] and list2[j] then i + j should be the minimum value among all the other common strings.\n\nReturn all the common strings with the least index sum. Return the answer in any order.\n\nExample 1:\n\nInput: list1 = [\"Shogun\",\"Tapioca Express\",\"Burger King\",\"KFC\"], list2 = [\"Piatti\",\"The Grill at Torrey Pines\",\"Hungry Hunter Steakhouse\",\"Shogun\"]\nOutput: [\"Shogun\"]\nExplanation: The only common string is \"Shogun\".\n\nExample 2:\n\nInput: list1 = [\"Shogun\",\"Tapioca Express\",\"Burger King\",\"KFC\"], list2 = [\"KFC\",\"Shogun\",\"Burger King\"]\nOutput: [\"Shogun\"]\nExplanation: The common string with the least index sum is \"Shogun\" with index sum = (0 + 1) = 1.\n\nExample 3:\n\nInput: list1 = [\"happy\",\"sad\",\"good\"], list2 = [\"sad\",\"happy\",\"good\"]\nOutput: [\"sad\",\"happy\"]\nExplanation: There are three common strings:\n    \"happy\" with index sum = (0 + 1) = 1.\n    \"sad\" with index sum = (1 + 0) = 1.\n    \"good\" with index sum = (2 + 2) = 4.\n    The strings with the least index sum are \"sad\" and \"happy\".\n\nConstraints:\n\n• 1 <= list1.length, list2.length <= 1000\n\n• 1 <= list1[i].length, list2[i].length <= 30\n\n• list1[i] and list2[i] consist of spaces ' ' and English letters.\n\n• All the strings of list1 are unique.\n\n• All the strings of list2 are unique.\n\n• There is at least a common string between list1 and list2.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findRestaurant(self, list1, list2):\n        \"\"\"\n        :type list1: List[str]\n        :type list2: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"Shogun\",\"Tapioca Express\",\"Burger King\",\"KFC\"]",
+      "[\"Piatti\",\"The Grill at Torrey Pines\",\"Hungry Hunter Steakhouse\",\"Shogun\"]"
+    ],
+    [
+      "[\"Shogun\",\"Tapioca Express\",\"Burger King\",\"KFC\"]",
+      "[\"KFC\",\"Shogun\",\"Burger King\"]"
+    ],
+    [
+      "[\"happy\",\"sad\",\"good\"]",
+      "[\"sad\",\"happy\",\"good\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"Shogun\"]",
+    "[\"Shogun\"]",
+    "[\"sad\",\"happy\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from typing import List\n\ndef findRestaurant(list1: List[str], list2: List[str]) -> List[str]:\n    restaurantMap = {restaurant: i for i, restaurant in enumerate(list1)}\n\n    minSum = float(\"inf\")\n    result = []\n    for j, restaurant in enumerate(list2):\n        if restaurant in restaurantMap:\n            totalSum = j + restaurantMap[restaurant]\n            if totalSum < minSum:\n                result = [restaurant]\n                minSum = totalSum\n            elif totalSum == minSum:\n                result.append(restaurant)\n\n    return result",
+    "explanation": "1. Create a hashmap to store the restaurants and their indices (or just index for Python and JavaScript) in list1.\n2. Initialize a variable, minSum, to store the minimum sum of indices, and a result list to store the common restaurants with the least index sum.\n3. Iterate through list2; for each restaurant, check if it is in the hashmap.\n   a. If it is, calculate the sum of its index in list1 and list2.\n   b. If the sum is less than the current minSum, clear the result list, add the current restaurant to the result list, and update minSum.\n   c. If the sum is equal to minSum, add the restaurant to the result list.\n5. Return the result list."
+  },
+  "similarQuestions": "[{\"title\": \"Intersection of Two Linked Lists\", \"titleSlug\": \"intersection-of-two-linked-lists\", \"difficulty\": \"Easy\"}]"
+}

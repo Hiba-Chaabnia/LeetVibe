@@ -1,0 +1,60 @@
+{
+  "questionId": "1272",
+  "title": "Invalid Transactions",
+  "titleSlug": "invalid-transactions",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "A transaction is possibly invalid if:\n\n• the amount exceeds $1000, or;\n\n• if it occurs within (and including) 60 minutes of another transaction with the same name in a different city.\n\nYou are given an array of strings transaction where transactions[i] consists of comma-separated values representing the name, time (in minutes), amount, and city of the transaction.\n\nReturn a list of transactions that are possibly invalid. You may return the answer in any order.\n\nExample 1:\n\nInput: transactions = [\"alice,20,800,mtv\",\"alice,50,100,beijing\"]\nOutput: [\"alice,20,800,mtv\",\"alice,50,100,beijing\"]\nExplanation: The first transaction is invalid because the second transaction occurs within a difference of 60 minutes, have the same name and is in a different city. Similarly the second one is invalid too.\n\nExample 2:\n\nInput: transactions = [\"alice,20,800,mtv\",\"alice,50,1200,mtv\"]\nOutput: [\"alice,50,1200,mtv\"]\n\nExample 3:\n\nInput: transactions = [\"alice,20,800,mtv\",\"bob,50,1200,mtv\"]\nOutput: [\"bob,50,1200,mtv\"]\n\nConstraints:\n\n• transactions.length <= 1000\n\n• Each transactions[i] takes the form \"{name},{time},{amount},{city}\"\n\n• Each {name} and {city} consist of lowercase English letters, and have lengths between 1 and 10.\n\n• Each {time} consist of digits, and represent an integer between 0 and 1000.\n\n• Each {amount} consist of digits, and represent an integer between 0 and 2000.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def invalidTransactions(self, transactions):\n        \"\"\"\n        :type transactions: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Split each string into four arrays.",
+    "For each transaction check if it's invalid, you can do this with just a loop with help of the four arrays generated on step 1.",
+    "At the end you perform O(N ^ 2) operations."
+  ],
+  "testCases": [
+    [
+      "[\"alice,20,800,mtv\",\"alice,50,100,beijing\"]"
+    ],
+    [
+      "[\"alice,20,800,mtv\",\"alice,50,1200,mtv\"]"
+    ],
+    [
+      "[\"alice,20,800,mtv\",\"bob,50,1200,mtv\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"alice,20,800,mtv\",\"alice,50,100,beijing\"]",
+    "[\"alice,50,1200,mtv\"]",
+    "[\"bob,50,1200,mtv\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def invalidTransactions(self, transactions):\n        \"\"\"\n        :type transactions: List[str]\n        :rtype: List[str]\n        \"\"\"\n        parsed = []\n        trans_map = defaultdict(list)\n        \n        # Parse transactions\n        for trans in transactions:\n            name, time, amount, city = trans.split(',')\n            time, amount = int(time), int(amount)\n            parsed.append((name, time, amount, city, trans))\n            trans_map[name].append((time, amount, city))\n        \n        result = []\n        \n        for name, time, amount, city, trans_str in parsed:\n            invalid = False\n            \n            # Check if amount exceeds 1000\n            if amount > 1000:\n                invalid = True\n            else:\n                # Check if other transactions with same name in different city within 60 minutes\n                for other_time, other_amount, other_city in trans_map[name]:\n                    if other_city != city and abs(time - other_time) <= 60:\n                        invalid = True\n                        break\n            \n            if invalid:\n                result.append(trans_str)\n        \n        return result",
+    "explanation": "Parse each transaction. Check two conditions: amount > 1000 or same name with different city within 60 minutes.",
+    "complexity": "Time: O(n²) where n is number of transactions. Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

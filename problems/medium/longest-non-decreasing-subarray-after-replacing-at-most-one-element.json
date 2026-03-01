@@ -1,0 +1,49 @@
+{
+  "questionId": "4098",
+  "title": "Longest Non-Decreasing Subarray After Replacing at Most One Element",
+  "titleSlug": "longest-non-decreasing-subarray-after-replacing-at-most-one-element",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nYou are allowed to replace at most one element in the array with any other integer value of your choice.\n\nReturn the length of the longest non-decreasing subarray that can be obtained after performing at most one replacement.\n\nAn array is said to be non-decreasing if each element is greater than or equal to its previous one (if it exists).\n\nExample 1:\n\nInput: nums = [1,2,3,1,2]\n\nOutput: 4\n\nExplanation: Replacing nums[3] = 1 with 3 gives the array [1, 2, 3, 3, 2].\n\nThe longest non-decreasing subarray is [1, 2, 3, 3], which has a length of 4.\n\nExample 2:\n\nInput: nums = [2,2,2,2,2]\n\nOutput: 5\n\nExplanation: All elements in nums are equal, so it is already non-decreasing and the entire nums forms a subarray of length 5.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109​​​​​​​",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestSubarray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use prefix and suffix arrays",
+    "Create a prefix array where pref[i] denotes the maximum-length non-decreasing subarray ending at i",
+    "Create a suffix array where suff[i] denotes the maximum-length non-decreasing subarray starting at i",
+    "Let the initial maximum be max(max(pref), max(suff))",
+    "For each index i, try to combine the prefix ending at i - 1 and the suffix starting at i + 1 if possible; also consider the maximum without combining them"
+  ],
+  "testCases": [
+    [
+      "[1,2,3,1,2]"
+    ],
+    [
+      "[2,2,2,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def longestSubarray(self, nums):\n        n = len(nums)\n        # pref[i] = longest non-decreasing subarray ending at i\n        # suff[i] = longest non-decreasing subarray starting at i\n        pref = [1] * n\n        for i in range(1, n):\n            if nums[i] >= nums[i-1]:\n                pref[i] = pref[i-1] + 1\n\n        suff = [1] * n\n        for i in range(n-2, -1, -1):\n            if nums[i] <= nums[i+1]:\n                suff[i] = suff[i+1] + 1\n\n        ans = max(max(pref), max(suff))\n        # Replace element at position i: connect pref[i-1] and suff[i+1]\n        for i in range(n):\n            total = 1\n            if i > 0:\n                total += pref[i-1]\n            if i < n-1:\n                total += suff[i+1]\n            # But need to check compatibility:\n            # pref[i-1] ending at nums[i-1], suff[i+1] starting at nums[i+1]\n            # We replace nums[i] with something in [nums[i-1], nums[i+1]].\n            # Only valid if nums[i-1] <= nums[i+1] (we can bridge them)\n            if i > 0 and i < n-1:\n                if nums[i-1] <= nums[i+1]:\n                    ans = max(ans, pref[i-1] + 1 + suff[i+1])\n                else:\n                    ans = max(ans, max(pref[i-1] + 1, 1 + suff[i+1]))\n            elif i == 0 and i < n-1:\n                ans = max(ans, 1 + suff[i+1])\n            elif i > 0 and i == n-1:\n                ans = max(ans, pref[i-1] + 1)\n        return ans",
+    "explanation": "Precompute pref[i] (longest non-decreasing ending at i) and suff[i] (starting at i). For each position i as the replaced element: if nums[i-1] ≤ nums[i+1], we can bridge with pref[i-1] + 1 + suff[i+1]; otherwise take max of the two sides + 1.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

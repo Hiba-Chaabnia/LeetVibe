@@ -1,0 +1,60 @@
+{
+  "questionId": "2095",
+  "title": "Minimum Number of Swaps to Make the String Balanced",
+  "titleSlug": "minimum-number-of-swaps-to-make-the-string-balanced",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed string s of even length n. The string consists of exactly n / 2 opening brackets '[' and n / 2 closing brackets ']'.\n\nA string is called balanced if and only if:\n\n• It is the empty string, or\n\n• It can be written as AB, where both A and B are balanced strings, or\n\n• It can be written as [C], where C is a balanced string.\n\nYou may swap the brackets at any two indices any number of times.\n\nReturn the minimum number of swaps to make s balanced.\n\nExample 1:\n\nInput: s = \"][][\"\nOutput: 1\nExplanation: You can make the string balanced by swapping index 0 with index 3.\n    The resulting string is \"[[]]\".\n\nExample 2:\n\nInput: s = \"]]][[[\"\nOutput: 2\nExplanation: You can do the following to make the string balanced:\n    - Swap index 0 with index 4. s = \"[]][][\".\n    - Swap index 1 with index 5. s = \"[[][]]\".\n    The resulting string is \"[[][]]\".\n\nExample 3:\n\nInput: s = \"[]\"\nOutput: 0\nExplanation: The string is already balanced.\n\nConstraints:\n\n• n == s.length\n\n• 2 <= n <= 106\n\n• n is even.\n\n• s[i] is either '[' or ']'.\n\n• The number of opening brackets '[' equals n / 2, and the number of closing brackets ']' equals n / 2.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSwaps(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate over the string and keep track of the number of opening and closing brackets on each step.",
+    "If the number of closing brackets is ever larger, you need to make a swap.",
+    "Swap it with the opening bracket closest to the end of s."
+  ],
+  "testCases": [
+    [
+      "\"][][\""
+    ],
+    [
+      "\"]]][[[\""
+    ],
+    [
+      "\"[]\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minSwaps(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        balance = 0\n        swaps = 0\n        \n        for ch in s:\n            if ch == '[':\n                balance += 1\n            else:\n                balance -= 1\n            \n            # Negative balance means more closing than opening\n            if balance < 0:\n                swaps += 1\n                balance = 1  # One swap fixes two brackets\n        \n        return swaps",
+    "explanation": "Track balance while iterating. When balance becomes negative, we need a swap.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Remove Invalid Parentheses\", \"titleSlug\": \"remove-invalid-parentheses\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Add to Make Parentheses Valid\", \"titleSlug\": \"minimum-add-to-make-parentheses-valid\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Remove to Make Valid Parentheses\", \"titleSlug\": \"minimum-remove-to-make-valid-parentheses\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Insertions to Balance a Parentheses String\", \"titleSlug\": \"minimum-insertions-to-balance-a-parentheses-string\", \"difficulty\": \"Medium\"}]"
+}

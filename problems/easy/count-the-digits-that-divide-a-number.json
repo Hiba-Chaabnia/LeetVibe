@@ -1,0 +1,47 @@
+{
+  "questionId": "2608",
+  "title": "Count the Digits That Divide a Number",
+  "titleSlug": "count-the-digits-that-divide-a-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given an integer num, return the number of digits in num that divide num.\n\nAn integer val divides nums if nums % val == 0.\n\nExample 1:\n\nInput: num = 7\nOutput: 1\nExplanation: 7 divides itself, hence the answer is 1.\n\nExample 2:\n\nInput: num = 121\nOutput: 2\nExplanation: 121 is divisible by 1, but not 2. Since 1 occurs twice as a digit, we return 2.\n\nExample 3:\n\nInput: num = 1248\nOutput: 4\nExplanation: 1248 is divisible by all of its digits, hence the answer is 4.\n\nConstraints:\n\n• 1 <= num <= 109\n\n• num does not contain 0 as one of its digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countDigits(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use mod by 10 to retrieve the least significant digit of the number",
+    "Divide the number by 10, then round it down so that the second least significant digit becomes the least significant digit of the number",
+    "Use your language’s mod operator to see if a number is a divisor of another."
+  ],
+  "testCases": [
+    [
+      "7"
+    ],
+    [
+      "121"
+    ],
+    [
+      "1248"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countDigits(self, num):\n        count = 0\n        original = num\n        while num > 0:\n            digit = num % 10\n            if digit != 0 and original % digit == 0:\n                count += 1\n            num //= 10\n        return count",
+    "explanation": "Extract each digit. Check if it divides the original number.\nTime: O(log num)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Happy Number\", \"titleSlug\": \"happy-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Self Dividing Numbers\", \"titleSlug\": \"self-dividing-numbers\", \"difficulty\": \"Easy\"}]"
+}

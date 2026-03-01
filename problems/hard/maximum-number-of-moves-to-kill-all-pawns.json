@@ -1,0 +1,73 @@
+{
+  "questionId": "3560",
+  "title": "Maximum Number of Moves to Kill All Pawns",
+  "titleSlug": "maximum-number-of-moves-to-kill-all-pawns",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "There is a 50 x 50 chessboard with one knight and some pawns on it. You are given two integers kx and ky where (kx, ky) denotes the position of the knight, and a 2D array positions where positions[i] = [xi, yi] denotes the position of the pawns on the chessboard.\n\nAlice and Bob play a turn-based game, where Alice goes first. In each player's turn:\n\n• The player selects a pawn that still exists on the board and captures it with the knight in the fewest possible moves. Note that the player can select any pawn, it might not be one that can be captured in the least number of moves.\n\n• In the process of capturing the selected pawn, the knight may pass other pawns without capturing them. Only the selected pawn can be captured in this turn.\n\nAlice is trying to maximize the sum of the number of moves made by both players until there are no more pawns on the board, whereas Bob tries to minimize them.\n\nReturn the maximum total number of moves made during the game that Alice can achieve, assuming both players play optimally.\n\nNote that in one move, a chess knight has eight possible positions it can move to, as illustrated below. Each move is two cells in a cardinal direction, then one cell in an orthogonal direction.\n\nExample 1:\n\nInput: kx = 1, ky = 1, positions = [[0,0]]\n\nOutput: 4\n\nExplanation: The knight takes 4 moves to reach the pawn at (0, 0).\n\nExample 2:\n\nInput: kx = 0, ky = 2, positions = [[1,1],[2,2],[3,3]]\n\nOutput: 8\n\nExplanation:\n\n• Alice picks the pawn at (2, 2) and captures it in two moves: (0, 2) -> (1, 4) -> (2, 2).\n\n• Bob picks the pawn at (3, 3) and captures it in two moves: (2, 2) -> (4, 1) -> (3, 3).\n\n• Alice picks the pawn at (1, 1) and captures it in four moves: (3, 3) -> (4, 1) -> (2, 2) -> (0, 3) -> (1, 1).\n\nExample 3:\n\nInput: kx = 0, ky = 0, positions = [[1,2],[2,4]]\n\nOutput: 3\n\nExplanation:\n\n• Alice picks the pawn at (2, 4) and captures it in two moves: (0, 0) -> (1, 2) -> (2, 4). Note that the pawn at (1, 2) is not captured.\n\n• Bob picks the pawn at (1, 2) and captures it in one move: (2, 4) -> (1, 2).\n\nConstraints:\n\n• 0 <= kx, ky <= 49\n\n• 1 <= positions.length <= 15\n\n• positions[i].length == 2\n\n• 0 <= positions[i][0], positions[i][1] <= 49\n\n• All positions[i] are unique.\n\n• The input is generated such that positions[i] != [kx, ky] for all 0 <= i < positions.length.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxMoves(self, kx, ky, positions):\n        \"\"\"\n        :type kx: int\n        :type ky: int\n        :type positions: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use BFS to preprocess the minimum number of moves to reach one pawn from the other pawns.",
+    "Consider the knight’s original position as another pawn.",
+    "Use DP with a bitmask to store current pawns that have not been captured."
+  ],
+  "testCases": [
+    [
+      "1",
+      "1",
+      "[[0,0]]"
+    ],
+    [
+      "0",
+      "2",
+      "[[1,1],[2,2],[3,3]]"
+    ],
+    [
+      "0",
+      "0",
+      "[[1,2],[2,4]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "8",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxMoves(self, kx, ky, positions):\n        \"\"\"\n        :type kx: int\n        :type ky: int\n        :type positions: List[List[int]]\n        :rtype: int\n        \"\"\"\n        from collections import deque\n        import sys\n        \n        # Knight moves\n        moves = [(2,1), (2,-1), (-2,1), (-2,-1), (1,2), (1,-2), (-1,2), (-1,-2)]\n        \n        # Precompute knight distances using BFS\n        def bfs_distance(start_x, start_y, end_x, end_y):\n            \"\"\"BFS to find minimum knight moves\"\"\"\n            queue = deque([(start_x, start_y, 0)])\n            visited = {(start_x, start_y)}\n            \n            while queue:\n                x, y, dist = queue.popleft()\n                \n                if x == end_x and y == end_y:\n                    return dist\n                \n                for dx, dy in moves:\n                    nx, ny = x + dx, y + dy\n                    if 0 <= nx < 50 and 0 <= ny < 50 and (nx, ny) not in visited:\n                        visited.add((nx, ny))\n                        queue.append((nx, ny, dist + 1))\n            \n            return float('inf')\n        \n        # Build distance matrix\n        n = len(positions)\n        # Include knight's starting position as position -1\n        all_positions = [(kx, ky)] + positions\n        dist_matrix = [[0] * (n + 1) for _ in range(n + 1)]\n        \n        for i in range(n + 1):\n            for j in range(n + 1):\n                if i != j:\n                    dist_matrix[i][j] = bfs_distance(all_positions[i][0], all_positions[i][1],\n                                                     all_positions[j][0], all_positions[j][1])\n        \n        # DP with bitmask: dp[mask][turn][pos] = max moves\n        # mask: which pawns captured (bit i = pawn i captured)\n        # turn: 0 for Alice, 1 for Bob\n        # pos: current knight position (index in all_positions)\n        \n        memo = {}\n        \n        def dp(mask, turn, pos):\n            \"\"\"Return max moves starting from (mask, turn, pos)\"\"\"\n            if mask == (1 << n) - 1:\n                # All pawns captured\n                return 0\n            \n            state = (mask, turn, pos)\n            if state in memo:\n                return memo[state]\n            \n            result = 0 if turn == 0 else float('inf')\n            \n            # Try capturing each uncaptured pawn\n            for pawn_idx in range(n):\n                if not (mask & (1 << pawn_idx)):\n                    # Pawn pawn_idx hasn't been captured\n                    moves_to_pawn = dist_matrix[pos][pawn_idx + 1]\n                    new_mask = mask | (1 << pawn_idx)\n                    remaining_moves = dp(new_mask, 1 - turn, pawn_idx + 1)\n                    \n                    total_moves = moves_to_pawn + remaining_moves\n                    \n                    if turn == 0:  # Alice's turn (maximize)\n                        result = max(result, total_moves)\n                    else:  # Bob's turn (minimize)\n                        result = min(result, total_moves)\n            \n            memo[state] = result\n            return result\n        \n        return dp(0, 0, 0)",
+    "explanation": "This solution uses BFS for distance + game theory DP with bitmask:\n\n1. **Problem Understanding**:\n   - Alice and Bob alternate selecting pawns to capture\n   - Each player selects the pawn taking fewest moves to reach\n   - Alice maximizes, Bob minimizes total moves\n   - Find maximum total moves Alice can achieve\n\n2. **Two Phases**:\n   - **Phase 1**: BFS distance computation\n     - For each pair of positions, compute minimum knight moves\n     - 50x50 grid, at most 15 positions to compute\n   - **Phase 2**: Game theory DP\n     - Explore all possible capture sequences\n     - Minimax: Alice chooses move that maximizes, Bob chooses to minimize\n\n3. **DP State**:\n   - mask: bitmask of captured pawns\n   - turn: 0 for Alice, 1 for Bob\n   - pos: current knight position (index in all_positions)\n   - Returns: maximum/minimum total moves from this state\n\n4. **Minimax Strategy**:\n   - Alice's turn: try all pawns, choose the one maximizing final result\n   - Bob's turn: try all pawns, choose the one minimizing final result\n   - Both play optimally\n\n5. **Note**: \n   - Problem statement says \"select in fewest moves\" but solution says players choose optimally\n   - Interpretation: on each turn, player chooses among ALL pawns (not restricted to fewest)\n   - This matches the examples\n\nTime Complexity: O(BFS + 2^n * n) for DP\nSpace Complexity: O(2^n * n) for memoization"
+  },
+  "similarQuestions": "[{\"title\": \"Knight Probability in Chessboard\", \"titleSlug\": \"knight-probability-in-chessboard\", \"difficulty\": \"Medium\"}, {\"title\": \"Check Knight Tour Configuration\", \"titleSlug\": \"check-knight-tour-configuration\", \"difficulty\": \"Medium\"}]"
+}

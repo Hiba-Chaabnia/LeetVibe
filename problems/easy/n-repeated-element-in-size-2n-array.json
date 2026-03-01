@@ -1,0 +1,47 @@
+{
+  "questionId": "1001",
+  "title": "N-Repeated Element in Size 2N Array",
+  "titleSlug": "n-repeated-element-in-size-2n-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given an integer array nums with the following properties:\n\n• nums.length == 2 * n.\n\n• nums contains n + 1 unique values, n of which occur exactly once in the array.\n\n• Exactly one element of nums is repeated n times.\n\nReturn the element that is repeated n times.\n\nExample 1:\n\nInput: nums = [1,2,3,3]\nOutput: 3\nExample 2:\n\nInput: nums = [2,1,2,5,3,2]\nOutput: 2\nExample 3:\n\nInput: nums = [5,1,5,2,5,3,5,4]\nOutput: 5\n\nConstraints:\n\n• 2 <= n <= 5000\n\n• nums.length == 2 * n\n\n• 0 <= nums[i] <= 104\n\n• nums contains n + 1 unique elements and one of them is repeated exactly n times.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def repeatedNTimes(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,3]"
+    ],
+    [
+      "[2,1,2,5,3,2]"
+    ],
+    [
+      "[5,1,5,2,5,3,5,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def repeatedNTimes(self, nums):\n        seen = set()\n        for num in nums:\n            if num in seen:\n                return num\n            seen.add(num)",
+    "explanation": "Track seen elements. Return first duplicate (repeated n times).\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,63 @@
+{
+  "questionId": "3965",
+  "title": "Earliest Finish Time for Land and Water Rides I",
+  "titleSlug": "earliest-finish-time-for-land-and-water-rides-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given two categories of theme park attractions: land rides and water rides.\n\n• Land rides\n\n• landStartTime[i] – the earliest time the ith land ride can be boarded.\n\n• landDuration[i] – how long the ith land ride lasts.\n\n• Water rides\n\n• waterStartTime[j] – the earliest time the jth water ride can be boarded.\n\n• waterDuration[j] – how long the jth water ride lasts.\n\nA tourist must experience exactly one ride from each category, in either order.\n\n• A ride may be started at its opening time or any later moment.\n\n• If a ride is started at time t, it finishes at time t + duration.\n\n• Immediately after finishing one ride the tourist may board the other (if it is already open) or wait until it opens.\n\nReturn the earliest possible time at which the tourist can finish both rides.\n\nExample 1:\n\nInput: landStartTime = [2,8], landDuration = [4,1], waterStartTime = [6], waterDuration = [3]\n\nOutput: 9\n\nExplanation:​​​​​​​\n\n• Plan A (land ride 0 → water ride 0):\n\n• Start land ride 0 at time landStartTime[0] = 2. Finish at 2 + landDuration[0] = 6.\n\n• Water ride 0 opens at time waterStartTime[0] = 6. Start immediately at 6, finish at 6 + waterDuration[0] = 9.\n\n• Plan B (water ride 0 → land ride 1):\n\n• Start water ride 0 at time waterStartTime[0] = 6. Finish at 6 + waterDuration[0] = 9.\n\n• Land ride 1 opens at landStartTime[1] = 8. Start at time 9, finish at 9 + landDuration[1] = 10.\n\n• Plan C (land ride 1 → water ride 0):\n\n• Start land ride 1 at time landStartTime[1] = 8. Finish at 8 + landDuration[1] = 9.\n\n• Water ride 0 opened at waterStartTime[0] = 6. Start at time 9, finish at 9 + waterDuration[0] = 12.\n\n• Plan D (water ride 0 → land ride 0):\n\n• Start water ride 0 at time waterStartTime[0] = 6. Finish at 6 + waterDuration[0] = 9.\n\n• Land ride 0 opened at landStartTime[0] = 2. Start at time 9, finish at 9 + landDuration[0] = 13.\n\nPlan A gives the earliest finish time of 9.\n\nExample 2:\n\nInput: landStartTime = [5], landDuration = [3], waterStartTime = [1], waterDuration = [10]\n\nOutput: 14\n\nExplanation:​​​​​​​\n\n• Plan A (water ride 0 → land ride 0):\n\n• Start water ride 0 at time waterStartTime[0] = 1. Finish at 1 + waterDuration[0] = 11.\n\n• Land ride 0 opened at landStartTime[0] = 5. Start immediately at 11 and finish at 11 + landDuration[0] = 14.\n\n• Plan B (land ride 0 → water ride 0):\n\n• Start land ride 0 at time landStartTime[0] = 5. Finish at 5 + landDuration[0] = 8.\n\n• Water ride 0 opened at waterStartTime[0] = 1. Start immediately at 8 and finish at 8 + waterDuration[0] = 18.\n\nPlan A provides the earliest finish time of 14.​​​​​​​\n\nConstraints:\n\n• 1 <= n, m <= 100\n\n• landStartTime.length == landDuration.length == n\n\n• waterStartTime.length == waterDuration.length == m\n\n• 1 <= landStartTime[i], landDuration[i], waterStartTime[j], waterDuration[j] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def earliestFinishTime(self, landStartTime, landDuration, waterStartTime, waterDuration):\n        \"\"\"\n        :type landStartTime: List[int]\n        :type landDuration: List[int]\n        :type waterStartTime: List[int]\n        :type waterDuration: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use brute force"
+  ],
+  "testCases": [
+    [
+      "[2,8]",
+      "[4,1]",
+      "[6]",
+      "[3]"
+    ],
+    [
+      "[5]",
+      "[3]",
+      "[1]",
+      "[10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "14"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def earliestFinishTime(self, landStartTime, landDuration, waterStartTime, waterDuration):\n        best = float('inf')\n        for i in range(len(landStartTime)):\n            for j in range(len(waterStartTime)):\n                # Land then water\n                land_end = landStartTime[i] + landDuration[i]\n                water_end = max(land_end, waterStartTime[j]) + waterDuration[j]\n                best = min(best, water_end)\n                # Water then land\n                w_end = waterStartTime[j] + waterDuration[j]\n                l_end = max(w_end, landStartTime[i]) + landDuration[i]\n                best = min(best, l_end)\n        return best",
+    "explanation": "Try all land+water pairs in both orderings; pick the minimum finish time. O(L*W) time."
+  },
+  "similarQuestions": "[]"
+}

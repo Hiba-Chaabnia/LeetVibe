@@ -1,0 +1,49 @@
+{
+  "questionId": "3495",
+  "title": "K-th Nearest Obstacle Queries",
+  "titleSlug": "k-th-nearest-obstacle-queries",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "There is an infinite 2D plane.\n\nYou are given a positive integer k. You are also given a 2D array queries, which contains the following queries:\n\n• queries[i] = [x, y]: Build an obstacle at coordinate (x, y) in the plane. It is guaranteed that there is no obstacle at this coordinate when this query is made.\n\nAfter each query, you need to find the distance of the kth nearest obstacle from the origin.\n\nReturn an integer array results where results[i] denotes the kth nearest obstacle after query i, or results[i] == -1 if there are less than k obstacles.\n\nNote that initially there are no obstacles anywhere.\n\nThe distance of an obstacle at coordinate (x, y) from the origin is given by |x| + |y|.\n\nExample 1:\n\nInput: queries = [[1,2],[3,4],[2,3],[-3,0]], k = 2\n\nOutput: [-1,7,5,3]\n\nExplanation:\n\n• Initially, there are 0 obstacles.\n\n• After queries[0], there are less than 2 obstacles.\n\n• After queries[1], there are obstacles at distances 3 and 7.\n\n• After queries[2], there are obstacles at distances 3, 5, and 7.\n\n• After queries[3], there are obstacles at distances 3, 3, 5, and 7.\n\nExample 2:\n\nInput: queries = [[5,5],[4,4],[3,3]], k = 1\n\nOutput: [10,8,6]\n\nExplanation:\n\n• After queries[0], there is an obstacle at distance 10.\n\n• After queries[1], there are obstacles at distances 8 and 10.\n\n• After queries[2], there are obstacles at distances 6, 8, and 10.\n\nConstraints:\n\n• 1 <= queries.length <= 2 * 105\n\n• All queries[i] are unique.\n\n• -109 <= queries[i][0], queries[i][1] <= 109\n\n• 1 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def resultsArray(self, queries, k):\n        \"\"\"\n        :type queries: List[List[int]]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider if there are more than k obstacles. Can the k + 1<sup>th</sup> obstacle ever be the answer to any query?",
+    "Maintain a max heap of size k, thus heap will contain minimum element at the top in that queue.",
+    "Remove top element and insert new element from input array if current max is larger than this."
+  ],
+  "testCases": [
+    [
+      "[[1,2],[3,4],[2,3],[-3,0]]",
+      "2"
+    ],
+    [
+      "[[5,5],[4,4],[3,3]]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[-1,7,5,3]",
+    "[10,8,6]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def resultsArray(self, queries, k):\n        # Max-heap of size k (negate for Python's min-heap)\n        heap = []  # max-heap: store negatives\n        result = []\n        for x, y in queries:\n            d = abs(x) + abs(y)\n            if len(heap) < k:\n                heapq.heappush(heap, -d)\n            elif d < -heap[0]:\n                heapq.heapreplace(heap, -d)\n            result.append(-heap[0] if len(heap) == k else -1)\n        return result",
+    "explanation": "Maintain a max-heap of size k (using negated values). For each obstacle, if heap has fewer than k elements, push. If heap is full and new distance < max, replace max. Answer is max of heap (k-th smallest = max of k smallest).\n\nTime: O(n log k). Space: O(k)."
+  },
+  "similarQuestions": "[{\"title\": \"K Closest Points to Origin\", \"titleSlug\": \"k-closest-points-to-origin\", \"difficulty\": \"Medium\"}]"
+}

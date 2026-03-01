@@ -1,0 +1,57 @@
+{
+  "questionId": "3777",
+  "title": "Maximum Product of Subsequences With an Alternating Sum Equal to K",
+  "titleSlug": "maximum-product-of-subsequences-with-an-alternating-sum-equal-to-k",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums and two integers, k and limit. Your task is to find a non-empty subsequence of nums that:\n\n• Has an alternating sum equal to k.\n\n• Maximizes the product of all its numbers without the product exceeding limit.\n\nReturn the product of the numbers in such a subsequence. If no subsequence satisfies the requirements, return -1.\n\nThe alternating sum of a 0-indexed array is defined as the sum of the elements at even indices minus the sum of the elements at odd indices.\n\nExample 1:\n\nInput: nums = [1,2,3], k = 2, limit = 10\n\nOutput: 6\n\nExplanation: The subsequences with an alternating sum of 2 are:\n\n• [1, 2, 3]\n\n• Alternating Sum: 1 - 2 + 3 = 2\n\n• Product: 1 * 2 * 3 = 6\n\n• [2]\n\n• Alternating Sum: 2\n\n• Product: 2\n\nThe maximum product within the limit is 6.\n\nExample 2:\n\nInput: nums = [0,2,3], k = -5, limit = 12\n\nOutput: -1\n\nExplanation: A subsequence with an alternating sum of exactly -5 does not exist.\n\nExample 3:\n\nInput: nums = [2,2,3,3], k = 0, limit = 9\n\nOutput: 9\n\nExplanation: The subsequences with an alternating sum of 0 are:\n\n• [2, 2]\n\n• Alternating Sum: 2 - 2 = 0\n\n• Product: 2 * 2 = 4\n\n• [3, 3]\n\n• Alternating Sum: 3 - 3 = 0\n\n• Product: 3 * 3 = 9\n\n• [2, 2, 3, 3]\n\n• Alternating Sum: 2 - 2 + 3 - 3 = 0\n\n• Product: 2 * 2 * 3 * 3 = 36\n\nThe subsequence [2, 2, 3, 3] has the greatest product with an alternating sum equal to k, but 36 > 9. The next greatest product is 9, which is within the limit.\n\nConstraints:\n\n• 1 <= nums.length <= 150\n\n• 0 <= nums[i] <= 12\n\n• -105 <= k <= 105\n\n• 1 <= limit <= 5000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxProduct(self, nums, k, limit):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type limit: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "Save all possible products with a particular sum.",
+    "Handle the case where a subsequence has a product of 0 and an alternating sum of k."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "2",
+      "10"
+    ],
+    [
+      "[0,2,3]",
+      "-5",
+      "12"
+    ],
+    [
+      "[2,2,3,3]",
+      "0",
+      "9"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "-1",
+    "9"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Alternating Subsequence Sum\", \"titleSlug\": \"maximum-alternating-subsequence-sum\", \"difficulty\": \"Medium\"}]"
+}

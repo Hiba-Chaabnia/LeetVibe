@@ -1,0 +1,63 @@
+{
+  "questionId": "2157",
+  "title": "Smallest K-Length Subsequence With Occurrences of a Letter",
+  "titleSlug": "smallest-k-length-subsequence-with-occurrences-of-a-letter",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given a string s, an integer k, a letter letter, and an integer repetition.\n\nReturn the lexicographically smallest subsequence of s of length k that has the letter letter appear at least repetition times. The test cases are generated so that the letter appears in s at least repetition times.\n\nA subsequence is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters.\n\nA string a is lexicographically smaller than a string b if in the first position where a and b differ, string a has a letter that appears earlier in the alphabet than the corresponding letter in b.\n\nExample 1:\n\nInput: s = \"leet\", k = 3, letter = \"e\", repetition = 1\nOutput: \"eet\"\nExplanation: There are four subsequences of length 3 that have the letter 'e' appear at least 1 time:\n    - \"lee\" (from \"leet\")\n    - \"let\" (from \"leet\")\n    - \"let\" (from \"leet\")\n    - \"eet\" (from \"leet\")\n    The lexicographically smallest subsequence among them is \"eet\".\n\nExample 2:\n\nInput: s = \"leetcode\", k = 4, letter = \"e\", repetition = 2\nOutput: \"ecde\"\nExplanation: \"ecde\" is the lexicographically smallest subsequence of length 4 that has the letter \"e\" appear at least 2 times.\n\nExample 3:\n\nInput: s = \"bb\", k = 2, letter = \"b\", repetition = 2\nOutput: \"bb\"\nExplanation: \"bb\" is the only subsequence of length 2 that has the letter \"b\" appear at least 2 times.\n\nConstraints:\n\n• 1 <= repetition <= k <= s.length <= 5 * 104\n\n• s consists of lowercase English letters.\n\n• letter is a lowercase English letter, and appears in s at least repetition times.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestSubsequence(self, s, k, letter, repetition):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :type letter: str\n        :type repetition: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use stack. For every character to be appended, decide how many character(s) from the stack needs to get popped based on the stack length and the count of the required character.",
+    "Pop the extra characters out from the stack and return the characters in the stack (reversed)."
+  ],
+  "testCases": [
+    [
+      "\"leet\"",
+      "3",
+      "\"e\"",
+      "1"
+    ],
+    [
+      "\"leetcode\"",
+      "4",
+      "\"e\"",
+      "2"
+    ],
+    [
+      "\"bb\"",
+      "2",
+      "\"b\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"eet\"",
+    "\"ecde\"",
+    "\"bb\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Remove Duplicate Letters\", \"titleSlug\": \"remove-duplicate-letters\", \"difficulty\": \"Medium\"}, {\"title\": \"Subarray With Elements Greater Than Varying Threshold\", \"titleSlug\": \"subarray-with-elements-greater-than-varying-threshold\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Lexicographically Smallest Valid Sequence\", \"titleSlug\": \"find-the-lexicographically-smallest-valid-sequence\", \"difficulty\": \"Medium\"}]"
+}

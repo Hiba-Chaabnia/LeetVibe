@@ -1,0 +1,51 @@
+{
+  "questionId": "1658",
+  "title": "Minimum Swaps to Arrange a Binary Grid",
+  "titleSlug": "minimum-swaps-to-arrange-a-binary-grid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given an n x n binary grid, in one step you can choose two adjacent rows of the grid and swap them.\n\nA grid is said to be valid if all the cells above the main diagonal are zeros.\n\nReturn the minimum number of steps needed to make the grid valid, or -1 if the grid cannot be valid.\n\nThe main diagonal of a grid is the diagonal that starts at cell (1, 1) and ends at cell (n, n).\n\nExample 1:\n\nInput: grid = [[0,0,1],[1,1,0],[1,0,0]]\nOutput: 3\n\nExample 2:\n\nInput: grid = [[0,1,1,0],[0,1,1,0],[0,1,1,0],[0,1,1,0]]\nOutput: -1\nExplanation: All rows are similar, swaps have no effect on the grid.\n\nExample 3:\n\nInput: grid = [[1,0,0],[1,1,0],[1,1,1]]\nOutput: 0\n\nConstraints:\n\n• n == grid.length == grid[i].length\n\n• 1 <= n <= 200\n\n• grid[i][j] is either 0 or 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSwaps(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each row of the grid calculate the most right 1 in the grid in the array maxRight.",
+    "To check if there exist answer, sort maxRight and check if maxRight[i] ≤ i for all possible i's.",
+    "If there exist an answer, simulate the swaps."
+  ],
+  "testCases": [
+    [
+      "[[0,0,1],[1,1,0],[1,0,0]]"
+    ],
+    [
+      "[[0,1,1,0],[0,1,1,0],[0,1,1,0],[0,1,1,0]]"
+    ],
+    [
+      "[[1,0,0],[1,1,0],[1,1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

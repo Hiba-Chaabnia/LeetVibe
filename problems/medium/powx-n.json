@@ -1,0 +1,50 @@
+{
+  "questionId": "50",
+  "title": "Pow(x, n)",
+  "titleSlug": "powx-n",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Implement pow(x, n), which calculates x raised to the power n (i.e., xn).\n\nExample 1:\n\nInput: x = 2.00000, n = 10\nOutput: 1024.00000\n\nExample 2:\n\nInput: x = 2.10000, n = 3\nOutput: 9.26100\n\nExample 3:\n\nInput: x = 2.00000, n = -2\nOutput: 0.25000\nExplanation: 2-2 = 1/22 = 1/4 = 0.25\n\nConstraints:\n\n• -100.0 < x < 100.0\n\n• -231 <= n <= 231-1\n\n• n is an integer.\n\n• Either x is not zero or n > 0.\n\n• -104 <= xn <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def myPow(self, x, n):\n        \"\"\"\n        :type x: float\n        :type n: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "2.00000",
+      "10"
+    ],
+    [
+      "2.10000",
+      "3"
+    ],
+    [
+      "2.00000",
+      "-2"
+    ]
+  ],
+  "expectedOutputs": [
+    "1024.00000",
+    "9.26100",
+    "0.25000"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def myPow(x: float, n: int) -> float:\n    if n == 0:\n        return 1\n    if n < 0:\n        x = 1 / x\n        n = -n\n    result = 1\n    currentProduct = x\n    i = n\n    while i:\n        if i % 2 == 1:\n            result *= currentProduct\n        currentProduct *= currentProduct\n        i //= 2\n    return result",
+    "explanation": "The algorithm uses the binary exponentiation technique, which is a faster method of calculating x^n compared to the naive approach. It relies on the process of repeatedly multiplying the current product by itself and updating it after each iteration. The loop iterates through the bits of the exponent n, from the least significant to the most significant. If the current bit of n is 1, the result is multiplied by the current product. At the end of the loop, the current product is updated by squaring it. This process continues until all bits of the exponent have been processed.\n\nThe time complexity of the algorithm is O(log(n)) because the loop iterates through the bits of n, and the number of bits in n is proportional to the logarithm of n. The space complexity is O(1), as the space used by the temporary variables does not depend on the size of n."
+  },
+  "similarQuestions": "[{\"title\": \"Sqrt(x)\", \"titleSlug\": \"sqrtx\", \"difficulty\": \"Easy\"}, {\"title\": \"Super Pow\", \"titleSlug\": \"super-pow\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Collisions of Monkeys on a Polygon\", \"titleSlug\": \"count-collisions-of-monkeys-on-a-polygon\", \"difficulty\": \"Medium\"}]"
+}

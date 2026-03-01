@@ -1,0 +1,51 @@
+{
+  "questionId": "2621",
+  "title": "Find Xor-Beauty of Array",
+  "titleSlug": "find-xor-beauty-of-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums.\n\nThe effective value of three indices i, j, and k is defined as ((nums[i] | nums[j]) & nums[k]).\n\nThe xor-beauty of the array is the XORing of the effective values of all the possible triplets of indices (i, j, k) where 0 <= i, j, k < n.\n\nReturn the xor-beauty of nums.\n\nNote that:\n\n• val1 | val2 is bitwise OR of val1 and val2.\n\n• val1 & val2 is bitwise AND of val1 and val2.\n\nExample 1:\n\nInput: nums = [1,4]\nOutput: 5\nExplanation:\n    The triplets and their corresponding effective values are listed below:\n    - (0,0,0) with effective value ((1 | 1) & 1) = 1\n    - (0,0,1) with effective value ((1 | 1) & 4) = 0\n    - (0,1,0) with effective value ((1 | 4) & 1) = 1\n    - (0,1,1) with effective value ((1 | 4) & 4) = 4\n    - (1,0,0) with effective value ((4 | 1) & 1) = 1\n    - (1,0,1) with effective value ((4 | 1) & 4) = 4\n    - (1,1,0) with effective value ((4 | 4) & 1) = 0\n    - (1,1,1) with effective value ((4 | 4) & 4) = 4\n    Xor-beauty of array will be bitwise XOR of all beauties = 1 ^ 0 ^ 1 ^ 4 ^ 1 ^ 4 ^ 0 ^ 4 = 5.\n\nExample 2:\n\nInput: nums = [15,45,20,2,34,35,5,44,32,30]\nOutput: 34\nExplanation: The xor-beauty of the given array is 34.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def xorBeauty(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to simplify the given expression.",
+    "Try constructing the answer bit by bit."
+  ],
+  "testCases": [
+    [
+      "[1,4]"
+    ],
+    [
+      "[15,45,20,2,34,35,5,44,32,30]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "34"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def xorBeauty(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        # Key insight: for each bit position, count how many triplets have 1 at that bit\n        # The result is 1 at that position if count is odd\n        \n        result = 0\n        \n        for bit in range(30):  # 32-bit integer\n            count = 0\n            for i in nums:\n                for j in nums:\n                    for k in nums:\n                        # Check if ((i|j) & k) has bit set\n                        if (((i | j) & k) >> bit) & 1:\n                            count += 1\n            \n            # If count is odd, this bit contributes to XOR result\n            if count % 2 == 1:\n                result |= (1 << bit)\n        \n        return result",
+    "explanation": "For each bit position, count triplets where (i|j)&k has that bit set. XOR contributes 1 if count is odd.",
+    "complexity": "Time: O(30*n³) = O(n³). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Decode XORed Permutation\", \"titleSlug\": \"decode-xored-permutation\", \"difficulty\": \"Medium\"}]"
+}

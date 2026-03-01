@@ -1,0 +1,63 @@
+{
+  "questionId": "1486",
+  "title": "Find the Distance Value Between Two Arrays",
+  "titleSlug": "find-the-distance-value-between-two-arrays",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given two integer arrays arr1 and arr2, and the integer d, return the distance value between the two arrays.\n\nThe distance value is defined as the number of elements arr1[i] such that there is not any element arr2[j] where |arr1[i]-arr2[j]| <= d.\n\nExample 1:\n\nInput: arr1 = [4,5,8], arr2 = [10,9,1,8], d = 2\nOutput: 2\nExplanation:\n    For arr1[0]=4 we have:\n    |4-10|=6 > d=2\n    |4-9|=5 > d=2\n    |4-1|=3 > d=2\n    |4-8|=4 > d=2\n    For arr1[1]=5 we have:\n    |5-10|=5 > d=2\n    |5-9|=4 > d=2\n    |5-1|=4 > d=2\n    |5-8|=3 > d=2\n    For arr1[2]=8 we have:\n    |8-10|=2  d=2\n    |8-8|=0 Example 2:\n\nInput: arr1 = [1,4,2,3], arr2 = [-4,-3,6,10,20,30], d = 3\nOutput: 2\n\nExample 3:\n\nInput: arr1 = [2,1,100,3], arr2 = [-5,-2,10,-3,7], d = 6\nOutput: 1\n\nConstraints:\n\n• 1 <= arr1.length, arr2.length <= 500\n\n• -1000 <= arr1[i], arr2[j] <= 1000\n\n• 0 <= d <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findTheDistanceValue(self, arr1, arr2, d):\n        \"\"\"\n        :type arr1: List[int]\n        :type arr2: List[int]\n        :type d: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort 'arr2' and use binary search to get the closest element for each 'arr1[i]', it gives a time complexity of O(nlogn)."
+  ],
+  "testCases": [
+    [
+      "[4,5,8]",
+      "[10,9,1,8]",
+      "2"
+    ],
+    [
+      "[1,4,2,3]",
+      "[-4,-3,6,10,20,30]",
+      "3"
+    ],
+    [
+      "[2,1,100,3]",
+      "[-5,-2,10,-3,7]",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findTheDistanceValue(arr1, arr2, d):\n    distance = 0\n    for a in arr1:\n        found = True\n        for b in arr2:\n            if abs(a - b) <= d:\n                found = False\n                break\n        if found:\n            distance += 1\n    return distance",
+    "explanation": "For each element `a` in array `arr1`, we iterate through all elements `b` in array `arr2` and check the condition `|a-b| <= d`. If we find an element `b` that satisfies the condition, we stop searching and move to the next element of `arr1`. If we haven't found any such element, we increment the distance value. Finally, we return the distance value after processing all elements of `arr1`."
+  },
+  "similarQuestions": "[]"
+}

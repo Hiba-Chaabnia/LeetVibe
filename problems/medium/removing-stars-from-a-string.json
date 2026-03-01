@@ -1,0 +1,51 @@
+{
+  "questionId": "2470",
+  "title": "Removing Stars From a String",
+  "titleSlug": "removing-stars-from-a-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string s, which contains stars *.\n\nIn one operation, you can:\n\n• Choose a star in s.\n\n• Remove the closest non-star character to its left, as well as remove the star itself.\n\nReturn the string after all stars have been removed.\n\nNote:\n\n• The input will be generated such that the operation is always possible.\n\n• It can be shown that the resulting string will always be unique.\n\nExample 1:\n\nInput: s = \"leet**cod*e\"\nOutput: \"lecoe\"\nExplanation: Performing the removals from left to right:\n    - The closest character to the 1st star is 't' in \"leet**cod*e\". s becomes \"lee*cod*e\".\n    - The closest character to the 2nd star is 'e' in \"lee*cod*e\". s becomes \"lecod*e\".\n    - The closest character to the 3rd star is 'd' in \"lecod*e\". s becomes \"lecoe\".\n    There are no more stars, so we return \"lecoe\".\n\nExample 2:\n\nInput: s = \"erase*****\"\nOutput: \"\"\nExplanation: The entire string is removed, so we return an empty string.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters and stars *.\n\n• The operation above can be performed on s.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeStars(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What data structure could we use to efficiently perform these removals?",
+    "Use a stack to store the characters. Pop one character off the stack at each star. Otherwise, we push the character onto the stack."
+  ],
+  "testCases": [
+    [
+      "\"leet**cod*e\""
+    ],
+    [
+      "\"erase*****\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"lecoe\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def removeStars(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        stack = []\n        \n        for char in s:\n            if char == '*':\n                if stack:\n                    stack.pop()\n            else:\n                stack.append(char)\n        \n        return ''.join(stack)",
+    "explanation": "Stack: push chars, pop on star.",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Backspace String Compare\", \"titleSlug\": \"backspace-string-compare\", \"difficulty\": \"Easy\"}, {\"title\": \"Remove All Adjacent Duplicates In String\", \"titleSlug\": \"remove-all-adjacent-duplicates-in-string\", \"difficulty\": \"Easy\"}]"
+}

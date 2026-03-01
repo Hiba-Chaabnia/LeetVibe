@@ -1,0 +1,31 @@
+﻿# LeetVibe Configuration
+
+mistral:
+  api_key: ${MISTRAL_API_KEY}
+  model: "mistral-large-latest"
+  vibe_enabled: true
+
+elevenlabs:
+  api_key: ${ELEVENLABS_API_KEY}
+  voice_id: "EXAVITQu4vr4xnSDxMaL"
+  enabled: true
+
+wandb:
+  api_key: ${WANDB_API_KEY}
+  project: "leetvibe"
+  entity: ${WANDB_ENTITY}
+  enabled: true
+
+whitecircle:
+  api_key: ${WHITECIRCLE_API_KEY}
+  enabled: false
+
+challenges:
+  data_source: "huggingface"
+  dataset_name: "greengerong/leetcode"
+  cache_dir: "./data/cache"
+
+cli:
+  theme: "monokai"
+  voice_default: true
+  auto_save: true

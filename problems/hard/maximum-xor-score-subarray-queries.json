@@ -1,0 +1,45 @@
+{
+  "questionId": "3551",
+  "title": "Maximum XOR Score Subarray Queries",
+  "titleSlug": "maximum-xor-score-subarray-queries",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an array nums of n integers, and a 2D integer array queries of size q, where queries[i] = [li, ri].\n\nFor each query, you must find the maximum XOR score of any subarray of nums[li..ri].\n\nThe XOR score of an array a is found by repeatedly applying the following operations on a so that only one element remains, that is the score:\n\n• Simultaneously replace a[i] with a[i] XOR a[i + 1] for all indices i except the last one.\n\n• Remove the last element of a.\n\nReturn an array answer of size q where answer[i] is the answer to query i.\n\nExample 1:\n\nInput: nums = [2,8,4,32,16,1], queries = [[0,2],[1,4],[0,5]]\n\nOutput: [12,60,60]\n\nExplanation: In the first query, nums[0..2] has 6 subarrays [2], [8], [4], [2, 8], [8, 4], and [2, 8, 4] each with a respective XOR score of 2, 8, 4, 10, 12, and 6. The answer for the query is 12, the largest of all XOR scores.\n\nIn the second query, the subarray of nums[1..4] with the largest XOR score is nums[1..4] with a score of 60.\n\nIn the third query, the subarray of nums[0..5] with the largest XOR score is nums[1..4] with a score of 60.\n\nExample 2:\n\nInput: nums = [0,7,3,2,8,5,1], queries = [[0,3],[1,5],[2,4],[2,6],[5,6]]\n\nOutput: [7,14,11,14,5]\n\nExplanation: \t\t\t\tIndex\n\t\t\t\tnums[li..ri]\n\t\t\t\tMaximum XOR Score Subarray\n\t\t\t\tMaximum Subarray XOR Score\n\n\t\t\t\t0\n\t\t\t\t[0, 7, 3, 2]\n\t\t\t\t[7]\n\t\t\t\t7\n\n\t\t\t\t1\n\t\t\t\t[7, 3, 2, 8, 5]\n\t\t\t\t[7, 3, 2, 8]\n\t\t\t\t14\n\n\t\t\t\t2\n\t\t\t\t[3, 2, 8]\n\t\t\t\t[3, 2, 8]\n\t\t\t\t11\n\n\t\t\t\t3\n\t\t\t\t[3, 2, 8, 5, 1]\n\t\t\t\t[2, 8, 5, 1]\n\t\t\t\t14\n\n\t\t\t\t4\n\t\t\t\t[5, 1]\n\t\t\t\t[5]\n\t\t\t\t5\n\nConstraints:\n\n• 1 <= n == nums.length <= 2000\n\n• 0 <= nums[i] <= 231 - 1\n\n• 1 <= q == queries.length <= 105\n\n• queries[i].length == 2\n\n• queries[i] = [li, ri]\n\n• 0 <= li <= ri <= n - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumSubarrayXor(self, nums, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Precompute the XOR score of every subarray.",
+    "Try to find a relationship between XOR score of nums[i..j], nums[i..j + 1], nums[i..j + 2], …. Do you notice any pattern?",
+    "If dp[i][j] is the XOR score of subarray nums[i..j], dp[i][j] = dp[i - 1][j] XOR dp[i - 1][j + 1]."
+  ],
+  "testCases": [
+    [
+      "[2,8,4,32,16,1]",
+      "[[0,2],[1,4],[0,5]]"
+    ],
+    [
+      "[0,7,3,2,8,5,1]",
+      "[[0,3],[1,5],[2,4],[2,6],[5,6]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[12,60,60]",
+    "[7,14,11,14,5]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Make the XOR of All Segments Equal to Zero\", \"titleSlug\": \"make-the-xor-of-all-segments-equal-to-zero\", \"difficulty\": \"Hard\"}]"
+}

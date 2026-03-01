@@ -1,0 +1,47 @@
+{
+  "questionId": "2602",
+  "title": "Maximum Enemy Forts That Can Be Captured",
+  "titleSlug": "maximum-enemy-forts-that-can-be-captured",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array forts of length n representing the positions of several forts. forts[i] can be -1, 0, or 1 where:\n\n• -1 represents there is no fort at the ith position.\n\n• 0 indicates there is an enemy fort at the ith position.\n\n• 1 indicates the fort at the ith the position is under your command.\n\nNow you have decided to move your army from one of your forts at position i to an empty position j such that:\n\n• 0 <= i, j <= n - 1\n\n• The army travels over enemy forts only. Formally, for all k where min(i,j) < k < max(i,j), forts[k] == 0.\n\nWhile moving the army, all the enemy forts that come in the way are captured.\n\nReturn the maximum number of enemy forts that can be captured. In case it is impossible to move your army, or you do not have any fort under your command, return 0.\n\nExample 1:\n\nInput: forts = [1,0,0,-1,0,0,0,0,1]\nOutput: 4\nExplanation:\n    - Moving the army from position 0 to position 3 captures 2 enemy forts, at 1 and 2.\n    - Moving the army from position 8 to position 3 captures 4 enemy forts.\n    Since 4 is the maximum number of enemy forts that can be captured, we return 4.\n\nExample 2:\n\nInput: forts = [0,0,1,-1]\nOutput: 0\nExplanation: Since no enemy fort can be captured, 0 is returned.\n\nConstraints:\n\n• 1 <= forts.length <= 1000\n\n• -1 <= forts[i] <= 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def captureForts(self, forts):\n        \"\"\"\n        :type forts: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each fort under your command, check if you can move the army from here.",
+    "If yes, find the closest empty positions satisfying all criteria.",
+    "How can two-pointers be used to solve this problem optimally?"
+  ],
+  "testCases": [
+    [
+      "[1,0,0,-1,0,0,0,0,1]"
+    ],
+    [
+      "[0,0,1,-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def captureForts(self, forts):\n        max_capture = 0\n        count = 0\n        last_fort = None\n        for f in forts:\n            if f != 0:\n                if last_fort is not None and last_fort != f:\n                    max_capture = max(max_capture, count)\n                count = 0\n                last_fort = f\n            elif last_fort is not None:\n                count += 1\n        return max_capture",
+    "explanation": "Track consecutive 0s between opposite forts. Count maxim between 1 and -1.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Max Consecutive Ones\", \"titleSlug\": \"max-consecutive-ones\", \"difficulty\": \"Easy\"}, {\"title\": \"Max Consecutive Ones III\", \"titleSlug\": \"max-consecutive-ones-iii\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,56 @@
+{
+  "questionId": "1530",
+  "title": "Check If a String Can Break Another String",
+  "titleSlug": "check-if-a-string-can-break-another-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given two strings: s1 and s2 with the same size, check if some permutation of string s1 can break some permutation of string s2 or vice-versa. In other words s2 can break s1 or vice-versa.\n\nA string x can break string y (both of size n) if x[i] >= y[i] (in alphabetical order) for all i between 0 and n-1.\n\nExample 1:\n\nInput: s1 = \"abc\", s2 = \"xya\"\nOutput: true\nExplanation: \"ayx\" is a permutation of s2=\"xya\" which can break to string \"abc\" which is a permutation of s1=\"abc\".\n\nExample 2:\n\nInput: s1 = \"abe\", s2 = \"acd\"\nOutput: false\nExplanation: All permutations for s1=\"abe\" are: \"abe\", \"aeb\", \"bae\", \"bea\", \"eab\" and \"eba\" and all permutation for s2=\"acd\" are: \"acd\", \"adc\", \"cad\", \"cda\", \"dac\" and \"dca\". However, there is not any permutation from s1 which can break some permutation from s2 and vice-versa.\n\nExample 3:\n\nInput: s1 = \"leetcodee\", s2 = \"interview\"\nOutput: true\n\nConstraints:\n\n• s1.length == n\n\n• s2.length == n\n\n• 1 <= n <= 10^5\n\n• All strings consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkIfCanBreak(self, s1, s2):\n        \"\"\"\n        :type s1: str\n        :type s2: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort both strings and then check if one of them can break the other."
+  ],
+  "testCases": [
+    [
+      "\"abc\"",
+      "\"xya\""
+    ],
+    [
+      "\"abe\"",
+      "\"acd\""
+    ],
+    [
+      "\"leetcodee\"",
+      "\"interview\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkIfCanBreak(self, s1, s2):\n        s1_sorted = sorted(s1)\n        s2_sorted = sorted(s2)\n        return all(s1_sorted[i] >= s2_sorted[i] for i in range(len(s1))) or \\\n               all(s2_sorted[i] >= s1_sorted[i] for i in range(len(s2)))",
+    "explanation": "Sort both. Check if one can break the other element-wise.\nTime: O(n*log n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

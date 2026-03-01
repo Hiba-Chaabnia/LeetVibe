@@ -1,0 +1,55 @@
+{
+  "questionId": "126",
+  "title": "Word Ladder II",
+  "titleSlug": "word-ladder-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:\n\n• Every adjacent pair of words differs by a single letter.\n\n• Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.\n\n• sk == endWord\n\nGiven two words, beginWord and endWord, and a dictionary wordList, return all the shortest transformation sequences from beginWord to endWord, or an empty list if no such sequence exists. Each sequence should be returned as a list of the words [beginWord, s1, s2, ..., sk].\n\nExample 1:\n\nInput: beginWord = \"hit\", endWord = \"cog\", wordList = [\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]\nOutput: [[\"hit\",\"hot\",\"dot\",\"dog\",\"cog\"],[\"hit\",\"hot\",\"lot\",\"log\",\"cog\"]]\nExplanation: There are 2 shortest transformation sequences:\n    \"hit\" -> \"hot\" -> \"dot\" -> \"dog\" -> \"cog\"\n    \"hit\" -> \"hot\" -> \"lot\" -> \"log\" -> \"cog\"\n\nExample 2:\n\nInput: beginWord = \"hit\", endWord = \"cog\", wordList = [\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]\nOutput: []\nExplanation: The endWord \"cog\" is not in wordList, therefore there is no valid transformation sequence.\n\nConstraints:\n\n• 1 <= beginWord.length <= 5\n\n• endWord.length == beginWord.length\n\n• 1 <= wordList.length <= 500\n\n• wordList[i].length == beginWord.length\n\n• beginWord, endWord, and wordList[i] consist of lowercase English letters.\n\n• beginWord != endWord\n\n• All the words in wordList are unique.\n\n• The sum of all shortest transformation sequences does not exceed 105.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findLadders(self, beginWord, endWord, wordList):\n        \"\"\"\n        :type beginWord: str\n        :type endWord: str\n        :type wordList: List[str]\n        :rtype: List[List[str]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"hit\"",
+      "\"cog\"",
+      "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]"
+    ],
+    [
+      "\"hit\"",
+      "\"cog\"",
+      "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[\"hit\",\"hot\",\"dot\",\"dog\",\"cog\"],[\"hit\",\"hot\",\"lot\",\"log\",\"cog\"]]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict, deque\n\ndef findLadders(beginWord, endWord, wordList):\n    wordList = set(wordList)\n    if endWord not in wordList:\n        return []\n\n    adjacent = defaultdict(list)\n    distance = defaultdict(int)\n    queue = deque([beginWord])\n    distance[beginWord] = 0\n    \n    def neighbors(word):\n        for i in range(len(word)):\n            for j in range(ord('a'), ord('z') + 1):\n                yield word[:i] + chr(j) + word[i + 1:]\n                \n    while queue:\n        current = queue.popleft()\n        if current == endWord:\n            break\n        for neighbor in neighbors(current):\n            if neighbor not in wordList:\n                continue\n            if neighbor not in distance:\n                distance[neighbor] = distance[current] + 1\n                queue.append(neighbor)\n            if distance[neighbor] == distance[current] + 1:\n                adjacent[current].append(neighbor)\n\n    result = []\n    path = [beginWord]\n\n    def backtrack(word):\n        if word == endWord:\n            result.append(path[:])\n        else:\n            for next_word in adjacent[word]:\n                path.append(next_word)\n                backtrack(next_word)\n                path.pop()\n                \n    backtrack(beginWord)\n    return result",
+    "explanation": "1. Create a dictionary set, adjacent map, distance map, and a queue to store words.\n2. Initialize the queue with the beginWord and set its distance to 0.\n3. Define a neighbors function that returns all possible words by changing one character of the given word.\n4. Run a BFS from the beginWord, updating the distances and adjacent maps.\n5. The BFS stops when it reaches the endWord or finishes visiting all reachable words.\n6. Define a backtrack function to search through the explored adjacent map to construct the transformation paths.\n7. Call the backtrack function with the beginWord, and return the result list, which contains the shortest transformations."
+  },
+  "similarQuestions": "[{\"title\": \"Word Ladder\", \"titleSlug\": \"word-ladder\", \"difficulty\": \"Hard\"}, {\"title\": \"Groups of Strings\", \"titleSlug\": \"groups-of-strings\", \"difficulty\": \"Hard\"}]"
+}

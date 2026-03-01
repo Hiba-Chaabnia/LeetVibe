@@ -1,0 +1,54 @@
+{
+  "questionId": "3881",
+  "title": "Minimize Maximum Component Cost",
+  "titleSlug": "minimize-maximum-component-cost",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an undirected connected graph with n nodes labeled from 0 to n - 1 and a 2D integer array edges where edges[i] = [ui, vi, wi] denotes an undirected edge between node ui and node vi with weight wi, and an integer k.\n\nYou are allowed to remove any number of edges from the graph such that the resulting graph has at most k connected components.\n\nThe cost of a component is defined as the maximum edge weight in that component. If a component has no edges, its cost is 0.\n\nReturn the minimum possible value of the maximum cost among all components after such removals.\n\nExample 1:\n\nInput: n = 5, edges = [[0,1,4],[1,2,3],[1,3,2],[3,4,6]], k = 2\n\nOutput: 4\n\nExplanation:\n\n• Remove the edge between nodes 3 and 4 (weight 6).\n\n• The resulting components have costs of 0 and 4, so the overall maximum cost is 4.\n\nExample 2:\n\nInput: n = 4, edges = [[0,1,5],[1,2,5],[2,3,5]], k = 1\n\nOutput: 5\n\nExplanation:\n\n• No edge can be removed, since allowing only one component (k = 1) requires the graph to stay fully connected.\n\n• That single component’s cost equals its largest edge weight, which is 5.\n\nConstraints:\n\n• 1 <= n <= 5 * 104\n\n• 0 <= edges.length <= 105\n\n• edges[i].length == 3\n\n• 0 <= ui, vi < n\n\n• 1 <= wi <= 106\n\n• 1 <= k <= n\n\n• The input graph is connected.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCost(self, n, edges, k):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the edges and do binary search on the candidate maximum weight",
+    "Use DFS or DSU to count the number of connected components when keeping only edges with weight <= mid"
+  ],
+  "testCases": [
+    [
+      "5",
+      "[[0,1,4],[1,2,3],[1,3,2],[3,4,6]]",
+      "2"
+    ],
+    [
+      "4",
+      "[[0,1,5],[1,2,5],[2,3,5]]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "5"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

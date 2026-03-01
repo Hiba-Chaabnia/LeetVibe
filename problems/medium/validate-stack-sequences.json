@@ -1,0 +1,50 @@
+{
+  "questionId": "983",
+  "title": "Validate Stack Sequences",
+  "titleSlug": "validate-stack-sequences",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given two integer arrays pushed and popped each with distinct values, return true if this could have been the result of a sequence of push and pop operations on an initially empty stack, or false otherwise.\n\nExample 1:\n\nInput: pushed = [1,2,3,4,5], popped = [4,5,3,2,1]\nOutput: true\nExplanation: We might do the following sequence:\n    push(1), push(2), push(3), push(4),\n    pop() -> 4,\n    push(5),\n    pop() -> 5, pop() -> 3, pop() -> 2, pop() -> 1\n\nExample 2:\n\nInput: pushed = [1,2,3,4,5], popped = [4,3,5,1,2]\nOutput: false\nExplanation: 1 cannot be popped before 2.\n\nConstraints:\n\n• 1 <= pushed.length <= 1000\n\n• 0 <= pushed[i] <= 1000\n\n• All the elements of pushed are unique.\n\n• popped.length == pushed.length\n\n• popped is a permutation of pushed.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def validateStackSequences(self, pushed, popped):\n        \"\"\"\n        :type pushed: List[int]\n        :type popped: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5]",
+      "[4,5,3,2,1]"
+    ],
+    [
+      "[1,2,3,4,5]",
+      "[4,3,5,1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def validateStackSequences(self, pushed, popped):\n        \"\"\"\n        :type pushed: List[int]\n        :type popped: List[int]\n        :rtype: bool\n        \"\"\"\n        stack = []\n        pop_idx = 0\n        \n        for val in pushed:\n            stack.append(val)\n            \n            # Pop if top matches next popped element\n            while stack and stack[-1] == popped[pop_idx]:\n                stack.pop()\n                pop_idx += 1\n        \n        # Stack should be empty at end\n        return len(stack) == 0",
+    "explanation": "Simulate: push elements, pop when top matches next popped. All should be popped.",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

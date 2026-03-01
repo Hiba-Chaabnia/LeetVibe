@@ -1,0 +1,62 @@
+{
+  "questionId": "1502",
+  "title": "Construct K Palindrome Strings",
+  "titleSlug": "construct-k-palindrome-strings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given a string s and an integer k, return true if you can use all the characters in s to construct non-empty k palindrome strings or false otherwise.\n\nExample 1:\n\nInput: s = \"annabelle\", k = 2\nOutput: true\nExplanation: You can construct two palindromes using all characters in s.\n    Some possible constructions \"anna\" + \"elble\", \"anbna\" + \"elle\", \"anellena\" + \"b\"\n\nExample 2:\n\nInput: s = \"leetcode\", k = 3\nOutput: false\nExplanation: It is impossible to construct 3 palindromes using all the characters of s.\n\nExample 3:\n\nInput: s = \"true\", k = 4\nOutput: true\nExplanation: The only possible solution is to put each character in a separate string.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters.\n\n• 1 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canConstruct(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If the s.length < k we cannot construct k strings from s and answer is false.",
+    "If the number of characters that have odd counts is > k then the minimum number of palindrome strings we can construct is > k and answer is false.",
+    "Otherwise you can construct exactly k palindrome strings and answer is true (why ?)."
+  ],
+  "testCases": [
+    [
+      "\"annabelle\"",
+      "2"
+    ],
+    [
+      "\"leetcode\"",
+      "3"
+    ],
+    [
+      "\"true\"",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canConstruct(self, s, k):\n        if len(s) < k:\n            return False\n        from collections import Counter\n        freq = Counter(s)\n        odd_count = sum(1 for f in freq.values() if f % 2 == 1)\n        return odd_count <= k",
+    "explanation": "Need len >= k. Odd-frequency chars = min palindromes needed. Check odd_count <= k.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

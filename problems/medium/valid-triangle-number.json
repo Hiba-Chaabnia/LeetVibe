@@ -1,0 +1,55 @@
+{
+  "questionId": "611",
+  "title": "Valid Triangle Number",
+  "titleSlug": "valid-triangle-number",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array nums, return the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.\n\nExample 1:\n\nInput: nums = [2,2,3,4]\nOutput: 3\nExplanation: Valid combinations are:\n    2,3,4 (using the first 2)\n    2,3,4 (using the second 2)\n    2,2,3\n\nExample 2:\n\nInput: nums = [4,2,3,4]\nOutput: 4\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 0 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def triangleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,2,3,4]"
+    ],
+    [
+      "[4,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def triangleNumber(nums: list) -> int:\n    nums.sort()\n    count = 0\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            for k in range(j + 1, len(nums)):\n                if nums[i] + nums[j] > nums[k]:\n                    count += 1\n                else:\n                    break\n    return count",
+    "explanation": "1. Sort the given array in ascending order.\n2. Iterate through the sorted array using three nested loops i, j, and k, where i < j < k. The loops go through possible triplet candidates (nums[i], nums[j], nums[k]).\n3. For each triplet, check if nums[i] + nums[j] > nums[k]. If true, it satisfies the triangle inequality property, and we increase the count.\n4. If nums[i] + nums[j] is not greater than nums[k], it means no other k value will satisfy the triangle inequality with the current i and j values. So, we break the innermost loop.\n5. Return the count, which is the number of valid triplets."
+  },
+  "similarQuestions": "[{\"title\": \"3Sum Smaller\", \"titleSlug\": \"3sum-smaller\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Polygon With the Largest Perimeter\", \"titleSlug\": \"find-polygon-with-the-largest-perimeter\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "2577",
+  "title": "Count Palindromic Subsequences",
+  "titleSlug": "count-palindromic-subsequences",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given a string of digits s, return the number of palindromic subsequences of s having length 5. Since the answer may be very large, return it modulo 109 + 7.\n\nNote:\n\n• A string is palindromic if it reads the same forward and backward.\n\n• A subsequence is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters.\n\nExample 1:\n\nInput: s = \"103301\"\nOutput: 2\nExplanation:\n    There are 6 possible subsequences of length 5: \"10330\",\"10331\",\"10301\",\"10301\",\"13301\",\"03301\".\n    Two of them (both equal to \"10301\") are palindromic.\n\nExample 2:\n\nInput: s = \"0000000\"\nOutput: 21\nExplanation: All 21 subsequences are \"00000\", which is palindromic.\n\nExample 3:\n\nInput: s = \"9999900000\"\nOutput: 2\nExplanation: The only two palindromic subsequences are \"99999\" and \"00000\".\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s consists of digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPalindromes(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "There are 100 possibilities for the first two characters of the palindrome.",
+    "Iterate over all characters, letting the current character be the center of the palindrome."
+  ],
+  "testCases": [
+    [
+      "\"103301\""
+    ],
+    [
+      "\"0000000\""
+    ],
+    [
+      "\"9999900000\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "21",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Arithmetic Slices II - Subsequence\", \"titleSlug\": \"arithmetic-slices-ii-subsequence\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Different Palindromic Subsequences\", \"titleSlug\": \"count-different-palindromic-subsequences\", \"difficulty\": \"Hard\"}, {\"title\": \"Unique Length-3 Palindromic Subsequences\", \"titleSlug\": \"unique-length-3-palindromic-subsequences\", \"difficulty\": \"Medium\"}]"
+}

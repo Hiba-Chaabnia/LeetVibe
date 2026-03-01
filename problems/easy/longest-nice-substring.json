@@ -1,0 +1,61 @@
+{
+  "questionId": "1873",
+  "title": "Longest Nice Substring",
+  "titleSlug": "longest-nice-substring",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "A string s is nice if, for every letter of the alphabet that s contains, it appears both in uppercase and lowercase. For example, \"abABB\" is nice because 'A' and 'a' appear, and 'B' and 'b' appear. However, \"abA\" is not because 'b' appears, but 'B' does not.\n\nGiven a string s, return the longest substring of s that is nice. If there are multiple, return the substring of the earliest occurrence. If there are none, return an empty string.\n\nExample 1:\n\nInput: s = \"YazaAay\"\nOutput: \"aAa\"\nExplanation: \"aAa\" is a nice string because 'A/a' is the only letter of the alphabet in s, and both 'A' and 'a' appear.\n    \"aAa\" is the longest nice substring.\n\nExample 2:\n\nInput: s = \"Bb\"\nOutput: \"Bb\"\nExplanation: \"Bb\" is a nice string because both 'B' and 'b' appear. The whole string is a substring.\n\nExample 3:\n\nInput: s = \"c\"\nOutput: \"\"\nExplanation: There are no nice substrings.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists of uppercase and lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestNiceSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Brute force and check each substring to see if it is nice."
+  ],
+  "testCases": [
+    [
+      "\"YazaAay\""
+    ],
+    [
+      "\"Bb\""
+    ],
+    [
+      "\"c\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"aAa\"",
+    "\"Bb\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def longestNiceSubstring(s: str) -> str:\n    n = len(s)\n    result = \"\"\n    for i in range(n):\n        for j in range(i + 1, n):\n            is_nice = True\n            for ch in range(ord('A'), ord('Z') + 1):\n                upper = chr(ch) in s[i:j+1]\n                lower = chr(ch + 32) in s[i:j+1]\n                if (upper and not lower) or (not upper and lower):\n                    is_nice = False\n                    break\n            if is_nice and j - i + 1 > len(result):\n                result = s[i:j+1]\n    return result",
+    "explanation": "The algorithm iterates through all possible substrings using two nested `for` loops. Then, for each substring, it checks if the substring is nice. If a substring is nice and its length is greater than the current longest nice substring found, it updates the result to store the new longest nice substring.\n\nSpecifically, in the innermost loop, the algorithm checks if there is any character (in uppercase form) present and missing its counterpart (lowercase form) or vice versa. If it finds such a pair, it marks the substring as not nice and breaks the loop. If the substring is nice, it updates the result if the substring is longer than the current longest nice substring found."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Good Paths\", \"titleSlug\": \"number-of-good-paths\", \"difficulty\": \"Hard\"}]"
+}

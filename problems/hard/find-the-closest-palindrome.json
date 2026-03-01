@@ -1,0 +1,44 @@
+{
+  "questionId": "564",
+  "title": "Find the Closest Palindrome",
+  "titleSlug": "find-the-closest-palindrome",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string n representing an integer, return the closest integer (not including itself), which is a palindrome. If there is a tie, return the smaller one.\n\nThe closest is defined as the absolute difference minimized between two integers.\n\nExample 1:\n\nInput: n = \"123\"\nOutput: \"121\"\n\nExample 2:\n\nInput: n = \"1\"\nOutput: \"0\"\nExplanation: 0 and 2 are the closest palindromes but we return the smallest which is 0.\n\nConstraints:\n\n• 1 <= n.length <= 18\n\n• n consists of only digits.\n\n• n does not have leading zeros.\n\n• n is representing an integer in the range [1, 1018 - 1].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nearestPalindromic(self, n):\n        \"\"\"\n        :type n: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Will brute force work for this problem? Think of something else.",
+    "Take some examples like 1234, 999,1000, etc and check their closest palindromes. How many different cases are possible?",
+    "Do we have to consider only left half or right half of the string or both?",
+    "Try to find the closest palindrome of these numbers- 12932, 99800, 12120. Did you observe something?"
+  ],
+  "testCases": [
+    [
+      "\"123\""
+    ],
+    [
+      "\"1\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"121\"",
+    "\"0\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find Palindrome With Fixed Length\", \"titleSlug\": \"find-palindrome-with-fixed-length\", \"difficulty\": \"Medium\"}, {\"title\": \"Next Palindrome Using Same Digits\", \"titleSlug\": \"next-palindrome-using-same-digits\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Count of Good Integers\", \"titleSlug\": \"find-the-count-of-good-integers\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Largest Palindrome Divisible by K\", \"titleSlug\": \"find-the-largest-palindrome-divisible-by-k\", \"difficulty\": \"Hard\"}]"
+}

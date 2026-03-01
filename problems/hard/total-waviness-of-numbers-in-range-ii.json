@@ -1,0 +1,53 @@
+{
+  "questionId": "4128",
+  "title": "Total Waviness of Numbers in Range II",
+  "titleSlug": "total-waviness-of-numbers-in-range-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given two integers num1 and num2 representing an inclusive range [num1, num2].\n\nThe waviness of a number is defined as the total count of its peaks and valleys:\n\n• A digit is a peak if it is strictly greater than both of its immediate neighbors.\n\n• A digit is a valley if it is strictly less than both of its immediate neighbors.\n\n• The first and last digits of a number cannot be peaks or valleys.\n\n• Any number with fewer than 3 digits has a waviness of 0.\n\nReturn the total sum of waviness for all numbers in the range [num1, num2].\n\nExample 1:\n\nInput: num1 = 120, num2 = 130\n\nOutput: 3\n\nExplanation: In the range [120, 130]:\n\n• 120: middle digit 2 is a peak, waviness = 1.\n\n• 121: middle digit 2 is a peak, waviness = 1.\n\n• 130: middle digit 3 is a peak, waviness = 1.\n\n• All other numbers in the range have a waviness of 0.\n\nThus, total waviness is 1 + 1 + 1 = 3.\n\nExample 2:\n\nInput: num1 = 198, num2 = 202\n\nOutput: 3\n\nExplanation: In the range [198, 202]:\n\n• 198: middle digit 9 is a peak, waviness = 1.\n\n• 201: middle digit 0 is a valley, waviness = 1.\n\n• 202: middle digit 0 is a valley, waviness = 1.\n\n• All other numbers in the range have a waviness of 0.\n\nThus, total waviness is 1 + 1 + 1 = 3.\n\nExample 3:\n\nInput: num1 = 4848, num2 = 4848\n\nOutput: 2\n\nExplanation: Number 4848: the second digit 8 is a peak, and the third digit 4 is a valley, giving a waviness of 2.\n\nConstraints:\n\n• 1 <= num1 <= num2 <= 1015​​​​​​​",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def totalWaviness(self, num1, num2):\n        \"\"\"\n        :type num1: int\n        :type num2: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use digit dynamic programming",
+    "Build a digit-DP state (position, tight, lastDigit, secondLastDigit)"
+  ],
+  "testCases": [
+    [
+      "120",
+      "130"
+    ],
+    [
+      "198",
+      "202"
+    ],
+    [
+      "4848",
+      "4848"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from functools import lru_cache\n\nclass Solution(object):\n    def totalWaviness(self, num1, num2):\n        def solve(limit):\n            s = str(limit)\n            n = len(s)\n            # dp(pos, tight, d1, d2, started) -> (count, total_waviness)\n            # d1 = last digit placed (-1 if none), d2 = second-to-last (-1 if none)\n            @lru_cache(maxsize=None)\n            def dp(pos, tight, d1, d2, started):\n                if pos == n:\n                    return (1, 0)\n                hi = int(s[pos]) if tight else 9\n                total_c = 0\n                total_w = 0\n                for d in range(0, hi + 1):\n                    nt = tight and (d == hi)\n                    if not started and d == 0:\n                        c, w = dp(pos + 1, nt, -1, -1, False)\n                    else:\n                        # Check if d1 is a peak or valley\n                        # d1 is interior if: d2 != -1 (has left neighbor) AND pos < n (has right neighbor = d)\n                        # Also d1 is not the last digit: pos is placing pos-th digit now,\n                        # d1 is at pos-1 and NOT last iff pos <= n-1 (always true here since pos < n)\n                        # BUT: d1 IS the last digit when pos == n-1 and d is the last\n                        # At pos == n-1, d is the final digit; d1 = second-to-last = interior iff d2 != -1\n                        # Actually: d1 was placed at pos-1; it's interior iff it has both neighbors\n                        # Left neighbor = d2 (if d2 != -1), right neighbor = d (which we're placing now)\n                        # d1 is the last digit only if pos-1 == n-1, i.e., pos == n, but we're in pos < n\n                        # So d1 is NOT the last digit as long as d exists (which it does)\n                        # d1 is interior iff d2 != -1 (has a left neighbor)\n                        extra = 0\n                        if d1 != -1 and d2 != -1:\n                            if d1 > d2 and d1 > d:\n                                extra = 1  # peak\n                            elif d1 < d2 and d1 < d:\n                                extra = 1  # valley\n                        c, w = dp(pos + 1, nt, d, d1, True)\n                        w += extra * c\n                    total_c += c\n                    total_w += w\n                return (total_c, total_w)\n            _, w = dp(0, True, -1, -1, False)\n            dp.cache_clear()\n            return w\n        return solve(num2) - solve(num1 - 1)",
+    "explanation": "Digit DP: state = (position, tight, prev_digit d1, prev_prev_digit d2, started). When placing digit d: check if d1 (at pos-1) is a peak/valley given d2 (left) and d (right). d1 is interior iff d2 != -1. Multiply extra waviness by count of valid completions c. Use f(limit) - f(limit-1) pattern.\n\nTime: O(log²(num2) * 10). Space: O(log(num2) * 10²)."
+  },
+  "similarQuestions": "[]"
+}

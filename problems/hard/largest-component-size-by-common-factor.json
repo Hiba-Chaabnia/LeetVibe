@@ -1,0 +1,55 @@
+{
+  "questionId": "989",
+  "title": "Largest Component Size by Common Factor",
+  "titleSlug": "largest-component-size-by-common-factor",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array of unique positive integers nums. Consider the following graph:\n\n• There are nums.length nodes, labeled nums[0] to nums[nums.length - 1],\n\n• There is an undirected edge between nums[i] and nums[j] if nums[i] and nums[j] share a common factor greater than 1.\n\nReturn the size of the largest connected component in the graph.\n\nExample 1:\n\nInput: nums = [4,6,15,35]\nOutput: 4\n\nExample 2:\n\nInput: nums = [20,50,9,63]\nOutput: 2\n\nExample 3:\n\nInput: nums = [2,3,6,7,4,12,21,39]\nOutput: 8\n\nConstraints:\n\n• 1 <= nums.length <= 2 * 104\n\n• 1 <= nums[i] <= 105\n\n• All the values of nums are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestComponentSize(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,6,15,35]"
+    ],
+    [
+      "[20,50,9,63]"
+    ],
+    [
+      "[2,3,6,7,4,12,21,39]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2",
+    "8"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Groups of Strings\", \"titleSlug\": \"groups-of-strings\", \"difficulty\": \"Hard\"}, {\"title\": \"Distinct Prime Factors of Product of Array\", \"titleSlug\": \"distinct-prime-factors-of-product-of-array\", \"difficulty\": \"Medium\"}]"
+}

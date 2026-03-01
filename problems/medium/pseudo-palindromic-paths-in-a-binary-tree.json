@@ -1,0 +1,52 @@
+{
+  "questionId": "1568",
+  "title": "Pseudo-Palindromic Paths in a Binary Tree",
+  "titleSlug": "pseudo-palindromic-paths-in-a-binary-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given a binary tree where node values are digits from 1 to 9. A path in the binary tree is said to be pseudo-palindromic if at least one permutation of the node values in the path is a palindrome.\n\nReturn the number of pseudo-palindromic paths going from the root node to leaf nodes.\n\nExample 1:\n\nInput: root = [2,3,1,3,1,null,1]\nOutput: 2\nExplanation: The figure above represents the given binary tree. There are three paths going from the root node to leaf nodes: the red path [2,3,3], the green path [2,1,1], and the path [2,3,1]. Among these paths only red path and green path are pseudo-palindromic paths since the red path [2,3,3] can be rearranged in [3,2,3] (palindrome) and the green path [2,1,1] can be rearranged in [1,2,1] (palindrome).\n\nExample 2:\n\nInput: root = [2,1,1,1,3,null,null,null,null,null,1]\nOutput: 1\nExplanation: The figure above represents the given binary tree. There are three paths going from the root node to leaf nodes: the green path [2,1,1], the path [2,1,3,1], and the path [2,1]. Among these paths only the green path is pseudo-palindromic since [2,1,1] can be rearranged in [1,2,1] (palindrome).\n\nExample 3:\n\nInput: root = [9]\nOutput: 1\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 105].\n\n• 1 <= Node.val <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def pseudoPalindromicPaths (self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that the node values of a path form a palindrome if at most one digit has an odd frequency (parity).",
+    "Use a Depth First Search (DFS) keeping the frequency (parity) of the digits. Once you are in a leaf node check if at most one digit has an odd frequency (parity)."
+  ],
+  "testCases": [
+    [
+      "[2,3,1,3,1,null,1]",
+      "[2,1,1,1,3,null,null,null,null,null,1]",
+      "[9]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

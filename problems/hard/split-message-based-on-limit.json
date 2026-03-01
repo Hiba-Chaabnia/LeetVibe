@@ -1,0 +1,45 @@
+{
+  "questionId": "2563",
+  "title": "Split Message Based on Limit",
+  "titleSlug": "split-message-based-on-limit",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a string, message, and a positive integer, limit.\n\nYou must split message into one or more parts based on limit. Each resulting part should have the suffix \"<a/b>\", where \"b\" is to be replaced with the total number of parts and \"a\" is to be replaced with the index of the part, starting from 1 and going up to b. Additionally, the length of each resulting part (including its suffix) should be equal to limit, except for the last part whose length can be at most limit.\n\nThe resulting parts should be formed such that when their suffixes are removed and they are all concatenated in order, they should be equal to message. Also, the result should contain as few parts as possible.\n\nReturn the parts message would be split into as an array of strings. If it is impossible to split message as required, return an empty array.\n\nExample 1:\n\nInput: message = \"this is really a very awesome message\", limit = 9\nOutput: [\"thi\",\"s i\",\"s r\",\"eal\",\"ly \",\"a v\",\"ery\",\" aw\",\"eso\",\"me\",\" m\",\"es\",\"sa\",\"ge\"]\nExplanation:\n    The first 9 parts take 3 characters each from the beginning of message.\n    The next 5 parts take 2 characters each to finish splitting message.\n    In this example, each part, including the last, has length 9.\n    It can be shown it is not possible to split message into less than 14 parts.\n\nExample 2:\n\nInput: message = \"short message\", limit = 15\nOutput: [\"short mess\",\"age\"]\nExplanation:\n    Under the given constraints, the string can be split into two parts:\n    - The first part comprises of the first 10 characters, and has a length 15.\n    - The next part comprises of the last 3 characters, and has a length 8.\n\nConstraints:\n\n• 1 <= message.length <= 104\n\n• message consists only of lowercase English letters and ' '.\n\n• 1 <= limit <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def splitMessage(self, message, limit):\n        \"\"\"\n        :type message: str\n        :type limit: int\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Could you solve the problem if you knew how many digits the total number of parts has?",
+    "Try all possible lengths of the total number of parts, and see if the string can be split such that the total number of parts has that length.",
+    "Binary search can be used for each part length to find the precise number of parts needed."
+  ],
+  "testCases": [
+    [
+      "\"this is really a very awesome message\"",
+      "9"
+    ],
+    [
+      "\"short message\"",
+      "15"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"thi\",\"s i\",\"s r\",\"eal\",\"ly \",\"a v\",\"ery\",\" aw\",\"eso\",\"me\",\" m\",\"es\",\"sa\",\"ge\"]",
+    "[\"short mess\",\"age\"]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Text Justification\", \"titleSlug\": \"text-justification\", \"difficulty\": \"Hard\"}, {\"title\": \"Search a 2D Matrix\", \"titleSlug\": \"search-a-2d-matrix\", \"difficulty\": \"Medium\"}, {\"title\": \"Sentence Screen Fitting\", \"titleSlug\": \"sentence-screen-fitting\", \"difficulty\": \"Medium\"}]"
+}

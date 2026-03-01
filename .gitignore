@@ -1,0 +1,47 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment — never commit real keys
+.env
+.env.local
+.env.*.local
+.env.copy
+
+# Virtual environments
+.venv/
+
+# Data
+data/cache/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Development Folders
+problems_seed/
+drafts/
+.pytest_cache/
+.claude/
+logs/
+wandb/
+README.md
+
+# Documentation
+docs/
+

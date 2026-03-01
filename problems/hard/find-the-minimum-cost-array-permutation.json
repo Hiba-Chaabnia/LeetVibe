@@ -1,0 +1,55 @@
+{
+  "questionId": "3431",
+  "title": "Find the Minimum Cost Array Permutation",
+  "titleSlug": "find-the-minimum-cost-array-permutation",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given an array nums which is a permutation of [0, 1, 2, ..., n - 1]. The score of any permutation of [0, 1, 2, ..., n - 1] named perm is defined as:\n\nscore(perm) = |perm[0] - nums[perm[1]]| + |perm[1] - nums[perm[2]]| + ... + |perm[n - 1] - nums[perm[0]]|\n\nReturn the permutation perm which has the minimum possible score. If multiple permutations exist with this score, return the one that is lexicographically smallest among them.\n\nExample 1:\n\nInput: nums = [1,0,2]\n\nOutput: [0,1,2]\n\nExplanation: The lexicographically smallest permutation with minimum cost is [0,1,2]. The cost of this permutation is |0 - 0| + |1 - 2| + |2 - 1| = 2.\n\nExample 2:\n\nInput: nums = [0,2,1]\n\nOutput: [0,2,1]\n\nExplanation: The lexicographically smallest permutation with minimum cost is [0,2,1]. The cost of this permutation is |0 - 1| + |2 - 2| + |1 - 0| = 2.\n\nConstraints:\n\n• 2 <= n == nums.length <= 14\n\n• nums is a permutation of [0, 1, 2, ..., n - 1].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findPermutation(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The score function is cyclic, so we can always set perm[0] = 0 for the smallest lexical order.",
+    "It’s similar to the Traveling Salesman Problem. Use Dynamic Programming.",
+    "Use a bitmask to track which elements have been assigned to perm."
+  ],
+  "testCases": [
+    [
+      "[1,0,2]"
+    ],
+    [
+      "[0,2,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,1,2]",
+    "[0,2,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findPermutation(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        n = len(nums)\n        \n        # DP with bitmask: dp[mask][last] = min cost to arrange elements in mask, ending at last\n        dp = {}\n        parent = {}\n        \n        def solve(mask, last):\n            \"\"\"Return min cost to complete permutation given mask and last element\"\"\"\n            if mask == (1 << n) - 1:\n                # All elements used, add cost back to first element (0)\n                return abs(last - nums[0])\n            \n            if (mask, last) in dp:\n                return dp[(mask, last)]\n            \n            result = float('inf')\n            next_elem = -1\n            \n            # Try adding each unused element\n            for i in range(n):\n                if not (mask & (1 << i)):\n                    new_mask = mask | (1 << i)\n                    # Cost to go from last to nums[i]\n                    cost = abs(last - nums[i])\n                    total = cost + solve(new_mask, nums[i])\n                    \n                    if total < result:\n                        result = total\n                        next_elem = i\n            \n            dp[(mask, last)] = result\n            parent[(mask, last)] = next_elem\n            return result\n        \n        # Start from element 0\n        initial_mask = 1\n        min_cost = solve(initial_mask, nums[0])\n        \n        # Reconstruct permutation\n        perm = [0]\n        mask = 1\n        last = nums[0]\n        \n        while mask != (1 << n) - 1:\n            next_idx = parent[(mask, last)]\n            perm.append(next_idx)\n            mask |= (1 << next_idx)\n            last = nums[next_idx]\n        \n        return perm",
+    "explanation": "This solution uses bitmask DP for TSP-like problem:\n\n1. **Problem Understanding**:\n   - Find permutation minimizing cyclic distance sum\n   - score(perm) = |perm[0]-nums[perm[1]]| + ... + |perm[n-1]-nums[perm[0]]|\n   - Return lexicographically smallest among min-cost permutations\n\n2. **Key Insight - Fix First Element**:\n   - Score is cyclic, so can fix perm[0] = 0 (lexicographically smallest)\n   - Reduces to finding optimal rest of permutation\n\n3. **DP State**:\n   - dp[mask][last] = minimum cost to arrange elements in mask, ending at last\n   - mask: bitmask representing which indices used\n   - last: last element added (to calculate next transition cost)\n\n4. **DP Transition**:\n   - From state (mask, last):\n   - Try adding each unused element i\n   - Cost: |last - nums[i]| + solve(new_mask, nums[i])\n   - When all elements used (mask full): add cost back to nums[0]\n\n5. **Reconstruction**:\n   - Track parent choice for each state\n   - Starting from (initial_mask, nums[0])\n   - Follow parent pointers to build permutation\n   - This gives lexicographically smallest by greedy parent selection\n\nTime Complexity: O(2^n * n²)\nSpace Complexity: O(2^n * n)"
+  },
+  "similarQuestions": "[{\"title\": \"Shortest Path Visiting All Nodes\", \"titleSlug\": \"shortest-path-visiting-all-nodes\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Shortest Superstring\", \"titleSlug\": \"find-the-shortest-superstring\", \"difficulty\": \"Hard\"}]"
+}

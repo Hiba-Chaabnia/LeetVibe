@@ -1,0 +1,64 @@
+{
+  "questionId": "2237",
+  "title": "Longest Palindrome by Concatenating Two Letter Words",
+  "titleSlug": "longest-palindrome-by-concatenating-two-letter-words",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an array of strings words. Each element of words consists of two lowercase English letters.\n\nCreate the longest possible palindrome by selecting some elements from words and concatenating them in any order. Each element can be selected at most once.\n\nReturn the length of the longest palindrome that you can create. If it is impossible to create any palindrome, return 0.\n\nA palindrome is a string that reads the same forward and backward.\n\nExample 1:\n\nInput: words = [\"lc\",\"cl\",\"gg\"]\nOutput: 6\nExplanation: One longest palindrome is \"lc\" + \"gg\" + \"cl\" = \"lcggcl\", of length 6.\n    Note that \"clgglc\" is another longest palindrome that can be created.\n\nExample 2:\n\nInput: words = [\"ab\",\"ty\",\"yt\",\"lc\",\"cl\",\"ab\"]\nOutput: 8\nExplanation: One longest palindrome is \"ty\" + \"lc\" + \"cl\" + \"yt\" = \"tylcclyt\", of length 8.\n    Note that \"lcyttycl\" is another longest palindrome that can be created.\n\nExample 3:\n\nInput: words = [\"cc\",\"ll\",\"xx\"]\nOutput: 2\nExplanation: One longest palindrome is \"cc\", of length 2.\n    Note that \"ll\" is another longest palindrome that can be created, and so is \"xx\".\n\nConstraints:\n\n• 1 <= words.length <= 105\n\n• words[i].length == 2\n\n• words[i] consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestPalindrome(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A palindrome must be mirrored over the center. Suppose we have a palindrome. If we prepend the word \"ab\" on the left, what must we append on the right to keep it a palindrome?",
+    "We must append \"ba\" on the right. The number of times we can do this is the minimum of (occurrences of \"ab\") and (occurrences of \"ba\").",
+    "For words that are already palindromes, e.g. \"aa\", we can prepend and append these in pairs as described in the previous hint. We can also use exactly one in the middle to form an even longer palindrome."
+  ],
+  "testCases": [
+    [
+      "[\"lc\",\"cl\",\"gg\"]"
+    ],
+    [
+      "[\"ab\",\"ty\",\"yt\",\"lc\",\"cl\",\"ab\"]"
+    ],
+    [
+      "[\"cc\",\"ll\",\"xx\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "8",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def longestPalindrome(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        from collections import Counter\n        \n        count = Counter(words)\n        result = 0\n        middle_used = False\n        \n        for word in count:\n            if word[0] == word[1]:  # Palindrome word itself\n                result += len(word) * (count[word] // 2) * 2\n                if count[word] % 2 == 1 and not middle_used:\n                    result += len(word)\n                    middle_used = True\n            elif word[0] < word[1]:  # Check pairs\n                reverse = word[1] + word[0]\n                if reverse in count:\n                    result += len(word) * min(count[word], count[reverse]) * 2\n        \n        return result",
+    "explanation": "Count word occurrences. For palindrome words (aa), use pairs. For different char words, match with reverse and use min count.",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Palindrome Pairs\", \"titleSlug\": \"palindrome-pairs\", \"difficulty\": \"Hard\"}, {\"title\": \"Longest Palindrome\", \"titleSlug\": \"longest-palindrome\", \"difficulty\": \"Easy\"}]"
+}

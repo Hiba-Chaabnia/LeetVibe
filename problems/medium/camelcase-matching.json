@@ -1,0 +1,66 @@
+{
+  "questionId": "1080",
+  "title": "Camelcase Matching",
+  "titleSlug": "camelcase-matching",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "Given an array of strings queries and a string pattern, return a boolean array answer where answer[i] is true if queries[i] matches pattern, and false otherwise.\n\nA query word queries[i] matches pattern if you can insert lowercase English letters into the pattern so that it equals the query. You may insert a character at any position in pattern or you may choose not to insert any characters at all.\n\nExample 1:\n\nInput: queries = [\"FooBar\",\"FooBarTest\",\"FootBall\",\"FrameBuffer\",\"ForceFeedBack\"], pattern = \"FB\"\nOutput: [true,false,true,true,false]\nExplanation: \"FooBar\" can be generated like this \"F\" + \"oo\" + \"B\" + \"ar\".\n    \"FootBall\" can be generated like this \"F\" + \"oot\" + \"B\" + \"all\".\n    \"FrameBuffer\" can be generated like this \"F\" + \"rame\" + \"B\" + \"uffer\".\n\nExample 2:\n\nInput: queries = [\"FooBar\",\"FooBarTest\",\"FootBall\",\"FrameBuffer\",\"ForceFeedBack\"], pattern = \"FoBa\"\nOutput: [true,false,true,false,false]\nExplanation: \"FooBar\" can be generated like this \"Fo\" + \"o\" + \"Ba\" + \"r\".\n    \"FootBall\" can be generated like this \"Fo\" + \"ot\" + \"Ba\" + \"ll\".\n\nExample 3:\n\nInput: queries = [\"FooBar\",\"FooBarTest\",\"FootBall\",\"FrameBuffer\",\"ForceFeedBack\"], pattern = \"FoBaT\"\nOutput: [false,true,false,false,false]\nExplanation: \"FooBarTest\" can be generated like this \"Fo\" + \"o\" + \"Ba\" + \"r\" + \"T\" + \"est\".\n\nConstraints:\n\n• 1 <= pattern.length, queries.length <= 100\n\n• 1 <= queries[i].length <= 100\n\n• queries[i] and pattern consist of English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def camelMatch(self, queries, pattern):\n        \"\"\"\n        :type queries: List[str]\n        :type pattern: str\n        :rtype: List[bool]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Given a single pattern and word, how can we solve it?",
+    "One way to do it is using a DP (pos1, pos2) where pos1 is a pointer to the word and pos2 to the pattern and returns true if we can match the pattern with the given word.",
+    "We have two scenarios: The first one is when `word[pos1] == pattern[pos2]`, then the transition will be just DP(pos1 + 1, pos2 + 1). The second scenario is when `word[pos1]` is lowercase then we can add this character to the pattern so that the transition is just DP(pos1 + 1, pos2)\r\nThe case base is `if (pos1 == n && pos2 == m) return true;` Where n and m are the sizes of the strings word and pattern respectively."
+  ],
+  "testCases": [
+    [
+      "[\"FooBar\",\"FooBarTest\",\"FootBall\",\"FrameBuffer\",\"ForceFeedBack\"]",
+      "\"FB\""
+    ],
+    [
+      "[\"FooBar\",\"FooBarTest\",\"FootBall\",\"FrameBuffer\",\"ForceFeedBack\"]",
+      "\"FoBa\""
+    ],
+    [
+      "[\"FooBar\",\"FooBarTest\",\"FootBall\",\"FrameBuffer\",\"ForceFeedBack\"]",
+      "\"FoBaT\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[true,false,true,true,false]",
+    "[true,false,true,false,false]",
+    "[false,true,false,false,false]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def camelMatch(self, queries, pattern):\n        def matches(word, pattern):\n            j = 0\n            for i in range(len(word)):\n                if j < len(pattern) and word[i] == pattern[j]:\n                    j += 1\n                elif word[i].isupper():\n                    return False\n            return j == len(pattern)\n        return [matches(q, pattern) for q in queries]",
+    "explanation": "Two pointers. Match pattern as subsequence. Uppercase letters must match.\nTime: O(n*m)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

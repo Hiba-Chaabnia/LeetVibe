@@ -1,0 +1,59 @@
+{
+  "questionId": "3402",
+  "title": "Minimum Cost to Equalize Array",
+  "titleSlug": "minimum-cost-to-equalize-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an integer array nums and two integers cost1 and cost2. You are allowed to perform either of the following operations any number of times:\n\n• Choose an index i from nums and increase nums[i] by 1 for a cost of cost1.\n\n• Choose two different indices i, j, from nums and increase nums[i] and nums[j] by 1 for a cost of cost2.\n\nReturn the minimum cost required to make all elements in the array equal.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: nums = [4,1], cost1 = 5, cost2 = 2\n\nOutput: 15\n\nExplanation: The following operations can be performed to make the values equal:\n\n• Increase nums[1] by 1 for a cost of 5. nums becomes [4,2].\n\n• Increase nums[1] by 1 for a cost of 5. nums becomes [4,3].\n\n• Increase nums[1] by 1 for a cost of 5. nums becomes [4,4].\n\nThe total cost is 15.\n\nExample 2:\n\nInput: nums = [2,3,3,3,5], cost1 = 2, cost2 = 1\n\nOutput: 6\n\nExplanation: The following operations can be performed to make the values equal:\n\n• Increase nums[0] and nums[1] by 1 for a cost of 1. nums becomes [3,4,3,3,5].\n\n• Increase nums[0] and nums[2] by 1 for a cost of 1. nums becomes [4,4,4,3,5].\n\n• Increase nums[0] and nums[3] by 1 for a cost of 1. nums becomes [5,4,4,4,5].\n\n• Increase nums[1] and nums[2] by 1 for a cost of 1. nums becomes [5,5,5,4,5].\n\n• Increase nums[3] by 1 for a cost of 2. nums becomes [5,5,5,5,5].\n\nThe total cost is 6.\n\nExample 3:\n\nInput: nums = [3,5,3], cost1 = 1, cost2 = 3\n\nOutput: 4\n\nExplanation: The following operations can be performed to make the values equal:\n\n• Increase nums[0] by 1 for a cost of 1. nums becomes [4,5,3].\n\n• Increase nums[0] by 1 for a cost of 1. nums becomes [5,5,3].\n\n• Increase nums[2] by 1 for a cost of 1. nums becomes [5,5,4].\n\n• Increase nums[2] by 1 for a cost of 1. nums becomes [5,5,5].\n\nThe total cost is 4.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 106\n\n• 1 <= cost1 <= 106\n\n• 1 <= cost2 <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCostToEqualizeArray(self, nums, cost1, cost2):\n        \"\"\"\n        :type nums: List[int]\n        :type cost1: int\n        :type cost2: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can you determine the minimum cost if you know the maximum value in the array once all values are made equal?",
+    "If cost2 > cost1 * 2, we should just use cost1 to change all the values to the maximum one.",
+    "Otherwise, it's optimal to choose the smallest two values and use cost2 to increase both of them.",
+    "Since the maximum value is known, calculate the required increases to equalize all values, instead of naively simulating the operations.",
+    "There are not a lot of candidates for the maximum; we can try all of them and choose which uses the minimum number of operations."
+  ],
+  "testCases": [
+    [
+      "[4,1]",
+      "5",
+      "2"
+    ],
+    [
+      "[2,3,3,3,5]",
+      "2",
+      "1"
+    ],
+    [
+      "[3,5,3]",
+      "1",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "15",
+    "6",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

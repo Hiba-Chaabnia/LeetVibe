@@ -1,0 +1,43 @@
+{
+  "questionId": "2384",
+  "title": "Root Equals Sum of Children",
+  "titleSlug": "root-equals-sum-of-children",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary tree that consists of exactly 3 nodes: the root, its left child, and its right child.\n\nReturn true if the value of the root is equal to the sum of the values of its two children, or false otherwise.\n\nExample 1:\n\nInput: root = [10,4,6]\nOutput: true\nExplanation: The values of the root, its left child, and its right child are 10, 4, and 6, respectively.\n    10 is equal to 4 + 6, so we return true.\n\nExample 2:\n\nInput: root = [5,3,1]\nOutput: false\nExplanation: The values of the root, its left child, and its right child are 5, 3, and 1, respectively.\n    5 is not equal to 3 + 1, so we return false.\n\nConstraints:\n\n• The tree consists only of the root, its left child, and its right child.\n\n• -100 <= Node.val <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def checkTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[10,4,6]"
+    ],
+    [
+      "[5,3,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkTree(self, root):\n        return root.val == root.left.val + root.right.val",
+    "explanation": "Check if root equals sum of left and right children.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

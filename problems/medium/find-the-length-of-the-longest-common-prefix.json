@@ -1,0 +1,56 @@
+{
+  "questionId": "3329",
+  "title": "Find the Length of the Longest Common Prefix",
+  "titleSlug": "find-the-length-of-the-longest-common-prefix",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    }
+  ],
+  "content": "You are given two arrays with positive integers arr1 and arr2.\n\nA prefix of a positive integer is an integer formed by one or more of its digits, starting from its leftmost digit. For example, 123 is a prefix of the integer 12345, while 234 is not.\n\nA common prefix of two integers a and b is an integer c, such that c is a prefix of both a and b. For example, 5655359 and 56554 have common prefixes 565 and 5655 while 1223 and 43456 do not have a common prefix.\n\nYou need to find the length of the longest common prefix between all pairs of integers (x, y) such that x belongs to arr1 and y belongs to arr2.\n\nReturn the length of the longest common prefix among all pairs. If no common prefix exists among them, return 0.\n\nExample 1:\n\nInput: arr1 = [1,10,100], arr2 = [1000]\nOutput: 3\nExplanation: There are 3 pairs (arr1[i], arr2[j]):\n    - The longest common prefix of (1, 1000) is 1.\n    - The longest common prefix of (10, 1000) is 10.\n    - The longest common prefix of (100, 1000) is 100.\n    The longest common prefix is 100 with a length of 3.\n\nExample 2:\n\nInput: arr1 = [1,2,3], arr2 = [4,4,4]\nOutput: 0\nExplanation: There exists no common prefix for any pair (arr1[i], arr2[j]), hence we return 0.\n    Note that common prefixes between elements of the same array do not count.\n\nConstraints:\n\n• 1 <= arr1.length, arr2.length <= 5 * 104\n\n• 1 <= arr1[i], arr2[i] <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestCommonPrefix(self, arr1, arr2):\n        \"\"\"\n        :type arr1: List[int]\n        :type arr2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Put all the possible prefixes of each element in arr1 into a HashSet.",
+    "For all the possible prefixes of each element in arr2, check if it exists in the HashSet."
+  ],
+  "testCases": [
+    [
+      "[1,10,100]",
+      "[1000]"
+    ],
+    [
+      "[1,2,3]",
+      "[4,4,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def longestCommonPrefix(self, arr1, arr2):\n        # Store all prefixes of arr1 in a set\n        prefixes = set()\n        for v in arr1:\n            s = str(v)\n            for l in range(1, len(s)+1):\n                prefixes.add(s[:l])\n        ans = 0\n        for v in arr2:\n            s = str(v)\n            for l in range(1, len(s)+1):\n                if s[:l] in prefixes:\n                    ans = max(ans, l)\n        return ans",
+    "explanation": "Build a set of all numeric prefixes from arr1. For each number in arr2, check all its prefixes against the set. Track maximum matching length.\n\nTime: O(n * log(max_val) + m * log(max_val)). Space: O(n * log(max_val))."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Common Prefix\", \"titleSlug\": \"longest-common-prefix\", \"difficulty\": \"Easy\"}, {\"title\": \"Longest Common Suffix Queries\", \"titleSlug\": \"longest-common-suffix-queries\", \"difficulty\": \"Hard\"}]"
+}

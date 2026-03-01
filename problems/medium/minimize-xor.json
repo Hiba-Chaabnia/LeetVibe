@@ -1,0 +1,44 @@
+{
+  "questionId": "2509",
+  "title": "Minimize XOR",
+  "titleSlug": "minimize-xor",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given two positive integers num1 and num2, find the positive integer x such that:\n\n• x has the same number of set bits as num2, and\n\n• The value x XOR num1 is minimal.\n\nNote that XOR is the bitwise XOR operation.\n\nReturn the integer x. The test cases are generated such that x is uniquely determined.\n\nThe number of set bits of an integer is the number of 1's in its binary representation.\n\nExample 1:\n\nInput: num1 = 3, num2 = 5\nOutput: 3\nExplanation:\n    The binary representations of num1 and num2 are 0011 and 0101, respectively.\n    The integer 3 has the same number of set bits as num2, and the value 3 XOR 3 = 0 is minimal.\n\nExample 2:\n\nInput: num1 = 1, num2 = 12\nOutput: 3\nExplanation:\n    The binary representations of num1 and num2 are 0001 and 1100, respectively.\n    The integer 3 has the same number of set bits as num2, and the value 3 XOR 1 = 2 is minimal.\n\nConstraints:\n\n• 1 <= num1, num2 <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimizeXor(self, num1, num2):\n        \"\"\"\n        :type num1: int\n        :type num2: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "To arrive at a small xor, try to turn off some bits from num1",
+    "If there are still left bits to set, try to set them from the least significant bit"
+  ],
+  "testCases": [
+    [
+      "3",
+      "5"
+    ],
+    [
+      "1",
+      "12"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum XOR of Two Numbers in an Array\", \"titleSlug\": \"maximum-xor-of-two-numbers-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum XOR With an Element From Array\", \"titleSlug\": \"maximum-xor-with-an-element-from-array\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,55 @@
+{
+  "questionId": "854",
+  "title": "Making A Large Island",
+  "titleSlug": "making-a-large-island",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an n x n binary matrix grid. You are allowed to change at most one 0 to be 1.\n\nReturn the size of the largest island in grid after applying this operation.\n\nAn island is a 4-directionally connected group of 1s.\n\nExample 1:\n\nInput: grid = [[1,0],[0,1]]\nOutput: 3\nExplanation: Change one 0 to 1 and connect two 1s, then we get an island with area = 3.\n\nExample 2:\n\nInput: grid = [[1,1],[1,0]]\nOutput: 4\nExplanation: Change the 0 to 1 and make the island bigger, only one island with area = 4.\n\nExample 3:\n\nInput: grid = [[1,1],[1,1]]\nOutput: 4\nExplanation: Can't change any 0 to 1, only one island with area = 4.\n\nConstraints:\n\n• n == grid.length\n\n• n == grid[i].length\n\n• 1 <= n <= 500\n\n• grid[i][j] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestIsland(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,0],[0,1]]"
+    ],
+    [
+      "[[1,1],[1,0]]"
+    ],
+    [
+      "[[1,1],[1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

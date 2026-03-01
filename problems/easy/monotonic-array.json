@@ -1,0 +1,43 @@
+{
+  "questionId": "932",
+  "title": "Monotonic Array",
+  "titleSlug": "monotonic-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "An array is monotonic if it is either monotone increasing or monotone decreasing.\n\nAn array nums is monotone increasing if for all i <= j, nums[i] <= nums[j]. An array nums is monotone decreasing if for all i <= j, nums[i] >= nums[j].\n\nGiven an integer array nums, return true if the given array is monotonic, or false otherwise.\n\nExample 1:\n\nInput: nums = [1,2,2,3]\nOutput: true\n\nExample 2:\n\nInput: nums = [6,5,4,4]\nOutput: true\n\nExample 3:\n\nInput: nums = [1,3,2]\nOutput: false\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -105 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isMonotonic(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,2,3]"
+    ],
+    [
+      "[6,5,4,4]"
+    ],
+    [
+      "[1,3,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isMonotonic(self, nums):\n        increasing = all(nums[i] <= nums[i+1] for i in range(len(nums)-1))\n        decreasing = all(nums[i] >= nums[i+1] for i in range(len(nums)-1))\n        return increasing or decreasing",
+    "explanation": "Check if all pairs are non-decreasing OR all pairs are non-increasing.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Hills and Valleys in an Array\", \"titleSlug\": \"count-hills-and-valleys-in-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Count of Monotonic Pairs I\", \"titleSlug\": \"find-the-count-of-monotonic-pairs-i\", \"difficulty\": \"Hard\"}]"
+}

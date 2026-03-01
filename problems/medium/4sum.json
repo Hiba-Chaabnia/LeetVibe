@@ -1,0 +1,49 @@
+{
+  "questionId": "18",
+  "title": "4Sum",
+  "titleSlug": "4sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:\n\n• 0 <= a, b, c, d < n\n\n• a, b, c, and d are distinct.\n\n• nums[a] + nums[b] + nums[c] + nums[d] == target\n\nYou may return the answer in any order.\n\nExample 1:\n\nInput: nums = [1,0,-1,0,-2,2], target = 0\nOutput: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]\n\nExample 2:\n\nInput: nums = [2,2,2,2,2], target = 8\nOutput: [[2,2,2,2]]\n\nConstraints:\n\n• 1 <= nums.length <= 200\n\n• -109 <= nums[i] <= 109\n\n• -109 <= target <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def fourSum(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,0,-1,0,-2,2]",
+      "0"
+    ],
+    [
+      "[2,2,2,2,2]",
+      "8"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]",
+    "[[2,2,2,2]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def fourSum(nums, target):\n    nums.sort()\n    result = []\n    for i in range(len(nums) - 3):\n        if i > 0 and nums[i] == nums[i - 1]:\n            continue\n        for j in range(i + 1, len(nums) - 2):\n            if j > i + 1 and nums[j] == nums[j - 1]:\n                continue\n            left = j + 1\n            right = len(nums) - 1\n            while left < right:\n                cur_sum = nums[i] + nums[j] + nums[left] + nums[right]\n                if cur_sum == target:\n                    result.append([nums[i], nums[j], nums[left], nums[right]])\n                    left += 1\n                    right -= 1\n                    while left < right and nums[left] == nums[left - 1]: left += 1\n                    while left < right and nums[right] == nums[right + 1]: right -= 1\n                elif cur_sum < target:\n                    left += 1\n                else:\n                    right -= 1\n    return result",
+    "explanation": "1. First, sort the given array of n integers.\n2. Iterate through the array with two nested loops to choose two (not necessarily distinct) elements (i, j) where i < j.\n3. Create two pointers, left and right, starting from j + 1 and n - 1, respectively, to find a pair of elements (left, right) with sum equal to target - (nums[i] + nums[j]).\n4. Check whether the current quadruplet [nums[i], nums[j], nums[left], nums[right]] is unique. If the same quadruplet is not already in the result, add it to the result.\n5. To avoid repetition, if the next element is the same as the current element in either i, j, left, or right, skip the current iteration and move to the next one.\n6. Return the resulting array of unique quadruplets."
+  },
+  "similarQuestions": "[{\"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"3Sum\", \"titleSlug\": \"3sum\", \"difficulty\": \"Medium\"}, {\"title\": \"4Sum II\", \"titleSlug\": \"4sum-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Special Quadruplets\", \"titleSlug\": \"count-special-quadruplets\", \"difficulty\": \"Easy\"}]"
+}

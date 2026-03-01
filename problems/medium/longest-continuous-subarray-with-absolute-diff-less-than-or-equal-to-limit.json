@@ -1,0 +1,69 @@
+{
+  "questionId": "1549",
+  "title": "Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit",
+  "titleSlug": "longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    },
+    {
+      "name": "Monotonic Queue",
+      "slug": "monotonic-queue"
+    }
+  ],
+  "content": "Given an array of integers nums and an integer limit, return the size of the longest non-empty subarray such that the absolute difference between any two elements of this subarray is less than or equal to limit.\n\nExample 1:\n\nInput: nums = [8,2,4,7], limit = 4\nOutput: 2\nExplanation: All subarrays are:\n    [8] with maximum absolute diff |8-8| = 0  4.\n    [8,2,4] with maximum absolute diff |8-2| = 6 > 4.\n    [8,2,4,7] with maximum absolute diff |8-2| = 6 > 4.\n    [2] with maximum absolute diff |2-2| = 0  4.\n    [4] with maximum absolute diff |4-4| = 0 Example 2:\n\nInput: nums = [10,1,2,4,7,2], limit = 5\nOutput: 4\nExplanation: The subarray [2,4,7,2] is the longest since the maximum absolute diff is |2-7| = 5 Example 3:\n\nInput: nums = [4,2,2,2,4,4,2,2], limit = 0\nOutput: 3\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 0 <= limit <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestSubarray(self, nums, limit):\n        \"\"\"\n        :type nums: List[int]\n        :type limit: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a sliding window approach keeping the maximum and minimum value using a data structure like a multiset from STL in C++.",
+    "More specifically, use the two pointer technique, moving the right pointer as far as possible to the right until the subarray is not valid (maxValue - minValue > limit), then moving the left pointer until the subarray is valid again (maxValue - minValue <= limit). Keep repeating this process."
+  ],
+  "testCases": [
+    [
+      "[8,2,4,7]",
+      "4"
+    ],
+    [
+      "[10,1,2,4,7,2]",
+      "5"
+    ],
+    [
+      "[4,2,2,2,4,4,2,2]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\ndef longestSubarray(nums, limit):\n    max_deque = deque()\n    min_deque = deque()\n    left, right, longest = 0, 0, 0\n    \n    while right < len(nums):\n        while max_deque and nums[right] > max_deque[-1]: max_deque.pop()\n        while min_deque and nums[right] < min_deque[-1]: min_deque.pop()\n        \n        max_deque.append(nums[right])\n        min_deque.append(nums[right])\n        \n        while max_deque[0] - min_deque[0] > limit:\n            if max_deque[0] == nums[left]: max_deque.popleft()\n            if min_deque[0] == nums[left]: min_deque.popleft()\n            left += 1\n        \n        longest = max(longest, right - left + 1)\n        right += 1\n    \n    return longest",
+    "explanation": "The idea here is to use two double-ended queues (deques) to keep track of the maximum and minimum values in the current subarray, as well as two pointers (left and right) to keep track of the subarray itself. We move the right pointer the array by incrementing it and add elements to the deques while maintaining the order (descending for max_deque and ascending for min_deque). If the difference between the maximum and minimum values in the subarray exceeds the limit, we move the left pointer forward to find another subarray. We then update the longest subarray size as we traverse the array.\n\nThis approach is called sliding window and has an O(N) time complexity since we move both pointers exactly once throughout the array."
+  },
+  "similarQuestions": "[{\"title\": \"Partition Array Such That Maximum Difference Is K\", \"titleSlug\": \"partition-array-such-that-maximum-difference-is-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Subarrays With Fixed Bounds\", \"titleSlug\": \"count-subarrays-with-fixed-bounds\", \"difficulty\": \"Hard\"}]"
+}

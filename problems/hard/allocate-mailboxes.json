@@ -1,0 +1,56 @@
+{
+  "questionId": "1571",
+  "title": "Allocate Mailboxes",
+  "titleSlug": "allocate-mailboxes",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given the array houses where houses[i] is the location of the ith house along a street and an integer k, allocate k mailboxes in the street.\n\nReturn the minimum total distance between each house and its nearest mailbox.\n\nThe test cases are generated so that the answer fits in a 32-bit integer.\n\nExample 1:\n\nInput: houses = [1,4,8,10,20], k = 3\nOutput: 5\nExplanation: Allocate mailboxes in position 3, 9 and 20.\n    Minimum total distance from each houses to nearest mailboxes is |3-1| + |4-3| + |9-8| + |10-9| + |20-20| = 5\n\nExample 2:\n\nInput: houses = [2,3,5,12,18], k = 2\nOutput: 9\nExplanation: Allocate mailboxes in position 3 and 14.\n    Minimum total distance from each houses to nearest mailboxes is |2-3| + |3-3| + |5-3| + |12-14| + |18-14| = 9.\n\nConstraints:\n\n• 1 <= k <= houses.length <= 100\n\n• 1 <= houses[i] <= 104\n\n• All the integers of houses are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDistance(self, houses, k):\n        \"\"\"\n        :type houses: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If k =1, the minimum distance is obtained allocating the mailbox in the median of the array houses.",
+    "Generalize this idea, using dynamic programming allocating k mailboxes."
+  ],
+  "testCases": [
+    [
+      "[1,4,8,10,20]",
+      "3"
+    ],
+    [
+      "[2,3,5,12,18]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "9"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minDistance(self, houses, k):\n        \"\"\"\n        :type houses: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        houses.sort()\n        n = len(houses)\n        \n        # Precompute cost of covering houses[i:j] with one mailbox\n        cost = [[0] * n for _ in range(n)]\n        for i in range(n):\n            for j in range(i, n):\n                # Optimal mailbox position is at median\n                median_idx = (i + j) // 2\n                median = houses[median_idx]\n                for l in range(i, j + 1):\n                    cost[i][j] += abs(houses[l] - median)\n        \n        # dp[i][j] = min distance to cover first i houses with j mailboxes\n        dp = [[float('inf')] * (k + 1) for _ in range(n + 1)]\n        dp[0][0] = 0\n        \n        for i in range(1, n + 1):\n            for j in range(1, min(i, k) + 1):\n                # Try placing j-th mailbox after house l-1\n                for l in range(j - 1, i):\n                    dp[i][j] = min(dp[i][j], dp[l][j - 1] + cost[l][i - 1])\n        \n        return dp[n][k]",
+    "explanation": "Dynamic programming approach. First sort houses. Precompute cost[i][j] = minimum distance to cover houses[i:j] with one mailbox (at median position). dp[i][j] = minimum total distance to cover first i houses using j mailboxes. Transition: try all positions for j-th mailbox and take minimum. Time complexity: O(n^3 + n^2*k)."
+  },
+  "similarQuestions": "[]"
+}

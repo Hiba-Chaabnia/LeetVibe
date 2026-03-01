@@ -1,0 +1,71 @@
+{
+  "questionId": "3681",
+  "title": "Maximum Area Rectangle With Point Constraints I",
+  "titleSlug": "maximum-area-rectangle-with-point-constraints-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an array points where points[i] = [xi, yi] represents the coordinates of a point on an infinite plane.\n\nYour task is to find the maximum area of a rectangle that:\n\n• Can be formed using four of these points as its corners.\n\n• Does not contain any other point inside or on its border.\n\n• Has its edges parallel to the axes.\n\nReturn the maximum area that you can obtain or -1 if no such rectangle is possible.\n\nExample 1:\n\nInput: points = [[1,1],[1,3],[3,1],[3,3]]\n\nOutput: 4\n\nExplanation: We can make a rectangle with these 4 points as corners and there is no other point that lies inside or on the border. Hence, the maximum possible area would be 4.\n\nExample 2:\n\nInput: points = [[1,1],[1,3],[3,1],[3,3],[2,2]]\n\nOutput: -1\n\nExplanation: There is only one rectangle possible is with points [1,1], [1,3], [3,1] and [3,3] but [2,2] will always lie inside it. Hence, returning -1.\n\nExample 3:\n\nInput: points = [[1,1],[1,3],[3,1],[3,3],[1,2],[3,2]]\n\nOutput: 2\n\nExplanation: The maximum area rectangle is formed by the points [1,3], [1,2], [3,2], [3,3], which has an area of 2. Additionally, the points [1,1], [1,2], [3,1], [3,2] also form a valid rectangle with the same area.\n\nConstraints:\n\n• 1 <= points.length <= 10\n\n• points[i].length == 2\n\n• 0 <= xi, yi <= 100\n\n• All the given points are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxRectangleArea(self, points):\n        \"\"\"\n        :type points: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If (x1, y1) and (x2, y2) are two opposite corners of a rectangle, then the other two would be (x1, y2) and (x2, y1).",
+    "Fix two points and find the other two using a set data structure.",
+    "After determining the rectangle, iterate through the array of points to ensure no point lies on the rectangle’s border or within its interior."
+  ],
+  "testCases": [
+    [
+      "[[1,1],[1,3],[3,1],[3,3]]"
+    ],
+    [
+      "[[1,1],[1,3],[3,1],[3,3],[2,2]]"
+    ],
+    [
+      "[[1,1],[1,3],[3,1],[3,3],[1,2],[3,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxRectangleArea(self, points):\n        pt_set = set(map(tuple, points))\n        ans = -1\n        n = len(points)\n        for i in range(n):\n            for j in range(i+1, n):\n                x1, y1 = points[i]\n                x2, y2 = points[j]\n                if x1 == x2 or y1 == y2:\n                    continue\n                # (x1,y1) and (x2,y2) are opposite corners\n                if (x1,y2) not in pt_set or (x2,y1) not in pt_set:\n                    continue\n                # Check no other point lies inside or on border\n                lx, rx = min(x1,x2), max(x1,x2)\n                ly, ry = min(y1,y2), max(y1,y2)\n                valid = True\n                for px, py in points:\n                    if lx <= px <= rx and ly <= py <= ry:\n                        if (px, py) not in {(x1,y1),(x2,y2),(x1,y2),(x2,y1)}:\n                            valid = False\n                            break\n                if valid:\n                    area = (rx - lx) * (ry - ly)\n                    ans = max(ans, area)\n        return ans",
+    "explanation": "Try all pairs of points as opposite corners of an axis-aligned rectangle. If the other two corners exist in the point set, check that no other point lies inside or on the border. With n ≤ 10 points, this brute force is fast.\n\nTime: O(n³). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Area Rectangle\", \"titleSlug\": \"minimum-area-rectangle\", \"difficulty\": \"Medium\"}]"
+}

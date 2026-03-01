@@ -1,0 +1,56 @@
+{
+  "questionId": "1552",
+  "title": "Build an Array With Stack Operations",
+  "titleSlug": "build-an-array-with-stack-operations",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an integer array target and an integer n.\n\nYou have an empty stack with the two following operations:\n\n• \"Push\": pushes an integer to the top of the stack.\n\n• \"Pop\": removes the integer on the top of the stack.\n\nYou also have a stream of the integers in the range [1, n].\n\nUse the two stack operations to make the numbers in the stack (from the bottom to the top) equal to target. You should follow the following rules:\n\n• If the stream of the integers is not empty, pick the next integer from the stream and push it to the top of the stack.\n\n• If the stack is not empty, pop the integer at the top of the stack.\n\n• If, at any moment, the elements in the stack (from the bottom to the top) are equal to target, do not read new integers from the stream and do not do more operations on the stack.\n\nReturn the stack operations needed to build target following the mentioned rules. If there are multiple valid answers, return any of them.\n\nExample 1:\n\nInput: target = [1,3], n = 3\nOutput: [\"Push\",\"Push\",\"Pop\",\"Push\"]\nExplanation: Initially the stack s is empty. The last element is the top of the stack.\n    Read 1 from the stream and push it to the stack. s = [1].\n    Read 2 from the stream and push it to the stack. s = [1,2].\n    Pop the integer on the top of the stack. s = [1].\n    Read 3 from the stream and push it to the stack. s = [1,3].\n\nExample 2:\n\nInput: target = [1,2,3], n = 3\nOutput: [\"Push\",\"Push\",\"Push\"]\nExplanation: Initially the stack s is empty. The last element is the top of the stack.\n    Read 1 from the stream and push it to the stack. s = [1].\n    Read 2 from the stream and push it to the stack. s = [1,2].\n    Read 3 from the stream and push it to the stack. s = [1,2,3].\n\nExample 3:\n\nInput: target = [1,2], n = 4\nOutput: [\"Push\",\"Push\"]\nExplanation: Initially the stack s is empty. The last element is the top of the stack.\n    Read 1 from the stream and push it to the stack. s = [1].\n    Read 2 from the stream and push it to the stack. s = [1,2].\n    Since the stack (from the bottom to the top) is equal to target, we stop the stack operations.\n    The answers that read integer 3 from the stream are not accepted.\n\nConstraints:\n\n• 1 <= target.length <= 100\n\n• 1 <= n <= 100\n\n• 1 <= target[i] <= n\n\n• target is strictly increasing.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def buildArray(self, target, n):\n        \"\"\"\n        :type target: List[int]\n        :type n: int\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use “Push” for numbers to be kept in target array and [“Push”, “Pop”] for numbers to be discarded."
+  ],
+  "testCases": [
+    [
+      "[1,3]",
+      "3"
+    ],
+    [
+      "[1,2,3]",
+      "3"
+    ],
+    [
+      "[1,2]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"Push\",\"Push\",\"Pop\",\"Push\"]",
+    "[\"Push\",\"Push\",\"Push\"]",
+    "[\"Push\",\"Push\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def buildArray(self, target, n):\n        result = []\n        target_set = set(target)\n        for i in range(1, target[-1] + 1):\n            result.append(\"Push\")\n            if i not in target_set:\n                result.append(\"Pop\")\n        return result",
+    "explanation": "Push every number up to target[-1]. Pop if not in target.\nTime: O(target[-1])\nSpace: O(len(result))"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Operations to Collect Elements\", \"titleSlug\": \"minimum-operations-to-collect-elements\", \"difficulty\": \"Easy\"}]"
+}

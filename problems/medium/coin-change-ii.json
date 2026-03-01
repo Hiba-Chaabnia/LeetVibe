@@ -1,0 +1,50 @@
+{
+  "questionId": "518",
+  "title": "Coin Change II",
+  "titleSlug": "coin-change-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.\n\nReturn the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, return 0.\n\nYou may assume that you have an infinite number of each kind of coin.\n\nThe answer is guaranteed to fit into a signed 32-bit integer.\n\nExample 1:\n\nInput: amount = 5, coins = [1,2,5]\nOutput: 4\nExplanation: there are four ways to make up the amount:\n    5=5\n    5=2+2+1\n    5=2+1+1+1\n    5=1+1+1+1+1\n\nExample 2:\n\nInput: amount = 3, coins = [2]\nOutput: 0\nExplanation: the amount of 3 cannot be made up just with coins of 2.\n\nExample 3:\n\nInput: amount = 10, coins = [10]\nOutput: 1\n\nConstraints:\n\n• 1 <= coins.length <= 300\n\n• 1 <= coins[i] <= 5000\n\n• All the values of coins are unique.\n\n• 0 <= amount <= 5000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def change(self, amount, coins):\n        \"\"\"\n        :type amount: int\n        :type coins: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "5",
+      "[1,2,5]"
+    ],
+    [
+      "3",
+      "[2]"
+    ],
+    [
+      "10",
+      "[10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def change(amount, coins):\n    dp = [1] + [0] * amount\n    for coin in coins:\n        for i in range(coin, amount + 1):\n            dp[i] += dp[i - coin]\n    return dp[amount]",
+    "explanation": "1. Initialize an array `dp` where `dp[i]` represents the number of combinations that make up the amount `i`. The length of the array is `amount + 1` to accommodate index 0. Set `dp[0]` to 1 as there is only one way to make up the amount 0 (by not picking any coins).\n2. Loop through each coin in the `coins` array.\n3. For each coin, iterate through the `dp` array, starting at the index equal to the coin value.\n4. In each iteration, increment the value of `dp[i]` by `dp[i - coin]`. This is because the number of combinations that can make up `i` is increased by the number of combinations that can make up `i - coin`.\n5. After iterating through all the coins and updating the `dp` array, return the value of `dp[amount]`, which represents the number of combinations that can make up the desired amount."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Value of K Coins From Piles\", \"titleSlug\": \"maximum-value-of-k-coins-from-piles\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Ways to Earn Points\", \"titleSlug\": \"number-of-ways-to-earn-points\", \"difficulty\": \"Hard\"}, {\"title\": \"Count of Sub-Multisets With Bounded Sum\", \"titleSlug\": \"count-of-sub-multisets-with-bounded-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Length of the Longest Subsequence That Sums to Target\", \"titleSlug\": \"length-of-the-longest-subsequence-that-sums-to-target\", \"difficulty\": \"Medium\"}, {\"title\": \"The Number of Ways to Make the Sum\", \"titleSlug\": \"the-number-of-ways-to-make-the-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Inverse Coin Change\", \"titleSlug\": \"inverse-coin-change\", \"difficulty\": \"Medium\"}]"
+}

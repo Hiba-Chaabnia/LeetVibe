@@ -1,0 +1,43 @@
+{
+  "questionId": "879",
+  "title": "Maximize Distance to Closest Person",
+  "titleSlug": "maximize-distance-to-closest-person",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "You are given an array representing a row of seats where seats[i] = 1 represents a person sitting in the ith seat, and seats[i] = 0 represents that the ith seat is empty (0-indexed).\n\nThere is at least one empty seat, and at least one person sitting.\n\nAlex wants to sit in the seat such that the distance between him and the closest person to him is maximized.\n\nReturn that maximum distance to the closest person.\n\nExample 1:\n\nInput: seats = [1,0,0,0,1,0,1]\nOutput: 2\nExplanation:\n    If Alex sits in the second open seat (i.e. seats[2]), then the closest person has distance 2.\n    If Alex sits in any other open seat, the closest person has distance 1.\n    Thus, the maximum distance to the closest person is 2.\n\nExample 2:\n\nInput: seats = [1,0,0,0]\nOutput: 3\nExplanation:\n    If Alex sits in the last seat (i.e. seats[3]), the closest person is 3 seats away.\n    This is the maximum distance possible, so the answer is 3.\n\nExample 3:\n\nInput: seats = [0,1]\nOutput: 1\n\nConstraints:\n\n• 2 <= seats.length <= 2 * 104\n\n• seats[i] is 0 or 1.\n\n• At least one seat is empty.\n\n• At least one seat is occupied.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxDistToClosest(self, seats):\n        \"\"\"\n        :type seats: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,0,0,0,1,0,1]"
+    ],
+    [
+      "[1,0,0,0]"
+    ],
+    [
+      "[0,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxDistToClosest(seats):\n    n = len(seats)\n    maxDist = 0\n    lastPerson = -1\n\n    for i in range(n):\n        if seats[i] == 1:\n            if lastPerson == -1:\n                maxDist = i\n            else:\n                maxDist = max(maxDist, (i - lastPerson) // 2)\n            lastPerson = i\n\n    maxDist = max(maxDist, n - 1 - lastPerson)\n    return maxDist",
+    "explanation": "1. Initialize `maxDist` to 0 and `lastPerson` to -1.\n2. Loop through the array with the index `i`.\n3. If a person is found sitting in the current seat, calculate the distance.\n   - If this is the first person found (`lastPerson == -1`), set the maximum distance as their index `i`.\n   - If not, calculate and update the maximum distance as `(i - lastPerson) / 2`.\n4. Update `lastPerson` to the index of the current person (`lastPerson = i`).\n5. After the loop, compare the maximum distance to the distance between the last person and the end of the array (`n - 1 - lastPerson`). Update `maxDist` to the larger value.\n6. Return `maxDist` as the maximum distance to the closest person."
+  },
+  "similarQuestions": "[{\"title\": \"Exam Room\", \"titleSlug\": \"exam-room\", \"difficulty\": \"Medium\"}, {\"title\": \"Task Scheduler II\", \"titleSlug\": \"task-scheduler-ii\", \"difficulty\": \"Medium\"}]"
+}

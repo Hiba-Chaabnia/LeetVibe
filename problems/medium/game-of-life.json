@@ -1,0 +1,47 @@
+{
+  "questionId": "289",
+  "title": "Game of Life",
+  "titleSlug": "game-of-life",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "According to Wikipedia's article: \"The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970.\"\n\nThe board is made up of an m x n grid of cells, where each cell has an initial state: live (represented by a 1) or dead (represented by a 0). Each cell interacts with its eight neighbors (horizontal, vertical, diagonal) using the following four rules (taken from the above Wikipedia article):\n\n• Any live cell with fewer than two live neighbors dies as if caused by under-population.\n\n• Any live cell with two or three live neighbors lives on to the next generation.\n\n• Any live cell with more than three live neighbors dies, as if by over-population.\n\n• Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.\n\nThe next state of the board is determined by applying the above rules simultaneously to every cell in the current state of the m x n grid board. In this process, births and deaths occur simultaneously.\n\nGiven the current state of the board, update the board to reflect its next state.\n\nNote that you do not need to return anything.\n\nExample 1:\n\nInput: board = [[0,1,0],[0,0,1],[1,1,1],[0,0,0]]\nOutput: [[0,0,0],[1,0,1],[0,1,1],[0,1,0]]\n\nExample 2:\n\nInput: board = [[1,1],[1,0]]\nOutput: [[1,1],[1,1]]\n\nConstraints:\n\n• m == board.length\n\n• n == board[i].length\n\n• 1 <= m, n <= 25\n\n• board[i][j] is 0 or 1.\n\nFollow up:\n\n• Could you solve it in-place? Remember that the board needs to be updated simultaneously: You cannot update some cells first and then use their updated values to update other cells.\n\n• In this question, we represent the board using a 2D array. In principle, the board is infinite, which would cause problems when the active area encroaches upon the border of the array (i.e., live cells reach the border). How would you address these problems?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def gameOfLife(self, board):\n        \"\"\"\n        :type board: List[List[int]]\n        :rtype: None Do not return anything, modify board in-place instead.\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,1,0],[0,0,1],[1,1,1],[0,0,0]]"
+    ],
+    [
+      "[[1,1],[1,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[0,0,0],[1,0,1],[0,1,1],[0,1,0]]",
+    "[[1,1],[1,1]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def gameOfLife(board):\n    m, n = len(board), len(board[0])\n    result = [[0] * n for _ in range(m)]\n    dirs = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]\n    \n    for i in range(m):\n        for j in range(n):\n            liveNeighbors = 0\n            \n            for dir in dirs:\n                newRow = i + dir[0]\n                newCol = j + dir[1]\n                \n                if newRow >= 0 and newRow < m and newCol >= 0 and newCol < n and board[newRow][newCol] == 1:\n                    liveNeighbors += 1\n            \n            if board[i][j] == 1 and (liveNeighbors == 2 or liveNeighbors == 3):\n                result[i][j] = 1\n            elif board[i][j] == 0 and liveNeighbors == 3:\n                result[i][j] = 1\n                \n    return result",
+    "explanation": "Create a new board called `result` with the same dimensions as the input board. For each cell in the input board, count the live neighbors (the 8 neighboring cells). Then apply the following rules:\n1. Any live cell with two or three live neighbors survives.\n2. Any dead cell with exactly three live neighbors becomes a live cell.\n3. All other live cells die and all other dead cells stay dead.\n\nTo count live neighbors, iterate through a predefined list of relative coordinates `dirs` representing the eight neighboring cells. For each neighboring coordinate, check if it is inside the grid, and if the corresponding cell in the input board is live. If so, increment the counter of live neighbors.\n\nFinally, update the cell in the result board using the rules."
+  },
+  "similarQuestions": "[{\"title\": \"Set Matrix Zeroes\", \"titleSlug\": \"set-matrix-zeroes\", \"difficulty\": \"Medium\"}]"
+}

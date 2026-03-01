@@ -1,0 +1,69 @@
+{
+  "questionId": "3821",
+  "title": "Count Cells in Overlapping Horizontal and Vertical Substrings",
+  "titleSlug": "count-cells-in-overlapping-horizontal-and-vertical-substrings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are given an m x n matrix grid consisting of characters and a string pattern.\n\nA horizontal substring is a contiguous sequence of characters read from left to right. If the end of a row is reached before the substring is complete, it wraps to the first column of the next row and continues as needed. You do not wrap from the bottom row back to the top.\n\nA vertical substring is a contiguous sequence of characters read from top to bottom. If the bottom of a column is reached before the substring is complete, it wraps to the first row of the next column and continues as needed. You do not wrap from the last column back to the first.\n\nCount the number of cells in the matrix that satisfy the following condition:\n\n• The cell must be part of at least one horizontal substring and at least one vertical substring, where both substrings are equal to the given pattern.\n\nReturn the count of these cells.\n\nExample 1:\n\nInput: grid = [[\"a\",\"a\",\"c\",\"c\"],[\"b\",\"b\",\"b\",\"c\"],[\"a\",\"a\",\"b\",\"a\"],[\"c\",\"a\",\"a\",\"c\"],[\"a\",\"a\",\"b\",\"a\"]], pattern = \"abaca\"\n\nOutput: 1\n\nExplanation: The pattern \"abaca\" appears once as a horizontal substring (colored blue) and once as a vertical substring (colored red), intersecting at one cell (colored purple).\n\nExample 2:\n\nInput: grid = [[\"c\",\"a\",\"a\",\"a\"],[\"a\",\"a\",\"b\",\"a\"],[\"b\",\"b\",\"a\",\"a\"],[\"a\",\"a\",\"b\",\"a\"]], pattern = \"aba\"\n\nOutput: 4\n\nExplanation: The cells colored above are all part of at least one horizontal and one vertical substring matching the pattern \"aba\".\n\nExample 3:\n\nInput: grid = [[\"a\"]], pattern = \"a\"\n\nOutput: 1\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 1000\n\n• 1 <= m * n <= 105\n\n• 1 <= pattern.length <= m * n\n\n• grid and pattern consist of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countCells(self, grid, pattern):\n        \"\"\"\n        :type grid: List[List[str]]\n        :type pattern: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a string hashing or pattern matching algorithm to efficiently find all horizontal and vertical occurrences of the pattern in the grid.",
+    "Track the positions of each match and count only the cells that appear in both horizontal and vertical matches."
+  ],
+  "testCases": [
+    [
+      "[[\"a\",\"a\",\"c\",\"c\"],[\"b\",\"b\",\"b\",\"c\"],[\"a\",\"a\",\"b\",\"a\"],[\"c\",\"a\",\"a\",\"c\"],[\"a\",\"a\",\"b\",\"a\"]]",
+      "\"abaca\""
+    ],
+    [
+      "[[\"c\",\"a\",\"a\",\"a\"],[\"a\",\"a\",\"b\",\"a\"],[\"b\",\"b\",\"a\",\"a\"],[\"a\",\"a\",\"b\",\"a\"]]",
+      "\"aba\""
+    ],
+    [
+      "[[\"a\"]]",
+      "\"a\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countCells(self, grid, pattern):\n        m, n = len(grid), len(grid[0])\n        p = len(pattern)\n\n        def kmp_search(text, pat):\n            fail = [0] * len(pat)\n            j = 0\n            for i in range(1, len(pat)):\n                while j > 0 and pat[i] != pat[j]:\n                    j = fail[j-1]\n                if pat[i] == pat[j]:\n                    j += 1\n                fail[i] = j\n            positions = []\n            j = 0\n            for i, c in enumerate(text):\n                while j > 0 and c != pat[j]:\n                    j = fail[j-1]\n                if c == pat[j]:\n                    j += 1\n                if j == len(pat):\n                    positions.append(i - len(pat) + 1)\n                    j = fail[j-1]\n            return positions\n\n        # Horizontal: row by row (no wrap from bottom row)\n        h_str = ''.join(''.join(row) for row in grid)\n        h_matches = kmp_search(h_str, pattern)\n        h_covered = [[False]*n for _ in range(m)]\n        for start in h_matches:\n            for k in range(p):\n                pos = start + k\n                r, c = pos // n, pos % n\n                if r < m:\n                    h_covered[r][c] = True\n\n        # Vertical: column by column (no wrap from last column)\n        v_str = ''.join(grid[r][c] for c in range(n) for r in range(m))\n        v_matches = kmp_search(v_str, pattern)\n        v_covered = [[False]*n for _ in range(m)]\n        for start in v_matches:\n            for k in range(p):\n                pos = start + k\n                c, r = pos // m, pos % m\n                if c < n:\n                    v_covered[r][c] = True\n\n        return sum(1 for r in range(m) for c in range(n) if h_covered[r][c] and v_covered[r][c])",
+    "explanation": "Flatten grid horizontally (row by row) and vertically (column by column). Use KMP to find pattern occurrences in each flattened string. Mark covered cells. Count cells covered by both a horizontal and a vertical match.\n\nTime: O(m*n + p). Space: O(m*n)."
+  },
+  "similarQuestions": "[]"
+}

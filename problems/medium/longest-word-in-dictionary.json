@@ -1,0 +1,58 @@
+{
+  "questionId": "720",
+  "title": "Longest Word in Dictionary",
+  "titleSlug": "longest-word-in-dictionary",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array of strings words representing an English Dictionary, return the longest word in words that can be built one character at a time by other words in words.\n\nIf there is more than one possible answer, return the longest word with the smallest lexicographical order. If there is no answer, return the empty string.\n\nNote that the word should be built from left to right with each additional character being added to the end of a previous word.\n\nExample 1:\n\nInput: words = [\"w\",\"wo\",\"wor\",\"worl\",\"world\"]\nOutput: \"world\"\nExplanation: The word \"world\" can be built one character at a time by \"w\", \"wo\", \"wor\", and \"worl\".\n\nExample 2:\n\nInput: words = [\"a\",\"banana\",\"app\",\"appl\",\"ap\",\"apply\",\"apple\"]\nOutput: \"apple\"\nExplanation: Both \"apply\" and \"apple\" can be built from other words in the dictionary. However, \"apple\" is lexicographically smaller than \"apply\".\n\nConstraints:\n\n• 1 <= words.length <= 1000\n\n• 1 <= words[i].length <= 30\n\n• words[i] consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestWord(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For every word in the input list, we can check whether all prefixes of that word are in the input list by using a Set."
+  ],
+  "testCases": [
+    [
+      "[\"w\",\"wo\",\"wor\",\"worl\",\"world\"]"
+    ],
+    [
+      "[\"a\",\"banana\",\"app\",\"appl\",\"ap\",\"apply\",\"apple\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"world\"",
+    "\"apple\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def longestWord(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: str\n        \"\"\"\n        word_set = set(words)\n        words.sort(key=lambda x: (-len(x), x))\n        \n        for word in words:\n            if all(word[:i] in word_set for i in range(1, len(word))):\n                return word\n        \n        return \"\"",
+    "explanation": "Sort by length descending, then lexicographically. For each word, check if all its prefixes exist in the set.",
+    "complexity": "Time: O(n log n + n*L²). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Word in Dictionary through Deleting\", \"titleSlug\": \"longest-word-in-dictionary-through-deleting\", \"difficulty\": \"Medium\"}, {\"title\": \"Implement Magic Dictionary\", \"titleSlug\": \"implement-magic-dictionary\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Word With All Prefixes\", \"titleSlug\": \"longest-word-with-all-prefixes\", \"difficulty\": \"Medium\"}]"
+}

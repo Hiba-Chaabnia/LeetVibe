@@ -1,0 +1,60 @@
+{
+  "questionId": "3112",
+  "title": "Count Valid Paths in a Tree",
+  "titleSlug": "count-valid-paths-in-a-tree",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "There is an undirected tree with n nodes labeled from 1 to n. You are given the integer n and a 2D integer array edges of length n - 1, where edges[i] = [ui, vi] indicates that there is an edge between nodes ui and vi in the tree.\n\nReturn the number of valid paths in the tree.\n\nA path (a, b) is valid if there exists exactly one prime number among the node labels in the path from a to b.\n\nNote that:\n\n• The path (a, b) is a sequence of distinct nodes starting with node a and ending with node b such that every two adjacent nodes in the sequence share an edge in the tree.\n\n• Path (a, b) and path (b, a) are considered the same and counted only once.\n\nExample 1:\n\nInput: n = 5, edges = [[1,2],[1,3],[2,4],[2,5]]\nOutput: 4\nExplanation: The pairs with exactly one prime number on the path between them are:\n    - (1, 2) since the path from 1 to 2 contains prime number 2.\n    - (1, 3) since the path from 1 to 3 contains prime number 3.\n    - (1, 4) since the path from 1 to 4 contains prime number 2.\n    - (2, 4) since the path from 2 to 4 contains prime number 2.\n    It can be shown that there are only 4 valid paths.\n\nExample 2:\n\nInput: n = 6, edges = [[1,2],[1,3],[2,4],[3,5],[3,6]]\nOutput: 6\nExplanation: The pairs with exactly one prime number on the path between them are:\n    - (1, 2) since the path from 1 to 2 contains prime number 2.\n    - (1, 3) since the path from 1 to 3 contains prime number 3.\n    - (1, 4) since the path from 1 to 4 contains prime number 2.\n    - (1, 6) since the path from 1 to 6 contains prime number 3.\n    - (2, 4) since the path from 2 to 4 contains prime number 2.\n    - (3, 6) since the path from 3 to 6 contains prime number 3.\n    It can be shown that there are only 6 valid paths.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• edges.length == n - 1\n\n• edges[i].length == 2\n\n• 1 <= ui, vi <= n\n\n• The input is generated such that edges represent a valid tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPaths(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use the sieve of Eratosthenes to find all prime numbers in the range [1, n].****",
+    "Root the tree at any node.",
+    "Let dp[i][0] = the number of vertical paths starting from i containing no prime nodes , and dp[i][1] = the number of vertical paths starting from i containing one prime node .",
+    "If i is not prime, dp[i][0] = sum(dp[child][0]) + 1, and dp[i][1] = sum(dp[child][1]) for each child of i in the rooted tree.",
+    "If i is prime, dp[i][0] = 0, and dp[i][1] = sum(dp[child][0]) + 1 for each child of i in the rooted tree.",
+    "For each node i, and using the computed dp matrix, count the number of unordered pairs (a,b) such that lca(a,b) = i, and there exists exactly one prime number on the path from a to b."
+  ],
+  "testCases": [
+    [
+      "5",
+      "[[1,2],[1,3],[2,4],[2,5]]"
+    ],
+    [
+      "6",
+      "[[1,2],[1,3],[2,4],[3,5],[3,6]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "6"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count Paths That Can Form a Palindrome in a Tree\", \"titleSlug\": \"count-paths-that-can-form-a-palindrome-in-a-tree\", \"difficulty\": \"Hard\"}]"
+}

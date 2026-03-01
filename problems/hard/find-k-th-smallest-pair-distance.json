@@ -1,0 +1,60 @@
+{
+  "questionId": "719",
+  "title": "Find K-th Smallest Pair Distance",
+  "titleSlug": "find-k-th-smallest-pair-distance",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "The distance of a pair of integers a and b is defined as the absolute difference between a and b.\n\nGiven an integer array nums and an integer k, return the kth smallest distance among all the pairs nums[i] and nums[j] where 0 <= i < j < nums.length.\n\nExample 1:\n\nInput: nums = [1,3,1], k = 1\nOutput: 0\nExplanation: Here are all the pairs:\n    (1,3) -> 2\n    (1,1) -> 0\n    (3,1) -> 2\n    Then the 1st smallest distance pair is (1,1), and its distance is 0.\n\nExample 2:\n\nInput: nums = [1,1,1], k = 2\nOutput: 0\n\nExample 3:\n\nInput: nums = [1,6,1], k = 3\nOutput: 5\n\nConstraints:\n\n• n == nums.length\n\n• 2 <= n <= 104\n\n• 0 <= nums[i] <= 106\n\n• 1 <= k <= n * (n - 1) / 2",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestDistancePair(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Binary search for the answer.  How can you check how many pairs have distance <= X?"
+  ],
+  "testCases": [
+    [
+      "[1,3,1]",
+      "1"
+    ],
+    [
+      "[1,1,1]",
+      "2"
+    ],
+    [
+      "[1,6,1]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "0",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def smallestDistancePair(nums, k):\n    nums.sort()\n    low, high = 0, nums[-1] - nums[0]\n    \n    while low < high:\n        mid = (low + high) // 2\n        count, left = 0, 0\n\n        for right in range(len(nums)):\n            while nums[right] - nums[left] > mid:\n                left += 1\n            count += (right - left)\n\n        if count < k:\n            low = mid + 1\n        else:\n            high = mid\n    \n    return low",
+    "explanation": "The algorithm works as follows:\n1. Sort the input array `nums`.\n2. Initialize the search range for the kth smallest distance with `low` as 0 and `high` as the maximum possible distance in the array (i.e., the difference between the last element and the first element).\n3. While `low` is smaller than `high`, perform a binary-search-like technique:\n   a. Calculate the middle distance `mid` between `low` and `high`.\n   b. Initialize `count` and `left` pointers to 0.\n   c. Traverse the array using a `right` pointer.\n   d. Move the `left` pointer to the right as long as the distance between `nums[right]` and `nums[left]` is greater than `mid`.\n   e. Increment the `count` by the difference between `right` and `left`.\n   f. If the `count` is smaller than `k`, update `low` to `mid + 1`. Otherwise, update `high` to `mid`.\n4. When the loop ends, `low` will hold the kth smallest distance."
+  },
+  "similarQuestions": "[{\"title\": \"Find K Pairs with Smallest Sums\", \"titleSlug\": \"find-k-pairs-with-smallest-sums\", \"difficulty\": \"Medium\"}, {\"title\": \"Kth Smallest Element in a Sorted Matrix\", \"titleSlug\": \"kth-smallest-element-in-a-sorted-matrix\", \"difficulty\": \"Medium\"}, {\"title\": \"Find K Closest Elements\", \"titleSlug\": \"find-k-closest-elements\", \"difficulty\": \"Medium\"}, {\"title\": \"Kth Smallest Number in Multiplication Table\", \"titleSlug\": \"kth-smallest-number-in-multiplication-table\", \"difficulty\": \"Hard\"}, {\"title\": \"K-th Smallest Prime Fraction\", \"titleSlug\": \"k-th-smallest-prime-fraction\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Median of the Uniqueness Array\", \"titleSlug\": \"find-the-median-of-the-uniqueness-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximize Score of Numbers in Ranges\", \"titleSlug\": \"maximize-score-of-numbers-in-ranges\", \"difficulty\": \"Medium\"}]"
+}

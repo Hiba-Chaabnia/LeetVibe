@@ -1,0 +1,55 @@
+{
+  "questionId": "2609",
+  "title": "Distinct Prime Factors of Product of Array",
+  "titleSlug": "distinct-prime-factors-of-product-of-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "Given an array of positive integers nums, return the number of distinct prime factors in the product of the elements of nums.\n\nNote that:\n\n• A number greater than 1 is called prime if it is divisible by only 1 and itself.\n\n• An integer val1 is a factor of another integer val2 if val2 / val1 is an integer.\n\nExample 1:\n\nInput: nums = [2,4,3,7,10,6]\nOutput: 4\nExplanation:\n    The product of all the elements in nums is: 2 * 4 * 3 * 7 * 10 * 6 = 10080 = 25 * 32 * 5 * 7.\n    There are 4 distinct prime factors so we return 4.\n\nExample 2:\n\nInput: nums = [2,4,8,16]\nOutput: 1\nExplanation:\n    The product of all the elements in nums is: 2 * 4 * 8 * 16 = 1024 = 210.\n    There is 1 distinct prime factor so we return 1.\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• 2 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def distinctPrimeFactors(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Do not multiply all the numbers together, as the product is too big to store.",
+    "Think about how each individual number's prime factors contribute to the prime factors of the product of the entire array.",
+    "Find the prime factors of each element in nums, and store all of them in a set to avoid duplicates."
+  ],
+  "testCases": [
+    [
+      "[2,4,3,7,10,6]"
+    ],
+    [
+      "[2,4,8,16]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def distinctPrimeFactors(self, nums):\n        def prime_factors(n):\n            factors = set()\n            d = 2\n            while d * d <= n:\n                while n % d == 0:\n                    factors.add(d)\n                    n //= d\n                d += 1\n            if n > 1:\n                factors.add(n)\n            return factors\n        all_factors = set()\n        for num in nums:\n            all_factors.update(prime_factors(num))\n        return len(all_factors)",
+    "explanation": "Factorize each number. Collect all prime factors in set.\nTime: O(n*sqrt(m))\nSpace: O(distinct primes)"
+  },
+  "similarQuestions": "[{\"title\": \"2 Keys Keyboard\", \"titleSlug\": \"2-keys-keyboard\", \"difficulty\": \"Medium\"}, {\"title\": \"Largest Component Size by Common Factor\", \"titleSlug\": \"largest-component-size-by-common-factor\", \"difficulty\": \"Hard\"}, {\"title\": \"Closest Divisors\", \"titleSlug\": \"closest-divisors\", \"difficulty\": \"Medium\"}, {\"title\": \"Smallest Value After Replacing With Sum of Prime Factors\", \"titleSlug\": \"smallest-value-after-replacing-with-sum-of-prime-factors\", \"difficulty\": \"Medium\"}, {\"title\": \"Count the Number of Square-Free Subsets\", \"titleSlug\": \"count-the-number-of-square-free-subsets\", \"difficulty\": \"Medium\"}]"
+}

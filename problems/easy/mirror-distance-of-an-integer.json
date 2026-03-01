@@ -1,0 +1,45 @@
+{
+  "questionId": "4168",
+  "title": "Mirror Distance of an Integer",
+  "titleSlug": "mirror-distance-of-an-integer",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given an integer n.\n\nDefine its mirror distance as: abs(n - reverse(n))​​​​​​​ where reverse(n) is the integer formed by reversing the digits of n.\n\nReturn an integer denoting the mirror distance of n​​​​​​​.\n\nabs(x) denotes the absolute value of x.\n\nExample 1:\n\nInput: n = 25\n\nOutput: 27\n\nExplanation:\n\n• reverse(25) = 52.\n\n• Thus, the answer is abs(25 - 52) = 27.\n\nExample 2:\n\nInput: n = 10\n\nOutput: 9\n\nExplanation:\n\n• reverse(10) = 01 which is 1.\n\n• Thus, the answer is abs(10 - 1) = 9.\n\nExample 3:\n\nInput: n = 7\n\nOutput: 0\n\nExplanation:\n\n• reverse(7) = 7.\n\n• Thus, the answer is abs(7 - 7) = 0.\n\nConstraints:\n\n• 1 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mirrorDistance(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "25"
+    ],
+    [
+      "10"
+    ],
+    [
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "27",
+    "9",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def mirrorDistance(self, n):\n        mirror = int(str(n)[::-1])\n        return abs(n - mirror)",
+    "explanation": "Reverse the digits of n to get its mirror; return the absolute difference. O(d) time where d is the digit count."
+  },
+  "similarQuestions": "[]"
+}

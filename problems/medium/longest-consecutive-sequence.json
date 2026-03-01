@@ -1,0 +1,52 @@
+{
+  "questionId": "128",
+  "title": "Longest Consecutive Sequence",
+  "titleSlug": "longest-consecutive-sequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    }
+  ],
+  "content": "Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.\n\nYou must write an algorithm that runs in O(n) time.\n\nExample 1:\n\nInput: nums = [100,4,200,1,3,2]\nOutput: 4\nExplanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.\n\nExample 2:\n\nInput: nums = [0,3,7,2,5,8,4,6,0,1]\nOutput: 9\n\nExample 3:\n\nInput: nums = [1,0,1,2]\nOutput: 3\n\nConstraints:\n\n• 0 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestConsecutive(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[100,4,200,1,3,2]"
+    ],
+    [
+      "[0,3,7,2,5,8,4,6,0,1]"
+    ],
+    [
+      "[1,0,1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "9",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def longestConsecutive(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        if not nums:\n            return 0\n        \n        num_set = set(nums)\n        max_len = 0\n        \n        for num in num_set:\n            # Only start counting from numbers that are the beginning of a sequence\n            if num - 1 not in num_set:\n                current_num = num\n                current_len = 1\n                \n                while current_num + 1 in num_set:\n                    current_num += 1\n                    current_len += 1\n                \n                max_len = max(max_len, current_len)\n        \n        return max_len",
+    "explanation": "Convert to set for O(1) lookup. For each number that starts a sequence (no predecessor), count consecutive numbers. Skip if already counted as part of another sequence.",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Binary Tree Longest Consecutive Sequence\", \"titleSlug\": \"binary-tree-longest-consecutive-sequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Three Consecutive Integers That Sum to a Given Number\", \"titleSlug\": \"find-three-consecutive-integers-that-sum-to-a-given-number\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Consecutive Floors Without Special Floors\", \"titleSlug\": \"maximum-consecutive-floors-without-special-floors\", \"difficulty\": \"Medium\"}, {\"title\": \"Length of the Longest Alphabetical Continuous Substring\", \"titleSlug\": \"length-of-the-longest-alphabetical-continuous-substring\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Maximum Number of Elements in Subset\", \"titleSlug\": \"find-the-maximum-number-of-elements-in-subset\", \"difficulty\": \"Medium\"}]"
+}

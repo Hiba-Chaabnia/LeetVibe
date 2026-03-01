@@ -1,0 +1,49 @@
+{
+  "questionId": "1444",
+  "title": "Number of Steps to Reduce a Number to Zero",
+  "titleSlug": "number-of-steps-to-reduce-a-number-to-zero",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given an integer num, return the number of steps to reduce it to zero.\n\nIn one step, if the current number is even, you have to divide it by 2, otherwise, you have to subtract 1 from it.\n\nExample 1:\n\nInput: num = 14\nOutput: 6\nExplanation:\n    Step 1) 14 is even; divide by 2 and obtain 7.\n    Step 2) 7 is odd; subtract 1 and obtain 6.\n    Step 3) 6 is even; divide by 2 and obtain 3.\n    Step 4) 3 is odd; subtract 1 and obtain 2.\n    Step 5) 2 is even; divide by 2 and obtain 1.\n    Step 6) 1 is odd; subtract 1 and obtain 0.\n\nExample 2:\n\nInput: num = 8\nOutput: 4\nExplanation:\n    Step 1) 8 is even; divide by 2 and obtain 4.\n    Step 2) 4 is even; divide by 2 and obtain 2.\n    Step 3) 2 is even; divide by 2 and obtain 1.\n    Step 4) 1 is odd; subtract 1 and obtain 0.\n\nExample 3:\n\nInput: num = 123\nOutput: 12\n\nConstraints:\n\n• 0 <= num <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfSteps(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the process to get the final answer."
+  ],
+  "testCases": [
+    [
+      "14"
+    ],
+    [
+      "8"
+    ],
+    [
+      "123"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "4",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfSteps(self, num):\n        steps = 0\n        while num > 0:\n            if num % 2 == 0:\n                num //= 2\n            else:\n                num -= 1\n            steps += 1\n        return steps",
+    "explanation": "Simulate: divide if even, subtract if odd. Count steps.\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Moves to Reach Target Score\", \"titleSlug\": \"minimum-moves-to-reach-target-score\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Operations to Obtain Zero\", \"titleSlug\": \"count-operations-to-obtain-zero\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "2170",
+  "title": "Count Number of Maximum Bitwise-OR Subsets",
+  "titleSlug": "count-number-of-maximum-bitwise-or-subsets",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Given an integer array nums, find the maximum possible bitwise OR of a subset of nums and return the number of different non-empty subsets with the maximum bitwise OR.\n\nAn array a is a subset of an array b if a can be obtained from b by deleting some (possibly zero) elements of b. Two subsets are considered different if the indices of the elements chosen are different.\n\nThe bitwise OR of an array a is equal to a[0] OR a[1] OR ... OR a[a.length - 1] (0-indexed).\n\nExample 1:\n\nInput: nums = [3,1]\nOutput: 2\nExplanation: The maximum possible bitwise OR of a subset is 3. There are 2 subsets with a bitwise OR of 3:\n    - [3]\n    - [3,1]\n\nExample 2:\n\nInput: nums = [2,2,2]\nOutput: 7\nExplanation: All non-empty subsets of [2,2,2] have a bitwise OR of 2. There are 23 - 1 = 7 total subsets.\n\nExample 3:\n\nInput: nums = [3,2,1,5]\nOutput: 6\nExplanation: The maximum possible bitwise OR of a subset is 7. There are 6 subsets with a bitwise OR of 7:\n    - [3,5]\n    - [3,1,5]\n    - [3,2,5]\n    - [3,2,1,5]\n    - [2,5]\n    - [2,1,5]\n\nConstraints:\n\n• 1 <= nums.length <= 16\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countMaxOrSubsets(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we enumerate all possible subsets?",
+    "The maximum bitwise-OR is the bitwise-OR of the whole array."
+  ],
+  "testCases": [
+    [
+      "[3,1]"
+    ],
+    [
+      "[2,2,2]"
+    ],
+    [
+      "[3,2,1,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "7",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countMaxOrSubsets(self, nums):\n        max_or = 0\n        for num in nums:\n            max_or |= num\n        count = 0\n        def backtrack(index, current_or):\n            nonlocal count\n            if current_or == max_or:\n                count += 2**(len(nums) - index)\n                return\n            if index >= len(nums):\n                return\n            for i in range(index, len(nums)):\n                backtrack(i + 1, current_or | nums[i])\n        backtrack(0, 0)\n        return count",
+    "explanation": "Find max OR first. Then count subsets achieving it via backtrack.\nTime: O(2^n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Subsets\", \"titleSlug\": \"subsets\", \"difficulty\": \"Medium\"}, {\"title\": \"Largest Combination With Bitwise AND Greater Than Zero\", \"titleSlug\": \"largest-combination-with-bitwise-and-greater-than-zero\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Subarray With Maximum Bitwise AND\", \"titleSlug\": \"longest-subarray-with-maximum-bitwise-and\", \"difficulty\": \"Medium\"}]"
+}

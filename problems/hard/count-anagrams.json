@@ -1,0 +1,59 @@
+{
+  "questionId": "2605",
+  "title": "Count Anagrams",
+  "titleSlug": "count-anagrams",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s containing one or more words. Every consecutive pair of words is separated by a single space ' '.\n\nA string t is an anagram of string s if the ith word of t is a permutation of the ith word of s.\n\n• For example, \"acb dfe\" is an anagram of \"abc def\", but \"def cab\" and \"adc bef\" are not.\n\nReturn the number of distinct anagrams of s. Since the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: s = \"too hot\"\nOutput: 18\nExplanation: Some of the anagrams of the given string are \"too hot\", \"oot hot\", \"oto toh\", \"too toh\", and \"too oht\".\n\nExample 2:\n\nInput: s = \"aa\"\nOutput: 1\nExplanation: There is only one anagram possible for the given string.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters and spaces ' '.\n\n• There is single space between consecutive words.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countAnagrams(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each word, can you count the number of permutations possible if all characters are distinct?",
+    "How to reduce overcounting when letters are repeated?",
+    "The product of the counts of distinct permutations of all words will give the final answer."
+  ],
+  "testCases": [
+    [
+      "\"too hot\""
+    ],
+    [
+      "\"aa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "18",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\nfrom math import factorial\n\nclass Solution(object):\n    def countAnagrams(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        MOD = 10**9 + 7\n        \n        words = s.split()\n        result = 1\n        \n        for word in words:\n            # Count permutations of this word\n            freq = Counter(word)\n            n = len(word)\n            \n            # Permutations = n! / (freq[c1]! * freq[c2]! * ...)\n            perms = factorial(n)\n            for count in freq.values():\n                perms //= factorial(count)\n            \n            result = (result * perms) % MOD\n        \n        return result",
+    "explanation": "Anagram counting via permutations:\n\n1. **Split Words**: Process each independently\n2. **Permutation Formula**: n! / (f1! * f2! * ...)\n   - n = word length\n   - fi = frequency of character i\n\n3. **Compute**:\n   - Calculate factorial\n   - Divide by frequency factorials\n   - Multiply across all words\n\n4. **Modular**: Take mod at end\n\nTime: O(n * word_length)\nSpace: O(alphabet_size)"
+  },
+  "similarQuestions": "[{\"title\": \"Group Anagrams\", \"titleSlug\": \"group-anagrams\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Ways to Build Rooms in an Ant Colony\", \"titleSlug\": \"count-ways-to-build-rooms-in-an-ant-colony\", \"difficulty\": \"Hard\"}]"
+}

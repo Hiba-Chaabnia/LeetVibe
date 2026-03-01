@@ -1,0 +1,47 @@
+{
+  "questionId": "2630",
+  "title": "Alternating Digit Sum",
+  "titleSlug": "alternating-digit-sum",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given a positive integer n. Each digit of n has a sign according to the following rules:\n\n• The most significant digit is assigned a positive sign.\n\n• Each other digit has an opposite sign to its adjacent digits.\n\nReturn the sum of all digits with their corresponding sign.\n\nExample 1:\n\nInput: n = 521\nOutput: 4\nExplanation: (+5) + (-2) + (+1) = 4.\n\nExample 2:\n\nInput: n = 111\nOutput: 1\nExplanation: (+1) + (-1) + (+1) = 1.\n\nExample 3:\n\nInput: n = 886996\nOutput: 0\nExplanation: (+8) + (-8) + (+6) + (-9) + (+9) + (-6) = 0.\n\nConstraints:\n\n• 1 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def alternateDigitSum(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The first step is to loop over the digits. We can convert the integer into a string, an array of digits, or just loop over its digits.",
+    "Keep a variable sign that initially equals 1 and a variable answer that initially equals 0.",
+    "Each time you loop over a digit i, add sign * i to answer, then multiply sign by -1."
+  ],
+  "testCases": [
+    [
+      "521"
+    ],
+    [
+      "111"
+    ],
+    [
+      "886996"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def alternateDigitSum(self, n):\n        result = 0\n        sign = 1\n        while n > 0:\n            result += sign * (n % 10)\n            sign *= -1\n            n //= 10\n        return result",
+    "explanation": "Extract digits from right to left, alternating signs. Reverse the result at end."
+  },
+  "similarQuestions": "[{\"title\": \"Add Digits\", \"titleSlug\": \"add-digits\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Sum of Four Digit Number After Splitting Digits\", \"titleSlug\": \"minimum-sum-of-four-digit-number-after-splitting-digits\", \"difficulty\": \"Easy\"}, {\"title\": \"Separate the Digits in an Array\", \"titleSlug\": \"separate-the-digits-in-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Compute Alternating Sum\", \"titleSlug\": \"compute-alternating-sum\", \"difficulty\": \"Easy\"}]"
+}

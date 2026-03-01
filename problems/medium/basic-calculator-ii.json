@@ -1,0 +1,51 @@
+{
+  "questionId": "227",
+  "title": "Basic Calculator II",
+  "titleSlug": "basic-calculator-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "Given a string s which represents an expression, evaluate this expression and return its value.\n\nThe integer division should truncate toward zero.\n\nYou may assume that the given expression is always valid. All intermediate results will be in the range of [-231, 231 - 1].\n\nNote: You are not allowed to use any built-in function which evaluates strings as mathematical expressions, such as eval().\n\nExample 1:\n\nInput: s = \"3+2*2\"\nOutput: 7\nExample 2:\n\nInput: s = \" 3/2 \"\nOutput: 1\nExample 3:\n\nInput: s = \" 3+5 / 2 \"\nOutput: 5\n\nConstraints:\n\n• 1 <= s.length <= 3 * 105\n\n• s consists of integers and operators ('+', '-', '*', '/') separated by some number of spaces.\n\n• s represents a valid expression.\n\n• All the integers in the expression are non-negative integers in the range [0, 231 - 1].\n\n• The answer is guaranteed to fit in a 32-bit integer.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def calculate(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"3+2*2\""
+    ],
+    [
+      "\" 3/2 \""
+    ],
+    [
+      "\" 3+5 / 2 \""
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "1",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def calculate(self, s):\n        if not s:\n            return 0\n        stack = []\n        num = 0\n        operation = '+'\n        for i, char in enumerate(s):\n            if char.isdigit():\n                num = num * 10 + int(char)\n            if char in '+-*/' or i == len(s) - 1:\n                if operation == '+':\n                    stack.append(num)\n                elif operation == '-':\n                    stack.append(-num)\n                elif operation == '*':\n                    stack.append(stack.pop() * num)\n                elif operation == '/':\n                    stack.append(int(stack.pop() / num))\n                operation = char\n                num = 0\n        return sum(stack)",
+    "explanation": "Stack with last operation. Process * and / immediately. Defer + and -.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Basic Calculator\", \"titleSlug\": \"basic-calculator\", \"difficulty\": \"Hard\"}, {\"title\": \"Expression Add Operators\", \"titleSlug\": \"expression-add-operators\", \"difficulty\": \"Hard\"}, {\"title\": \"Basic Calculator III\", \"titleSlug\": \"basic-calculator-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Evaluate Valid Expressions\", \"titleSlug\": \"evaluate-valid-expressions\", \"difficulty\": \"Hard\"}]"
+}

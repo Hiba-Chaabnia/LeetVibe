@@ -1,0 +1,58 @@
+{
+  "questionId": "985",
+  "title": "Bag of Tokens",
+  "titleSlug": "bag-of-tokens",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You start with an initial power of power, an initial score of 0, and a bag of tokens given as an integer array tokens, where each tokens[i] denotes the value of tokeni.\n\nYour goal is to maximize the total score by strategically playing these tokens. In one move, you can play an unplayed token in one of the two ways (but not both for the same token):\n\n• Face-up: If your current power is at least tokens[i], you may play tokeni, losing tokens[i] power and gaining 1 score.\n\n• Face-down: If your current score is at least 1, you may play tokeni, gaining tokens[i] power and losing 1 score.\n\nReturn the maximum possible score you can achieve after playing any number of tokens.\n\nExample 1:\n\nInput: tokens = [100], power = 50\n\nOutput: 0\n\nExplanation: Since your score is 0 initially, you cannot play the token face-down. You also cannot play it face-up since your power (50) is less than tokens[0] (100).\n\nExample 2:\n\nInput: tokens = [200,100], power = 150\n\nOutput: 1\n\nExplanation: Play token1 (100) face-up, reducing your power to 50 and increasing your score to 1.\n\nThere is no need to play token0, since you cannot play it face-up to add to your score. The maximum score achievable is 1.\n\nExample 3:\n\nInput: tokens = [100,200,300,400], power = 200\n\nOutput: 2\n\nExplanation: Play the tokens in this order to get a score of 2:\n\n• Play token0 (100) face-up, reducing power to 100 and increasing score to 1.\n\n• Play token3 (400) face-down, increasing power to 500 and reducing score to 0.\n\n• Play token1 (200) face-up, reducing power to 300 and increasing score to 1.\n\n• Play token2 (300) face-up, reducing power to 0 and increasing score to 2.\n\nThe maximum score achievable is 2.\n\nConstraints:\n\n• 0 <= tokens.length <= 1000\n\n• 0 <= tokens[i], power < 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def bagOfTokensScore(self, tokens, power):\n        \"\"\"\n        :type tokens: List[int]\n        :type power: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[100]",
+      "50"
+    ],
+    [
+      "[200,100]",
+      "150"
+    ],
+    [
+      "[100,200,300,400]",
+      "200"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def bagOfTokensScore(self, tokens, power):\n        tokens.sort()\n        left, right = 0, len(tokens) - 1\n        score = 0\n        max_score = 0\n        while left <= right:\n            if power >= tokens[left]:\n                power -= tokens[left]\n                score += 1\n                max_score = max(max_score, score)\n                left += 1\n            elif score > 0:\n                power += tokens[right]\n                score -= 1\n                right -= 1\n            else:\n                break\n        return max_score",
+    "explanation": "Greedy: use smallest token face-up (gain point), largest face-down (gain power).\nTime: O(n*log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

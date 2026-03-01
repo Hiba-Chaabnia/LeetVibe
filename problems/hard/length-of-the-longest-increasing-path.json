@@ -1,0 +1,54 @@
+{
+  "questionId": "3571",
+  "title": "Length of the Longest Increasing Path",
+  "titleSlug": "length-of-the-longest-increasing-path",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 2D array of integers coordinates of length n and an integer k, where 0 <= k < n.\n\ncoordinates[i] = [xi, yi] indicates the point (xi, yi) in a 2D plane.\n\nAn increasing path of length m is defined as a list of points (x1, y1), (x2, y2), (x3, y3), ..., (xm, ym) such that:\n\n• xi < xi + 1 and yi < yi + 1 for all i where 1 <= i < m.\n\n• (xi, yi) is in the given coordinates for all i where 1 <= i <= m.\n\nReturn the maximum length of an increasing path that contains coordinates[k].\n\nExample 1:\n\nInput: coordinates = [[3,1],[2,2],[4,1],[0,0],[5,3]], k = 1\n\nOutput: 3\n\nExplanation: (0, 0), (2, 2), (5, 3) is the longest increasing path that contains (2, 2).\n\nExample 2:\n\nInput: coordinates = [[2,1],[7,0],[5,6]], k = 2\n\nOutput: 2\n\nExplanation: (2, 1), (5, 6) is the longest increasing path that contains (5, 6).\n\nConstraints:\n\n• 1 <= n == coordinates.length <= 105\n\n• coordinates[i].length == 2\n\n• 0 <= coordinates[i][0], coordinates[i][1] <= 109\n\n• All elements in coordinates are distinct.\n\n• 0 <= k <= n - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxPathLength(self, coordinates, k):\n        \"\"\"\n        :type coordinates: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Only keep coordinates with both x and y being strictly less than coordinates[k].",
+    "Sort them by x’s, in the case of equal, the y values should be decreasing.",
+    "Calculate LIS only using y values.",
+    "Do the same for coordinates with both x and y being strictly larger than coordinates[k]."
+  ],
+  "testCases": [
+    [
+      "[[3,1],[2,2],[4,1],[0,0],[5,3]]",
+      "1"
+    ],
+    [
+      "[[2,1],[7,0],[5,6]]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxPathLength(self, coordinates, k):\n        \"\"\"\n        :type coordinates: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        kx, ky = coordinates[k]\n        \n        # Get points before k: x < kx and y < ky\n        before = []\n        for i, (x, y) in enumerate(coordinates):\n            if i != k and x < kx and y < ky:\n                before.append((x, y))\n        \n        # Get points after k: x > kx and y > ky\n        after = []\n        for i, (x, y) in enumerate(coordinates):\n            if i != k and x > kx and y > ky:\n                after.append((x, y))\n        \n        def lis_length(points):\n            \"\"\"Calculate longest increasing subsequence by y-coordinate\"\"\"\n            if not points:\n                return 0\n            # Sort by x, then by y descending (if x equal)\n            points.sort(key=lambda p: (p[0], -p[1]))\n            # Use LIS on y-coordinates\n            from bisect import bisect_left\n            tails = []\n            for x, y in points:\n                pos = bisect_left(tails, y)\n                if pos == len(tails):\n                    tails.append(y)\n                else:\n                    tails[pos] = y\n            return len(tails)\n        \n        # Length = 1 (for k itself) + LIS before + LIS after\n        return 1 + lis_length(before) + lis_length(after)",
+    "explanation": "This solution uses coordinate filtering and LIS (Longest Increasing Subsequence):\n\n1. **Problem Understanding**:\n   - Find longest increasing path containing coordinates[k]\n   - Path must have strictly increasing x and y coordinates\n   - coordinates[k] is mandatory in the path\n\n2. **Key Insight - Decomposition**:\n   - Split into three parts:\n     - Points before k (x < kx, y < ky)\n     - coordinates[k] itself\n     - Points after k (x > kx, y > ky)\n   - Path = longest_before + [k] + longest_after\n\n3. **Sorting Strategy**:\n   - For 'before' points: sort by x ascending\n   - When x equal, sort y descending\n   - This ensures when processing points in order:\n     - x values strictly increase\n     - Only need to find LIS on y values\n   - Same for 'after' points\n\n4. **LIS on Y-Coordinates**:\n   - After sorting by x, find LIS using y values\n   - Use binary search with bisect\n   - tails[i] = smallest ending value for LIS of length i+1\n   - Time: O(n log n)\n\n5. **Why Sorting Works**:\n   - Sorted by x ensures x strictly increases\n   - Descending y on equal x prevents same x from appearing consecutively\n   - LIS on y ensures y strictly increases\n   - Together guarantees both x and y strictly increase\n\nTime Complexity: O(n log n)\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[]"
+}

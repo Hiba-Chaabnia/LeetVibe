@@ -1,0 +1,43 @@
+{
+  "questionId": "977",
+  "title": "Distinct Subsequences II",
+  "titleSlug": "distinct-subsequences-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given a string s, return the number of distinct non-empty subsequences of s. Since the answer may be very large, return it modulo 109 + 7.\n\nA subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., \"ace\" is a subsequence of \"abcde\" while \"aec\" is not.\n\nExample 1:\n\nInput: s = \"abc\"\nOutput: 7\nExplanation: The 7 distinct subsequences are \"a\", \"b\", \"c\", \"ab\", \"ac\", \"bc\", and \"abc\".\n\nExample 2:\n\nInput: s = \"aba\"\nOutput: 6\nExplanation: The 6 distinct subsequences are \"a\", \"b\", \"ab\", \"aa\", \"ba\", and \"aba\".\n\nExample 3:\n\nInput: s = \"aaa\"\nOutput: 3\nExplanation: The 3 distinct subsequences are \"a\", \"aa\" and \"aaa\".\n\nConstraints:\n\n• 1 <= s.length <= 2000\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def distinctSubseqII(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"abc\""
+    ],
+    [
+      "\"aba\""
+    ],
+    [
+      "\"aaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "6",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Number of Unique Good Subsequences\", \"titleSlug\": \"number-of-unique-good-subsequences\", \"difficulty\": \"Hard\"}, {\"title\": \"Count K-Subsequences of a String With Maximum Beauty\", \"titleSlug\": \"count-k-subsequences-of-a-string-with-maximum-beauty\", \"difficulty\": \"Hard\"}]"
+}

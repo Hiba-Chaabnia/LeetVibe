@@ -1,0 +1,41 @@
+{
+  "questionId": "1293",
+  "title": "Three Consecutive Odds",
+  "titleSlug": "three-consecutive-odds",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given an integer array arr, return true if there are three consecutive odd numbers in the array. Otherwise, return false.\n\nExample 1:\n\nInput: arr = [2,6,4,1]\nOutput: false\nExplanation: There are no three consecutive odds.\n\nExample 2:\n\nInput: arr = [1,2,34,3,4,5,7,23,12]\nOutput: true\nExplanation: [5,7,23] are three consecutive odds.\n\nConstraints:\n\n• 1 <= arr.length <= 1000\n\n• 1 <= arr[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def threeConsecutiveOdds(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Check every three consecutive numbers in the array for parity."
+  ],
+  "testCases": [
+    [
+      "[2,6,4,1]"
+    ],
+    [
+      "[1,2,34,3,4,5,7,23,12]"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def threeConsecutiveOdds(self, arr):\n        for i in range(len(arr) - 2):\n            if arr[i] % 2 == 1 and arr[i+1] % 2 == 1 and arr[i+2] % 2 == 1:\n                return True\n        return False",
+    "explanation": "Check every 3 consecutive numbers for odd parity.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

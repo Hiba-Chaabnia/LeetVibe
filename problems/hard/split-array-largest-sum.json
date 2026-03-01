@@ -1,0 +1,57 @@
+{
+  "questionId": "410",
+  "title": "Split Array Largest Sum",
+  "titleSlug": "split-array-largest-sum",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, split nums into k non-empty subarrays such that the largest sum of any subarray is minimized.\n\nReturn the minimized largest sum of the split.\n\nA subarray is a contiguous part of the array.\n\nExample 1:\n\nInput: nums = [7,2,5,10,8], k = 2\nOutput: 18\nExplanation: There are four ways to split nums into two subarrays.\n    The best way is to split it into [7,2,5] and [10,8], where the largest sum among the two subarrays is only 18.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5], k = 2\nOutput: 9\nExplanation: There are four ways to split nums into two subarrays.\n    The best way is to split it into [1,2,3] and [4,5], where the largest sum among the two subarrays is only 9.\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 0 <= nums[i] <= 106\n\n• 1 <= k <= min(50, nums.length)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def splitArray(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[7,2,5,10,8]",
+      "2"
+    ],
+    [
+      "[1,2,3,4,5]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "18",
+    "9"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def splitArray(nums, m):\n    left, right = max(nums), sum(nums)\n\n    while left < right:\n        mid = (left + right) // 2\n        count, cur_sum = 1, 0\n        for num in nums:\n            cur_sum += num\n            if cur_sum > mid:\n                cur_sum = num\n                count += 1\n\n        if count > m:\n            left = mid + 1\n        else:\n            right = mid\n\n    return left",
+    "explanation": "The algorithm to solve this problem is to use a binary search approach. We first initialize the minimum and maximum possible values for the largest sum. The minimum value is initialized to the maximum integer value in the given array, and the maximum value is initialized to the sum of all the integer values in the array. These values are assigned to the variables `left` and `right` respectively.\n\nWe then perform a binary search to find the smallest largest sum. In each iteration, we calculate the mid value between left and right (`(left + right) / 2`). Then, we iterate through the array and sum the integers, counting how many subarrays are needed to fit the running sum without exceeding the mid value.\n\nAfter iterating through the array, if the count of subarrays needed is greater than `m`, it means the mid value is too small. In this case, we update the left value to `mid + 1`. Otherwise, if the count is less than or equal to `m`, we update the right value to `mid`. The process continues until left is equal to or greater than right.\n\nFinally, we return the left value as the minimized largest sum among the m subarrays."
+  },
+  "similarQuestions": "[{\"title\": \"Capacity To Ship Packages Within D Days\", \"titleSlug\": \"capacity-to-ship-packages-within-d-days\", \"difficulty\": \"Medium\"}, {\"title\": \"Divide Chocolate\", \"titleSlug\": \"divide-chocolate\", \"difficulty\": \"Hard\"}, {\"title\": \"Fair Distribution of Cookies\", \"titleSlug\": \"fair-distribution-of-cookies\", \"difficulty\": \"Medium\"}, {\"title\": \"Subsequence of Size K With the Largest Even Sum\", \"titleSlug\": \"subsequence-of-size-k-with-the-largest-even-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Total Beauty of the Gardens\", \"titleSlug\": \"maximum-total-beauty-of-the-gardens\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Ways to Split Array\", \"titleSlug\": \"number-of-ways-to-split-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Cost to Split an Array\", \"titleSlug\": \"minimum-cost-to-split-an-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Distribute Elements Into Two Arrays I\", \"titleSlug\": \"distribute-elements-into-two-arrays-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Distribute Elements Into Two Arrays II\", \"titleSlug\": \"distribute-elements-into-two-arrays-ii\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,45 @@
+{
+  "questionId": "831",
+  "title": "Largest Sum of Averages",
+  "titleSlug": "largest-sum-of-averages",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k. You can partition the array into at most k non-empty adjacent subarrays. The score of a partition is the sum of the averages of each subarray.\n\nNote that the partition must use every integer in nums, and that the score is not necessarily an integer.\n\nReturn the maximum score you can achieve of all the possible partitions. Answers within 10-6 of the actual answer will be accepted.\n\nExample 1:\n\nInput: nums = [9,1,2,3,9], k = 3\nOutput: 20.00000\nExplanation:\n    The best choice is to partition nums into [9], [1, 2, 3], [9]. The answer is 9 + (1 + 2 + 3) / 3 + 9 = 20.\n    We could have also partitioned nums into [9, 1], [2], [3, 9], for example.\n    That partition would lead to a score of 5 + 2 + 6 = 13, which is worse.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5,6,7], k = 4\nOutput: 20.50000\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 104\n\n• 1 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestSumOfAverages(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[9,1,2,3,9]",
+      "3"
+    ],
+    [
+      "[1,2,3,4,5,6,7]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "20.00000",
+    "20.50000"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "3394",
+  "title": "Minimum Array End",
+  "titleSlug": "minimum-array-end",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given two integers n and x. You have to construct an array of positive integers nums of size n where for every 0 <= i < n - 1, nums[i + 1] is greater than nums[i], and the result of the bitwise AND operation between all elements of nums is x.\n\nReturn the minimum possible value of nums[n - 1].\n\nExample 1:\n\nInput: n = 3, x = 4\n\nOutput: 6\n\nExplanation: nums can be [4,5,6] and its last element is 6.\n\nExample 2:\n\nInput: n = 2, x = 7\n\nOutput: 15\n\nExplanation: nums can be [7,15] and its last element is 15.\n\nConstraints:\n\n• 1 <= n, x <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minEnd(self, n, x):\n        \"\"\"\n        :type n: int\n        :type x: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Each element of the array should be obtained by “merging” x and v where v = 0, 1, 2, …(n - 1).",
+    "To merge x with another number v, keep the set bits of x untouched, for all the other bits, fill the set bits of v from right to left in order one by one.",
+    "So the final answer is the “merge” of x and n - 1."
+  ],
+  "testCases": [
+    [
+      "3",
+      "4"
+    ],
+    [
+      "2",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "15"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minEnd(self, n, x):\n        # All elements must AND to x, so all elements must have x's bits set.\n        # Elements are x, x|v1, x|v2, ... where we fill the 'free' bits (0-bits of x)\n        # with values 0, 1, 2, ..., n-1 in order.\n        # The last element corresponds to filling free bits with n-1.\n        result = x\n        m = n - 1  # value to embed into free bits\n        bit_m = 0  # bit position in m\n        bit_r = 0  # bit position in result\n        while (1 << bit_m) <= m or m == 0 and bit_m == 0:\n            # Find next free bit in x (bit that is 0)\n            while (x >> bit_r) & 1:\n                bit_r += 1\n            # Set this bit in result according to bit bit_m of m\n            if (m >> bit_m) & 1:\n                result |= (1 << bit_r)\n            bit_m += 1\n            bit_r += 1\n            if (1 << bit_m) > m and m > 0:\n                break\n            if m == 0:\n                break\n        return result",
+    "explanation": "Every element must have all bits of x set. The 'free' bits (0-bits of x) can be anything. To form a strictly increasing sequence of n elements all ANDing to x, we use values: x merged with 0, 1, 2, ..., n-1 in the free bit positions.\n\nThe last (largest) element = x with the free bits filled according to n-1 (in binary). We iterate through bits of n-1, placing each bit into the corresponding free-bit position of x.\n\nTime: O(log(x) + log(n)). Space: O(1).",
+    "python_clean": "class Solution(object):\n    def minEnd(self, n, x):\n        result = x\n        m = n - 1\n        bit_m = 0\n        bit_r = 0\n        while (m >> bit_m) > 0:\n            # Skip set bits in x\n            while (x >> bit_r) & 1:\n                bit_r += 1\n            if (m >> bit_m) & 1:\n                result |= (1 << bit_r)\n            bit_m += 1\n            bit_r += 1\n        return result"
+  },
+  "similarQuestions": "[]"
+}

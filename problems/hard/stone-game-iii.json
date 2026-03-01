@@ -1,0 +1,58 @@
+{
+  "questionId": "1522",
+  "title": "Stone Game III",
+  "titleSlug": "stone-game-iii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "Alice and Bob continue their games with piles of stones. There are several stones arranged in a row, and each stone has an associated value which is an integer given in the array stoneValue.\n\nAlice and Bob take turns, with Alice starting first. On each player's turn, that player can take 1, 2, or 3 stones from the first remaining stones in the row.\n\nThe score of each player is the sum of the values of the stones taken. The score of each player is 0 initially.\n\nThe objective of the game is to end with the highest score, and the winner is the player with the highest score and there could be a tie. The game continues until all the stones have been taken.\n\nAssume Alice and Bob play optimally.\n\nReturn \"Alice\" if Alice will win, \"Bob\" if Bob will win, or \"Tie\" if they will end the game with the same score.\n\nExample 1:\n\nInput: stoneValue = [1,2,3,7]\nOutput: \"Bob\"\nExplanation: Alice will always lose. Her best move will be to take three piles and the score become 6. Now the score of Bob is 7 and Bob wins.\n\nExample 2:\n\nInput: stoneValue = [1,2,3,-9]\nOutput: \"Alice\"\nExplanation: Alice must choose all the three piles at the first move to win and leave Bob with negative score.\n    If Alice chooses one pile her score will be 1 and the next move Bob's score becomes 5. In the next move, Alice will take the pile with value = -9 and lose.\n    If Alice chooses two piles her score will be 3 and the next move Bob's score becomes 3. In the next move, Alice will take the pile with value = -9 and also lose.\n    Remember that both play optimally so here Alice will choose the scenario that makes her win.\n\nExample 3:\n\nInput: stoneValue = [1,2,3,6]\nOutput: \"Tie\"\nExplanation: Alice cannot win this game. She can end the game in a draw if she decided to choose all the first three piles, otherwise she will lose.\n\nConstraints:\n\n• 1 <= stoneValue.length <= 5 * 104\n\n• -1000 <= stoneValue[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def stoneGameIII(self, stoneValue):\n        \"\"\"\n        :type stoneValue: List[int]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The game can be mapped to minmax game. Alice tries to maximize the total score and Bob tries to minimize it.",
+    "Use dynamic programming to simulate the game. If the total score was 0 the game is \"Tie\", and if it has positive value then \"Alice\" wins, otherwise \"Bob\" wins."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,7]"
+    ],
+    [
+      "[1,2,3,-9]"
+    ],
+    [
+      "[1,2,3,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Bob\"",
+    "\"Alice\"",
+    "\"Tie\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def stoneGameIII(stoneValue):\n    n = len(stoneValue)\n    dp = [float(\"-inf\")] * (n + 1)\n    dp[n] = 0\n    \n    for i in range(n - 1, -1, -1):\n        curr = 0\n        for j in range(3):\n            if i + j < n:\n                curr += stoneValue[i + j]\n                dp[i] = max(dp[i], curr - dp[i + j + 1])\n                \n    return \"Tie \" if dp[0] == 0 else \"Alice \" if dp[0] > 0 else \"Bob \"",
+    "explanation": "We can solve this problem using dynamic programming. Create a `dp` array of size `n+1` where `n` is the length of the stoneValue array, and initialize it with the minimum possible integer value (in Python, use `-inf`). The last element of the `dp` array should be initialized to 0.\nThe idea is to find the maximum score difference each player can achieve, starting from index i, for 0 ≤ i < n. \n\nFor each index i, we calculate the current score (sum of values at most 3 consecutive stones starting from i) and update the `dp[i]` to max(`dp[i]`, current - `dp[i+j+1]`). \n\nAt the end, `dp[0]` represents the maximum score difference between Alice and Bob. If `dp[0] > 0`, Alice wins, if `dp[0] < 0`, Bob wins, and if `dp[0] == 0`, it's a tie."
+  },
+  "similarQuestions": "[{\"title\": \"Stone Game V\", \"titleSlug\": \"stone-game-v\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game VI\", \"titleSlug\": \"stone-game-vi\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VII\", \"titleSlug\": \"stone-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VIII\", \"titleSlug\": \"stone-game-viii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IX\", \"titleSlug\": \"stone-game-ix\", \"difficulty\": \"Medium\"}]"
+}

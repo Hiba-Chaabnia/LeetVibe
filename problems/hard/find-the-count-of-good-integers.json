@@ -1,0 +1,57 @@
+{
+  "questionId": "3548",
+  "title": "Find the Count of Good Integers",
+  "titleSlug": "find-the-count-of-good-integers",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given two positive integers n and k.\n\nAn integer x is called k-palindromic if:\n\n• x is a palindrome.\n\n• x is divisible by k.\n\nAn integer is called good if its digits can be rearranged to form a k-palindromic integer. For example, for k = 2, 2020 can be rearranged to form the k-palindromic integer 2002, whereas 1010 cannot be rearranged to form a k-palindromic integer.\n\nReturn the count of good integers containing n digits.\n\nNote that any integer must not have leading zeros, neither before nor after rearrangement. For example, 1010 cannot be rearranged to form 101.\n\nExample 1:\n\nInput: n = 3, k = 5\n\nOutput: 27\n\nExplanation: Some of the good integers are:\n\n• 551 because it can be rearranged to form 515.\n\n• 525 because it is already k-palindromic.\n\nExample 2:\n\nInput: n = 1, k = 4\n\nOutput: 2\n\nExplanation: The two good integers are 4 and 8.\n\nExample 3:\n\nInput: n = 5, k = 6\n\nOutput: 2468\n\nConstraints:\n\n• 1 <= n <= 10\n\n• 1 <= k <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countGoodIntegers(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How to generate all K-palindromic strings of length n? Do we need to go through all n digits?",
+    "Use permutations to calculate the number of possible rearrangements."
+  ],
+  "testCases": [
+    [
+      "3",
+      "5"
+    ],
+    [
+      "1",
+      "4"
+    ],
+    [
+      "5",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "27",
+    "2",
+    "2468"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Palindrome Number\", \"titleSlug\": \"palindrome-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Closest Palindrome\", \"titleSlug\": \"find-the-closest-palindrome\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "3819",
+  "title": "Count Covered Buildings",
+  "titleSlug": "count-covered-buildings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a positive integer n, representing an n x n city. You are also given a 2D grid buildings, where buildings[i] = [x, y] denotes a unique building located at coordinates [x, y].\n\nA building is covered if there is at least one building in all four directions: left, right, above, and below.\n\nReturn the number of covered buildings.\n\nExample 1:\n\nInput: n = 3, buildings = [[1,2],[2,2],[3,2],[2,1],[2,3]]\n\nOutput: 1\n\nExplanation:\n\n• Only building [2,2] is covered as it has at least one building:\n\n• above ([1,2])\n\n• below ([3,2])\n\n• left ([2,1])\n\n• right ([2,3])\n\n• Thus, the count of covered buildings is 1.\n\nExample 2:\n\nInput: n = 3, buildings = [[1,1],[1,2],[2,1],[2,2]]\n\nOutput: 0\n\nExplanation:\n\n• No building has at least one building in all four directions.\n\nExample 3:\n\nInput: n = 5, buildings = [[1,3],[3,2],[3,3],[3,5],[5,3]]\n\nOutput: 1\n\nExplanation:\n\n• Only building [3,3] is covered as it has at least one building:\n\n• above ([1,3])\n\n• below ([5,3])\n\n• left ([3,2])\n\n• right ([3,5])\n\n• Thus, the count of covered buildings is 1.\n\nConstraints:\n\n• 2 <= n <= 105\n\n• 1 <= buildings.length <= 105\n\n• buildings[i] = [x, y]\n\n• 1 <= x, y <= n\n\n• All coordinates of buildings are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countCoveredBuildings(self, n, buildings):\n        \"\"\"\n        :type n: int\n        :type buildings: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Group buildings with the same x or y value together, and sort each group.",
+    "In each sorted list, the buildings that are not at the first or last positions are covered in that direction."
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[1,2],[2,2],[3,2],[2,1],[2,3]]"
+    ],
+    [
+      "3",
+      "[[1,1],[1,2],[2,1],[2,2]]"
+    ],
+    [
+      "5",
+      "[[1,3],[3,2],[3,3],[3,5],[5,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def countCoveredBuildings(self, n, buildings):\n        by_row = defaultdict(list)\n        by_col = defaultdict(list)\n        for x, y in buildings:\n            by_row[x].append(y)\n            by_col[y].append(x)\n        for v in by_row.values(): v.sort()\n        for v in by_col.values(): v.sort()\n        ans = 0\n        for x, y in buildings:\n            has_left  = by_row[x][0]  < y\n            has_right = by_row[x][-1] > y\n            has_above = by_col[y][0]  < x\n            has_below = by_col[y][-1] > x\n            if has_left and has_right and has_above and has_below:\n                ans += 1\n        return ans",
+    "explanation": "Group buildings by row and column. A building at (x, y) is covered if its row has another building with smaller y (left), larger y (right), and its column has another building with smaller x (above) and larger x (below). Check using min/max of each group.\n\nTime: O(k log k). Space: O(k)."
+  },
+  "similarQuestions": "[]"
+}

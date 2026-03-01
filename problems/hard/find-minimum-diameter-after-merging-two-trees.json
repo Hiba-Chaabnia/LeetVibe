@@ -1,0 +1,58 @@
+{
+  "questionId": "3439",
+  "title": "Find Minimum Diameter After Merging Two Trees",
+  "titleSlug": "find-minimum-diameter-after-merging-two-trees",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There exist two undirected trees with n and m nodes, numbered from 0 to n - 1 and from 0 to m - 1, respectively. You are given two 2D integer arrays edges1 and edges2 of lengths n - 1 and m - 1, respectively, where edges1[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the first tree and edges2[i] = [ui, vi] indicates that there is an edge between nodes ui and vi in the second tree.\n\nYou must connect one node from the first tree with another node from the second tree with an edge.\n\nReturn the minimum possible diameter of the resulting tree.\n\nThe diameter of a tree is the length of the longest path between any two nodes in the tree.\n\nExample 1:\n\nInput: edges1 = [[0,1],[0,2],[0,3]], edges2 = [[0,1]]\n\nOutput: 3\n\nExplanation: We can obtain a tree of diameter 3 by connecting node 0 from the first tree with any node from the second tree.\n\nExample 2:\n\nInput: edges1 = [[0,1],[0,2],[0,3],[2,4],[2,5],[3,6],[2,7]], edges2 = [[0,1],[0,2],[0,3],[2,4],[2,5],[3,6],[2,7]]\n\nOutput: 5\n\nExplanation: We can obtain a tree of diameter 5 by connecting node 0 from the first tree with node 0 from the second tree.\n\nConstraints:\n\n• 1 <= n, m <= 105\n\n• edges1.length == n - 1\n\n• edges2.length == m - 1\n\n• edges1[i].length == edges2[i].length == 2\n\n• edges1[i] = [ai, bi]\n\n• 0 <= ai, bi < n\n\n• edges2[i] = [ui, vi]\n\n• 0 <= ui, vi < m\n\n• The input is generated such that edges1 and edges2 represent valid trees.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumDiameterAfterMerge(self, edges1, edges2):\n        \"\"\"\n        :type edges1: List[List[int]]\n        :type edges2: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Suppose that we connected node a in tree1 with node b in tree2. The diameter length of the resulting tree will be the largest of the following 3 values: \r\n<ol>\r\n<li>The diameter of tree 1.</li>\r\n<li>The diameter of tree 2.</li>\r\n<li>The length of the longest path that starts at node a and that is completely within Tree 1 + The length of the longest path that starts at node b and that is completely within Tree 2 + 1.</li>\r\n</ol> \r\nThe added one in the third value is due to the additional edge that we have added between trees 1 and 2.",
+    "Values 1 and 2 are constant regardless of our choice of a and b. Therefore, we need to pick a and b in such a way that minimizes value 3.",
+    "If we pick a and b optimally, they will be in the diameters of Tree 1 and Tree 2, respectively. Exactly which nodes of the diameter should we pick?",
+    "a is the center of the diameter of tree 1, and b is the center of the diameter of tree 2."
+  ],
+  "testCases": [
+    [
+      "[[0,1],[0,2],[0,3]]",
+      "[[0,1]]"
+    ],
+    [
+      "[[0,1],[0,2],[0,3],[2,4],[2,5],[3,6],[2,7]]",
+      "[[0,1],[0,2],[0,3],[2,4],[2,5],[3,6],[2,7]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumDiameterAfterMerge(self, edges1, edges2):\n        \"\"\"\n        :type edges1: List[List[int]]\n        :type edges2: List[List[int]]\n        :rtype: int\n        \"\"\"\n        def get_tree_info(edges):\n            n = len(edges) + 1\n            if n == 1:\n                return 0, 0\n            \n            graph = [[] for _ in range(n)]\n            for u, v in edges:\n                graph[u].append(v)\n                graph[v].append(u)\n            \n            def farthest(start):\n                dist = [-1] * n\n                dist[start] = 0\n                stack = [start]\n                farthest_node = start\n                \n                while stack:\n                    u = stack.pop()\n                    for v in graph[u]:\n                        if dist[v] == -1:\n                            dist[v] = dist[u] + 1\n                            if dist[v] > dist[farthest_node]:\n                                farthest_node = v\n                            stack.append(v)\n                \n                return farthest_node, dist[farthest_node]\n            \n            node1, _ = farthest(0)\n            node2, diameter = farthest(node1)\n            center = (diameter + 1) // 2\n            \n            return diameter, center\n        \n        d1, c1 = get_tree_info(edges1)\n        d2, c2 = get_tree_info(edges2)\n        \n        # New diameter: max(d1, d2, c1 + c2 + 1)\n        return max(d1, d2, c1 + c2 + 1)",
+    "explanation": "Tree diameter and center computation:\n\n1. **Find Diameter**:\n   - BFS/DFS from arbitrary node to find farthest\n   - BFS from farthest to find diameter\n\n2. **Tree Center**: (diameter + 1) // 2\n   - Optimal node to connect two trees\n\n3. **New Diameter** = max(\n   - Original diameter of tree1\n   - Original diameter of tree2\n   - path through edge: center1 + 1 + center2)\n\n4. **Result**: Minimum over all connection choices\n\nTime: O(n + m)\nSpace: O(n + m)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Height Trees\", \"titleSlug\": \"minimum-height-trees\", \"difficulty\": \"Medium\"}, {\"title\": \"Tree Diameter\", \"titleSlug\": \"tree-diameter\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximize the Number of Target Nodes After Connecting Trees I\", \"titleSlug\": \"maximize-the-number-of-target-nodes-after-connecting-trees-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximize the Number of Target Nodes After Connecting Trees II\", \"titleSlug\": \"maximize-the-number-of-target-nodes-after-connecting-trees-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximize Sum of Weights after Edge Removals\", \"titleSlug\": \"maximize-sum-of-weights-after-edge-removals\", \"difficulty\": \"Hard\"}]"
+}

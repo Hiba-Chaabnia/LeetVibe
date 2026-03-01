@@ -1,0 +1,51 @@
+{
+  "questionId": "647",
+  "title": "Palindromic Substrings",
+  "titleSlug": "palindromic-substrings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given a string s, return the number of palindromic substrings in it.\n\nA string is a palindrome when it reads the same backward as forward.\n\nA substring is a contiguous sequence of characters within the string.\n\nExample 1:\n\nInput: s = \"abc\"\nOutput: 3\nExplanation: Three palindromic strings: \"a\", \"b\", \"c\".\n\nExample 2:\n\nInput: s = \"aaa\"\nOutput: 6\nExplanation: Six palindromic strings: \"a\", \"a\", \"a\", \"aa\", \"aa\", \"aaa\".\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSubstrings(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can we reuse a previously computed palindrome to compute a larger palindrome?",
+    "If “aba” is a palindrome, is “xabax” a palindrome? Similarly is “xabay” a palindrome?",
+    "Complexity based hint:</br>\r\nIf we use brute force and check whether for every start and end position a substring is a palindrome we have O(n^2) start - end pairs and O(n) palindromic checks. Can we reduce the time for palindromic checks to O(1) by reusing some previous computation?"
+  ],
+  "testCases": [
+    [
+      "\"abc\""
+    ],
+    [
+      "\"aaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def countSubstrings(s: str) -> int:\n    n = len(s)\n    count = 0\n    for center in range(2 * n - 1):\n        left = center // 2\n        right = left + center % 2\n        while left >= 0 and right < n and s[left] == s[right]:\n            count += 1\n            left -= 1\n            right += 1\n    return count",
+    "explanation": "The algorithm is based on the idea of expanding a palindromic substring out from its center. There can be 2 * n - 1 possible centers for a string of length n. For each center, the algorithm initializes two pointers, left and right. Initially, left = center / 2, and right = left + center % 2. This ensures that both odd- and even-length palindromic substrings are covered. Then, for each center, the algorithm checks if characters at left and right are equal. If so, increment the count, move left pointer one position to the left, and right pointer one position to the right. The process continues until conditions are no longer satisfied, ensuring all palindromic substrings are taken into account. Finally, the count is returned as the answer."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Palindromic Substring\", \"titleSlug\": \"longest-palindromic-substring\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Palindromic Subsequence\", \"titleSlug\": \"longest-palindromic-subsequence\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "4190",
+  "title": "Minimum Operations to Reach Target Array",
+  "titleSlug": "minimum-operations-to-reach-target-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given two integer arrays nums and target, each of length n, where nums[i] is the current value at index i and target[i] is the desired value at index i.\n\nYou may perform the following operation any number of times (including zero):\n\n• Choose an integer value x\n\n• Find all maximal contiguous segments where nums[i] == x (a segment is maximal if it cannot be extended to the left or right while keeping all values equal to x)\n\n• For each such segment [l, r], update simultaneously:\n\n• nums[l] = target[l], nums[l + 1] = target[l + 1], ..., nums[r] = target[r]\n\nReturn the minimum number of operations required to make nums equal to target.\n\nExample 1:\n\nInput: nums = [1,2,3], target = [2,1,3]\n\nOutput: 2\n\nExplanation:​​​​​​​\n\n• Choose x = 1: maximal segment [0, 0] updated -> nums becomes [2, 2, 3]\n\n• Choose x = 2: maximal segment [0, 1] updated (nums[0] stays 2, nums[1] becomes 1) -> nums becomes [2, 1, 3]\n\n• Thus, 2 operations are required to convert nums to target.​​​​​​​​​​​​​​\n\nExample 2:\n\nInput: nums = [4,1,4], target = [5,1,4]\n\nOutput: 1\n\nExplanation:\n\n• Choose x = 4: maximal segments [0, 0] and [2, 2] updated (nums[2] stays 4) -> nums becomes [5, 1, 4]\n\n• Thus, 1 operation is required to convert nums to target.\n\nExample 3:\n\nInput: nums = [7,3,7], target = [5,5,9]\n\nOutput: 2\n\nExplanation:\n\n• Choose x = 7: maximal segments [0, 0] and [2, 2] updated -> nums becomes [5, 3, 9]\n\n• Choose x = 3: maximal segment [1, 1] updated -> nums becomes [5, 5, 9]\n\n• Thus, 2 operations are required to convert nums to target.\n\nConstraints:\n\n• 1 <= n == nums.length == target.length <= 105\n\n• 1 <= nums[i], target[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find all positions where nums[i] != target[i].",
+    "The answer is the number of distinct values in nums among those positions."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "[2,1,3]"
+    ],
+    [
+      "[4,1,4]",
+      "[5,1,4]"
+    ],
+    [
+      "[7,3,7]",
+      "[5,5,9]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, nums, target):\n        diff_vals = set()\n        for n, t in zip(nums, target):\n            if n != t:\n                diff_vals.add(n)\n        return len(diff_vals)",
+    "explanation": "One operation handles all segments of a given value x simultaneously. So we only need one operation per distinct value that needs to change. Answer = number of distinct values in nums at positions where nums[i] != target[i].\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

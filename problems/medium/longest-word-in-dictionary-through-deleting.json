@@ -1,0 +1,53 @@
+{
+  "questionId": "524",
+  "title": "Longest Word in Dictionary through Deleting",
+  "titleSlug": "longest-word-in-dictionary-through-deleting",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given a string s and a string array dictionary, return the longest string in the dictionary that can be formed by deleting some of the given string characters. If there is more than one possible result, return the longest word with the smallest lexicographical order. If there is no possible result, return the empty string.\n\nExample 1:\n\nInput: s = \"abpcplea\", dictionary = [\"ale\",\"apple\",\"monkey\",\"plea\"]\nOutput: \"apple\"\n\nExample 2:\n\nInput: s = \"abpcplea\", dictionary = [\"a\",\"b\",\"c\"]\nOutput: \"a\"\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• 1 <= dictionary.length <= 1000\n\n• 1 <= dictionary[i].length <= 1000\n\n• s and dictionary[i] consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findLongestWord(self, s, dictionary):\n        \"\"\"\n        :type s: str\n        :type dictionary: List[str]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"abpcplea\"",
+      "[\"ale\",\"apple\",\"monkey\",\"plea\"]"
+    ],
+    [
+      "\"abpcplea\"",
+      "[\"a\",\"b\",\"c\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"apple\"",
+    "\"a\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findLongestWord(s, dictionary):\n    def is_subsequence(target, source):\n        iter_source = iter(source)\n        return all(char in iter_source for char in target)\n\n    dictionary = sorted(dictionary)\n    longest = ''\n    for word in dictionary:\n        if is_subsequence(word, s) and len(word) > len(longest):\n            longest = word\n    return longest",
+    "explanation": "1. First, sort the dictionary so that word comparison will be in lexicographical order.\n2. Define a helper function `isSubsequence` which checks if a given word can be formed by deleting some of the given string characters.\n3. Iterate through the dictionary and for each word, check if it can be formed using the helper function. If a word can be formed and its length is longer than the current longest word, set it as the new longest word.\n4. Return the longest word found, or an empty string if no match was found."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Word in Dictionary\", \"titleSlug\": \"longest-word-in-dictionary\", \"difficulty\": \"Medium\"}]"
+}

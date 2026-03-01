@@ -1,0 +1,55 @@
+{
+  "questionId": "3327",
+  "title": "Minimum Moves to Pick K Ones",
+  "titleSlug": "minimum-moves-to-pick-k-ones",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a binary array nums of length n, a positive integer k and a non-negative integer maxChanges.\n\nAlice plays a game, where the goal is for Alice to pick up k ones from nums using the minimum number of moves. When the game starts, Alice picks up any index aliceIndex in the range [0, n - 1] and stands there. If nums[aliceIndex] == 1 , Alice picks up the one and nums[aliceIndex] becomes 0(this does not count as a move). After this, Alice can make any number of moves (including zero) where in each move Alice must perform exactly one of the following actions:\n\n• Select any index j != aliceIndex such that nums[j] == 0 and set nums[j] = 1. This action can be performed at most maxChanges times.\n\n• Select any two adjacent indices x and y (|x - y| == 1) such that nums[x] == 1, nums[y] == 0, then swap their values (set nums[y] = 1 and nums[x] = 0). If y == aliceIndex, Alice picks up the one after this move and nums[y] becomes 0.\n\nReturn the minimum number of moves required by Alice to pick exactly k ones.\n\nExample 1:\n\nInput: nums = [1,1,0,0,0,1,1,0,0,1], k = 3, maxChanges = 1\n\nOutput: 3\n\nExplanation: Alice can pick up 3 ones in 3 moves, if Alice performs the following actions in each move when standing at aliceIndex == 1:\n\n• At the start of the game Alice picks up the one and nums[1] becomes 0. nums becomes [1,0,0,0,0,1,1,0,0,1].\n\n• Select j == 2 and perform an action of the first type. nums becomes [1,0,1,0,0,1,1,0,0,1]\n\n• Select x == 2 and y == 1, and perform an action of the second type. nums becomes [1,1,0,0,0,1,1,0,0,1]. As y == aliceIndex, Alice picks up the one and nums becomes [1,0,0,0,0,1,1,0,0,1].\n\n• Select x == 0 and y == 1, and perform an action of the second type. nums becomes [0,1,0,0,0,1,1,0,0,1]. As y == aliceIndex, Alice picks up the one and nums becomes [0,0,0,0,0,1,1,0,0,1].\n\nNote that it may be possible for Alice to pick up 3 ones using some other sequence of 3 moves.\n\nExample 2:\n\nInput: nums = [0,0,0,0], k = 2, maxChanges = 3\n\nOutput: 4\n\nExplanation: Alice can pick up 2 ones in 4 moves, if Alice performs the following actions in each move when standing at aliceIndex == 0:\n\n• Select j == 1 and perform an action of the first type. nums becomes [0,1,0,0].\n\n• Select x == 1 and y == 0, and perform an action of the second type. nums becomes [1,0,0,0]. As y == aliceIndex, Alice picks up the one and nums becomes [0,0,0,0].\n\n• Select j == 1 again and perform an action of the first type. nums becomes [0,1,0,0].\n\n• Select x == 1 and y == 0 again, and perform an action of the second type. nums becomes [1,0,0,0]. As y == aliceIndex, Alice picks up the one and nums becomes [0,0,0,0].\n\nConstraints:\n\n• 2 <= n <= 105\n\n• 0 <= nums[i] <= 1\n\n• 1 <= k <= 105\n\n• 0 <= maxChanges <= 105\n\n• maxChanges + sum(nums) >= k",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumMoves(self, nums, k, maxChanges):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type maxChanges: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Ones created using a change require 2 moves. Hence except for the immediate neighbors of the index where we move all the ones, we should try to use change operations.",
+    "For some subset of ones, it is always better to move the ones to the median position.",
+    "We only need to be concerned with the indices where nums[i] == 1."
+  ],
+  "testCases": [
+    [
+      "[1,1,0,0,0,1,1,0,0,1]",
+      "3",
+      "1"
+    ],
+    [
+      "[0,0,0,0]",
+      "2",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Swaps to Group All 1's Together\", \"titleSlug\": \"minimum-swaps-to-group-all-1s-together\", \"difficulty\": \"Medium\"}]"
+}

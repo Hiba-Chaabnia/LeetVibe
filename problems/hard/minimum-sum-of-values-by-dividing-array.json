@@ -1,0 +1,72 @@
+{
+  "questionId": "3364",
+  "title": "Minimum Sum of Values by Dividing Array",
+  "titleSlug": "minimum-sum-of-values-by-dividing-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    }
+  ],
+  "content": "You are given two arrays nums and andValues of length n and m respectively.\n\nThe value of an array is equal to the last element of that array.\n\nYou have to divide nums into m disjoint contiguous subarrays such that for the ith subarray [li, ri], the bitwise AND of the subarray elements is equal to andValues[i], in other words, nums[li] & nums[li + 1] & ... & nums[ri] == andValues[i] for all 1 <= i <= m, where & represents the bitwise AND operator.\n\nReturn the minimum possible sum of the values of the m subarrays nums is divided into. If it is not possible to divide nums into m subarrays satisfying these conditions, return -1.\n\nExample 1:\n\nInput: nums = [1,4,3,3,2], andValues = [0,3,3,2]\n\nOutput: 12\n\nExplanation: The only possible way to divide nums is:\n\n• [1,4] as 1 & 4 == 0.\n\n• [3] as the bitwise AND of a single element subarray is that element itself.\n\n• [3] as the bitwise AND of a single element subarray is that element itself.\n\n• [2] as the bitwise AND of a single element subarray is that element itself.\n\nThe sum of the values for these subarrays is 4 + 3 + 3 + 2 = 12.\n\nExample 2:\n\nInput: nums = [2,3,5,7,7,7,5], andValues = [0,7,5]\n\nOutput: 17\n\nExplanation: There are three ways to divide nums:\n\n• [[2,3,5],[7,7,7],[5]] with the sum of the values 5 + 7 + 5 == 17.\n\n• [[2,3,5,7],[7,7],[5]] with the sum of the values 7 + 7 + 5 == 19.\n\n• [[2,3,5,7,7],[7],[5]] with the sum of the values 7 + 7 + 5 == 19.\n\nThe minimum possible sum of the values is 17.\n\nExample 3:\n\nInput: nums = [1,2,3,4], andValues = [2]\n\nOutput: -1\n\nExplanation: The bitwise AND of the entire array nums is 0. As there is no possible way to divide nums into a single subarray to have the bitwise AND of elements 2, return -1.\n\nConstraints:\n\n• 1 <= n == nums.length <= 104\n\n• 1 <= m == andValues.length <= min(n, 10)\n\n• 1 <= nums[i] < 105\n\n• 0 <= andValues[j] < 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumValueSum(self, nums, andValues):\n        \"\"\"\n        :type nums: List[int]\n        :type andValues: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let dp[i][j] be the optimal answer to split  nums[0..(i - 1)] into the first j andValues.",
+    "dp[i][j] = min(dp[(i - z)][j - 1]) + nums[i - 1] over all x <= z <= y and dp[0][0] = 0, where x and y are the longest and shortest subarrays ending with nums[i - 1] and the bitwise-and of all the values in it is andValues[j - 1].",
+    "The answer is dp[n][m].",
+    "To calculate x and y, we can use binary search (or sliding window). Note that the more values we have, the smaller the AND value is.",
+    "To calculate the result, we need to support RMQ (range minimum query). Segment tree is one way to do it in O(log(n)). But we can use Monotonic Queue since the ranges are indeed “sliding to right” which can be reduced to the classical minimum value in sliding window problem, for a O(n) solution."
+  ],
+  "testCases": [
+    [
+      "[1,4,3,3,2]",
+      "[0,3,3,2]"
+    ],
+    [
+      "[2,3,5,7,7,7,5]",
+      "[0,7,5]"
+    ],
+    [
+      "[1,2,3,4]",
+      "[2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "17",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumValueSum(self, nums, andValues):\n        \"\"\"\n        :type nums: List[int]\n        :type andValues: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        m = len(andValues)\n        INF = float('inf')\n        \n        # dp[i][j] = min sum to split nums[0:i] into first j subarrays with correct AND values\n        dp = [[INF] * (m + 1) for _ in range(n + 1)]\n        dp[0][0] = 0\n        \n        for i in range(1, n + 1):\n            for j in range(1, min(i, m) + 1):\n                # Try all ending positions for j-th subarray\n                current_and = -1  # all bits set initially\n                for k in range(i - 1, j - 2, -1):  # k is start of j-th subarray\n                    current_and &= nums[k]\n                    \n                    # If AND becomes less than target, no point continuing\n                    if current_and < andValues[j - 1]:\n                        break\n                    \n                    if current_and == andValues[j - 1] and dp[k][j - 1] != INF:\n                        dp[i][j] = min(dp[i][j], dp[k][j - 1] + nums[i - 1])\n        \n        return dp[n][m] if dp[n][m] != INF else -1",
+    "explanation": "This solution uses dynamic programming with bitwise AND operations:\n\n1. **Problem Understanding**: Divide nums into m subarrays where the j-th subarray has AND equal to andValues[j].\n\n2. **DP Definition**: dp[i][j] = minimum sum of last elements when splitting nums[0:i] into j subarrays with correct AND values.\n\n3. **Key Insight - AND Property**: The AND of a subarray only decreases (or stays same) as we add more elements. Once AND becomes less than the target, we can stop extending.\n\n4. **Transitions**:\n   - For each position i and number of subarrays j\n   - Try all possible starting positions k for the j-th subarray\n   - Calculate AND of nums[k:i] incrementally from right to left\n   - If AND equals andValues[j-1], update dp[i][j] with dp[k][j-1] + nums[i-1]\n   - Early termination when AND < target (optimization)\n\n5. **Why Incrementally from Right**: Computing AND from k to i-1 incrementally from k backwards allows early termination and efficient computation.\n\n6. **Base Case**: dp[0][0] = 0 (empty array, zero subarrays).\n\n7. **Answer**: dp[n][m] (all elements, all m subarrays).\n\nTime Complexity: O(N² * M)\nSpace Complexity: O(N * M)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cost to Split an Array\", \"titleSlug\": \"minimum-cost-to-split-an-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Split With Minimum Sum\", \"titleSlug\": \"split-with-minimum-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Find Subarray With Bitwise OR Closest to K\", \"titleSlug\": \"find-subarray-with-bitwise-or-closest-to-k\", \"difficulty\": \"Hard\"}, {\"title\": \"Find X Value of Array II\", \"titleSlug\": \"find-x-value-of-array-ii\", \"difficulty\": \"Hard\"}]"
+}

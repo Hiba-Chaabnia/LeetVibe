@@ -1,0 +1,50 @@
+{
+  "questionId": "866",
+  "title": "Rectangle Overlap",
+  "titleSlug": "rectangle-overlap",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "An axis-aligned rectangle is represented as a list [x1, y1, x2, y2], where (x1, y1) is the coordinate of its bottom-left corner, and (x2, y2) is the coordinate of its top-right corner. Its top and bottom edges are parallel to the X-axis, and its left and right edges are parallel to the Y-axis.\n\nTwo rectangles overlap if the area of their intersection is positive. To be clear, two rectangles that only touch at the corner or edges do not overlap.\n\nGiven two axis-aligned rectangles rec1 and rec2, return true if they overlap, otherwise return false.\n\nExample 1:\n\nInput: rec1 = [0,0,2,2], rec2 = [1,1,3,3]\nOutput: true\nExample 2:\n\nInput: rec1 = [0,0,1,1], rec2 = [1,0,2,1]\nOutput: false\nExample 3:\n\nInput: rec1 = [0,0,1,1], rec2 = [2,2,3,3]\nOutput: false\n\nConstraints:\n\n• rec1.length == 4\n\n• rec2.length == 4\n\n• -109 <= rec1[i], rec2[i] <= 109\n\n• rec1 and rec2 represent a valid rectangle with a non-zero area.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isRectangleOverlap(self, rec1, rec2):\n        \"\"\"\n        :type rec1: List[int]\n        :type rec2: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[0,0,2,2]",
+      "[1,1,3,3]"
+    ],
+    [
+      "[0,0,1,1]",
+      "[1,0,2,1]"
+    ],
+    [
+      "[0,0,1,1]",
+      "[2,2,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isRectangleOverlap(self, rec1, rec2):\n        return not (rec1[2] <= rec2[0] or rec1[0] >= rec2[2] or rec1[3] <= rec2[1] or rec1[1] >= rec2[3])",
+    "explanation": "No overlap if: left of rec1 ≥ right of rec2, etc. Negate to check overlap.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Rectangle Area\", \"titleSlug\": \"rectangle-area\", \"difficulty\": \"Medium\"}]"
+}

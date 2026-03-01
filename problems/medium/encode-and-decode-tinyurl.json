@@ -1,0 +1,43 @@
+{
+  "questionId": "535",
+  "title": "Encode and Decode TinyURL",
+  "titleSlug": "encode-and-decode-tinyurl",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Design",
+      "slug": "design"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "Note: This is a companion problem to the System Design problem: Design TinyURL.\n\nTinyURL is a URL shortening service where you enter a URL such as https://leetcode.com/problems/design-tinyurl and it returns a short URL such as http://tinyurl.com/4e9iAk. Design a class to encode a URL and decode a tiny URL.\n\nThere is no restriction on how your encode/decode algorithm should work. You just need to ensure that a URL can be encoded to a tiny URL and the tiny URL can be decoded to the original URL.\n\nImplement the Solution class:\n\n• Solution() Initializes the object of the system.\n\n• String encode(String longUrl) Returns a tiny URL for the given longUrl.\n\n• String decode(String shortUrl) Returns the original long URL for the given shortUrl. It is guaranteed that the given shortUrl was encoded by the same object.\n\nExample 1:\n\nInput: url = \"https://leetcode.com/problems/design-tinyurl\"\nOutput: \"https://leetcode.com/problems/design-tinyurl\"\n\nExplanation:\n    Solution obj = new Solution();\n    string tiny = obj.encode(url); // returns the encoded tiny url.\n    string ans = obj.decode(tiny); // returns the original url after decoding it.\n\nConstraints:\n\n• 1 <= url.length <= 104\n\n• url is guranteed to be a valid URL.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Codec:\n\n    def encode(self, longUrl):\n        \"\"\"Encodes a URL to a shortened URL.\n        \n        :type longUrl: str\n        :rtype: str\n        \"\"\"\n        \n\n    def decode(self, shortUrl):\n        \"\"\"Decodes a shortened URL to its original URL.\n        \n        :type shortUrl: str\n        :rtype: str\n        \"\"\"\n        \n\n# Your Codec object will be instantiated and called as such:\n# codec = Codec()\n# codec.decode(codec.encode(url))"
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"https://leetcode.com/problems/design-tinyurl\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"https://leetcode.com/problems/design-tinyurl\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "2292",
+  "title": "Counting Words With a Given Prefix",
+  "titleSlug": "counting-words-with-a-given-prefix",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "You are given an array of strings words and a string pref.\n\nReturn the number of strings in words that contain pref as a prefix.\n\nA prefix of a string s is any leading contiguous substring of s.\n\nExample 1:\n\nInput: words = [\"pay\",\"attention\",\"practice\",\"attend\"], pref = \"at\"\nOutput: 2\nExplanation: The 2 strings that contain \"at\" as a prefix are: \"attention\" and \"attend\".\n\nExample 2:\n\nInput: words = [\"leetcode\",\"win\",\"loops\",\"success\"], pref = \"code\"\nOutput: 0\nExplanation: There are no strings that contain \"code\" as a prefix.\n\nConstraints:\n\n• 1 <= words.length <= 100\n\n• 1 <= words[i].length, pref.length <= 100\n\n• words[i] and pref consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def prefixCount(self, words, pref):\n        \"\"\"\n        :type words: List[str]\n        :type pref: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Go through each word in words and increment the answer if pref is a prefix of the word."
+  ],
+  "testCases": [
+    [
+      "[\"pay\",\"attention\",\"practice\",\"attend\"]",
+      "\"at\""
+    ],
+    [
+      "[\"leetcode\",\"win\",\"loops\",\"success\"]",
+      "\"code\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def prefixCount(self, words, pref):\n        count = 0\n        for word in words:\n            if word.startswith(pref):\n                count += 1\n        return count",
+    "explanation": "Count words starting with given prefix.\nTime: O(n * m) where n=words.length, m=pref.length\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Check If a Word Occurs As a Prefix of Any Word in a Sentence\", \"titleSlug\": \"check-if-a-word-occurs-as-a-prefix-of-any-word-in-a-sentence\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Prefixes of a Given String\", \"titleSlug\": \"count-prefixes-of-a-given-string\", \"difficulty\": \"Easy\"}]"
+}

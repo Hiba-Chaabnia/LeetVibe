@@ -1,0 +1,39 @@
+{
+  "questionId": "3636",
+  "title": "Check Balanced String",
+  "titleSlug": "check-balanced-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string num consisting of only digits. A string of digits is called balanced if the sum of the digits at even indices is equal to the sum of digits at odd indices.\n\nReturn true if num is balanced, otherwise return false.\n\nExample 1:\n\nInput: num = \"1234\"\n\nOutput: false\n\nExplanation:\n\n• The sum of digits at even indices is 1 + 3 == 4, and the sum of digits at odd indices is 2 + 4 == 6.\n\n• Since 4 is not equal to 6, num is not balanced.\n\nExample 2:\n\nInput: num = \"24123\"\n\nOutput: true\n\nExplanation:\n\n• The sum of digits at even indices is 2 + 1 + 3 == 6, and the sum of digits at odd indices is 4 + 2 == 6.\n\n• Since both are equal the num is balanced.\n\nConstraints:\n\n• 2 <= num.length <= 100\n\n• num consists of digits only",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isBalanced(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"1234\""
+    ],
+    [
+      "\"24123\""
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isBalanced(self, num):\n        even_sum = sum(int(num[i]) for i in range(0, len(num), 2))\n        odd_sum = sum(int(num[i]) for i in range(1, len(num), 2))\n        return even_sum == odd_sum",
+    "explanation": "Sum digits at even vs odd indices."
+  },
+  "similarQuestions": "[{\"title\": \"Balanced Binary Tree\", \"titleSlug\": \"balanced-binary-tree\", \"difficulty\": \"Easy\"}]"
+}

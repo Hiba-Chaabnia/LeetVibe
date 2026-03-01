@@ -1,0 +1,48 @@
+{
+  "questionId": "334",
+  "title": "Increasing Triplet Subsequence",
+  "titleSlug": "increasing-triplet-subsequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k]. If no such indices exists, return false.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5]\nOutput: true\nExplanation: Any triplet where i Example 2:\n\nInput: nums = [5,4,3,2,1]\nOutput: false\nExplanation: No triplet exists.\n\nExample 3:\n\nInput: nums = [2,1,5,0,4,6]\nOutput: true\nExplanation: One of the valid triplet is (1, 4, 5), because nums[1] == 1\n\nConstraints:\n\n• 1 <= nums.length <= 5 * 105\n\n• -231 <= nums[i] <= 231 - 1\n\nFollow up: Could you implement a solution that runs in O(n) time complexity and O(1) space complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def increasingTriplet(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[5,4,3,2,1]"
+    ],
+    [
+      "[2,1,5,0,4,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def increasingTriplet(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        first = second = float('inf')\n        \n        for num in nums:\n            if num <= first:\n                first = num\n            elif num <= second:\n                second = num\n            else:\n                # Found third number greater than both\n                return True\n        \n        return False",
+    "explanation": "Track smallest and second smallest. When finding larger than second, triplet found. O(1) space.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Increasing Subsequence\", \"titleSlug\": \"longest-increasing-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Special Quadruplets\", \"titleSlug\": \"count-special-quadruplets\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Good Triplets in an Array\", \"titleSlug\": \"count-good-triplets-in-an-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Increasing Quadruplets\", \"titleSlug\": \"count-increasing-quadruplets\", \"difficulty\": \"Hard\"}]"
+}

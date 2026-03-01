@@ -1,0 +1,72 @@
+{
+  "questionId": "2894",
+  "title": "Maximum Elegance of a K-Length Subsequence",
+  "titleSlug": "maximum-elegance-of-a-k-length-subsequence",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given a 0-indexed 2D integer array items of length n and an integer k.\n\nitems[i] = [profiti, categoryi], where profiti and categoryi denote the profit and category of the ith item respectively.\n\nLet's define the elegance of a subsequence of items as total_profit + distinct_categories2, where total_profit is the sum of all profits in the subsequence, and distinct_categories is the number of distinct categories from all the categories in the selected subsequence.\n\nYour task is to find the maximum elegance from all subsequences of size k in items.\n\nReturn an integer denoting the maximum elegance of a subsequence of items with size exactly k.\n\nNote: A subsequence of an array is a new array generated from the original array by deleting some elements (possibly none) without changing the remaining elements' relative order.\n\nExample 1:\n\nInput: items = [[3,2],[5,1],[10,1]], k = 2\nOutput: 17\nExplanation: In this example, we have to select a subsequence of size 2.\n    We can select items[0] = [3,2] and items[2] = [10,1].\n    The total profit in this subsequence is 3 + 10 = 13, and the subsequence contains 2 distinct categories [2,1].\n    Hence, the elegance is 13 + 22 = 17, and we can show that it is the maximum achievable elegance.\n\nExample 2:\n\nInput: items = [[3,1],[3,1],[2,2],[5,3]], k = 3\nOutput: 19\nExplanation: In this example, we have to select a subsequence of size 3.\n    We can select items[0] = [3,1], items[2] = [2,2], and items[3] = [5,3].\n    The total profit in this subsequence is 3 + 2 + 5 = 10, and the subsequence contains 3 distinct categories [1,2,3].\n    Hence, the elegance is 10 + 32 = 19, and we can show that it is the maximum achievable elegance.\n\nExample 3:\n\nInput: items = [[1,1],[2,1],[3,1]], k = 3\nOutput: 7\nExplanation: In this example, we have to select a subsequence of size 3.\n    We should select all the items.\n    The total profit will be 1 + 2 + 3 = 6, and the subsequence contains 1 distinct category [1].\n    Hence, the maximum elegance is 6 + 12 = 7.\n\nConstraints:\n\n• 1 <= items.length == n <= 105\n\n• items[i].length == 2\n\n• items[i][0] == profiti\n\n• items[i][1] == categoryi\n\n• 1 <= profiti <= 109\n\n• 1 <= categoryi <= n\n\n• 1 <= k <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMaximumElegance(self, items, k):\n        \"\"\"\n        :type items: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Greedy algorithm.",
+    "Sort items in non-increasing order of profits.",
+    "Select the first k items (the top k most profitable items). Keep track of the items as the candidate set.",
+    "For the remaining n - k items sorted in non-increasing order of profits, try replacing an item in the candidate set using the current item.",
+    "The replacing item should add a new category to the candidate set and should remove the item with the minimum profit that occurs more than once in the candidate set."
+  ],
+  "testCases": [
+    [
+      "[[3,2],[5,1],[10,1]]",
+      "2"
+    ],
+    [
+      "[[3,1],[3,1],[2,2],[5,3]]",
+      "3"
+    ],
+    [
+      "[[1,1],[2,1],[3,1]]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "17",
+    "19",
+    "7"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findMaximumElegance(self, items, k):\n        \"\"\"\n        :type items: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # Sort items by profit descending\n        items.sort(reverse=True)\n        \n        # Select top k items\n        selected_profit = sum(items[i][0] for i in range(k))\n        selected_categories = set(items[i][1] for i in range(k))\n        distinct_categories = len(selected_categories)\n        \n        elegance = selected_profit + distinct_categories ** 2\n        max_elegance = elegance\n        \n        # Stack to store duplicate categories from selected items\n        duplicate_stack = []\n        category_count = {}\n        \n        for i in range(k):\n            cat = items[i][1]\n            category_count[cat] = category_count.get(cat, 0) + 1\n            if category_count[cat] > 1:\n                duplicate_stack.append(items[i][0])  # Profit of duplicate\n        \n        # Try replacing items\n        for i in range(k, len(items)):\n            new_profit = items[i][0]\n            new_category = items[i][1]\n            \n            # If new category already selected, skip\n            if new_category in selected_categories:\n                continue\n            \n            # If no duplicates to replace, can't improve\n            if not duplicate_stack:\n                continue\n            \n            # Replace smallest profit duplicate\n            old_profit = duplicate_stack.pop()\n            \n            # Update selection\n            selected_profit = selected_profit - old_profit + new_profit\n            distinct_categories += 1  # Added new category\n            \n            elegance = selected_profit + distinct_categories ** 2\n            max_elegance = max(max_elegance, elegance)\n            \n            # Add new_profit to duplicate stack if needed\n            # (but only if we replaced a duplicate, not the original)\n            # Actually, we're replacing the duplicate profit\n            # And new_profit could become a duplicate\n            # But since new_category is new, new_profit won't be duplicate\n            # So we don't add to duplicate stack\n        \n        return max_elegance",
+    "explanation": "This solution uses greedy selection with duplicate replacement:\n\n1. **Problem Understanding**:\n   - Select k items from n items\n   - Elegance = total_profit + (distinct_categories)²\n   - Maximize elegance\n\n2. **Greedy Strategy**:\n   - Sort items by profit descending\n   - Select top k items (maximize profit)\n   - Then try to increase distinct categories\n\n3. **Initial Selection**:\n   - Take k highest-profit items\n   - Calculate initial elegance\n   - Identify duplicate categories (multiple items with same category)\n\n4. **Improvement Phase**:\n   - For each remaining item (not in top k):\n     - If category already selected, skip (no new category gained)\n     - If category new:\n       - Replace smallest-profit duplicate item\n       - Gains new category (increases elegance by 2*distinct + 1)\n       - Loses old profit, gains new profit\n   - Track maximum elegance\n\n5. **Why It Works**:\n   - Top k items maximize initial profit\n   - Adding categories via replacement:\n     - Loss: smallest duplicate profit\n     - Gain: new item profit + category bonus\n   - Since new item has lower profit, only worth if category bonus is large\n   - Process items in order ensures we try best replacements\n\n6. **Duplicate Tracking**:\n   - Stack of profits of items with duplicate categories\n   - When replacing, remove smallest (least loss)\n   - This greedy choice is optimal\n\nTime Complexity: O(n log n) for sorting + O(n) for replacement loop\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"IPO\", \"titleSlug\": \"ipo\", \"difficulty\": \"Hard\"}]"
+}

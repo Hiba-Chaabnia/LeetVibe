@@ -1,0 +1,41 @@
+{
+  "questionId": "1434",
+  "title": "Decrypt String from Alphabet to Integer Mapping",
+  "titleSlug": "decrypt-string-from-alphabet-to-integer-mapping",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string s formed by digits and '#'. We want to map s to English lowercase characters as follows:\n\n• Characters ('a' to 'i') are represented by ('1' to '9') respectively.\n\n• Characters ('j' to 'z') are represented by ('10#' to '26#') respectively.\n\nReturn the string formed after mapping.\n\nThe test cases are generated so that a unique mapping will always exist.\n\nExample 1:\n\nInput: s = \"10#11#12\"\nOutput: \"jkab\"\nExplanation: \"j\" -> \"10#\" , \"k\" -> \"11#\" , \"a\" -> \"1\" , \"b\" -> \"2\".\n\nExample 2:\n\nInput: s = \"1326#\"\nOutput: \"acz\"\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s consists of digits and the '#' letter.\n\n• s will be a valid string such that mapping is always possible.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def freqAlphabets(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Scan from right to left, in each step of the scanning check whether there is a trailing \"#\" 2 indexes away."
+  ],
+  "testCases": [
+    [
+      "\"10#11#12\""
+    ],
+    [
+      "\"1326#\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"jkab\"",
+    "\"acz\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def freqAlphabets(self, s):\n        result = []\n        i = len(s) - 1\n        while i >= 0:\n            if s[i] == '#':\n                num = int(s[i-2:i])\n                result.append(chr(ord('a') + num - 1))\n                i -= 3\n            else:\n                result.append(chr(ord('a') + int(s[i]) - 1))\n                i -= 1\n        return ''.join(reversed(result))",
+    "explanation": "Scan right to left. If '#', take 2-char number. Else take single char. Reverse.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "1766",
+  "title": "Minimum Number of Removals to Make Mountain Array",
+  "titleSlug": "minimum-number-of-removals-to-make-mountain-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You may recall that an array arr is a mountain array if and only if:\n\n• arr.length >= 3\n\n• There exists some index i (0-indexed) with 0 < i < arr.length - 1 such that:\n\n• arr[0] < arr[1] < ... < arr[i - 1] < arr[i]\n\n• arr[i] > arr[i + 1] > ... > arr[arr.length - 1]\n\nGiven an integer array nums​​​, return the minimum number of elements to remove to make nums​​​ a mountain array.\n\nExample 1:\n\nInput: nums = [1,3,1]\nOutput: 0\nExplanation: The array itself is a mountain array so we do not need to remove any elements.\n\nExample 2:\n\nInput: nums = [2,1,1,5,6,2,3,1]\nOutput: 3\nExplanation: One solution is to remove the elements at indices 0, 1, and 5, making the array nums = [1,5,6,3,1].\n\nConstraints:\n\n• 3 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 109\n\n• It is guaranteed that you can make a mountain array out of nums.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumMountainRemovals(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think the opposite direction instead of minimum elements to remove the maximum mountain subsequence",
+    "Think of LIS it's kind of close"
+  ],
+  "testCases": [
+    [
+      "[1,3,1]"
+    ],
+    [
+      "[2,1,1,5,6,2,3,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minimumMountainRemovals(nums):\n    n = len(nums)\n    left, right = [0] * n, [0] * n\n    for i in range(1, n):\n        left[i] = left[i - 1] + int(nums[i] > nums[i - 1])\n        right[n - i - 1] = right[n - i] + int(nums[n - i - 1] > nums[n - i])\n    ans = n - 3\n    for i in range(1, n - 1):\n        ans = min(ans, n - 1 - left[i] - right[i])\n    return ans",
+    "explanation": "The algorithm calculates the minimum number of elements to remove to make the input array a mountain array. First, it initializes two arrays `left` and `right`, with the same length as the input array. These arrays will store the increasing and decreasing sequence, respectively, ending at position `i`.\n\nFor each index in the range of the input array, the algorithm increases the length of `left` and `right` sequences if the current element is greater than the previous one or if the current element in the reversed array is greater the next one, respectively. Then, the minimum number of elements to remove is calculated by comparing the sum of both sequences for each index, and keeping the minimum value. Subtracting this value from the total length minus one is the final answer."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Increasing Subsequence\", \"titleSlug\": \"longest-increasing-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Mountain in Array\", \"titleSlug\": \"longest-mountain-in-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Peak Index in a Mountain Array\", \"titleSlug\": \"peak-index-in-a-mountain-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Valid Mountain Array\", \"titleSlug\": \"valid-mountain-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Find in Mountain Array\", \"titleSlug\": \"find-in-mountain-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Beautiful Towers II\", \"titleSlug\": \"beautiful-towers-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Beautiful Towers I\", \"titleSlug\": \"beautiful-towers-i\", \"difficulty\": \"Medium\"}]"
+}

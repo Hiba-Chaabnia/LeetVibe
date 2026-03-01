@@ -1,0 +1,51 @@
+{
+  "questionId": "682",
+  "title": "Baseball Game",
+  "titleSlug": "baseball-game",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are keeping the scores for a baseball game with strange rules. At the beginning of the game, you start with an empty record.\n\nYou are given a list of strings operations, where operations[i] is the ith operation you must apply to the record and is one of the following:\n\n• An integer x records a new score of x.\n\n• '+' records a new score that is the sum of the previous two scores.\n\n• 'D' records a new score that is the double of the previous score.\n\n• 'C' invalidates the previous score, removing it from the record.\n\nReturn the sum of all the scores on the record after applying all the operations.\n\nThe test cases are generated such that the answer and all intermediate calculations fit in a 32-bit integer and that all operations are valid.\n\nExample 1:\n\nInput: ops = [\"5\",\"2\",\"C\",\"D\",\"+\"]\nOutput: 30\nExplanation:\n    \"5\" - Add 5 to the record, record is now [5].\n    \"2\" - Add 2 to the record, record is now [5, 2].\n    \"C\" - Invalidate and remove the previous score, record is now [5].\n    \"D\" - Add 2 * 5 = 10 to the record, record is now [5, 10].\n    \"+\" - Add 5 + 10 = 15 to the record, record is now [5, 10, 15].\n    The total sum is 5 + 10 + 15 = 30.\n\nExample 2:\n\nInput: ops = [\"5\",\"-2\",\"4\",\"C\",\"D\",\"9\",\"+\",\"+\"]\nOutput: 27\nExplanation:\n    \"5\" - Add 5 to the record, record is now [5].\n    \"-2\" - Add -2 to the record, record is now [5, -2].\n    \"4\" - Add 4 to the record, record is now [5, -2, 4].\n    \"C\" - Invalidate and remove the previous score, record is now [5, -2].\n    \"D\" - Add 2 * -2 = -4 to the record, record is now [5, -2, -4].\n    \"9\" - Add 9 to the record, record is now [5, -2, -4, 9].\n    \"+\" - Add -4 + 9 = 5 to the record, record is now [5, -2, -4, 9, 5].\n    \"+\" - Add 9 + 5 = 14 to the record, record is now [5, -2, -4, 9, 5, 14].\n    The total sum is 5 + -2 + -4 + 9 + 5 + 14 = 27.\n\nExample 3:\n\nInput: ops = [\"1\",\"C\"]\nOutput: 0\nExplanation:\n    \"1\" - Add 1 to the record, record is now [1].\n    \"C\" - Invalidate and remove the previous score, record is now [].\n    Since the record is empty, the total sum is 0.\n\nConstraints:\n\n• 1 <= operations.length <= 1000\n\n• operations[i] is \"C\", \"D\", \"+\", or a string representing an integer in the range [-3 * 104, 3 * 104].\n\n• For operation \"+\", there will always be at least two previous scores on the record.\n\n• For operations \"C\" and \"D\", there will always be at least one previous score on the record.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def calPoints(self, operations):\n        \"\"\"\n        :type operations: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"5\",\"2\",\"C\",\"D\",\"+\"]"
+    ],
+    [
+      "[\"5\",\"-2\",\"4\",\"C\",\"D\",\"9\",\"+\",\"+\"]"
+    ],
+    [
+      "[\"1\",\"C\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "30",
+    "27",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def calPoints(ops):\n    record = []\n    for op in ops:\n        if op == '+':\n            record.append(record[-1] + record[-2])\n        elif op == 'D':\n            record.append(record[-1] * 2)\n        elif op == 'C':\n            record.pop()\n        else:\n            record.append(int(op))\n    return sum(record)",
+    "explanation": "We use a dynamic array (in languages other than Java, where we use LinkedList for simplicity) to store the valid scores. We iterate through the given `ops` array of strings, and for each string, we perform the operations as follows:\n\n1. If the operation is '+', we add the last two scores and append the sum to the record.\n2. If the operation is 'D', we double the last score and append it to the record.\n3. If the operation is 'C', we remove the last score from the record.\n4. If the operation is a number, we parse the integer value and append it to the record.\n\nAfter iterating through all operations, we calculate the sum of all the scores in the record and return it.\n\nThe time complexity of this algorithm is O(n) where n is the size of ops, as we iterate once through the array and perform constant-time operations within the loop. The space complexity is also O(n), as we store the valid scores in the record array."
+  },
+  "similarQuestions": "[{\"title\": \"Crawler Log Folder\", \"titleSlug\": \"crawler-log-folder\", \"difficulty\": \"Easy\"}]"
+}

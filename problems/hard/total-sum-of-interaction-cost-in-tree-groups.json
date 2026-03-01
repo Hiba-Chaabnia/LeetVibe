@@ -1,0 +1,67 @@
+{
+  "questionId": "4072",
+  "title": "Total Sum of Interaction Cost in Tree Groups",
+  "titleSlug": "total-sum-of-interaction-cost-in-tree-groups",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    }
+  ],
+  "content": "You are given an integer n and an undirected tree with n nodes numbered from 0 to n - 1. This is represented by a 2D array edges of length n - 1, where edges[i] = [ui, vi] indicates an undirected edge between nodes ui and vi.\n\nYou are also given an integer array group of length n, where group[i] denotes the group label assigned to node i.\n\n• Two nodes u and v are considered part of the same group if group[u] == group[v].\n\n• The interaction cost between u and v is defined as the number of edges on the unique path connecting them in the tree.\n\nReturn an integer denoting the sum of interaction costs over all unordered pairs (u, v) with u != v such that group[u] == group[v].\n\nExample 1:\n\nInput: n = 3, edges = [[0,1],[1,2]], group = [1,1,1]\n\nOutput: 4\n\nExplanation: All nodes belong to group 1. The interaction costs between the pairs of nodes are:\n\n• Nodes (0, 1): 1\n\n• Nodes (1, 2): 1\n\n• Nodes (0, 2): 2\n\nThus, the total interaction cost is 1 + 1 + 2 = 4.\n\nExample 2:\n\nInput: n = 3, edges = [[0,1],[1,2]], group = [3,2,3]\n\nOutput: 2\n\nExplanation:\n\n• Nodes 0 and 2 belong to group 3. The interaction cost between this pair is 2.\n\n• Node 1 belongs to a different group and forms no valid pair. Therefore, the total interaction cost is 2.\n\nExample 3:\n\nInput: n = 4, edges = [[0,1],[0,2],[0,3]], group = [1,1,4,4]\n\nOutput: 3\n\nExplanation: Nodes belonging to the same groups and their interaction costs are:\n\n• Group 1: Nodes (0, 1): 1\n\n• Group 4: Nodes (2, 3): 2\n\nThus, the total interaction cost is 1 + 2 = 3.\n\nExample 4:\n\nInput: n = 2, edges = [[0,1]], group = [9,8]\n\nOutput: 0\n\nExplanation: All nodes belong to different groups and there are no valid pairs. Therefore, the total interaction cost is 0.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• edges.length == n - 1\n\n• edges[i] = [ui, vi]\n\n• 0 <= ui, vi <= n - 1\n\n• group.length == n\n\n• 1 <= group[i] <= 20\n\n• The input is generated such that edges represents a valid tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def interactionCosts(self, n, edges, group):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type group: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Do a postorder DFS, count how many nodes of each group are in each subtree.",
+    "For each edge, contribution = subtree_count * (total_count - subtree_count).",
+    "Sum these over all edges and groups."
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[0,1],[1,2]]",
+      "[1,1,1]"
+    ],
+    [
+      "3",
+      "[[0,1],[1,2]]",
+      "[3,2,3]"
+    ],
+    [
+      "4",
+      "[[0,1],[0,2],[0,3]]",
+      "[1,1,4,4]"
+    ],
+    [
+      "2",
+      "[[0,1]]",
+      "[9,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2",
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def interactionCosts(self, n, edges, group):\n        G = max(group) + 1\n        adj = defaultdict(list)\n        for u, v in edges:\n            adj[u].append(v)\n            adj[v].append(u)\n        total_cnt = [0] * G\n        for g in group:\n            total_cnt[g] += 1\n        # Post-order DFS to compute subtree group counts\n        parent = [-1] * n\n        order = []\n        visited = [False] * n\n        visited[0] = True\n        stack = [0]\n        while stack:\n            u = stack.pop()\n            order.append(u)\n            for v in adj[u]:\n                if not visited[v]:\n                    visited[v] = True\n                    parent[v] = u\n                    stack.append(v)\n        # subtree_cnt[u][g] = count of group g in subtree of u\n        subtree_cnt = [[0] * G for _ in range(n)]\n        ans = 0\n        for u in reversed(order):\n            subtree_cnt[u][group[u]] += 1\n            for v in adj[u]:\n                if v != parent[u]:\n                    for g in range(G):\n                        subtree_cnt[u][g] += subtree_cnt[v][g]\n            if parent[u] != -1:\n                for g in range(G):\n                    sc = subtree_cnt[u][g]\n                    ans += sc * (total_cnt[g] - sc)\n        return ans",
+    "explanation": "For each edge (parent, child): contribution = sum over groups g of subtree_cnt[child][g] * (total_cnt[g] - subtree_cnt[child][g]). This counts ordered pairs (u in subtree, v not in subtree) with same group. Since group ≤ 20, this is O(n * 20).\n\nTime: O(n * G). Space: O(n * G)."
+  },
+  "similarQuestions": "[]"
+}

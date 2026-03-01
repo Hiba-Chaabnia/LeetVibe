@@ -1,0 +1,52 @@
+{
+  "questionId": "2497",
+  "title": "Maximum Matching of Players With Trainers",
+  "titleSlug": "maximum-matching-of-players-with-trainers",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array players, where players[i] represents the ability of the ith player. You are also given a 0-indexed integer array trainers, where trainers[j] represents the training capacity of the jth trainer.\n\nThe ith player can match with the jth trainer if the player's ability is less than or equal to the trainer's training capacity. Additionally, the ith player can be matched with at most one trainer, and the jth trainer can be matched with at most one player.\n\nReturn the maximum number of matchings between players and trainers that satisfy these conditions.\n\nExample 1:\n\nInput: players = [4,7,9], trainers = [8,2,5,8]\nOutput: 2\nExplanation:\n    One of the ways we can form two matchings is as follows:\n    - players[0] can be matched with trainers[0] since 4 Example 2:\n\nInput: players = [1,1,1], trainers = [10]\nOutput: 1\nExplanation:\n    The trainer can be matched with any of the 3 players.\n    Each player can only be matched with one trainer, so the maximum answer is 1.\n\nConstraints:\n\n• 1 <= players.length, trainers.length <= 105\n\n• 1 <= players[i], trainers[j] <= 109\n\nNote: This question is the same as  445: Assign Cookies.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def matchPlayersAndTrainers(self, players, trainers):\n        \"\"\"\n        :type players: List[int]\n        :type trainers: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort both the arrays.",
+    "Construct the matching greedily."
+  ],
+  "testCases": [
+    [
+      "[4,7,9]",
+      "[8,2,5,8]"
+    ],
+    [
+      "[1,1,1]",
+      "[10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Most Profit Assigning Work\", \"titleSlug\": \"most-profit-assigning-work\", \"difficulty\": \"Medium\"}, {\"title\": \"Long Pressed Name\", \"titleSlug\": \"long-pressed-name\", \"difficulty\": \"Easy\"}, {\"title\": \"Interval List Intersections\", \"titleSlug\": \"interval-list-intersections\", \"difficulty\": \"Medium\"}, {\"title\": \"Largest Merge Of Two Strings\", \"titleSlug\": \"largest-merge-of-two-strings\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Tasks You Can Assign\", \"titleSlug\": \"maximum-number-of-tasks-you-can-assign\", \"difficulty\": \"Hard\"}, {\"title\": \"Successful Pairs of Spells and Potions\", \"titleSlug\": \"successful-pairs-of-spells-and-potions\", \"difficulty\": \"Medium\"}, {\"title\": \"The Latest Time to Catch a Bus\", \"titleSlug\": \"the-latest-time-to-catch-a-bus\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximize Greatness of an Array\", \"titleSlug\": \"maximize-greatness-of-an-array\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "3178",
+  "title": "Minimum Increment Operations to Make Array Beautiful",
+  "titleSlug": "minimum-increment-operations-to-make-array-beautiful",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums having length n, and an integer k.\n\nYou can perform the following increment operation any number of times (including zero):\n\n• Choose an index i in the range [0, n - 1], and increase nums[i] by 1.\n\nAn array is considered beautiful if, for any subarray with a size of 3 or more, its maximum element is greater than or equal to k.\n\nReturn an integer denoting the minimum number of increment operations needed to make nums beautiful.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [2,3,0,0,2], k = 4\nOutput: 3\nExplanation: We can perform the following increment operations to make nums beautiful:\n    Choose index i = 1 and increase nums[1] by 1 -> [2,4,0,0,2].\n    Choose index i = 4 and increase nums[4] by 1 -> [2,4,0,0,3].\n    Choose index i = 4 and increase nums[4] by 1 -> [2,4,0,0,4].\n    The subarrays with a size of 3 or more are: [2,4,0], [4,0,0], [0,0,4], [2,4,0,0], [4,0,0,4], [2,4,0,0,4].\n    In all the subarrays, the maximum element is equal to k = 4, so nums is now beautiful.\n    It can be shown that nums cannot be made beautiful with fewer than 3 increment operations.\n    Hence, the answer is 3.\n\nExample 2:\n\nInput: nums = [0,1,3,3], k = 5\nOutput: 2\nExplanation: We can perform the following increment operations to make nums beautiful:\n    Choose index i = 2 and increase nums[2] by 1 -> [0,1,4,3].\n    Choose index i = 2 and increase nums[2] by 1 -> [0,1,5,3].\n    The subarrays with a size of 3 or more are: [0,1,5], [1,5,3], [0,1,5,3].\n    In all the subarrays, the maximum element is equal to k = 5, so nums is now beautiful.\n    It can be shown that nums cannot be made beautiful with fewer than 2 increment operations.\n    Hence, the answer is 2.\n\nExample 3:\n\nInput: nums = [1,1,2], k = 1\nOutput: 0\nExplanation: The only subarray with a size of 3 or more in this example is [1,1,2].\n    The maximum element, 2, is already greater than k = 1, so we don't need any increment operation.\n    Hence, the answer is 0.\n\nConstraints:\n\n• 3 <= n == nums.length <= 105\n\n• 0 <= nums[i] <= 109\n\n• 0 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minIncrementOperations(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "There needs to be at least one value among 3 consecutive values in the array that is greater than or equal to k.",
+    "The problem can be solved using dynamic programming.",
+    "Let dp[i] be the minimum number of increment operations required to make the subarray consisting of the first i values beautiful, while also having the value at nums[i] >= k.",
+    "dp[0] = max(0, k - nums[0]), dp[1] = max(0, k - nums[1]), and dp[2] = max(0, k - nums[2]).",
+    "dp[i] = max(0, k - nums[i]) + min(dp[i - 1], dp[i - 2], dp[i - 3]) for i in the range [3, n - 1].",
+    "The answer to the problem is min(dp[n - 1], dp[n - 2], dp[n - 3])."
+  ],
+  "testCases": [
+    [
+      "[2,3,0,0,2]",
+      "4"
+    ],
+    [
+      "[0,1,3,3]",
+      "5"
+    ],
+    [
+      "[1,1,2]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minIncrementOperations(self, nums, k):\n        n = len(nums)\n        # dp[i] = min ops to make array beautiful assuming nums[i] >= k\n        # (i.e., the i-th element is the one we \"boosted\" to cover the window)\n        # Among any 3 consecutive elements, at least one must be >= k.\n        # Equivalently, we must boost at least one element in every window of 3.\n        # dp[i] = max(0, k - nums[i]) + min(dp[i-1], dp[i-2], dp[i-3])\n        INF = float('inf')\n        # dp values for i=0,1,2\n        dp = [max(0, k - nums[i]) for i in range(min(3, n))]\n        for i in range(3, n):\n            cost = max(0, k - nums[i])\n            new_dp = cost + min(dp[0], dp[1], dp[2])\n            dp[0], dp[1], dp[2] = dp[1], dp[2], new_dp\n        return min(dp[:min(3, n)])",
+    "explanation": "For every window of 3 consecutive elements, at least one must be >= k. This is equivalent to: we must select a subset of indices (at least one per 3 consecutive) and boost each to k.\n\ndp[i] = minimum cost assuming index i is the chosen 'covered' element (boosted to >= k) among the recent 3. Transition: dp[i] = max(0, k - nums[i]) + min(dp[i-1], dp[i-2], dp[i-3]).\n\nAnswer: min(dp[n-1], dp[n-2], dp[n-3]) — one of the last three must be the most recent covered element.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

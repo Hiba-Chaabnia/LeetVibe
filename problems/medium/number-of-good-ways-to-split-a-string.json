@@ -1,0 +1,49 @@
+{
+  "questionId": "1632",
+  "title": "Number of Good Ways to Split a String",
+  "titleSlug": "number-of-good-ways-to-split-a-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a string s.\n\nA split is called good if you can split s into two non-empty strings sleft and sright where their concatenation is equal to s (i.e., sleft + sright = s) and the number of distinct letters in sleft and sright is the same.\n\nReturn the number of good splits you can make in s.\n\nExample 1:\n\nInput: s = \"aacaba\"\nOutput: 2\nExplanation: There are 5 ways to split \"aacaba\" and 2 of them are good.\n    (\"a\", \"acaba\") Left string and right string contains 1 and 3 different letters respectively.\n    (\"aa\", \"caba\") Left string and right string contains 1 and 3 different letters respectively.\n    (\"aac\", \"aba\") Left string and right string contains 2 and 2 different letters respectively (good split).\n    (\"aaca\", \"ba\") Left string and right string contains 2 and 2 different letters respectively (good split).\n    (\"aacab\", \"a\") Left string and right string contains 3 and 1 different letters respectively.\n\nExample 2:\n\nInput: s = \"abcd\"\nOutput: 1\nExplanation: Split the string as follows (\"ab\", \"cd\").\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSplits(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use two HashMap to store the counts of distinct letters in the left and right substring divided by the current index."
+  ],
+  "testCases": [
+    [
+      "\"aacaba\""
+    ],
+    [
+      "\"abcd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

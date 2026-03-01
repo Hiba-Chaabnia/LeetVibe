@@ -1,0 +1,58 @@
+{
+  "questionId": "2787",
+  "title": "Movement of Robots",
+  "titleSlug": "movement-of-robots",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Some robots are standing on an infinite number line with their initial coordinates given by a 0-indexed integer array nums and will start moving once given the command to move. The robots will move a unit distance each second.\n\nYou are given a string s denoting the direction in which robots will move on command. 'L' means the robot will move towards the left side or negative side of the number line, whereas 'R' means the robot will move towards the right side or positive side of the number line.\n\nIf two robots collide, they will start moving in opposite directions.\n\nReturn the sum of distances between all the pairs of robots d seconds after the command. Since the sum can be very large, return it modulo 109 + 7.\n\nNote:\n\n• For two robots at the index i and j, pair (i,j) and pair (j,i) are considered the same pair.\n\n• When robots collide, they instantly change their directions without wasting any time.\n\n• Collision happens when two robots share the same place in a moment.\n\n• For example, if a robot is positioned in 0 going to the right and another is positioned in 2 going to the left, the next second they'll be both in 1 and they will change direction and the next second the first one will be in 0, heading left, and another will be in 2, heading right.\n\n• For example, if a robot is positioned in 0 going to the right and another is positioned in 1 going to the left, the next second the first one will be in 0, heading left, and another will be in 1, heading right.\n\nExample 1:\n\nInput: nums = [-2,0,2], s = \"RLL\", d = 3\nOutput: 8\nExplanation:\n    After 1 second, the positions are [-1,-1,1]. Now, the robot at index 0 will move left, and the robot at index 1 will move right.\n    After 2 seconds, the positions are [-2,0,0]. Now, the robot at index 1 will move left, and the robot at index 2 will move right.\n    After 3 seconds, the positions are [-3,-1,1].\n    The distance between the robot at index 0 and 1 is abs(-3 - (-1)) = 2.\n    The distance between the robot at index 0 and 2 is abs(-3 - 1) = 4.\n    The distance between the robot at index 1 and 2 is abs(-1 - 1) = 2.\n    The sum of the pairs of all distances = 2 + 4 + 2 = 8.\n\nExample 2:\n\nInput: nums = [1,0], s = \"RL\", d = 2\nOutput: 5\nExplanation:\n    After 1 second, the positions are [2,-1].\n    After 2 seconds, the positions are [3,-2].\n    The distance between the two robots is abs(-2 - 3) = 5.\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• -2 * 109 <= nums[i] <= 2 * 109\n\n• 0 <= d <= 109\n\n• nums.length == s.length\n\n• s consists of 'L' and 'R' only\n\n• nums[i] will be unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumDistance(self, nums, s, d):\n        \"\"\"\n        :type nums: List[int]\n        :type s: str\n        :type d: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Observe that if you ignore collisions, the resultant positions of robots after d seconds would be the same.",
+    "After d seconds, sort the ending positions and use prefix sum to calculate the distance sum."
+  ],
+  "testCases": [
+    [
+      "[-2,0,2]",
+      "\"RLL\"",
+      "3"
+    ],
+    [
+      "[1,0]",
+      "\"RL\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumDistance(self, nums, s, d):\n        MOD = 10**9 + 7\n        # Key insight: when two robots collide and reverse directions,\n        # it's equivalent to them passing through each other.\n        # So final positions are just each robot moved by +d or -d.\n        positions = sorted(\n            num + d if c == 'R' else num - d\n            for num, c in zip(nums, s)\n        )\n        # Sum of pairwise distances in sorted array using prefix sums\n        ans = 0\n        prefix = 0\n        for i, pos in enumerate(positions):\n            ans = (ans + pos * i - prefix) % MOD\n            prefix += pos\n        return ans",
+    "explanation": "Key insight: when two robots collide and reverse directions, the net effect is identical to them passing through each other. So the final set of positions is simply {num_i ± d} — each robot moves d in its initial direction.\n\nAfter computing and sorting final positions, the sum of all pairwise distances in a sorted array can be computed in O(n) using prefix sums: for position i (0-indexed), its contribution to the sum is pos[i] * i - prefix_sum[0..i-1].\n\nTime complexity: O(n log n) for sorting. Space complexity: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Last Moment Before All Ants Fall Out of a Plank\", \"titleSlug\": \"last-moment-before-all-ants-fall-out-of-a-plank\", \"difficulty\": \"Medium\"}]"
+}

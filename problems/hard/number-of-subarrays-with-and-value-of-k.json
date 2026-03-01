@@ -1,0 +1,64 @@
+{
+  "questionId": "3466",
+  "title": "Number of Subarrays With AND Value of K",
+  "titleSlug": "number-of-subarrays-with-and-value-of-k",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "Given an array of integers nums and an integer k, return the number of subarrays of nums where the bitwise AND of the elements of the subarray equals k.\n\nExample 1:\n\nInput: nums = [1,1,1], k = 1\n\nOutput: 6\n\nExplanation: All subarrays contain only 1's.\n\nExample 2:\n\nInput: nums = [1,1,2], k = 1\n\nOutput: 3\n\nExplanation: Subarrays having an AND value of 1 are: [1,1,2], [1,1,2], [1,1,2].\n\nExample 3:\n\nInput: nums = [1,2,3], k = 2\n\nOutput: 2\n\nExplanation: Subarrays having an AND value of 2 are: [1,2,3], [1,2,3].\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i], k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSubarrays(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let’s say we want to count the number of pairs (l, r) such that nums[l] & nums[l + 1] & … & nums[r] == k.",
+    "Fix the left index l.",
+    "Note that if you increase r for a fixed l, then the AND value of the subarray either decreases or remains unchanged.",
+    "Therefore, consider using binary search.",
+    "To calculate the AND value of a subarray, use sparse tables."
+  ],
+  "testCases": [
+    [
+      "[1,1,1]",
+      "1"
+    ],
+    [
+      "[1,1,2]",
+      "1"
+    ],
+    [
+      "[1,2,3]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import bisect\nimport math\n\nclass Solution(object):\n    def countSubarrays(self, nums, k):\n        n = len(nums)\n        # Sparse table for range AND queries\n        LOG = max(1, int(math.log2(n)) + 1) if n > 0 else 1\n        sparse = [list(nums)]\n        for j in range(1, LOG + 1):\n            prev = sparse[j-1]\n            cur = []\n            for i in range(n - (1 << j) + 1):\n                cur.append(prev[i] & prev[i + (1 << (j-1))])\n            sparse.append(cur)\n        def range_and(l, r):\n            if l > r: return (1 << 30) - 1  # all 1s\n            length = r - l + 1\n            k2 = int(math.log2(length))\n            return sparse[k2][l] & sparse[k2][r - (1 << k2) + 1]\n        ans = 0\n        for l in range(n):\n            # AND is non-increasing as r increases\n            # Find range of r where AND == k\n            # Binary search for first r where AND <= k (AND drops to k)\n            lo, hi = l, n - 1\n            # Find smallest r1 where range_and(l, r1) <= k\n            r1 = n  # no valid r\n            lo2, hi2 = l, n - 1\n            while lo2 <= hi2:\n                mid = (lo2 + hi2) // 2\n                if range_and(l, mid) <= k:\n                    r1 = mid\n                    hi2 = mid - 1\n                else:\n                    lo2 = mid + 1\n            if r1 == n:\n                continue\n            # Find largest r2 where range_and(l, r2) == k\n            # After r1, AND might become < k\n            lo2, hi2 = r1, n - 1\n            r2 = r1 - 1\n            while lo2 <= hi2:\n                mid = (lo2 + hi2) // 2\n                if range_and(l, mid) == k:\n                    r2 = mid\n                    lo2 = mid + 1\n                else:\n                    hi2 = mid - 1\n            if r2 >= r1 and range_and(l, r1) == k:\n                ans += r2 - r1 + 1\n        return ans",
+    "explanation": "Sparse table for O(1) range AND queries. For each left endpoint l, AND is non-increasing as r grows. Binary search for the range [r1, r2] where AND equals k exactly.\n\nTime: O(n log n). Space: O(n log n)."
+  },
+  "similarQuestions": "[]"
+}

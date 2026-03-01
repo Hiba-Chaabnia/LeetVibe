@@ -1,0 +1,50 @@
+{
+  "questionId": "521",
+  "title": "Longest Uncommon Subsequence I",
+  "titleSlug": "longest-uncommon-subsequence-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given two strings a and b, return the length of the longest uncommon subsequence between a and b. If no such uncommon subsequence exists, return -1.\n\nAn uncommon subsequence between two strings is a string that is a subsequence of exactly one of them.\n\nExample 1:\n\nInput: a = \"aba\", b = \"cdc\"\nOutput: 3\nExplanation: One longest uncommon subsequence is \"aba\" because \"aba\" is a subsequence of \"aba\" but not \"cdc\".\n    Note that \"cdc\" is also a longest uncommon subsequence.\n\nExample 2:\n\nInput: a = \"aaa\", b = \"bbb\"\nOutput: 3\nExplanation: The longest uncommon subsequences are \"aaa\" and \"bbb\".\n\nExample 3:\n\nInput: a = \"aaa\", b = \"aaa\"\nOutput: -1\nExplanation: Every subsequence of string a is also a subsequence of string b. Similarly, every subsequence of string b is also a subsequence of string a. So the answer would be -1.\n\nConstraints:\n\n• 1 <= a.length, b.length <= 100\n\n• a and b consist of lower-case English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findLUSlength(self, a, b):\n        \"\"\"\n        :type a: str\n        :type b: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think very simple.",
+    "If a == b, the answer is -1.",
+    "Otherwise, the answer is the string a or the string b."
+  ],
+  "testCases": [
+    [
+      "\"aba\"",
+      "\"cdc\""
+    ],
+    [
+      "\"aaa\"",
+      "\"bbb\""
+    ],
+    [
+      "\"aaa\"",
+      "\"aaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findLUSlength(a: str, b: str) -> int:\n    if a == b:\n        return -1\n    return max(len(a), len(b))",
+    "explanation": "The algorithm is as follows:\n1. First, we compare if the strings a and b are equal. If they are equal, it means that there is no uncommon subsequence between them, so we return -1.\n2. If the strings are not equal, then we find the length of both strings and return the one with the maximum length. This is because the longest uncommon subsequence can be the longer of the two strings itself (since it is not a subsequence of the other string)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Uncommon Subsequence II\", \"titleSlug\": \"longest-uncommon-subsequence-ii\", \"difficulty\": \"Medium\"}]"
+}

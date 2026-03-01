@@ -1,0 +1,47 @@
+{
+  "questionId": "335",
+  "title": "Self Crossing",
+  "titleSlug": "self-crossing",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "You are given an array of integers distance.\n\nYou start at the point (0, 0) on an X-Y plane, and you move distance[0] meters to the north, then distance[1] meters to the west, distance[2] meters to the south, distance[3] meters to the east, and so on. In other words, after each move, your direction changes counter-clockwise.\n\nReturn true if your path crosses itself or false if it does not.\n\nExample 1:\n\nInput: distance = [2,1,1,2]\nOutput: true\nExplanation: The path crosses itself at the point (0, 1).\n\nExample 2:\n\nInput: distance = [1,2,3,4]\nOutput: false\nExplanation: The path does not cross itself at any point.\n\nExample 3:\n\nInput: distance = [1,1,1,2,1]\nOutput: true\nExplanation: The path crosses itself at the point (0, 0).\n\nConstraints:\n\n• 1 <= distance.length <= 105\n\n• 1 <= distance[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isSelfCrossing(self, distance):\n        \"\"\"\n        :type distance: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,1,1,2]"
+    ],
+    [
+      "[1,2,3,4]"
+    ],
+    [
+      "[1,1,1,2,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

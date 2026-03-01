@@ -1,0 +1,58 @@
+{
+  "questionId": "2372",
+  "title": "Rearrange Characters to Make Target String",
+  "titleSlug": "rearrange-characters-to-make-target-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given two 0-indexed strings s and target. You can take some letters from s and rearrange them to form new strings.\n\nReturn the maximum number of copies of target that can be formed by taking letters from s and rearranging them.\n\nExample 1:\n\nInput: s = \"ilovecodingonleetcode\", target = \"code\"\nOutput: 2\nExplanation:\n    For the first copy of \"code\", take the letters at indices 4, 5, 6, and 7.\n    For the second copy of \"code\", take the letters at indices 17, 18, 19, and 20.\n    The strings that are formed are \"ecod\" and \"code\" which can both be rearranged into \"code\".\n    We can make at most two copies of \"code\", so we return 2.\n\nExample 2:\n\nInput: s = \"abcba\", target = \"abc\"\nOutput: 1\nExplanation:\n    We can make one copy of \"abc\" by taking the letters at indices 0, 1, and 2.\n    We can make at most one copy of \"abc\", so we return 1.\n    Note that while there is an extra 'a' and 'b' at indices 3 and 4, we cannot reuse the letter 'c' at index 2, so we cannot make a second copy of \"abc\".\n\nExample 3:\n\nInput: s = \"abbaccaddaeea\", target = \"aaaaa\"\nOutput: 1\nExplanation:\n    We can make one copy of \"aaaaa\" by taking the letters at indices 0, 3, 6, 9, and 12.\n    We can make at most one copy of \"aaaaa\", so we return 1.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• 1 <= target.length <= 10\n\n• s and target consist of lowercase English letters.\n\nNote: This question is the same as  1189: Maximum Number of Balloons.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rearrangeCharacters(self, s, target):\n        \"\"\"\n        :type s: str\n        :type target: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the frequency of each character in s and target.",
+    "Consider each letter one at a time. If there are x occurrences of a letter in s and y occurrences of the same letter in target, how many copies of this letter can we make?",
+    "We can make floor(x / y) copies of the letter."
+  ],
+  "testCases": [
+    [
+      "\"ilovecodingonleetcode\"",
+      "\"code\""
+    ],
+    [
+      "\"abcba\"",
+      "\"abc\""
+    ],
+    [
+      "\"abbaccaddaeea\"",
+      "\"aaaaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def rearrangeCharacters(self, s, target):\n        from collections import Counter\n        s_count = Counter(s)\n        target_count = Counter(target)\n        max_copies = float('inf')\n        for char, count in target_count.items():\n            max_copies = min(max_copies, s_count.get(char, 0) // count)\n        return max_copies if max_copies != float('inf') else 0",
+    "explanation": "Count chars in both. For each target char: floor(s_count / target_count).\nTime: O(n + m)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Words That Can Be Formed by Characters\", \"titleSlug\": \"find-words-that-can-be-formed-by-characters\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Number of Occurrences of a Substring\", \"titleSlug\": \"maximum-number-of-occurrences-of-a-substring\", \"difficulty\": \"Medium\"}]"
+}

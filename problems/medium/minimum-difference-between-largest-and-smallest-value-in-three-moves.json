@@ -1,0 +1,53 @@
+{
+  "questionId": "1616",
+  "title": "Minimum Difference Between Largest and Smallest Value in Three Moves",
+  "titleSlug": "minimum-difference-between-largest-and-smallest-value-in-three-moves",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nIn one move, you can choose one element of nums and change it to any value.\n\nReturn the minimum difference between the largest and smallest value of nums after performing at most three moves.\n\nExample 1:\n\nInput: nums = [5,3,2,4]\nOutput: 0\nExplanation: We can make at most 3 moves.\n    In the first move, change 2 to 3. nums becomes [5,3,3,4].\n    In the second move, change 4 to 3. nums becomes [5,3,3,3].\n    In the third move, change 5 to 3. nums becomes [3,3,3,3].\n    After performing 3 moves, the difference between the minimum and maximum is 3 - 3 = 0.\n\nExample 2:\n\nInput: nums = [1,5,0,10,14]\nOutput: 1\nExplanation: We can make at most 3 moves.\n    In the first move, change 5 to 0. nums becomes [1,0,0,10,14].\n    In the second move, change 10 to 0. nums becomes [1,0,0,0,14].\n    In the third move, change 14 to 1. nums becomes [1,0,0,0,1].\n    After performing 3 moves, the difference between the minimum and maximum is 1 - 0 = 1.\n    It can be shown that there is no way to make the difference 0 in 3 moves.\n\nExample 3:\n\nInput: nums = [3,100,20]\nOutput: 0\nExplanation: We can make at most 3 moves.\n    In the first move, change 100 to 7. nums becomes [3,7,20].\n    In the second move, change 20 to 7. nums becomes [3,7,7].\n    In the third move, change 3 to 7. nums becomes [7,7,7].\n    After performing 3 moves, the difference between the minimum and maximum is 7 - 7 = 0.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDifference(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The minimum difference possible is obtained by removing three elements between the three smallest and three largest values in the array."
+  ],
+  "testCases": [
+    [
+      "[5,3,2,4]"
+    ],
+    [
+      "[1,5,0,10,14]"
+    ],
+    [
+      "[3,100,20]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minDifference(nums):\n    n = len(nums)\n    if n <= 4: return 0\n    nums.sort()\n    res = float('inf')\n    for i in range(4):\n        res = min(res, nums[n - 4 + i] - nums[i])\n    return res",
+    "explanation": "1. First, check if the length of the input array is less than or equal to 4. If it is, return 0 since there's no need to perform any operation on this input.\n2. Sort the input array in ascending order.\n3. Initialize the result (minimum difference) as the maximum value possible.\n4. Loop through the array from the 0-th element to the 3-rd element (inclusive). For each iteration, find the difference between the (n - 4 + i)-th element and the i-th element in the sorted array, where n is the length of the input array. Update the result as the minimum of the current and previous minimum differences.\n5. After the loop, return the resulting minimum difference."
+  },
+  "similarQuestions": "[{\"title\": \"Minimize the Maximum Difference of Pairs\", \"titleSlug\": \"minimize-the-maximum-difference-of-pairs\", \"difficulty\": \"Medium\"}]"
+}

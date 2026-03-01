@@ -1,0 +1,65 @@
+{
+  "questionId": "3655",
+  "title": "Digit Operations to Make Two Integers Equal",
+  "titleSlug": "digit-operations-to-make-two-integers-equal",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "You are given two integers n and m that consist of the same number of digits.\n\nYou can perform the following operations any number of times:\n\n• Choose any digit from n that is not 9 and increase it by 1.\n\n• Choose any digit from n that is not 0 and decrease it by 1.\n\nThe integer n must not be a prime number at any point, including its original value and after each operation.\n\nThe cost of a transformation is the sum of all values that n takes throughout the operations performed.\n\nReturn the minimum cost to transform n into m. If it is impossible, return -1.\n\nExample 1:\n\nInput: n = 10, m = 12\n\nOutput: 85\n\nExplanation: We perform the following operations:\n\n• Increase the first digit, now n = 20.\n\n• Increase the second digit, now n = 21.\n\n• Increase the second digit, now n = 22.\n\n• Decrease the first digit, now n = 12.\n\nExample 2:\n\nInput: n = 4, m = 8\n\nOutput: -1\n\nExplanation: It is impossible to make n equal to m.\n\nExample 3:\n\nInput: n = 6, m = 2\n\nOutput: -1\n\nExplanation: Since 2 is already a prime, we can't make n equal to m.\n\nConstraints:\n\n• 1 <= n, m < 104\n\n• n and m consist of the same number of digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, n, m):\n        \"\"\"\n        :type n: int\n        :type m: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider a directed, weighted graph where an edge exists from a node x to a node y if and only if x can be transformed into y through a single operation.",
+    "Apply a shortest path algorithm on this graph to find the shortest path from n to m."
+  ],
+  "testCases": [
+    [
+      "10",
+      "12"
+    ],
+    [
+      "4",
+      "8"
+    ],
+    [
+      "6",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "85",
+    "-1",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def minOperations(self, n, m):\n        # Sieve primes up to 9999\n        limit = 10000\n        is_prime = [False, False] + [True] * (limit - 1)\n        for i in range(2, int(limit**0.5) + 1):\n            if is_prime[i]:\n                for j in range(i*i, limit, i):\n                    is_prime[j] = False\n\n        if is_prime[n] or is_prime[m]:\n            return -1\n\n        # Dijkstra: cost = sum of all intermediate values including n and m\n        # Each state is a number; cost to reach x = sum of values visited\n        INF = float('inf')\n        dist = {n: n}  # cost = n (first step costs n itself)\n        heap = [(n, n)]  # (cost, current_number)\n        while heap:\n            cost, cur = heapq.heappop(heap)\n            if cost > dist.get(cur, INF):\n                continue\n            if cur == m:\n                return cost\n            s = str(cur)\n            for i in range(len(s)):\n                # Increment digit i\n                if s[i] != '9':\n                    nxt = int(s[:i] + str(int(s[i])+1) + s[i+1:])\n                    if not is_prime[nxt]:\n                        ncost = cost + nxt\n                        if ncost < dist.get(nxt, INF):\n                            dist[nxt] = ncost\n                            heapq.heappush(heap, (ncost, nxt))\n                # Decrement digit i\n                if s[i] != '0':\n                    nxt = int(s[:i] + str(int(s[i])-1) + s[i+1:])\n                    if not is_prime[nxt] and (len(str(nxt)) == len(s) or nxt == 0):\n                        # Avoid leading zeros: skip if length changes (except becoming 0)\n                        if len(str(nxt)) == len(s):\n                            ncost = cost + nxt\n                            if ncost < dist.get(nxt, INF):\n                                dist[nxt] = ncost\n                                heapq.heappush(heap, (ncost, nxt))\n        return -1",
+    "explanation": "Dijkstra on integers with single-digit increments/decrements. Cost = sum of all values n takes. Nodes are non-prime integers with the same digit count. If n or m is prime, return -1.\n\nTime: O(V log V) where V ≤ 10000. Space: O(V)."
+  },
+  "similarQuestions": "[]"
+}

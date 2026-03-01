@@ -1,0 +1,50 @@
+{
+  "questionId": "3775",
+  "title": "Separate Squares II",
+  "titleSlug": "separate-squares-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Sweep Line",
+      "slug": "line-sweep"
+    }
+  ],
+  "content": "You are given a 2D integer array squares. Each squares[i] = [xi, yi, li] represents the coordinates of the bottom-left point and the side length of a square parallel to the x-axis.\n\nFind the minimum y-coordinate value of a horizontal line such that the total area covered by squares above the line equals the total area covered by squares below the line.\n\nAnswers within 10-5 of the actual answer will be accepted.\n\nNote: Squares may overlap. Overlapping areas should be counted only once in this version.\n\nExample 1:\n\nInput: squares = [[0,0,1],[2,2,1]]\n\nOutput: 1.00000\n\nExplanation: Any horizontal line between y = 1 and y = 2 results in an equal split, with 1 square unit above and 1 square unit below. The minimum y-value is 1.\n\nExample 2:\n\nInput: squares = [[0,0,2],[1,1,1]]\n\nOutput: 1.00000\n\nExplanation: Since the blue square overlaps with the red square, it will not be counted again. Thus, the line y = 1 splits the squares into two equal parts.\n\nConstraints:\n\n• 1 <= squares.length <= 5 * 104\n\n• squares[i] = [xi, yi, li]\n\n• squares[i].length == 3\n\n• 0 <= xi, yi <= 109\n\n• 1 <= li <= 109\n\n• The total area of all the squares will not exceed 1015.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def separateSquares(self, squares):\n        \"\"\"\n        :type squares: List[List[int]]\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a line sweep and a segment tree.",
+    "The line must lie in one of the squares."
+  ],
+  "testCases": [
+    [
+      "[[0,0,1],[2,2,1]]"
+    ],
+    [
+      "[[0,0,2],[1,1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1.00000",
+    "1.00000"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Rectangle Area II\", \"titleSlug\": \"rectangle-area-ii\", \"difficulty\": \"Hard\"}]"
+}

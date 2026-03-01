@@ -1,0 +1,48 @@
+{
+  "questionId": "2673",
+  "title": "Maximize Win From Two Segments",
+  "titleSlug": "maximize-win-from-two-segments",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "There are some prizes on the X-axis. You are given an integer array prizePositions that is sorted in non-decreasing order, where prizePositions[i] is the position of the ith prize. There could be different prizes at the same position on the line. You are also given an integer k.\n\nYou are allowed to select two segments with integer endpoints. The length of each segment must be k. You will collect all prizes whose position falls within at least one of the two selected segments (including the endpoints of the segments). The two selected segments may intersect.\n\n• For example if k = 2, you can choose segments [1, 3] and [2, 4], and you will win any prize i that satisfies 1 <= prizePositions[i] <= 3 or 2 <= prizePositions[i] <= 4.\n\nReturn the maximum number of prizes you can win if you choose the two segments optimally.\n\nExample 1:\n\nInput: prizePositions = [1,1,2,2,3,3,5], k = 2\nOutput: 7\nExplanation: In this example, you can win all 7 prizes by selecting two segments [1, 3] and [3, 5].\n\nExample 2:\n\nInput: prizePositions = [1,2,3,4], k = 0\nOutput: 2\nExplanation: For this example, one choice for the segments is [3, 3] and [4, 4], and you will be able to get 2 prizes.\n\nConstraints:\n\n• 1 <= prizePositions.length <= 105\n\n• 1 <= prizePositions[i] <= 109\n\n• 0 <= k <= 109\n\n• prizePositions is sorted in non-decreasing order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximizeWin(self, prizePositions, k):\n        \"\"\"\n        :type prizePositions: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try solving the problem for one interval.",
+    "Using the solution with one interval, how can you combine that with a second interval?"
+  ],
+  "testCases": [
+    [
+      "[1,1,2,2,3,3,5]",
+      "2"
+    ],
+    [
+      "[1,2,3,4]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Best Time to Buy and Sell Stock III\", \"titleSlug\": \"best-time-to-buy-and-sell-stock-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Two Best Non-Overlapping Events\", \"titleSlug\": \"two-best-non-overlapping-events\", \"difficulty\": \"Medium\"}]"
+}

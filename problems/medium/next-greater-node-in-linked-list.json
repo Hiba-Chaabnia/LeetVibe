@@ -1,0 +1,46 @@
+{
+  "questionId": "1072",
+  "title": "Next Greater Node In Linked List",
+  "titleSlug": "next-greater-node-in-linked-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given the head of a linked list with n nodes.\n\nFor each node in the list, find the value of the next greater node. That is, for each node, find the value of the first node that is next to it and has a strictly larger value than it.\n\nReturn an integer array answer where answer[i] is the value of the next greater node of the ith node (1-indexed). If the ith node does not have a next greater node, set answer[i] = 0.\n\nExample 1:\n\nInput: head = [2,1,5]\nOutput: [5,5,0]\n\nExample 2:\n\nInput: head = [2,7,4,3,5]\nOutput: [7,0,5,5,0]\n\nConstraints:\n\n• The number of nodes in the list is n.\n\n• 1 <= n <= 104\n\n• 1 <= Node.val <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def nextLargerNodes(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can use a stack that stores nodes in monotone decreasing order of value.  When we see a node_j with a larger value, every node_i in the stack has next_larger(node_i) = node_j ."
+  ],
+  "testCases": [
+    [
+      "[2,1,5]",
+      "[2,7,4,3,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[5,5,0]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

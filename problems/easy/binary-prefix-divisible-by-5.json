@@ -1,0 +1,45 @@
+{
+  "questionId": "1071",
+  "title": "Binary Prefix Divisible By 5",
+  "titleSlug": "binary-prefix-divisible-by-5",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a binary array nums (0-indexed).\n\nWe define xi as the number whose binary representation is the subarray nums[0..i] (from most-significant-bit to least-significant-bit).\n\n• For example, if nums = [1,0,1], then x0 = 1, x1 = 2, and x2 = 5.\n\nReturn an array of booleans answer where answer[i] is true if xi is divisible by 5.\n\nExample 1:\n\nInput: nums = [0,1,1]\nOutput: [true,false,false]\nExplanation: The input numbers in binary are 0, 01, 011; which are 0, 1, and 3 in base-10.\n    Only the first number is divisible by 5, so answer[0] is true.\n\nExample 2:\n\nInput: nums = [1,1,1]\nOutput: [false,false,false]\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• nums[i] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def prefixesDivBy5(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[bool]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If X is the first i digits of the array as a binary number, then 2X + A[i] is the first i+1 digits."
+  ],
+  "testCases": [
+    [
+      "[0,1,1]"
+    ],
+    [
+      "[1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[true,false,false]",
+    "[false,false,false]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def prefixesDivBy5(self, nums):\n        result = []\n        current = 0\n        for num in nums:\n            current = (current * 2 + num) % 5\n            result.append(current == 0)\n        return result",
+    "explanation": "Build number incrementally: new = old*2 + digit. Track mod 5. Check divisibility."
+  },
+  "similarQuestions": "[{\"title\": \"Average Value of Even Numbers That Are Divisible by Three\", \"titleSlug\": \"average-value-of-even-numbers-that-are-divisible-by-three\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Maximum Divisibility Score\", \"titleSlug\": \"find-the-maximum-divisibility-score\", \"difficulty\": \"Easy\"}]"
+}

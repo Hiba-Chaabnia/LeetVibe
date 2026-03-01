@@ -1,0 +1,43 @@
+{
+  "questionId": "3709",
+  "title": "Find Special Substring of Length K",
+  "titleSlug": "find-special-substring-of-length-k",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string s and an integer k.\n\nDetermine if there exists a substring of length exactly k in s that satisfies the following conditions:\n\n• The substring consists of only one distinct character (e.g., \"aaa\" or \"bbb\").\n\n• If there is a character immediately before the substring, it must be different from the character in the substring.\n\n• If there is a character immediately after the substring, it must also be different from the character in the substring.\n\nReturn true if such a substring exists. Otherwise, return false.\n\nExample 1:\n\nInput: s = \"aaabaaa\", k = 3\n\nOutput: true\n\nExplanation: The substring s[4..6] == \"aaa\" satisfies the conditions.\n\n• It has a length of 3.\n\n• All characters are the same.\n\n• The character before \"aaa\" is 'b', which is different from 'a'.\n\n• There is no character after \"aaa\".\n\nExample 2:\n\nInput: s = \"abc\", k = 2\n\nOutput: false\n\nExplanation: There is no substring of length 2 that consists of one distinct character and satisfies the conditions.\n\nConstraints:\n\n• 1 <= k <= s.length <= 100\n\n• s consists of lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def hasSpecialSubstring(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Return true if there is a sequence of consecutive characters of length k"
+  ],
+  "testCases": [
+    [
+      "\"aaabaaa\"",
+      "3"
+    ],
+    [
+      "\"abc\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def hasSpecialSubstring(self, s, k):\n        n = len(s)\n        for i in range(n - k + 1):\n            sub = s[i:i + k]\n            if len(set(sub)) == 1:\n                if (i == 0 or s[i - 1] != sub[0]) and (i + k == n or s[i + k] != sub[0]):\n                    return True\n        return False",
+    "explanation": "Slide a window of size k; check uniform characters and that boundaries differ from the run. O(n*k) time."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,49 @@
+{
+  "questionId": "3055",
+  "title": "Maximum Odd Binary Number",
+  "titleSlug": "maximum-odd-binary-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a binary string s that contains at least one '1'.\n\nYou have to rearrange the bits in such a way that the resulting binary number is the maximum odd binary number that can be created from this combination.\n\nReturn a string representing the maximum odd binary number that can be created from the given combination.\n\nNote that the resulting string can have leading zeros.\n\nExample 1:\n\nInput: s = \"010\"\nOutput: \"001\"\nExplanation: Because there is just one '1', it must be in the last position. So the answer is \"001\".\n\nExample 2:\n\nInput: s = \"0101\"\nOutput: \"1001\"\nExplanation: One of the '1's must be in the last position. The maximum number that can be made with the remaining digits is \"100\". So the answer is \"1001\".\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists only of '0' and '1'.\n\n• s contains at least one '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumOddBinaryNumber(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The binary representation of an odd number contains '1' in the least significant place."
+  ],
+  "testCases": [
+    [
+      "\"010\""
+    ],
+    [
+      "\"0101\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"001\"",
+    "\"1001\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumOddBinaryNumber(self, s):\n        ones = s.count('1')\n        zeros = s.count('0')\n        return '1' * (ones - 1) + '0' * zeros + '1'",
+    "explanation": "Place all 1s at the front except one reserved for the last position (ensuring odd); fill middle with 0s. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

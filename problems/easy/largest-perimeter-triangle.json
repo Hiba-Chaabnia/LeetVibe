@@ -1,0 +1,51 @@
+{
+  "questionId": "1018",
+  "title": "Largest Perimeter Triangle",
+  "titleSlug": "largest-perimeter-triangle",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array nums, return the largest perimeter of a triangle with a non-zero area, formed from three of these lengths. If it is impossible to form any triangle of a non-zero area, return 0.\n\nExample 1:\n\nInput: nums = [2,1,2]\nOutput: 5\nExplanation: You can form a triangle with three side lengths: 1, 2, and 2.\n\nExample 2:\n\nInput: nums = [1,2,1,10]\nOutput: 0\nExplanation:\n    You cannot use the side lengths 1, 1, and 2 to form a triangle.\n    You cannot use the side lengths 1, 1, and 10 to form a triangle.\n    You cannot use the side lengths 1, 2, and 10 to form a triangle.\n    As we cannot use any three side lengths to form a triangle of non-zero area, we return 0.\n\nConstraints:\n\n• 3 <= nums.length <= 104\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestPerimeter(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,1,2]"
+    ],
+    [
+      "[1,2,1,10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def largestPerimeter(self, nums):\n        nums.sort(reverse=True)\n        for i in range(len(nums) - 2):\n            a, b, c = nums[i], nums[i+1], nums[i+2]\n            if b + c > a:\n                return a + b + c\n        return 0",
+    "explanation": "Sort descending. Check largest 3 consecutive. If b+c>a, valid triangle.\nTime: O(n*log(n))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Largest Triangle Area\", \"titleSlug\": \"largest-triangle-area\", \"difficulty\": \"Easy\"}]"
+}

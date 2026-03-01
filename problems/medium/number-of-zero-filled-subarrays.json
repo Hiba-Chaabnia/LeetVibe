@@ -1,0 +1,46 @@
+{
+  "questionId": "2432",
+  "title": "Number of Zero-Filled Subarrays",
+  "titleSlug": "number-of-zero-filled-subarrays",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given an integer array nums, return the number of subarrays filled with 0.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [1,3,0,0,2,0,0,4]\nOutput: 6\nExplanation:\n    There are 4 occurrences of [0] as a subarray.\n    There are 2 occurrences of [0,0] as a subarray.\n    There is no occurrence of a subarray with a size more than 2 filled with 0. Therefore, we return 6.\n\nExample 2:\n\nInput: nums = [0,0,0,2,0,0]\nOutput: 9\nExplanation:\n    There are 5 occurrences of [0] as a subarray.\n    There are 3 occurrences of [0,0] as a subarray.\n    There is 1 occurrence of [0,0,0] as a subarray.\n    There is no occurrence of a subarray with a size more than 3 filled with 0. Therefore, we return 9.\n\nExample 3:\n\nInput: nums = [2,10,2019]\nOutput: 0\nExplanation: There is no subarray filled with 0. Therefore, we return 0.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def zeroFilledSubarray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each zero, you can calculate the number of zero-filled subarrays that end on that index, which is the number of consecutive zeros behind the current element + 1.",
+    "Maintain the number of consecutive zeros behind the current element, count the number of zero-filled subarrays that end on each index, sum it up to get the answer."
+  ],
+  "testCases": [
+    [
+      "[1,3,0,0,2,0,0,4]"
+    ],
+    [
+      "[0,0,0,2,0,0]"
+    ],
+    [
+      "[2,10,2019]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "9",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Arithmetic Slices\", \"titleSlug\": \"arithmetic-slices\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Smooth Descent Periods of a Stock\", \"titleSlug\": \"number-of-smooth-descent-periods-of-a-stock\", \"difficulty\": \"Medium\"}, {\"title\": \"Length of the Longest Alphabetical Continuous Substring\", \"titleSlug\": \"length-of-the-longest-alphabetical-continuous-substring\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Consecutive Integers from a Data Stream\", \"titleSlug\": \"find-consecutive-integers-from-a-data-stream\", \"difficulty\": \"Medium\"}]"
+}

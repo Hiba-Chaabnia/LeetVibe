@@ -1,0 +1,35 @@
+{
+  "questionId": "1316",
+  "title": "Fizz Buzz Multithreaded",
+  "titleSlug": "fizz-buzz-multithreaded",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Concurrency",
+      "slug": "concurrency"
+    }
+  ],
+  "content": "You have the four functions:\n\n• printFizz that prints the word \"fizz\" to the console,\n\n• printBuzz that prints the word \"buzz\" to the console,\n\n• printFizzBuzz that prints the word \"fizzbuzz\" to the console, and\n\n• printNumber that prints a given integer to the console.\n\nYou are given an instance of the class FizzBuzz that has four functions: fizz, buzz, fizzbuzz and number. The same instance of FizzBuzz will be passed to four different threads:\n\n• Thread A: calls fizz() that should output the word \"fizz\".\n\n• Thread B: calls buzz() that should output the word \"buzz\".\n\n• Thread C: calls fizzbuzz() that should output the word \"fizzbuzz\".\n\n• Thread D: calls number() that should only output the integers.\n\nModify the given class to output the series [1, 2, \"fizz\", 4, \"buzz\", ...] where the ith token (1-indexed) of the series is:\n\n• \"fizzbuzz\" if i is divisible by 3 and 5,\n\n• \"fizz\" if i is divisible by 3 and not 5,\n\n• \"buzz\" if i is divisible by 5 and not 3, or\n\n• i if i is not divisible by 3 or 5.\n\nImplement the FizzBuzz class:\n\n• FizzBuzz(int n) Initializes the object with the number n that represents the length of the sequence that should be printed.\n\n• void fizz(printFizz) Calls printFizz to output \"fizz\".\n\n• void buzz(printBuzz) Calls printBuzz to output \"buzz\".\n\n• void fizzbuzz(printFizzBuzz) Calls printFizzBuzz to output \"fizzbuzz\".\n\n• void number(printNumber) Calls printnumber to output the numbers.\n\nExample 1:\n\nInput: n = 15\nOutput: [1,2,\"fizz\",4,\"buzz\",\"fizz\",7,8,\"fizz\",\"buzz\",11,\"fizz\",13,14,\"fizzbuzz\"]\nExample 2:\n\nInput: n = 5\nOutput: [1,2,\"fizz\",4,\"buzz\"]\n\nConstraints:\n\n• 1 <= n <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class FizzBuzz(object):\n    def __init__(self, n):\n        self.n = n\n\n    # printFizz() outputs \"fizz\"\n    def fizz(self, printFizz):\n        \"\"\"\n        :type printFizz: method\n        :rtype: void\n        \"\"\"\n    \t\n\n    # printBuzz() outputs \"buzz\"\n    def buzz(self, printBuzz):\n        \"\"\"\n        :type printBuzz: method\n        :rtype: void\n        \"\"\"\n    \t\n\n    # printFizzBuzz() outputs \"fizzbuzz\"\n    def fizzbuzz(self, printFizzBuzz):\n        \"\"\"\n        :type printFizzBuzz: method\n        :rtype: void\n        \"\"\"\n        \n\n    # printNumber(x) outputs \"x\", where x is an integer.\n    def number(self, printNumber):\n        \"\"\"\n        :type printNumber: method\n        :rtype: void\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "15"
+    ],
+    [
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,\"fizz\",4,\"buzz\",\"fizz\",7,8,\"fizz\",\"buzz\",11,\"fizz\",13,14,\"fizzbuzz\"]",
+    "[1,2,\"fizz\",4,\"buzz\"]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Fizz Buzz\", \"titleSlug\": \"fizz-buzz\", \"difficulty\": \"Easy\"}, {\"title\": \"Print Zero Even Odd\", \"titleSlug\": \"print-zero-even-odd\", \"difficulty\": \"Medium\"}]"
+}

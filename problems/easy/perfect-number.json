@@ -1,0 +1,39 @@
+{
+  "questionId": "507",
+  "title": "Perfect Number",
+  "titleSlug": "perfect-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "A perfect number is a positive integer that is equal to the sum of its positive divisors, excluding the number itself. A divisor of an integer x is an integer that can divide x evenly.\n\nGiven an integer n, return true if n is a perfect number, otherwise return false.\n\nExample 1:\n\nInput: num = 28\nOutput: true\nExplanation: 28 = 1 + 2 + 4 + 7 + 14\n    1, 2, 4, 7, and 14 are all divisors of 28.\n\nExample 2:\n\nInput: num = 7\nOutput: false\n\nConstraints:\n\n• 1 <= num <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkPerfectNumber(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "28"
+    ],
+    [
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def checkPerfectNumber(num: int) -> bool:\n    if num <= 1:\n        return False\n    sum = 1\n    i = 2\n    while i * i <= num:\n        if num % i == 0:\n            sum += i\n            if i * i != num:\n                sum += num // i\n        i += 1\n    return sum == num",
+    "explanation": "The algorithm checks if a given number `num` is a perfect number by iterating through the positive divisors of the number and adding them to a sum. If the number is less than or equal to 1, it returns false as these are not perfect numbers. The loop starts from 2 and goes until the square root of the number. If `i` is divisible by `num`, it's added to the sum. Also, check if `i * i` is not equal to `num`, we add `num / i` to the sum, this is because we don't want to add the same divisor twice. In the end, it checks if the calculated sum is equal to the given number. If it is, return true, else return false."
+  },
+  "similarQuestions": "[{\"title\": \"Self Dividing Numbers\", \"titleSlug\": \"self-dividing-numbers\", \"difficulty\": \"Easy\"}]"
+}

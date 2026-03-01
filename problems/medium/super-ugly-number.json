@@ -1,0 +1,49 @@
+{
+  "questionId": "313",
+  "title": "Super Ugly Number",
+  "titleSlug": "super-ugly-number",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "A super ugly number is a positive integer whose prime factors are in the array primes.\n\nGiven an integer n and an array of integers primes, return the nth super ugly number.\n\nThe nth super ugly number is guaranteed to fit in a 32-bit signed integer.\n\nExample 1:\n\nInput: n = 12, primes = [2,7,13,19]\nOutput: 32\nExplanation: [1,2,4,7,8,13,14,16,19,26,28,32] is the sequence of the first 12 super ugly numbers given primes = [2,7,13,19].\n\nExample 2:\n\nInput: n = 1, primes = [2,3,5]\nOutput: 1\nExplanation: 1 has no prime factors, therefore all of its prime factors are in the array primes = [2,3,5].\n\nConstraints:\n\n• 1 <= n <= 105\n\n• 1 <= primes.length <= 100\n\n• 2 <= primes[i] <= 1000\n\n• primes[i] is guaranteed to be a prime number.\n\n• All the values of primes are unique and sorted in ascending order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nthSuperUglyNumber(self, n, primes):\n        \"\"\"\n        :type n: int\n        :type primes: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "12",
+      "[2,7,13,19]"
+    ],
+    [
+      "1",
+      "[2,3,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "32",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def nthSuperUglyNumber(n, primes):\n    ugly = [0] * n\n    ugly[0] = 1\n    indices = [0] * len(primes)\n\n    for i in range(1, n):\n        min_val = float(\"inf\")\n\n        for j in range(len(primes)):\n            min_val = min(min_val, ugly[indices[j]] * primes[j])\n\n        ugly[i] = min_val\n\n        for j in range(len(primes)):\n            if ugly[i] == ugly[indices[j]] * primes[j]:\n                indices[j] += 1\n\n    return ugly[-1]",
+    "explanation": "The algorithm uses dynamic programming to find the nth super ugly number. We first create an `ugly` array of size `n`, where `ugly[i]` will store the (i+1)th super ugly number. We initialize `ugly[0]` as 1, since 1 is always a super ugly number.\n\nMaintain an `indices` array of size `primes.length`, initialized with zeros. Each element `indices[j]` represents the index of the next super ugly number to multiply by `primes[j]`.\n\nFor each `i` from 1 to n, we calculate `ugly[i]` as the minimum of `ugly[indices[j]] * primes[j]` for all `j`. Then we increment the index `indices[j]` for which the condition `ugly[i] == ugly[indices[j]] * primes[j]` holds.\n\nFinally, we return the last element of the `ugly` array, which is the nth super ugly number."
+  },
+  "similarQuestions": "[{\"title\": \"Ugly Number II\", \"titleSlug\": \"ugly-number-ii\", \"difficulty\": \"Medium\"}]"
+}

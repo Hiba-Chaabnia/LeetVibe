@@ -1,0 +1,58 @@
+{
+  "questionId": "3795",
+  "title": "Zero Array Transformation IV",
+  "titleSlug": "zero-array-transformation-iv",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums of length n and a 2D array queries, where queries[i] = [li, ri, vali].\n\nEach queries[i] represents the following action on nums:\n\n• Select a subset of indices in the range [li, ri] from nums.\n\n• Decrement the value at each selected index by exactly vali.\n\nA Zero Array is an array with all its elements equal to 0.\n\nReturn the minimum possible non-negative value of k, such that after processing the first k queries in sequence, nums becomes a Zero Array. If no such k exists, return -1.\n\nExample 1:\n\nInput: nums = [2,0,2], queries = [[0,2,1],[0,2,1],[1,1,3]]\n\nOutput: 2\n\nExplanation:\n\n• For query 0 (l = 0, r = 2, val = 1):\n\n• Decrement the values at indices [0, 2] by 1.\n\n• The array will become [1, 0, 1].\n\n• For query 1 (l = 0, r = 2, val = 1):\n\n• Decrement the values at indices [0, 2] by 1.\n\n• The array will become [0, 0, 0], which is a Zero Array. Therefore, the minimum value of k is 2.\n\nExample 2:\n\nInput: nums = [4,3,2,1], queries = [[1,3,2],[0,2,1]]\n\nOutput: -1\n\nExplanation: It is impossible to make nums a Zero Array even after all the queries.\n\nExample 3:\n\nInput: nums = [1,2,3,2,1], queries = [[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,4,1]]\n\nOutput: 4\n\nExplanation:\n\n• For query 0 (l = 0, r = 1, val = 1):\n\n• Decrement the values at indices [0, 1] by 1.\n\n• The array will become [0, 1, 3, 2, 1].\n\n• For query 1 (l = 1, r = 2, val = 1):\n\n• Decrement the values at indices [1, 2] by 1.\n\n• The array will become [0, 0, 2, 2, 1].\n\n• For query 2 (l = 2, r = 3, val = 2):\n\n• Decrement the values at indices [2, 3] by 2.\n\n• The array will become [0, 0, 0, 0, 1].\n\n• For query 3 (l = 3, r = 4, val = 1):\n\n• Decrement the value at index 4 by 1.\n\n• The array will become [0, 0, 0, 0, 0]. Therefore, the minimum value of k is 4.\n\nExample 4:\n\nInput: nums = [1,2,3,2,6], queries = [[0,1,1],[0,2,1],[1,4,2],[4,4,4],[3,4,1],[4,4,5]]\n\nOutput: 4\n\nConstraints:\n\n• 1 <= nums.length <= 10\n\n• 0 <= nums[i] <= 1000\n\n• 1 <= queries.length <= 1000\n\n• queries[i] = [li, ri, vali]\n\n• 0 <= li <= ri < nums.length\n\n• 1 <= vali <= 10",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minZeroArray(self, nums, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type queries: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "For each nums[i], use DP to check whether the queries[.][2] values (i.e., the val values) of the queries that affect it can form a combination with a sum equal to nums[i]."
+  ],
+  "testCases": [
+    [
+      "[2,0,2]",
+      "[[0,2,1],[0,2,1],[1,1,3]]"
+    ],
+    [
+      "[4,3,2,1]",
+      "[[1,3,2],[0,2,1]]"
+    ],
+    [
+      "[1,2,3,2,1]",
+      "[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,4,1]]"
+    ],
+    [
+      "[1,2,3,2,6]",
+      "[[0,1,1],[0,2,1],[1,4,2],[4,4,4],[3,4,1],[4,4,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "-1",
+    "4",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minZeroArray(self, nums, queries):\n        n = len(nums)\n        m = len(queries)\n\n        def can_zero(k):\n            for i in range(n):\n                if nums[i] == 0:\n                    continue\n                target = nums[i]\n                vals = [queries[j][2] for j in range(k)\n                        if queries[j][0] <= i <= queries[j][1]]\n                # Subset-sum: can vals sum to exactly target?\n                reachable = {0}\n                for v in vals:\n                    reachable = reachable | {x + v for x in reachable if x + v <= target}\n                if target not in reachable:\n                    return False\n            return True\n\n        if not can_zero(m):\n            return -1\n\n        lo, hi = 0, m\n        while lo < hi:\n            mid = (lo + hi) // 2\n            if can_zero(mid):\n                hi = mid\n            else:\n                lo = mid + 1\n        return lo",
+    "explanation": "Unlike version II where any decrement up to val is allowed (making it a capacity problem), here each query must contribute exactly its val (or not be used at all) to each selected index. This turns the per-element check into a subset-sum problem.\n\nFor a given k, and each position i, we collect the val values of queries in the first k that cover i. We then check if any subset of these values sums to exactly nums[i] using a set-based DP: start with {0} and for each val, expand the set with all previous values plus val, capping at target for efficiency.\n\nWe binary search on k since the problem is monotone: if k queries suffice, k+1 also suffice.\n\nTime complexity: O(q * log(q) * n * target) given constraints (n<=10, target<=1000, q<=1000). Space complexity: O(target)."
+  },
+  "similarQuestions": "[{\"title\": \"Zero Array Transformation I\", \"titleSlug\": \"zero-array-transformation-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Zero Array Transformation II\", \"titleSlug\": \"zero-array-transformation-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Zero Array Transformation III\", \"titleSlug\": \"zero-array-transformation-iii\", \"difficulty\": \"Medium\"}]"
+}

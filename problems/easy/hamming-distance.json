@@ -1,0 +1,41 @@
+{
+  "questionId": "461",
+  "title": "Hamming Distance",
+  "titleSlug": "hamming-distance",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "The Hamming distance between two integers is the number of positions at which the corresponding bits are different.\n\nGiven two integers x and y, return the Hamming distance between them.\n\nExample 1:\n\nInput: x = 1, y = 4\nOutput: 2\nExplanation:\n    1   (0 0 0 1)\n    4   (0 1 0 0)\n           ↑   ↑\n    The above arrows point to positions where the corresponding bits are different.\n\nExample 2:\n\nInput: x = 3, y = 1\nOutput: 1\n\nConstraints:\n\n• 0 <= x, y <= 231 - 1\n\nNote: This question is the same as  2220: Minimum Bit Flips to Convert Number.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def hammingDistance(self, x, y):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "1",
+      "4"
+    ],
+    [
+      "3",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def hammingDistance(x: int, y: int) -> int:\n    xorResult = x ^ y\n    dist = 0\n    while xorResult:\n        dist += xorResult & 1\n        xorResult >>= 1\n    return dist",
+    "explanation": "We can start by taking the XOR of `x` and `y`. A XOR B value will have a bit set only if both A and B bits are different at that position. We then iterate through the bits of the XOR result, counting the number of set bits, which should give us the Hamming distance required.\n\n1. Calculate `xorResult` by XORing `x` and `y`.\n2. Initialize `dist` to 0.\n3. While `xorResult` is not 0, do the following:\n   a. Add the least significant bit of `xorResult` to `dist`.\n   b. Right shift `xorResult` by 1.\n4. Return `dist`.\n\nThis algorithm performs bitwise operations and loops through the bits of `xorResult`, which has a maximum of 31 bits due to the constraint `0 <= x, y <= 2^31 - 1`. Thus, the time complexity is O(31) = O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Number of 1 Bits\", \"titleSlug\": \"number-of-1-bits\", \"difficulty\": \"Easy\"}, {\"title\": \"Total Hamming Distance\", \"titleSlug\": \"total-hamming-distance\", \"difficulty\": \"Medium\"}]"
+}

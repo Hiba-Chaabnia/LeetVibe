@@ -1,0 +1,55 @@
+{
+  "questionId": "3114",
+  "title": "Beautiful Towers I",
+  "titleSlug": "beautiful-towers-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given an array heights of n integers representing the number of bricks in n consecutive towers. Your task is to remove some bricks to form a mountain-shaped tower arrangement. In this arrangement, the tower heights are non-decreasing, reaching a maximum peak value with one or multiple consecutive towers and then non-increasing.\n\nReturn the maximum possible sum of heights of a mountain-shaped tower arrangement.\n\nExample 1:\n\nInput: heights = [5,3,4,1,1]\n\nOutput: 13\n\nExplanation: We remove some bricks to make heights = [5,3,3,1,1], the peak is at index 0.\n\nExample 2:\n\nInput: heights = [6,5,3,9,2,7]\n\nOutput: 22\n\nExplanation: We remove some bricks to make heights = [3,3,3,9,2,2], the peak is at index 3.\n\nExample 3:\n\nInput: heights = [3,2,5,5,2,3]\n\nOutput: 18\n\nExplanation: We remove some bricks to make heights = [2,2,5,5,2,2], the peak is at index 2 or 3.\n\nConstraints:\n\n• 1 <= n == heights.length <= 103\n\n• 1 <= heights[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumSumOfHeights(self, heights):\n        \"\"\"\n        :type heights: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try all the possible indices i as the peak.",
+    "If i is the peak, i-1<sup>th</sup> element, and heights[j] = min(heights[j], heights[j + 1]) for 0 <= j < i ",
+    "If i is the peak, start from i+1<sup>th</sup> element, heights[j] = min(heights[j], heights[j - 1]) for i < j < heights.size()"
+  ],
+  "testCases": [
+    [
+      "[5,3,4,1,1]"
+    ],
+    [
+      "[6,5,3,9,2,7]"
+    ],
+    [
+      "[3,2,5,5,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "22",
+    "18"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumSumOfHeights(self, heights):\n        n = len(heights)\n        best = 0\n        for peak in range(n):\n            total = heights[peak]\n            cur = heights[peak]\n            for i in range(peak - 1, -1, -1):\n                cur = min(cur, heights[i])\n                total += cur\n            cur = heights[peak]\n            for i in range(peak + 1, n):\n                cur = min(cur, heights[i])\n                total += cur\n            best = max(best, total)\n        return best",
+    "explanation": "Try each position as the mountain peak; greedily cap heights on both sides to form a mountain; take the best sum. O(n^2) time."
+  },
+  "similarQuestions": "[{\"title\": \"Valid Mountain Array\", \"titleSlug\": \"valid-mountain-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Number of Removals to Make Mountain Array\", \"titleSlug\": \"minimum-number-of-removals-to-make-mountain-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Number of Books You Can Take\", \"titleSlug\": \"maximum-number-of-books-you-can-take\", \"difficulty\": \"Hard\"}]"
+}

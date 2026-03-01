@@ -1,0 +1,43 @@
+{
+  "questionId": "693",
+  "title": "Binary Number with Alternating Bits",
+  "titleSlug": "binary-number-with-alternating-bits",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given a positive integer, check whether it has alternating bits: namely, if two adjacent bits will always have different values.\n\nExample 1:\n\nInput: n = 5\nOutput: true\nExplanation: The binary representation of 5 is: 101\n\nExample 2:\n\nInput: n = 7\nOutput: false\nExplanation: The binary representation of 7 is: 111.\n\nExample 3:\n\nInput: n = 11\nOutput: false\nExplanation: The binary representation of 11 is: 1011.\n\nConstraints:\n\n• 1 <= n <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def hasAlternatingBits(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "5"
+    ],
+    [
+      "7"
+    ],
+    [
+      "11"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def hasAlternatingBits(self, n):\n        prev = n & 1\n        n >>= 1\n        while n > 0:\n            curr = n & 1\n            if curr == prev:\n                return False\n            prev = curr\n            n >>= 1\n        return True",
+    "explanation": "Check each adjacent bit pair: if same, return False. All different = True."
+  },
+  "similarQuestions": "[{\"title\": \"Number of 1 Bits\", \"titleSlug\": \"number-of-1-bits\", \"difficulty\": \"Easy\"}]"
+}

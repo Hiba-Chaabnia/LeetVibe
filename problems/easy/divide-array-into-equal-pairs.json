@@ -1,0 +1,54 @@
+{
+  "questionId": "2308",
+  "title": "Divide Array Into Equal Pairs",
+  "titleSlug": "divide-array-into-equal-pairs",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an integer array nums consisting of 2 * n integers.\n\nYou need to divide nums into n pairs such that:\n\n• Each element belongs to exactly one pair.\n\n• The elements present in a pair are equal.\n\nReturn true if nums can be divided into n pairs, otherwise return false.\n\nExample 1:\n\nInput: nums = [3,2,3,2,2,2]\nOutput: true\nExplanation:\n    There are 6 elements in nums, so they should be divided into 6 / 2 = 3 pairs.\n    If nums is divided into the pairs (2, 2), (3, 3), and (2, 2), it will satisfy all the conditions.\n\nExample 2:\n\nInput: nums = [1,2,3,4]\nOutput: false\nExplanation:\n    There is no way to divide nums into 4 / 2 = 2 pairs such that the pairs satisfy every condition.\n\nConstraints:\n\n• nums.length == 2 * n\n\n• 1 <= n <= 500\n\n• 1 <= nums[i] <= 500",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def divideArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For any number x in the range [1, 500], count the number of elements in nums whose values are equal to x.",
+    "The elements with equal value can be divided completely into pairs if and only if their count is even."
+  ],
+  "testCases": [
+    [
+      "[3,2,3,2,2,2]"
+    ],
+    [
+      "[1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def divideArray(self, nums):\n        from collections import Counter\n        freq = Counter(nums)\n        return all(count % 2 == 0 for count in freq.values())",
+    "explanation": "Each unique number must appear even number of times to form pairs.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Sort Array by Increasing Frequency\", \"titleSlug\": \"sort-array-by-increasing-frequency\", \"difficulty\": \"Easy\"}, {\"title\": \"Distribute Elements Into Two Arrays I\", \"titleSlug\": \"distribute-elements-into-two-arrays-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Distribute Elements Into Two Arrays II\", \"titleSlug\": \"distribute-elements-into-two-arrays-ii\", \"difficulty\": \"Hard\"}]"
+}

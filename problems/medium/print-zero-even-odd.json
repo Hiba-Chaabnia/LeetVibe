@@ -1,0 +1,35 @@
+{
+  "questionId": "1216",
+  "title": "Print Zero Even Odd",
+  "titleSlug": "print-zero-even-odd",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Concurrency",
+      "slug": "concurrency"
+    }
+  ],
+  "content": "You have a function printNumber that can be called with an integer parameter and prints it to the console.\n\n• For example, calling printNumber(7) prints 7 to the console.\n\nYou are given an instance of the class ZeroEvenOdd that has three functions: zero, even, and odd. The same instance of ZeroEvenOdd will be passed to three different threads:\n\n• Thread A: calls zero() that should only output 0's.\n\n• Thread B: calls even() that should only output even numbers.\n\n• Thread C: calls odd() that should only output odd numbers.\n\nModify the given class to output the series \"010203040506...\" where the length of the series must be 2n.\n\nImplement the ZeroEvenOdd class:\n\n• ZeroEvenOdd(int n) Initializes the object with the number n that represents the numbers that should be printed.\n\n• void zero(printNumber) Calls printNumber to output one zero.\n\n• void even(printNumber) Calls printNumber to output one even number.\n\n• void odd(printNumber) Calls printNumber to output one odd number.\n\nExample 1:\n\nInput: n = 2\nOutput: \"0102\"\nExplanation: There are three threads being fired asynchronously.\n    One of them calls zero(), the other calls even(), and the last one calls odd().\n    \"0102\" is the correct output.\n\nExample 2:\n\nInput: n = 5\nOutput: \"0102030405\"\n\nConstraints:\n\n• 1 <= n <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class ZeroEvenOdd(object):\n    def __init__(self, n):\n        self.n = n\n        \n        \n\t# printNumber(x) outputs \"x\", where x is an integer.\n    def zero(self, printNumber):\n        \"\"\"\n        :type printNumber: method\n        :rtype: void\n        \"\"\"\n        \n        \n        \n    def even(self, printNumber):\n        \"\"\"\n        :type printNumber: method\n        :rtype: void\n        \"\"\"\n        \n        \n        \n    def odd(self, printNumber):\n        \"\"\"\n        :type printNumber: method\n        :rtype: void\n        \"\"\"\n        \n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "2"
+    ],
+    [
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"0102\"",
+    "\"0102030405\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Print FooBar Alternately\", \"titleSlug\": \"print-foobar-alternately\", \"difficulty\": \"Medium\"}, {\"title\": \"Fizz Buzz Multithreaded\", \"titleSlug\": \"fizz-buzz-multithreaded\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,52 @@
+{
+  "questionId": "4056",
+  "title": "Longest Balanced Substring II",
+  "titleSlug": "longest-balanced-substring-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a string s consisting only of the characters 'a', 'b', and 'c'.\n\nA substring of s is called balanced if all distinct characters in the substring appear the same number of times.\n\nReturn the length of the longest balanced substring of s.\n\nExample 1:\n\nInput: s = \"abbac\"\n\nOutput: 4\n\nExplanation: The longest balanced substring is \"abba\" because both distinct characters 'a' and 'b' each appear exactly 2 times.\n\nExample 2:\n\nInput: s = \"aabcc\"\n\nOutput: 3\n\nExplanation: The longest balanced substring is \"abc\" because all distinct characters 'a', 'b' and 'c' each appear exactly 1 time.\n\nExample 3:\n\nInput: s = \"aba\"\n\nOutput: 2\n\nExplanation: One of the longest balanced substrings is \"ab\" because both distinct characters 'a' and 'b' each appear exactly 1 time. Another longest balanced substring is \"ba\".\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s contains only the characters 'a', 'b', and 'c'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestBalanced(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Solve for three cases: all-equal characters, exactly two distinct characters, and all three characters present. Treat each case separately and take the maximum length.",
+    "Case 1: single character: the longest balanced substring is the longest run of the same character; report its length.",
+    "Case 2: two distinct characters: reduce to that pair (ignore the third character) and use prefix differences of their counts; equal counts between two indices mean the substring between them is balanced for those two chars.",
+    "Case 3: all three characters: use prefix counts and hash the pair (count_b - count_a, count_c - count_a) for each prefix; if the same pair appears at two indices the substring between them has equal counts for a, b, and c. Store earliest index per pair to get maximal length."
+  ],
+  "testCases": [
+    [
+      "\"abbac\""
+    ],
+    [
+      "\"aabcc\""
+    ],
+    [
+      "\"aba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "3",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

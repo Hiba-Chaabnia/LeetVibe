@@ -1,0 +1,50 @@
+{
+  "questionId": "3328",
+  "title": "Apply Operations to Make Sum of Array Greater Than or Equal to k",
+  "titleSlug": "apply-operations-to-make-sum-of-array-greater-than-or-equal-to-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a positive integer k. Initially, you have an array nums = [1].\n\nYou can perform any of the following operations on the array any number of times (possibly zero):\n\n• Choose any element in the array and increase its value by 1.\n\n• Duplicate any element in the array and add it to the end of the array.\n\nReturn the minimum number of operations required to make the sum of elements of the final array greater than or equal to k.\n\nExample 1:\n\nInput: k = 11\n\nOutput: 5\n\nExplanation: We can do the following operations on the array nums = [1]:\n\n• Increase the element by 1 three times. The resulting array is nums = [4].\n\n• Duplicate the element two times. The resulting array is nums = [4,4,4].\n\nThe sum of the final array is 4 + 4 + 4 = 12 which is greater than or equal to k = 11.\n\nThe total number of operations performed is 3 + 2 = 5.\n\nExample 2:\n\nInput: k = 1\n\nOutput: 0\n\nExplanation: The sum of the original array is already greater than or equal to 1, so no operations are needed.\n\nConstraints:\n\n• 1 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, k):\n        \"\"\"\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It is optimal to make all the increase operations first and all the duplicate operations last.",
+    "Iterate over all possible number of increase operations that can be done and find the corresponding number of duplicate operations."
+  ],
+  "testCases": [
+    [
+      "11"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, k):\n        if k == 1:\n            return 0\n        best = k - 1\n        for a in range(k):\n            v = 1 + a\n            b = (k + v - 1) // v - 1\n            if b < 0:\n                b = 0\n            best = min(best, a + b)\n        return best",
+    "explanation": "After a increments the value is 1+a; b duplicate ops give b+1 copies; minimize a+b with (1+a)*(b+1)>=k. O(k) time."
+  },
+  "similarQuestions": "[]"
+}

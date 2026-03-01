@@ -1,0 +1,56 @@
+{
+  "questionId": "1802",
+  "title": "Number of Students Unable to Eat Lunch",
+  "titleSlug": "number-of-students-unable-to-eat-lunch",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "The school cafeteria offers circular and square sandwiches at lunch break, referred to by numbers 0 and 1 respectively. All students stand in a queue. Each student either prefers square or circular sandwiches.\n\nThe number of sandwiches in the cafeteria is equal to the number of students. The sandwiches are placed in a stack. At each step:\n\n• If the student at the front of the queue prefers the sandwich on the top of the stack, they will take it and leave the queue.\n\n• Otherwise, they will leave it and go to the queue's end.\n\nThis continues until none of the queue students want to take the top sandwich and are thus unable to eat.\n\nYou are given two integer arrays students and sandwiches where sandwiches[i] is the type of the i​​​​​​th sandwich in the stack (i = 0 is the top of the stack) and students[j] is the preference of the j​​​​​​th student in the initial queue (j = 0 is the front of the queue). Return the number of students that are unable to eat.\n\nExample 1:\n\nInput: students = [1,1,0,0], sandwiches = [0,1,0,1]\nOutput: 0\nExplanation:\n    - Front student leaves the top sandwich and returns to the end of the line making students = [1,0,0,1].\n    - Front student leaves the top sandwich and returns to the end of the line making students = [0,0,1,1].\n    - Front student takes the top sandwich and leaves the line making students = [0,1,1] and sandwiches = [1,0,1].\n    - Front student leaves the top sandwich and returns to the end of the line making students = [1,1,0].\n    - Front student takes the top sandwich and leaves the line making students = [1,0] and sandwiches = [0,1].\n    - Front student leaves the top sandwich and returns to the end of the line making students = [0,1].\n    - Front student takes the top sandwich and leaves the line making students = [1] and sandwiches = [1].\n    - Front student takes the top sandwich and leaves the line making students = [] and sandwiches = [].\n    Hence all students are able to eat.\n\nExample 2:\n\nInput: students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]\nOutput: 3\n\nConstraints:\n\n• 1 <= students.length, sandwiches.length <= 100\n\n• students.length == sandwiches.length\n\n• sandwiches[i] is 0 or 1.\n\n• students[i] is 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countStudents(self, students, sandwiches):\n        \"\"\"\n        :type students: List[int]\n        :type sandwiches: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the given in the statement",
+    "Calculate those who will eat instead of those who will not."
+  ],
+  "testCases": [
+    [
+      "[1,1,0,0]",
+      "[0,1,0,1]"
+    ],
+    [
+      "[1,1,1,0,0,1]",
+      "[1,0,0,0,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countStudents(self, students, sandwiches):\n        from collections import deque\n        students = deque(students)\n        sandwiches = deque(sandwiches)\n        stuck = 0\n        while students and stuck < len(students):\n            if students[0] == sandwiches[0]:\n                students.popleft()\n                sandwiches.popleft()\n                stuck = 0\n            else:\n                students.append(students.popleft())\n                stuck += 1\n        return len(students)",
+    "explanation": "Simulate: if front student matches sandwich, both removed. Else, student goes to back.\nTime: O(n²)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Time Needed to Buy Tickets\", \"titleSlug\": \"time-needed-to-buy-tickets\", \"difficulty\": \"Easy\"}]"
+}

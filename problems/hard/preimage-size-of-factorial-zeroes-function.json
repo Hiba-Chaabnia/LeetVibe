@@ -1,0 +1,43 @@
+{
+  "questionId": "809",
+  "title": "Preimage Size of Factorial Zeroes Function",
+  "titleSlug": "preimage-size-of-factorial-zeroes-function",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Let f(x) be the number of zeroes at the end of x!. Recall that x! = 1 * 2 * 3 * ... * x and by convention, 0! = 1.\n\n• For example, f(3) = 0 because 3! = 6 has no zeroes at the end, while f(11) = 2 because 11! = 39916800 has two zeroes at the end.\n\nGiven an integer k, return the number of non-negative integers x have the property that f(x) = k.\n\nExample 1:\n\nInput: k = 0\nOutput: 5\nExplanation: 0!, 1!, 2!, 3!, and 4! end with k = 0 zeroes.\n\nExample 2:\n\nInput: k = 5\nOutput: 0\nExplanation: There is no x such that x! ends in k = 5 zeroes.\n\nExample 3:\n\nInput: k = 3\nOutput: 5\n\nConstraints:\n\n• 0 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def preimageSizeFZF(self, k):\n        \"\"\"\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "0"
+    ],
+    [
+      "5"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0",
+    "5"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Factorial Trailing Zeroes\", \"titleSlug\": \"factorial-trailing-zeroes\", \"difficulty\": \"Medium\"}]"
+}

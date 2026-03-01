@@ -1,0 +1,65 @@
+{
+  "questionId": "3674",
+  "title": "Count Non-Decreasing Subarrays After K Operations",
+  "titleSlug": "count-non-decreasing-subarrays-after-k-operations",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    },
+    {
+      "name": "Monotonic Queue",
+      "slug": "monotonic-queue"
+    }
+  ],
+  "content": "You are given an array nums of n integers and an integer k.\n\nFor each subarray of nums, you can apply up to k operations on it. In each operation, you increment any element of the subarray by 1.\n\nNote that each subarray is considered independently, meaning changes made to one subarray do not persist to another.\n\nReturn the number of subarrays that you can make non-decreasing ​​​​​after performing at most k operations.\n\nAn array is said to be non-decreasing if each element is greater than or equal to its previous element, if it exists.\n\nExample 1:\n\nInput: nums = [6,3,1,2,4,4], k = 7\n\nOutput: 17\n\nExplanation: Out of all 21 possible subarrays of nums, only the subarrays [6, 3, 1], [6, 3, 1, 2], [6, 3, 1, 2, 4] and [6, 3, 1, 2, 4, 4] cannot be made non-decreasing after applying up to k = 7 operations. Thus, the number of non-decreasing subarrays is 21 - 4 = 17.\n\nExample 2:\n\nInput: nums = [6,3,1,3,6], k = 4\n\nOutput: 12\n\nExplanation: The subarray [3, 1, 3, 6] along with all subarrays of nums with three or fewer elements, except [6, 3, 1], can be made non-decreasing after k operations. There are 5 subarrays of a single element, 4 subarrays of two elements, and 2 subarrays of three elements except [6, 3, 1], so there are 1 + 5 + 4 + 2 = 12 subarrays that can be made non-decreasing.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 1 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countNonDecreasingSubarrays(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a sparse table.",
+    "Compute sp[e][i] = [lastElement, operations] where operations is the number of operations required to make the subarray nums[i...i + 2^e - 1] non-decreasing, and lastElement be the value of the last element after the operations were applied on it.",
+    "How can we combine sp[a][i] with sp[b][i + 2^a] to find the answer for the subarray nums[i...i + 2^a + 2^b - 1]?"
+  ],
+  "testCases": [
+    [
+      "[6,3,1,2,4,4]",
+      "7"
+    ],
+    [
+      "[6,3,1,3,6]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "17",
+    "12"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Non-decreasing Array\", \"titleSlug\": \"non-decreasing-array\", \"difficulty\": \"Medium\"}]"
+}

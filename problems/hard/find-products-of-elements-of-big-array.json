@@ -1,0 +1,51 @@
+{
+  "questionId": "3411",
+  "title": "Find Products of Elements of Big Array",
+  "titleSlug": "find-products-of-elements-of-big-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "The powerful array of a non-negative integer x is defined as the shortest sorted array of powers of two that sum up to x. The table below illustrates examples of how the powerful array is determined. It can be proven that the powerful array of x is unique.\n\n\t\t\t\tnum\n\t\t\t\tBinary Representation\n\t\t\t\tpowerful array\n\n\t\t\t\t1\n\t\t\t\t00001\n\t\t\t\t[1]\n\n\t\t\t\t8\n\t\t\t\t01000\n\t\t\t\t[8]\n\n\t\t\t\t10\n\t\t\t\t01010\n\t\t\t\t[2, 8]\n\n\t\t\t\t13\n\t\t\t\t01101\n\t\t\t\t[1, 4, 8]\n\n\t\t\t\t23\n\t\t\t\t10111\n\t\t\t\t[1, 2, 4, 16]\n\nThe array big_nums is created by concatenating the powerful arrays for every positive integer i in ascending order: 1, 2, 3, and so on. Thus, big_nums begins as [1, 2, 1, 2, 4, 1, 4, 2, 4, 1, 2, 4, 8, ...].\n\nYou are given a 2D integer matrix queries, where for queries[i] = [fromi, toi, modi] you should calculate (big_nums[fromi] * big_nums[fromi + 1] * ... * big_nums[toi]) % modi.\n\nReturn an integer array answer such that answer[i] is the answer to the ith query.\n\nExample 1:\n\nInput: queries = [[1,3,7]]\n\nOutput: [4]\n\nExplanation: There is one query.\n\nbig_nums[1..3] = [2,1,2]. The product of them is 4. The result is 4 % 7 = 4.\n\nExample 2:\n\nInput: queries = [[2,5,3],[7,7,4]]\n\nOutput: [2,2]\n\nExplanation: There are two queries.\n\nFirst query: big_nums[2..5] = [1,2,4,1]. The product of them is 8. The result is 8 % 3 = 2.\n\nSecond query: big_nums[7] = 2. The result is 2 % 4 = 2.\n\nConstraints:\n\n• 1 <= queries.length <= 500\n\n• queries[i].length == 3\n\n• 0 <= queries[i][0] <= queries[i][1] <= 1015\n\n• 1 <= queries[i][2] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findProductsOfElements(self, queries):\n        \"\"\"\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find a way to calculate f(n, i) which is the total number of numbers in [1, n] when the i<sup>th</sup> bit is set in O(log(n)) time.",
+    "Use binary search to find the last number for each query (and there might be one “incomplete” number for the query).",
+    "Use a similar way to find the product (we only need to save the sum of exponents of power of 2)."
+  ],
+  "testCases": [
+    [
+      "[[1,3,7]]"
+    ],
+    [
+      "[[2,5,3],[7,7,4]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[4]",
+    "[2,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findProductsOfElements(self, queries):\n        \"\"\"\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        MOD = 10**5\n        \n        def get_position_in_big_array(num):\n            \"\"\"Get end position of num's powerful array in big_nums\"\"\"\n            pos = 0\n            for i in range(1, num + 1):\n                bit_count = bin(i).count('1')\n                pos += bit_count\n            return pos - 1\n        \n        def get_bit_count(num):\n            \"\"\"Get number of set bits in num\"\"\"\n            return bin(num).count('1')\n        \n        result = []\n        \n        for from_idx, to_idx, mod in queries:\n            # Find which numbers and positions\n            product = 1\n            power_sum = 0\n            \n            # Binary search or direct computation for range\n            current_pos = 0\n            num = 1\n            \n            while current_pos <= to_idx:\n                power_array = []\n                for bit in range(50):\n                    if num & (1 << bit):\n                        power_array.append(bit)\n                \n                for power in power_array:\n                    if current_pos >= from_idx and current_pos <= to_idx:\n                        power_sum += power\n                    current_pos += 1\n                    if current_pos > to_idx:\n                        break\n                \n                num += 1\n                if current_pos > to_idx:\n                    break\n            \n            # Compute 2^power_sum % mod\n            ans = pow(2, power_sum, mod)\n            result.append(ans)\n        \n        return result",
+    "explanation": "Big array product computation:\n\n1. **Big Array**: Concatenation of powerful arrays\n   - Powerful array of n = binary representation powers of 2\n   - Example: 10 = 2 + 8 → [2, 8]\n\n2. **Product = 2^(sum of exponents) mod k**\n   - Instead of multiplying: track exponent sum\n   - Result = 2^sum mod k\n\n3. **Range Traversal**:\n   - For each position in [from, to]\n   - Find corresponding power of 2\n   - Accumulate exponents\n\n4. **Modular Exponentiation**: Python's pow(base, exp, mod)\n\nTime: O(Q * range_size * log(max_element))\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

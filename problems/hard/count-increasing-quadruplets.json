@@ -1,0 +1,55 @@
+{
+  "questionId": "2682",
+  "title": "Count Increasing Quadruplets",
+  "titleSlug": "count-increasing-quadruplets",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a 0-indexed integer array nums of size n containing all numbers from 1 to n, return the number of increasing quadruplets.\n\nA quadruplet (i, j, k, l) is increasing if:\n\n• 0 <= i < j < k < l < n, and\n\n• nums[i] < nums[k] < nums[j] < nums[l].\n\nExample 1:\n\nInput: nums = [1,3,2,4,5]\nOutput: 2\nExplanation:\n    - When i = 0, j = 1, k = 2, and l = 3, nums[i] Example 2:\n\nInput: nums = [1,2,3,4]\nOutput: 0\nExplanation: There exists only one quadruplet with i = 0, j = 1, k = 2, l = 3, but since nums[j]\n\nConstraints:\n\n• 4 <= nums.length <= 4000\n\n• 1 <= nums[i] <= nums.length\n\n• All the integers of nums are unique. nums is a permutation.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countQuadruplets(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can you loop over all possible (j, k) and find the answer?",
+    "We can pre-compute all possible (i, j) and (k, l) and store them in 2 matrices.",
+    "The answer will the sum of prefix[j][k] * suffix[k][j]."
+  ],
+  "testCases": [
+    [
+      "[1,3,2,4,5]"
+    ],
+    [
+      "[1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Increasing Triplet Subsequence\", \"titleSlug\": \"increasing-triplet-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Special Quadruplets\", \"titleSlug\": \"count-special-quadruplets\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Good Triplets in an Array\", \"titleSlug\": \"count-good-triplets-in-an-array\", \"difficulty\": \"Hard\"}]"
+}

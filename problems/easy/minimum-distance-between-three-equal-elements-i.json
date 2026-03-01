@@ -1,0 +1,49 @@
+{
+  "questionId": "4115",
+  "title": "Minimum Distance Between Three Equal Elements I",
+  "titleSlug": "minimum-distance-between-three-equal-elements-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nA tuple (i, j, k) of 3 distinct indices is good if nums[i] == nums[j] == nums[k].\n\nThe distance of a good tuple is abs(i - j) + abs(j - k) + abs(k - i), where abs(x) denotes the absolute value of x.\n\nReturn an integer denoting the minimum possible distance of a good tuple. If no good tuples exist, return -1.\n\nExample 1:\n\nInput: nums = [1,2,1,1,3]\n\nOutput: 6\n\nExplanation: The minimum distance is achieved by the good tuple (0, 2, 3).\n\n(0, 2, 3) is a good tuple because nums[0] == nums[2] == nums[3] == 1. Its distance is abs(0 - 2) + abs(2 - 3) + abs(3 - 0) = 2 + 1 + 3 = 6.\n\nExample 2:\n\nInput: nums = [1,1,2,3,2,1,2]\n\nOutput: 8\n\nExplanation: The minimum distance is achieved by the good tuple (2, 4, 6).\n\n(2, 4, 6) is a good tuple because nums[2] == nums[4] == nums[6] == 2. Its distance is abs(2 - 4) + abs(4 - 6) + abs(6 - 2) = 2 + 2 + 4 = 8.\n\nExample 3:\n\nInput: nums = [1]\n\nOutput: -1\n\nExplanation: There are no good tuples. Therefore, the answer is -1.\n\nConstraints:\n\n• 1 <= n == nums.length <= 100\n\n• 1 <= nums[i] <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumDistance(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use bruteforce"
+  ],
+  "testCases": [
+    [
+      "[1,2,1,1,3]"
+    ],
+    [
+      "[1,1,2,3,2,1,2]"
+    ],
+    [
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "8",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumDistance(self, nums):\n        from collections import defaultdict\n        indices = defaultdict(list)\n        for i, x in enumerate(nums):\n            indices[x].append(i)\n        best = float('inf')\n        for idxs in indices.values():\n            if len(idxs) >= 3:\n                for t in range(len(idxs) - 2):\n                    best = min(best, 2 * (idxs[t + 2] - idxs[t]))\n        return best if best < float('inf') else -1",
+    "explanation": "Group indices by value; for each consecutive triple of same-value indices the total pairwise distance is 2*(last-first); return the minimum or -1 if no triplet exists. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

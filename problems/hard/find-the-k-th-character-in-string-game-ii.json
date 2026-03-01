@@ -1,0 +1,48 @@
+{
+  "questionId": "3601",
+  "title": "Find the K-th Character in String Game II",
+  "titleSlug": "find-the-k-th-character-in-string-game-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Alice and Bob are playing a game. Initially, Alice has a string word = \"a\".\n\nYou are given a positive integer k. You are also given an integer array operations, where operations[i] represents the type of the ith operation.\n\nNow Bob will ask Alice to perform all operations in sequence:\n\n• If operations[i] == 0, append a copy of word to itself.\n\n• If operations[i] == 1, generate a new string by changing each character in word to its next character in the English alphabet, and append it to the original word. For example, performing the operation on \"c\" generates \"cd\" and performing the operation on \"zb\" generates \"zbac\".\n\nReturn the value of the kth character in word after performing all the operations.\n\nNote that the character 'z' can be changed to 'a' in the second type of operation.\n\nExample 1:\n\nInput: k = 5, operations = [0,0,0]\n\nOutput: \"a\"\n\nExplanation: Initially, word == \"a\". Alice performs the three operations as follows:\n\n• Appends \"a\" to \"a\", word becomes \"aa\".\n\n• Appends \"aa\" to \"aa\", word becomes \"aaaa\".\n\n• Appends \"aaaa\" to \"aaaa\", word becomes \"aaaaaaaa\".\n\nExample 2:\n\nInput: k = 10, operations = [0,1,0,1]\n\nOutput: \"b\"\n\nExplanation: Initially, word == \"a\". Alice performs the four operations as follows:\n\n• Appends \"a\" to \"a\", word becomes \"aa\".\n\n• Appends \"bb\" to \"aa\", word becomes \"aabb\".\n\n• Appends \"aabb\" to \"aabb\", word becomes \"aabbaabb\".\n\n• Appends \"bbccbbcc\" to \"aabbaabb\", word becomes \"aabbaabbbbccbbcc\".\n\nConstraints:\n\n• 1 <= k <= 1014\n\n• 1 <= operations.length <= 100\n\n• operations[i] is either 0 or 1.\n\n• The input is generated such that word has at least k characters after all operations.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kthCharacter(self, k, operations):\n        \"\"\"\n        :type k: int\n        :type operations: List[int]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to replay the operations k<sup>th</sup> character was part of.",
+    "The k<sup>th</sup> character is only affected if it is present in the first half of the string."
+  ],
+  "testCases": [
+    [
+      "5",
+      "[0,0,0]"
+    ],
+    [
+      "10",
+      "[0,1,0,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"a\"",
+    "\"b\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Shifting Letters\", \"titleSlug\": \"shifting-letters\", \"difficulty\": \"Medium\"}]"
+}

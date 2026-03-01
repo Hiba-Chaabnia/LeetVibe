@@ -1,0 +1,69 @@
+{
+  "questionId": "2588",
+  "title": "Maximum Number of Points From Grid Queries",
+  "titleSlug": "maximum-number-of-points-from-grid-queries",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n integer matrix grid and an array queries of size k.\n\nFind an array answer of size k such that for each integer queries[i] you start in the top left cell of the matrix and repeat the following process:\n\n• If queries[i] is strictly greater than the value of the current cell that you are in, then you get one point if it is your first time visiting this cell, and you can move to any adjacent cell in all 4 directions: up, down, left, and right.\n\n• Otherwise, you do not get any points, and you end this process.\n\nAfter the process, answer[i] is the maximum number of points you can get. Note that for each query you are allowed to visit the same cell multiple times.\n\nReturn the resulting array answer.\n\nExample 1:\n\nInput: grid = [[1,2,3],[2,5,7],[3,5,1]], queries = [5,6,2]\nOutput: [5,8,1]\nExplanation: The diagrams above show which cells we visit to get points for each query.\n\nExample 2:\n\nInput: grid = [[5,2,1],[1,1,2]], queries = [3]\nOutput: [0]\nExplanation: We can not get any points because the value of the top left cell is already greater than or equal to 3.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 2 <= m, n <= 1000\n\n• 4 <= m * n <= 105\n\n• k == queries.length\n\n• 1 <= k <= 104\n\n• 1 <= grid[i][j], queries[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxPoints(self, grid, queries):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type queries: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The queries are all given to you beforehand so you can answer them in any order you want.",
+    "Sort the queries knowing their original order to be able to build the answer array.",
+    "Run a BFS on the graph and answer the queries in increasing order."
+  ],
+  "testCases": [
+    [
+      "[[1,2,3],[2,5,7],[3,5,1]]",
+      "[5,6,2]"
+    ],
+    [
+      "[[5,2,1],[1,1,2]]",
+      "[3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[5,8,1]",
+    "[0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from typing import List\n\ndef maxPoints(grid: List[List[int]], queries: List[int]) -> List[int]:\n    m, n = len(grid), len(grid[0])\n    dx = [-1, 0, 1, 0]\n    dy = [0, 1, 0, -1]\n\n    def dfs(x: int, y: int, q: int, visited: set) -> int:\n        if 0 <= x < m and 0 <= y < n and grid[x][y] < q and (x, y) not in visited:\n            visited.add((x, y))\n            points = 1\n            for i in range(4):\n                nx, ny = x + dx[i], y + dy[i]\n                points += dfs(nx, ny, q, visited)\n            return points\n        return 0\n\n    return [dfs(0, 0, query, set()) for query in queries]",
+    "explanation": "The algorithm for this problem is essentially a depth-first search on the grid. For each query, start at the top left of the grid and perform a DFS. \n\n1. If the cell has not been visited and the value of the cell is strictly lower than the query value, add the cell to the visited set, increment the points, and continue the DFS for all 4 adjacent cells.\n2. If the cell is visited or the value is not lower than the query, the DFS terminates for that path.\n\nThis process is repeated for all queries, and the answer array is returned with the maximum points for each query."
+  },
+  "similarQuestions": "[{\"title\": \"Trapping Rain Water II\", \"titleSlug\": \"trapping-rain-water-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Escape the Spreading Fire\", \"titleSlug\": \"escape-the-spreading-fire\", \"difficulty\": \"Hard\"}]"
+}

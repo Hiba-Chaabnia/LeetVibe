@@ -1,0 +1,58 @@
+{
+  "questionId": "3390",
+  "title": "Minimum Rectangles to Cover Points",
+  "titleSlug": "minimum-rectangles-to-cover-points",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 2D integer array points, where points[i] = [xi, yi]. You are also given an integer w. Your task is to cover all the given points with rectangles.\n\nEach rectangle has its lower end at some point (x1, 0) and its upper end at some point (x2, y2), where x1 <= x2, y2 >= 0, and the condition x2 - x1 <= w must be satisfied for each rectangle.\n\nA point is considered covered by a rectangle if it lies within or on the boundary of the rectangle.\n\nReturn an integer denoting the minimum number of rectangles needed so that each point is covered by at least one rectangle.\n\nNote: A point may be covered by more than one rectangle.\n\nExample 1:\n\nInput: points = [[2,1],[1,0],[1,4],[1,8],[3,5],[4,6]], w = 1\n\nOutput: 2\n\nExplanation: The image above shows one possible placement of rectangles to cover the points:\n\n• A rectangle with a lower end at (1, 0) and its upper end at (2, 8)\n\n• A rectangle with a lower end at (3, 0) and its upper end at (4, 8)\n\nExample 2:\n\nInput: points = [[0,0],[1,1],[2,2],[3,3],[4,4],[5,5],[6,6]], w = 2\n\nOutput: 3\n\nExplanation: The image above shows one possible placement of rectangles to cover the points:\n\n• A rectangle with a lower end at (0, 0) and its upper end at (2, 2)\n\n• A rectangle with a lower end at (3, 0) and its upper end at (5, 5)\n\n• A rectangle with a lower end at (6, 0) and its upper end at (6, 6)\n\nExample 3:\n\nInput: points = [[2,3],[1,2]], w = 0\n\nOutput: 2\n\nExplanation: The image above shows one possible placement of rectangles to cover the points:\n\n• A rectangle with a lower end at (1, 0) and its upper end at (1, 2)\n\n• A rectangle with a lower end at (2, 0) and its upper end at (2, 3)\n\nConstraints:\n\n• 1 <= points.length <= 105\n\n• points[i].length == 2\n\n• 0 <= xi == points[i][0] <= 109\n\n• 0 <= yi == points[i][1] <= 109\n\n• 0 <= w <= 109\n\n• All pairs (xi, yi) are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minRectanglesToCoverPoints(self, points, w):\n        \"\"\"\n        :type points: List[List[int]]\n        :type w: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The y values don't matter; only the x values matter.",
+    "Sort all the points by x<sub>i</sub>.",
+    "Each time, select the smallest x value, x<sub>0</sub>, from the unselected points, and then select all the points with x values not larger than x<sub>0</sub> + w."
+  ],
+  "testCases": [
+    [
+      "[[2,1],[1,0],[1,4],[1,8],[3,5],[4,6]]",
+      "1"
+    ],
+    [
+      "[[0,0],[1,1],[2,2],[3,3],[4,4],[5,5],[6,6]]",
+      "2"
+    ],
+    [
+      "[[2,3],[1,2]]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minRectanglesToCoverPoints(self, points, w):\n        xs = sorted(p[0] for p in points)\n        count = 0\n        i = 0\n        while i < len(xs):\n            x0 = xs[i]\n            count += 1\n            while i < len(xs) and xs[i] <= x0 + w:\n                i += 1\n        return count",
+    "explanation": "Y-coordinates are irrelevant since rectangles have unlimited height. Each rectangle covers a width-w window on the x-axis. Greedy: sort by x, start each rectangle at the leftmost uncovered x0, skip all points within [x0, x0+w], then repeat. Starting each rectangle as far left as possible maximizes coverage.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Area Rectangle\", \"titleSlug\": \"minimum-area-rectangle\", \"difficulty\": \"Medium\"}, {\"title\": \"K Closest Points to Origin\", \"titleSlug\": \"k-closest-points-to-origin\", \"difficulty\": \"Medium\"}]"
+}

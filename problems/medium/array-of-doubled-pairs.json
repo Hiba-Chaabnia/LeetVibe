@@ -1,0 +1,55 @@
+{
+  "questionId": "991",
+  "title": "Array of Doubled Pairs",
+  "titleSlug": "array-of-doubled-pairs",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array of even length arr, return true if it is possible to reorder arr such that arr[2 * i + 1] = 2 * arr[2 * i] for every 0 <= i < len(arr) / 2, or false otherwise.\n\nExample 1:\n\nInput: arr = [3,1,3,6]\nOutput: false\n\nExample 2:\n\nInput: arr = [2,1,2,6]\nOutput: false\n\nExample 3:\n\nInput: arr = [4,-2,2,-4]\nOutput: true\nExplanation: We can take two groups, [-2,-4] and [2,4] to form [-2,-4,2,4] or [2,4,-2,-4].\n\nConstraints:\n\n• 2 <= arr.length <= 3 * 104\n\n• arr.length is even.\n\n• -105 <= arr[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canReorderDoubled(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,1,3,6]"
+    ],
+    [
+      "[2,1,2,6]"
+    ],
+    [
+      "[4,-2,2,-4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def canReorderDoubled(arr):\n    count = collections.Counter(arr)\n    \n    for a in sorted(count, key=abs):\n        if count[a] > 0:\n            target = a * 2\n            if count[target] < count[a]:\n                return False\n            count[target] -= count[a]\n\n    return True",
+    "explanation": "1. Count values in the dataArray using a map / dictionary / counter.\n2. For each value in the dataArray, in ascending order of magnitude (Take care of negative values properly):\n     - Check if we have sufficient values to match the count.\n     - If we do, remove the required count and continue. Else, return False.\n3. If our loop encounters no issues, return True."
+  },
+  "similarQuestions": "[{\"title\": \"Find Original Array From Doubled Array\", \"titleSlug\": \"find-original-array-from-doubled-array\", \"difficulty\": \"Medium\"}]"
+}

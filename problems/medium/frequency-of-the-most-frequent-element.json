@@ -1,0 +1,69 @@
+{
+  "questionId": "1966",
+  "title": "Frequency of the Most Frequent Element",
+  "titleSlug": "frequency-of-the-most-frequent-element",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "The frequency of an element is the number of times it occurs in an array.\n\nYou are given an integer array nums and an integer k. In one operation, you can choose an index of nums and increment the element at that index by 1.\n\nReturn the maximum possible frequency of an element after performing at most k operations.\n\nExample 1:\n\nInput: nums = [1,2,4], k = 5\nOutput: 3\nExplanation: Increment the first element three times and the second element two times to make nums = [4,4,4].\n    4 has a frequency of 3.\n\nExample 2:\n\nInput: nums = [1,4,8,13], k = 5\nOutput: 2\nExplanation: There are multiple optimal solutions:\n    - Increment the first element three times to make nums = [4,4,8,13]. 4 has a frequency of 2.\n    - Increment the second element four times to make nums = [1,8,8,13]. 8 has a frequency of 2.\n    - Increment the third element five times to make nums = [1,4,13,13]. 13 has a frequency of 2.\n\nExample 3:\n\nInput: nums = [3,9,6], k = 2\nOutput: 1\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105\n\n• 1 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxFrequency(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that you can try all values in a brute force manner and find the maximum frequency of that value.",
+    "To find the maximum frequency of a value consider the biggest elements smaller than or equal to this value"
+  ],
+  "testCases": [
+    [
+      "[1,2,4]",
+      "5"
+    ],
+    [
+      "[1,4,8,13]",
+      "5"
+    ],
+    [
+      "[3,9,6]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxFrequency(nums: List[int], k: int) -> int:\n    nums.sort()\n    n, i, s, max_freq = len(nums), 0, 0, 0\n\n    for j in range(n):\n        s += nums[j]\n        while s + k < nums[j] * (j - i + 1):\n            s -= nums[i]\n            i += 1\n        max_freq = max(max_freq, j - i + 1)\n\n    return max_freq",
+    "explanation": "1. Sort the input array `nums`.\n2. Initialize variables `n` as the length of `nums`, `i` as 0, `sum` as 0, and `max_freq` as 0.\n3. Iterate through the sorted array with index `j`.\n   a. Add each element to the `sum`.\n   b. In a while loop, if `sum + k` is less than `nums[j] * (j - i + 1)`, subtract `nums[i]` from `sum`, and increment `i`.\n   c. Update the `max_freq` by taking the maximum of the current `max_freq` and `j - i + 1`.\n4. Return the final `max_freq` as the answer."
+  },
+  "similarQuestions": "[{\"title\": \"Find All Lonely Numbers in the Array\", \"titleSlug\": \"find-all-lonely-numbers-in-the-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Nice Subarray\", \"titleSlug\": \"longest-nice-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Apply Operations to Maximize Frequency Score\", \"titleSlug\": \"apply-operations-to-maximize-frequency-score\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Frequency of an Element After Performing Operations I\", \"titleSlug\": \"maximum-frequency-of-an-element-after-performing-operations-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Frequency of an Element After Performing Operations II\", \"titleSlug\": \"maximum-frequency-of-an-element-after-performing-operations-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Difference Between Even and Odd Frequency II\", \"titleSlug\": \"maximum-difference-between-even-and-odd-frequency-ii\", \"difficulty\": \"Hard\"}]"
+}

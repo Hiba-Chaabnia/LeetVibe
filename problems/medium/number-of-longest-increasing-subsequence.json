@@ -1,0 +1,51 @@
+{
+  "questionId": "673",
+  "title": "Number of Longest Increasing Subsequence",
+  "titleSlug": "number-of-longest-increasing-subsequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "Given an integer array nums, return the number of longest increasing subsequences.\n\nNotice that the sequence has to be strictly increasing.\n\nExample 1:\n\nInput: nums = [1,3,5,4,7]\nOutput: 2\nExplanation: The two longest increasing subsequences are [1, 3, 4, 7] and [1, 3, 5, 7].\n\nExample 2:\n\nInput: nums = [2,2,2,2,2]\nOutput: 5\nExplanation: The length of the longest increasing subsequence is 1, and there are 5 increasing subsequences of length 1, so output 5.\n\nConstraints:\n\n• 1 <= nums.length <= 2000\n\n• -106 <= nums[i] <= 106\n\n• The answer is guaranteed to fit inside a 32-bit integer.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findNumberOfLIS(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,3,5,4,7]"
+    ],
+    [
+      "[2,2,2,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findNumberOfLIS(nums):\n    n = len(nums)\n    maxLength = ans = 0\n    length = [1] * n\n    count = [1] * n\n\n    for i in range(n):\n        for j in range(i):\n            if nums[i] > nums[j]:\n                if length[i] == length[j] + 1:\n                    count[i] += count[j]\n                elif length[i] < length[j] + 1:\n                    length[i] = length[j] + 1\n                    count[i] = count[j]\n        if maxLength == length[i]:\n            ans += count[i]\n        elif maxLength < length[i]:\n            maxLength = length[i]\n            ans = count[i]\n\n    return ans",
+    "explanation": "The algorithm uses dynamic programming to find the number of longest increasing subsequences. We use two arrays, `length` and `count`. `length[i]` stores the length of the longest increasing subsequence ending at the index `i`, and `count[i]` stores the number of longest increasing subsequences ending at the index `i`.\n\n1. Initialize `maxLength` and `ans` to `0`.\n2. Initialize the `length` and `count` arrays to all have a value of `1`.\n3. Loop through the `nums` array using variable `i`.\n    a. Loop from `0` to `i - 1` using a variable `j`.\n        i. If `nums[i] > nums[j]`, update the values of `length[i]` and `count[i]` based on their current values and the values at index `j`. The rule for this is:\n            * If `length[i] == length[j] + 1`, increase `count[i]` by `count[j]`.\n            * If `length[i] < length[j] + 1`, update `length[i]` to `length[j] + 1` and update `count[i]` to `count[j]`.\n    b. If `maxLength` is equal to `length[i]`, increment `ans` by `count[i]`. If `maxLength` is less than `length[i]`, update `maxLength` to equal `length[i]` and update `ans` to equal `count[i]`.\n4. Return `ans` as the final result.\n\nThis algorithm has a time complexity of O(n^2) and a space complexity of O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Increasing Subsequence\", \"titleSlug\": \"longest-increasing-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Continuous Increasing Subsequence\", \"titleSlug\": \"longest-continuous-increasing-subsequence\", \"difficulty\": \"Easy\"}, {\"title\": \"Longest Increasing Subsequence II\", \"titleSlug\": \"longest-increasing-subsequence-ii\", \"difficulty\": \"Hard\"}]"
+}

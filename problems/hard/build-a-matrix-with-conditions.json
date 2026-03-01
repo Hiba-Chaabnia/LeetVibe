@@ -1,0 +1,58 @@
+{
+  "questionId": "2472",
+  "title": "Build a Matrix With Conditions",
+  "titleSlug": "build-a-matrix-with-conditions",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Topological Sort",
+      "slug": "topological-sort"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a positive integer k. You are also given:\n\n• a 2D integer array rowConditions of size n where rowConditions[i] = [abovei, belowi], and\n\n• a 2D integer array colConditions of size m where colConditions[i] = [lefti, righti].\n\nThe two arrays contain integers from 1 to k.\n\nYou have to build a k x k matrix that contains each of the numbers from 1 to k exactly once. The remaining cells should have the value 0.\n\nThe matrix should also satisfy the following conditions:\n\n• The number abovei should appear in a row that is strictly above the row at which the number belowi appears for all i from 0 to n - 1.\n\n• The number lefti should appear in a column that is strictly left of the column at which the number righti appears for all i from 0 to m - 1.\n\nReturn any matrix that satisfies the conditions. If no answer exists, return an empty matrix.\n\nExample 1:\n\nInput: k = 3, rowConditions = [[1,2],[3,2]], colConditions = [[2,1],[3,2]]\nOutput: [[3,0,0],[0,0,1],[0,2,0]]\nExplanation: The diagram above shows a valid example of a matrix that satisfies all the conditions.\n    The row conditions are the following:\n    - Number 1 is in row 1, and number 2 is in row 2, so 1 is above 2 in the matrix.\n    - Number 3 is in row 0, and number 2 is in row 2, so 3 is above 2 in the matrix.\n    The column conditions are the following:\n    - Number 2 is in column 1, and number 1 is in column 2, so 2 is left of 1 in the matrix.\n    - Number 3 is in column 0, and number 2 is in column 1, so 3 is left of 2 in the matrix.\n    Note that there may be multiple correct answers.\n\nExample 2:\n\nInput: k = 3, rowConditions = [[1,2],[2,3],[3,1],[2,3]], colConditions = [[2,1]]\nOutput: []\nExplanation: From the first two conditions, 3 has to be below 1 but the third conditions needs 3 to be above 1 to be satisfied.\n    No matrix can satisfy all the conditions, so we return the empty matrix.\n\nConstraints:\n\n• 2 <= k <= 400\n\n• 1 <= rowConditions.length, colConditions.length <= 104\n\n• rowConditions[i].length == colConditions[i].length == 2\n\n• 1 <= abovei, belowi, lefti, righti <= k\n\n• abovei != belowi\n\n• lefti != righti",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def buildMatrix(self, k, rowConditions, colConditions):\n        \"\"\"\n        :type k: int\n        :type rowConditions: List[List[int]]\n        :type colConditions: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can you think of the problem in terms of graphs?",
+    "What algorithm allows you to find the order of nodes in a graph?"
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[1,2],[3,2]]",
+      "[[2,1],[3,2]]"
+    ],
+    [
+      "3",
+      "[[1,2],[2,3],[3,1],[2,3]]",
+      "[[2,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[3,0,0],[0,0,1],[0,2,0]]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict, deque\n\nclass Solution(object):\n    def buildMatrix(self, k, rowConditions, colConditions):\n        \"\"\"\n        :type k: int\n        :type rowConditions: List[List[int]]\n        :type colConditions: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        def topological_sort(conditions):\n            graph = defaultdict(list)\n            indegree = {i: 0 for i in range(1, k + 1)}\n            \n            for u, v in conditions:\n                graph[u].append(v)\n                indegree[v] += 1\n            \n            queue = deque([i for i in range(1, k + 1) if indegree[i] == 0])\n            order = []\n            \n            while queue:\n                node = queue.popleft()\n                order.append(node)\n                \n                for neighbor in graph[node]:\n                    indegree[neighbor] -= 1\n                    if indegree[neighbor] == 0:\n                        queue.append(neighbor)\n            \n            # If we can't process all nodes, there's a cycle\n            if len(order) != k:\n                return None\n            \n            return order\n        \n        row_order = topological_sort(rowConditions)\n        col_order = topological_sort(colConditions)\n        \n        if not row_order or not col_order:\n            return []\n        \n        # Create position mappings\n        row_pos = {num: i for i, num in enumerate(row_order)}\n        col_pos = {num: j for j, num in enumerate(col_order)}\n        \n        # Build matrix\n        matrix = [[0] * k for _ in range(k)]\n        for num in range(1, k + 1):\n            matrix[row_pos[num]][col_pos[num]] = num\n        \n        return matrix",
+    "explanation": "Use topological sorting on condition graphs to determine row and column ordering. If either graph has a cycle (can't sort all k numbers), return empty matrix. Otherwise, map each number to its position in sorted order and place it in the matrix. Time complexity: O(k + |conditions|)."
+  },
+  "similarQuestions": "[{\"title\": \"Course Schedule\", \"titleSlug\": \"course-schedule\", \"difficulty\": \"Medium\"}, {\"title\": \"Course Schedule II\", \"titleSlug\": \"course-schedule-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Eventual Safe States\", \"titleSlug\": \"find-eventual-safe-states\", \"difficulty\": \"Medium\"}, {\"title\": \"Loud and Rich\", \"titleSlug\": \"loud-and-rich\", \"difficulty\": \"Medium\"}]"
+}

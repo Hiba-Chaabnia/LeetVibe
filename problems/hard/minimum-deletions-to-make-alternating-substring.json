@@ -1,0 +1,55 @@
+{
+  "questionId": "4064",
+  "title": "Minimum Deletions to Make Alternating Substring",
+  "titleSlug": "minimum-deletions-to-make-alternating-substring",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "You are given a string s of length n consisting only of the characters 'A' and 'B'.\n\nYou are also given a 2D integer array queries of length q, where each queries[i] is one of the following:\n\n• [1, j]: Flip the character at index j of s i.e. 'A' changes to 'B' (and vice versa). This operation mutates s and affects subsequent queries.\n\n• [2, l, r]: Compute the minimum number of character deletions required to make the substring s[l..r] alternating. This operation does not modify s; the length of s remains n.\n\nA substring is alternating if no two adjacent characters are equal. A substring of length 1 is always alternating.\n\nReturn an integer array answer, where answer[i] is the result of the ith query of type [2, l, r].\n\nExample 1:\n\nInput: s = \"ABA\", queries = [[2,1,2],[1,1],[2,0,2]]\n\nOutput: [0,2]\n\nExplanation: \t\t\t\ti\n\t\t\t\tqueries[i]\n\t\t\t\tj\n\t\t\t\tl\n\t\t\t\tr\n\t\t\t\ts before query\n\t\t\t\ts[l..r]\n\t\t\t\tResult\n\t\t\t\tAnswer\n\n\t\t\t\t0\n\t\t\t\t[2, 1, 2]\n\t\t\t\t-\n\t\t\t\t1\n\t\t\t\t2\n\t\t\t\t\"ABA\"\n\t\t\t\t\"BA\"\n\t\t\t\tAlready alternating\n\t\t\t\t0\n\n\t\t\t\t1\n\t\t\t\t[1, 1]\n\t\t\t\t1\n\t\t\t\t-\n\t\t\t\t-\n\t\t\t\t\"ABA\"\n\t\t\t\t-\n\t\t\t\tFlip s[1] from 'B' to 'A'\n\t\t\t\t-\n\n\t\t\t\t2\n\t\t\t\t[2, 0, 2]\n\t\t\t\t-\n\t\t\t\t0\n\t\t\t\t2\n\t\t\t\t\"AAA\"\n\t\t\t\t\"AAA\"\n\t\t\t\tDelete any two 'A's to get \"A\"\n\t\t\t\t2\n\nThus, the answer is [0, 2].\n\nExample 2:\n\nInput: s = \"ABB\", queries = [[2,0,2],[1,2],[2,0,2]]\n\nOutput: [1,0]\n\nExplanation: \t\t\t\ti\n\t\t\t\tqueries[i]\n\t\t\t\tj\n\t\t\t\tl\n\t\t\t\tr\n\t\t\t\ts before query\n\t\t\t\ts[l..r]\n\t\t\t\tResult\n\t\t\t\tAnswer\n\n\t\t\t\t0\n\t\t\t\t[2, 0, 2]\n\t\t\t\t-\n\t\t\t\t0\n\t\t\t\t2\n\t\t\t\t\"ABB\"\n\t\t\t\t\"ABB\"\n\t\t\t\tDelete one 'B' to get \"AB\"\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\t[1, 2]\n\t\t\t\t2\n\t\t\t\t-\n\t\t\t\t-\n\t\t\t\t\"ABB\"\n\t\t\t\t-\n\t\t\t\tFlip s[2] from 'B' to 'A'\n\t\t\t\t-\n\n\t\t\t\t2\n\t\t\t\t[2, 0, 2]\n\t\t\t\t-\n\t\t\t\t0\n\t\t\t\t2\n\t\t\t\t\"ABA\"\n\t\t\t\t\"ABA\"\n\t\t\t\tAlready alternating\n\t\t\t\t0\n\nThus, the answer is [1, 0].\n\nExample 3:\n\nInput: s = \"BABA\", queries = [[2,0,3],[1,1],[2,1,3]]\n\nOutput: [0,1]\n\nExplanation: \t\t\t\ti\n\t\t\t\tqueries[i]\n\t\t\t\tj\n\t\t\t\tl\n\t\t\t\tr\n\t\t\t\ts before query\n\t\t\t\ts[l..r]\n\t\t\t\tResult\n\t\t\t\tAnswer\n\n\t\t\t\t0\n\t\t\t\t[2, 0, 3]\n\t\t\t\t-\n\t\t\t\t0\n\t\t\t\t3\n\t\t\t\t\"BABA\"\n\t\t\t\t\"BABA\"\n\t\t\t\tAlready alternating\n\t\t\t\t0\n\n\t\t\t\t1\n\t\t\t\t[1, 1]\n\t\t\t\t1\n\t\t\t\t-\n\t\t\t\t-\n\t\t\t\t\"BABA\"\n\t\t\t\t-\n\t\t\t\tFlip s[1] from 'A' to 'B'\n\t\t\t\t-\n\n\t\t\t\t2\n\t\t\t\t[2, 1, 3]\n\t\t\t\t-\n\t\t\t\t1\n\t\t\t\t3\n\t\t\t\t\"BBBA\"\n\t\t\t\t\"BBA\"\n\t\t\t\tDelete one 'B' to get \"BA\"\n\t\t\t\t1\n\nThus, the answer is [0, 1].\n\nConstraints:\n\n• 1 <= n == s.length <= 105\n\n• s[i] is either 'A' or 'B'.\n\n• 1 <= q == queries.length <= 105\n\n• queries[i].length == 2 or 3\n\n• queries[i] == [1, j] or,\n\n• queries[i] == [2, l, r]\n\n• 0 <= j <= n - 1\n\n• 0 <= l <= r <= n - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDeletions(self, s, queries):\n        \"\"\"\n        :type s: str\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a Fenwick tree (BIT) over an auxiliary array eq.",
+    "Define eq[i] = 1 if i >= 1 and s[i] == s[i - 1], otherwise eq[i] = 0.",
+    "For a type-2 query [2, l, r] the answer is sum(eq[l+1..r]) (count of equal adjacent pairs in the substring).",
+    "For a flip [1, j], recompute and update eq[j] and eq[j + 1]; each flip changes at most two eq values."
+  ],
+  "testCases": [
+    [
+      "\"ABA\"",
+      "[[2,1,2],[1,1],[2,0,2]]"
+    ],
+    [
+      "\"ABB\"",
+      "[[2,0,2],[1,2],[2,0,2]]"
+    ],
+    [
+      "\"BABA\"",
+      "[[2,0,3],[1,1],[2,1,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,2]",
+    "[1,0]",
+    "[0,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minDeletions(self, s, queries):\n        \"\"\"\n        :type s: str\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        n = len(s)\n        \n        # Fenwick Tree for efficient range queries and updates\n        class FenwickTree:\n            def __init__(self, size):\n                self.size = size\n                self.tree = [0] * (size + 1)\n            \n            def update(self, i, delta):\n                i += 1  # Convert to 1-indexed\n                while i <= self.size:\n                    self.tree[i] += delta\n                    i += i & (-i)\n            \n            def query(self, i):\n                if i < 0:\n                    return 0\n                i += 1  # Convert to 1-indexed\n                result = 0\n                while i > 0:\n                    result += self.tree[i]\n                    i -= i & (-i)\n                return result\n            \n            def range_query(self, l, r):\n                if l > r:\n                    return 0\n                return self.query(r) - (self.query(l - 1) if l > 0 else 0)\n        \n        # eq[i] = 1 if s[i] == s[i-1], else 0\n        eq = [0] * n\n        for i in range(1, n):\n            eq[i] = 1 if s[i] == s[i-1] else 0\n        \n        fenwick = FenwickTree(n)\n        for i in range(1, n):\n            fenwick.update(i, eq[i])\n        \n        results = []\n        s_list = list(s)\n        \n        for query in queries:\n            if query[0] == 1:\n                # Flip operation\n                j = query[1]\n                # Flip the character\n                s_list[j] = 'B' if s_list[j] == 'A' else 'A'\n                \n                # Update eq[j] if j > 0\n                if j > 0:\n                    old_eq = eq[j]\n                    new_eq = 1 if s_list[j] == s_list[j-1] else 0\n                    if old_eq != new_eq:\n                        fenwick.update(j, new_eq - old_eq)\n                        eq[j] = new_eq\n                \n                # Update eq[j+1] if j+1 < n\n                if j + 1 < n:\n                    old_eq = eq[j + 1]\n                    new_eq = 1 if s_list[j+1] == s_list[j] else 0\n                    if old_eq != new_eq:\n                        fenwick.update(j + 1, new_eq - old_eq)\n                        eq[j + 1] = new_eq\n            \n            else:\n                # Query operation\n                l, r = query[1], query[2]\n                # Count equal adjacent pairs in range [l, r]\n                # This is sum of eq[l+1..r]\n                if l < r:\n                    result = fenwick.range_query(l + 1, r)\n                else:\n                    result = 0\n                results.append(result)\n        \n        return results",
+    "explanation": "This solution uses a Fenwick Tree to efficiently handle updates and range queries:\n\n1. **Problem Understanding**:\n   - Alternating substring: no two adjacent characters are equal\n   - Minimum deletions = count of equal adjacent pairs\n   - Queries can update characters or ask about a range\n\n2. **Key Observation**:\n   - An alternating string has no adjacent equal characters\n   - To make a substring alternating: delete one character from each adjacent pair of equal characters\n   - This equals the count of positions where s[i] == s[i-1]\n\n3. **Array Transformation**:\n   - Create eq[] where eq[i] = 1 if s[i] == s[i-1], else 0\n   - For a query [2, l, r]: answer = sum(eq[l+1..r])\n\n4. **Fenwick Tree for Updates**:\n   - Build Fenwick tree over eq array\n   - For update at index j:\n     - Flip s[j]\n     - Update eq[j] if j > 0 (check if s[j] == s[j-1])\n     - Update eq[j+1] if j < n-1 (check if s[j+1] == s[j])\n     - Each flip affects at most 2 eq values\n\n5. **Query Processing**:\n   - Type 1: Flip character at index j, update affected eq values\n   - Type 2: Range sum query on eq[l+1..r] using Fenwick tree\n\n6. **Why Fenwick Tree**:\n   - Supports O(log n) point updates\n   - Supports O(log n) range queries\n   - Total: O(Q log N)\n\nTime Complexity: O(N + Q log N)\nSpace Complexity: O(N)"
+  },
+  "similarQuestions": "[]"
+}

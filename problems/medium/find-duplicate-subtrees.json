@@ -1,0 +1,45 @@
+{
+  "questionId": "652",
+  "title": "Find Duplicate Subtrees",
+  "titleSlug": "find-duplicate-subtrees",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return all duplicate subtrees.\n\nFor each kind of duplicate subtrees, you only need to return the root node of any one of them.\n\nTwo trees are duplicate if they have the same structure with the same node values.\n\nExample 1:\n\nInput: root = [1,2,3,4,null,2,4,null,null,4]\nOutput: [[2,4],[4]]\n\nExample 2:\n\nInput: root = [2,1,1]\nOutput: [[1]]\n\nExample 3:\n\nInput: root = [2,2,2,3,null,3,null]\nOutput: [[2,3],[3]]\n\nConstraints:\n\n• The number of the nodes in the tree will be in the range [1, 5000]\n\n• -200 <= Node.val <= 200",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def findDuplicateSubtrees(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[Optional[TreeNode]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,null,2,4,null,null,4]",
+      "[2,1,1]",
+      "[2,2,2,3,null,3,null]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[2,4],[4]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Serialize and Deserialize Binary Tree\", \"titleSlug\": \"serialize-and-deserialize-binary-tree\", \"difficulty\": \"Hard\"}, {\"title\": \"Serialize and Deserialize BST\", \"titleSlug\": \"serialize-and-deserialize-bst\", \"difficulty\": \"Medium\"}, {\"title\": \"Construct String from Binary Tree\", \"titleSlug\": \"construct-string-from-binary-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Delete Duplicate Folders in System\", \"titleSlug\": \"delete-duplicate-folders-in-system\", \"difficulty\": \"Hard\"}]"
+}

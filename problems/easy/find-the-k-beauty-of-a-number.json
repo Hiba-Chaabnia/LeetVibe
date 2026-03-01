@@ -1,0 +1,52 @@
+{
+  "questionId": "1430",
+  "title": "Find the K-Beauty of a Number",
+  "titleSlug": "find-the-k-beauty-of-a-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "The k-beauty of an integer num is defined as the number of substrings of num when it is read as a string that meet the following conditions:\n\n• It has a length of k.\n\n• It is a divisor of num.\n\nGiven integers num and k, return the k-beauty of num.\n\nNote:\n\n• Leading zeros are allowed.\n\n• 0 is not a divisor of any value.\n\nA substring is a contiguous sequence of characters in a string.\n\nExample 1:\n\nInput: num = 240, k = 2\nOutput: 2\nExplanation: The following are the substrings of num of length k:\n    - \"24\" from \"240\": 24 is a divisor of 240.\n    - \"40\" from \"240\": 40 is a divisor of 240.\n    Therefore, the k-beauty is 2.\n\nExample 2:\n\nInput: num = 430043, k = 2\nOutput: 2\nExplanation: The following are the substrings of num of length k:\n    - \"43\" from \"430043\": 43 is a divisor of 430043.\n    - \"30\" from \"430043\": 30 is not a divisor of 430043.\n    - \"00\" from \"430043\": 0 is not a divisor of 430043.\n    - \"04\" from \"430043\": 4 is not a divisor of 430043.\n    - \"43\" from \"430043\": 43 is a divisor of 430043.\n    Therefore, the k-beauty is 2.\n\nConstraints:\n\n• 1 <= num <= 109\n\n• 1 <= k <= num.length (taking num as a string)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def divisorSubstrings(self, num, k):\n        \"\"\"\n        :type num: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We should check all the substrings of num with a length of k and see if it is a divisor of num.",
+    "We can more easily obtain the substrings by converting num into a string and converting back to an integer to check for divisibility."
+  ],
+  "testCases": [
+    [
+      "240",
+      "2"
+    ],
+    [
+      "430043",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def divisorSubstrings(self, num, k):\n        s = str(num)\n        count = 0\n        for i in range(len(s) - k + 1):\n            substring = int(s[i:i+k])\n            if substring != 0 and num % substring == 0:\n                count += 1\n        return count",
+    "explanation": "Extract all k-length substrings. Count those that divide num (non-zero).\nTime: O(n*k)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

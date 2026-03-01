@@ -1,0 +1,46 @@
+{
+  "questionId": "1276",
+  "title": "Closest Divisors",
+  "titleSlug": "closest-divisors",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given an integer num, find the closest two integers in absolute difference whose product equals num + 1 or num + 2.\n\nReturn the two integers in any order.\n\nExample 1:\n\nInput: num = 8\nOutput: [3,3]\nExplanation: For num + 1 = 9, the closest divisors are 3 & 3, for num + 2 = 10, the closest divisors are 2 & 5, hence 3 & 3 is chosen.\n\nExample 2:\n\nInput: num = 123\nOutput: [5,25]\n\nExample 3:\n\nInput: num = 999\nOutput: [40,25]\n\nConstraints:\n\n• 1 <= num <= 10^9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def closestDivisors(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the divisors of n+1 and n+2.",
+    "To find the divisors of a number, you only need to iterate to the square root of that number."
+  ],
+  "testCases": [
+    [
+      "8"
+    ],
+    [
+      "123"
+    ],
+    [
+      "999"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,3]",
+    "[5,25]",
+    "[40,25]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def closestDivisors(self, num):\n        def find_closest(n):\n            for i in range(int(n**0.5), 0, -1):\n                if n % i == 0:\n                    return (i, n // i)\n            return (1, n)\n        res1 = find_closest(num + 1)\n        res2 = find_closest(num + 2)\n        if res1[1] - res1[0] < res2[1] - res2[0]:\n            return res1\n        return res2",
+    "explanation": "Find divisors of num+1 and num+2. Return pair with min difference.\nTime: O(sqrt(num))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Distinct Prime Factors of Product of Array\", \"titleSlug\": \"distinct-prime-factors-of-product-of-array\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,49 @@
+{
+  "questionId": "1446",
+  "title": "Angle Between Hands of a Clock",
+  "titleSlug": "angle-between-hands-of-a-clock",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given two numbers, hour and minutes, return the smaller angle (in degrees) formed between the hour and the minute hand.\n\nAnswers within 10-5 of the actual value will be accepted as correct.\n\nExample 1:\n\nInput: hour = 12, minutes = 30\nOutput: 165\n\nExample 2:\n\nInput: hour = 3, minutes = 30\nOutput: 75\n\nExample 3:\n\nInput: hour = 3, minutes = 15\nOutput: 7.5\n\nConstraints:\n\n• 1 <= hour <= 12\n\n• 0 <= minutes <= 59",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def angleClock(self, hour, minutes):\n        \"\"\"\n        :type hour: int\n        :type minutes: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The tricky part is determining how the minute hand affects the position of the hour hand.",
+    "Calculate the angles separately then find the difference."
+  ],
+  "testCases": [
+    [
+      "12",
+      "30"
+    ],
+    [
+      "3",
+      "30"
+    ],
+    [
+      "3",
+      "15"
+    ]
+  ],
+  "expectedOutputs": [
+    "165",
+    "75",
+    "7.5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def angleClock(self, hour, minutes):\n        minute_angle = minutes * 6.0\n        hour_angle = (hour % 12) * 30.0 + minutes * 0.5\n        angle = abs(hour_angle - minute_angle)\n        return min(angle, 360 - angle)",
+    "explanation": "Minute hand: 6°/min. Hour hand: 30°/hour + 0.5°/min. Return smaller angle.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,65 @@
+{
+  "questionId": "3647",
+  "title": "Zero Array Transformation III",
+  "titleSlug": "zero-array-transformation-iii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums of length n and a 2D array queries where queries[i] = [li, ri].\n\nEach queries[i] represents the following action on nums:\n\n• Decrement the value at each index in the range [li, ri] in nums by at most 1.\n\n• The amount by which the value is decremented can be chosen independently for each index.\n\nA Zero Array is an array with all its elements equal to 0.\n\nReturn the maximum number of elements that can be removed from queries, such that nums can still be converted to a zero array using the remaining queries. If it is not possible to convert nums to a zero array, return -1.\n\nExample 1:\n\nInput: nums = [2,0,2], queries = [[0,2],[0,2],[1,1]]\n\nOutput: 1\n\nExplanation: After removing queries[2], nums can still be converted to a zero array.\n\n• Using queries[0], decrement nums[0] and nums[2] by 1 and nums[1] by 0.\n\n• Using queries[1], decrement nums[0] and nums[2] by 1 and nums[1] by 0.\n\nExample 2:\n\nInput: nums = [1,1,1,1], queries = [[1,3],[0,2],[1,3],[1,2]]\n\nOutput: 2\n\nExplanation: We can remove queries[2] and queries[3].\n\nExample 3:\n\nInput: nums = [1,2,3,4], queries = [[0,3]]\n\nOutput: -1\n\nExplanation: nums cannot be converted to a zero array even after using all the queries.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 105\n\n• 1 <= queries.length <= 105\n\n• queries[i].length == 2\n\n• 0 <= li <= ri < nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxRemoval(self, nums, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type queries: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the queries.",
+    "We need to greedily pick the queries with farthest ending point first."
+  ],
+  "testCases": [
+    [
+      "[2,0,2]",
+      "[[0,2],[0,2],[1,1]]"
+    ],
+    [
+      "[1,1,1,1]",
+      "[[1,3],[0,2],[1,3],[1,2]]"
+    ],
+    [
+      "[1,2,3,4]",
+      "[[0,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def maxRemoval(self, nums, queries):\n        n = len(nums)\n        queries.sort()\n        available = []  # max-heap via negation: stores -r\n        active_diff = [0] * (n + 1)\n        q_idx = 0\n        used = 0\n        coverage = 0\n\n        for i in range(n):\n            coverage += active_diff[i]\n            # Add queries starting at i to the available pool\n            while q_idx < len(queries) and queries[q_idx][0] == i:\n                heapq.heappush(available, -queries[q_idx][1])\n                q_idx += 1\n            # Greedily use queries to satisfy nums[i]\n            while coverage < nums[i]:\n                if not available or -available[0] < i:\n                    return -1\n                r = -heapq.heappop(available)\n                coverage += 1\n                active_diff[r + 1] -= 1\n                used += 1\n\n        return len(queries) - used",
+    "explanation": "We want to maximize removed queries, equivalently minimize the number of queries used. We use a greedy sweep.\n\nSort queries by their left endpoint. Sweep index i from 0 to n-1, tracking current coverage via a difference array. As we reach index i, all queries starting at i become 'available'.\n\nWhen coverage at i is less than nums[i], we must activate some query. Greedily, we pick the available query with the largest right endpoint (max-heap), since it extends coverage furthest and wastes least future potential. We activate it (apply to diff array) and repeat until coverage >= nums[i] or no valid query remains (return -1).\n\nThe answer is total queries minus the number used.\n\nTime complexity: O((n + q) log q). Space complexity: O(n + q)."
+  },
+  "similarQuestions": "[{\"title\": \"Corporate Flight Bookings\", \"titleSlug\": \"corporate-flight-bookings\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Moves to Make Array Complementary\", \"titleSlug\": \"minimum-moves-to-make-array-complementary\", \"difficulty\": \"Medium\"}, {\"title\": \"Zero Array Transformation IV\", \"titleSlug\": \"zero-array-transformation-iv\", \"difficulty\": \"Medium\"}]"
+}

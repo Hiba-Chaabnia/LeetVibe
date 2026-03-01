@@ -1,0 +1,37 @@
+{
+  "questionId": "629",
+  "title": "K Inverse Pairs Array",
+  "titleSlug": "k-inverse-pairs-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "For an integer array nums, an inverse pair is a pair of integers [i, j] where 0 <= i < j < nums.length and nums[i] > nums[j].\n\nGiven two integers n and k, return the number of different arrays consisting of numbers from 1 to n such that there are exactly k inverse pairs. Since the answer can be huge, return it modulo 109 + 7.\n\nExample 1:\n\nInput: n = 3, k = 0\nOutput: 1\nExplanation: Only the array [1,2,3] which consists of numbers from 1 to 3 has exactly 0 inverse pairs.\n\nExample 2:\n\nInput: n = 3, k = 1\nOutput: 2\nExplanation: The array [1,3,2] and [2,1,3] have exactly 1 inverse pair.\n\nConstraints:\n\n• 1 <= n <= 1000\n\n• 0 <= k <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kInversePairs(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3",
+      "0"
+    ],
+    [
+      "3",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count the Number of Inversions\", \"titleSlug\": \"count-the-number-of-inversions\", \"difficulty\": \"Hard\"}]"
+}

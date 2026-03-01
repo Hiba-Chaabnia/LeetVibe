@@ -1,0 +1,52 @@
+{
+  "questionId": "1475",
+  "title": "Maximum Sum BST in Binary Tree",
+  "titleSlug": "maximum-sum-bst-in-binary-tree",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given a binary tree root, return the maximum sum of all keys of any sub-tree which is also a Binary Search Tree (BST).\n\nAssume a BST is defined as follows:\n\n• The left subtree of a node contains only nodes with keys less than the node's key.\n\n• The right subtree of a node contains only nodes with keys greater than the node's key.\n\n• Both the left and right subtrees must also be binary search trees.\n\nExample 1:\n\nInput: root = [1,4,3,2,4,2,5,null,null,null,null,null,null,4,6]\nOutput: 20\nExplanation: Maximum sum in a valid Binary search tree is obtained in root node with key equal to 3.\n\nExample 2:\n\nInput: root = [4,3,null,1,2]\nOutput: 2\nExplanation: Maximum sum in a valid Binary search tree is obtained in a single root node with key equal to 2.\n\nExample 3:\n\nInput: root = [-4,-2,-5]\nOutput: 0\nExplanation: All values are negatives. Return an empty BST.\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 4 * 104].\n\n• -4 * 104 <= Node.val <= 4 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def maxSumBST(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Create a datastructure with 4 parameters:  (sum, isBST, maxLeft, minRight).",
+    "In each node compute theses parameters, following the conditions of a Binary Search Tree."
+  ],
+  "testCases": [
+    [
+      "[1,4,3,2,4,2,5,null,null,null,null,null,null,4,6]",
+      "[4,3,null,1,2]",
+      "[-4,-2,-5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "20"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,52 @@
+{
+  "questionId": "3750",
+  "title": "Closest Equal Element Queries",
+  "titleSlug": "closest-equal-element-queries",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You are given a circular array nums and an array queries.\n\nFor each query i, you have to find the following:\n\n• The minimum distance between the element at index queries[i] and any other index j in the circular array, where nums[j] == nums[queries[i]]. If no such index exists, the answer for that query should be -1.\n\nReturn an array answer of the same size as queries, where answer[i] represents the result for query i.\n\nExample 1:\n\nInput: nums = [1,3,1,4,1,3,2], queries = [0,3,5]\n\nOutput: [2,-1,3]\n\nExplanation:\n\n• Query 0: The element at queries[0] = 0 is nums[0] = 1. The nearest index with the same value is 2, and the distance between them is 2.\n\n• Query 1: The element at queries[1] = 3 is nums[3] = 4. No other index contains 4, so the result is -1.\n\n• Query 2: The element at queries[2] = 5 is nums[5] = 3. The nearest index with the same value is 1, and the distance between them is 3 (following the circular path: 5 -> 6 -> 0 -> 1).\n\nExample 2:\n\nInput: nums = [1,2,3,4], queries = [0,1,2,3]\n\nOutput: [-1,-1,-1,-1]\n\nExplanation: Each value in nums is unique, so no index shares the same value as the queried element. This results in -1 for all queries.\n\nConstraints:\n\n• 1 <= queries.length <= nums.length <= 105\n\n• 1 <= nums[i] <= 106\n\n• 0 <= queries[i] < nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def solveQueries(self, nums, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type queries: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a dictionary that maps each unique value in the array to a sorted list of its indices.",
+    "For each query, use binary search on the sorted indices list to find the nearest occurrences of the target value."
+  ],
+  "testCases": [
+    [
+      "[1,3,1,4,1,3,2]",
+      "[0,3,5]"
+    ],
+    [
+      "[1,2,3,4]",
+      "[0,1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,-1,3]",
+    "[-1,-1,-1,-1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import bisect\nfrom collections import defaultdict\n\nclass Solution(object):\n    def solveQueries(self, nums, queries):\n        n = len(nums)\n        pos = defaultdict(list)\n        for i, v in enumerate(nums):\n            pos[v].append(i)\n        result = []\n        for qi in queries:\n            v = nums[qi]\n            idxs = pos[v]\n            if len(idxs) == 1:\n                result.append(-1)\n                continue\n            p = bisect.bisect_left(idxs, qi)\n            best = float('inf')\n            # Check immediate neighbors (with wrap-around for circular distance)\n            for delta in [-1, 1]:\n                j = (p + delta) % len(idxs)\n                diff = abs(idxs[j] - qi)\n                dist = min(diff, n - diff)\n                best = min(best, dist)\n            result.append(best)\n        return result",
+    "explanation": "Group indices by value. For each query index qi, binary search its position in the sorted list of same-value indices. Check the immediate predecessor and successor (with circular wrap). Circular distance = min(|diff|, n - |diff|).\n\nTime: O(n + q log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "3374",
+  "title": "Count Alternating Subarrays",
+  "titleSlug": "count-alternating-subarrays",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given a binary array nums.\n\nWe call a subarray alternating if no two adjacent elements in the subarray have the same value.\n\nReturn the number of alternating subarrays in nums.\n\nExample 1:\n\nInput: nums = [0,1,1,1]\n\nOutput: 5\n\nExplanation: The following subarrays are alternating: [0], [1], [1], [1], and [0,1].\n\nExample 2:\n\nInput: nums = [1,0,1,0]\n\nOutput: 10\n\nExplanation: Every subarray of the array is alternating. There are 10 possible subarrays that we can choose.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• nums[i] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countAlternatingSubarrays(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try using dynamic programming.",
+    "Let dp[i] be the number of alternating subarrays ending at index i.",
+    "The final answer is the sum of dp[i] over all  indices i from 0 to n - 1."
+  ],
+  "testCases": [
+    [
+      "[0,1,1,1]"
+    ],
+    [
+      "[1,0,1,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countAlternatingSubarrays(self, nums):\n        ans = 1\n        run = 1\n        for i in range(1, len(nums)):\n            if nums[i] != nums[i - 1]:\n                run += 1\n            else:\n                run = 1\n            ans += run\n        return ans",
+    "explanation": "Track alternating run length; each position adds run count of subarrays ending there."
+  },
+  "similarQuestions": "[]"
+}

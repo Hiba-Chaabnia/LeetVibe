@@ -1,0 +1,49 @@
+{
+  "questionId": "3491",
+  "title": "Find the Maximum Length of Valid Subsequence II",
+  "titleSlug": "find-the-maximum-length-of-valid-subsequence-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums and a positive integer k.\nA subsequence sub of nums with length x is called valid if it satisfies:\n\n• (sub[0] + sub[1]) % k == (sub[1] + sub[2]) % k == ... == (sub[x - 2] + sub[x - 1]) % k.\n\nReturn the length of the longest valid subsequence of nums.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5], k = 2\n\nOutput: 5\n\nExplanation: The longest valid subsequence is [1, 2, 3, 4, 5].\n\nExample 2:\n\nInput: nums = [1,4,2,3,1,4], k = 3\n\nOutput: 4\n\nExplanation: The longest valid subsequence is [1, 4, 1, 4].\n\nConstraints:\n\n• 2 <= nums.length <= 103\n\n• 1 <= nums[i] <= 107\n\n• 1 <= k <= 103",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumLength(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Fix the value of (subs[0] + subs[1]) % k from the k possible values. Let it be val.",
+    "Let dp[i] store the maximum length of a subsequence with its last element x such that x % k == i.",
+    "Answer for a subsequence ending at index y is dp[(k + val - (y % k)) % k] + 1."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5]",
+      "2"
+    ],
+    [
+      "[1,4,2,3,1,4]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumLength(self, nums, k):\n        # For fixed target val: (sub[i] + sub[i+1]) % k == val\n        # dp[r] = max length of valid subsequence ending with element having remainder r,\n        #         where the target sum mod k = val\n        ans = 0\n        for val in range(k):\n            dp = [0] * k\n            for v in nums:\n                r = v % k\n                need = (val - r % k + k) % k  # previous element's remainder\n                dp[r] = max(dp[r], dp[need] + 1)\n            ans = max(ans, max(dp))\n        return ans",
+    "explanation": "For each target value val (0..k-1): dp[r] = max length of subsequence ending with element ≡ r (mod k) where all consecutive sums ≡ val (mod k). For element with remainder r, the previous must have had remainder (val - r + k) % k.\n\nTime: O(k * n). Space: O(k)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Increasing Subsequence\", \"titleSlug\": \"longest-increasing-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Length of the Longest Subsequence That Sums to Target\", \"titleSlug\": \"length-of-the-longest-subsequence-that-sums-to-target\", \"difficulty\": \"Medium\"}]"
+}

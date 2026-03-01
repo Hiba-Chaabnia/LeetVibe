@@ -1,0 +1,53 @@
+{
+  "questionId": "4157",
+  "title": "Reverse Words With Same Vowel Count",
+  "titleSlug": "reverse-words-with-same-vowel-count",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English words, each separated by a single space.\n\nDetermine how many vowels appear in the first word. Then, reverse each following word that has the same vowel count. Leave all remaining words unchanged.\n\nReturn the resulting string.\n\nVowels are 'a', 'e', 'i', 'o', and 'u'.\n\nExample 1:\n\nInput: s = \"cat and mice\"\n\nOutput: \"cat dna mice\"\n\nExplanation:​​​​​​​\n\n• The first word \"cat\" has 1 vowel.\n\n• \"and\" has 1 vowel, so it is reversed to form \"dna\".\n\n• \"mice\" has 2 vowels, so it remains unchanged.\n\n• Thus, the resulting string is \"cat dna mice\".\n\nExample 2:\n\nInput: s = \"book is nice\"\n\nOutput: \"book is ecin\"\n\nExplanation:\n\n• The first word \"book\" has 2 vowels.\n\n• \"is\" has 1 vowel, so it remains unchanged.\n\n• \"nice\" has 2 vowels, so it is reversed to form \"ecin\".\n\n• Thus, the resulting string is \"book is ecin\".\n\nExample 3:\n\nInput: s = \"banana healthy\"\n\nOutput: \"banana healthy\"\n\nExplanation:\n\n• The first word \"banana\" has 3 vowels.\n\n• \"healthy\" has 2 vowels, so it remains unchanged.\n\n• Thus, the resulting string is \"banana healthy\".\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters and spaces.\n\n• Words in s are separated by a single space.\n\n• s does not contain leading or trailing spaces.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reverseWords(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "\"cat and mice\""
+    ],
+    [
+      "\"book is nice\""
+    ],
+    [
+      "\"banana healthy\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"cat dna mice\"",
+    "\"book is ecin\"",
+    "\"banana healthy\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def reverseWords(self, s):\n        vowels = set('aeiou')\n        def count_vowels(w):\n            return sum(1 for c in w if c in vowels)\n        words = s.split()\n        target = count_vowels(words[0])\n        result = [words[0]]\n        for w in words[1:]:\n            result.append(w[::-1] if count_vowels(w) == target else w)\n        return ' '.join(result)",
+    "explanation": "Split the string into words. Count vowels in the first word to establish the target. For every subsequent word, reverse it if its vowel count equals the target, otherwise keep it as is. Rejoin with spaces.\n\nTime complexity: O(n) where n is the total length of the string. Space complexity: O(n)."
+  },
+  "similarQuestions": "[]"
+}

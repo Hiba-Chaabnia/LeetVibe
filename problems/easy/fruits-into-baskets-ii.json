@@ -1,0 +1,59 @@
+{
+  "questionId": "3790",
+  "title": "Fruits Into Baskets II",
+  "titleSlug": "fruits-into-baskets-ii",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "You are given two arrays of integers, fruits and baskets, each of length n, where fruits[i] represents the quantity of the ith type of fruit, and baskets[j] represents the capacity of the jth basket.\n\nFrom left to right, place the fruits according to these rules:\n\n• Each fruit type must be placed in the leftmost available basket with a capacity greater than or equal to the quantity of that fruit type.\n\n• Each basket can hold only one type of fruit.\n\n• If a fruit type cannot be placed in any basket, it remains unplaced.\n\nReturn the number of fruit types that remain unplaced after all possible allocations are made.\n\nExample 1:\n\nInput: fruits = [4,2,5], baskets = [3,5,4]\n\nOutput: 1\n\nExplanation:\n\n• fruits[0] = 4 is placed in baskets[1] = 5.\n\n• fruits[1] = 2 is placed in baskets[0] = 3.\n\n• fruits[2] = 5 cannot be placed in baskets[2] = 4.\n\nSince one fruit type remains unplaced, we return 1.\n\nExample 2:\n\nInput: fruits = [3,6,1], baskets = [6,4,7]\n\nOutput: 0\n\nExplanation:\n\n• fruits[0] = 3 is placed in baskets[0] = 6.\n\n• fruits[1] = 6 cannot be placed in baskets[1] = 4 (insufficient capacity) but can be placed in the next available basket, baskets[2] = 7.\n\n• fruits[2] = 1 is placed in baskets[1] = 4.\n\nSince all fruits are successfully placed, we return 0.\n\nConstraints:\n\n• n == fruits.length == baskets.length\n\n• 1 <= n <= 100\n\n• 1 <= fruits[i], baskets[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numOfUnplacedFruits(self, fruits, baskets):\n        \"\"\"\n        :type fruits: List[int]\n        :type baskets: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the operations for each fruit as described"
+  ],
+  "testCases": [
+    [
+      "[4,2,5]",
+      "[3,5,4]"
+    ],
+    [
+      "[3,6,1]",
+      "[6,4,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numOfUnplacedFruits(self, fruits, baskets):\n        used = [False] * len(baskets)\n        unplaced = 0\n        for fruit in fruits:\n            placed = False\n            for j, cap in enumerate(baskets):\n                if not used[j] and cap > fruit:\n                    used[j] = True\n                    placed = True\n                    break\n            if not placed:\n                unplaced += 1\n        return unplaced",
+    "explanation": "Greedy first-fit: for each fruit (in order) assign it to the leftmost unused basket with strictly greater capacity. O(n*m) time."
+  },
+  "similarQuestions": "[{\"title\": \"Fruit Into Baskets\", \"titleSlug\": \"fruit-into-baskets\", \"difficulty\": \"Medium\"}]"
+}

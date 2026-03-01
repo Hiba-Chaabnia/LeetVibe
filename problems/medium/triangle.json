@@ -1,0 +1,43 @@
+{
+  "questionId": "120",
+  "title": "Triangle",
+  "titleSlug": "triangle",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given a triangle array, return the minimum path sum from top to bottom.\n\nFor each step, you may move to an adjacent number of the row below. More formally, if you are on index i on the current row, you may move to either index i or index i + 1 on the next row.\n\nExample 1:\n\nInput: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]\nOutput: 11\nExplanation: The triangle looks like:\n       2\n      3 4\n     6 5 7\n    4 1 8 3\n    The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).\n\nExample 2:\n\nInput: triangle = [[-10]]\nOutput: -10\n\nConstraints:\n\n• 1 <= triangle.length <= 200\n\n• triangle[0].length == 1\n\n• triangle[i].length == triangle[i - 1].length + 1\n\n• -104 <= triangle[i][j] <= 104\n\nFollow up: Could you do this using only O(n) extra space, where n is the total number of rows in the triangle?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumTotal(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[2],[3,4],[6,5,7],[4,1,8,3]]"
+    ],
+    [
+      "[[-10]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "11",
+    "-10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minimumTotal(triangle):\n    for row in range(len(triangle) - 2, -1, -1):\n        for col in range(len(triangle[row])):\n            triangle[row][col] += min(triangle[row + 1][col], triangle[row + 1][col + 1])\n    return triangle[0][0]",
+    "explanation": "The algorithm starts from the second last row of the triangle, moving bottom-up. For each number in the current row, we add the minimum adjacent number in the row below it. This is done for all numbers in the current row. Then, we move to the row above and repeat the process. This way, we are calculating the minimum path sum for each number in the triangle until we reach the top. Finally, the minimum path sum from top to bottom can be found in the top-most number (triangle[0][0]) after these operations are complete."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,55 @@
+{
+  "questionId": "952",
+  "title": "Word Subsets",
+  "titleSlug": "word-subsets",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given two string arrays words1 and words2.\n\nA string b is a subset of string a if every letter in b occurs in a including multiplicity.\n\n• For example, \"wrr\" is a subset of \"warrior\" but is not a subset of \"world\".\n\nA string a from words1 is universal if for every string b in words2, b is a subset of a.\n\nReturn an array of all the universal strings in words1. You may return the answer in any order.\n\nExample 1:\n\nInput: words1 = [\"amazon\",\"apple\",\"facebook\",\"google\",\"leetcode\"], words2 = [\"e\",\"o\"]\n\nOutput: [\"facebook\",\"google\",\"leetcode\"]\n\nExample 2:\n\nInput: words1 = [\"amazon\",\"apple\",\"facebook\",\"google\",\"leetcode\"], words2 = [\"lc\",\"eo\"]\n\nOutput: [\"leetcode\"]\n\nExample 3:\n\nInput: words1 = [\"acaac\",\"cccbb\",\"aacbb\",\"caacc\",\"bcbbb\"], words2 = [\"c\",\"cc\",\"b\"]\n\nOutput: [\"cccbb\"]\n\nConstraints:\n\n• 1 <= words1.length, words2.length <= 104\n\n• 1 <= words1[i].length, words2[i].length <= 10\n\n• words1[i] and words2[i] consist only of lowercase English letters.\n\n• All the strings of words1 are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def wordSubsets(self, words1, words2):\n        \"\"\"\n        :type words1: List[str]\n        :type words2: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"amazon\",\"apple\",\"facebook\",\"google\",\"leetcode\"]",
+      "[\"e\",\"o\"]"
+    ],
+    [
+      "[\"amazon\",\"apple\",\"facebook\",\"google\",\"leetcode\"]",
+      "[\"lc\",\"eo\"]"
+    ],
+    [
+      "[\"acaac\",\"cccbb\",\"aacbb\",\"caacc\",\"bcbbb\"]",
+      "[\"c\",\"cc\",\"b\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"facebook\",\"google\",\"leetcode\"]",
+    "[\"leetcode\"]",
+    "[\"cccbb\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def wordSubsets(self, words1, words2):\n        \"\"\"\n        :type words1: List[str]\n        :type words2: List[str]\n        :rtype: List[str]\n        \"\"\"\n        from collections import Counter\n        \n        # Find max frequency of each char needed across all words2\n        max_freq = Counter()\n        for word in words2:\n            freq = Counter(word)\n            for char, count in freq.items():\n                max_freq[char] = max(max_freq[char], count)\n        \n        result = []\n        for word in words1:\n            freq = Counter(word)\n            # Check if word contains all required chars with enough count\n            if all(freq[char] >= count for char, count in max_freq.items()):\n                result.append(word)\n        \n        return result",
+    "explanation": "Merge requirements of words2. Check if each word1 meets all.",
+    "complexity": "Time: O(n*m). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

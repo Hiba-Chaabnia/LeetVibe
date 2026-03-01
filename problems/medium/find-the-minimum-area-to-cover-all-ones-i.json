@@ -1,0 +1,45 @@
+{
+  "questionId": "3461",
+  "title": "Find the Minimum Area to Cover All Ones I",
+  "titleSlug": "find-the-minimum-area-to-cover-all-ones-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a 2D binary array grid. Find a rectangle with horizontal and vertical sides with the smallest area, such that all the 1's in grid lie inside this rectangle.\n\nReturn the minimum possible area of the rectangle.\n\nExample 1:\n\nInput: grid = [[0,1,0],[1,0,1]]\n\nOutput: 6\n\nExplanation: The smallest rectangle has a height of 2 and a width of 3, so it has an area of 2 * 3 = 6.\n\nExample 2:\n\nInput: grid = [[1,0],[0,0]]\n\nOutput: 1\n\nExplanation: The smallest rectangle has both height and width 1, so its area is 1 * 1 = 1.\n\nConstraints:\n\n• 1 <= grid.length, grid[i].length <= 1000\n\n• grid[i][j] is either 0 or 1.\n\n• The input is generated such that there is at least one 1 in grid.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumArea(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the minimum and maximum coordinates of a cell with a value of 1 in both directions."
+  ],
+  "testCases": [
+    [
+      "[[0,1,0],[1,0,1]]"
+    ],
+    [
+      "[[0,0],[1,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumArea(self, grid):\n        m, n = len(grid), len(grid[0])\n        min_r = min_c = float('inf')\n        max_r = max_c = float('-inf')\n        for r in range(m):\n            for c in range(n):\n                if grid[r][c] == 1:\n                    min_r = min(min_r, r)\n                    max_r = max(max_r, r)\n                    min_c = min(min_c, c)\n                    max_c = max(max_c, c)\n        return (max_r - min_r + 1) * (max_c - min_c + 1)",
+    "explanation": "Find the bounding box of all 1s: min/max row and column. Area = (max_row - min_row + 1) * (max_col - min_col + 1).\n\nTime: O(m*n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Smallest Rectangle Enclosing Black Pixels\", \"titleSlug\": \"smallest-rectangle-enclosing-black-pixels\", \"difficulty\": \"Hard\"}]"
+}

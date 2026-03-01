@@ -1,0 +1,44 @@
+{
+  "questionId": "2365",
+  "title": "Percentage of Letter in String",
+  "titleSlug": "percentage-of-letter-in-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s and a character letter, return the percentage of characters in s that equal letter rounded down to the nearest whole percent.\n\nExample 1:\n\nInput: s = \"foobar\", letter = \"o\"\nOutput: 33\nExplanation:\n    The percentage of characters in s that equal the letter 'o' is 2 / 6 * 100% = 33% when rounded down, so we return 33.\n\nExample 2:\n\nInput: s = \"jjjj\", letter = \"k\"\nOutput: 0\nExplanation:\n    The percentage of characters in s that equal the letter 'k' is 0%, so we return 0.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists of lowercase English letters.\n\n• letter is a lowercase English letter.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def percentageLetter(self, s, letter):\n        \"\"\"\n        :type s: str\n        :type letter: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we count the number of occurrences of letter in s?",
+    "Recall that the percentage is calculated as (occurrences / total) * 100."
+  ],
+  "testCases": [
+    [
+      "\"foobar\"",
+      "\"o\""
+    ],
+    [
+      "\"jjjj\"",
+      "\"k\""
+    ]
+  ],
+  "expectedOutputs": [
+    "33",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def percentageLetter(self, s, letter):\n        count = s.count(letter)\n        return (count * 100) // len(s)",
+    "explanation": "Count letter occurrences. Calculate percentage, round down.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Sort Characters By Frequency\", \"titleSlug\": \"sort-characters-by-frequency\", \"difficulty\": \"Medium\"}]"
+}

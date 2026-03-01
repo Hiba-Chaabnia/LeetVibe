@@ -1,0 +1,51 @@
+{
+  "questionId": "539",
+  "title": "Minimum Time Difference",
+  "titleSlug": "minimum-time-difference",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given a list of 24-hour clock time points in \"HH:MM\" format, return the minimum minutes difference between any two time-points in the list.\n\nExample 1:\n\nInput: timePoints = [\"23:59\",\"00:00\"]\nOutput: 1\nExample 2:\n\nInput: timePoints = [\"00:00\",\"23:59\",\"00:00\"]\nOutput: 0\n\nConstraints:\n\n• 2 <= timePoints.length <= 2 * 104\n\n• timePoints[i] is in the format \"HH:MM\".",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMinDifference(self, timePoints):\n        \"\"\"\n        :type timePoints: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"23:59\",\"00:00\"]"
+    ],
+    [
+      "[\"00:00\",\"23:59\",\"00:00\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findMinDifference(timePoints):\n    timePoints.sort()\n    min_difference = float('inf')\n\n    for i in range(len(timePoints)):\n        h1, m1 = map(int, timePoints[i].split(':'))\n        h2, m2 = map(int, timePoints[(i+1)%len(timePoints)].split(':'))\n        cur_difference = abs((h1 * 60 + m1) - (h2 * 60 + m2))\n        min_difference = min(min_difference, 1440 - cur_difference if cur_difference > 720 else cur_difference)\n\n    return min_difference",
+    "explanation": "1. Sort the given timePoints list.\n2. Initialize variable minDifference with the maximum value possible to keep track of the minimum difference.\n3. Loop through the timePoints list and for each pair of consecutive times (including the last time and the first time in the list):\n    - Calculate the absolute difference between the time in minutes.\n    - If the difference is greater than 720 (half of 1440 minutes in a day), take the complementary difference (i.e., 1440 - curDifference).\n    - Update the minDifference variable with the minimum of the previous minDifference and the calculated difference.\n4. After the loop, the minDifference variable will hold the minimum minutes difference between any two time-points in the list. Return it."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cost to Set Cooking Time\", \"titleSlug\": \"minimum-cost-to-set-cooking-time\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "189",
+  "title": "Rotate Array",
+  "titleSlug": "rotate-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5,6,7], k = 3\nOutput: [5,6,7,1,2,3,4]\nExplanation:\n    rotate 1 steps to the right: [7,1,2,3,4,5,6]\n    rotate 2 steps to the right: [6,7,1,2,3,4,5]\n    rotate 3 steps to the right: [5,6,7,1,2,3,4]\n\nExample 2:\n\nInput: nums = [-1,-100,3,99], k = 2\nOutput: [3,99,-1,-100]\nExplanation:\n    rotate 1 steps to the right: [99,-1,-100,3]\n    rotate 2 steps to the right: [3,99,-1,-100]\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -231 <= nums[i] <= 231 - 1\n\n• 0 <= k <= 105\n\nFollow up:\n\n• Try to come up with as many solutions as you can. There are at least three different ways to solve this problem.\n\n• Could you do it in-place with O(1) extra space?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rotate(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: None Do not return anything, modify nums in-place instead.\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The easiest solution would use additional memory and that is perfectly fine.",
+    "The actual trick comes when trying to solve this problem without using any additional memory. This means you need to use the original array somehow to move the elements around. Now, we can place each element in its original location and shift all the elements around it to adjust as that would be too costly and most likely will time out on larger input arrays.",
+    "One line of thought is based on reversing the array (or parts of it) to obtain the desired result. Think about how reversal might potentially help us out by using an example.",
+    "The other line of thought is a tad bit complicated but essentially it builds on the idea of placing each element in its original position while keeping track of the element originally in that position. Basically, at every step, we place an element in its rightful position and keep track of the element already there or the one being overwritten in an additional variable. We can't do this in one linear pass and the idea here is based on <b>cyclic-dependencies</b> between elements."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6,7]",
+      "3"
+    ],
+    [
+      "[-1,-100,3,99]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[5,6,7,1,2,3,4]",
+    "[3,99,-1,-100]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def rotate(nums, k):\n    n = len(nums)\n    k %= n\n    nums[:] = nums[-k:] + nums[:-k]",
+    "explanation": "The algorithm first reverses the entire array, then reverses the first `k` elements, and finally reverses the remaining `n-k` elements where `n` is the length of the array. The reversing operation is done in-place so as not to use extra memory.\n\nThis is achieved using a `reverse` function that swaps elements at positions `start` and `end` and increment `start` and decrement `end` until `start` is greater than or equal to `end`. The `reverse` function basically reverses the elements between the given positions.\n\nIn Python, we use slicing to achieve the rotation without the explicit `reverse` function."
+  },
+  "similarQuestions": "[{\"title\": \"Rotate List\", \"titleSlug\": \"rotate-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Reverse Words in a String II\", \"titleSlug\": \"reverse-words-in-a-string-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Make K-Subarray Sums Equal\", \"titleSlug\": \"make-k-subarray-sums-equal\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Matching Indices After Right Shifts\", \"titleSlug\": \"maximum-number-of-matching-indices-after-right-shifts\", \"difficulty\": \"Medium\"}]"
+}

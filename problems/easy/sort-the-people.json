@@ -1,0 +1,55 @@
+{
+  "questionId": "2502",
+  "title": "Sort the People",
+  "titleSlug": "sort-the-people",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an array of strings names, and an array heights that consists of distinct positive integers. Both arrays are of length n.\n\nFor each index i, names[i] and heights[i] denote the name and height of the ith person.\n\nReturn names sorted in descending order by the people's heights.\n\nExample 1:\n\nInput: names = [\"Mary\",\"John\",\"Emma\"], heights = [180,165,170]\nOutput: [\"Mary\",\"Emma\",\"John\"]\nExplanation: Mary is the tallest, followed by Emma and John.\n\nExample 2:\n\nInput: names = [\"Alice\",\"Bob\",\"Bob\"], heights = [155,185,150]\nOutput: [\"Bob\",\"Alice\",\"Bob\"]\nExplanation: The first Bob is the tallest, followed by Alice and the second Bob.\n\nConstraints:\n\n• n == names.length == heights.length\n\n• 1 <= n <= 103\n\n• 1 <= names[i].length <= 20\n\n• 1 <= heights[i] <= 105\n\n• names[i] consists of lower and upper case English letters.\n\n• All the values of heights are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sortPeople(self, names, heights):\n        \"\"\"\n        :type names: List[str]\n        :type heights: List[int]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the tallest person and swap with the first person, then find the second tallest person and swap with the second person, etc. Repeat until you fix all n people."
+  ],
+  "testCases": [
+    [
+      "[\"Mary\",\"John\",\"Emma\"]",
+      "[180,165,170]"
+    ],
+    [
+      "[\"Alice\",\"Bob\",\"Bob\"]",
+      "[155,185,150]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"Mary\",\"Emma\",\"John\"]",
+    "[\"Bob\",\"Alice\",\"Bob\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sortPeople(self, names, heights):\n        pairs = sorted(zip(names, heights), key=lambda x: x[1], reverse=True)\n        return [name for name, height in pairs]",
+    "explanation": "Zip names and heights. Sort by height descending. Extract names.\nTime: O(n*log(n))\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Sort Array by Increasing Frequency\", \"titleSlug\": \"sort-array-by-increasing-frequency\", \"difficulty\": \"Easy\"}, {\"title\": \"Sort the Students by Their Kth Score\", \"titleSlug\": \"sort-the-students-by-their-kth-score\", \"difficulty\": \"Medium\"}]"
+}

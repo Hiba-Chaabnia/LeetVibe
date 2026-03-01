@@ -1,0 +1,57 @@
+{
+  "questionId": "1832",
+  "title": "Minimum Operations to Make a Subsequence",
+  "titleSlug": "minimum-operations-to-make-a-subsequence",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an array target that consists of distinct integers and another integer array arr that can have duplicates.\n\nIn one operation, you can insert any integer at any position in arr. For example, if arr = [1,4,1,2], you can add 3 in the middle and make it [1,4,3,1,2]. Note that you can insert the integer at the very beginning or end of the array.\n\nReturn the minimum number of operations needed to make target a subsequence of arr.\n\nA subsequence of an array is a new array generated from the original array by deleting some elements (possibly none) without changing the remaining elements' relative order. For example, [2,7,4] is a subsequence of [4,2,3,7,2,1,4] (the underlined elements), while [2,4,2] is not.\n\nExample 1:\n\nInput: target = [5,1,3], arr = [9,4,2,3,4]\nOutput: 2\nExplanation: You can add 5 and 1 in such a way that makes arr = [5,9,4,1,2,3,4], then target will be a subsequence of arr.\n\nExample 2:\n\nInput: target = [6,4,8,1,3,2], arr = [4,7,6,2,3,8,6,1]\nOutput: 3\n\nConstraints:\n\n• 1 <= target.length, arr.length <= 105\n\n• 1 <= target[i], arr[i] <= 109\n\n• target contains no duplicates.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, target, arr):\n        \"\"\"\n        :type target: List[int]\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The problem can be reduced to computing Longest Common Subsequence between both arrays.",
+    "Since one of the arrays has distinct elements, we can consider that these elements describe an arrangement of numbers, and we can replace each element in the other array with the index it appeared at in the first array.",
+    "Then the problem is converted to finding Longest Increasing Subsequence in the second array, which can be done in O(n log n)."
+  ],
+  "testCases": [
+    [
+      "[5,1,3]",
+      "[9,4,2,3,4]"
+    ],
+    [
+      "[6,4,8,1,3,2]",
+      "[4,7,6,2,3,8,6,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from bisect import bisect_left\n\ndef minOperations(target, arr):\n    pos = {x: i for i, x in enumerate(target)}\n\n    dp = []\n    for a in arr:\n        if a in pos:\n            idx = bisect_left(dp, pos[a])\n            if idx == len(dp):\n                dp.append(pos[a])\n            else:\n                dp[idx] = pos[a]\n    return len(target) - len(dp)",
+    "explanation": "The algorithm is based on finding the longest increasing subsequence in the modified `arr` array where only the indices of target numbers are considered. First, a hashmap `pos` is created to store the position of each target number. Then, iterate through the `arr` array and check if a number exists in the target. If it does, find the index of this number in the DP (Dynamic Programming) array using binary search or lower_bound. If the index is at the end of the DP array, append the position to the DP array; otherwise, update the DP array at the found index. Finally, return the difference between the target array's length and the DP array's length as the minimum number of operations needed to make the target a subsequence of `arr`."
+  },
+  "similarQuestions": "[{\"title\": \"Append Characters to String to Make Subsequence\", \"titleSlug\": \"append-characters-to-string-to-make-subsequence\", \"difficulty\": \"Medium\"}]"
+}

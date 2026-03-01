@@ -1,0 +1,45 @@
+{
+  "questionId": "4116",
+  "title": "Minimum Moves to Equal Array Elements III",
+  "titleSlug": "minimum-moves-to-equal-array-elements-iii",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nIn one move, you may increase the value of any single element nums[i] by 1.\n\nReturn the minimum total number of moves required so that all elements in nums become equal.\n\nExample 1:\n\nInput: nums = [2,1,3]\n\nOutput: 3\n\nExplanation: To make all elements equal:\n\n• Increase nums[0] = 2 by 1 to make it 3.\n\n• Increase nums[1] = 1 by 1 to make it 2.\n\n• Increase nums[1] = 2 by 1 to make it 3.\n\nNow, all elements of nums are equal to 3. The minimum total moves is 3.\n\nExample 2:\n\nInput: nums = [4,4,5]\n\nOutput: 2\n\nExplanation: To make all elements equal:\n\n• Increase nums[0] = 4 by 1 to make it 5.\n\n• Increase nums[1] = 4 by 1 to make it 5.\n\nNow, all elements of nums are equal to 5. The minimum total moves is 2.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMoves(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "To make all numbers equal, they must all reach at least the maximum value in the array."
+  ],
+  "testCases": [
+    [
+      "[2,1,3]"
+    ],
+    [
+      "[4,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minMoves(self, nums):\n        m = max(nums)\n        return sum(m - x for x in nums)",
+    "explanation": "Each operation increments all but one element (equivalent to decrementing one); the minimum moves to equalize is the sum of differences from the maximum. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

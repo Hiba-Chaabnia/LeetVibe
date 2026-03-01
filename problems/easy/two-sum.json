@@ -1,0 +1,54 @@
+{
+  "questionId": "1",
+  "title": "Two Sum",
+  "titleSlug": "two-sum",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.\n\nExample 1:\n\nInput: nums = [2,7,11,15], target = 9\nOutput: [0,1]\nExplanation: Because nums[0] + nums[1] == 9, we return [0, 1].\n\nExample 2:\n\nInput: nums = [3,2,4], target = 6\nOutput: [1,2]\n\nExample 3:\n\nInput: nums = [3,3], target = 6\nOutput: [0,1]\n\nConstraints:\n\n• 2 <= nums.length <= 104\n\n• -109 <= nums[i] <= 109\n\n• -109 <= target <= 109\n\n• Only one valid answer exists.\n\nFollow-up: Can you come up with an algorithm that is less than O(n2) time complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def twoSum(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A really brute force way would be to search for all possible pairs of numbers but that would be too slow. Again, it's best to try out brute force solutions just for completeness. It is from these brute force solutions that you can come up with optimizations.",
+    "So, if we fix one of the numbers, say x, we have to scan the entire array to find the next number y which is value - x where value is the input parameter. Can we change our array somehow so that this search becomes faster?",
+    "The second train of thought is, without changing the array, can we use additional space somehow? Like maybe a hash map to speed up the search?"
+  ],
+  "testCases": [
+    [
+      "[2,7,11,15]",
+      "9"
+    ],
+    [
+      "[3,2,4]",
+      "6"
+    ],
+    [
+      "[3,3]",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,1]",
+    "[1,2]",
+    "[0,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def twoSum(nums, target):\n    map = {}\n    for i, num in enumerate(nums):\n        complement = target - num\n        if complement in map:\n            return [map[complement], i]\n        map[num] = i\n    return []",
+    "explanation": "The algorithm leverages a hash map (unordered_map in C++, HashMap in Java, dictionary in Python, and Map in JavaScript). It iterates through the given 'nums' array and calculates the complementary value (target - current value). If the complementary value is already in the hash map, it means that we found a solution, and we return those indices. If the complement is not in the hash map, we store the current element in the hash map with its index. If the algorithm doesn't find the solution, it returns an empty array or throws an exception (in Java).\n\nThis approach has a time complexity of O(n) and a space complexity of O(n) as well."
+  },
+  "similarQuestions": "[{\"title\": \"3Sum\", \"titleSlug\": \"3sum\", \"difficulty\": \"Medium\"}, {\"title\": \"4Sum\", \"titleSlug\": \"4sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Two Sum II - Input Array Is Sorted\", \"titleSlug\": \"two-sum-ii-input-array-is-sorted\", \"difficulty\": \"Medium\"}, {\"title\": \"Two Sum III - Data structure design\", \"titleSlug\": \"two-sum-iii-data-structure-design\", \"difficulty\": \"Easy\"}, {\"title\": \"Subarray Sum Equals K\", \"titleSlug\": \"subarray-sum-equals-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Two Sum IV - Input is a BST\", \"titleSlug\": \"two-sum-iv-input-is-a-bst\", \"difficulty\": \"Easy\"}, {\"title\": \"Two Sum Less Than K\", \"titleSlug\": \"two-sum-less-than-k\", \"difficulty\": \"Easy\"}, {\"title\": \"Max Number of K-Sum Pairs\", \"titleSlug\": \"max-number-of-k-sum-pairs\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Good Meals\", \"titleSlug\": \"count-good-meals\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Number of Pairs With Absolute Difference K\", \"titleSlug\": \"count-number-of-pairs-with-absolute-difference-k\", \"difficulty\": \"Easy\"}, {\"title\": \"Number of Pairs of Strings With Concatenation Equal to Target\", \"titleSlug\": \"number-of-pairs-of-strings-with-concatenation-equal-to-target\", \"difficulty\": \"Medium\"}, {\"title\": \"Find All K-Distant Indices in an Array\", \"titleSlug\": \"find-all-k-distant-indices-in-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"First Letter to Appear Twice\", \"titleSlug\": \"first-letter-to-appear-twice\", \"difficulty\": \"Easy\"}, {\"title\": \"Number of Excellent Pairs\", \"titleSlug\": \"number-of-excellent-pairs\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Arithmetic Triplets\", \"titleSlug\": \"number-of-arithmetic-triplets\", \"difficulty\": \"Easy\"}, {\"title\": \"Node With Highest Edge Score\", \"titleSlug\": \"node-with-highest-edge-score\", \"difficulty\": \"Medium\"}, {\"title\": \"Check Distances Between Same Letters\", \"titleSlug\": \"check-distances-between-same-letters\", \"difficulty\": \"Easy\"}, {\"title\": \"Find Subarrays With Equal Sum\", \"titleSlug\": \"find-subarrays-with-equal-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Largest Positive Integer That Exists With Its Negative\", \"titleSlug\": \"largest-positive-integer-that-exists-with-its-negative\", \"difficulty\": \"Easy\"}, {\"title\": \"Number of Distinct Averages\", \"titleSlug\": \"number-of-distinct-averages\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Pairs Whose Sum is Less than Target\", \"titleSlug\": \"count-pairs-whose-sum-is-less-than-target\", \"difficulty\": \"Easy\"}]"
+}

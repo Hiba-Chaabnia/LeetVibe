@@ -1,0 +1,50 @@
+{
+  "questionId": "1064",
+  "title": "Smallest Integer Divisible by K",
+  "titleSlug": "smallest-integer-divisible-by-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given a positive integer k, you need to find the length of the smallest positive integer n such that n is divisible by k, and n only contains the digit 1.\n\nReturn the length of n. If there is no such n, return -1.\n\nNote: n may not fit in a 64-bit signed integer.\n\nExample 1:\n\nInput: k = 1\nOutput: 1\nExplanation: The smallest answer is n = 1, which has length 1.\n\nExample 2:\n\nInput: k = 2\nOutput: -1\nExplanation: There is no such positive integer n divisible by 2.\n\nExample 3:\n\nInput: k = 3\nOutput: 3\nExplanation: The smallest answer is n = 111, which has length 3.\n\nConstraints:\n\n• 1 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestRepunitDivByK(self, k):\n        \"\"\"\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "11111 = 1111 * 10 + 1\r\nWe only need to store remainders modulo K.",
+    "If we never get a remainder of 0, why would that happen, and how would we know that?"
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "2"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "-1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def smallestRepunitDivByK(k: int) -> int:\n    if k % 2 == 0 or k % 5 == 0:\n        return -1\n    n = 0\n    for i in range(1, k + 1):\n        n = (n * 10 + 1) % k\n        if n == 0:\n            return i\n    return -1",
+    "explanation": "The algorithm starts by checking if k is divisible by 2 or 5. If it is, we return -1, because no number consisting of only the digit 1 can be divisible by 2 or 5. Then, we initialize a variable `n` to 0. We loop from 1 to k, and at each iteration, we multiply the current `n` by 10, add 1, and take the remainder when divided by k. If the remainder becomes 0, we return the current iteration index, since this indicates that we've found the smallest number consisting of only the digit 1 that is divisible by k. If after the loop, we haven't found such a number, we return -1."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,55 @@
+{
+  "questionId": "336",
+  "title": "Palindrome Pairs",
+  "titleSlug": "palindrome-pairs",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    }
+  ],
+  "content": "You are given a 0-indexed array of unique strings words.\n\nA palindrome pair is a pair of integers (i, j) such that:\n\n• 0 <= i, j < words.length,\n\n• i != j, and\n\n• words[i] + words[j] (the concatenation of the two strings) is a palindrome.\n\nReturn an array of all the palindrome pairs of words.\n\nYou must write an algorithm with O(sum of words[i].length) runtime complexity.\n\nExample 1:\n\nInput: words = [\"abcd\",\"dcba\",\"lls\",\"s\",\"sssll\"]\nOutput: [[0,1],[1,0],[3,2],[2,4]]\nExplanation: The palindromes are [\"abcddcba\",\"dcbaabcd\",\"slls\",\"llssssll\"]\n\nExample 2:\n\nInput: words = [\"bat\",\"tab\",\"cat\"]\nOutput: [[0,1],[1,0]]\nExplanation: The palindromes are [\"battab\",\"tabbat\"]\n\nExample 3:\n\nInput: words = [\"a\",\"\"]\nOutput: [[0,1],[1,0]]\nExplanation: The palindromes are [\"a\",\"a\"]\n\nConstraints:\n\n• 1 <= words.length <= 5000\n\n• 0 <= words[i].length <= 300\n\n• words[i] consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def palindromePairs(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Checking every two pairs will exceed the time limit. It will be O(n^2 * k). We need a faster way.",
+    "If we hash every string in the array, how can we check if two pairs form a palindrome after the concatenation?",
+    "We can check every string in words and consider it as words[j] (i.e., the suffix of the target palindrome). We can check if there is a hash of string that can be the prefix to make it a palindrome."
+  ],
+  "testCases": [
+    [
+      "[\"abcd\",\"dcba\",\"lls\",\"s\",\"sssll\"]"
+    ],
+    [
+      "[\"bat\",\"tab\",\"cat\"]"
+    ],
+    [
+      "[\"a\",\"\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[0,1],[1,0],[3,2],[2,4]]",
+    "[[0,1],[1,0]]",
+    "[[0,1],[1,0]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Palindromic Substring\", \"titleSlug\": \"longest-palindromic-substring\", \"difficulty\": \"Medium\"}, {\"title\": \"Shortest Palindrome\", \"titleSlug\": \"shortest-palindrome\", \"difficulty\": \"Hard\"}, {\"title\": \"Longest Palindrome by Concatenating Two Letter Words\", \"titleSlug\": \"longest-palindrome-by-concatenating-two-letter-words\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Maximum Number of String Pairs\", \"titleSlug\": \"find-maximum-number-of-string-pairs\", \"difficulty\": \"Easy\"}]"
+}

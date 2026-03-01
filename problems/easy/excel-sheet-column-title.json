@@ -1,0 +1,47 @@
+{
+  "questionId": "168",
+  "title": "Excel Sheet Column Title",
+  "titleSlug": "excel-sheet-column-title",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.\n\nFor example:\n\n    A -> 1\n    B -> 2\n    C -> 3\n    ...\n    Z -> 26\n    AA -> 27\n    AB -> 28\n    ...\n\nExample 1:\n\nInput: columnNumber = 1\nOutput: \"A\"\n\nExample 2:\n\nInput: columnNumber = 28\nOutput: \"AB\"\n\nExample 3:\n\nInput: columnNumber = 701\nOutput: \"ZY\"\n\nConstraints:\n\n• 1 <= columnNumber <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def convertToTitle(self, columnNumber):\n        \"\"\"\n        :type columnNumber: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "28"
+    ],
+    [
+      "701"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"A\"",
+    "\"AB\"",
+    "\"ZY\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def convertToTitle(self, columnNumber):\n        result = ''\n        while columnNumber > 0:\n            columnNumber -= 1\n            result = chr(columnNumber % 26 + ord('A')) + result\n            columnNumber //= 26\n        return result",
+    "explanation": "Reverse base-26: subtract 1, get remainder as character, divide by 26.\nTime: O(log n)\nSpace: O(log n)"
+  },
+  "similarQuestions": "[{\"title\": \"Excel Sheet Column Number\", \"titleSlug\": \"excel-sheet-column-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Cells in a Range on an Excel Sheet\", \"titleSlug\": \"cells-in-a-range-on-an-excel-sheet\", \"difficulty\": \"Easy\"}, {\"title\": \"Design Spreadsheet\", \"titleSlug\": \"design-spreadsheet\", \"difficulty\": \"Medium\"}]"
+}

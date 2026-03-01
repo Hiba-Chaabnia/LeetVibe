@@ -1,0 +1,45 @@
+{
+  "questionId": "2238",
+  "title": "A Number After a Double Reversal",
+  "titleSlug": "a-number-after-a-double-reversal",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Reversing an integer means to reverse all its digits.\n\n• For example, reversing 2021 gives 1202. Reversing 12300 gives 321 as the leading zeros are not retained.\n\nGiven an integer num, reverse num to get reversed1, then reverse reversed1 to get reversed2. Return true if reversed2 equals num. Otherwise return false.\n\nExample 1:\n\nInput: num = 526\nOutput: true\nExplanation: Reverse num to get 625, then reverse 625 to get 526, which equals num.\n\nExample 2:\n\nInput: num = 1800\nOutput: false\nExplanation: Reverse num to get 81, then reverse 81 to get 18, which does not equal num.\n\nExample 3:\n\nInput: num = 0\nOutput: true\nExplanation: Reverse num to get 0, then reverse 0 to get 0, which equals num.\n\nConstraints:\n\n• 0 <= num <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isSameAfterReversals(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Other than the number 0 itself, any number that ends with 0 would lose some digits permanently when reversed."
+  ],
+  "testCases": [
+    [
+      "526"
+    ],
+    [
+      "1800"
+    ],
+    [
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isSameAfterReversals(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: bool\n        \"\"\"\n        return num == 0 or num % 10 != 0",
+    "explanation": "A number survives double reversal unchanged only if it has no trailing zeros (since reversing removes them permanently). The only exception is 0 itself. So we return true if num is 0, or if its last digit is not 0 (num % 10 != 0)."
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Integer\", \"titleSlug\": \"reverse-integer\", \"difficulty\": \"Medium\"}, {\"title\": \"Reverse Bits\", \"titleSlug\": \"reverse-bits\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "1281",
+  "title": "Can Make Palindrome from Substring",
+  "titleSlug": "can-make-palindrome-from-substring",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a string s and array queries where queries[i] = [lefti, righti, ki]. We may rearrange the substring s[lefti...righti] for each query and then choose up to ki of them to replace with any lowercase English letter.\n\nIf the substring is possible to be a palindrome string after the operations above, the result of the query is true. Otherwise, the result is false.\n\nReturn a boolean array answer where answer[i] is the result of the ith query queries[i].\n\nNote that each letter is counted individually for replacement, so if, for example s[lefti...righti] = \"aaa\", and ki = 2, we can only replace two of the letters. Also, note that no query modifies the initial string s.\n\nExample :\n\nInput: s = \"abcda\", queries = [[3,3,0],[1,2,0],[0,3,1],[0,3,2],[0,4,1]]\nOutput: [true,false,false,true,true]\nExplanation:\n    queries[0]: substring = \"d\", is palidrome.\n    queries[1]: substring = \"bc\", is not palidrome.\n    queries[2]: substring = \"abcd\", is not palidrome after replacing only 1 character.\n    queries[3]: substring = \"abcd\", could be changed to \"abba\" which is palidrome. Also this can be changed to \"baab\" first rearrange it \"bacd\" then replace \"cd\" with \"ab\".\n    queries[4]: substring = \"abcda\", could be changed to \"abcba\" which is palidrome.\n\nExample 2:\n\nInput: s = \"lyb\", queries = [[0,1,0],[2,2,1]]\nOutput: [false,true]\n\nConstraints:\n\n• 1 <= s.length, queries.length <= 105\n\n• 0 <= lefti <= righti < s.length\n\n• 0 <= ki <= s.length\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canMakePaliQueries(self, s, queries):\n        \"\"\"\n        :type s: str\n        :type queries: List[List[int]]\n        :rtype: List[bool]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since we can rearrange the substring, all we care about is the frequency of each character in that substring.",
+    "How to find the character frequencies efficiently ?",
+    "As a preprocess, calculate the accumulate frequency of all characters for all prefixes of the string.",
+    "How to check if a substring can be changed to a palindrome given its characters frequency ?",
+    "Count the number of odd frequencies, there can be at most one odd frequency in a palindrome."
+  ],
+  "testCases": [
+    [
+      "\"abcda\"",
+      "[[3,3,0],[1,2,0],[0,3,1],[0,3,2],[0,4,1]]"
+    ],
+    [
+      "\"lyb\"",
+      "[[0,1,0],[2,2,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[false,true]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Plates Between Candles\", \"titleSlug\": \"plates-between-candles\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximize the Number of Partitions After Operations\", \"titleSlug\": \"maximize-the-number-of-partitions-after-operations\", \"difficulty\": \"Hard\"}]"
+}

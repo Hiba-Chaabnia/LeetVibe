@@ -1,0 +1,45 @@
+{
+  "questionId": "3396",
+  "title": "Valid Word",
+  "titleSlug": "valid-word",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A word is considered valid if:\n\n• It contains a minimum of 3 characters.\n\n• It contains only digits (0-9), and English letters (uppercase and lowercase).\n\n• It includes at least one vowel.\n\n• It includes at least one consonant.\n\nYou are given a string word.\n\nReturn true if word is valid, otherwise, return false.\n\nNotes:\n\n• 'a', 'e', 'i', 'o', 'u', and their uppercases are vowels.\n\n• A consonant is an English letter that is not a vowel.\n\nExample 1:\n\nInput: word = \"234Adas\"\n\nOutput: true\n\nExplanation: This word satisfies the conditions.\n\nExample 2:\n\nInput: word = \"b3\"\n\nOutput: false\n\nExplanation: The length of this word is fewer than 3, and does not have a vowel.\n\nExample 3:\n\nInput: word = \"a3$e\"\n\nOutput: false\n\nExplanation: This word contains a '$' character and does not have a consonant.\n\nConstraints:\n\n• 1 <= word.length <= 20\n\n• word consists of English uppercase and lowercase letters, digits, '@', '#', and '$'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isValid(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use if-else to check all the conditions."
+  ],
+  "testCases": [
+    [
+      "\"234Adas\""
+    ],
+    [
+      "\"b3\""
+    ],
+    [
+      "\"a3$e\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isValid(self, word):\n        if len(word) < 3:\n            return False\n        vowels = set('aeiouAEIOU')\n        has_vowel = has_consonant = False\n        for c in word:\n            if not c.isalnum():\n                return False\n            if c.isalpha():\n                if c in vowels:\n                    has_vowel = True\n                else:\n                    has_consonant = True\n        return has_vowel and has_consonant",
+    "explanation": "Check length >= 3, all chars alphanumeric, at least one vowel and one consonant. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

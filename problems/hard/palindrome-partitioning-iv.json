@@ -1,0 +1,42 @@
+{
+  "questionId": "1871",
+  "title": "Palindrome Partitioning IV",
+  "titleSlug": "palindrome-partitioning-iv",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given a string s, return true if it is possible to split the string s into three non-empty palindromic substrings. Otherwise, return false.​​​​​\n\nA string is said to be palindrome if it the same string when reversed.\n\nExample 1:\n\nInput: s = \"abcbdd\"\nOutput: true\nExplanation: \"abcbdd\" = \"a\" + \"bcb\" + \"dd\", and all three substrings are palindromes.\n\nExample 2:\n\nInput: s = \"bcbddxy\"\nOutput: false\nExplanation: s cannot be split into 3 palindromes.\n\nConstraints:\n\n• 3 <= s.length <= 2000\n\n• s​​​​​​ consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkPartitioning(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Preprocess checking palindromes in O(1)",
+    "Note that one string is a prefix and another one is a suffix you can try brute forcing the rest"
+  ],
+  "testCases": [
+    [
+      "\"abcbdd\""
+    ],
+    [
+      "\"bcbddxy\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Palindrome Partitioning\", \"titleSlug\": \"palindrome-partitioning\", \"difficulty\": \"Medium\"}, {\"title\": \"Palindrome Partitioning II\", \"titleSlug\": \"palindrome-partitioning-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Palindrome Partitioning III\", \"titleSlug\": \"palindrome-partitioning-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Number of Non-overlapping Palindrome Substrings\", \"titleSlug\": \"maximum-number-of-non-overlapping-palindrome-substrings\", \"difficulty\": \"Hard\"}]"
+}

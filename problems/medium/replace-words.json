@@ -1,0 +1,53 @@
+{
+  "questionId": "648",
+  "title": "Replace Words",
+  "titleSlug": "replace-words",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    }
+  ],
+  "content": "In English, we have a concept called root, which can be followed by some other word to form another longer word - let's call this word derivative. For example, when the root \"help\" is followed by the word \"ful\", we can form a derivative \"helpful\".\n\nGiven a dictionary consisting of many roots and a sentence consisting of words separated by spaces, replace all the derivatives in the sentence with the root forming it. If a derivative can be replaced by more than one root, replace it with the root that has the shortest length.\n\nReturn the sentence after the replacement.\n\nExample 1:\n\nInput: dictionary = [\"cat\",\"bat\",\"rat\"], sentence = \"the cattle was rattled by the battery\"\nOutput: \"the cat was rat by the bat\"\n\nExample 2:\n\nInput: dictionary = [\"a\",\"b\",\"c\"], sentence = \"aadsfasf absbs bbab cadsfafs\"\nOutput: \"a a b c\"\n\nConstraints:\n\n• 1 <= dictionary.length <= 1000\n\n• 1 <= dictionary[i].length <= 100\n\n• dictionary[i] consists of only lower-case letters.\n\n• 1 <= sentence.length <= 106\n\n• sentence consists of only lower-case letters and spaces.\n\n• The number of words in sentence is in the range [1, 1000]\n\n• The length of each word in sentence is in the range [1, 1000]\n\n• Every two consecutive words in sentence will be separated by exactly one space.\n\n• sentence does not have leading or trailing spaces.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def replaceWords(self, dictionary, sentence):\n        \"\"\"\n        :type dictionary: List[str]\n        :type sentence: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"cat\",\"bat\",\"rat\"]",
+      "\"the cattle was rattled by the battery\""
+    ],
+    [
+      "[\"a\",\"b\",\"c\"]",
+      "\"aadsfasf absbs bbab cadsfafs\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"the cat was rat by the bat\"",
+    "\"a a b c\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def replaceWords(dict, sentence):\n    roots = set(dict)\n    words = sentence.split()\n    result = []\n\n    for word in words:\n        prefix = ''\n        for i in range(1, len(word) + 1):\n            prefix = word[:i]\n            if prefix in roots:\n                break\n        result.append(prefix)\n\n    return ' '.join(result)",
+    "explanation": "1. Create a set of roots from the given dictionary to easily look up if a word fragment is in the roots.\n2. Split the sentence into words.\n3. Iterate through each word, create a prefix variable that will keep track of the word fragment:\n   a. Start with an empty prefix.\n   b. Iterate through the characters of the word, adding one character at a time to the prefix.\n   c. Check if the prefix is in the roots set.\n   d. If a root is found, break the iteration.\n4. Add the final prefix to the result list.\n5. Join the result list into a string, separating words with spaces.\n6. Return the final result string."
+  },
+  "similarQuestions": "[{\"title\": \"Implement Trie (Prefix Tree)\", \"titleSlug\": \"implement-trie-prefix-tree\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,55 @@
+{
+  "questionId": "4090",
+  "title": "Minimum String Length After Balanced Removals",
+  "titleSlug": "minimum-string-length-after-balanced-removals",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s consisting only of the characters 'a' and 'b'.\n\nYou are allowed to repeatedly remove any substring where the number of 'a' characters is equal to the number of 'b' characters. After each removal, the remaining parts of the string are concatenated together without gaps.\n\nReturn an integer denoting the minimum possible length of the string after performing any number of such operations.\n\nExample 1:\n\nInput: s = \"aabbab\"\n\nOutput: 0\n\nExplanation: The substring \"aabbab\" has three 'a' and three 'b'. Since their counts are equal, we can remove the entire string directly. The minimum length is 0.\n\nExample 2:\n\nInput: s = \"aaaa\"\n\nOutput: 4\n\nExplanation: Every substring of \"aaaa\" contains only 'a' characters. No substring can be removed as a result, so the minimum length remains 4.\n\nExample 3:\n\nInput: s = \"aaabb\"\n\nOutput: 1\n\nExplanation: First, remove the substring \"ab\", leaving \"aab\". Next, remove the new substring \"ab\", leaving \"a\". No further removals are possible, so the minimum length is 1.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s[i] is either 'a' or 'b'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minLengthAfterRemovals(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Remove the longest possible balanced substring initially",
+    "Let the count of a's be count_a and the count of b's be count_b. Can we derive the final length from these?",
+    "The answer is abs(count_a - count_b)"
+  ],
+  "testCases": [
+    [
+      "\"aabbab\""
+    ],
+    [
+      "\"aaaa\""
+    ],
+    [
+      "\"aaabb\""
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minLengthAfterRemovals(self, s):\n        count_a = s.count('a')\n        count_b = s.count('b')\n        return abs(count_a - count_b)",
+    "explanation": "Each removal eliminates an equal number of 'a's and 'b's. The process continues until no balanced substrings remain — which happens when all left-over characters are the same letter. The minimum remaining length is |count_a - count_b|: the excess of whichever letter dominates.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

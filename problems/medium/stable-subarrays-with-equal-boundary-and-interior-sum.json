@@ -1,0 +1,56 @@
+{
+  "questionId": "4083",
+  "title": "Stable Subarrays With Equal Boundary and Interior Sum",
+  "titleSlug": "stable-subarrays-with-equal-boundary-and-interior-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array capacity.\n\nA subarray capacity[l..r] is considered stable if:\n\n• Its length is at least 3.\n\n• The first and last elements are each equal to the sum of all elements strictly between them (i.e., capacity[l] = capacity[r] = capacity[l + 1] + capacity[l + 2] + ... + capacity[r - 1]).\n\nReturn an integer denoting the number of stable subarrays.\n\nExample 1:\n\nInput: capacity = [9,3,3,3,9]\n\nOutput: 2\n\nExplanation:\n\n• [9,3,3,3,9] is stable because the first and last elements are both 9, and the sum of the elements strictly between them is 3 + 3 + 3 = 9.\n\n• [3,3,3] is stable because the first and last elements are both 3, and the sum of the elements strictly between them is 3.\n\nExample 2:\n\nInput: capacity = [1,2,3,4,5]\n\nOutput: 0\n\nExplanation: No subarray of length at least 3 has equal first and last elements, so the answer is 0.\n\nExample 3:\n\nInput: capacity = [-4,4,0,0,-8,-4]\n\nOutput: 1\n\nExplanation: [-4,4,0,0,-8,-4] is stable because the first and last elements are both -4, and the sum of the elements strictly between them is 4 + 0 + 0 + (-8) = -4\n\nConstraints:\n\n• 3 <= capacity.length <= 105\n\n• -109 <= capacity[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countStableSubarrays(self, capacity):\n        \"\"\"\n        :type capacity: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use prefix sums",
+    "Let the prefix sum array be p; notice that for a stable range [l, r], the condition becomes p[r - 1] - p[l] == a[r] and a[l] == a[r]",
+    "For each index r, you want to count the number of previous indices l such that p[l] == p[r - 1] - a[r] and a[l] == a[r]",
+    "You can do this efficiently by maintaining a map from (a[i], p[i]) to a frequency count as you iterate"
+  ],
+  "testCases": [
+    [
+      "[9,3,3,3,9]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[-4,4,0,0,-8,-4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def countStableSubarrays(self, capacity):\n        n = len(capacity)\n        prefix = [0] * (n + 1)\n        for i in range(n):\n            prefix[i + 1] = prefix[i] + capacity[i]\n\n        # For a stable subarray [l, r] (0-indexed, length >= 3):\n        # capacity[l] == capacity[r]  AND\n        # capacity[l] == prefix[r] - prefix[l+1]  (sum of interior)\n        # Rearranging: prefix[l] + capacity[l] == prefix[r]  =>  prefix[l+1] == prefix[r] - capacity[r] + capacity[r] ?\n        # Actually: capacity[l] = prefix[r] - prefix[l+1]\n        # And capacity[l] == capacity[r]\n        # So: prefix[l+1] = prefix[r] - capacity[r]\n        # Also capacity[l] == capacity[r]\n        # We store (capacity[i], prefix[i+1]) => count for all i we've seen as potential l\n        # For each r, we look up key (capacity[r], prefix[r] - capacity[r])\n        # But l must satisfy r - l >= 2, i.e., l <= r - 2\n        # So we add l to the map only when we reach r = l + 2\n\n        freq = defaultdict(int)\n        count = 0\n\n        for r in range(2, n):\n            # Add index r-2 as a valid left endpoint now\n            l = r - 2\n            freq[(capacity[l], prefix[l + 1])] += 1\n            # Look for all l matching: capacity[l]==capacity[r] and prefix[l+1]==prefix[r]-capacity[r]\n            key = (capacity[r], prefix[r] - capacity[r])\n            count += freq[key]\n\n        return count",
+    "explanation": "For a stable subarray [l, r] of length >= 3:\n- capacity[l] == capacity[r] (equal boundaries)\n- capacity[l] == sum of interior = prefix[r] - prefix[l+1]\n\nRearranging the second condition: prefix[l+1] == prefix[r] - capacity[r].\n\nSo for each right endpoint r, we need to count left endpoints l (where l <= r-2) such that:\n- capacity[l] == capacity[r]  AND\n- prefix[l+1] == prefix[r] - capacity[r]\n\nWe maintain a frequency map keyed by (capacity[l], prefix[l+1]). As we sweep r from 2 to n-1, we first add index r-2 to the map (ensuring the minimum length of 3), then query the map with key (capacity[r], prefix[r] - capacity[r]).\n\nTime complexity: O(n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[]"
+}

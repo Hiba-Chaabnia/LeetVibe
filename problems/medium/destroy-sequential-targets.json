@@ -1,0 +1,57 @@
+{
+  "questionId": "2548",
+  "title": "Destroy Sequential Targets",
+  "titleSlug": "destroy-sequential-targets",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a 0-indexed array nums consisting of positive integers, representing targets on a number line. You are also given an integer space.\n\nYou have a machine which can destroy targets. Seeding the machine with some nums[i] allows it to destroy all targets with values that can be represented as nums[i] + c * space, where c is any non-negative integer. You want to destroy the maximum number of targets in nums.\n\nReturn the minimum value of nums[i] you can seed the machine with to destroy the maximum number of targets.\n\nExample 1:\n\nInput: nums = [3,7,8,1,1,5], space = 2\nOutput: 1\nExplanation: If we seed the machine with nums[3], then we destroy all targets equal to 1,3,5,7,9,...\n    In this case, we would destroy 5 total targets (all except for nums[2]).\n    It is impossible to destroy more than 5 targets, so we return nums[3].\n\nExample 2:\n\nInput: nums = [1,3,5,2,4,6], space = 2\nOutput: 1\nExplanation: Seeding the machine with nums[0], or nums[3] destroys 3 targets.\n    It is not possible to destroy more than 3 targets.\n    Since nums[0] is the minimal integer that can destroy 3 targets, we return 1.\n\nExample 3:\n\nInput: nums = [6,2,5], space = 100\nOutput: 2\nExplanation: Whatever initial seed we select, we can only destroy 1 target. The minimal seed is nums[1].\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 1 <= space <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def destroyTargets(self, nums, space):\n        \"\"\"\n        :type nums: List[int]\n        :type space: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep track of nums[i] modulo k.",
+    "Iterate over nums in sorted order."
+  ],
+  "testCases": [
+    [
+      "[3,7,8,1,1,5]",
+      "2"
+    ],
+    [
+      "[1,3,5,2,4,6]",
+      "2"
+    ],
+    [
+      "[6,2,5]",
+      "100"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def destroyTargets(self, nums, space):\n        from collections import defaultdict\n        count = defaultdict(int)\n        for num in nums:\n            count[num % space] += 1\n        max_count = max(count.values())\n        min_seed = float('inf')\n        for num in nums:\n            if count[num % space] == max_count:\n                min_seed = min(min_seed, num)\n        return min_seed",
+    "explanation": "Group nums by modulo space. Find group with max count. Return min seed.\nTime: O(n)\nSpace: O(space)"
+  },
+  "similarQuestions": "[{\"title\": \"Arithmetic Slices II - Subsequence\", \"titleSlug\": \"arithmetic-slices-ii-subsequence\", \"difficulty\": \"Hard\"}, {\"title\": \"Pairs of Songs With Total Durations Divisible by 60\", \"titleSlug\": \"pairs-of-songs-with-total-durations-divisible-by-60\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Arithmetic Subsequence\", \"titleSlug\": \"longest-arithmetic-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Arithmetic Subsequence of Given Difference\", \"titleSlug\": \"longest-arithmetic-subsequence-of-given-difference\", \"difficulty\": \"Medium\"}]"
+}

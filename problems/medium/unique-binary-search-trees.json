@@ -1,0 +1,55 @@
+{
+  "questionId": "96",
+  "title": "Unique Binary Search Trees",
+  "titleSlug": "unique-binary-search-trees",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given an integer n, return the number of structurally unique BST's (binary search trees) which has exactly n nodes of unique values from 1 to n.\n\nExample 1:\n\nInput: n = 3\nOutput: 5\n\nExample 2:\n\nInput: n = 1\nOutput: 1\n\nConstraints:\n\n• 1 <= n <= 19",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numTrees(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numTrees(n):\n    dp = [0] * (n + 1)\n    dp[0] = 1\n    dp[1] = 1\n    for i in range(2, n + 1):\n        for j in range(i):\n            dp[i] += dp[j] * dp[i - j - 1]\n    return dp[n]",
+    "explanation": "The algorithm is based on dynamic programming. We create an array `dp` of length `n + 1`, with `dp[0]` and `dp[1]` equal to 1, which corresponds to the cases of 0 and 1 node respectively. Next, we iterate from 2 to `n`, and for each value `i`, we iterate from 0 to `i` and accumulate `dp[j] * dp[i - j - 1]` in `dp[i]`. This process represents the number of structurally unique BSTs for the left subtree and right subtree for each possible node arrangement of the BST. At the end, `dp[n]` represents the number of structurally unique BSTs with precisely n nodes."
+  },
+  "similarQuestions": "[{\"title\": \"Unique Binary Search Trees II\", \"titleSlug\": \"unique-binary-search-trees-ii\", \"difficulty\": \"Medium\"}]"
+}

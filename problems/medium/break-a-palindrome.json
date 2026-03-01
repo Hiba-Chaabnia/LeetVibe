@@ -1,0 +1,48 @@
+{
+  "questionId": "1252",
+  "title": "Break a Palindrome",
+  "titleSlug": "break-a-palindrome",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given a palindromic string of lowercase English letters palindrome, replace exactly one character with any lowercase English letter so that the resulting string is not a palindrome and that it is the lexicographically smallest one possible.\n\nReturn the resulting string. If there is no way to replace a character to make it not a palindrome, return an empty string.\n\nA string a is lexicographically smaller than a string b (of the same length) if in the first position where a and b differ, a has a character strictly smaller than the corresponding character in b. For example, \"abcc\" is lexicographically smaller than \"abcd\" because the first position they differ is at the fourth character, and 'c' is smaller than 'd'.\n\nExample 1:\n\nInput: palindrome = \"abccba\"\nOutput: \"aaccba\"\nExplanation: There are many ways to make \"abccba\" not a palindrome, such as \"zbccba\", \"aaccba\", and \"abacba\".\n    Of all the ways, \"aaccba\" is the lexicographically smallest.\n\nExample 2:\n\nInput: palindrome = \"a\"\nOutput: \"\"\nExplanation: There is no way to replace a single character to make \"a\" not a palindrome, so return an empty string.\n\nConstraints:\n\n• 1 <= palindrome.length <= 1000\n\n• palindrome consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def breakPalindrome(self, palindrome):\n        \"\"\"\n        :type palindrome: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How to detect if there is impossible to perform the replacement? Only when the length = 1.",
+    "Change the first non 'a' character to 'a'.",
+    "What if the string has only 'a'?",
+    "Change the last character to 'b'."
+  ],
+  "testCases": [
+    [
+      "\"abccba\""
+    ],
+    [
+      "\"a\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"aaccba\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def breakPalindrome(palindrome: str) -> str:\n    length = len(palindrome)\n    if length == 1:\n        return \"\"\n    \n    chars = list(palindrome)\n    for i in range(length // 2):\n        if chars[i] != 'a':\n            chars[i] = 'a'\n            return \"\".join(chars)\n    \n    chars[length - 1] = 'b'\n    return \"\".join(chars)",
+    "explanation": "To find the lexicographically smallest non-palindromic string, we first check if the length of the input string is 1. If it is, we return an empty string since we can't change a single character to make it a non-palindrome. Otherwise, we iterate through the first half of the string and look for any character not equal to `'a'`. If we find one, we change it to `'a'` and return the new string.\n\nIf we reach the end of the loop without finding a non-`'a'` character, it means that the string is composed of only `'a'` characters. In this case, we can change the last character to `'b'` to create a non-palindrome, and return the result. This ensures the lexicographically smallest string since it only changes one character and does so as early in the string as possible."
+  },
+  "similarQuestions": "[]"
+}

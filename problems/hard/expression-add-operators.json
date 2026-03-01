@@ -1,0 +1,60 @@
+{
+  "questionId": "282",
+  "title": "Expression Add Operators",
+  "titleSlug": "expression-add-operators",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "Given a string num that contains only digits and an integer target, return all possibilities to insert the binary operators '+', '-', and/or '*' between the digits of num so that the resultant expression evaluates to the target value.\n\nNote that operands in the returned expressions should not contain leading zeros.\n\nNote that a number can contain multiple digits.\n\nExample 1:\n\nInput: num = \"123\", target = 6\nOutput: [\"1*2*3\",\"1+2+3\"]\nExplanation: Both \"1*2*3\" and \"1+2+3\" evaluate to 6.\n\nExample 2:\n\nInput: num = \"232\", target = 8\nOutput: [\"2*3+2\",\"2+3*2\"]\nExplanation: Both \"2*3+2\" and \"2+3*2\" evaluate to 8.\n\nExample 3:\n\nInput: num = \"3456237490\", target = 9191\nOutput: []\nExplanation: There are no expressions that can be created from \"3456237490\" to evaluate to 9191.\n\nConstraints:\n\n• 1 <= num.length <= 10\n\n• num consists of only digits.\n\n• -231 <= target <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def addOperators(self, num, target):\n        \"\"\"\n        :type num: str\n        :type target: int\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that a number can contain multiple digits.",
+    "Since the question asks us to find <b>all</b> of the valid expressions, we need a way to iterate over all of them. (<b>Hint:</b> Recursion!)",
+    "We can keep track of the expression string and evaluate it at the very end. But that would take a lot of time. Can we keep track of the expression's value as well so as to avoid the evaluation at the very end of recursion?",
+    "Think carefully about the multiply operator. It has a higher precedence than the addition and subtraction operators. \r\n\r\n<br> 1 + 2 = 3  <br>\r\n1 + 2 - 4 --> 3 - 4 --> -1 <br>\r\n1 + 2 - 4 * 12 --> -1 * 12 --> -12 (WRONG!) <br>\r\n1 + 2 - 4 * 12 --> -1 - (-4) + (-4 * 12) --> 3 + (-48) --> -45 (CORRECT!)",
+    "We simply need to keep track of the last operand in our expression and reverse it's effect on the expression's value while considering the multiply operator."
+  ],
+  "testCases": [
+    [
+      "\"123\"",
+      "6"
+    ],
+    [
+      "\"232\"",
+      "8"
+    ],
+    [
+      "\"3456237490\"",
+      "9191"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"1*2*3\",\"1+2+3\"]",
+    "[\"2*3+2\",\"2+3*2\"]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from typing import List\n\ndef addOperators(num: str, target: int) -> List[str]:\n    def helper(num, target, pos, currVal, prevVal, currExpr):\n        if pos == len(num):\n            if currVal == target:\n                res.append(currExpr)\n            return\n\n        for i in range(pos, len(num)):\n            if i != pos and num[pos] == '0':\n                break\n\n            val = int(num[pos:i + 1])\n            if pos == 0:\n                helper(num, target, i + 1, val, val, currExpr + num[pos:i + 1])\n            else:\n                helper(num, target, i + 1, currVal + val, val, currExpr + \"+\" + num[pos:i + 1])\n                helper(num, target, i + 1, currVal - val, -val, currExpr + \"-\" + num[pos:i + 1])\n                helper(num, target, i + 1, currVal - prevVal + prevVal * val, prevVal * val, currExpr + \"*\" + num[pos:i + 1])\n\n    res = []\n    helper(num, target, 0, 0, 0, \"\")\n    return res",
+    "explanation": "The algorithm is based on a backtracking approach. We initialize a helper function with the initial parameters, such as the starting position, expression, and running sum. The helper function is then called recursively for each possible operator insertion. When the position reaches the end of the input string, we check if the running sum equals the target. If it does, we add the current expression to the result.\n\nWe use these parameters in the helper function:\n\n- `pos`: The current position in the input string\n- `currVal`: The current value of the expression up until this point\n- `prevVal`: The value before the last operator we inserted\n- `currExpr`: The expression string that we are building up\n\nTo avoid leading zeros in operands, we use a check to terminate the loop if we encounter a zero at the start.\n\nInside the helper function, we iterate over the possible next positions ('i') in the input string and decide which operation to perform at the current position:\n\n1. Base case: When the current position is 0, we simply update the current value and expression with no operator.\n2. Addition: We update the current value by adding the parsed value, and append \"+\" followed by the substring to the expression.\n3. Subtraction: We update the current value by subtracting the parsed value, and append \"-\" followed by the substring to the expression.\n4. Multiplication: We update the current value by first subtracting the previous value, then adding the product of the previous value and the parsed value, and append \"*\" followed by the substring to the expression.\n\nAfter the helper function iterates through all possibilities, we return the result as a list of expressions that evaluate to the target value."
+  },
+  "similarQuestions": "[{\"title\": \"Evaluate Reverse Polish Notation\", \"titleSlug\": \"evaluate-reverse-polish-notation\", \"difficulty\": \"Medium\"}, {\"title\": \"Basic Calculator\", \"titleSlug\": \"basic-calculator\", \"difficulty\": \"Hard\"}, {\"title\": \"Basic Calculator II\", \"titleSlug\": \"basic-calculator-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Different Ways to Add Parentheses\", \"titleSlug\": \"different-ways-to-add-parentheses\", \"difficulty\": \"Medium\"}, {\"title\": \"Target Sum\", \"titleSlug\": \"target-sum\", \"difficulty\": \"Medium\"}]"
+}

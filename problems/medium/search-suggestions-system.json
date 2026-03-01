@@ -1,0 +1,65 @@
+{
+  "questionId": "1397",
+  "title": "Search Suggestions System",
+  "titleSlug": "search-suggestions-system",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given an array of strings products and a string searchWord.\n\nDesign a system that suggests at most three product names from products after each character of searchWord is typed. Suggested products should have common prefix with searchWord. If there are more than three products with a common prefix return the three lexicographically minimums products.\n\nReturn a list of lists of the suggested products after each character of searchWord is typed.\n\nExample 1:\n\nInput: products = [\"mobile\",\"mouse\",\"moneypot\",\"monitor\",\"mousepad\"], searchWord = \"mouse\"\nOutput: [[\"mobile\",\"moneypot\",\"monitor\"],[\"mobile\",\"moneypot\",\"monitor\"],[\"mouse\",\"mousepad\"],[\"mouse\",\"mousepad\"],[\"mouse\",\"mousepad\"]]\nExplanation: products sorted lexicographically = [\"mobile\",\"moneypot\",\"monitor\",\"mouse\",\"mousepad\"].\n    After typing m and mo all products match and we show user [\"mobile\",\"moneypot\",\"monitor\"].\n    After typing mou, mous and mouse the system suggests [\"mouse\",\"mousepad\"].\n\nExample 2:\n\nInput: products = [\"havana\"], searchWord = \"havana\"\nOutput: [[\"havana\"],[\"havana\"],[\"havana\"],[\"havana\"],[\"havana\"],[\"havana\"]]\nExplanation: The only word \"havana\" will be always suggested while typing the search word.\n\nConstraints:\n\n• 1 <= products.length <= 1000\n\n• 1 <= products[i].length <= 3000\n\n• 1 <= sum(products[i].length) <= 2 * 104\n\n• All the strings of products are unique.\n\n• products[i] consists of lowercase English letters.\n\n• 1 <= searchWord.length <= 1000\n\n• searchWord consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def suggestedProducts(self, products, searchWord):\n        \"\"\"\n        :type products: List[str]\n        :type searchWord: str\n        :rtype: List[List[str]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Brute force is a good choice because length of the string is ≤ 1000.",
+    "Binary search the answer.",
+    "Use Trie data structure to store the best three matching. Traverse the Trie."
+  ],
+  "testCases": [
+    [
+      "[\"mobile\",\"mouse\",\"moneypot\",\"monitor\",\"mousepad\"]",
+      "\"mouse\""
+    ],
+    [
+      "[\"havana\"]",
+      "\"havana\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[[\"mobile\",\"moneypot\",\"monitor\"],[\"mobile\",\"moneypot\",\"monitor\"],[\"mouse\",\"mousepad\"],[\"mouse\",\"mousepad\"],[\"mouse\",\"mousepad\"]]",
+    "[[\"havana\"],[\"havana\"],[\"havana\"],[\"havana\"],[\"havana\"],[\"havana\"]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def suggestedProducts(products, searchWord):\n    result = []\n    products.sort()\n    \n    for i in range(len(searchWord)):\n        suggestions = []\n        for product in products:\n            if len(product) > i and product[i] == searchWord[i]:\n                suggestions.append(product)\n                if len(suggestions) == 3:\n                    break\n        result.append(suggestions)\n    \n    return result",
+    "explanation": "The given problem can be solved with a simple sorting and iteration approach. The algorithm works as follows:\n\n1. Sort the `products` list lexicographically.\n2. Iterate through each character in the `searchWord`.\n3. For each character, initialize an empty list `suggestions` to store the suggested products.\n4. Iterate through each product in the `products` list.\n5. If the product has the same character at the current position as the `searchWord`, add the product to the `suggestions` list.\n6. Break the loop if the `suggestions` list has 3 elements, as we need at most 3 product suggestions at a time.\n7. After iterating through all products, add the `suggestions` list to the `result` list.\n8. Repeat steps 3-7 for each character in the `searchWord`.\n9. Return the `result` list containing lists of suggested products after each character of `searchWord`.\n\nThis algorithm solves the problem with a simple traversal approach and doesn't require any complex data structures or techniques."
+  },
+  "similarQuestions": "[]"
+}

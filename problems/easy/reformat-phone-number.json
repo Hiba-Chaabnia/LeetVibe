@@ -1,0 +1,46 @@
+{
+  "questionId": "1812",
+  "title": "Reformat Phone Number",
+  "titleSlug": "reformat-phone-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a phone number as a string number. number consists of digits, spaces ' ', and/or dashes '-'.\n\nYou would like to reformat the phone number in a certain manner. Firstly, remove all spaces and dashes. Then, group the digits from left to right into blocks of length 3 until there are 4 or fewer digits. The final digits are then grouped as follows:\n\n• 2 digits: A single block of length 2.\n\n• 3 digits: A single block of length 3.\n\n• 4 digits: Two blocks of length 2 each.\n\nThe blocks are then joined by dashes. Notice that the reformatting process should never produce any blocks of length 1 and produce at most two blocks of length 2.\n\nReturn the phone number after formatting.\n\nExample 1:\n\nInput: number = \"1-23-45 6\"\nOutput: \"123-456\"\nExplanation: The digits are \"123456\".\n    Step 1: There are more than 4 digits, so group the next 3 digits. The 1st block is \"123\".\n    Step 2: There are 3 digits remaining, so put them in a single block of length 3. The 2nd block is \"456\".\n    Joining the blocks gives \"123-456\".\n\nExample 2:\n\nInput: number = \"123 4-567\"\nOutput: \"123-45-67\"\nExplanation: The digits are \"1234567\".\n    Step 1: There are more than 4 digits, so group the next 3 digits. The 1st block is \"123\".\n    Step 2: There are 4 digits left, so split them into two blocks of length 2. The blocks are \"45\" and \"67\".\n    Joining the blocks gives \"123-45-67\".\n\nExample 3:\n\nInput: number = \"123 4-5678\"\nOutput: \"123-456-78\"\nExplanation: The digits are \"12345678\".\n    Step 1: The 1st block is \"123\".\n    Step 2: The 2nd block is \"456\".\n    Step 3: There are 2 digits left, so put them in a single block of length 2. The 3rd block is \"78\".\n    Joining the blocks gives \"123-456-78\".\n\nConstraints:\n\n• 2 <= number.length <= 100\n\n• number consists of digits and the characters '-' and ' '.\n\n• There are at least two digits in number.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reformatNumber(self, number):\n        \"\"\"\n        :type number: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Discard all the spaces and dashes.",
+    "Use a while loop. While the string still has digits, check its length and see which rule to apply."
+  ],
+  "testCases": [
+    [
+      "\"1-23-45 6\""
+    ],
+    [
+      "\"123 4-567\""
+    ],
+    [
+      "\"123 4-5678\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"123-456\"",
+    "\"123-45-67\"",
+    "\"123-456-78\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def reformatNumber(self, number):\n        digits = number.replace('-','').replace(' ','')\n        blocks = []\n        i = 0\n        while len(digits) - i > 4:\n            blocks.append(digits[i:i+3])\n            i += 3\n        remaining = len(digits) - i\n        if remaining == 2:\n            blocks.append(digits[i:i+2])\n        elif remaining == 3:\n            blocks.append(digits[i:i+3])\n        elif remaining == 4:\n            blocks.append(digits[i:i+2])\n            blocks.append(digits[i+2:i+4])\n        return '-'.join(blocks)",
+    "explanation": "Remove spaces/dashes. Group digits into blocks of 3 until 4 or fewer remain. Handle final 2, 3, or 4 digits.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

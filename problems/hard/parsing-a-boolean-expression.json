@@ -1,0 +1,49 @@
+{
+  "questionId": "1197",
+  "title": "Parsing A Boolean Expression",
+  "titleSlug": "parsing-a-boolean-expression",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "A boolean expression is an expression that evaluates to either true or false. It can be in one of the following shapes:\n\n• 't' that evaluates to true.\n\n• 'f' that evaluates to false.\n\n• '!(subExpr)' that evaluates to the logical NOT of the inner expression subExpr.\n\n• '&(subExpr1, subExpr2, ..., subExprn)' that evaluates to the logical AND of the inner expressions subExpr1, subExpr2, ..., subExprn where n >= 1.\n\n• '|(subExpr1, subExpr2, ..., subExprn)' that evaluates to the logical OR of the inner expressions subExpr1, subExpr2, ..., subExprn where n >= 1.\n\nGiven a string expression that represents a boolean expression, return the evaluation of that expression.\n\nIt is guaranteed that the given expression is valid and follows the given rules.\n\nExample 1:\n\nInput: expression = \"&(|(f))\"\nOutput: false\nExplanation:\n    First, evaluate |(f) --> f. The expression is now \"&(f)\".\n    Then, evaluate &(f) --> f. The expression is now \"f\".\n    Finally, return false.\n\nExample 2:\n\nInput: expression = \"|(f,f,f,t)\"\nOutput: true\nExplanation: The evaluation of (false OR false OR false OR true) is true.\n\nExample 3:\n\nInput: expression = \"!(&(f,t))\"\nOutput: true\nExplanation:\n    First, evaluate &(f,t) --> (false AND true) --> false --> f. The expression is now \"!(f)\".\n    Then, evaluate !(f) --> NOT false --> true. We return true.\n\nConstraints:\n\n• 1 <= expression.length <= 2 * 104\n\n• expression[i] is one following characters: '(', ')', '&', '|', '!', 't', 'f', and ','.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def parseBoolExpr(self, expression):\n        \"\"\"\n        :type expression: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Write a function \"parse\" which calls helper functions \"parse_or\", \"parse_and\", \"parse_not\"."
+  ],
+  "testCases": [
+    [
+      "\"&(|(f))\""
+    ],
+    [
+      "\"|(f,f,f,t)\""
+    ],
+    [
+      "\"!(&(f,t))\""
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true",
+    "true"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

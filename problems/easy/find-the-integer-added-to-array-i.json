@@ -1,0 +1,49 @@
+{
+  "questionId": "3397",
+  "title": "Find the Integer Added to Array I",
+  "titleSlug": "find-the-integer-added-to-array-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "You are given two arrays of equal length, nums1 and nums2.\n\nEach element in nums1 has been increased (or decreased in the case of negative) by an integer, represented by the variable x.\n\nAs a result, nums1 becomes equal to nums2. Two arrays are considered equal when they contain the same integers with the same frequencies.\n\nReturn the integer x.\n\nExample 1:\n\nInput: nums1 = [2,6,4], nums2 = [9,7,5]\n\nOutput: 3\n\nExplanation: The integer added to each element of nums1 is 3.\n\nExample 2:\n\nInput: nums1 = [10], nums2 = [5]\n\nOutput: -5\n\nExplanation: The integer added to each element of nums1 is -5.\n\nExample 3:\n\nInput: nums1 = [1,1,1,1], nums2 = [1,1,1,1]\n\nOutput: 0\n\nExplanation: The integer added to each element of nums1 is 0.\n\nConstraints:\n\n• 1 <= nums1.length == nums2.length <= 100\n\n• 0 <= nums1[i], nums2[i] <= 1000\n\n• The test cases are generated in a way that there is an integer x such that nums1 can become equal to nums2 by adding x to each element of nums1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def addedInteger(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that, after sorting both arrays, there should be a one-to-one correspondence between every element.",
+    "Thus x = min(nums2) - min(nums1)."
+  ],
+  "testCases": [
+    [
+      "[2,6,4]",
+      "[9,7,5]"
+    ],
+    [
+      "[10]",
+      "[5]"
+    ],
+    [
+      "[1,1,1,1]",
+      "[1,1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def addedInteger(self, nums1, nums2):\n        return min(nums2) - min(nums1)",
+    "explanation": "The same integer x was added to every element; it equals min(nums2) - min(nums1). O(n) time."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,69 @@
+{
+  "questionId": "235",
+  "title": "Lowest Common Ancestor of a Binary Search Tree",
+  "titleSlug": "lowest-common-ancestor-of-a-binary-search-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.\n\nAccording to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”\n\nExample 1:\n\nInput: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8\nOutput: 6\nExplanation: The LCA of nodes 2 and 8 is 6.\n\nExample 2:\n\nInput: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4\nOutput: 2\nExplanation: The LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.\n\nExample 3:\n\nInput: root = [2,1], p = 2, q = 1\nOutput: 2\n\nConstraints:\n\n• The number of nodes in the tree is in the range [2, 105].\n\n• -109 <= Node.val <= 109\n\n• All Node.val are unique.\n\n• p != q\n\n• p and q will exist in the BST.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def lowestCommonAncestor(self, root, p, q):\n        \"\"\"\n        :type root: TreeNode\n        :type p: TreeNode\n        :type q: TreeNode\n        :rtype: TreeNode\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[6,2,8,0,4,7,9,null,null,3,5]"
+    ],
+    [
+      "2"
+    ],
+    [
+      "8"
+    ],
+    [
+      "[6,2,8,0,4,7,9,null,null,3,5]"
+    ],
+    [
+      "2"
+    ],
+    [
+      "4"
+    ],
+    [
+      "[2,1]"
+    ],
+    [
+      "2"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Lowest Common Ancestor of a Binary Tree\", \"titleSlug\": \"lowest-common-ancestor-of-a-binary-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Smallest Common Region\", \"titleSlug\": \"smallest-common-region\", \"difficulty\": \"Medium\"}, {\"title\": \"Lowest Common Ancestor of a Binary Tree II\", \"titleSlug\": \"lowest-common-ancestor-of-a-binary-tree-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Lowest Common Ancestor of a Binary Tree III\", \"titleSlug\": \"lowest-common-ancestor-of-a-binary-tree-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Lowest Common Ancestor of a Binary Tree IV\", \"titleSlug\": \"lowest-common-ancestor-of-a-binary-tree-iv\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,56 @@
+{
+  "questionId": "2080",
+  "title": "Check if Move is Legal",
+  "titleSlug": "check-if-move-is-legal",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a 0-indexed 8 x 8 grid board, where board[r][c] represents the cell (r, c) on a game board. On the board, free cells are represented by '.', white cells are represented by 'W', and black cells are represented by 'B'.\n\nEach move in this game consists of choosing a free cell and changing it to the color you are playing as (either white or black). However, a move is only legal if, after changing it, the cell becomes the endpoint of a good line (horizontal, vertical, or diagonal).\n\nA good line is a line of three or more cells (including the endpoints) where the endpoints of the line are one color, and the remaining cells in the middle are the opposite color (no cells in the line are free). You can find examples for good lines in the figure below:\n\nGiven two integers rMove and cMove and a character color representing the color you are playing as (white or black), return true if changing cell (rMove, cMove) to color color is a legal move, or false if it is not legal.\n\nExample 1:\n\nInput: board = [[\".\",\".\",\".\",\"B\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"W\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"W\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"W\",\".\",\".\",\".\",\".\"],[\"W\",\"B\",\"B\",\".\",\"W\",\"W\",\"W\",\"B\"],[\".\",\".\",\".\",\"B\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"B\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"W\",\".\",\".\",\".\",\".\"]], rMove = 4, cMove = 3, color = \"B\"\nOutput: true\nExplanation: '.', 'W', and 'B' are represented by the colors blue, white, and black respectively, and cell (rMove, cMove) is marked with an 'X'.\n    The two good lines with the chosen cell as an endpoint are annotated above with the red rectangles.\n\nExample 2:\n\nInput: board = [[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\"B\",\".\",\".\",\"W\",\".\",\".\",\".\"],[\".\",\".\",\"W\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"W\",\"B\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\"B\",\"W\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\"W\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\"B\"]], rMove = 4, cMove = 4, color = \"W\"\nOutput: false\nExplanation: While there are good lines with the chosen cell as a middle cell, there are no good lines with the chosen cell as an endpoint.\n\nConstraints:\n\n• board.length == board[r].length == 8\n\n• 0 <= rMove, cMove < 8\n\n• board[rMove][cMove] == '.'\n\n• color is either 'B' or 'W'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkMove(self, board, rMove, cMove, color):\n        \"\"\"\n        :type board: List[List[str]]\n        :type rMove: int\n        :type cMove: int\n        :type color: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each line starting at the given cell check if it's a good line",
+    "To do that iterate over all directions horizontal, vertical, and diagonals then check good lines naively"
+  ],
+  "testCases": [
+    [
+      "[[\".\",\".\",\".\",\"B\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"W\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"W\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"W\",\".\",\".\",\".\",\".\"],[\"W\",\"B\",\"B\",\".\",\"W\",\"W\",\"W\",\"B\"],[\".\",\".\",\".\",\"B\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"B\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"W\",\".\",\".\",\".\",\".\"]]",
+      "4",
+      "3",
+      "\"B\""
+    ],
+    [
+      "[[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\"B\",\".\",\".\",\"W\",\".\",\".\",\".\"],[\".\",\".\",\"W\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"W\",\"B\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\"B\",\"W\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\"W\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\"B\"]]",
+      "4",
+      "4",
+      "\"W\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def checkMove(board, rMove, cMove, color):\n    directions = ((-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1))\n    opposite_color = 'B' if color == 'W' else 'W'\n\n    for d in directions:\n        x, y = rMove + d[0], cMove + d[1]\n        count = 0\n        while 0 <= x < 8 and 0 <= y < 8 and board[x][y] == opposite_color:\n            x += d[0]\n            y += d[1]\n            count += 1\n\n        if count > 0 and 0 <= x < 8 and 0 <= y < 8 and board[x][y] == color:\n            return True\n\n    return False",
+    "explanation": "The algorithm uses the given rMove and cMove as the starting point and loops through each direction (horizontal, vertical, and diagonal) to check if there exists a \"good line\" by incrementing through the board in that direction. We count the length of the \"opposite color\" line.\n\nAfter the counting process in any direction, we check if the count is greater than 0 meaning there is a line of opposite-colored cells, and then we check if the adjacent cell after the opposite-colored line is of the same color as the character being played. \n\nIf the condition is satisfied, we return true, which means it's a legal move. If the loop completes without meeting the conditions; it returns false, meaning it's not a legal move."
+  },
+  "similarQuestions": "[]"
+}

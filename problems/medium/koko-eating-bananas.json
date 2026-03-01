@@ -1,0 +1,51 @@
+{
+  "questionId": "907",
+  "title": "Koko Eating Bananas",
+  "titleSlug": "koko-eating-bananas",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Koko loves to eat bananas. There are n piles of bananas, the ith pile has piles[i] bananas. The guards have gone and will come back in h hours.\n\nKoko can decide her bananas-per-hour eating speed of k. Each hour, she chooses some pile of bananas and eats k bananas from that pile. If the pile has less than k bananas, she eats all of them instead and will not eat any more bananas during this hour.\n\nKoko likes to eat slowly but still wants to finish eating all the bananas before the guards return.\n\nReturn the minimum integer k such that she can eat all the bananas within h hours.\n\nExample 1:\n\nInput: piles = [3,6,7,11], h = 8\nOutput: 4\n\nExample 2:\n\nInput: piles = [30,11,23,4,20], h = 5\nOutput: 30\n\nExample 3:\n\nInput: piles = [30,11,23,4,20], h = 6\nOutput: 23\n\nConstraints:\n\n• 1 <= piles.length <= 104\n\n• piles.length <= h <= 109\n\n• 1 <= piles[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minEatingSpeed(self, piles, h):\n        \"\"\"\n        :type piles: List[int]\n        :type h: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,6,7,11]",
+      "8"
+    ],
+    [
+      "[30,11,23,4,20]",
+      "5"
+    ],
+    [
+      "[30,11,23,4,20]",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "30",
+    "23"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minEatingSpeed(self, piles, h):\n        \"\"\"\n        :type piles: List[int]\n        :type h: int\n        :rtype: int\n        \"\"\"\n        def canFinish(speed):\n            hours = 0\n            for pile in piles:\n                hours += (pile + speed - 1) // speed  # Ceiling division\n            return hours <= h\n        \n        left, right = 1, max(piles)\n        \n        while left < right:\n            mid = (left + right) // 2\n            if canFinish(mid):\n                right = mid\n            else:\n                left = mid + 1\n        \n        return left",
+    "explanation": "Binary search on eating speed. For each speed, check if all piles can be finished in h hours.",
+    "complexity": "Time: O(n log(max(piles))). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimize Max Distance to Gas Station\", \"titleSlug\": \"minimize-max-distance-to-gas-station\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Candies Allocated to K Children\", \"titleSlug\": \"maximum-candies-allocated-to-k-children\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimized Maximum of Products Distributed to Any Store\", \"titleSlug\": \"minimized-maximum-of-products-distributed-to-any-store\", \"difficulty\": \"Medium\"}, {\"title\": \"Frog Jump II\", \"titleSlug\": \"frog-jump-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Time to Repair Cars\", \"titleSlug\": \"minimum-time-to-repair-cars\", \"difficulty\": \"Medium\"}]"
+}

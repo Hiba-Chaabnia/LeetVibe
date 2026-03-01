@@ -1,0 +1,53 @@
+{
+  "questionId": "3810",
+  "title": "Count Numbers with Non-Decreasing Digits ",
+  "titleSlug": "count-numbers-with-non-decreasing-digits",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given two integers, l and r, represented as strings, and an integer b. Return the count of integers in the inclusive range [l, r] whose digits are in non-decreasing order when represented in base b.\n\nAn integer is considered to have non-decreasing digits if, when read from left to right (from the most significant digit to the least significant digit), each digit is greater than or equal to the previous one.\n\nSince the answer may be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: l = \"23\", r = \"28\", b = 8\n\nOutput: 3\n\nExplanation:\n\n• The numbers from 23 to 28 in base 8 are: 27, 30, 31, 32, 33, and 34.\n\n• Out of these, 27, 33, and 34 have non-decreasing digits. Hence, the output is 3.\n\nExample 2:\n\nInput: l = \"2\", r = \"7\", b = 2\n\nOutput: 2\n\nExplanation:\n\n• The numbers from 2 to 7 in base 2 are: 10, 11, 100, 101, 110, and 111.\n\n• Out of these, 11 and 111 have non-decreasing digits. Hence, the output is 2.\n\nConstraints:\n\n• 1 <= l.length <= r.length <= 100\n\n• 2 <= b <= 10\n\n• l and r consist only of digits.\n\n• The value represented by l is less than or equal to the value represented by r.\n\n• l and r do not contain leading zeros.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countNumbers(self, l, r, b):\n        \"\"\"\n        :type l: str\n        :type r: str\n        :type b: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use digit dynamic programming."
+  ],
+  "testCases": [
+    [
+      "\"23\"",
+      "\"28\"",
+      "8"
+    ],
+    [
+      "\"2\"",
+      "\"7\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countNumbers(self, l, r, b):\n        \"\"\"\n        :type l: str\n        :type r: str\n        :type b: int\n        :rtype: int\n        \"\"\"\n        MOD = 10**9 + 7\n        \n        def count_up_to(num_str, base):\n            \"\"\"Count non-decreasing numbers <= num_str in given base\"\"\"\n            memo = {}\n            n = len(num_str)\n            \n            def dp(pos, tight, last_digit):\n                if pos == n:\n                    return 1\n                \n                if (pos, tight, last_digit) in memo:\n                    return memo[(pos, tight, last_digit)]\n                \n                limit = int(num_str[pos]) if tight else base - 1\n                result = 0\n                \n                for digit in range(last_digit, limit + 1):\n                    new_tight = tight and (digit == limit)\n                    result = (result + dp(pos + 1, new_tight, digit)) % MOD\n                \n                memo[(pos, tight, last_digit)] = result\n                return result\n            \n            return dp(0, True, 0)\n        \n        # Convert to base b\n        def to_base(s, b):\n            # s is string in base 10\n            num = int(s)\n            if num == 0:\n                return \"0\"\n            \n            digits = []\n            while num > 0:\n                digits.append(str(num % b))\n                num //= b\n            return ''.join(reversed(digits))\n        \n        # Count [0, r] and [0, l-1]\n        l_int = int(l)\n        r_int = int(r)\n        \n        r_base = to_base(r, b)\n        l_minus_1_base = to_base(str(l_int - 1), b) if l_int > 0 else \"0\"\n        \n        count_r = count_up_to(r_base, b)\n        count_l_minus_1 = count_up_to(l_minus_1_base, b) if l_int > 0 else 0\n        \n        return (count_r - count_l_minus_1 + MOD) % MOD",
+    "explanation": "Digit DP in arbitrary base:\n\n1. **Base Conversion**: Convert decimal to base b\n2. **Digit DP**:\n   - pos: current digit position\n   - tight: bounded by original number\n   - last_digit: previous digit (ensures non-decreasing)\n3. **Transition**: Choose digit >= last_digit\n4. **Range Answer**: count[r] - count[l-1]\n\nTime: O(log(n) * b * log(n)²)\nSpace: O(log(n) * b)"
+  },
+  "similarQuestions": "[{\"title\": \"Count of Integers\", \"titleSlug\": \"count-of-integers\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Beautiful Integers in the Range\", \"titleSlug\": \"number-of-beautiful-integers-in-the-range\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "1531",
+  "title": "Number of Ways to Wear Different Hats to Each Other",
+  "titleSlug": "number-of-ways-to-wear-different-hats-to-each-other",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "There are n people and 40 types of hats labeled from 1 to 40.\n\nGiven a 2D integer array hats, where hats[i] is a list of all hats preferred by the ith person.\n\nReturn the number of ways that n people can wear different hats from each other.\n\nSince the answer may be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: hats = [[3,4],[4,5],[5]]\nOutput: 1\nExplanation: There is only one way to choose hats given the conditions.\n    First person chooses hat 3, Second person chooses hat 4 and last one hat 5.\n\nExample 2:\n\nInput: hats = [[3,5,1],[3,5]]\nOutput: 4\nExplanation: There are 4 ways to choose hats:\n    (3,5), (5,3), (1,3) and (1,5)\n\nExample 3:\n\nInput: hats = [[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]\nOutput: 24\nExplanation: Each person can choose hats labeled from 1 to 4.\n    Number of Permutations of (1,2,3,4) = 24.\n\nConstraints:\n\n• n == hats.length\n\n• 1 <= n <= 10\n\n• 1 <= hats[i].length <= 40\n\n• 1 <= hats[i][j] <= 40\n\n• hats[i] contains a list of unique integers.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberWays(self, hats):\n        \"\"\"\n        :type hats: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Dynamic programming + bitmask.",
+    "dp(peopleMask, idHat) number of ways to wear different hats given a bitmask (people visited) and used hats from 1 to idHat-1."
+  ],
+  "testCases": [
+    [
+      "[[3,4],[4,5],[5]]"
+    ],
+    [
+      "[[3,5,1],[3,5]]"
+    ],
+    [
+      "[[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "4",
+    "24"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"The Number of Good Subsets\", \"titleSlug\": \"the-number-of-good-subsets\", \"difficulty\": \"Hard\"}]"
+}

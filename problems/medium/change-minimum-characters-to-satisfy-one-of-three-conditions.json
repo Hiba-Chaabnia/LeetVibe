@@ -1,0 +1,56 @@
+{
+  "questionId": "1859",
+  "title": "Change Minimum Characters to Satisfy One of Three Conditions",
+  "titleSlug": "change-minimum-characters-to-satisfy-one-of-three-conditions",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given two strings a and b that consist of lowercase letters. In one operation, you can change any character in a or b to any lowercase letter.\n\nYour goal is to satisfy one of the following three conditions:\n\n• Every letter in a is strictly less than every letter in b in the alphabet.\n\n• Every letter in b is strictly less than every letter in a in the alphabet.\n\n• Both a and b consist of only one distinct letter.\n\nReturn the minimum number of operations needed to achieve your goal.\n\nExample 1:\n\nInput: a = \"aba\", b = \"caa\"\nOutput: 2\nExplanation: Consider the best way to make each condition true:\n    1) Change b to \"ccc\" in 2 operations, then every letter in a is less than every letter in b.\n    2) Change a to \"bbb\" and b to \"aaa\" in 3 operations, then every letter in b is less than every letter in a.\n    3) Change a to \"aaa\" and b to \"aaa\" in 2 operations, then a and b consist of one distinct letter.\n    The best way was done in 2 operations (either condition 1 or condition 3).\n\nExample 2:\n\nInput: a = \"dabadd\", b = \"cda\"\nOutput: 3\nExplanation: The best way is to make condition 1 true by changing b to \"eee\".\n\nConstraints:\n\n• 1 <= a.length, b.length <= 105\n\n• a and b consist only of lowercase letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCharacters(self, a, b):\n        \"\"\"\n        :type a: str\n        :type b: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate on each letter in the alphabet, and check the smallest number of operations needed to make it one of the following: the largest letter in a and smaller than the smallest one in b, vice versa, or let a and b consist only of this letter.",
+    "For the first 2 conditions, take care that you can only change characters to lowercase letters, so you can't make 'z' the smallest letter in one of the strings or 'a' the largest letter in one of them."
+  ],
+  "testCases": [
+    [
+      "\"aba\"",
+      "\"caa\""
+    ],
+    [
+      "\"dabadd\"",
+      "\"cda\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minCharacters(self, a, b):\n        n = len(a)\n        ans = float('inf')\n        for c in 'abcdefghijklmnopqrstuvwxyz':\n            count_a = sum(1 for x in a if x != c)\n            count_b = sum(1 for x in b if x != c)\n            ans = min(ans, count_a + count_b)\n        for i in range(25):\n            c1 = chr(ord('a') + i)\n            c2 = chr(ord('a') + i + 1)\n            count_a = sum(1 for x in a if x > c1)\n            count_b = sum(1 for x in b if x < c2)\n            ans = min(ans, count_a + count_b)\n        for i in range(25):\n            c1 = chr(ord('a') + i)\n            c2 = chr(ord('a') + i + 1)\n            count_a = sum(1 for x in a if x < c2)\n            count_b = sum(1 for x in b if x > c1)\n            ans = min(ans, count_a + count_b)\n        return ans",
+    "explanation": "Try all 3 conditions. For condition 1&2: check each boundary. Count changes.\nTime: O(26*n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

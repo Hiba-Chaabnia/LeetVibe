@@ -1,0 +1,46 @@
+{
+  "questionId": "3912",
+  "title": "Hexadecimal and Hexatrigesimal Conversion",
+  "titleSlug": "hexadecimal-and-hexatrigesimal-conversion",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given an integer n.\n\nReturn the concatenation of the hexadecimal representation of n2 and the hexatrigesimal representation of n3.\n\nA hexadecimal number is defined as a base-16 numeral system that uses the digits 0 – 9 and the uppercase letters A - F to represent values from 0 to 15.\n\nA hexatrigesimal number is defined as a base-36 numeral system that uses the digits 0 – 9 and the uppercase letters A - Z to represent values from 0 to 35.\n\nExample 1:\n\nInput: n = 13\n\nOutput: \"A91P1\"\n\nExplanation:\n\n• n2 = 13 * 13 = 169. In hexadecimal, it converts to (10 * 16) + 9 = 169, which corresponds to \"A9\".\n\n• n3 = 13 * 13 * 13 = 2197. In hexatrigesimal, it converts to (1 * 362) + (25 * 36) + 1 = 2197, which corresponds to \"1P1\".\n\n• Concatenating both results gives \"A9\" + \"1P1\" = \"A91P1\".\n\nExample 2:\n\nInput: n = 36\n\nOutput: \"5101000\"\n\nExplanation:\n\n• n2 = 36 * 36 = 1296. In hexadecimal, it converts to (5 * 162) + (1 * 16) + 0 = 1296, which corresponds to \"510\".\n\n• n3 = 36 * 36 * 36 = 46656. In hexatrigesimal, it converts to (1 * 363) + (0 * 362) + (0 * 36) + 0 = 46656, which corresponds to \"1000\".\n\n• Concatenating both results gives \"510\" + \"1000\" = \"5101000\".\n\nConstraints:\n\n• 1 <= n <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def concatHex36(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Implement a function toBase(x, b) that converts integer x into a string in base b, using digits 0–9 and letters A-Z as needed.",
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "13"
+    ],
+    [
+      "36"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"A91P1\"",
+    "\"5101000\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def concatHex36(self, n):\n        def to_base(num, base):\n            if num == 0:\n                return \"0\"\n            chars = \"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\"\n            res = []\n            while num:\n                res.append(chars[num % base])\n                num //= base\n            return \"\".join(reversed(res))\n        return to_base(n * n, 16) + to_base(n * n * n, 36)",
+    "explanation": "Convert n^2 to base 16 and n^3 to base 36 using uppercase digits; concatenate the two strings. O(log n) time."
+  },
+  "similarQuestions": "[]"
+}

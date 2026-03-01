@@ -1,0 +1,59 @@
+{
+  "questionId": "1219",
+  "title": "Longest Well-Performing Interval",
+  "titleSlug": "longest-well-performing-interval",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "We are given hours, a list of the number of hours worked per day for a given employee.\n\nA day is considered to be a tiring day if and only if the number of hours worked is (strictly) greater than 8.\n\nA well-performing interval is an interval of days for which the number of tiring days is strictly larger than the number of non-tiring days.\n\nReturn the length of the longest well-performing interval.\n\nExample 1:\n\nInput: hours = [9,9,6,0,6,6,9]\nOutput: 3\nExplanation: The longest well-performing interval is [9,9,6].\n\nExample 2:\n\nInput: hours = [6,6,6]\nOutput: 0\n\nConstraints:\n\n• 1 <= hours.length <= 104\n\n• 0 <= hours[i] <= 16",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestWPI(self, hours):\n        \"\"\"\n        :type hours: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Make a new array A of +1/-1s corresponding to if hours[i] is > 8 or not. The goal is to find the longest subarray with positive sum.",
+    "Using prefix sums (PrefixSum[i+1] = A[0] + A[1] + ... + A[i]), you need to find for each j, the smallest i < j with PrefixSum[i] + 1 == PrefixSum[j]."
+  ],
+  "testCases": [
+    [
+      "[9,9,6,0,6,6,9]"
+    ],
+    [
+      "[6,6,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def longestWPI(self, hours):\n        \"\"\"\n        :type hours: List[int]\n        :rtype: int\n        \"\"\"\n        # Convert to +1/-1\n        score = 0\n        max_len = 0\n        first_occurrence = {}\n        \n        for i, h in enumerate(hours):\n            score += 1 if h > 8 else -1\n            \n            if score > 0:\n                # All elements from start form positive sum\n                max_len = i + 1\n            else:\n                # Look for earlier position with score - 1\n                if score - 1 in first_occurrence:\n                    max_len = max(max_len, i - first_occurrence[score - 1])\n                \n                # Record first occurrence of this score\n                if score not in first_occurrence:\n                    first_occurrence[score] = i\n        \n        return max_len",
+    "explanation": "Convert days to +1 (tiring) or -1 (non-tiring). Find longest subarray with positive sum. Use prefix sums and hash map to track first occurrences.",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

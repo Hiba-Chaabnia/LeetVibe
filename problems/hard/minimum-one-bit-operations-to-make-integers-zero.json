@@ -1,0 +1,54 @@
+{
+  "questionId": "1732",
+  "title": "Minimum One Bit Operations to Make Integers Zero",
+  "titleSlug": "minimum-one-bit-operations-to-make-integers-zero",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "Given an integer n, you must transform it into 0 using the following operations any number of times:\n\n• Change the rightmost (0th) bit in the binary representation of n.\n\n• Change the ith bit in the binary representation of n if the (i-1)th bit is set to 1 and the (i-2)th through 0th bits are set to 0.\n\nReturn the minimum number of operations to transform n into 0.\n\nExample 1:\n\nInput: n = 3\nOutput: 2\nExplanation: The binary representation of 3 is \"11\".\n    \"11\" -> \"01\" with the 2nd operation since the 0th bit is 1.\n    \"01\" -> \"00\" with the 1st operation.\n\nExample 2:\n\nInput: n = 6\nOutput: 4\nExplanation: The binary representation of 6 is \"110\".\n    \"110\" -> \"010\" with the 2nd operation since the 1st bit is 1 and 0th through 0th bits are 0.\n    \"010\" -> \"011\" with the 1st operation.\n    \"011\" -> \"001\" with the 2nd operation since the 0th bit is 1.\n    \"001\" -> \"000\" with the 1st operation.\n\nConstraints:\n\n• 0 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumOneBitOperations(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The fastest way to convert n to zero is to remove all set bits starting from the leftmost one. Try some simple examples to learn the rule of how many steps are needed to remove one set bit.",
+    "consider n=2^k case first, then solve for all n."
+  ],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Number of Operations to Make Array Continuous\", \"titleSlug\": \"minimum-number-of-operations-to-make-array-continuous\", \"difficulty\": \"Hard\"}, {\"title\": \"Apply Bitwise Operations to Make Strings Equal\", \"titleSlug\": \"apply-bitwise-operations-to-make-strings-equal\", \"difficulty\": \"Medium\"}]"
+}

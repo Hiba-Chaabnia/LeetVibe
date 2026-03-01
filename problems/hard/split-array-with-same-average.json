@@ -1,0 +1,55 @@
+{
+  "questionId": "823",
+  "title": "Split Array With Same Average",
+  "titleSlug": "split-array-with-same-average",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nYou should move each element of nums into one of the two arrays A and B such that A and B are non-empty, and average(A) == average(B).\n\nReturn true if it is possible to achieve that and false otherwise.\n\nNote that for an array arr, average(arr) is the sum of all the elements of arr over the length of arr.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5,6,7,8]\nOutput: true\nExplanation: We can split the array into [1,4,5,8] and [2,3,6,7], and both of them have an average of 4.5.\n\nExample 2:\n\nInput: nums = [3,1]\nOutput: false\n\nConstraints:\n\n• 1 <= nums.length <= 30\n\n• 0 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def splitArraySameAverage(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6,7,8]"
+    ],
+    [
+      "[3,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Partition Array Into Two Arrays to Minimize Sum Difference\", \"titleSlug\": \"partition-array-into-two-arrays-to-minimize-sum-difference\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Average Difference\", \"titleSlug\": \"minimum-average-difference\", \"difficulty\": \"Medium\"}]"
+}

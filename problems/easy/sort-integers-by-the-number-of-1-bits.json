@@ -1,0 +1,54 @@
+{
+  "questionId": "1458",
+  "title": "Sort Integers by The Number of 1 Bits",
+  "titleSlug": "sort-integers-by-the-number-of-1-bits",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an integer array arr. Sort the integers in the array in ascending order by the number of 1's in their binary representation and in case of two or more integers have the same number of 1's you have to sort them in ascending order.\n\nReturn the array after sorting it.\n\nExample 1:\n\nInput: arr = [0,1,2,3,4,5,6,7,8]\nOutput: [0,1,2,4,8,3,5,6,7]\n    Explantion: [0] is the only integer with 0 bits.\n    [1,2,4,8] all have 1 bit.\n    [3,5,6] have 2 bits.\n    [7] has 3 bits.\n    The sorted array by bits is [0,1,2,4,8,3,5,6,7]\n\nExample 2:\n\nInput: arr = [1024,512,256,128,64,32,16,8,4,2,1]\nOutput: [1,2,4,8,16,32,64,128,256,512,1024]\n    Explantion: All integers have 1 bit in the binary representation, you should just sort them in ascending order.\n\nConstraints:\n\n• 1 <= arr.length <= 500\n\n• 0 <= arr[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sortByBits(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the problem. Count the number of 1's in the binary representation of each integer.",
+    "Sort by the number of 1's ascending and by the value in case of tie."
+  ],
+  "testCases": [
+    [
+      "[0,1,2,3,4,5,6,7,8]"
+    ],
+    [
+      "[1024,512,256,128,64,32,16,8,4,2,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,1,2,4,8,3,5,6,7]",
+    "[1,2,4,8,16,32,64,128,256,512,1024]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sortByBits(self, arr):\n        return sorted(arr, key=lambda x: (bin(x).count('1'), x))",
+    "explanation": "Sort by bit count, then by value.\nTime: O(n*log(n))\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Subsequence of Length K With the Largest Sum\", \"titleSlug\": \"find-subsequence-of-length-k-with-the-largest-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Find if Array Can Be Sorted\", \"titleSlug\": \"find-if-array-can-be-sorted\", \"difficulty\": \"Medium\"}]"
+}

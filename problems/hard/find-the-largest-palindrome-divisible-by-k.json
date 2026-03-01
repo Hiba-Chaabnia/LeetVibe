@@ -1,0 +1,62 @@
+{
+  "questionId": "3552",
+  "title": "Find the Largest Palindrome Divisible by K",
+  "titleSlug": "find-the-largest-palindrome-divisible-by-k",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given two positive integers n and k.\n\nAn integer x is called k-palindromic if:\n\n• x is a palindrome.\n\n• x is divisible by k.\n\nReturn the largest integer having n digits (as a string) that is k-palindromic.\n\nNote that the integer must not have leading zeros.\n\nExample 1:\n\nInput: n = 3, k = 5\n\nOutput: \"595\"\n\nExplanation: 595 is the largest k-palindromic integer with 3 digits.\n\nExample 2:\n\nInput: n = 1, k = 4\n\nOutput: \"8\"\n\nExplanation: 4 and 8 are the only k-palindromic integers with 1 digit.\n\nExample 3:\n\nInput: n = 5, k = 6\n\nOutput: \"89898\"\n\nConstraints:\n\n• 1 <= n <= 105\n\n• 1 <= k <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestPalindrome(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It must have a solution since we can have all digits equal to k.",
+    "Use string dp, store modulus along with length of number currently formed.",
+    "Is it possible to solve greedily using divisibility rules?"
+  ],
+  "testCases": [
+    [
+      "3",
+      "5"
+    ],
+    [
+      "1",
+      "4"
+    ],
+    [
+      "5",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"595\"",
+    "\"8\"",
+    "\"89898\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Palindrome Number\", \"titleSlug\": \"palindrome-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Closest Palindrome\", \"titleSlug\": \"find-the-closest-palindrome\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "2102",
+  "title": "Find the Middle Index in Array",
+  "titleSlug": "find-the-middle-index-in-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a 0-indexed integer array nums, find the leftmost middleIndex (i.e., the smallest amongst all the possible ones).\n\nA middleIndex is an index where nums[0] + nums[1] + ... + nums[middleIndex-1] == nums[middleIndex+1] + nums[middleIndex+2] + ... + nums[nums.length-1].\n\nIf middleIndex == 0, the left side sum is considered to be 0. Similarly, if middleIndex == nums.length - 1, the right side sum is considered to be 0.\n\nReturn the leftmost middleIndex that satisfies the condition, or -1 if there is no such index.\n\nExample 1:\n\nInput: nums = [2,3,-1,8,4]\nOutput: 3\nExplanation: The sum of the numbers before index 3 is: 2 + 3 + -1 = 4\n    The sum of the numbers after index 3 is: 4 = 4\n\nExample 2:\n\nInput: nums = [1,-1,4]\nOutput: 2\nExplanation: The sum of the numbers before index 2 is: 1 + -1 = 0\n    The sum of the numbers after index 2 is: 0\n\nExample 3:\n\nInput: nums = [2,5]\nOutput: -1\nExplanation: There is no valid middleIndex.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• -1000 <= nums[i] <= 1000\n\nNote: This question is the same as 724: https://leetcode.com/problems/find-pivot-index/",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMiddleIndex(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Could we go from left to right and check to see if an index is a middle index?",
+    "Do we need to sum every number to the left and right of an index each time?",
+    "Use a prefix sum array where prefix[i] = nums[0] + nums[1] + ... + nums[i]."
+  ],
+  "testCases": [
+    [
+      "[2,3,-1,8,4]"
+    ],
+    [
+      "[1,-1,4]"
+    ],
+    [
+      "[2,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findMiddleIndex(nums):\n    total_sum = sum(nums)\n    left_sum = 0\n\n    for i, num in enumerate(nums):\n        if left_sum == total_sum - left_sum - num:\n            return i\n        left_sum += num\n\n    return -1",
+    "explanation": "Initially, calculate the total sum of the array elements. Iterate through the array and track the left_sum at every index. If the left_sum matches the updated sum of elements (total_sum - left_sum - current_number), then the current index is the middle index. If no such index is found, return -1."
+  },
+  "similarQuestions": "[{\"title\": \"Find Pivot Index\", \"titleSlug\": \"find-pivot-index\", \"difficulty\": \"Easy\"}, {\"title\": \"Partition Array Into Three Parts With Equal Sum\", \"titleSlug\": \"partition-array-into-three-parts-with-equal-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Number of Ways to Split Array\", \"titleSlug\": \"number-of-ways-to-split-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Sum Score of Array\", \"titleSlug\": \"maximum-sum-score-of-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Left and Right Sum Differences\", \"titleSlug\": \"left-and-right-sum-differences\", \"difficulty\": \"Easy\"}]"
+}

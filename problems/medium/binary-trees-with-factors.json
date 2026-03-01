@@ -1,0 +1,51 @@
+{
+  "questionId": "843",
+  "title": "Binary Trees With Factors",
+  "titleSlug": "binary-trees-with-factors",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array of unique integers, arr, where each integer arr[i] is strictly greater than 1.\n\nWe make a binary tree using these integers, and each number may be used for any number of times. Each non-leaf node's value should be equal to the product of the values of its children.\n\nReturn the number of binary trees we can make. The answer may be too large so return the answer modulo 109 + 7.\n\nExample 1:\n\nInput: arr = [2,4]\nOutput: 3\nExplanation: We can make these trees: [2], [4], [4, 2, 2]\n\nExample 2:\n\nInput: arr = [2,4,5,10]\nOutput: 7\nExplanation: We can make these trees: [2], [4], [5], [10], [4, 2, 2], [10, 2, 5], [10, 5, 2].\n\nConstraints:\n\n• 1 <= arr.length <= 1000\n\n• 2 <= arr[i] <= 109\n\n• All the values of arr are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numFactoredBinaryTrees(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,4]"
+    ],
+    [
+      "[2,4,5,10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "7"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numFactoredBinaryTrees(self, arr):\n        MOD = 10**9 + 7\n        arr.sort()\n        dp = {num: 1 for num in arr}\n        arr_set = set(arr)\n        for num in arr:\n            for i in range(len(arr)):\n                if arr[i] >= num:\n                    break\n                if num % arr[i] == 0:\n                    other = num // arr[i]\n                    if other in arr_set:\n                        dp[num] = (dp[num] + dp[arr[i]] * dp[other]) % MOD\n        return sum(dp.values()) % MOD",
+    "explanation": "DP: for each num, count trees using it as root with factor children.\nTime: O(n²)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

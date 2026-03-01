@@ -1,0 +1,54 @@
+{
+  "questionId": "2828",
+  "title": "Lexicographically Smallest String After Substring Operation",
+  "titleSlug": "lexicographically-smallest-string-after-substring-operation",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given a string s consisting of lowercase English letters. Perform the following operation:\n\n• Select any non-empty substring then replace every letter of the substring with the preceding letter of the English alphabet. For example, 'b' is converted to 'a', and 'a' is converted to 'z'.\n\nReturn the lexicographically smallest string after performing the operation.\n\nExample 1:\n\nInput: s = \"cbabc\"\n\nOutput: \"baabc\"\n\nExplanation: Perform the operation on the substring starting at index 0, and ending at index 1 inclusive.\n\nExample 2:\n\nInput: s = \"aa\"\n\nOutput: \"az\"\n\nExplanation: Perform the operation on the last letter.\n\nExample 3:\n\nInput: s = \"acbbc\"\n\nOutput: \"abaab\"\n\nExplanation: Perform the operation on the substring starting at index 1, and ending at index 4 inclusive.\n\nExample 4:\n\nInput: s = \"leetcode\"\n\nOutput: \"kddsbncd\"\n\nExplanation: Perform the operation on the entire string.\n\nConstraints:\n\n• 1 <= s.length <= 3 * 105\n\n• s consists of lowercase English letters",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "When a character is replaced by the one that comes before it on the alphabet, it makes the string lexicographically smaller, except for ‘a'.",
+    "Find the leftmost substring that doesn’t contain the character 'a' and change all characters in it."
+  ],
+  "testCases": [
+    [
+      "\"cbabc\""
+    ],
+    [
+      "\"aa\""
+    ],
+    [
+      "\"acbbc\""
+    ],
+    [
+      "\"leetcode\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"baabc\"",
+    "\"az\"",
+    "\"abaab\"",
+    "\"kddsbncd\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def smallestString(self, s):\n        # Decreasing a char makes it smaller, except 'a' -> 'z' makes it larger.\n        # Greedy: find leftmost non-'a' char, decrement all consecutive non-'a' chars.\n        # If entire string is 'a', we must change one char (last 'a' -> 'z').\n        res = list(s)\n        n = len(s)\n        i = 0\n        # Skip leading 'a's\n        while i < n and res[i] == 'a':\n            i += 1\n        if i == n:\n            # All 'a's, must change last to 'z'\n            res[-1] = 'z'\n            return ''.join(res)\n        # Decrement all consecutive non-'a' chars starting at i\n        while i < n and res[i] != 'a':\n            res[i] = chr(ord(res[i]) - 1)\n            i += 1\n        return ''.join(res)",
+    "explanation": "Decrementing non-'a' chars makes the string smaller. 'a' would become 'z' (worse). Greedy: skip leading 'a's, then decrement the maximal consecutive block of non-'a' chars. If all 'a's, must do one operation: change last 'a' to 'z' (least damaging).\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Shifting Letters\", \"titleSlug\": \"shifting-letters\", \"difficulty\": \"Medium\"}, {\"title\": \"Lexicographically Smallest String After Applying Operations\", \"titleSlug\": \"lexicographically-smallest-string-after-applying-operations\", \"difficulty\": \"Medium\"}, {\"title\": \"Lexicographically Smallest String After Operations With Constraint\", \"titleSlug\": \"lexicographically-smallest-string-after-operations-with-constraint\", \"difficulty\": \"Medium\"}, {\"title\": \"Replace Question Marks in String to Minimize Its Value\", \"titleSlug\": \"replace-question-marks-in-string-to-minimize-its-value\", \"difficulty\": \"Medium\"}]"
+}

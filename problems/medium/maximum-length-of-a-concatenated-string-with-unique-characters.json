@@ -1,0 +1,59 @@
+{
+  "questionId": "1360",
+  "title": "Maximum Length of a Concatenated String with Unique Characters",
+  "titleSlug": "maximum-length-of-a-concatenated-string-with-unique-characters",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given an array of strings arr. A string s is formed by the concatenation of a subsequence of arr that has unique characters.\n\nReturn the maximum possible length of s.\n\nA subsequence is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.\n\nExample 1:\n\nInput: arr = [\"un\",\"iq\",\"ue\"]\nOutput: 4\nExplanation: All the valid concatenations are:\n    - \"\"\n    - \"un\"\n    - \"iq\"\n    - \"ue\"\n    - \"uniq\" (\"un\" + \"iq\")\n    - \"ique\" (\"iq\" + \"ue\")\n    Maximum length is 4.\n\nExample 2:\n\nInput: arr = [\"cha\",\"r\",\"act\",\"ers\"]\nOutput: 6\nExplanation: Possible longest valid concatenations are \"chaers\" (\"cha\" + \"ers\") and \"acters\" (\"act\" + \"ers\").\n\nExample 3:\n\nInput: arr = [\"abcdefghijklmnopqrstuvwxyz\"]\nOutput: 26\nExplanation: The only string in arr has all 26 characters.\n\nConstraints:\n\n• 1 <= arr.length <= 16\n\n• 1 <= arr[i].length <= 26\n\n• arr[i] contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxLength(self, arr):\n        \"\"\"\n        :type arr: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You can try all combinations and keep mask of characters you have.",
+    "You can use DP."
+  ],
+  "testCases": [
+    [
+      "[\"un\",\"iq\",\"ue\"]"
+    ],
+    [
+      "[\"cha\",\"r\",\"act\",\"ers\"]"
+    ],
+    [
+      "[\"abcdefghijklmnopqrstuvwxyz\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "6",
+    "26"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxLength(self, arr):\n        \"\"\"\n        :type arr: List[str]\n        :rtype: int\n        \"\"\"\n        # Filter strings with duplicate chars\n        valid = []\n        for s in arr:\n            if len(s) == len(set(s)):\n                valid.append(set(s))\n        \n        def dfs(index, current_chars):\n            max_len = len(current_chars)\n            \n            for i in range(index, len(valid)):\n                # If no overlap, combine\n                if not (valid[i] & current_chars):\n                    max_len = max(max_len, dfs(i + 1, current_chars | valid[i]))\n            \n            return max_len\n        \n        return dfs(0, set())",
+    "explanation": "Filter valid strings (no duplicate chars). DFS to try all combinations without overlaps.",
+    "complexity": "Time: O(2^n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

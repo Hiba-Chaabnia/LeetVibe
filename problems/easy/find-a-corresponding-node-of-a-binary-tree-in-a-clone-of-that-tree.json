@@ -1,0 +1,61 @@
+{
+  "questionId": "1498",
+  "title": "Find a Corresponding Node of a Binary Tree in a Clone of That Tree",
+  "titleSlug": "find-a-corresponding-node-of-a-binary-tree-in-a-clone-of-that-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given two binary trees original and cloned and given a reference to a node target in the original tree.\n\nThe cloned tree is a copy of the original tree.\n\nReturn a reference to the same node in the cloned tree.\n\nNote that you are not allowed to change any of the two trees or the target node and the answer must be a reference to a node in the cloned tree.\n\nExample 1:\n\nInput: tree = [7,4,3,null,null,6,19], target = 3\nOutput: 3\nExplanation: In all examples the original and cloned trees are shown. The target node is a green node from the original tree. The answer is the yellow node from the cloned tree.\n\nExample 2:\n\nInput: tree = [7], target =  7\nOutput: 7\n\nExample 3:\n\nInput: tree = [8,null,6,null,5,null,4,null,3,null,2,null,1], target = 4\nOutput: 4\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 104].\n\n• The values of the nodes of the tree are unique.\n\n• target node is a node from the original tree and is not null.\n\nFollow up: Could you solve the problem if repeated values on the tree are allowed?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def getTargetCopy(self, original, cloned, target):\n        \"\"\"\n        :type original: TreeNode\n        :type cloned: TreeNode\n        :type target: TreeNode\n        :rtype: TreeNode\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[7,4,3,null,null,6,19]",
+      "[7,4,3,null,null,6,19]",
+      "3"
+    ],
+    [
+      "[7]",
+      "[7]",
+      "7"
+    ],
+    [
+      "[8,null,6,null,5,null,4,null,3,null,2,null,1]",
+      "[8,null,6,null,5,null,4,null,3,null,2,null,1]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "7",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getTargetCopy(self, original, cloned, target):\n        if original is None:\n            return None\n        if original.val == target:\n            return cloned.val\n        return (self.getTargetCopy(original.left, cloned.left, target) or\n                self.getTargetCopy(original.right, cloned.right, target))",
+    "explanation": "DFS both trees in parallel. Compare by value (target passed as int). Return cloned node's value.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[]"
+}

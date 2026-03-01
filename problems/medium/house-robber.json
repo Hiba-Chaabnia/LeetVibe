@@ -1,0 +1,43 @@
+{
+  "questionId": "198",
+  "title": "House Robber",
+  "titleSlug": "house-robber",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.\n\nGiven an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.\n\nExample 1:\n\nInput: nums = [1,2,3,1]\nOutput: 4\nExplanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).\n    Total amount you can rob = 1 + 3 = 4.\n\nExample 2:\n\nInput: nums = [2,7,9,3,1]\nOutput: 12\nExplanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).\n    Total amount you can rob = 2 + 9 + 1 = 12.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 0 <= nums[i] <= 400",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rob(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,1]"
+    ],
+    [
+      "[2,7,9,3,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def rob(nums):\n    prev1, prev2 = 0, 0\n    for num in nums:\n        prev1, prev2 = max(prev2 + num, prev1), prev1\n    return prev1",
+    "explanation": "We use dynamic programming, maintaining two variables `prev1` and `prev2`. `prev1` represents the maximum amount of money that can be robbed up to the current house, and `prev2` represents the maximum amount of money that can be robbed up to the house before the current house (because we cannot rob two adjacent houses). \n\nAt each house, we calculate the updated maximum amount of money that can be robbed up to the current house. This can be either the sum of the current house's money and the maximum amount of money that can be robbed up to the house before the current house (which is stored in `prev2`) or the maximum amount of money that can be robbed up to the previous house (which is stored in `prev1`). We pick the greater one and update `prev1` accordingly. At the same time, we update `prev2` by setting it to the old `prev1` value.\n\nBy the end of the loop, `prev1` will represent the maximum amount of money that can be robbed without alerting the police, which we return."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Product Subarray\", \"titleSlug\": \"maximum-product-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"House Robber II\", \"titleSlug\": \"house-robber-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Paint House\", \"titleSlug\": \"paint-house\", \"difficulty\": \"Medium\"}, {\"title\": \"Paint Fence\", \"titleSlug\": \"paint-fence\", \"difficulty\": \"Medium\"}, {\"title\": \"House Robber III\", \"titleSlug\": \"house-robber-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Non-negative Integers without Consecutive Ones\", \"titleSlug\": \"non-negative-integers-without-consecutive-ones\", \"difficulty\": \"Hard\"}, {\"title\": \"Coin Path\", \"titleSlug\": \"coin-path\", \"difficulty\": \"Hard\"}, {\"title\": \"Delete and Earn\", \"titleSlug\": \"delete-and-earn\", \"difficulty\": \"Medium\"}, {\"title\": \"Solving Questions With Brainpower\", \"titleSlug\": \"solving-questions-with-brainpower\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Number of Ways to Place Houses\", \"titleSlug\": \"count-number-of-ways-to-place-houses\", \"difficulty\": \"Medium\"}, {\"title\": \"House Robber IV\", \"titleSlug\": \"house-robber-iv\", \"difficulty\": \"Medium\"}, {\"title\": \"Mice and Cheese\", \"titleSlug\": \"mice-and-cheese\", \"difficulty\": \"Medium\"}, {\"title\": \"Largest Element in an Array after Merge Operations\", \"titleSlug\": \"largest-element-in-an-array-after-merge-operations\", \"difficulty\": \"Medium\"}, {\"title\": \"House Robber V\", \"titleSlug\": \"house-robber-v\", \"difficulty\": \"Medium\"}]"
+}

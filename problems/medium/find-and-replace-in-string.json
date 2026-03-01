@@ -1,0 +1,53 @@
+{
+  "questionId": "862",
+  "title": "Find And Replace in String",
+  "titleSlug": "find-and-replace-in-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed string s that you must perform k replacement operations on. The replacement operations are given as three 0-indexed parallel arrays, indices, sources, and targets, all of length k.\n\nTo complete the ith replacement operation:\n\n• Check if the substring sources[i] occurs at index indices[i] in the original string s.\n\n• If it does not occur, do nothing.\n\n• Otherwise if it does occur, replace that substring with targets[i].\n\nFor example, if s = \"abcd\", indices[i] = 0, sources[i] = \"ab\", and targets[i] = \"eee\", then the result of this replacement will be \"eeecd\".\n\nAll replacement operations must occur simultaneously, meaning the replacement operations should not affect the indexing of each other. The testcases will be generated such that the replacements will not overlap.\n\n• For example, a testcase with s = \"abc\", indices = [0, 1], and sources = [\"ab\",\"bc\"] will not be generated because the \"ab\" and \"bc\" replacements overlap.\n\nReturn the resulting string after performing all replacement operations on s.\n\nA substring is a contiguous sequence of characters in a string.\n\nExample 1:\n\nInput: s = \"abcd\", indices = [0, 2], sources = [\"a\", \"cd\"], targets = [\"eee\", \"ffff\"]\nOutput: \"eeebffff\"\nExplanation:\n    \"a\" occurs at index 0 in s, so we replace it with \"eee\".\n    \"cd\" occurs at index 2 in s, so we replace it with \"ffff\".\n\nExample 2:\n\nInput: s = \"abcd\", indices = [0, 2], sources = [\"ab\",\"ec\"], targets = [\"eee\",\"ffff\"]\nOutput: \"eeecd\"\nExplanation:\n    \"ab\" occurs at index 0 in s, so we replace it with \"eee\".\n    \"ec\" does not occur at index 2 in s, so we do nothing.\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• k == indices.length == sources.length == targets.length\n\n• 1 <= k <= 100\n\n• 0 <= indexes[i] < s.length\n\n• 1 <= sources[i].length, targets[i].length <= 50\n\n• s consists of only lowercase English letters.\n\n• sources[i] and targets[i] consist of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findReplaceString(self, s, indices, sources, targets):\n        \"\"\"\n        :type s: str\n        :type indices: List[int]\n        :type sources: List[str]\n        :type targets: List[str]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"abcd\"",
+      "[0, 2]",
+      "[\"a\", \"cd\"]",
+      "[\"eee\", \"ffff\"]"
+    ],
+    [
+      "\"abcd\"",
+      "[0, 2]",
+      "[\"ab\",\"ec\"]",
+      "[\"eee\",\"ffff\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"eeebffff\"",
+    "\"eeecd\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

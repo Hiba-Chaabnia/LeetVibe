@@ -1,0 +1,54 @@
+{
+  "questionId": "2837",
+  "title": "Minimum Operations to Make the Integer Zero",
+  "titleSlug": "minimum-operations-to-make-the-integer-zero",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given two integers num1 and num2.\n\nIn one operation, you can choose integer i in the range [0, 60] and subtract 2i + num2 from num1.\n\nReturn the integer denoting the minimum number of operations needed to make num1 equal to 0.\n\nIf it is impossible to make num1 equal to 0, return -1.\n\nExample 1:\n\nInput: num1 = 3, num2 = -2\nOutput: 3\nExplanation: We can make 3 equal to 0 with the following operations:\n    - We choose i = 2 and subtract 22 + (-2) from 3, 3 - (4 + (-2)) = 1.\n    - We choose i = 2 and subtract 22 + (-2) from 1, 1 - (4 + (-2)) = -1.\n    - We choose i = 0 and subtract 20 + (-2) from -1, (-1) - (1 + (-2)) = 0.\n    It can be proven, that 3 is the minimum number of operations that we need to perform.\n\nExample 2:\n\nInput: num1 = 5, num2 = 7\nOutput: -1\nExplanation: It can be proven, that it is impossible to make 5 equal to 0 with the given operation.\n\nConstraints:\n\n• 1 <= num1 <= 109\n\n• -109 <= num2 <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def makeTheIntegerZero(self, num1, num2):\n        \"\"\"\n        :type num1: int\n        :type num2: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If we want to make integer n equal to 0 by only subtracting powers of 2 from n, in how many operations can we achieve it?",
+    "We need at least - the number of bits in the binary representation of n, and at most - n.",
+    "Notice that, if it is possible to make num1 equal to 0, then we need at most 60 operations.",
+    "Iterate on the number of operations."
+  ],
+  "testCases": [
+    [
+      "3",
+      "-2"
+    ],
+    [
+      "5",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def makeTheIntegerZero(self, num1, num2):\n        for k in range(1, 63):\n            remainder = num1 - k * num2\n            if remainder < 0:\n                break\n            bits = bin(remainder).count('1')\n            if bits <= k <= remainder:\n                return k\n        return -1",
+    "explanation": "After k ops: num1 - k*num2 = sum of k powers of 2 (remainder). For this to be possible: remainder >= 0, popcount(remainder) <= k (minimum powers needed), and remainder >= k (each power >= 1). Iterate k from 1..62.\n\nTime: O(62). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Broken Calculator\", \"titleSlug\": \"broken-calculator\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Reduce X to Zero\", \"titleSlug\": \"minimum-operations-to-reduce-x-to-zero\", \"difficulty\": \"Medium\"}]"
+}

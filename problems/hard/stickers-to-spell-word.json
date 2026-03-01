@@ -1,0 +1,67 @@
+{
+  "questionId": "691",
+  "title": "Stickers to Spell Word",
+  "titleSlug": "stickers-to-spell-word",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "We are given n different types of stickers. Each sticker has a lowercase English word on it.\n\nYou would like to spell out the given string target by cutting individual letters from your collection of stickers and rearranging them. You can use each sticker more than once if you want, and you have infinite quantities of each sticker.\n\nReturn the minimum number of stickers that you need to spell out target. If the task is impossible, return -1.\n\nNote: In all test cases, all words were chosen randomly from the 1000 most common US English words, and target was chosen as a concatenation of two random words.\n\nExample 1:\n\nInput: stickers = [\"with\",\"example\",\"science\"], target = \"thehat\"\nOutput: 3\nExplanation:\n    We can use 2 \"with\" stickers, and 1 \"example\" sticker.\n    After cutting and rearrange the letters of those stickers, we can form the target \"thehat\".\n    Also, this is the minimum number of stickers necessary to form the target string.\n\nExample 2:\n\nInput: stickers = [\"notice\",\"possible\"], target = \"basicbasic\"\nOutput: -1\nExplanation:\n    We cannot form the target \"basicbasic\" from cutting letters from the given stickers.\n\nConstraints:\n\n• n == stickers.length\n\n• 1 <= n <= 50\n\n• 1 <= stickers[i].length <= 10\n\n• 1 <= target.length <= 15\n\n• stickers[i] and target consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minStickers(self, stickers, target):\n        \"\"\"\n        :type stickers: List[str]\n        :type target: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We want to perform an exhaustive search, but we need to speed it up based on the input data being random.  \r\n\r\nFor all stickers, we can ignore any letters that are not in the target word.  \r\n\r\nWhen our candidate answer won't be smaller than an answer we have already found, we can stop searching this path.  \r\n\r\nWhen a sticker dominates another, we shouldn't include the dominated sticker in our sticker collection.  [Here, we say a sticker `A` dominates `B` if `A.count(letter) >= B.count(letter)` for all letters.]"
+  ],
+  "testCases": [
+    [
+      "[\"with\",\"example\",\"science\"]",
+      "\"thehat\""
+    ],
+    [
+      "[\"notice\",\"possible\"]",
+      "\"basicbasic\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Ransom Note\", \"titleSlug\": \"ransom-note\", \"difficulty\": \"Easy\"}]"
+}

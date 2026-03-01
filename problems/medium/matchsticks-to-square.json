@@ -1,0 +1,61 @@
+{
+  "questionId": "473",
+  "title": "Matchsticks to Square",
+  "titleSlug": "matchsticks-to-square",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given an integer array matchsticks where matchsticks[i] is the length of the ith matchstick. You want to use all the matchsticks to make one square. You should not break any stick, but you can link them up, and each matchstick must be used exactly one time.\n\nReturn true if you can make this square and false otherwise.\n\nExample 1:\n\nInput: matchsticks = [1,1,2,2,2]\nOutput: true\nExplanation: You can form a square with length 2, one side of the square came two sticks with length 1.\n\nExample 2:\n\nInput: matchsticks = [3,3,3,3,4]\nOutput: false\nExplanation: You cannot find a way to form a square with all the matchsticks.\n\nConstraints:\n\n• 1 <= matchsticks.length <= 15\n\n• 1 <= matchsticks[i] <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def makesquare(self, matchsticks):\n        \"\"\"\n        :type matchsticks: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Treat the matchsticks as an array. Can we split the array into 4 equal parts?",
+    "Every matchstick can belong to either of the 4 sides. We don't know which one. Maybe try out all options!",
+    "For every matchstick, we have to try out each of the 4 options i.e. which side it can belong to. We can make use of recursion for this.",
+    "We don't really need to keep track of which matchsticks belong to a particular side during recursion. We just need to keep track of the <b>length</b> of each of the 4 sides.",
+    "When all matchsticks have been used we simply need to see the length of all 4 sides. If they're equal, we have a square on our hands!"
+  ],
+  "testCases": [
+    [
+      "[1,1,2,2,2]"
+    ],
+    [
+      "[3,3,3,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from itertools import chain\n\ndef makesquare(matchsticks):\n    if len(matchsticks) < 4:\n        return False\n    total = sum(matchsticks)\n    if total % 4:\n        return False\n    target = total // 4\n    matchsticks.sort(reverse=True)\n    sums = [0]*4\n    return dfs(matchsticks, sums, target, 0)\n\ndef dfs(matchsticks, sums, target, index):\n    if index == len(matchsticks):\n        return sums[0] == target and sums[1] == target and sums[2] == target\n    for i in range(4):\n        if sums[i] + matchsticks[index] <= target:\n            sums[i] += matchsticks[index]\n            if dfs(matchsticks, sums, target, index + 1):\n                return True\n            sums[i] -= matchsticks[index]\n    return False",
+    "explanation": "1. First, we check if there are enough matchsticks and if the total length of matchsticks can be divided by 4 to form a square. If not, return false.\n2. Sort the matchsticks in descending order to traverse them from the largest to the smallest. This helps to prune branches in the depth-first search.\n3. Utilize a recursive depth-first search function to try placing matchsticks i (0 <= i < 4) to form each side. If we reach the sum of all the matchsticks in a square, return true.\n4. Make sure each matchstick is used exactly once and check if the assigned sums satisfy the required target.\n5. If we reach the end and could not make a square, return false."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Rows Covered by Columns\", \"titleSlug\": \"maximum-rows-covered-by-columns\", \"difficulty\": \"Medium\"}]"
+}

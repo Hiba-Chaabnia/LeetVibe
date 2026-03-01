@@ -1,0 +1,47 @@
+{
+  "questionId": "14",
+  "title": "Longest Common Prefix",
+  "titleSlug": "longest-common-prefix",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    }
+  ],
+  "content": "Write a function to find the longest common prefix string amongst an array of strings.\n\nIf there is no common prefix, return an empty string \"\".\n\nExample 1:\n\nInput: strs = [\"flower\",\"flow\",\"flight\"]\nOutput: \"fl\"\n\nExample 2:\n\nInput: strs = [\"dog\",\"racecar\",\"car\"]\nOutput: \"\"\nExplanation: There is no common prefix among the input strings.\n\nConstraints:\n\n• 1 <= strs.length <= 200\n\n• 0 <= strs[i].length <= 200\n\n• strs[i] consists of only lowercase English letters if it is non-empty.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestCommonPrefix(self, strs):\n        \"\"\"\n        :type strs: List[str]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"flower\",\"flow\",\"flight\"]"
+    ],
+    [
+      "[\"dog\",\"racecar\",\"car\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"fl\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def longestCommonPrefix(self, strs):\n        if not strs:\n            return ''\n        for i in range(len(strs[0])):\n            char = strs[0][i]\n            for j in range(1, len(strs)):\n                if i >= len(strs[j]) or strs[j][i] != char:\n                    return strs[0][:i]\n        return strs[0]",
+    "explanation": "Compare characters at each position across all strings.\nTime: O(S) where S=sum of all chars\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Smallest Missing Integer Greater Than Sequential Prefix Sum\", \"titleSlug\": \"smallest-missing-integer-greater-than-sequential-prefix-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Length of the Longest Common Prefix\", \"titleSlug\": \"find-the-length-of-the-longest-common-prefix\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Common Suffix Queries\", \"titleSlug\": \"longest-common-suffix-queries\", \"difficulty\": \"Hard\"}, {\"title\": \"Longest Common Prefix After at Most One Removal\", \"titleSlug\": \"longest-common-prefix-after-at-most-one-removal\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "1033",
+  "title": "Broken Calculator",
+  "titleSlug": "broken-calculator",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "There is a broken calculator that has the integer startValue on its display initially. In one operation, you can:\n\n• multiply the number on display by 2, or\n\n• subtract 1 from the number on display.\n\nGiven two integers startValue and target, return the minimum number of operations needed to display target on the calculator.\n\nExample 1:\n\nInput: startValue = 2, target = 3\nOutput: 2\nExplanation: Use double operation and then decrement operation {2 -> 4 -> 3}.\n\nExample 2:\n\nInput: startValue = 5, target = 8\nOutput: 2\nExplanation: Use decrement and then double {5 -> 4 -> 8}.\n\nExample 3:\n\nInput: startValue = 3, target = 10\nOutput: 3\nExplanation: Use double, decrement and double {3 -> 6 -> 5 -> 10}.\n\nConstraints:\n\n• 1 <= startValue, target <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def brokenCalc(self, startValue, target):\n        \"\"\"\n        :type startValue: int\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "2",
+      "3"
+    ],
+    [
+      "5",
+      "8"
+    ],
+    [
+      "3",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def brokenCalc(self, startValue, target):\n        ops = 0\n        while target > startValue:\n            if target % 2 == 0:\n                target //= 2\n            else:\n                target += 1\n            ops += 1\n        return ops + (startValue - target)",
+    "explanation": "Work backwards. If target is even, divide. If odd, add 1. Then add difference.\nTime: O(log target)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"2 Keys Keyboard\", \"titleSlug\": \"2-keys-keyboard\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Make the Integer Zero\", \"titleSlug\": \"minimum-operations-to-make-the-integer-zero\", \"difficulty\": \"Medium\"}]"
+}

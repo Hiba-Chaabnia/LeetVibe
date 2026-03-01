@@ -1,0 +1,63 @@
+{
+  "questionId": "3388",
+  "title": "Right Triangles",
+  "titleSlug": "right-triangles",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a 2D boolean matrix grid.\n\nA collection of 3 elements of grid is a right triangle if one of its elements is in the same row with another element and in the same column with the third element. The 3 elements may not be next to each other.\n\nReturn an integer that is the number of right triangles that can be made with 3 elements of grid such that all of them have a value of 1.\n\nExample 1:\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t0\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t0\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t0\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t0\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t0\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t0\n\nInput: grid = [[0,1,0],[0,1,1],[0,1,0]]\n\nOutput: 2\n\nExplanation: There are two right triangles with elements of the value 1. Notice that the blue ones do not form a right triangle because the 3 elements are in the same column.\n\nExample 2:\n\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t0\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t0\n\nInput: grid = [[1,0,0,0],[0,1,0,1],[1,0,0,0]]\n\nOutput: 0\n\nExplanation: There are no right triangles with elements of the value 1.  Notice that the blue ones do not form a right triangle.\n\nExample 3:\n\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\nInput: grid = [[1,0,1],[1,0,0],[1,0,0]]\n\nOutput: 2\n\nExplanation: There are two right triangles with elements of the value 1.\n\nConstraints:\n\n• 1 <= grid.length <= 1000\n\n• 1 <= grid[i].length <= 1000\n\n• 0 <= grid[i][j] <= 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfRightTriangles(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If grid[x][y] is 1, it can form a right triangle with an element of grid with value 1 in the same row and an element of grid with value 1 in the same column.",
+    "So we just need to count the number of 1s in each row and column.",
+    "For each x, y with grid[x][y] = 1 if there are row[x] 1s in the row x and col[y] 1s in column y, the answer should be added by (row[x] - 1) * (col[y] - 1)."
+  ],
+  "testCases": [
+    [
+      "[[0,1,0],[0,1,1],[0,1,0]]"
+    ],
+    [
+      "[[1,0,0,0],[0,1,0,1],[1,0,0,0]]"
+    ],
+    [
+      "[[1,0,1],[1,0,0],[1,0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfRightTriangles(self, grid):\n        m, n = len(grid), len(grid[0])\n        row_count = [sum(row) for row in grid]\n        col_count = [sum(grid[i][j] for i in range(m)) for j in range(n)]\n        ans = 0\n        for i in range(m):\n            for j in range(n):\n                if grid[i][j] == 1:\n                    ans += (row_count[i] - 1) * (col_count[j] - 1)\n        return ans",
+    "explanation": "A right triangle requires three 1s: one acts as the right-angle vertex, one in its row, one in its column. For each cell (i, j) with value 1 used as the right-angle vertex, there are (row_count[i] - 1) choices for the row partner and (col_count[j] - 1) choices for the column partner.\n\nPrecompute row and column sums, then iterate over all 1-cells and accumulate the product.\n\nTime complexity: O(m*n). Space complexity: O(m + n)."
+  },
+  "similarQuestions": "[]"
+}

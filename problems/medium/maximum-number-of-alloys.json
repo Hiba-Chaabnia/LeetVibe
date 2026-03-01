@@ -1,0 +1,64 @@
+{
+  "questionId": "3095",
+  "title": "Maximum Number of Alloys",
+  "titleSlug": "maximum-number-of-alloys",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You are the owner of a company that creates alloys using various types of metals. There are n different types of metals available, and you have access to k machines that can be used to create alloys. Each machine requires a specific amount of each metal type to create an alloy.\n\nFor the ith machine to create an alloy, it needs composition[i][j] units of metal of type j. Initially, you have stock[i] units of metal type i, and purchasing one unit of metal type i costs cost[i] coins.\n\nGiven integers n, k, budget, a 1-indexed 2D array composition, and 1-indexed arrays stock and cost, your goal is to maximize the number of alloys the company can create while staying within the budget of budget coins.\n\nAll alloys must be created with the same machine.\n\nReturn the maximum number of alloys that the company can create.\n\nExample 1:\n\nInput: n = 3, k = 2, budget = 15, composition = [[1,1,1],[1,1,10]], stock = [0,0,0], cost = [1,2,3]\nOutput: 2\nExplanation: It is optimal to use the 1st machine to create alloys.\n    To create 2 alloys we need to buy the:\n    - 2 units of metal of the 1st type.\n    - 2 units of metal of the 2nd type.\n    - 2 units of metal of the 3rd type.\n    In total, we need 2 * 1 + 2 * 2 + 2 * 3 = 12 coins, which is smaller than or equal to budget = 15.\n    Notice that we have 0 units of metal of each type and we have to buy all the required units of metal.\n    It can be proven that we can create at most 2 alloys.\n\nExample 2:\n\nInput: n = 3, k = 2, budget = 15, composition = [[1,1,1],[1,1,10]], stock = [0,0,100], cost = [1,2,3]\nOutput: 5\nExplanation: It is optimal to use the 2nd machine to create alloys.\n    To create 5 alloys we need to buy:\n    - 5 units of metal of the 1st type.\n    - 5 units of metal of the 2nd type.\n    - 0 units of metal of the 3rd type.\n    In total, we need 5 * 1 + 5 * 2 + 0 * 3 = 15 coins, which is smaller than or equal to budget = 15.\n    It can be proven that we can create at most 5 alloys.\n\nExample 3:\n\nInput: n = 2, k = 3, budget = 10, composition = [[2,1],[1,2],[1,1]], stock = [1,1], cost = [5,5]\nOutput: 2\nExplanation: It is optimal to use the 3rd machine to create alloys.\n    To create 2 alloys we need to buy the:\n    - 1 unit of metal of the 1st type.\n    - 1 unit of metal of the 2nd type.\n    In total, we need 1 * 5 + 1 * 5 = 10 coins, which is smaller than or equal to budget = 10.\n    It can be proven that we can create at most 2 alloys.\n\nConstraints:\n\n• 1 <= n, k <= 100\n\n• 0 <= budget <= 108\n\n• composition.length == k\n\n• composition[i].length == n\n\n• 1 <= composition[i][j] <= 100\n\n• stock.length == cost.length == n\n\n• 0 <= stock[i] <= 108\n\n• 1 <= cost[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxNumberOfAlloys(self, n, k, budget, composition, stock, cost):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :type budget: int\n        :type composition: List[List[int]]\n        :type stock: List[int]\n        :type cost: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use binary search to find the answer."
+  ],
+  "testCases": [
+    [
+      "3",
+      "2",
+      "15",
+      "[[1,1,1],[1,1,10]]",
+      "[0,0,0]",
+      "[1,2,3]"
+    ],
+    [
+      "3",
+      "2",
+      "15",
+      "[[1,1,1],[1,1,10]]",
+      "[0,0,100]",
+      "[1,2,3]"
+    ],
+    [
+      "2",
+      "3",
+      "10",
+      "[[2,1],[1,2],[1,1]]",
+      "[1,1]",
+      "[5,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "5",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxNumberOfAlloys(self, n, k, budget, composition, stock, cost):\n        def can_make(machine, amount):\n            total_cost = 0\n            for j in range(n):\n                need = composition[machine][j] * amount\n                have = stock[j]\n                if need > have:\n                    total_cost += (need - have) * cost[j]\n                if total_cost > budget:\n                    return False\n            return total_cost <= budget\n\n        ans = 0\n        for m in range(k):\n            lo, hi = 0, 10**9\n            while lo <= hi:\n                mid = (lo + hi) // 2\n                if can_make(m, mid):\n                    ans = max(ans, mid)\n                    lo = mid + 1\n                else:\n                    hi = mid - 1\n        return ans",
+    "explanation": "For each machine, binary search on the number of alloys. For a given amount, compute the purchase cost: for each metal type, max(0, needed - stock) * cost. If total cost ≤ budget, the amount is feasible.\n\nTime: O(k * n * log(max_alloys)). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

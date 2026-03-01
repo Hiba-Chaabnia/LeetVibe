@@ -1,0 +1,46 @@
+{
+  "questionId": "3318",
+  "title": "Maximum Number of Operations With the Same Score II",
+  "titleSlug": "maximum-number-of-operations-with-the-same-score-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "Given an array of integers called nums, you can perform any of the following operation while nums contains at least 2 elements:\n\n• Choose the first two elements of nums and delete them.\n\n• Choose the last two elements of nums and delete them.\n\n• Choose the first and the last elements of nums and delete them.\n\nThe score of the operation is the sum of the deleted elements.\n\nYour task is to find the maximum number of operations that can be performed, such that all operations have the same score.\n\nReturn the maximum number of operations possible that satisfy the condition mentioned above.\n\nExample 1:\n\nInput: nums = [3,2,1,2,3,4]\nOutput: 3\nExplanation: We perform the following operations:\n    - Delete the first two elements, with score 3 + 2 = 5, nums = [1,2,3,4].\n    - Delete the first and the last elements, with score 1 + 4 = 5, nums = [2,3].\n    - Delete the first and the last elements, with score 2 + 3 = 5, nums = [].\n    We are unable to perform any more operations as nums is empty.\n\nExample 2:\n\nInput: nums = [3,2,6,1,4]\nOutput: 2\nExplanation: We perform the following operations:\n    - Delete the first two elements, with score 3 + 2 = 5, nums = [6,1,4].\n    - Delete the last two elements, with score 1 + 4 = 5, nums = [6].\n    It can be proven that we can perform at most 2 operations.\n\nConstraints:\n\n• 2 <= nums.length <= 2000\n\n• 1 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "After the first operation, the score of other operations is fixed.",
+    "For the fixed score use dynamic programming dp[l][r] to find a maximum number of operations on the subarray nums[l..r]."
+  ],
+  "testCases": [
+    [
+      "[3,2,1,2,3,4]"
+    ],
+    [
+      "[3,2,6,1,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

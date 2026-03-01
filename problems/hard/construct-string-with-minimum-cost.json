@@ -1,0 +1,57 @@
+{
+  "questionId": "3482",
+  "title": "Construct String with Minimum Cost",
+  "titleSlug": "construct-string-with-minimum-cost",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Suffix Array",
+      "slug": "suffix-array"
+    }
+  ],
+  "content": "You are given a string target, an array of strings words, and an integer array costs, both arrays of the same length.\n\nImagine an empty string s.\n\nYou can perform the following operation any number of times (including zero):\n\n• Choose an index i in the range [0, words.length - 1].\n\n• Append words[i] to s.\n\n• The cost of operation is costs[i].\n\nReturn the minimum cost to make s equal to target. If it's not possible, return -1.\n\nExample 1:\n\nInput: target = \"abcdef\", words = [\"abdef\",\"abc\",\"d\",\"def\",\"ef\"], costs = [100,1,1,10,5]\n\nOutput: 7\n\nExplanation: The minimum cost can be achieved by performing the following operations:\n\n• Select index 1 and append \"abc\" to s at a cost of 1, resulting in s = \"abc\".\n\n• Select index 2 and append \"d\" to s at a cost of 1, resulting in s = \"abcd\".\n\n• Select index 4 and append \"ef\" to s at a cost of 5, resulting in s = \"abcdef\".\n\nExample 2:\n\nInput: target = \"aaaa\", words = [\"z\",\"zz\",\"zzz\"], costs = [1,10,100]\n\nOutput: -1\n\nExplanation: It is impossible to make s equal to target, so we return -1.\n\nConstraints:\n\n• 1 <= target.length <= 5 * 104\n\n• 1 <= words.length == costs.length <= 5 * 104\n\n• 1 <= words[i].length <= target.length\n\n• The total sum of words[i].length is less than or equal to 5 * 104.\n\n• target and words[i] consist only of lowercase English letters.\n\n• 1 <= costs[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumCost(self, target, words, costs):\n        \"\"\"\n        :type target: str\n        :type words: List[str]\n        :type costs: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use Dynamic Programming along with Aho-Corasick or Hashing."
+  ],
+  "testCases": [
+    [
+      "\"abcdef\"",
+      "[\"abdef\",\"abc\",\"d\",\"def\",\"ef\"]",
+      "[100,1,1,10,5]"
+    ],
+    [
+      "\"aaaa\"",
+      "[\"z\",\"zz\",\"zzz\"]",
+      "[1,10,100]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumCost(self, target, words, costs):\n        \"\"\"\n        :type target: str\n        :type words: List[str]\n        :type costs: List[int]\n        :rtype: int\n        \"\"\"\n        MOD = 10**9 + 7\n        n = len(target)\n        \n        # DP: dp[i] = minimum cost to form target[0:i]\n        INF = float('inf')\n        dp = [INF] * (n + 1)\n        dp[0] = 0\n        \n        for i in range(n):\n            if dp[i] == INF:\n                continue\n            \n            # Try each word\n            for word, cost in zip(words, costs):\n                # Check if word matches at position i\n                if i + len(word) <= n and target[i:i+len(word)] == word:\n                    dp[i + len(word)] = min(dp[i + len(word)], dp[i] + cost)\n        \n        if dp[n] == INF:\n            return -1\n        return dp[n]",
+    "explanation": "Minimum cost string construction:\n\n1. **DP State**: dp[i] = min cost to form target[0:i]\n2. **Transition**:\n   - From position i, try each word\n   - If matches at i: dp[i+len] = min(dp[i+len], dp[i] + cost)\n\n3. **Answer**: dp[n] for full target\n4. **Invalid**: Return -1 if dp[n] = INF\n\nTime: O(n * m * k) where m = words, k = max word length\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Number of Valid Strings to Form Target II\", \"titleSlug\": \"minimum-number-of-valid-strings-to-form-target-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Number of Valid Strings to Form Target I\", \"titleSlug\": \"minimum-number-of-valid-strings-to-form-target-i\", \"difficulty\": \"Medium\"}]"
+}

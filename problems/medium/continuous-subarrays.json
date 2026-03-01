@@ -1,0 +1,62 @@
+{
+  "questionId": "2868",
+  "title": "Continuous Subarrays",
+  "titleSlug": "continuous-subarrays",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    },
+    {
+      "name": "Monotonic Queue",
+      "slug": "monotonic-queue"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. A subarray of nums is called continuous if:\n\n• Let i, i + 1, ..., j be the indices in the subarray. Then, for each pair of indices i <= i1, i2 <= j, 0 <= |nums[i1] - nums[i2]| <= 2.\n\nReturn the total number of continuous subarrays.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [5,4,2,4]\nOutput: 8\nExplanation:\n    Continuous subarray of size 1: [5], [4], [2], [4].\n    Continuous subarray of size 2: [5,4], [4,2], [2,4].\n    Continuous subarray of size 3: [4,2,4].\n    There are no subarrys of size 4.\n    Total continuous subarrays = 4 + 3 + 1 = 8.\n    It can be shown that there are no more continuous subarrays.\n\nExample 2:\n\nInput: nums = [1,2,3]\nOutput: 6\nExplanation:\n    Continuous subarray of size 1: [1], [2], [3].\n    Continuous subarray of size 2: [1,2], [2,3].\n    Continuous subarray of size 3: [1,2,3].\n    Total continuous subarrays = 3 + 2 + 1 = 6.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def continuousSubarrays(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try using the sliding window technique.",
+    "Use a set or map to keep track of the maximum and minimum of subarrays."
+  ],
+  "testCases": [
+    [
+      "[5,4,2,4]"
+    ],
+    [
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\nclass Solution(object):\n    def continuousSubarrays(self, nums):\n        n = len(nums)\n        ans = 0\n        lo = 0\n        max_dq = deque()\n        min_dq = deque()\n        for hi in range(n):\n            while max_dq and nums[max_dq[-1]] <= nums[hi]:\n                max_dq.pop()\n            max_dq.append(hi)\n            while min_dq and nums[min_dq[-1]] >= nums[hi]:\n                min_dq.pop()\n            min_dq.append(hi)\n            while nums[max_dq[0]] - nums[min_dq[0]] > 2:\n                lo += 1\n                if max_dq[0] < lo: max_dq.popleft()\n                if min_dq[0] < lo: min_dq.popleft()\n            ans += hi - lo + 1\n        return ans",
+    "explanation": "Sliding window with monotonic deques for max/min; shrink when max-min > 2."
+  },
+  "similarQuestions": "[]"
+}

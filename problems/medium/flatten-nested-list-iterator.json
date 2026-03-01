@@ -1,0 +1,55 @@
+{
+  "questionId": "341",
+  "title": "Flatten Nested List Iterator",
+  "titleSlug": "flatten-nested-list-iterator",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Design",
+      "slug": "design"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Iterator",
+      "slug": "iterator"
+    }
+  ],
+  "content": "You are given a nested list of integers nestedList. Each element is either an integer or a list whose elements may also be integers or other lists. Implement an iterator to flatten it.\n\nImplement the NestedIterator class:\n\n• NestedIterator(List<NestedInteger> nestedList) Initializes the iterator with the nested list nestedList.\n\n• int next() Returns the next integer in the nested list.\n\n• boolean hasNext() Returns true if there are still some integers in the nested list and false otherwise.\n\nYour code will be tested with the following pseudocode:\n\n    initialize iterator with nestedList\n    res = []\n    while iterator.hasNext()\n        append iterator.next() to the end of res\n    return res\n\nIf res matches the expected flattened list, then your code will be judged as correct.\n\nExample 1:\n\nInput: nestedList = [[1,1],2,[1,1]]\nOutput: [1,1,2,1,1]\nExplanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,1,2,1,1].\n\nExample 2:\n\nInput: nestedList = [1,[4,[6]]]\nOutput: [1,4,6]\nExplanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6].\n\nConstraints:\n\n• 1 <= nestedList.length <= 500\n\n• The values of the integers in the nested list is in the range [-106, 106].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# \"\"\"\n# This is the interface that allows for creating nested lists.\n# You should not implement it, or speculate about its implementation\n# \"\"\"\n#class NestedInteger(object):\n#    def isInteger(self):\n#        \"\"\"\n#        @return True if this NestedInteger holds a single integer, rather than a nested list.\n#        :rtype bool\n#        \"\"\"\n#\n#    def getInteger(self):\n#        \"\"\"\n#        @return the single integer that this NestedInteger holds, if it holds a single integer\n#        Return None if this NestedInteger holds a nested list\n#        :rtype int\n#        \"\"\"\n#\n#    def getList(self):\n#        \"\"\"\n#        @return the nested list that this NestedInteger holds, if it holds a nested list\n#        Return None if this NestedInteger holds a single integer\n#        :rtype List[NestedInteger]\n#        \"\"\"\n\nclass NestedIterator(object):\n\n    def __init__(self, nestedList):\n        \"\"\"\n        Initialize your data structure here.\n        :type nestedList: List[NestedInteger]\n        \"\"\"\n        \n\n    def next(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n    def hasNext(self):\n        \"\"\"\n        :rtype: bool\n        \"\"\"\n        \n\n# Your NestedIterator object will be instantiated and called as such:\n# i, v = NestedIterator(nestedList), []\n# while i.hasNext(): v.append(i.next())"
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,1],2,[1,1]]"
+    ],
+    [
+      "[1,[4,[6]]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,1,2,1,1]",
+    "[1,4,6]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Flatten 2D Vector\", \"titleSlug\": \"flatten-2d-vector\", \"difficulty\": \"Medium\"}, {\"title\": \"Zigzag Iterator\", \"titleSlug\": \"zigzag-iterator\", \"difficulty\": \"Medium\"}, {\"title\": \"Mini Parser\", \"titleSlug\": \"mini-parser\", \"difficulty\": \"Medium\"}, {\"title\": \"Array Nesting\", \"titleSlug\": \"array-nesting\", \"difficulty\": \"Medium\"}]"
+}

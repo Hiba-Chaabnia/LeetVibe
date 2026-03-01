@@ -1,0 +1,40 @@
+{
+  "questionId": "1212",
+  "title": "Sequential Digits",
+  "titleSlug": "sequential-digits",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "An integer has sequential digits if and only if each digit in the number is one more than the previous digit.\n\nReturn a sorted list of all the integers in the range [low, high] inclusive that have sequential digits.\n\nExample 1:\n\nInput: low = 100, high = 300\nOutput: [123,234]\nExample 2:\n\nInput: low = 1000, high = 13000\nOutput: [1234,2345,3456,4567,5678,6789,12345]\n\nConstraints:\n\n• 10 <= low <= high <= 10^9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sequentialDigits(self, low, high):\n        \"\"\"\n        :type low: int\n        :type high: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Generate all numbers with sequential digits and check if they are in the given range.",
+    "Fix the starting digit then do a recursion that tries to append all valid digits."
+  ],
+  "testCases": [
+    [
+      "100",
+      "300"
+    ],
+    [
+      "1000",
+      "13000"
+    ]
+  ],
+  "expectedOutputs": [
+    "[123,234]",
+    "[1234,2345,3456,4567,5678,6789,12345]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

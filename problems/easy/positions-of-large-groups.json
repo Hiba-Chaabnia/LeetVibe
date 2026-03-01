@@ -1,0 +1,43 @@
+{
+  "questionId": "857",
+  "title": "Positions of Large Groups",
+  "titleSlug": "positions-of-large-groups",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "In a string s of lowercase letters, these letters form consecutive groups of the same character.\n\nFor example, a string like s = \"abbxxxxzyy\" has the groups \"a\", \"bb\", \"xxxx\", \"z\", and \"yy\".\n\nA group is identified by an interval [start, end], where start and end denote the start and end indices (inclusive) of the group. In the above example, \"xxxx\" has the interval [3,6].\n\nA group is considered large if it has 3 or more characters.\n\nReturn the intervals of every large group sorted in increasing order by start index.\n\nExample 1:\n\nInput: s = \"abbxxxxzzy\"\nOutput: [[3,6]]\nExplanation: \"xxxx\" is the only large group with start index 3 and end index 6.\n\nExample 2:\n\nInput: s = \"abc\"\nOutput: []\nExplanation: We have groups \"a\", \"b\", and \"c\", none of which are large groups.\n\nExample 3:\n\nInput: s = \"abcdddeeeeaabbbcd\"\nOutput: [[3,5],[6,9],[12,14]]\nExplanation: The large groups are \"ddd\", \"eeee\", and \"bbb\".\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s contains lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largeGroupPositions(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"abbxxxxzzy\""
+    ],
+    [
+      "\"abc\""
+    ],
+    [
+      "\"abcdddeeeeaabbbcd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[[3,6]]",
+    "[]",
+    "[[3,5],[6,9],[12,14]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def largeGroupPositions(self, s):\n        result = []\n        i = 0\n        while i < len(s):\n            j = i\n            while j < len(s) and s[j] == s[i]:\n                j += 1\n            if j - i >= 3:\n                result.append([i, j - 1])\n            i = j\n        return result",
+    "explanation": "Find consecutive groups. Record those with length ≥ 3.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Divide a String Into Groups of Size k\", \"titleSlug\": \"divide-a-string-into-groups-of-size-k\", \"difficulty\": \"Easy\"}]"
+}

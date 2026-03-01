@@ -1,0 +1,53 @@
+{
+  "questionId": "2038",
+  "title": "Nearest Exit from Entrance in Maze",
+  "titleSlug": "nearest-exit-from-entrance-in-maze",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n matrix maze (0-indexed) with empty cells (represented as '.') and walls (represented as '+'). You are also given the entrance of the maze, where entrance = [entrancerow, entrancecol] denotes the row and column of the cell you are initially standing at.\n\nIn one step, you can move one cell up, down, left, or right. You cannot step into a cell with a wall, and you cannot step outside the maze. Your goal is to find the nearest exit from the entrance. An exit is defined as an empty cell that is at the border of the maze. The entrance does not count as an exit.\n\nReturn the number of steps in the shortest path from the entrance to the nearest exit, or -1 if no such path exists.\n\nExample 1:\n\nInput: maze = [[\"+\",\"+\",\".\",\"+\"],[\".\",\".\",\".\",\"+\"],[\"+\",\"+\",\"+\",\".\"]], entrance = [1,2]\nOutput: 1\nExplanation: There are 3 exits in this maze at [1,0], [0,2], and [2,3].\n    Initially, you are at the entrance cell [1,2].\n    - You can reach [1,0] by moving 2 steps left.\n    - You can reach [0,2] by moving 1 step up.\n    It is impossible to reach [2,3] from the entrance.\n    Thus, the nearest exit is [0,2], which is 1 step away.\n\nExample 2:\n\nInput: maze = [[\"+\",\"+\",\"+\"],[\".\",\".\",\".\"],[\"+\",\"+\",\"+\"]], entrance = [1,0]\nOutput: 2\nExplanation: There is 1 exit in this maze at [1,2].\n    [1,0] does not count as an exit since it is the entrance cell.\n    Initially, you are at the entrance cell [1,0].\n    - You can reach [1,2] by moving 2 steps right.\n    Thus, the nearest exit is [1,2], which is 2 steps away.\n\nExample 3:\n\nInput: maze = [[\".\",\"+\"]], entrance = [0,0]\nOutput: -1\nExplanation: There are no exits in this maze.\n\nConstraints:\n\n• maze.length == m\n\n• maze[i].length == n\n\n• 1 <= m, n <= 100\n\n• maze[i][j] is either '.' or '+'.\n\n• entrance.length == 2\n\n• 0 <= entrancerow < m\n\n• 0 <= entrancecol < n\n\n• entrance will always be an empty cell.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nearestExit(self, maze, entrance):\n        \"\"\"\n        :type maze: List[List[str]]\n        :type entrance: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Which type of traversal lets you find the distance from a point?",
+    "Try using a Breadth First Search."
+  ],
+  "testCases": [
+    [
+      "[[\"+\",\"+\",\".\",\"+\"],[\".\",\".\",\".\",\"+\"],[\"+\",\"+\",\"+\",\".\"]]",
+      "[1,2]"
+    ],
+    [
+      "[[\"+\",\"+\",\"+\"],[\".\",\".\",\".\"],[\"+\",\"+\",\"+\"]]",
+      "[1,0]"
+    ],
+    [
+      "[[\".\",\"+\"]]",
+      "[0,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "2174",
+  "title": "Next Greater Numerically Balanced Number",
+  "titleSlug": "next-greater-numerically-balanced-number",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "An integer x is numerically balanced if for every digit d in the number x, there are exactly d occurrences of that digit in x.\n\nGiven an integer n, return the smallest numerically balanced number strictly greater than n.\n\nExample 1:\n\nInput: n = 1\nOutput: 22\nExplanation:\n    22 is numerically balanced since:\n    - The digit 2 occurs 2 times.\n    It is also the smallest numerically balanced number strictly greater than 1.\n\nExample 2:\n\nInput: n = 1000\nOutput: 1333\nExplanation:\n    1333 is numerically balanced since:\n    - The digit 1 occurs 1 time.\n    - The digit 3 occurs 3 times.\n    It is also the smallest numerically balanced number strictly greater than 1000.\n    Note that 1022 cannot be the answer because 0 appeared more than 0 times.\n\nExample 3:\n\nInput: n = 3000\nOutput: 3133\nExplanation:\n    3133 is numerically balanced since:\n    - The digit 1 occurs 1 time.\n    - The digit 3 occurs 3 times.\n    It is also the smallest numerically balanced number strictly greater than 3000.\n\nConstraints:\n\n• 0 <= n <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nextBeautifulNumber(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How far away can the next greater numerically balanced number be from n?",
+    "With the given constraints, what is the largest numerically balanced number?"
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "1000"
+    ],
+    [
+      "3000"
+    ]
+  ],
+  "expectedOutputs": [
+    "22",
+    "1333",
+    "3133"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find the Width of Columns of a Grid\", \"titleSlug\": \"find-the-width-of-columns-of-a-grid\", \"difficulty\": \"Easy\"}]"
+}

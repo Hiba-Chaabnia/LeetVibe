@@ -1,0 +1,74 @@
+{
+  "questionId": "3081",
+  "title": "Minimum Array Length After Pair Removals",
+  "titleSlug": "minimum-array-length-after-pair-removals",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an integer array num sorted in non-decreasing order.\n\nYou can perform the following operation any number of times:\n\n• Choose two indices, i and j, where nums[i] < nums[j].\n\n• Then, remove the elements at indices i and j from nums. The remaining elements retain their original order, and the array is re-indexed.\n\nReturn the minimum length of nums after applying the operation zero or more times.\n\nExample 1:\n\nInput: nums = [1,2,3,4]\n\nOutput: 0\n\nExplanation: Example 2:\n\nInput: nums = [1,1,2,2,3,3]\n\nOutput: 0\n\nExplanation: Example 3:\n\nInput: nums = [1000000000,1000000000]\n\nOutput: 2\n\nExplanation: Since both numbers are equal, they cannot be removed.\n\nExample 4:\n\nInput: nums = [2,3,4,4,4]\n\nOutput: 1\n\nExplanation: Constraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• nums is sorted in non-decreasing order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minLengthAfterRemovals(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "To minimize the length of the array, we should maximize the number of operations performed.",
+    "To perform k operations, it is optimal to use the smallest k values and the largest k values in nums.",
+    "What is the best way to make pairs from the smallest k values and the largest k values so it is possible to remove all the pairs?",
+    "If we consider the smallest k values and the largest k values as two separate <strong>sorted 0-indexed</strong> arrays, a and b, It is optimal to pair a[i] and b[i]. So, a k is valid if a[i] < b[i] for all i in the range [0, k - 1].",
+    "The greatest possible valid k can be found using binary search.",
+    "The answer is nums.length - 2 * k."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4]"
+    ],
+    [
+      "[1,1,2,2,3,3]"
+    ],
+    [
+      "[1000000000,1000000000]"
+    ],
+    [
+      "[2,3,4,4,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "0",
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def minLengthAfterRemovals(self, nums):\n        n = len(nums)\n        freq = Counter(nums)\n        max_freq = max(freq.values())\n        # If the most frequent element appears more than n//2 times,\n        # it limits how many pairs we can form.\n        # We can form min(max_freq, n - max_freq) pairs using it.\n        # Otherwise we can pair up everything: n//2 pairs.\n        k = min(max_freq, n - max_freq)  # max pairs removable\n        # Actually: max pairs = min(max_freq, n - max_freq) when max_freq dominates\n        # Or floor(n/2) otherwise\n        pairs = min(n // 2, n - max_freq) if max_freq > n // 2 else n // 2\n        # Simpler: pairs = n//2 - max(0, max_freq - (n - max_freq)) // ... let's think again\n        # pairs = min(n//2, n - max_freq)\n        pairs = min(n // 2, n - max_freq)\n        return n - 2 * pairs",
+    "explanation": "To maximize removals: optimally pair smallest with largest. The bottleneck is the most frequent element — it can be paired at most (n - max_freq) times (need distinct smaller/larger partner). So max pairs = min(n//2, n - max_freq).\n\nMinimum remaining length = n - 2 * pairs.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Find the Maximum Number of Marked Indices\", \"titleSlug\": \"find-the-maximum-number-of-marked-indices\", \"difficulty\": \"Medium\"}]"
+}

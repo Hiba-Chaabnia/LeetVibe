@@ -1,0 +1,51 @@
+{
+  "questionId": "1349",
+  "title": "Check If It Is a Straight Line",
+  "titleSlug": "check-if-it-is-a-straight-line",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "You are given an integer array coordinates, coordinates[i] = [x, y], where [x, y] represents the coordinate of a point. Check if these points make a straight line in the XY plane.\n\nExample 1:\n\nInput: coordinates = [[1,2],[2,3],[3,4],[4,5],[5,6],[6,7]]\nOutput: true\n\nExample 2:\n\nInput: coordinates = [[1,1],[2,2],[3,4],[4,5],[5,6],[7,7]]\nOutput: false\n\nConstraints:\n\n• 2 <= coordinates.length <= 1000\n\n• coordinates[i].length == 2\n\n• -10^4 <= coordinates[i][0], coordinates[i][1] <= 10^4\n\n• coordinates contains no duplicate point.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkStraightLine(self, coordinates):\n        \"\"\"\n        :type coordinates: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If there're only 2 points, return true.",
+    "Check if all other points lie on the line defined by the first 2 points.",
+    "Use cross product to check collinearity."
+  ],
+  "testCases": [
+    [
+      "[[1,2],[2,3],[3,4],[4,5],[5,6],[6,7]]"
+    ],
+    [
+      "[[1,1],[2,2],[3,4],[4,5],[5,6],[7,7]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkStraightLine(self, coordinates):\n        if len(coordinates) <= 2:\n            return True\n        (x0, y0), (x1, y1) = coordinates[0], coordinates[1]\n        for i in range(2, len(coordinates)):\n            x, y = coordinates[i]\n            if (y - y0) * (x1 - x0) != (y1 - y0) * (x - x0):\n                return False\n        return True",
+    "explanation": "Use cross product: if all points collinear, cross products are 0."
+  },
+  "similarQuestions": "[]"
+}

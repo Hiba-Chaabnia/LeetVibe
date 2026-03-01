@@ -1,0 +1,51 @@
+{
+  "questionId": "104",
+  "title": "Maximum Depth of Binary Tree",
+  "titleSlug": "maximum-depth-of-binary-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return its maximum depth.\n\nA binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.\n\nExample 1:\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: 3\n\nExample 2:\n\nInput: root = [1,null,2]\nOutput: 2\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 104].\n\n• -100 <= Node.val <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def maxDepth(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,9,20,null,null,15,7]"
+    ],
+    [
+      "[1,null,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxDepth(self, root):\n        if not root:\n            return 0\n        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))",
+    "explanation": "Recursively find max depth of left and right subtrees. Return 1 + max.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[{\"title\": \"Balanced Binary Tree\", \"titleSlug\": \"balanced-binary-tree\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Depth of Binary Tree\", \"titleSlug\": \"minimum-depth-of-binary-tree\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Depth of N-ary Tree\", \"titleSlug\": \"maximum-depth-of-n-ary-tree\", \"difficulty\": \"Easy\"}, {\"title\": \"Time Needed to Inform All Employees\", \"titleSlug\": \"time-needed-to-inform-all-employees\", \"difficulty\": \"Medium\"}, {\"title\": \"Amount of Time for Binary Tree to Be Infected\", \"titleSlug\": \"amount-of-time-for-binary-tree-to-be-infected\", \"difficulty\": \"Medium\"}, {\"title\": \"Height of Binary Tree After Subtree Removal Queries\", \"titleSlug\": \"height-of-binary-tree-after-subtree-removal-queries\", \"difficulty\": \"Hard\"}]"
+}

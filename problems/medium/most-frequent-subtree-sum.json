@@ -1,0 +1,47 @@
+{
+  "questionId": "508",
+  "title": "Most Frequent Subtree Sum",
+  "titleSlug": "most-frequent-subtree-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the most frequent subtree sum. If there is a tie, return all the values with the highest frequency in any order.\n\nThe subtree sum of a node is defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself).\n\nExample 1:\n\nInput: root = [5,2,-3]\nOutput: [2,-3,4]\n\nExample 2:\n\nInput: root = [5,2,-5]\nOutput: [2]\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 104].\n\n• -105 <= Node.val <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def findFrequentTreeSum(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[5,2,-3]"
+    ],
+    [
+      "[5,2,-5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,-3,4]",
+    "[2]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Subtree of Another Tree\", \"titleSlug\": \"subtree-of-another-tree\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Nodes Equal to Sum of Descendants\", \"titleSlug\": \"count-nodes-equal-to-sum-of-descendants\", \"difficulty\": \"Medium\"}]"
+}

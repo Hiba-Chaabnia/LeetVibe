@@ -1,0 +1,77 @@
+{
+  "questionId": "1860",
+  "title": "Find Kth Largest XOR Coordinate Value",
+  "titleSlug": "find-kth-largest-xor-coordinate-value",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    },
+    {
+      "name": "Quickselect",
+      "slug": "quickselect"
+    }
+  ],
+  "content": "You are given a 2D matrix of size m x n, consisting of non-negative integers. You are also given an integer k.\n\nThe value of coordinate (a, b) of the matrix is the XOR of all matrix[i][j] where 0 <= i <= a < m and 0 <= j <= b < n (0-indexed).\n\nFind the kth largest value (1-indexed) of all the coordinates of matrix.\n\nExample 1:\n\nInput: matrix = [[5,2],[1,6]], k = 1\nOutput: 7\nExplanation: The value of coordinate (0,1) is 5 XOR 2 = 7, which is the largest value.\n\nExample 2:\n\nInput: matrix = [[5,2],[1,6]], k = 2\nOutput: 5\nExplanation: The value of coordinate (0,0) is 5 = 5, which is the 2nd largest value.\n\nExample 3:\n\nInput: matrix = [[5,2],[1,6]], k = 3\nOutput: 4\nExplanation: The value of coordinate (1,0) is 5 XOR 1 = 4, which is the 3rd largest value.\n\nConstraints:\n\n• m == matrix.length\n\n• n == matrix[i].length\n\n• 1 <= m, n <= 1000\n\n• 0 <= matrix[i][j] <= 106\n\n• 1 <= k <= m * n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kthLargestValue(self, matrix, k):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a 2D prefix sum to precalculate the xor-sum of the upper left submatrix."
+  ],
+  "testCases": [
+    [
+      "[[5,2],[1,6]]",
+      "1"
+    ],
+    [
+      "[[5,2],[1,6]]",
+      "2"
+    ],
+    [
+      "[[5,2],[1,6]]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "5",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def kthLargestValue(self, matrix, k):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        m, n = len(matrix), len(matrix[0])\n        \n        # Build 2D prefix XOR array\n        prefix_xor = [[0] * (n + 1) for _ in range(m + 1)]\n        values = []\n        \n        for i in range(1, m + 1):\n            for j in range(1, n + 1):\n                # XOR of rectangle (0,0) to (i-1,j-1)\n                prefix_xor[i][j] = (prefix_xor[i-1][j] ^ \n                                   prefix_xor[i][j-1] ^ \n                                   prefix_xor[i-1][j-1] ^ \n                                   matrix[i-1][j-1])\n                values.append(prefix_xor[i][j])\n        \n        # Find kth largest\n        values.sort(reverse=True)\n        return values[k - 1]",
+    "explanation": "Build a 2D prefix XOR array using the property that XOR of a rectangle can be computed from overlapping subrectangles. Collect all XOR values and return the kth largest.",
+    "complexity": "Time: O(m*n*log(m*n)) for sorting. Space: O(m*n) for prefix XOR array."
+  },
+  "similarQuestions": "[]"
+}

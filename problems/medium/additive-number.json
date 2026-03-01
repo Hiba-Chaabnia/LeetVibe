@@ -1,0 +1,43 @@
+{
+  "questionId": "306",
+  "title": "Additive Number",
+  "titleSlug": "additive-number",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "An additive number is a string whose digits can form an additive sequence.\n\nA valid additive sequence should contain at least three numbers. Except for the first two numbers, each subsequent number in the sequence must be the sum of the preceding two.\n\nGiven a string containing only digits, return true if it is an additive number or false otherwise.\n\nNote: Numbers in the additive sequence cannot have leading zeros, so sequence 1, 2, 03 or 1, 02, 3 is invalid.\n\nExample 1:\n\nInput: \"112358\"\nOutput: true\nExplanation:\n    The digits can form an additive sequence: 1, 1, 2, 3, 5, 8.\n    1 + 1 = 2, 1 + 2 = 3, 2 + 3 = 5, 3 + 5 = 8\n\nExample 2:\n\nInput: \"199100199\"\nOutput: true\nExplanation:\n    The additive sequence is: 1, 99, 100, 199.\n    1 + 99 = 100, 99 + 100 = 199\n\nConstraints:\n\n• 1 <= num.length <= 35\n\n• num consists only of digits.\n\nFollow up: How would you handle overflow for very large input integers?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isAdditiveNumber(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"112358\""
+    ],
+    [
+      "\"199100199\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def isAdditiveNumber(num):\n    for i in range(1, len(num) // 2 + 1):\n        for j in range(1, (len(num) - i) // 2 + 1):\n            if check(num[:i], num[i:i+j], num[i+j:]):\n                return True\n    return False\n\ndef check(num1, num2, remaining):\n    if (len(num1) > 1 and num1[0] == '0') or (len(num2) > 1 and num2[0] == '0'):\n        return False\n    _sum = add(num1, num2)\n    if remaining == _sum:\n        return True\n    if not remaining.startswith(_sum):\n        return False\n    return check(num2, _sum, remaining[len(_sum):])\n\ndef add(num1, num2):\n    carry, result = 0, []\n    i, j = len(num1) - 1, len(num2) - 1\n    while i >= 0 or j >= 0 or carry > 0:\n        n1 = int(num1[i]) if i >= 0 else 0\n        n2 = int(num2[j]) if j >= 0 else 0\n        _sum = n1 + n2 + carry\n        carry = _sum // 10\n        result.append(str(_sum % 10))\n        i, j = i - 1, j - 1\n    return ''.join(result[::-1])",
+    "explanation": "1. Iterate through all possible positions to split the string into two non-empty numbers num1 and num2.\n2. Check if num1 and num2 are valid, i.e., not having leading zeros for multiple digits numbers.\n3. Calculate the sum of num1 and num2.\n4. Check if the remaining part of the string starts with the sum. If not, return false.\n5. If the remaining string is exactly the sum, return true; otherwise, repeat the process with num2, sum, and the remaining string.\n6. If it's not possible to find a valid combination, return false."
+  },
+  "similarQuestions": "[{\"title\": \"Split Array into Fibonacci Sequence\", \"titleSlug\": \"split-array-into-fibonacci-sequence\", \"difficulty\": \"Medium\"}]"
+}

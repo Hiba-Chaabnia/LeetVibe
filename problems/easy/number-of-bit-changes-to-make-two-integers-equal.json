@@ -1,0 +1,49 @@
+{
+  "questionId": "3508",
+  "title": "Number of Bit Changes to Make Two Integers Equal",
+  "titleSlug": "number-of-bit-changes-to-make-two-integers-equal",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given two positive integers n and k.\n\nYou can choose any bit in the binary representation of n that is equal to 1 and change it to 0.\n\nReturn the number of changes needed to make n equal to k. If it is impossible, return -1.\n\nExample 1:\n\nInput: n = 13, k = 4\n\nOutput: 2\n\nExplanation: Initially, the binary representations of n and k are n = (1101)2 and k = (0100)2.\n\nWe can change the first and fourth bits of n. The resulting integer is n = (0100)2 = k.\n\nExample 2:\n\nInput: n = 21, k = 21\n\nOutput: 0\n\nExplanation: n and k are already equal, so no changes are needed.\n\nExample 3:\n\nInput: n = 14, k = 13\n\nOutput: -1\n\nExplanation: It is not possible to make n equal to k.\n\nConstraints:\n\n• 1 <= n, k <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minChanges(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the binary representations of n and k.",
+    "Any bit that is equal to 1 in n and equal to 0 in k needs to be changed."
+  ],
+  "testCases": [
+    [
+      "13",
+      "4"
+    ],
+    [
+      "21",
+      "21"
+    ],
+    [
+      "14",
+      "13"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minChanges(self, n, k):\n        if k & ~n:\n            return -1\n        return bin(n & ~k).count('1')",
+    "explanation": "If k has any bit set that n doesn't, it's impossible (can only flip 1→0); otherwise count bits that are 1 in n but 0 in k. O(log n) time."
+  },
+  "similarQuestions": "[]"
+}

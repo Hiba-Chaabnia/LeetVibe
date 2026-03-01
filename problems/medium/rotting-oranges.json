@@ -1,0 +1,47 @@
+{
+  "questionId": "1036",
+  "title": "Rotting Oranges",
+  "titleSlug": "rotting-oranges",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n grid where each cell can have one of three values:\n\n• 0 representing an empty cell,\n\n• 1 representing a fresh orange, or\n\n• 2 representing a rotten orange.\n\nEvery minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.\n\nReturn the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.\n\nExample 1:\n\nInput: grid = [[2,1,1],[1,1,0],[0,1,1]]\nOutput: 4\n\nExample 2:\n\nInput: grid = [[2,1,1],[0,1,1],[1,0,1]]\nOutput: -1\nExplanation: The orange in the bottom left corner (row 2, column 0) is never rotten, because rotting only happens 4-directionally.\n\nExample 3:\n\nInput: grid = [[0,2]]\nOutput: 0\nExplanation: Since there are already no fresh oranges at minute 0, the answer is just 0.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 10\n\n• grid[i][j] is 0, 1, or 2.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def orangesRotting(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[2,1,1],[1,1,0],[0,1,1]]"
+    ],
+    [
+      "[[2,1,1],[0,1,1],[1,0,1]]"
+    ],
+    [
+      "[[0,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Walls and Gates\", \"titleSlug\": \"walls-and-gates\", \"difficulty\": \"Medium\"}, {\"title\": \"Battleships in a Board\", \"titleSlug\": \"battleships-in-a-board\", \"difficulty\": \"Medium\"}, {\"title\": \"Detonate the Maximum Bombs\", \"titleSlug\": \"detonate-the-maximum-bombs\", \"difficulty\": \"Medium\"}, {\"title\": \"Escape the Spreading Fire\", \"titleSlug\": \"escape-the-spreading-fire\", \"difficulty\": \"Hard\"}]"
+}

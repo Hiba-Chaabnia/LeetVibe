@@ -1,0 +1,51 @@
+{
+  "questionId": "231",
+  "title": "Power of Two",
+  "titleSlug": "power-of-two",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Given an integer n, return true if it is a power of two. Otherwise, return false.\n\nAn integer n is a power of two, if there exists an integer x such that n == 2x.\n\nExample 1:\n\nInput: n = 1\nOutput: true\nExplanation: 20 = 1\n\nExample 2:\n\nInput: n = 16\nOutput: true\nExplanation: 24 = 16\n\nExample 3:\n\nInput: n = 3\nOutput: false\n\nConstraints:\n\n• -231 <= n <= 231 - 1\n\nFollow up: Could you solve it without loops/recursion?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isPowerOfTwo(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "16"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isPowerOfTwo(self, n):\n        return n > 0 and (n & (n - 1)) == 0",
+    "explanation": "Power of 2 has single bit set. n & (n-1) clears that bit.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of 1 Bits\", \"titleSlug\": \"number-of-1-bits\", \"difficulty\": \"Easy\"}, {\"title\": \"Power of Three\", \"titleSlug\": \"power-of-three\", \"difficulty\": \"Easy\"}, {\"title\": \"Power of Four\", \"titleSlug\": \"power-of-four\", \"difficulty\": \"Easy\"}]"
+}

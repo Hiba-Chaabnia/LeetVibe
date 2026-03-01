@@ -1,0 +1,43 @@
+{
+  "questionId": "385",
+  "title": "Mini Parser",
+  "titleSlug": "mini-parser",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    }
+  ],
+  "content": "Given a string s represents the serialization of a nested list, implement a parser to deserialize it and return the deserialized NestedInteger.\n\nEach element is either an integer or a list whose elements may also be integers or other lists.\n\nExample 1:\n\nInput: s = \"324\"\nOutput: 324\nExplanation: You should return a NestedInteger object which contains a single integer 324.\n\nExample 2:\n\nInput: s = \"[123,[456,[789]]]\"\nOutput: [123,[456,[789]]]\nExplanation: Return a NestedInteger object containing a nested list with 2 elements:\n    1. An integer containing value 123.\n    2. A nested list containing two elements:\n        i.  An integer containing value 456.\n        ii. A nested list with one element:\n             a. An integer containing value 789\n\nConstraints:\n\n• 1 <= s.length <= 5 * 104\n\n• s consists of digits, square brackets \"[]\", negative sign '-', and commas ','.\n\n• s is the serialization of valid NestedInteger.\n\n• All the values in the input are in the range [-106, 106].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# \"\"\"\n# This is the interface that allows for creating nested lists.\n# You should not implement it, or speculate about its implementation\n# \"\"\"\n#class NestedInteger(object):\n#    def __init__(self, value=None):\n#        \"\"\"\n#        If value is not specified, initializes an empty list.\n#        Otherwise initializes a single integer equal to value.\n#        \"\"\"\n#\n#    def isInteger(self):\n#        \"\"\"\n#        @return True if this NestedInteger holds a single integer, rather than a nested list.\n#        :rtype bool\n#        \"\"\"\n#\n#    def add(self, elem):\n#        \"\"\"\n#        Set this NestedInteger to hold a nested list and adds a nested integer elem to it.\n#        :rtype void\n#        \"\"\"\n#\n#    def setInteger(self, value):\n#        \"\"\"\n#        Set this NestedInteger to hold a single integer equal to value.\n#        :rtype void\n#        \"\"\"\n#\n#    def getInteger(self):\n#        \"\"\"\n#        @return the single integer that this NestedInteger holds, if it holds a single integer\n#        Return None if this NestedInteger holds a nested list\n#        :rtype int\n#        \"\"\"\n#\n#    def getList(self):\n#        \"\"\"\n#        @return the nested list that this NestedInteger holds, if it holds a nested list\n#        Return None if this NestedInteger holds a single integer\n#        :rtype List[NestedInteger]\n#        \"\"\"\n\nclass Solution(object):\n    def deserialize(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: NestedInteger\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"324\""
+    ],
+    [
+      "\"[123,[456,[789]]]\""
+    ]
+  ],
+  "expectedOutputs": [
+    "324",
+    "[123,[456,[789]]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Flatten Nested List Iterator\", \"titleSlug\": \"flatten-nested-list-iterator\", \"difficulty\": \"Medium\"}, {\"title\": \"Ternary Expression Parser\", \"titleSlug\": \"ternary-expression-parser\", \"difficulty\": \"Medium\"}, {\"title\": \"Remove Comments\", \"titleSlug\": \"remove-comments\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "78",
+  "title": "Subsets",
+  "titleSlug": "subsets",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given an integer array nums of unique elements, return all possible subsets (the power set).\n\nThe solution set must not contain duplicate subsets. Return the solution in any order.\n\nExample 1:\n\nInput: nums = [1,2,3]\nOutput: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]\n\nExample 2:\n\nInput: nums = [0]\nOutput: [[],[0]]\n\nConstraints:\n\n• 1 <= nums.length <= 10\n\n• -10 <= nums[i] <= 10\n\n• All the numbers of nums are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def subsets(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]",
+    "[[],[0]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def subsets(nums):\n    n = len(nums)\n    num_subsets = 1 << n\n    result = []\n\n    for i in range(num_subsets):\n        subset = []\n        for j in range(n):\n            if i & (1 << j):\n                subset.append(nums[j])\n        result.append(subset)\n    return result",
+    "explanation": "1. Calculate the number of subsets in the power set (2^n) using bit manipulation.\n2. Loop through all numbers from 0 to 2^n - 1.\n3. For each number, loop through its bits, and if the bit is set (1), include the corresponding element from the input array in the current subset.\n4. Add the current subset to the result list.\n5. After the loops finish, return the result list containing all subsets."
+  },
+  "similarQuestions": "[{\"title\": \"Subsets II\", \"titleSlug\": \"subsets-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Generalized Abbreviation\", \"titleSlug\": \"generalized-abbreviation\", \"difficulty\": \"Medium\"}, {\"title\": \"Letter Case Permutation\", \"titleSlug\": \"letter-case-permutation\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Array Given Subset Sums\", \"titleSlug\": \"find-array-given-subset-sums\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Number of Maximum Bitwise-OR Subsets\", \"titleSlug\": \"count-number-of-maximum-bitwise-or-subsets\", \"difficulty\": \"Medium\"}]"
+}

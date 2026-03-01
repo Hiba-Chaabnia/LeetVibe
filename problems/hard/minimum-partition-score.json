@@ -1,0 +1,70 @@
+{
+  "questionId": "4121",
+  "title": "Minimum Partition Score",
+  "titleSlug": "minimum-partition-score",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    },
+    {
+      "name": "Monotonic Queue",
+      "slug": "monotonic-queue"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nYour task is to partition nums into exactly k subarrays and return an integer denoting the minimum possible score among all valid partitions.\n\nThe score of a partition is the sum of the values of all its subarrays.\n\nThe value of a subarray is defined as sumArr * (sumArr + 1) / 2, where sumArr is the sum of its elements.\n\nExample 1:\n\nInput: nums = [5,1,2,1], k = 2\n\nOutput: 25\n\nExplanation:\n\n• We must partition the array into k = 2 subarrays. One optimal partition is [5] and [1, 2, 1].\n\n• The first subarray has sumArr = 5 and value = 5 × 6 / 2 = 15.\n\n• The second subarray has sumArr = 1 + 2 + 1 = 4 and value = 4 × 5 / 2 = 10.\n\n• The score of this partition is 15 + 10 = 25, which is the minimum possible score.\n\nExample 2:\n\nInput: nums = [1,2,3,4], k = 1\n\nOutput: 55\n\nExplanation:\n\n• Since we must partition the array into k = 1 subarray, all elements belong to the same subarray: [1, 2, 3, 4].\n\n• This subarray has sumArr = 1 + 2 + 3 + 4 = 10 and value = 10 × 11 / 2 = 55.​​​​​​​\n\n• The score of this partition is 55, which is the minimum possible score.\n\nExample 3:\n\nInput: nums = [1,1,1], k = 3\n\nOutput: 3\n\nExplanation:\n\n• We must partition the array into k = 3 subarrays. The only valid partition is [1], [1], [1].\n\n• Each subarray has sumArr = 1 and value = 1 × 2 / 2 = 1.\n\n• The score of this partition is 1 + 1 + 1 = 3, which is the minimum possible score.\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 104\n\n• 1 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minPartitionScore(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let dp[k][i] be the minimum score to partition the first i elements into k subarrays. The transition is dp[k][i] = min(dp[k-1][j] + value(subarray nums[j...i-1])) for j < i.",
+    "The naive DP approach takes O(K*N<sup>2</sup>), which is too slow. Look for optimizations applicable to partitioning problems.",
+    "The cost function is convex. This suggests that the optimal splitting point satisfies the Quadrangle Inequality, enabling Divide and Conquer Optimization to reduce the complexity."
+  ],
+  "testCases": [
+    [
+      "[5,1,2,1]",
+      "2"
+    ],
+    [
+      "[1,2,3,4]",
+      "1"
+    ],
+    [
+      "[1,1,1]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "25",
+    "55",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minPartitionScore(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        INF = float('inf')\n        \n        # Precompute prefix sums\n        prefix = [0] * (n + 1)\n        for i in range(n):\n            prefix[i+1] = prefix[i] + nums[i]\n        \n        # Function to compute value of subarray [i, j)\n        def value(i, j):\n            s = prefix[j] - prefix[i]\n            return s * (s + 1) // 2\n        \n        # DP with divide and conquer optimization\n        # dp[p] = minimum score to partition first p elements into current number of subarrays\n        prev_dp = [INF] * (n + 1)\n        prev_dp[0] = 0\n        \n        for part in range(1, k + 1):\n            curr_dp = [INF] * (n + 1)\n            \n            # Divide and conquer optimization\n            def compute(l, r, opt_l, opt_r):\n                if l > r:\n                    return\n                \n                mid = (l + r) // 2\n                best_opt = -1\n                best_val = INF\n                \n                for j in range(opt_l, min(opt_r, mid) + 1):\n                    if prev_dp[j] != INF:\n                        val = prev_dp[j] + value(j, mid)\n                        if val < best_val:\n                            best_val = val\n                            best_opt = j\n                \n                curr_dp[mid] = best_val\n                \n                if l < r:\n                    compute(l, mid - 1, opt_l, best_opt)\n                    compute(mid + 1, r, best_opt, opt_r)\n            \n            compute(part, n, part - 1, n)\n            prev_dp = curr_dp\n        \n        return prev_dp[n]",
+    "explanation": "This solution uses dynamic programming with divide-and-conquer optimization (Monge Property):\n\n1. **Problem Analysis**: We need to partition nums into exactly k subarrays. The cost function is convex (satisfies Monge property), allowing for optimization.\n\n2. **DP Definition**: dp[p] = minimum score to partition first p elements into current number of subarrays.\n\n3. **Key Optimization - Divide & Conquer**: Instead of O(N²) transitions for each subarray, the optimal split point for subarray [i, j) is monotonic. This reduces complexity using:\n   - Compute optimal split for midpoint\n   - Recursively solve left and right halves with bounded search space\n\n4. **Value Calculation**: value(i, j) = sum(nums[i:j]) * (sum(nums[i:j]) + 1) / 2\n\n5. **Iterations**: Process from 1 to k subarrays, building up the solution.\n\nTime Complexity: O(N*K*log N) with divide-and-conquer\nSpace Complexity: O(N)"
+  },
+  "similarQuestions": "[]"
+}

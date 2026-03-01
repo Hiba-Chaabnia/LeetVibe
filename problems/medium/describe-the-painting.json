@@ -1,0 +1,58 @@
+{
+  "questionId": "2055",
+  "title": "Describe the Painting",
+  "titleSlug": "describe-the-painting",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "There is a long and thin painting that can be represented by a number line. The painting was painted with multiple overlapping segments where each segment was painted with a unique color. You are given a 2D integer array segments, where segments[i] = [starti, endi, colori] represents the half-closed segment [starti, endi) with colori as the color.\n\nThe colors in the overlapping segments of the painting were mixed when it was painted. When two or more colors mix, they form a new color that can be represented as a set of mixed colors.\n\n• For example, if colors 2, 4, and 6 are mixed, then the resulting mixed color is {2,4,6}.\n\nFor the sake of simplicity, you should only output the sum of the elements in the set rather than the full set.\n\nYou want to describe the painting with the minimum number of non-overlapping half-closed segments of these mixed colors. These segments can be represented by the 2D array painting where painting[j] = [leftj, rightj, mixj] describes a half-closed segment [leftj, rightj) with the mixed color sum of mixj.\n\n• For example, the painting created with segments = [[1,4,5],[1,7,7]] can be described by painting = [[1,4,12],[4,7,7]] because:\n\n• [1,4) is colored {5,7} (with a sum of 12) from both the first and second segments.\n\n• [4,7) is colored {7} from only the second segment.\n\nReturn the 2D array painting describing the finished painting (excluding any parts that are not painted). You may return the segments in any order.\n\nA half-closed segment [a, b) is the section of the number line between points a and b including point a and not including point b.\n\nExample 1:\n\nInput: segments = [[1,4,5],[4,7,7],[1,7,9]]\nOutput: [[1,4,14],[4,7,16]]\nExplanation: The painting can be described as follows:\n    - [1,4) is colored {5,9} (with a sum of 14) from the first and third segments.\n    - [4,7) is colored {7,9} (with a sum of 16) from the second and third segments.\n\nExample 2:\n\nInput: segments = [[1,7,9],[6,8,15],[8,10,7]]\nOutput: [[1,6,9],[6,7,24],[7,8,15],[8,10,7]]\nExplanation: The painting can be described as follows:\n    - [1,6) is colored 9 from the first segment.\n    - [6,7) is colored {9,15} (with a sum of 24) from the first and second segments.\n    - [7,8) is colored 15 from the second segment.\n    - [8,10) is colored 7 from the third segment.\n\nExample 3:\n\nInput: segments = [[1,4,5],[1,4,7],[4,7,1],[4,7,11]]\nOutput: [[1,4,12],[4,7,12]]\nExplanation: The painting can be described as follows:\n    - [1,4) is colored {5,7} (with a sum of 12) from the first and second segments.\n    - [4,7) is colored {1,11} (with a sum of 12) from the third and fourth segments.\n    Note that returning a single segment [1,7) is incorrect because the mixed color sets are different.\n\nConstraints:\n\n• 1 <= segments.length <= 2 * 104\n\n• segments[i].length == 3\n\n• 1 <= starti < endi <= 105\n\n• 1 <= colori <= 109\n\n• Each colori is distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def splitPainting(self, segments):\n        \"\"\"\n        :type segments: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we sort the segments in a way to help solve the problem?",
+    "How can we dynamically keep track of the sum of the current segment(s)?"
+  ],
+  "testCases": [
+    [
+      "[[1,4,5],[4,7,7],[1,7,9]]"
+    ],
+    [
+      "[[1,7,9],[6,8,15],[8,10,7]]"
+    ],
+    [
+      "[[1,4,5],[1,4,7],[4,7,1],[4,7,11]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,4,14],[4,7,16]]",
+    "[[1,6,9],[6,7,24],[7,8,15],[8,10,7]]",
+    "[[1,4,12],[4,7,12]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def splitPainting(segments):\n    line = {}\n    for s in segments:\n        start, end, color = s\n        if start not in line:\n            line[start] = 0\n        if end not in line:\n            line[end] = 0\n        line[start] += color\n        line[end] -= color\n    res = []\n    pre = 0\n    sum = 0\n    for key in sorted(line.keys()):\n        if pre > 0:\n            if sum > 0:\n                res.append([pre, key, sum])\n        pre = key\n        sum += line[key]\n    return res",
+    "explanation": "The algorithm uses a sweep line approach to solve the problem. First, we traverse through the input segments, and maintain a map `line` that stores the sum of the colors at each starting and ending point of the segments. The starting points will have positive values, and the ending points will have negative values.\n\nNext, we iterate through the sorted keys (i.e., the points) of the map, and for each key, we update the sum of colors until we reach the next point. During this process, we construct the non-overlapping segments with their respective mixed color sums and add them to the result.\n\nFinally, we return the resulting 2D array containing the non-overlapping segments describing the painting. Note that the segments can be returned in any order since there is no specific requirement about the order in which they appear in the output."
+  },
+  "similarQuestions": "[{\"title\": \"Average Height of Buildings in Each Segment\", \"titleSlug\": \"average-height-of-buildings-in-each-segment\", \"difficulty\": \"Medium\"}, {\"title\": \"Amount of New Area Painted Each Day\", \"titleSlug\": \"amount-of-new-area-painted-each-day\", \"difficulty\": \"Hard\"}, {\"title\": \"Shifting Letters II\", \"titleSlug\": \"shifting-letters-ii\", \"difficulty\": \"Medium\"}]"
+}

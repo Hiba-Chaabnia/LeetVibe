@@ -1,0 +1,48 @@
+{
+  "questionId": "4027",
+  "title": "Number of Stable Subsequences",
+  "titleSlug": "number-of-stable-subsequences",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nA subsequence is stable if it does not contain three consecutive elements with the same parity when the subsequence is read in order (i.e., consecutive inside the subsequence).\n\nReturn the number of stable subsequences.\n\nSince the answer may be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: nums = [1,3,5]\n\nOutput: 6\n\nExplanation:\n\n• Stable subsequences are [1], [3], [5], [1, 3], [1, 5], and [3, 5].\n\n• Subsequence [1, 3, 5] is not stable because it contains three consecutive odd numbers. Thus, the answer is 6.\n\nExample 2:\n\nInput: nums = [2,3,4,2]\n\nOutput: 14\n\nExplanation:\n\n• The only subsequence that is not stable is [2, 4, 2], which contains three consecutive even numbers.\n\n• All other subsequences are stable. Thus, the answer is 14.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 10​​​​​​​5",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countStableSubsequences(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Any subsequence of length 1 or 2 is always stable.",
+    "A subsequence becomes invalid only if you add a third consecutive element of the same parity.",
+    "Use DP tracking the last element’s parity and how many consecutive of that parity you have (1 or 2).",
+    "For each new number, either start a new subsequence, extend with same parity (if count < 2), or extend with different parity (reset count = 1)."
+  ],
+  "testCases": [
+    [
+      "[1,3,5]"
+    ],
+    [
+      "[2,3,4,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "14"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countStableSubsequences(self, nums):\n        MOD = 10**9 + 7\n        # DP state: (last_parity, consecutive_count) -> number of subsequences\n        # last_parity: 0=even, 1=odd; consecutive_count: 1 or 2\n        # dp[p][c] = count of subsequences ending with parity p and c consecutive same-parity\n        dp = [[0, 0], [0, 0]]  # dp[parity][consecutive-1]\n        # Also track empty subsequence\n        empty = 1\n        for v in nums:\n            p = v % 2  # 0=even, 1=odd\n            # New subsequences ending with v:\n            # 1. Start fresh: 1 way\n            # 2. Extend subsequence ending with different parity: dp[1-p][0] + dp[1-p][1]\n            # 3. Extend subsequence ending with same parity count=1: dp[p][0]\n            # Cannot extend same parity count=2 (would make 3 consecutive)\n            new1 = (empty + dp[1-p][0] + dp[1-p][1]) % MOD  # v starts new or after different parity -> consecutive=1\n            new2 = dp[p][0]  # extend same parity count=1 -> consecutive=2\n            # Update dp: we ADD to existing (not replace)\n            dp[p][0] = (dp[p][0] + new1) % MOD\n            dp[p][1] = (dp[p][1] + new2) % MOD\n        total = (dp[0][0] + dp[0][1] + dp[1][0] + dp[1][1]) % MOD\n        return total",
+    "explanation": "DP tracking (last_parity, consecutive_count). For each new element v with parity p: start fresh or extend a subsequence ending with different parity (new consecutive=1), or extend one ending with same parity count=1 (new consecutive=2). Cannot extend same parity count=2.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

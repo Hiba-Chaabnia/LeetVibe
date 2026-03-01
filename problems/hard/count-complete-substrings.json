@@ -1,0 +1,53 @@
+{
+  "questionId": "3223",
+  "title": "Count Complete Substrings",
+  "titleSlug": "count-complete-substrings",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a string word and an integer k.\n\nA substring s of word is complete if:\n\n• Each character in s occurs exactly k times.\n\n• The difference between two adjacent characters is at most 2. That is, for any two adjacent characters c1 and c2 in s, the absolute difference in their positions in the alphabet is at most 2.\n\nReturn the number of complete substrings of word.\n\nA substring is a non-empty contiguous sequence of characters in a string.\n\nExample 1:\n\nInput: word = \"igigee\", k = 2\nOutput: 3\nExplanation: The complete substrings where each character appears exactly twice and the difference between adjacent characters is at most 2 are: igigee, igigee, igigee.\n\nExample 2:\n\nInput: word = \"aaabbbccc\", k = 3\nOutput: 6\nExplanation: The complete substrings where each character appears exactly three times and the difference between adjacent characters is at most 2 are: aaabbbccc, aaabbbccc, aaabbbccc, aaabbbccc, aaabbbccc, aaabbbccc.\n\nConstraints:\n\n• 1 <= word.length <= 105\n\n• word consists only of lowercase English letters.\n\n• 1 <= k <= word.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countCompleteSubstrings(self, word, k):\n        \"\"\"\n        :type word: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "There are at most 26 different lengths of the complete substrings: k *1, k * 2, … k * 26.****",
+    "For each length, we can use sliding window to count the frequency of each letter in the window.",
+    "We still need to check for all characters in the window that abs(word[i] - word[i - 1]) <= 2. We do this by maintaining the values of abs(word[i] - word[i - 1]) in the sliding window dynamically in an ordered multiset or priority queue, so that we know the maximum value at each iteration."
+  ],
+  "testCases": [
+    [
+      "\"igigee\"",
+      "2"
+    ],
+    [
+      "\"aaabbbccc\"",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countCompleteSubstrings(self, word, k):\n        \"\"\"\n        :type word: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        result = 0\n        \n        # At most 26 different lengths possible\n        for length in range(k, k * 27, k):\n            # Check all substrings of this length\n            for i in range(len(word) - length + 1):\n                subword = word[i:i+length]\n                \n                # Check constraint 1: max adjacent diff <= 2\n                valid = True\n                for j in range(len(subword) - 1):\n                    if abs(ord(subword[j]) - ord(subword[j+1])) > 2:\n                        valid = False\n                        break\n                \n                if not valid:\n                    continue\n                \n                # Check constraint 2: each char appears exactly k times\n                from collections import Counter\n                counts = Counter(subword)\n                if all(c == k for c in counts.values()):\n                    result += 1\n        \n        return result",
+    "explanation": "Enumeration with constraint checking:\n\n1. **Length Enumeration**: Only k, 2k, 3k, ..., 26k are valid (at most 26 unique chars)\n2. **Substring Validation**:\n   - Check adjacent difference <= 2\n   - Check all characters appear exactly k times\n3. **Efficiency**: At most 26 iterations for lengths\n\nTime: O(n * 26 * length * check)\nSpace: O(length)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Substrings Containing All Three Characters\", \"titleSlug\": \"number-of-substrings-containing-all-three-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Substrings Without Repeating Character\", \"titleSlug\": \"count-substrings-without-repeating-character\", \"difficulty\": \"Medium\"}]"
+}

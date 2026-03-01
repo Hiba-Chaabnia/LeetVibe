@@ -1,0 +1,58 @@
+{
+  "questionId": "2832",
+  "title": "Find the Longest Equal Subarray",
+  "titleSlug": "find-the-longest-equal-subarray",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums and an integer k.\n\nA subarray is called equal if all of its elements are equal. Note that the empty subarray is an equal subarray.\n\nReturn the length of the longest possible equal subarray after deleting at most k elements from nums.\n\nA subarray is a contiguous, possibly empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [1,3,2,3,1,3], k = 3\nOutput: 3\nExplanation: It's optimal to delete the elements at index 2 and index 4.\n    After deleting them, nums becomes equal to [1, 3, 3, 3].\n    The longest equal subarray starts at i = 1 and ends at j = 3 with length equal to 3.\n    It can be proven that no longer equal subarrays can be created.\n\nExample 2:\n\nInput: nums = [1,1,2,2,1,1], k = 2\nOutput: 4\nExplanation: It's optimal to delete the elements at index 2 and index 3.\n    After deleting them, nums becomes equal to [1, 1, 1, 1].\n    The array itself is an equal subarray, so the answer is 4.\n    It can be proven that no longer equal subarrays can be created.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= nums.length\n\n• 0 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestEqualSubarray(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each number x in nums, create a sorted list indices<sub>x</sub> of all indices i such that nums[i] == x.",
+    "On every indices<sub>x</sub>, execute a sliding window technique.",
+    "For each indices<sub>x</sub>, find i, j such that (indices<sub>x</sub>[j] - indices<sub>x</sub>[i]) - (j - i) <= k and j - i + 1 is maximized.",
+    "The answer would be the maximum of j - i + 1 for all indices<sub>x</sub>."
+  ],
+  "testCases": [
+    [
+      "[1,3,2,3,1,3]",
+      "3"
+    ],
+    [
+      "[1,1,2,2,1,1]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def longestEqualSubarray(self, nums, k):\n        # For each value v, positions[v] = sorted list of indices where nums[i] == v\n        positions = defaultdict(list)\n        for i, v in enumerate(nums):\n            positions[v].append(i)\n        ans = 1\n        for v, idxs in positions.items():\n            # Sliding window on idxs: find max window [l..r] such that\n            # (idxs[r] - idxs[l]) - (r - l) <= k  (number of deletions needed)\n            l = 0\n            for r in range(len(idxs)):\n                # deletions = span - count = (idxs[r] - idxs[l]) - (r - l)\n                while (idxs[r] - idxs[l]) - (r - l) > k:\n                    l += 1\n                ans = max(ans, r - l + 1)\n        return ans",
+    "explanation": "For each value v, collect indices where it appears. Sliding window: window [l..r] in indices list, deletions needed = (idxs[r] - idxs[l]) - (r - l). Expand r, shrink l when deletions > k.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

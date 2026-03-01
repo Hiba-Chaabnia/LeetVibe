@@ -1,0 +1,47 @@
+{
+  "questionId": "767",
+  "title": "Prime Number of Set Bits in Binary Representation",
+  "titleSlug": "prime-number-of-set-bits-in-binary-representation",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given two integers left and right, return the count of numbers in the inclusive range [left, right] having a prime number of set bits in their binary representation.\n\nRecall that the number of set bits an integer has is the number of 1's present when written in binary.\n\n• For example, 21 written in binary is 10101, which has 3 set bits.\n\nExample 1:\n\nInput: left = 6, right = 10\nOutput: 4\nExplanation:\n    6  -> 110 (2 set bits, 2 is prime)\n    7  -> 111 (3 set bits, 3 is prime)\n    8  -> 1000 (1 set bit, 1 is not prime)\n    9  -> 1001 (2 set bits, 2 is prime)\n    10 -> 1010 (2 set bits, 2 is prime)\n    4 numbers have a prime number of set bits.\n\nExample 2:\n\nInput: left = 10, right = 15\nOutput: 5\nExplanation:\n    10 -> 1010 (2 set bits, 2 is prime)\n    11 -> 1011 (3 set bits, 3 is prime)\n    12 -> 1100 (2 set bits, 2 is prime)\n    13 -> 1101 (3 set bits, 3 is prime)\n    14 -> 1110 (3 set bits, 3 is prime)\n    15 -> 1111 (4 set bits, 4 is not prime)\n    5 numbers have a prime number of set bits.\n\nConstraints:\n\n• 1 <= left <= right <= 106\n\n• 0 <= right - left <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPrimeSetBits(self, left, right):\n        \"\"\"\n        :type left: int\n        :type right: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Write a helper function to count the number of set bits in a number, then check whether the number of set bits is 2, 3, 5, 7, 11, 13, 17 or 19."
+  ],
+  "testCases": [
+    [
+      "6",
+      "10"
+    ],
+    [
+      "10",
+      "15"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countPrimeSetBits(self, left, right):\n        primes = {2, 3, 5, 7, 11, 13, 17, 19}\n        count = 0\n        for num in range(left, right + 1):\n            bit_count = bin(num).count('1')\n            if bit_count in primes:\n                count += 1\n        return count",
+    "explanation": "Count set bits. Check if count is prime (2,3,5,7,11,13,17,19).\nTime: O(n*log(max))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of 1 Bits\", \"titleSlug\": \"number-of-1-bits\", \"difficulty\": \"Easy\"}]"
+}

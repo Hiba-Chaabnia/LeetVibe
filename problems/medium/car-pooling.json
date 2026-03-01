@@ -1,0 +1,59 @@
+{
+  "questionId": "1184",
+  "title": "Car Pooling",
+  "titleSlug": "car-pooling",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "There is a car with capacity empty seats. The vehicle only drives east (i.e., it cannot turn around and drive west).\n\nYou are given the integer capacity and an array trips where trips[i] = [numPassengersi, fromi, toi] indicates that the ith trip has numPassengersi passengers and the locations to pick them up and drop them off are fromi and toi respectively. The locations are given as the number of kilometers due east from the car's initial location.\n\nReturn true if it is possible to pick up and drop off all passengers for all the given trips, or false otherwise.\n\nExample 1:\n\nInput: trips = [[2,1,5],[3,3,7]], capacity = 4\nOutput: false\n\nExample 2:\n\nInput: trips = [[2,1,5],[3,3,7]], capacity = 5\nOutput: true\n\nConstraints:\n\n• 1 <= trips.length <= 1000\n\n• trips[i].length == 3\n\n• 1 <= numPassengersi <= 100\n\n• 0 <= fromi < toi <= 1000\n\n• 1 <= capacity <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def carPooling(self, trips, capacity):\n        \"\"\"\n        :type trips: List[List[int]]\n        :type capacity: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the pickup and dropoff events by location, then process them in order."
+  ],
+  "testCases": [
+    [
+      "[[2,1,5],[3,3,7]]",
+      "4"
+    ],
+    [
+      "[[2,1,5],[3,3,7]]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def carPooling(self, trips, capacity):\n        events = []\n        for num_passengers, from_location, to_location in trips:\n            events.append((from_location, num_passengers))\n            events.append((to_location, -num_passengers))\n        events.sort()\n        current = 0\n        for location, change in events:\n            current += change\n            if current > capacity:\n                return False\n        return True",
+    "explanation": "Events of pickup/dropoff. Sort by location. Check capacity never exceeded.\nTime: O(n*log n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Meeting Rooms II\", \"titleSlug\": \"meeting-rooms-ii\", \"difficulty\": \"Medium\"}]"
+}

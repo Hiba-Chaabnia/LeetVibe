@@ -1,0 +1,49 @@
+{
+  "questionId": "1617",
+  "title": "Stone Game IV",
+  "titleSlug": "stone-game-iv",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "Alice and Bob take turns playing a game, with Alice starting first.\n\nInitially, there are n stones in a pile. On each player's turn, that player makes a move consisting of removing any non-zero square number of stones in the pile.\n\nAlso, if a player cannot make a move, he/she loses the game.\n\nGiven a positive integer n, return true if and only if Alice wins the game otherwise return false, assuming both players play optimally.\n\nExample 1:\n\nInput: n = 1\nOutput: true\nExplanation: Alice can remove 1 stone winning the game because Bob doesn't have any moves.\n\nExample 2:\n\nInput: n = 2\nOutput: false\nExplanation: Alice can only remove 1 stone, after that Bob removes the last one winning the game (2 -> 1 -> 0).\n\nExample 3:\n\nInput: n = 4\nOutput: true\nExplanation: n is already a perfect square, Alice can win with one move, removing 4 stones (4 -> 0).\n\nConstraints:\n\n• 1 <= n <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def winnerSquareGame(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming to keep track of winning and losing states. Given some number of stones, Alice can win if she can force Bob onto a losing state."
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "2"
+    ],
+    [
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Stone Game V\", \"titleSlug\": \"stone-game-v\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game VI\", \"titleSlug\": \"stone-game-vi\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VII\", \"titleSlug\": \"stone-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VIII\", \"titleSlug\": \"stone-game-viii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IX\", \"titleSlug\": \"stone-game-ix\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Removal Game\", \"titleSlug\": \"stone-removal-game\", \"difficulty\": \"Easy\"}]"
+}

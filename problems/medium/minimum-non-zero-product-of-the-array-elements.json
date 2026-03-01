@@ -1,0 +1,50 @@
+{
+  "questionId": "2100",
+  "title": "Minimum Non-Zero Product of the Array Elements",
+  "titleSlug": "minimum-non-zero-product-of-the-array-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "You are given a positive integer p. Consider an array nums (1-indexed) that consists of the integers in the inclusive range [1, 2p - 1] in their binary representations. You are allowed to do the following operation any number of times:\n\n• Choose two elements x and y from nums.\n\n• Choose a bit in x and swap it with its corresponding bit in y. Corresponding bit refers to the bit that is in the same position in the other integer.\n\nFor example, if x = 1101 and y = 0011, after swapping the 2nd bit from the right, we have x = 1111 and y = 0001.\n\nFind the minimum non-zero product of nums after performing the above operation any number of times. Return this product modulo 109 + 7.\n\nNote: The answer should be the minimum product before the modulo operation is done.\n\nExample 1:\n\nInput: p = 1\nOutput: 1\nExplanation: nums = [1].\n    There is only one element, so the product equals that element.\n\nExample 2:\n\nInput: p = 2\nOutput: 6\nExplanation: nums = [01, 10, 11].\n    Any swap would either make the product 0 or stay the same.\n    Thus, the array product of 1 * 2 * 3 = 6 is already minimized.\n\nExample 3:\n\nInput: p = 3\nOutput: 1512\nExplanation: nums = [001, 010, 011, 100, 101, 110, 111]\n    - In the first operation we can swap the leftmost bit of the second and fifth elements.\n        - The resulting array is [001, 110, 011, 100, 001, 110, 111].\n    - In the second operation we can swap the middle bit of the third and fourth elements.\n        - The resulting array is [001, 110, 001, 110, 001, 110, 111].\n    The array product is 1 * 6 * 1 * 6 * 1 * 6 * 7 = 1512, which is the minimum possible product.\n\nConstraints:\n\n• 1 <= p <= 60",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minNonZeroProduct(self, p):\n        \"\"\"\n        :type p: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to minimize each element by swapping bits with any of the elements after it.",
+    "If you swap out all the 1s in some element, this will lead to a product of zero."
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "2"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "6",
+    "1512"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

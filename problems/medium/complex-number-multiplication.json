@@ -1,0 +1,49 @@
+{
+  "questionId": "537",
+  "title": "Complex Number Multiplication",
+  "titleSlug": "complex-number-multiplication",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "A complex number can be represented as a string on the form \"real+imaginaryi\" where:\n\n• real is the real part and is an integer in the range [-100, 100].\n\n• imaginary is the imaginary part and is an integer in the range [-100, 100].\n\n• i2 == -1.\n\nGiven two complex numbers num1 and num2 as strings, return a string of the complex number that represents their multiplications.\n\nExample 1:\n\nInput: num1 = \"1+1i\", num2 = \"1+1i\"\nOutput: \"0+2i\"\nExplanation: (1 + i) * (1 + i) = 1 + i2 + 2 * i = 2i, and you need convert it to the form of 0+2i.\n\nExample 2:\n\nInput: num1 = \"1+-1i\", num2 = \"1+-1i\"\nOutput: \"0+-2i\"\nExplanation: (1 - i) * (1 - i) = 1 + i2 - 2 * i = -2i, and you need convert it to the form of 0+-2i.\n\nConstraints:\n\n• num1 and num2 are valid complex numbers.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def complexNumberMultiply(self, num1, num2):\n        \"\"\"\n        :type num1: str\n        :type num2: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"1+1i\"",
+      "\"1+1i\""
+    ],
+    [
+      "\"1+-1i\"",
+      "\"1+-1i\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"0+2i\"",
+    "\"0+-2i\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def complexNumberMultiply(num1: str, num2: str) -> str:\n    real1, imag1 = map(int, num1[:-1].split('+'))\n    real2, imag2 = map(int, num2[:-1].split('+'))\n\n    real = real1 * real2 - imag1 * imag2\n    imag = real1 * imag2 + real2 * imag1\n\n    return f\"{real}+{imag}i\"",
+    "explanation": "The algorithm first extracts the real and imaginary parts of the input complex numbers. In C++, sscanf is used to read formatted data from a string. In Java, we use split with a regex that matches both \"+\" and \"i\". In Python and JavaScript, we use split and map for the conversions.\n\nOnce we have real and imaginary parts of both numbers, we multiply the complex numbers using the formula:\n(real1 * real2 - imag1 * imag2) + (real1 * imag2 + real2 * imag1)i\n\nFinally, we convert the result into a string in the required format and return it."
+  },
+  "similarQuestions": "[]"
+}

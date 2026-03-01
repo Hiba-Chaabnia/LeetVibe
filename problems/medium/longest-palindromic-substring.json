@@ -1,0 +1,52 @@
+{
+  "questionId": "5",
+  "title": "Longest Palindromic Substring",
+  "titleSlug": "longest-palindromic-substring",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given a string s, return the longest palindromic substring in s.\n\nExample 1:\n\nInput: s = \"babad\"\nOutput: \"bab\"\nExplanation: \"aba\" is also a valid answer.\n\nExample 2:\n\nInput: s = \"cbbd\"\nOutput: \"bb\"\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s consist of only digits and English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can we reuse a previously computed palindrome to compute a larger palindrome?",
+    "If “aba” is a palindrome, is “xabax” a palindrome? Similarly is “xabay” a palindrome?",
+    "Complexity based hint:</br>\r\nIf we use brute-force and check whether for every start and end position a substring is a palindrome we have O(n^2) start - end pairs and O(n) palindromic checks. Can we reduce the time for palindromic checks to O(1) by reusing some previous computation."
+  ],
+  "testCases": [
+    [
+      "\"babad\""
+    ],
+    [
+      "\"cbbd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"bab\"",
+    "\"bb\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def longestPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        if not s:\n            return \"\"\n        \n        def expand_around_center(left, right):\n            while left >= 0 and right < len(s) and s[left] == s[right]:\n                left -= 1\n                right += 1\n            return right - left - 1  # Length of palindrome\n        \n        start = 0\n        max_len = 0\n        \n        for i in range(len(s)):\n            # Odd length palindromes (single center)\n            len1 = expand_around_center(i, i)\n            \n            # Even length palindromes (two centers)\n            len2 = expand_around_center(i, i + 1)\n            \n            current_len = max(len1, len2)\n            \n            if current_len > max_len:\n                max_len = current_len\n                start = i - (current_len - 1) // 2\n        \n        return s[start:start + max_len]",
+    "explanation": "Expand around center for each position. Check both odd (single char) and even (two chars) length palindromes. Track longest found.",
+    "complexity": "Time: O(n²). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Shortest Palindrome\", \"titleSlug\": \"shortest-palindrome\", \"difficulty\": \"Hard\"}, {\"title\": \"Palindrome Permutation\", \"titleSlug\": \"palindrome-permutation\", \"difficulty\": \"Easy\"}, {\"title\": \"Palindrome Pairs\", \"titleSlug\": \"palindrome-pairs\", \"difficulty\": \"Hard\"}, {\"title\": \"Longest Palindromic Subsequence\", \"titleSlug\": \"longest-palindromic-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Palindromic Substrings\", \"titleSlug\": \"palindromic-substrings\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Non-overlapping Palindrome Substrings\", \"titleSlug\": \"maximum-number-of-non-overlapping-palindrome-substrings\", \"difficulty\": \"Hard\"}]"
+}

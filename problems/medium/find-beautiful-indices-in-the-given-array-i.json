@@ -1,0 +1,67 @@
+{
+  "questionId": "3245",
+  "title": "Find Beautiful Indices in the Given Array I",
+  "titleSlug": "find-beautiful-indices-in-the-given-array-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are given a 0-indexed string s, a string a, a string b, and an integer k.\n\nAn index i is beautiful if:\n\n• 0 <= i <= s.length - a.length\n\n• s[i..(i + a.length - 1)] == a\n\n• There exists an index j such that:\n\n• 0 <= j <= s.length - b.length\n\n• s[j..(j + b.length - 1)] == b\n\n• |j - i| <= k\n\nReturn the array that contains beautiful indices in sorted order from smallest to largest.\n\nExample 1:\n\nInput: s = \"isawsquirrelnearmysquirrelhouseohmy\", a = \"my\", b = \"squirrel\", k = 15\nOutput: [16,33]\nExplanation: There are 2 beautiful indices: [16,33].\n    - The index 16 is beautiful as s[16..17] == \"my\" and there exists an index 4 with s[4..11] == \"squirrel\" and |16 - 4| Example 2:\n\nInput: s = \"abcd\", a = \"a\", b = \"a\", k = 4\nOutput: [0]\nExplanation: There is 1 beautiful index: [0].\n    - The index 0 is beautiful as s[0..0] == \"a\" and there exists an index 0 with s[0..0] == \"a\" and |0 - 0|\n\nConstraints:\n\n• 1 <= k <= s.length <= 105\n\n• 1 <= a.length, b.length <= 10\n\n• s, a, and b contain only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def beautifulIndices(self, s, a, b, k):\n        \"\"\"\n        :type s: str\n        :type a: str\n        :type b: str\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each i, you can iterate over all js and determine if i is beautiful or not."
+  ],
+  "testCases": [
+    [
+      "\"isawsquirrelnearmysquirrelhouseohmy\"",
+      "\"my\"",
+      "\"squirrel\"",
+      "15"
+    ],
+    [
+      "\"abcd\"",
+      "\"a\"",
+      "\"a\"",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[16,33]",
+    "[0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def beautifulIndices(self, s, a, b, k):\n        n = len(s)\n        # Find all occurrences of a and b in s\n        def find_all(text, pattern):\n            res = []\n            start = 0\n            while True:\n                idx = text.find(pattern, start)\n                if idx == -1:\n                    break\n                res.append(idx)\n                start = idx + 1\n            return res\n        a_indices = find_all(s, a)\n        b_indices = find_all(s, b)\n        # For each i in a_indices, check if any j in b_indices has |i-j| <= k\n        import bisect\n        result = []\n        for i in a_indices:\n            # Find b_indices in [i-k, i+k]\n            lo = bisect.bisect_left(b_indices, i - k)\n            hi = bisect.bisect_right(b_indices, i + k)\n            if lo < hi:\n                result.append(i)\n        return result",
+    "explanation": "Find all occurrences of a and b using str.find(). For each occurrence i of a, binary search in b's occurrences for any j with |i-j| ≤ k.\n\nTime: O(n*(|a|+|b|) + n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

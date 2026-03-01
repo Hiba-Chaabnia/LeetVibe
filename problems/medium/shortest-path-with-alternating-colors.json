@@ -1,0 +1,45 @@
+{
+  "questionId": "1229",
+  "title": "Shortest Path with Alternating Colors",
+  "titleSlug": "shortest-path-with-alternating-colors",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "You are given an integer n, the number of nodes in a directed graph where the nodes are labeled from 0 to n - 1. Each edge is red or blue in this graph, and there could be self-edges and parallel edges.\n\nYou are given two arrays redEdges and blueEdges where:\n\n• redEdges[i] = [ai, bi] indicates that there is a directed red edge from node ai to node bi in the graph, and\n\n• blueEdges[j] = [uj, vj] indicates that there is a directed blue edge from node uj to node vj in the graph.\n\nReturn an array answer of length n, where each answer[x] is the length of the shortest path from node 0 to node x such that the edge colors alternate along the path, or -1 if such a path does not exist.\n\nExample 1:\n\nInput: n = 3, redEdges = [[0,1],[1,2]], blueEdges = []\nOutput: [0,1,-1]\n\nExample 2:\n\nInput: n = 3, redEdges = [[0,1]], blueEdges = [[2,1]]\nOutput: [0,1,-1]\n\nConstraints:\n\n• 1 <= n <= 100\n\n• 0 <= redEdges.length, blueEdges.length <= 400\n\n• redEdges[i].length == blueEdges[j].length == 2\n\n• 0 <= ai, bi, uj, vj < n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestAlternatingPaths(self, n, redEdges, blueEdges):\n        \"\"\"\n        :type n: int\n        :type redEdges: List[List[int]]\n        :type blueEdges: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Do a breadth-first search, where the \"nodes\" are actually (Node, color of last edge taken)."
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[0,1],[1,2]]",
+      "[]"
+    ],
+    [
+      "3",
+      "[[0,1]]",
+      "[[2,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,1,-1]",
+    "[0,1,-1]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

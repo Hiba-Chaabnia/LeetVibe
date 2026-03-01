@@ -1,0 +1,47 @@
+{
+  "questionId": "742",
+  "title": "To Lower Case",
+  "titleSlug": "to-lower-case",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s, return the string after replacing every uppercase letter with the same lowercase letter.\n\nExample 1:\n\nInput: s = \"Hello\"\nOutput: \"hello\"\n\nExample 2:\n\nInput: s = \"here\"\nOutput: \"here\"\n\nExample 3:\n\nInput: s = \"LOVELY\"\nOutput: \"lovely\"\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists of printable ASCII characters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def toLowerCase(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Most languages support lowercase conversion for a string data type. However, that is certainly not the purpose of the problem. Think about how the implementation of the lowercase function call can be done easily.",
+    "<b>Think ASCII!</b>",
+    "Think about the different capital letters and their ASCII codes and how that relates to their lowercase counterparts. Does there seem to be any pattern there? Any mathematical relationship that we can use?"
+  ],
+  "testCases": [
+    [
+      "\"Hello\""
+    ],
+    [
+      "\"here\""
+    ],
+    [
+      "\"LOVELY\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"hello\"",
+    "\"here\"",
+    "\"lovely\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def toLowerCase(s: str) -> str:\n    return s.lower()",
+    "explanation": "The algorithm goes through each character in the input string and checks if the character is an uppercase letter. If it is, it converts the letter to lowercase, otherwise it keeps the character unchanged. In C++ and Java, we use a loop to go through each character and update it in-place. In Python, the built-in `str.lower()` function is used. In JavaScript, we need to create a new string by concatenating the resulting characters. For each language, the modified string is returned."
+  },
+  "similarQuestions": "[{\"title\": \"Capitalize the Title\", \"titleSlug\": \"capitalize-the-title\", \"difficulty\": \"Easy\"}]"
+}

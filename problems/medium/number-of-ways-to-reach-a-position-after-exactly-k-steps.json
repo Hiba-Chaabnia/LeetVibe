@@ -1,0 +1,55 @@
+{
+  "questionId": "2477",
+  "title": "Number of Ways to Reach a Position After Exactly k Steps",
+  "titleSlug": "number-of-ways-to-reach-a-position-after-exactly-k-steps",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given two positive integers startPos and endPos. Initially, you are standing at position startPos on an infinite number line. With one step, you can move either one position to the left, or one position to the right.\n\nGiven a positive integer k, return the number of different ways to reach the position endPos starting from startPos, such that you perform exactly k steps. Since the answer may be very large, return it modulo 109 + 7.\n\nTwo ways are considered different if the order of the steps made is not exactly the same.\n\nNote that the number line includes negative integers.\n\nExample 1:\n\nInput: startPos = 1, endPos = 2, k = 3\nOutput: 3\nExplanation: We can reach position 2 from 1 in exactly 3 steps in three ways:\n    - 1 -> 2 -> 3 -> 2.\n    - 1 -> 2 -> 1 -> 2.\n    - 1 -> 0 -> 1 -> 2.\n    It can be proven that no other way is possible, so we return 3.\n\nExample 2:\n\nInput: startPos = 2, endPos = 5, k = 10\nOutput: 0\nExplanation: It is impossible to reach position 5 from position 2 in exactly 10 steps.\n\nConstraints:\n\n• 1 <= startPos, endPos, k <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfWays(self, startPos, endPos, k):\n        \"\"\"\n        :type startPos: int\n        :type endPos: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How many steps to the left and to the right do you need to make exactly?",
+    "Does the order of the steps matter?",
+    "Use combinatorics to find the number of ways to order the steps."
+  ],
+  "testCases": [
+    [
+      "1",
+      "2",
+      "3"
+    ],
+    [
+      "2",
+      "5",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "MOD = 10**9 + 7\nMAX = 1001\n\ndef ways(startPos, endPos, k, dp):\n    if k == 0: return 1 if startPos == endPos else 0\n    if startPos < 0 or endPos < 0 or startPos >= MAX or endPos >= MAX: return 0\n    \n    if dp[startPos][k] != -1: return dp[startPos][k]\n    \n    left = ways(startPos - 1, endPos, k - 1, dp)\n    right = ways(startPos + 1, endPos, k - 1, dp)\n    \n    dp[startPos][k] = (left + right) % MOD\n    return dp[startPos][k]\n\ndef numberOfWays(startPos, endPos, k):\n    dp = [[-1 for _ in range(k + 1)] for _ in range(MAX)]\n    return ways(startPos, endPos, k, dp)",
+    "explanation": "The problem can be solved using dynamic programming. We can create a helper function `ways(startPos, endPos, k, dp)` to calculate the number of different ways to reach the position `endPos` from `startPos` with `k` steps remaining. The `dp` parameter is a memoization table, and stores the calculated results.\n\nThe base condition of the recursion is when `k == 0`, which means we have used up all our steps. If `startPos` is equal to `endPos`, it means we have reached the desired position using `k` steps, and we return 1, otherwise, we return 0.\n\nIf `startPos` or `endPos` is out of the given bounds, we return 0 as it is not possible to reach the destination in that case.\n\nWe check if the current state (`startPos` and `k`) has already been calculated, if so, we return the value from the memoization table.\n\nWe make a recursive call by moving one step to the left (`ways(startPos - 1, endPos, k - 1, dp)`), and one step to the right (`ways(startPos + 1, endPos, k - 1, dp)`), and sum the results modulo `MOD`. This sum represents the number of different ways to reach `endPos` from current `startPos` with remaining `k` steps.\n\nWe store and return the calculated result for the current state (`startPos` and `k`) in the memoization table.\n\nThe main `numberOfWays` function just initializes the memoization table `dp` and calls the `ways` function with the given input parameters."
+  },
+  "similarQuestions": "[{\"title\": \"Unique Paths\", \"titleSlug\": \"unique-paths\", \"difficulty\": \"Medium\"}, {\"title\": \"Climbing Stairs\", \"titleSlug\": \"climbing-stairs\", \"difficulty\": \"Easy\"}, {\"title\": \"Reach a Number\", \"titleSlug\": \"reach-a-number\", \"difficulty\": \"Medium\"}, {\"title\": \"Reaching Points\", \"titleSlug\": \"reaching-points\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Ways to Stay in the Same Place After Some Steps\", \"titleSlug\": \"number-of-ways-to-stay-in-the-same-place-after-some-steps\", \"difficulty\": \"Hard\"}]"
+}

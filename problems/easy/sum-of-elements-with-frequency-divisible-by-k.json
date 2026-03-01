@@ -1,0 +1,56 @@
+{
+  "questionId": "4068",
+  "title": "Sum of Elements With Frequency Divisible by K",
+  "titleSlug": "sum-of-elements-with-frequency-divisible-by-k",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nReturn an integer denoting the sum of all elements in nums whose frequency is divisible by k, or 0 if there are no such elements.\n\nNote: An element is included in the sum exactly as many times as it appears in the array if its total frequency is divisible by k.\n\nExample 1:\n\nInput: nums = [1,2,2,3,3,3,3,4], k = 2\n\nOutput: 16\n\nExplanation:\n\n• The number 1 appears once (odd frequency).\n\n• The number 2 appears twice (even frequency).\n\n• The number 3 appears four times (even frequency).\n\n• The number 4 appears once (odd frequency).\n\nSo, the total sum is 2 + 2 + 3 + 3 + 3 + 3 = 16.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5], k = 2\n\nOutput: 0\n\nExplanation: There are no elements that appear an even number of times, so the total sum is 0.\n\nExample 3:\n\nInput: nums = [4,4,4,1,2,3], k = 3\n\nOutput: 12\n\nExplanation:\n\n• The number 1 appears once.\n\n• The number 2 appears once.\n\n• The number 3 appears once.\n\n• The number 4 appears three times.\n\nSo, the total sum is 4 + 4 + 4 = 12.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 100\n\n• 1 <= k <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumDivisibleByK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "[1,2,2,3,3,3,3,4]",
+      "2"
+    ],
+    [
+      "[1,2,3,4,5]",
+      "2"
+    ],
+    [
+      "[4,4,4,1,2,3]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "16",
+    "0",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumDivisibleByK(self, nums, k):\n        from collections import Counter\n        cnt = Counter(nums)\n        return sum(v * cnt[v] for v in cnt if cnt[v] % k == 0)",
+    "explanation": "Count frequencies; sum v*freq for each value whose frequency is divisible by k. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

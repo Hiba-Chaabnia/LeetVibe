@@ -1,0 +1,54 @@
+{
+  "questionId": "322",
+  "title": "Coin Change",
+  "titleSlug": "coin-change",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.\n\nReturn the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.\n\nYou may assume that you have an infinite number of each kind of coin.\n\nExample 1:\n\nInput: coins = [1,2,5], amount = 11\nOutput: 3\nExplanation: 11 = 5 + 5 + 1\n\nExample 2:\n\nInput: coins = [2], amount = 3\nOutput: -1\n\nExample 3:\n\nInput: coins = [1], amount = 0\nOutput: 0\n\nConstraints:\n\n• 1 <= coins.length <= 12\n\n• 1 <= coins[i] <= 231 - 1\n\n• 0 <= amount <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def coinChange(self, coins, amount):\n        \"\"\"\n        :type coins: List[int]\n        :type amount: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,5]",
+      "11"
+    ],
+    [
+      "[2]",
+      "3"
+    ],
+    [
+      "[1]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def coinChange(coins, amount):\n    dp = [amount + 1] * (amount + 1)\n    dp[0] = 0\n\n    for coin in coins:\n        for i in range(coin, amount + 1):\n            dp[i] = min(dp[i], dp[i - coin] + 1)\n\n    return dp[amount] if dp[amount] <= amount else -1",
+    "explanation": "The algorithm here is based on dynamic programming. We create a `dp` array with indices from 0 to the total `amount` we need to target. We initialize the `dp` array with a value greater than the amount (amount + 1). This is because this value can never be achieved using the coins, and the initialization ensures that we always get a valid minimum number of coins.\n\nWe start by initializing `dp[0]` to 0 as there will be 0 coins needed to make a sum of 0.\n\nThen, we iterate through the given coins array and for each coin, we start another iteration from the value of the coin to the total amount. For each index `i` in this inner loop, we update `dp[i]` as the minimum of its current value `dp[i]` and `dp[i - coins[j]] + 1`. This ensures that we get the minimum number of coins required to create the total amount.\n\nAfter this iteration, if the value at `dp[amount]` is less than or equal to the target amount, we return the value as the minimum number of coins required. Otherwise, if it's greater than the amount, it means we couldn't find a combination of coins to make up the total amount, so we return -1."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cost For Tickets\", \"titleSlug\": \"minimum-cost-for-tickets\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Value of K Coins From Piles\", \"titleSlug\": \"maximum-value-of-k-coins-from-piles\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Number of Operations to Convert Time\", \"titleSlug\": \"minimum-number-of-operations-to-convert-time\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Cost to Split an Array\", \"titleSlug\": \"minimum-cost-to-split-an-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Count of Sub-Multisets With Bounded Sum\", \"titleSlug\": \"count-of-sub-multisets-with-bounded-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Length of the Longest Subsequence That Sums to Target\", \"titleSlug\": \"length-of-the-longest-subsequence-that-sums-to-target\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Coins to be Added\", \"titleSlug\": \"minimum-number-of-coins-to-be-added\", \"difficulty\": \"Medium\"}, {\"title\": \"Most Expensive Item That Can Not Be Bought\", \"titleSlug\": \"most-expensive-item-that-can-not-be-bought\", \"difficulty\": \"Medium\"}, {\"title\": \"Inverse Coin Change\", \"titleSlug\": \"inverse-coin-change\", \"difficulty\": \"Medium\"}]"
+}

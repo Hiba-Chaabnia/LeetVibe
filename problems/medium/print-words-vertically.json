@@ -1,0 +1,49 @@
+{
+  "questionId": "1449",
+  "title": "Print Words Vertically",
+  "titleSlug": "print-words-vertically",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given a string s. Return all the words vertically in the same order in which they appear in s.\n\nWords are returned as a list of strings, complete with spaces when is necessary. (Trailing spaces are not allowed).\n\nEach word would be put on only one column and that in one column there will be only one word.\n\nExample 1:\n\nInput: s = \"HOW ARE YOU\"\nOutput: [\"HAY\",\"ORO\",\"WEU\"]\nExplanation: Each word is printed vertically.\n     \"HAY\"\n     \"ORO\"\n     \"WEU\"\n\nExample 2:\n\nInput: s = \"TO BE OR NOT TO BE\"\nOutput: [\"TBONTB\",\"OEROOE\",\"   T\"]\nExplanation: Trailing spaces is not allowed.\n    \"TBONTB\"\n    \"OEROOE\"\n    \"   T\"\n\nExample 3:\n\nInput: s = \"CONTEST IS COMING\"\nOutput: [\"CIC\",\"OSO\",\"N M\",\"T I\",\"E N\",\"S G\",\"T\"]\n\nConstraints:\n\n• 1 <= s.length <= 200\n\n• s contains only upper case English letters.\n\n• It's guaranteed that there is only one space between 2 words.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def printVertically(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use the maximum length of words to determine the length of the returned answer. However, don't forget to remove trailing spaces."
+  ],
+  "testCases": [
+    [
+      "\"HOW ARE YOU\""
+    ],
+    [
+      "\"TO BE OR NOT TO BE\""
+    ],
+    [
+      "\"CONTEST IS COMING\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"HAY\",\"ORO\",\"WEU\"]",
+    "[\"TBONTB\",\"OEROOE\",\"   T\"]",
+    "[\"CIC\",\"OSO\",\"N M\",\"T I\",\"E N\",\"S G\",\"T\"]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

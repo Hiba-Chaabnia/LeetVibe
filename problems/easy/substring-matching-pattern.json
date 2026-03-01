@@ -1,0 +1,52 @@
+{
+  "questionId": "3684",
+  "title": "Substring Matching Pattern",
+  "titleSlug": "substring-matching-pattern",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "You are given a string s and a pattern string p, where p contains exactly one '*' character.\n\nThe '*' in p can be replaced with any sequence of zero or more characters.\n\nReturn true if p can be made a substring of s, and false otherwise.\n\nExample 1:\n\nInput: s = \"leetcode\", p = \"ee*e\"\n\nOutput: true\n\nExplanation: By replacing the '*' with \"tcod\", the substring \"eetcode\" matches the pattern.\n\nExample 2:\n\nInput: s = \"car\", p = \"c*v\"\n\nOutput: false\n\nExplanation: There is no substring matching the pattern.\n\nExample 3:\n\nInput: s = \"luck\", p = \"u*\"\n\nOutput: true\n\nExplanation: The substrings \"u\", \"uc\", and \"uck\" match the pattern.\n\nConstraints:\n\n• 1 <= s.length <= 50\n\n• 1 <= p.length <= 50\n\n• s contains only lowercase English letters.\n\n• p contains only lowercase English letters and exactly one '*'",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def hasMatch(self, s, p):\n        \"\"\"\n        :type s: str\n        :type p: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Divide the pattern in two strings and search in the string."
+  ],
+  "testCases": [
+    [
+      "\"leetcode\"",
+      "\"ee*e\""
+    ],
+    [
+      "\"car\"",
+      "\"c*v\""
+    ],
+    [
+      "\"luck\"",
+      "\"u*\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def hasMatch(self, s, p):\n        parts = p.split('*', 1)\n        prefix, suffix = parts[0], parts[1]\n        idx = s.find(prefix)\n        if idx == -1:\n            return False\n        return s[idx + len(prefix):].endswith(suffix)",
+    "explanation": "Split pattern at '*'; find the prefix in s then check if the remainder of s after that prefix ends with the suffix. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Wildcard Matching\", \"titleSlug\": \"wildcard-matching\", \"difficulty\": \"Hard\"}]"
+}

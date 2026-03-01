@@ -1,0 +1,47 @@
+{
+  "questionId": "782",
+  "title": "Jewels and Stones",
+  "titleSlug": "jewels-and-stones",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You're given strings jewels representing the types of stones that are jewels, and stones representing the stones you have. Each character in stones is a type of stone you have. You want to know how many of the stones you have are also jewels.\n\nLetters are case sensitive, so \"a\" is considered a different type of stone from \"A\".\n\nExample 1:\n\nInput: jewels = \"aA\", stones = \"aAAbbbb\"\nOutput: 3\nExample 2:\n\nInput: jewels = \"z\", stones = \"ZZ\"\nOutput: 0\n\nConstraints:\n\n• 1 <= jewels.length, stones.length <= 50\n\n• jewels and stones consist of only English letters.\n\n• All the characters of jewels are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numJewelsInStones(self, jewels, stones):\n        \"\"\"\n        :type jewels: str\n        :type stones: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each stone, check if it is a jewel."
+  ],
+  "testCases": [
+    [
+      "\"aA\"",
+      "\"aAAbbbb\""
+    ],
+    [
+      "\"z\"",
+      "\"ZZ\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numJewelsInStones(self, jewels, stones):\n        jewel_set = set(jewels)\n        count = 0\n        for stone in stones:\n            if stone in jewel_set:\n                count += 1\n        return count",
+    "explanation": "Convert jewels to set. Count stones that are jewels.\nTime: O(n + m)\nSpace: O(len(jewels))"
+  },
+  "similarQuestions": "[]"
+}

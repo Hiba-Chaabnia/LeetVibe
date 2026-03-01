@@ -1,0 +1,48 @@
+{
+  "questionId": "1342",
+  "title": "Queens That Can Attack the King",
+  "titleSlug": "queens-that-can-attack-the-king",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "On a 0-indexed 8 x 8 chessboard, there can be multiple black queens and one white king.\n\nYou are given a 2D integer array queens where queens[i] = [xQueeni, yQueeni] represents the position of the ith black queen on the chessboard. You are also given an integer array king of length 2 where king = [xKing, yKing] represents the position of the white king.\n\nReturn the coordinates of the black queens that can directly attack the king. You may return the answer in any order.\n\nExample 1:\n\nInput: queens = [[0,1],[1,0],[4,0],[0,4],[3,3],[2,4]], king = [0,0]\nOutput: [[0,1],[1,0],[3,3]]\nExplanation: The diagram above shows the three queens that can directly attack the king and the three queens that cannot attack the king (i.e., marked with red dashes).\n\nExample 2:\n\nInput: queens = [[0,0],[1,1],[2,2],[3,4],[3,5],[4,4],[4,5]], king = [3,3]\nOutput: [[2,2],[3,4],[4,4]]\nExplanation: The diagram above shows the three queens that can directly attack the king and the three queens that cannot attack the king (i.e., marked with red dashes).\n\nConstraints:\n\n• 1 <= queens.length < 64\n\n• queens[i].length == king.length == 2\n\n• 0 <= xQueeni, yQueeni, xKing, yKing < 8\n\n• All the given positions are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def queensAttacktheKing(self, queens, king):\n        \"\"\"\n        :type queens: List[List[int]]\n        :type king: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Check 8 directions around the King.",
+    "Find the nearest queen in each direction."
+  ],
+  "testCases": [
+    [
+      "[[0,1],[1,0],[4,0],[0,4],[3,3],[2,4]]",
+      "[0,0]"
+    ],
+    [
+      "[[0,0],[1,1],[2,2],[3,4],[3,5],[4,4],[4,5]]",
+      "[3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[0,1],[1,0],[3,3]]",
+    "[[2,2],[3,4],[4,4]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Moves to Capture The Queen\", \"titleSlug\": \"minimum-moves-to-capture-the-queen\", \"difficulty\": \"Medium\"}]"
+}

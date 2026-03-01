@@ -1,0 +1,56 @@
+{
+  "questionId": "3857",
+  "title": "Find Maximum Number of Non Intersecting Substrings",
+  "titleSlug": "find-maximum-number-of-non-intersecting-substrings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a string word.\n\nReturn the maximum number of non-intersecting substrings of word that are at least four characters long and start and end with the same letter.\n\nExample 1:\n\nInput: word = \"abcdeafdef\"\n\nOutput: 2\n\nExplanation: The two substrings are \"abcdea\" and \"fdef\".\n\nExample 2:\n\nInput: word = \"bcdaaaab\"\n\nOutput: 1\n\nExplanation: The only substring is \"aaaa\". Note that we cannot also choose \"bcdaaaab\" since it intersects with the other substring.\n\nConstraints:\n\n• 1 <= word.length <= 2 * 105\n\n• word consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSubstrings(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we solve the problem using Dynamic Programming?",
+    "For each character c, store all occurrence indices in order",
+    "At each position i, let j be the first index of word[i]; if i - j >= 3, we can form substring [j, i]",
+    "For each index, also store the maximum for <b>any</b> substring ending before that index in the dp."
+  ],
+  "testCases": [
+    [
+      "\"abcdeafdef\""
+    ],
+    [
+      "\"bcdaaaab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxSubstrings(self, word):\n        n = len(word)\n        first_occ = {}  # char -> first unused occurrence index\n        # dp[i] = max substrings using characters in word[0..i-1]\n        # Greedy: for each i, check if word[first[c]..i] is valid (length >= 4)\n        dp = [0] * (n + 1)\n        for i in range(n):\n            c = word[i]\n            dp[i+1] = dp[i]\n            if c in first_occ:\n                j = first_occ[c]\n                if i - j + 1 >= 4:\n                    # Take substring [j..i]\n                    dp[i+1] = max(dp[i+1], dp[j] + 1)\n                    # Update first occurrence to look for next one\n                    del first_occ[c]\n            if c not in first_occ:\n                first_occ[c] = i\n        return dp[n]",
+    "explanation": "DP with greedy: for each character, track the earliest available occurrence. If the substring from that occurrence to current index has length ≥ 4, optionally take it. dp[i+1] = max(dp[i], dp[j]+1) where j is first occurrence of word[i].\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

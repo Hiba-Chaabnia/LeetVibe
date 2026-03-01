@@ -1,0 +1,55 @@
+{
+  "questionId": "919",
+  "title": "Projection Area of 3D Shapes",
+  "titleSlug": "projection-area-of-3d-shapes",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an n x n grid where we place some 1 x 1 x 1 cubes that are axis-aligned with the x, y, and z axes.\n\nEach value v = grid[i][j] represents a tower of v cubes placed on top of the cell (i, j).\n\nWe view the projection of these cubes onto the xy, yz, and zx planes.\n\nA projection is like a shadow, that maps our 3-dimensional figure to a 2-dimensional plane. We are viewing the \"shadow\" when looking at the cubes from the top, the front, and the side.\n\nReturn the total area of all three projections.\n\nExample 1:\n\nInput: grid = [[1,2],[3,4]]\nOutput: 17\nExplanation: Here are the three projections (\"shadows\") of the shape made with each axis-aligned plane.\n\nExample 2:\n\nInput: grid = [[2]]\nOutput: 5\n\nExample 3:\n\nInput: grid = [[1,0],[0,2]]\nOutput: 8\n\nConstraints:\n\n• n == grid.length == grid[i].length\n\n• 1 <= n <= 50\n\n• 0 <= grid[i][j] <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def projectionArea(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2],[3,4]]"
+    ],
+    [
+      "[[2]]"
+    ],
+    [
+      "[[1,0],[0,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "17",
+    "5",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def projectionArea(self, grid):\n        n = len(grid)\n        xy = sum(1 for i in range(n) for j in range(n) if grid[i][j] > 0)\n        xz = sum(max(grid[i]) for i in range(n))\n        yz = sum(max(grid[i][j] for i in range(n)) for j in range(n))\n        return xy + xz + yz",
+    "explanation": "XY area: count non-zero cells. XZ area: max per row. YZ area: max per column.\nTime: O(n²)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

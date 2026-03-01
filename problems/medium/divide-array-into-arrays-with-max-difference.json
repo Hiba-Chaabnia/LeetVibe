@@ -1,0 +1,57 @@
+{
+  "questionId": "3241",
+  "title": "Divide Array Into Arrays With Max Difference",
+  "titleSlug": "divide-array-into-arrays-with-max-difference",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer array nums of size n where n is a multiple of 3 and a positive integer k.\n\nDivide the array nums into n / 3 arrays of size 3 satisfying the following condition:\n\n• The difference between any two elements in one array is less than or equal to k.\n\nReturn a 2D array containing the arrays. If it is impossible to satisfy the conditions, return an empty array. And if there are multiple answers, return any of them.\n\nExample 1:\n\nInput: nums = [1,3,4,8,7,9,3,5,1], k = 2\n\nOutput: [[1,1,3],[3,4,5],[7,8,9]]\n\nExplanation: The difference between any two elements in each array is less than or equal to 2.\n\nExample 2:\n\nInput: nums = [2,4,2,2,5,2], k = 2\n\nOutput: []\n\nExplanation: Different ways to divide nums into 2 arrays of size 3 are:\n\n• [[2,2,2],[2,4,5]] (and its permutations)\n\n• [[2,2,4],[2,2,5]] (and its permutations)\n\nBecause there are four 2s there will be an array with the elements 2 and 5 no matter how we divide it. since 5 - 2 = 3 > k, the condition is not satisfied and so there is no valid division.\n\nExample 3:\n\nInput: nums = [4,2,9,8,2,12,7,12,10,5,8,5,5,7,9,2,5,11], k = 14\n\nOutput: [[2,2,2],[4,5,5],[5,5,7],[7,8,8],[9,9,10],[11,12,12]]\n\nExplanation: The difference between any two elements in each array is less than or equal to 14.\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 105\n\n• n is a multiple of 3\n\n• 1 <= nums[i] <= 105\n\n• 1 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def divideArray(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to use a greedy approach.",
+    "Sort the array and try to group each 3 consecutive elements."
+  ],
+  "testCases": [
+    [
+      "[1,3,4,8,7,9,3,5,1]",
+      "2"
+    ],
+    [
+      "[2,4,2,2,5,2]",
+      "2"
+    ],
+    [
+      "[4,2,9,8,2,12,7,12,10,5,8,5,5,7,9,2,5,11]",
+      "14"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,1,3],[3,4,5],[7,8,9]]",
+    "[]",
+    "[[2,2,2],[4,5,5],[5,5,7],[7,8,8],[9,9,10],[11,12,12]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def divideArray(self, nums, k):\n        nums.sort()\n        result = []\n        for i in range(0, len(nums), 3):\n            if nums[i+2] - nums[i] > k:\n                return []\n            result.append([nums[i], nums[i+1], nums[i+2]])\n        return result",
+    "explanation": "Sort and greedily group consecutive triples. In each group of 3 sorted elements, max - min = nums[i+2] - nums[i]. If > k, impossible.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

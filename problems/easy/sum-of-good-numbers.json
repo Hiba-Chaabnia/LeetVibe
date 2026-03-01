@@ -1,0 +1,43 @@
+{
+  "questionId": "3723",
+  "title": "Sum of Good Numbers",
+  "titleSlug": "sum-of-good-numbers",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given an array of integers nums and an integer k, an element nums[i] is considered good if it is strictly greater than the elements at indices i - k and i + k (if those indices exist). If neither of these indices exists, nums[i] is still considered good.\n\nReturn the sum of all the good elements in the array.\n\nExample 1:\n\nInput: nums = [1,3,2,1,5,4], k = 2\n\nOutput: 12\n\nExplanation: The good numbers are nums[1] = 3, nums[4] = 5, and nums[5] = 4 because they are strictly greater than the numbers at indices i - k and i + k.\n\nExample 2:\n\nInput: nums = [2,1], k = 1\n\nOutput: 2\n\nExplanation: The only good number is nums[0] = 2 because it is strictly greater than nums[1].\n\nConstraints:\n\n• 2 <= nums.length <= 100\n\n• 1 <= nums[i] <= 1000\n\n• 1 <= k <= floor(nums.length / 2)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumOfGoodNumbers(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each index, check if nums[i] is strictly greater than nums[i - k] and nums[i + k]."
+  ],
+  "testCases": [
+    [
+      "[1,3,2,1,5,4]",
+      "2"
+    ],
+    [
+      "[2,1]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumOfGoodNumbers(self, nums, k):\n        n = len(nums)\n        total = 0\n        for i in range(n):\n            good = True\n            if i - k >= 0 and nums[i] <= nums[i - k]:\n                good = False\n            if i + k < n and nums[i] <= nums[i + k]:\n                good = False\n            if good:\n                total += nums[i]\n        return total",
+    "explanation": "An element is good if strictly greater than existing neighbors at i-k and i+k; sum all good elements. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

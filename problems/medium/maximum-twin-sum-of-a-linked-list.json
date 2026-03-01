@@ -1,0 +1,50 @@
+{
+  "questionId": "2236",
+  "title": "Maximum Twin Sum of a Linked List",
+  "titleSlug": "maximum-twin-sum-of-a-linked-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "In a linked list of size n, where n is even, the ith node (0-indexed) of the linked list is known as the twin of the (n-1-i)th node, if 0 <= i <= (n / 2) - 1.\n\n• For example, if n = 4, then node 0 is the twin of node 3, and node 1 is the twin of node 2. These are the only nodes with twins for n = 4.\n\nThe twin sum is defined as the sum of a node and its twin.\n\nGiven the head of a linked list with even length, return the maximum twin sum of the linked list.\n\nExample 1:\n\nInput: head = [5,4,2,1]\nOutput: 6\nExplanation:\n    Nodes 0 and 1 are the twins of nodes 3 and 2, respectively. All have twin sum = 6.\n    There are no other nodes with twins in the linked list.\n    Thus, the maximum twin sum of the linked list is 6.\n\nExample 2:\n\nInput: head = [4,2,2,3]\nOutput: 7\nExplanation:\n    The nodes with twins present in this linked list are:\n    - Node 0 is the twin of node 3 having a twin sum of 4 + 3 = 7.\n    - Node 1 is the twin of node 2 having a twin sum of 2 + 2 = 4.\n    Thus, the maximum twin sum of the linked list is max(7, 4) = 7.\n\nExample 3:\n\nInput: head = [1,100000]\nOutput: 100001\nExplanation:\n    There is only one node with a twin in the linked list having twin sum of 1 + 100000 = 100001.\n\nConstraints:\n\n• The number of nodes in the list is an even integer in the range [2, 105].\n\n• 1 <= Node.val <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def pairSum(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can \"reversing\" a part of the linked list help find the answer?",
+    "We know that the nodes of the first half are twins of nodes in the second half, so try dividing the linked list in half and reverse the second half.",
+    "How can two pointers be used to find every twin sum optimally?",
+    "Use two different pointers pointing to the first nodes of the two halves of the linked list. The second pointer will point to the first node of the reversed half, which is the (n-1-i)th node in the original linked list. By moving both pointers forward at the same time, we find all twin sums."
+  ],
+  "testCases": [
+    [
+      "[5,4,2,1]",
+      "[4,2,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def pairSum(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: int\n        \"\"\"\n        # Find middle using slow and fast pointers\n        slow = fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        \n        # Reverse second half\n        prev = None\n        while slow:\n            next_node = slow.next\n            slow.next = prev\n            prev = slow\n            slow = next_node\n        \n        # Compare first half with reversed second half\n        max_sum = 0\n        left = head\n        right = prev\n        \n        while right:  # Second half is shorter or equal\n            max_sum = max(max_sum, left.val + right.val)\n            left = left.next\n            right = right.next\n        \n        return max_sum",
+    "explanation": "Find middle, reverse second half, then iterate from both ends calculating twin sums.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Linked List\", \"titleSlug\": \"reverse-linked-list\", \"difficulty\": \"Easy\"}, {\"title\": \"Palindrome Linked List\", \"titleSlug\": \"palindrome-linked-list\", \"difficulty\": \"Easy\"}, {\"title\": \"Middle of the Linked List\", \"titleSlug\": \"middle-of-the-linked-list\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "3139",
+  "title": "Subarrays Distinct Element Sum of Squares II",
+  "titleSlug": "subarrays-distinct-element-sum-of-squares-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums.\n\nThe distinct count of a subarray of nums is defined as:\n\n• Let nums[i..j] be a subarray of nums consisting of all the indices from i to j such that 0 <= i <= j < nums.length. Then the number of distinct values in nums[i..j] is called the distinct count of nums[i..j].\n\nReturn the sum of the squares of distinct counts of all subarrays of nums.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [1,2,1]\nOutput: 15\nExplanation: Six possible subarrays are:\n    [1]: 1 distinct value\n    [2]: 1 distinct value\n    [1]: 1 distinct value\n    [1,2]: 2 distinct values\n    [2,1]: 2 distinct values\n    [1,2,1]: 2 distinct values\n    The sum of the squares of the distinct counts in all subarrays is equal to 12 + 12 + 12 + 22 + 22 + 22 = 15.\n\nExample 2:\n\nInput: nums = [2,2]\nOutput: 3\nExplanation: Three possible subarrays are:\n    [2]: 1 distinct value\n    [2]: 1 distinct value\n    [2,2]: 1 distinct value\n    The sum of the squares of the distinct counts in all subarrays is equal to 12 + 12 + 12 = 3.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumCounts(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider the sum of the count of distinct values of subarrays ending with index i, let’s call it sum. Now if you need the sum of all subarrays ending with index i + 1 think how it can be related to sum and what extra will be needed to add to this.",
+    "You can find that extra sum using the segment tree."
+  ],
+  "testCases": [
+    [
+      "[1,2,1]"
+    ],
+    [
+      "[2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "15",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumCounts(self, nums):\n        MOD = 10**9 + 7\n        n = len(nums)\n        # Segment tree: each leaf i represents subarray starting at i, ending at current j\n        # Stores sum_d[i] and sum_d2[i] = D[i..j] and D[i..j]^2\n        # When advancing j: range [last_occ[nums[j]]+1, j] increases by 1\n        # (d+1)^2 = d^2 + 2d + 1 => range update: sum_d2 += 2*sum_d + length\n        lazy = [0] * (4 * (n + 1))\n        sum_d = [0] * (4 * (n + 1))\n        sum_d2 = [0] * (4 * (n + 1))\n        size = [0] * (4 * (n + 1))\n        def build(node, lo, hi):\n            size[node] = hi - lo + 1\n            if lo == hi:\n                return\n            mid = (lo + hi) >> 1\n            build(2*node, lo, mid)\n            build(2*node+1, mid+1, hi)\n        def apply_lazy(node, val):\n            sum_d2[node] = (sum_d2[node] + 2 * val * sum_d[node] + val * val * size[node]) % MOD\n            sum_d[node] = (sum_d[node] + val * size[node]) % MOD\n            lazy[node] = (lazy[node] + val) % MOD\n        def push_down(node):\n            if lazy[node]:\n                apply_lazy(2*node, lazy[node])\n                apply_lazy(2*node+1, lazy[node])\n                lazy[node] = 0\n        def update(node, lo, hi, l, r):\n            if r < lo or hi < l:\n                return\n            if l <= lo and hi <= r:\n                apply_lazy(node, 1)\n                return\n            push_down(node)\n            mid = (lo + hi) >> 1\n            update(2*node, lo, mid, l, r)\n            update(2*node+1, mid+1, hi, l, r)\n            sum_d[node] = (sum_d[2*node] + sum_d[2*node+1]) % MOD\n            sum_d2[node] = (sum_d2[2*node] + sum_d2[2*node+1]) % MOD\n        build(1, 1, n)\n        last_occ = {}\n        total = 0\n        for j in range(1, n + 1):\n            v = nums[j-1]\n            lo = last_occ.get(v, 0) + 1\n            update(1, 1, n, lo, j)\n            last_occ[v] = j\n            total = (total + sum_d2[1]) % MOD\n        return total",
+    "explanation": "Segment tree with lazy propagation on start indices. Each position i represents subarray [i..j] for current j. When advancing j: subarrays [last_occ[v]+1..j] gain +1 distinct count. Apply range-add-1: sum_d2 += 2*sum_d + length (from (d+1)^2 = d^2+2d+1). After each j, add sum_d2[root] (total D^2 for all subarrays ending at j) to answer.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

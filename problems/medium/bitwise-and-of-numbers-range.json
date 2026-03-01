@@ -1,0 +1,46 @@
+{
+  "questionId": "201",
+  "title": "Bitwise AND of Numbers Range",
+  "titleSlug": "bitwise-and-of-numbers-range",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given two integers left and right that represent the range [left, right], return the bitwise AND of all numbers in this range, inclusive.\n\nExample 1:\n\nInput: left = 5, right = 7\nOutput: 4\n\nExample 2:\n\nInput: left = 0, right = 0\nOutput: 0\n\nExample 3:\n\nInput: left = 1, right = 2147483647\nOutput: 0\n\nConstraints:\n\n• 0 <= left <= right <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rangeBitwiseAnd(self, left, right):\n        \"\"\"\n        :type left: int\n        :type right: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "5",
+      "7"
+    ],
+    [
+      "0",
+      "0"
+    ],
+    [
+      "1",
+      "2147483647"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def rangeBitwiseAnd(self, left, right):\n        shift = 0\n        while left != right:\n            left >>= 1\n            right >>= 1\n            shift += 1\n        return left << shift",
+    "explanation": "Find common prefix of binary representations. Shift back.\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Longest Nice Subarray\", \"titleSlug\": \"longest-nice-subarray\", \"difficulty\": \"Medium\"}]"
+}

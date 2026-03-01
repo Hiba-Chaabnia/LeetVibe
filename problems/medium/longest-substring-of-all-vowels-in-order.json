@@ -1,0 +1,46 @@
+{
+  "questionId": "1967",
+  "title": "Longest Substring Of All Vowels in Order",
+  "titleSlug": "longest-substring-of-all-vowels-in-order",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "A string is considered beautiful if it satisfies the following conditions:\n\n• Each of the 5 English vowels ('a', 'e', 'i', 'o', 'u') must appear at least once in it.\n\n• The letters must be sorted in alphabetical order (i.e. all 'a's before 'e's, all 'e's before 'i's, etc.).\n\nFor example, strings \"aeiou\" and \"aaaaaaeiiiioou\" are considered beautiful, but \"uaeio\", \"aeoiu\", and \"aaaeeeooo\" are not beautiful.\n\nGiven a string word consisting of English vowels, return the length of the longest beautiful substring of word. If no such substring exists, return 0.\n\nA substring is a contiguous sequence of characters in a string.\n\nExample 1:\n\nInput: word = \"aeiaaioaaaaeiiiiouuuooaauuaeiu\"\nOutput: 13\nExplanation: The longest beautiful substring in word is \"aaaaeiiiiouuu\" of length 13.\n\nExample 2:\n\nInput: word = \"aeeeiiiioooauuuaeiou\"\nOutput: 5\nExplanation: The longest beautiful substring in word is \"aeiou\" of length 5.\n\nExample 3:\n\nInput: word = \"a\"\nOutput: 0\nExplanation: There is no beautiful substring, so return 0.\n\nConstraints:\n\n• 1 <= word.length <= 5 * 105\n\n• word consists of characters 'a', 'e', 'i', 'o', and 'u'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestBeautifulSubstring(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Start from each 'a' and find the longest beautiful substring starting at that index.",
+    "Based on the current character decide if you should include the next character in the beautiful substring."
+  ],
+  "testCases": [
+    [
+      "\"aeiaaioaaaaeiiiiouuuooaauuaeiu\""
+    ],
+    [
+      "\"aeeeiiiioooauuuaeiou\""
+    ],
+    [
+      "\"a\""
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "5",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count Vowel Substrings of a String\", \"titleSlug\": \"count-vowel-substrings-of-a-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Longest Nice Subarray\", \"titleSlug\": \"longest-nice-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Count of Substrings Containing Every Vowel and K Consonants II\", \"titleSlug\": \"count-of-substrings-containing-every-vowel-and-k-consonants-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Count of Substrings Containing Every Vowel and K Consonants I\", \"titleSlug\": \"count-of-substrings-containing-every-vowel-and-k-consonants-i\", \"difficulty\": \"Medium\"}]"
+}

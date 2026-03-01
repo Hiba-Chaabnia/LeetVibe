@@ -1,0 +1,39 @@
+{
+  "questionId": "453",
+  "title": "Minimum Moves to Equal Array Elements",
+  "titleSlug": "minimum-moves-to-equal-array-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given an integer array nums of size n, return the minimum number of moves required to make all array elements equal.\n\nIn one move, you can increment n - 1 elements of the array by 1.\n\nExample 1:\n\nInput: nums = [1,2,3]\nOutput: 3\nExplanation: Only three moves are needed (remember each move increments two elements):\n    [1,2,3]  =>  [2,3,3]  =>  [3,4,3]  =>  [4,4,4]\n\nExample 2:\n\nInput: nums = [1,1,1]\nOutput: 0\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109\n\n• The answer is guaranteed to fit in a 32-bit integer.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMoves(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Moves to Equal Array Elements II\", \"titleSlug\": \"minimum-moves-to-equal-array-elements-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Running Time of N Computers\", \"titleSlug\": \"maximum-running-time-of-n-computers\", \"difficulty\": \"Hard\"}, {\"title\": \"Pour Water Between Buckets to Make Water Levels Equal\", \"titleSlug\": \"pour-water-between-buckets-to-make-water-levels-equal\", \"difficulty\": \"Medium\"}, {\"title\": \"Divide Players Into Teams of Equal Skill\", \"titleSlug\": \"divide-players-into-teams-of-equal-skill\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Minimum Operations to Make All Elements Divisible by Three\", \"titleSlug\": \"find-minimum-operations-to-make-all-elements-divisible-by-three\", \"difficulty\": \"Easy\"}]"
+}

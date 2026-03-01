@@ -1,0 +1,54 @@
+{
+  "questionId": "2044",
+  "title": "Number of Wonderful Substrings",
+  "titleSlug": "number-of-wonderful-substrings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "A wonderful string is a string where at most one letter appears an odd number of times.\n\n• For example, \"ccjjc\" and \"abab\" are wonderful, but \"ab\" is not.\n\nGiven a string word that consists of the first ten lowercase English letters ('a' through 'j'), return the number of wonderful non-empty substrings in word. If the same substring appears multiple times in word, then count each occurrence separately.\n\nA substring is a contiguous sequence of characters in a string.\n\nExample 1:\n\nInput: word = \"aba\"\nOutput: 4\nExplanation: The four wonderful substrings are underlined below:\n    - \"aba\" -> \"a\"\n    - \"aba\" -> \"b\"\n    - \"aba\" -> \"a\"\n    - \"aba\" -> \"aba\"\n\nExample 2:\n\nInput: word = \"aabb\"\nOutput: 9\nExplanation: The nine wonderful substrings are underlined below:\n    - \"aabb\" -> \"a\"\n    - \"aabb\" -> \"aa\"\n    - \"aabb\" -> \"aab\"\n    - \"aabb\" -> \"aabb\"\n    - \"aabb\" -> \"a\"\n    - \"aabb\" -> \"abb\"\n    - \"aabb\" -> \"b\"\n    - \"aabb\" -> \"bb\"\n    - \"aabb\" -> \"b\"\n\nExample 3:\n\nInput: word = \"he\"\nOutput: 2\nExplanation: The two wonderful substrings are underlined below:\n    - \"he\" -> \"h\"\n    - \"he\" -> \"e\"\n\nConstraints:\n\n• 1 <= word.length <= 105\n\n• word consists of lowercase English letters from 'a' to 'j'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\r\n    def wonderfulSubstrings(self, word):\r\n        \"\"\"\r\n        :type word: str\r\n        :rtype: int\r\n        \"\"\""
+    }
+  ],
+  "hints": [
+    "For each prefix of the string, check which characters are of even frequency and which are not and represent it by a bitmask.",
+    "Find the other prefixes whose masks differs from the current prefix mask by at most one bit."
+  ],
+  "testCases": [
+    [
+      "\"aba\""
+    ],
+    [
+      "\"aabb\""
+    ],
+    [
+      "\"he\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "9",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

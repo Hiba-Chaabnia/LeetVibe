@@ -1,0 +1,70 @@
+{
+  "questionId": "2147",
+  "title": "The Score of Students Solving Math Expression",
+  "titleSlug": "the-score-of-students-solving-math-expression",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "You are given a string s that contains digits 0-9, addition symbols '+', and multiplication symbols '*' only, representing a valid math expression of single digit numbers (e.g., 3+5*2). This expression was given to n elementary school students. The students were instructed to get the answer of the expression by following this order of operations:\n\n• Compute multiplication, reading from left to right; Then,\n\n• Compute addition, reading from left to right.\n\nYou are given an integer array answers of length n, which are the submitted answers of the students in no particular order. You are asked to grade the answers, by following these rules:\n\n• If an answer equals the correct answer of the expression, this student will be rewarded 5 points;\n\n• Otherwise, if the answer could be interpreted as if the student applied the operators in the wrong order but had correct arithmetic, this student will be rewarded 2 points;\n\n• Otherwise, this student will be rewarded 0 points.\n\nReturn the sum of the points of the students.\n\nExample 1:\n\nInput: s = \"7+3*1*2\", answers = [20,13,42]\nOutput: 7\nExplanation: As illustrated above, the correct answer of the expression is 13, therefore one student is rewarded 5 points: [20,13,42]\n    A student might have applied the operators in this wrong order: ((7+3)*1)*2 = 20. Therefore one student is rewarded 2 points: [20,13,42]\n    The points for the students are: [2,5,0]. The sum of the points is 2+5+0=7.\n\nExample 2:\n\nInput: s = \"3+5*2\", answers = [13,0,10,13,13,16,16]\nOutput: 19\nExplanation: The correct answer of the expression is 13, therefore three students are rewarded 5 points each: [13,0,10,13,13,16,16]\n    A student might have applied the operators in this wrong order: ((3+5)*2 = 16. Therefore two students are rewarded 2 points: [13,0,10,13,13,16,16]\n    The points for the students are: [5,0,0,5,5,2,2]. The sum of the points is 5+0+0+5+5+2+2=19.\n\nExample 3:\n\nInput: s = \"6+0*1\", answers = [12,9,6,4,8,6]\nOutput: 10\nExplanation: The correct answer of the expression is 6.\n    If a student had incorrectly done (6+0)*1, the answer would also be 6.\n    By the rules of grading, the students will still be rewarded 5 points (as they got the correct answer), not 2 points.\n    The points for the students are: [0,0,5,0,0,5]. The sum of the points is 10.\n\nConstraints:\n\n• 3 <= s.length <= 31\n\n• s represents a valid expression that contains only digits 0-9, '+', and '*' only.\n\n• All the integer operands in the expression are in the inclusive range [0, 9].\n\n• 1 <= The count of all operators ('+' and '*') in the math expression <= 15\n\n• Test data are generated such that the correct answer of the expression is in the range of [0, 1000].\n\n• Test data are generated such that value never exceeds 109 in intermediate steps of multiplication.\n\n• n == answers.length\n\n• 1 <= n <= 104\n\n• 0 <= answers[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def scoreOfStudents(self, s, answers):\n        \"\"\"\n        :type s: str\n        :type answers: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The number of operators in the equation is less. Could you find the right answer then generate all possible answers using different orders of operations?",
+    "Divide the equation into blocks separated by the operators, and use memoization on the results of blocks for optimization.",
+    "Use set and the max limit of the answer for further optimization."
+  ],
+  "testCases": [
+    [
+      "\"7+3*1*2\"",
+      "[20,13,42]"
+    ],
+    [
+      "\"3+5*2\"",
+      "[13,0,10,13,13,16,16]"
+    ],
+    [
+      "\"6+0*1\"",
+      "[12,9,6,4,8,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "19",
+    "10"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Basic Calculator\", \"titleSlug\": \"basic-calculator\", \"difficulty\": \"Hard\"}, {\"title\": \"Different Ways to Add Parentheses\", \"titleSlug\": \"different-ways-to-add-parentheses\", \"difficulty\": \"Medium\"}]"
+}

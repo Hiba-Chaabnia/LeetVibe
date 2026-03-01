@@ -1,0 +1,60 @@
+{
+  "questionId": "3979",
+  "title": "Partition Array Into K-Distinct Groups",
+  "titleSlug": "partition-array-into-k-distinct-groups",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nYour task is to determine whether it is possible to partition all elements of nums into one or more groups such that:\n\n• Each group contains exactly k elements.\n\n• All elements in each group are distinct.\n\n• Each element in nums must be assigned to exactly one group.\n\nReturn true if such a partition is possible, otherwise return false.\n\nExample 1:\n\nInput: nums = [1,2,3,4], k = 2\n\nOutput: true\n\nExplanation: One possible partition is to have 2 groups:\n\n• Group 1: [1, 2]\n\n• Group 2: [3, 4]\n\nEach group contains k = 2 distinct elements, and all elements are used exactly once.\n\nExample 2:\n\nInput: nums = [3,5,2,2], k = 2\n\nOutput: true\n\nExplanation: One possible partition is to have 2 groups:\n\n• Group 1: [2, 3]\n\n• Group 2: [2, 5]\n\nEach group contains k = 2 distinct elements, and all elements are used exactly once.\n\nExample 3:\n\nInput: nums = [1,5,2,3], k = 3\n\nOutput: false\n\nExplanation: We cannot form groups of k = 3 distinct elements using all values exactly once.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105\n\n• ​​​​​​​1 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def partitionArray(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think about how many groups of size k you need to form.",
+    "Each group must contain exactly k distinct elements.",
+    "If any element appears more times than the number of groups groups, it cannot be placed uniquely in each group.",
+    "Use a frequency map freq to count the occurrences of each element.",
+    "If the total number of elements n is not divisible by k, partitioning is impossible."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4]",
+      "2"
+    ],
+    [
+      "[3,5,2,2]",
+      "2"
+    ],
+    [
+      "[1,5,2,3]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def partitionArray(self, nums, k):\n        n = len(nums)\n        if n % k != 0:\n            return False\n        groups = n // k\n        freq = Counter(nums)\n        return all(v <= groups for v in freq.values())",
+    "explanation": "Two conditions must hold:\n1. The total number of elements must be divisible by k (otherwise we can't form groups of exactly k).\n2. No element can appear more than (n // k) times — the number of groups — because each group can contain at most one copy of each element.\n\nIf both conditions are satisfied, a valid partition always exists (we can distribute elements round-robin across groups sorted by frequency).\n\nTime complexity: O(n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[]"
+}

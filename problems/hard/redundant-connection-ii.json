@@ -1,0 +1,51 @@
+{
+  "questionId": "685",
+  "title": "Redundant Connection II",
+  "titleSlug": "redundant-connection-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "In this problem, a rooted tree is a directed graph such that, there is exactly one node (the root) for which all other nodes are descendants of this node, plus every node has exactly one parent, except for the root node which has no parents.\n\nThe given input is a directed graph that started as a rooted tree with n nodes (with distinct values from 1 to n), with one additional directed edge added. The added edge has two different vertices chosen from 1 to n, and was not an edge that already existed.\n\nThe resulting graph is given as a 2D-array of edges. Each element of edges is a pair [ui, vi] that represents a directed edge connecting nodes ui and vi, where ui is a parent of child vi.\n\nReturn an edge that can be removed so that the resulting graph is a rooted tree of n nodes. If there are multiple answers, return the answer that occurs last in the given 2D-array.\n\nExample 1:\n\nInput: edges = [[1,2],[1,3],[2,3]]\nOutput: [2,3]\n\nExample 2:\n\nInput: edges = [[1,2],[2,3],[3,4],[4,1],[1,5]]\nOutput: [4,1]\n\nConstraints:\n\n• n == edges.length\n\n• 3 <= n <= 1000\n\n• edges[i].length == 2\n\n• 1 <= ui, vi <= n\n\n• ui != vi",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findRedundantDirectedConnection(self, edges):\n        \"\"\"\n        :type edges: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2],[1,3],[2,3]]"
+    ],
+    [
+      "[[1,2],[2,3],[3,4],[4,1],[1,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3]",
+    "[4,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findRedundantDirectedConnection(edges):\n    parent = [0] * (len(edges) + 1)\n    candidateA = candidateB = None\n\n    for u, v in edges:\n        if parent[v] > 0:\n            candidateA = [parent[v], v]\n            candidateB = [u, v]\n        else:\n            parent[v] = u\n\n    for i in range(1, len(edges) + 1):\n        cycle = i\n        steps = len(edges)\n        while parent[cycle] != 0 and steps > 0:\n            cycle = parent[cycle]\n            steps -= 1\n        if steps == 0:\n            if not candidateA:\n                return [parent[i], i]\n            else:\n                return candidateA\n\n    return candidateB",
+    "explanation": "1. Initialize an array `parent` to keep track of the parent of each node.\n2. Loop through the edges to build the `parent` array. If there is already a parent for node `v`, store this edge as `candidateA` and the current edge as `candidateB`.\n3. Loop through the nodes in the graph to find a cycle. If a cycle is found, it means the edge causing a cycle should be removed. If `candidateA` exists, return `candidateA`, otherwise return the edge causing the cycle.\n4. If no cycle is found, return `candidateB`. The presence of `candidateB` means that there is a node with two parents, which is the additional edge that needs to be removed to obtain the original tree."
+  },
+  "similarQuestions": "[{\"title\": \"Redundant Connection\", \"titleSlug\": \"redundant-connection\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,55 @@
+{
+  "questionId": "877",
+  "title": "Shortest Path Visiting All Nodes",
+  "titleSlug": "shortest-path-visiting-all-nodes",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You have an undirected, connected graph of n nodes labeled from 0 to n - 1. You are given an array graph where graph[i] is a list of all the nodes connected with node i by an edge.\n\nReturn the length of the shortest path that visits every node. You may start and stop at any node, you may revisit nodes multiple times, and you may reuse edges.\n\nExample 1:\n\nInput: graph = [[1,2,3],[0],[0],[0]]\nOutput: 4\nExplanation: One possible path is [1,0,2,0,3]\n\nExample 2:\n\nInput: graph = [[1],[0,2,4],[1,3,4],[2],[1,2]]\nOutput: 4\nExplanation: One possible path is [0,1,4,2,3]\n\nConstraints:\n\n• n == graph.length\n\n• 1 <= n <= 12\n\n• 0 <= graph[i].length < n\n\n• graph[i] does not contain i.\n\n• If graph[a] contains b, then graph[b] contains a.\n\n• The input graph is always connected.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestPathLength(self, graph):\n        \"\"\"\n        :type graph: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2,3],[0],[0],[0]]"
+    ],
+    [
+      "[[1],[0,2,4],[1,3,4],[2],[1,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\ndef shortestPathLength(graph):\n    n = len(graph)\n    queue = deque([(i, 1 << i, 0) for i in range(n)])\n    visited = [[False] * (1 << n) for _ in range(n)]\n\n    for i in range(n):\n        visited[i][1 << i] = True\n\n    while queue:\n        node, bitmask, length = queue.popleft()\n\n        if bitmask == (1 << n) - 1:\n            return length\n\n        for nei in graph[node]:\n            next_bitmask = bitmask | (1 << nei)\n            if not visited[nei][next_bitmask]:\n                visited[nei][next_bitmask] = True\n                queue.append((nei, next_bitmask, length + 1))\n\n    return 0",
+    "explanation": "The problem can be solved using BFS (breadth-first search) and bitmasks to represent the state of visited nodes. \n\n1. Initially, create a queue with each node as a starting point, and a 2D visited array to keep track of visited states.\n2. For each node, mark its corresponding bitmask as visited.\n3. Iterate through the queue until it's empty.\n   1. Dequeue the first item, which is a tuple of the current node, its bitmask, and its length.\n   2. If the bitmask represents all nodes visited (bitmask is equal to `(1 << n) - 1`), return the current length.\n   3. For each neighboring node (`nei`), create the next bitmask by bitwise OR operation with the current bitmask and neighbor node.\n   4. If the next bitmask hasn't been visited, mark it as visited and enqueue the tuple of the neighboring node, next bitmask, and incremented length.\n\nThe algorithm eventually returns the length of the shortest path that visits every node. Since we start and finish at any possible node, the running time complexity is O(n * 2^n)."
+  },
+  "similarQuestions": "[{\"title\": \"Find the Minimum Cost Array Permutation\", \"titleSlug\": \"find-the-minimum-cost-array-permutation\", \"difficulty\": \"Hard\"}]"
+}

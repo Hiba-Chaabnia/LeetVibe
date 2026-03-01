@@ -1,0 +1,41 @@
+{
+  "questionId": "2649",
+  "title": "Count Total Number of Colored Cells",
+  "titleSlug": "count-total-number-of-colored-cells",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "There exists an infinitely large two-dimensional grid of uncolored unit cells. You are given a positive integer n, indicating that you must do the following routine for n minutes:\n\n• At the first minute, color any arbitrary unit cell blue.\n\n• Every minute thereafter, color blue every uncolored cell that touches a blue cell.\n\nBelow is a pictorial representation of the state of the grid after minutes 1, 2, and 3.\n\nReturn the number of colored cells at the end of n minutes.\n\nExample 1:\n\nInput: n = 1\nOutput: 1\nExplanation: After 1 minute, there is only 1 blue cell, so we return 1.\n\nExample 2:\n\nInput: n = 2\nOutput: 5\nExplanation: After 2 minutes, there are 4 colored cells on the boundary and 1 in the center, so we return 5.\n\nConstraints:\n\n• 1 <= n <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def coloredCells(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Derive a mathematical relation between total number of colored cells and the time elapsed in minutes."
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def coloredCells(self, n):\n        return 2 * n * (n - 1) + 1",
+    "explanation": "Mathematical formula. After n minutes: 2*n*(n-1)+1 cells are colored.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cuts to Divide a Circle\", \"titleSlug\": \"minimum-cuts-to-divide-a-circle\", \"difficulty\": \"Easy\"}]"
+}

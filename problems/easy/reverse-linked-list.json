@@ -1,0 +1,40 @@
+{
+  "questionId": "206",
+  "title": "Reverse Linked List",
+  "titleSlug": "reverse-linked-list",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Given the head of a singly linked list, reverse the list, and return the reversed list.\n\nExample 1:\n\nInput: head = [1,2,3,4,5]\nOutput: [5,4,3,2,1]\n\nExample 2:\n\nInput: head = [1,2]\nOutput: [2,1]\n\nExample 3:\n\nInput: head = []\nOutput: []\n\nConstraints:\n\n• The number of nodes in the list is the range [0, 5000].\n\n• -5000 <= Node.val <= 5000\n\nFollow up: A linked list can be reversed either iteratively or recursively. Could you implement both?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def reverseList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5]",
+      "[1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[5,4,3,2,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def reverseList(self, head):\n        prev = None\n        current = head\n        while current:\n            nxt = current.next\n            current.next = prev\n            prev = current\n            current = nxt\n        return prev",
+    "explanation": "Iterative reversal. Reverse pointers one by one.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Linked List II\", \"titleSlug\": \"reverse-linked-list-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Binary Tree Upside Down\", \"titleSlug\": \"binary-tree-upside-down\", \"difficulty\": \"Medium\"}, {\"title\": \"Palindrome Linked List\", \"titleSlug\": \"palindrome-linked-list\", \"difficulty\": \"Easy\"}, {\"title\": \"Reverse Nodes in Even Length Groups\", \"titleSlug\": \"reverse-nodes-in-even-length-groups\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Twin Sum of a Linked List\", \"titleSlug\": \"maximum-twin-sum-of-a-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Remove Nodes From Linked List\", \"titleSlug\": \"remove-nodes-from-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Insert Greatest Common Divisors in Linked List\", \"titleSlug\": \"insert-greatest-common-divisors-in-linked-list\", \"difficulty\": \"Medium\"}]"
+}

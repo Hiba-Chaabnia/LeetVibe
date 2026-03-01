@@ -1,0 +1,52 @@
+{
+  "questionId": "3384",
+  "title": "Minimum Number of Operations to Make Word K-Periodic",
+  "titleSlug": "minimum-number-of-operations-to-make-word-k-periodic",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string word of size n, and an integer k such that k divides n.\n\nIn one operation, you can pick any two indices i and j, that are divisible by k, then replace the substring of length k starting at i with the substring of length k starting at j. That is, replace the substring word[i..i + k - 1] with the substring word[j..j + k - 1].\n\nReturn the minimum number of operations required to make word k-periodic.\n\nWe say that word is k-periodic if there is some string s of length k such that word can be obtained by concatenating s an arbitrary number of times. For example, if word == “ababab”, then word is 2-periodic for s = \"ab\".\n\nExample 1:\n\nInput: word = \"leetcodeleet\", k = 4\n\nOutput: 1\n\nExplanation: We can obtain a 4-periodic string by picking i = 4 and j = 0. After this operation, word becomes equal to \"leetleetleet\".\n\nExample 2:\n\nInput: word = \"leetcoleet\", k = 2\n\nOutput: 3\n\nExplanation: We can obtain a 2-periodic string by applying the operations in the table below.\n\n\t\t\t\ti\n\t\t\t\tj\n\t\t\t\tword\n\n\t\t\t\t0\n\t\t\t\t2\n\t\t\t\tetetcoleet\n\n\t\t\t\t4\n\t\t\t\t0\n\t\t\t\tetetetleet\n\n\t\t\t\t6\n\t\t\t\t0\n\t\t\t\tetetetetet\n\nConstraints:\n\n• 1 <= n == word.length <= 105\n\n• 1 <= k <= word.length\n\n• k divides word.length.\n\n• word consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumOperationsToMakeKPeriodic(self, word, k):\n        \"\"\"\n        :type word: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Calculate the frequency of each substring of length k that starts at an index that is divisible by k.",
+    "The period of the final string will be the substring with the highest frequency."
+  ],
+  "testCases": [
+    [
+      "\"leetcodeleet\"",
+      "4"
+    ],
+    [
+      "\"leetcoleet\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def minimumOperationsToMakeKPeriodic(self, word, k):\n        chunks = [word[i:i+k] for i in range(0, len(word), k)]\n        m = len(chunks)\n        max_freq = max(Counter(chunks).values())\n        return m - max_freq",
+    "explanation": "Split word into n/k chunks of length k. To make all chunks identical (making the word k-periodic), keep the most frequent chunk and replace all others. Answer = total_chunks - max_frequency.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Repeating Substring\", \"titleSlug\": \"maximum-repeating-substring\", \"difficulty\": \"Easy\"}]"
+}

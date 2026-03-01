@@ -1,0 +1,51 @@
+{
+  "questionId": "1668",
+  "title": "Find Longest Awesome Substring",
+  "titleSlug": "find-longest-awesome-substring",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a string s. An awesome substring is a non-empty substring of s such that we can make any number of swaps in order to make it a palindrome.\n\nReturn the length of the maximum length awesome substring of s.\n\nExample 1:\n\nInput: s = \"3242415\"\nOutput: 5\nExplanation: \"24241\" is the longest awesome substring, we can form the palindrome \"24142\" with some swaps.\n\nExample 2:\n\nInput: s = \"12345678\"\nOutput: 1\n\nExample 3:\n\nInput: s = \"213123\"\nOutput: 6\nExplanation: \"213123\" is the longest awesome substring, we can form the palindrome \"231132\" with some swaps.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists only of digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestAwesome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Given the character counts, under what conditions can a palindrome be formed ?",
+    "From left to right, use bitwise xor-operation to compute for any prefix the number of times modulo 2 of each digit.  (mask ^= (1<<(s[i]-'0')).",
+    "Expected complexity is O(n*A) where A is the alphabet (10)."
+  ],
+  "testCases": [
+    [
+      "\"3242415\""
+    ],
+    [
+      "\"12345678\""
+    ],
+    [
+      "\"213123\""
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "1",
+    "6"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

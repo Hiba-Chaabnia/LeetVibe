@@ -1,0 +1,46 @@
+{
+  "questionId": "3678",
+  "title": "Design Task Manager",
+  "titleSlug": "design-task-manager",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Design",
+      "slug": "design"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "There is a task management system that allows users to manage their tasks, each associated with a priority. The system should efficiently handle adding, modifying, executing, and removing tasks.\n\nImplement the TaskManager class:\n\n•\n\tTaskManager(vector<vector<int>>& tasks) initializes the task manager with a list of user-task-priority triples. Each element in the input list is of the form [userId, taskId, priority], which adds a task to the specified user with the given priority.\n\n•\n\tvoid add(int userId, int taskId, int priority) adds a task with the specified taskId and priority to the user with userId. It is guaranteed that taskId does not exist in the system.\n\n•\n\tvoid edit(int taskId, int newPriority) updates the priority of the existing taskId to newPriority. It is guaranteed that taskId exists in the system.\n\n•\n\tvoid rmv(int taskId) removes the task identified by taskId from the system. It is guaranteed that taskId exists in the system.\n\n•\n\tint execTop() executes the task with the highest priority across all users. If there are multiple tasks with the same highest priority, execute the one with the highest taskId. After executing, the taskId is removed from the system. Return the userId associated with the executed task. If no tasks are available, return -1.\n\nNote that a user may be assigned multiple tasks.\n\nExample 1:\n\nInput:\n\n[\"TaskManager\", \"add\", \"edit\", \"execTop\", \"rmv\", \"add\", \"execTop\"]\n\n[[[[1, 101, 10], [2, 102, 20], [3, 103, 15]]], [4, 104, 5], [102, 8], [], [101], [5, 105, 15], []]\n\nOutput:\n\n[null, null, null, 3, null, null, 5]\n\nExplanation\n\nTaskManager taskManager = new TaskManager([[1, 101, 10], [2, 102, 20], [3, 103, 15]]); // Initializes with three tasks for Users 1, 2, and 3.\n\ntaskManager.add(4, 104, 5); // Adds task 104 with priority 5 for User 4.\n\ntaskManager.edit(102, 8); // Updates priority of task 102 to 8.\n\ntaskManager.execTop(); // return 3. Executes task 103 for User 3.\n\ntaskManager.rmv(101); // Removes task 101 from the system.\n\ntaskManager.add(5, 105, 15); // Adds task 105 with priority 15 for User 5.\n\ntaskManager.execTop(); // return 5. Executes task 105 for User 5.\n\nConstraints:\n\n• 1 <= tasks.length <= 105\n\n• 0 <= userId <= 105\n\n• 0 <= taskId <= 105\n\n• 0 <= priority <= 109\n\n• 0 <= newPriority <= 109\n\n• At most 2 * 105 calls will be made in total to add, edit, rmv, and execTop methods.\n\n• The input is generated such that taskId will be valid.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class TaskManager(object):\n\n    def __init__(self, tasks):\n        \"\"\"\n        :type tasks: List[List[int]]\n        \"\"\"\n        \n\n    def add(self, userId, taskId, priority):\n        \"\"\"\n        :type userId: int\n        :type taskId: int\n        :type priority: int\n        :rtype: None\n        \"\"\"\n        \n\n    def edit(self, taskId, newPriority):\n        \"\"\"\n        :type taskId: int\n        :type newPriority: int\n        :rtype: None\n        \"\"\"\n        \n\n    def rmv(self, taskId):\n        \"\"\"\n        :type taskId: int\n        :rtype: None\n        \"\"\"\n        \n\n    def execTop(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your TaskManager object will be instantiated and called as such:\n# obj = TaskManager(tasks)\n# obj.add(userId,taskId,priority)\n# obj.edit(taskId,newPriority)\n# obj.rmv(taskId)\n# param_4 = obj.execTop()"
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"TaskManager\",\"add\",\"edit\",\"execTop\",\"rmv\",\"add\",\"execTop\"]"
+    ],
+    [
+      "[[[[1,101,10],[2,102,20],[3,103,15]]],[4,104,5],[102,8],[],[101],[5,105,15],[]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[null, null, null, 3, null, null, 5]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

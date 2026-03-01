@@ -1,0 +1,54 @@
+{
+  "questionId": "3356",
+  "title": "Shortest Uncommon Substring in an Array",
+  "titleSlug": "shortest-uncommon-substring-in-an-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    }
+  ],
+  "content": "You are given an array arr of size n consisting of non-empty strings.\n\nFind a string array answer of size n such that:\n\n• answer[i] is the shortest substring of arr[i] that does not occur as a substring in any other string in arr. If multiple such substrings exist, answer[i] should be the lexicographically smallest. And if no such substring exists, answer[i] should be an empty string.\n\nReturn the array answer.\n\nExample 1:\n\nInput: arr = [\"cab\",\"ad\",\"bad\",\"c\"]\nOutput: [\"ab\",\"\",\"ba\",\"\"]\nExplanation: We have the following:\n    - For the string \"cab\", the shortest substring that does not occur in any other string is either \"ca\" or \"ab\", we choose the lexicographically smaller substring, which is \"ab\".\n    - For the string \"ad\", there is no substring that does not occur in any other string.\n    - For the string \"bad\", the shortest substring that does not occur in any other string is \"ba\".\n    - For the string \"c\", there is no substring that does not occur in any other string.\n\nExample 2:\n\nInput: arr = [\"abc\",\"bcd\",\"abcd\"]\nOutput: [\"\",\"\",\"abcd\"]\nExplanation: We have the following:\n    - For the string \"abc\", there is no substring that does not occur in any other string.\n    - For the string \"bcd\", there is no substring that does not occur in any other string.\n    - For the string \"abcd\", the shortest substring that does not occur in any other string is \"abcd\".\n\nConstraints:\n\n• n == arr.length\n\n• 2 <= n <= 100\n\n• 1 <= arr[i].length <= 20\n\n• arr[i] consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestSubstrings(self, arr):\n        \"\"\"\n        :type arr: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try a brute force solution where you check every substring.",
+    "Use a Hash map to keep track of the substrings."
+  ],
+  "testCases": [
+    [
+      "[\"cab\",\"ad\",\"bad\",\"c\"]"
+    ],
+    [
+      "[\"abc\",\"bcd\",\"abcd\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"ab\",\"\",\"ba\",\"\"]",
+    "[\"\",\"\",\"abcd\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def shortestSubstrings(self, arr):\n        n = len(arr)\n        result = [\"\" for _ in range(n)]\n        for i in range(n):\n            s = arr[i]\n            best = None\n            for length in range(1, len(s) + 1):\n                candidates = sorted(set(\n                    s[start:start + length]\n                    for start in range(len(s) - length + 1)\n                ))\n                for sub in candidates:\n                    if not any(sub in arr[j] for j in range(n) if j != i):\n                        best = sub\n                        break\n                if best is not None:\n                    break\n            result[i] = best if best is not None else \"\"\n        return result",
+    "explanation": "For each string arr[i], we try substrings in increasing order of length. For each length, we consider all unique substrings sorted lexicographically and find the first one that doesn't appear in any other string in arr.\n\nWe stop at the first length where such a substring exists, since we want the shortest (and lexicographically smallest among equal lengths).\n\nWith n <= 100 and |arr[i]| <= 20, the total work is at most 100 * 20^2 * 100 = 4,000,000 operations.\n\nTime complexity: O(n^2 * L^2) where L = max string length. Space complexity: O(n * L)."
+  },
+  "similarQuestions": "[]"
+}

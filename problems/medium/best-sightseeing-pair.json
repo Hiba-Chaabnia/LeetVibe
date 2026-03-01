@@ -1,0 +1,45 @@
+{
+  "questionId": "1063",
+  "title": "Best Sightseeing Pair",
+  "titleSlug": "best-sightseeing-pair",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array values where values[i] represents the value of the ith sightseeing spot. Two sightseeing spots i and j have a distance j - i between them.\n\nThe score of a pair (i < j) of sightseeing spots is values[i] + values[j] + i - j: the sum of the values of the sightseeing spots, minus the distance between them.\n\nReturn the maximum score of a pair of sightseeing spots.\n\nExample 1:\n\nInput: values = [8,1,5,2,6]\nOutput: 11\nExplanation: i = 0, j = 2, values[i] + values[j] + i - j = 8 + 5 + 0 - 2 = 11\n\nExample 2:\n\nInput: values = [1,2]\nOutput: 2\n\nConstraints:\n\n• 2 <= values.length <= 5 * 104\n\n• 1 <= values[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxScoreSightseeingPair(self, values):\n        \"\"\"\n        :type values: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can you tell the best sightseeing spot in one pass (ie. as you iterate over the input?)  What should we store or keep track of as we iterate to do this?"
+  ],
+  "testCases": [
+    [
+      "[8,1,5,2,6]"
+    ],
+    [
+      "[1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "11",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxScoreSightseeingPair(self, values):\n        max_score = 0\n        max_i = values[0] + 0\n        for j in range(1, len(values)):\n            max_score = max(max_score, max_i + values[j] - j)\n            max_i = max(max_i, values[j] + j)\n        return max_score",
+    "explanation": "One pass. Track max(values[i]+i) seen so far. For j, add values[j]-j.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

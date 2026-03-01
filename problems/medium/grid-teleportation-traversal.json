@@ -1,0 +1,55 @@
+{
+  "questionId": "3837",
+  "title": "Grid Teleportation Traversal",
+  "titleSlug": "grid-teleportation-traversal",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a 2D character grid matrix of size m x n, represented as an array of strings, where matrix[i][j] represents the cell at the intersection of the ith row and jth column. Each cell is one of the following:\n\n• '.' representing an empty cell.\n\n• '#' representing an obstacle.\n\n• An uppercase letter ('A'-'Z') representing a teleportation portal.\n\nYou start at the top-left cell (0, 0), and your goal is to reach the bottom-right cell (m - 1, n - 1). You can move from the current cell to any adjacent cell (up, down, left, right) as long as the destination cell is within the grid bounds and is not an obstacle.\n\nIf you step on a cell containing a portal letter and you haven't used that portal letter before, you may instantly teleport to any other cell in the grid with the same letter. This teleportation does not count as a move, but each portal letter can be used at most once during your journey.\n\nReturn the minimum number of moves required to reach the bottom-right cell. If it is not possible to reach the destination, return -1.\n\nExample 1:\n\nInput: matrix = [\"A..\",\".A.\",\"...\"]\n\nOutput: 2\n\nExplanation:\n\n• Before the first move, teleport from (0, 0) to (1, 1).\n\n• In the first move, move from (1, 1) to (1, 2).\n\n• In the second move, move from (1, 2) to (2, 2).\n\nExample 2:\n\nInput: matrix = [\".#...\",\".#.#.\",\".#.#.\",\"...#.\"]\n\nOutput: 13\n\nExplanation: Constraints:\n\n• 1 <= m == matrix.length <= 103\n\n• 1 <= n == matrix[i].length <= 103\n\n• matrix[i][j] is either '#', '.', or an uppercase English letter.\n\n• matrix[0][0] is not an obstacle.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMoves(self, matrix):\n        \"\"\"\n        :type matrix: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Treat all portals with the same letter as connected-like one big super-node.",
+    "Each portal letter is used at most once, but that doesn't affect correctness since we visit each cell only once in the shortest path.",
+    "Use Breadth-First Search to find the minimum number of moves."
+  ],
+  "testCases": [
+    [
+      "[\"A..\",\".A.\",\"...\"]"
+    ],
+    [
+      "[\".#...\",\".#.#.\",\".#.#.\",\"...#.\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "13"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque, defaultdict\n\nclass Solution(object):\n    def minMoves(self, matrix):\n        m, n = len(matrix), len(matrix[0])\n        if matrix[0][0] == '#':\n            return -1\n\n        # Group portal positions by letter\n        portals = defaultdict(list)\n        for i in range(m):\n            for j in range(n):\n                c = matrix[i][j]\n                if c.isupper():\n                    portals[c].append((i, j))\n\n        dist = [[float('inf')] * n for _ in range(m)]\n        dist[0][0] = 0\n        used_portals = set()\n        queue = deque([(0, 0, 0)])  # (dist, row, col)\n\n        while queue:\n            d, r, c = queue.popleft()\n            if d > dist[r][c]:\n                continue\n            if r == m-1 and c == n-1:\n                return d\n            # Teleport if current cell is a portal and unused\n            cell = matrix[r][c]\n            if cell.isupper() and cell not in used_portals:\n                used_portals.add(cell)\n                for nr, nc in portals[cell]:\n                    if (nr, nc) != (r, c) and dist[nr][nc] > d:\n                        dist[nr][nc] = d\n                        queue.appendleft((d, nr, nc))  # 0-cost move\n            # Normal moves\n            for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:\n                nr, nc = r+dr, c+dc\n                if 0 <= nr < m and 0 <= nc < n and matrix[nr][nc] != '#':\n                    nd = d + 1\n                    if nd < dist[nr][nc]:\n                        dist[nr][nc] = nd\n                        queue.append((nd, nr, nc))\n\n        return dist[m-1][n-1] if dist[m-1][n-1] != float('inf') else -1",
+    "explanation": "0-1 BFS: teleportation is 0-cost (use deque, appendleft), normal moves cost 1 (append). When visiting a portal cell for the first time (portal not yet used), enqueue all other portal cells at cost 0. Mark portal as used globally once processed.\n\nTime: O(m*n + 26*max_portal_size). Space: O(m*n)."
+  },
+  "similarQuestions": "[]"
+}

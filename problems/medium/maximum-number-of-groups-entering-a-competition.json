@@ -1,0 +1,52 @@
+{
+  "questionId": "2437",
+  "title": "Maximum Number of Groups Entering a Competition",
+  "titleSlug": "maximum-number-of-groups-entering-a-competition",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a positive integer array grades which represents the grades of students in a university. You would like to enter all these students into a competition in ordered non-empty groups, such that the ordering meets the following conditions:\n\n• The sum of the grades of students in the ith group is less than the sum of the grades of students in the (i + 1)th group, for all groups (except the last).\n\n• The total number of students in the ith group is less than the total number of students in the (i + 1)th group, for all groups (except the last).\n\nReturn the maximum number of groups that can be formed.\n\nExample 1:\n\nInput: grades = [10,6,12,7,3,5]\nOutput: 3\nExplanation: The following is a possible way to form 3 groups of students:\n    - 1st group has the students with grades = [12]. Sum of grades: 12. Student count: 1\n    - 2nd group has the students with grades = [6,7]. Sum of grades: 6 + 7 = 13. Student count: 2\n    - 3rd group has the students with grades = [10,3,5]. Sum of grades: 10 + 3 + 5 = 18. Student count: 3\n    It can be shown that it is not possible to form more than 3 groups.\n\nExample 2:\n\nInput: grades = [8,8]\nOutput: 1\nExplanation: We can only form 1 group, since forming 2 groups would lead to an equal number of students in both groups.\n\nConstraints:\n\n• 1 <= grades.length <= 105\n\n• 1 <= grades[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumGroups(self, grades):\n        \"\"\"\n        :type grades: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Would it be easier to place the students into valid groups after sorting them based on their grades in ascending order?",
+    "Notice that, after sorting, we can separate them into groups of sizes 1, 2, 3, and so on.",
+    "If the last group is invalid, we can merge it with the previous group.",
+    "This creates the maximum number of groups because we always greedily form the smallest possible group."
+  ],
+  "testCases": [
+    [
+      "[10,6,12,7,3,5]"
+    ],
+    [
+      "[8,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Height by Stacking Cuboids \", \"titleSlug\": \"maximum-height-by-stacking-cuboids\", \"difficulty\": \"Hard\"}]"
+}

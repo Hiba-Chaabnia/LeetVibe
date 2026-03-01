@@ -1,0 +1,45 @@
+{
+  "questionId": "3367",
+  "title": "Find the Sum of Encrypted Integers",
+  "titleSlug": "find-the-sum-of-encrypted-integers",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given an integer array nums containing positive integers. We define a function encrypt such that encrypt(x) replaces every digit in x with the largest digit in x. For example, encrypt(523) = 555 and encrypt(213) = 333.\n\nReturn the sum of encrypted elements.\n\nExample 1:\n\nInput: nums = [1,2,3]\n\nOutput: 6\n\nExplanation: The encrypted elements are [1,2,3]. The sum of encrypted elements is 1 + 2 + 3 == 6.\n\nExample 2:\n\nInput: nums = [10,21,31]\n\nOutput: 66\n\nExplanation: The encrypted elements are [11,22,33]. The sum of encrypted elements is 11 + 22 + 33 == 66.\n\nConstraints:\n\n• 1 <= nums.length <= 50\n\n• 1 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumOfEncryptedInt(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Encrypted numbers are of the form 11…1 * maxDigit."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[10,21,31]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "66"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumOfEncryptedInt(self, nums):\n        total = 0\n        for x in nums:\n            s = str(x)\n            m = max(s)\n            total += int(m * len(s))\n        return total",
+    "explanation": "Encrypt each number by replacing every digit with the maximum digit repeated the same number of times; sum the results. O(n * d) time where d is digit count."
+  },
+  "similarQuestions": "[{\"title\": \"Encrypt and Decrypt Strings\", \"titleSlug\": \"encrypt-and-decrypt-strings\", \"difficulty\": \"Hard\"}]"
+}

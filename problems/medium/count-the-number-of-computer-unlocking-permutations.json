@@ -1,0 +1,55 @@
+{
+  "questionId": "3864",
+  "title": "Count the Number of Computer Unlocking Permutations",
+  "titleSlug": "count-the-number-of-computer-unlocking-permutations",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given an array complexity of length n.\n\nThere are n locked computers in a room with labels from 0 to n - 1, each with its own unique password. The password of the computer i has a complexity complexity[i].\n\nThe password for the computer labeled 0 is already decrypted and serves as the root. All other computers must be unlocked using it or another previously unlocked computer, following this information:\n\n• You can decrypt the password for the computer i using the password for computer j, where j is any integer less than i with a lower complexity. (i.e. j < i and complexity[j] < complexity[i])\n\n• To decrypt the password for computer i, you must have already unlocked a computer j such that j < i and complexity[j] < complexity[i].\n\nFind the number of permutations of [0, 1, 2, ..., (n - 1)] that represent a valid order in which the computers can be unlocked, starting from computer 0 as the only initially unlocked one.\n\nSince the answer may be large, return it modulo 109 + 7.\n\nNote that the password for the computer with label 0 is decrypted, and not the computer with the first position in the permutation.\n\nExample 1:\n\nInput: complexity = [1,2,3]\n\nOutput: 2\n\nExplanation: The valid permutations are:\n\n• [0, 1, 2]\n\n• Unlock computer 0 first with root password.\n\n• Unlock computer 1 with password of computer 0 since complexity[0] < complexity[1].\n\n• Unlock computer 2 with password of computer 1 since complexity[1] < complexity[2].\n\n• [0, 2, 1]\n\n• Unlock computer 0 first with root password.\n\n• Unlock computer 2 with password of computer 0 since complexity[0] < complexity[2].\n\n• Unlock computer 1 with password of computer 0 since complexity[0] < complexity[1].\n\nExample 2:\n\nInput: complexity = [3,3,3,4,4,4]\n\nOutput: 0\n\nExplanation: There are no possible permutations which can unlock all computers.\n\nConstraints:\n\n• 2 <= complexity.length <= 105\n\n• 1 <= complexity[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPermutations(self, complexity):\n        \"\"\"\n        :type complexity: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Ensure that the element at index 0 has the unique minimum complexity (no other element can match its value).",
+    "Fix index 0 as the first in the unlocking order.",
+    "The remaining indices from 1 to n - 1 can then be arranged arbitrarily, yielding factorial(n - 1) possible orders."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[3,3,3,4,4,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import math\n\nclass Solution(object):\n    def countPermutations(self, complexity):\n        MOD = 10**9 + 7\n        # Computer 0 must be unlocked first (root).\n        # For any other computer i to be unlockable, there must exist j < i with complexity[j] < complexity[i].\n        # Computer 0 must have strictly minimum complexity (otherwise some computer can't be unlocked by 0).\n        # If complexity[0] is not strictly less than all others, return 0.\n        # If complexity[0] IS strictly minimum, then all other computers can be done in any order: (n-1)! ways.\n        c0 = complexity[0]\n        for i in range(1, len(complexity)):\n            if complexity[i] <= c0:\n                return 0\n        return math.factorial(len(complexity) - 1) % (10**9 + 7)",
+    "explanation": "Computer 0 must unlock everything. This requires complexity[0] < complexity[i] for all i >= 1 (otherwise computer i can't be reached from 0 and nothing precedes it with lower complexity). If valid, the remaining n-1 computers can be unlocked in any order: (n-1)! permutations.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Clumsy Factorial\", \"titleSlug\": \"clumsy-factorial\", \"difficulty\": \"Medium\"}]"
+}

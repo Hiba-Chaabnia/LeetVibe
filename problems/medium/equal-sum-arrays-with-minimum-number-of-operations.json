@@ -1,0 +1,61 @@
+{
+  "questionId": "1901",
+  "title": "Equal Sum Arrays With Minimum Number of Operations",
+  "titleSlug": "equal-sum-arrays-with-minimum-number-of-operations",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given two arrays of integers nums1 and nums2, possibly of different lengths. The values in the arrays are between 1 and 6, inclusive.\n\nIn one operation, you can change any integer's value in any of the arrays to any value between 1 and 6, inclusive.\n\nReturn the minimum number of operations required to make the sum of values in nums1 equal to the sum of values in nums2. Return -1​​​​​ if it is not possible to make the sum of the two arrays equal.\n\nExample 1:\n\nInput: nums1 = [1,2,3,4,5,6], nums2 = [1,1,2,2,2,2]\nOutput: 3\nExplanation: You can make the sums of nums1 and nums2 equal with 3 operations. All indices are 0-indexed.\n    - Change nums2[0] to 6. nums1 = [1,2,3,4,5,6], nums2 = [6,1,2,2,2,2].\n    - Change nums1[5] to 1. nums1 = [1,2,3,4,5,1], nums2 = [6,1,2,2,2,2].\n    - Change nums1[2] to 2. nums1 = [1,2,2,4,5,1], nums2 = [6,1,2,2,2,2].\n\nExample 2:\n\nInput: nums1 = [1,1,1,1,1,1,1], nums2 = [6]\nOutput: -1\nExplanation: There is no way to decrease the sum of nums1 or to increase the sum of nums2 to make them equal.\n\nExample 3:\n\nInput: nums1 = [6,6], nums2 = [1]\nOutput: 3\nExplanation: You can make the sums of nums1 and nums2 equal with 3 operations. All indices are 0-indexed.\n    - Change nums1[0] to 2. nums1 = [2,6], nums2 = [1].\n    - Change nums1[1] to 2. nums1 = [2,2], nums2 = [1].\n    - Change nums2[0] to 4. nums1 = [2,2], nums2 = [4].\n\nConstraints:\n\n• 1 <= nums1.length, nums2.length <= 105\n\n• 1 <= nums1[i], nums2[i] <= 6",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let's note that we want to either decrease the sum of the array with a larger sum or increase the array's sum with the smaller sum.",
+    "You can maintain the largest increase or decrease you can make in a binary search tree and each time get the maximum one."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6]",
+      "[1,1,2,2,2,2]"
+    ],
+    [
+      "[1,1,1,1,1,1,1]",
+      "[6]"
+    ],
+    [
+      "[6,6]",
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, nums1, nums2):\n        sum1, sum2 = sum(nums1), sum(nums2)\n        if sum1 == sum2:\n            return 0\n        if sum1 > sum2:\n            nums1, nums2 = nums2, nums1\n            sum1, sum2 = sum2, sum1\n        diff = sum2 - sum1\n        changes = []\n        for num in nums1:\n            changes.append(6 - num)\n        for num in nums2:\n            changes.append(num - 1)\n        changes.sort(reverse=True)\n        ops = 0\n        for change in changes:\n            if diff <= 0:\n                break\n            diff -= change\n            ops += 1\n        return ops if diff <= 0 else -1",
+    "explanation": "Compute difference. Greedily use max beneficial changes.\nTime: O(n*log n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Dice Rolls With Target Sum\", \"titleSlug\": \"number-of-dice-rolls-with-target-sum\", \"difficulty\": \"Medium\"}]"
+}

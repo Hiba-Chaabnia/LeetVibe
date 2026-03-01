@@ -1,0 +1,61 @@
+{
+  "questionId": "1799",
+  "title": "Minimum Incompatibility",
+  "titleSlug": "minimum-incompatibility",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given an integer array nums​​​ and an integer k. You are asked to distribute this array into k subsets of equal size such that there are no two equal elements in the same subset.\n\nA subset's incompatibility is the difference between the maximum and minimum elements in that array.\n\nReturn the minimum possible sum of incompatibilities of the k subsets after distributing the array optimally, or return -1 if it is not possible.\n\nA subset is a group integers that appear in the array with no particular order.\n\nExample 1:\n\nInput: nums = [1,2,1,4], k = 2\nOutput: 4\nExplanation: The optimal distribution of subsets is [1,2] and [1,4].\n    The incompatibility is (2-1) + (4-1) = 4.\n    Note that [1,1] and [2,4] would result in a smaller sum, but the first subset contains 2 equal elements.\n\nExample 2:\n\nInput: nums = [6,3,8,1,3,1,2,2], k = 4\nOutput: 6\nExplanation: The optimal distribution of subsets is [1,2], [2,3], [6,8], and [1,3].\n    The incompatibility is (2-1) + (3-2) + (8-6) + (3-1) = 6.\n\nExample 3:\n\nInput: nums = [5,3,3,6,3,3], k = 3\nOutput: -1\nExplanation: It is impossible to distribute nums into 3 subsets where no two elements are equal in the same subset.\n\nConstraints:\n\n• 1 <= k <= nums.length <= 16\n\n• nums.length is divisible by k\n\n• 1 <= nums[i] <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumIncompatibility(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints are small enough for a backtrack solution but not any backtrack solution",
+    "If we use a naive n^k don't you think it can be optimized"
+  ],
+  "testCases": [
+    [
+      "[1,2,1,4]",
+      "2"
+    ],
+    [
+      "[6,3,8,1,3,1,2,2]",
+      "4"
+    ],
+    [
+      "[5,3,3,6,3,3]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "6",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "2723",
+  "title": "Find the Longest Balanced Substring of a Binary String",
+  "titleSlug": "find-the-longest-balanced-substring-of-a-binary-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a binary string s consisting only of zeroes and ones.\n\nA substring of s is considered balanced if all zeroes are before ones and the number of zeroes is equal to the number of ones inside the substring. Notice that the empty substring is considered a balanced substring.\n\nReturn the length of the longest balanced substring of s.\n\nA substring is a contiguous sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"01000111\"\nOutput: 6\nExplanation: The longest balanced substring is \"000111\", which has length 6.\n\nExample 2:\n\nInput: s = \"00111\"\nOutput: 4\nExplanation: The longest balanced substring is \"0011\", which has length 4.\n\nExample 3:\n\nInput: s = \"111\"\nOutput: 0\nExplanation: There is no balanced substring except the empty substring, so the answer is 0.\n\nConstraints:\n\n• 1 <= s.length <= 50\n\n• '0' <= s[i] <= '1'",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findTheLongestBalancedSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider iterating over each subarray and checking if it’s balanced or not.",
+    "Among all balanced subarrays, the answer is the longest one of them."
+  ],
+  "testCases": [
+    [
+      "\"01000111\""
+    ],
+    [
+      "\"00111\""
+    ],
+    [
+      "\"111\""
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findTheLongestBalancedSubstring(self, s):\n        max_len = 0\n        i = 0\n        while i < len(s):\n            if s[i] == '1':\n                i += 1\n                continue\n            zeros = 0\n            while i < len(s) and s[i] == '0':\n                zeros += 1\n                i += 1\n            ones = 0\n            while i < len(s) and s[i] == '1':\n                ones += 1\n                i += 1\n            max_len = max(max_len, 2 * min(zeros, ones))\n        return max_len",
+    "explanation": "Scan each 0-run followed by 1-run. Balance = 2 * min(zeros, ones).\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "2482",
+  "title": "Maximum Rows Covered by Columns",
+  "titleSlug": "maximum-rows-covered-by-columns",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an m x n binary matrix matrix and an integer numSelect.\n\nYour goal is to select exactly numSelect distinct columns from matrix such that you cover as many rows as possible.\n\nA row is considered covered if all the 1's in that row are also part of a column that you have selected. If a row does not have any 1s, it is also considered covered.\n\nMore formally, let us consider selected = {c1, c2, ...., cnumSelect} as the set of columns selected by you. A row i is covered by selected if:\n\n• For each cell where matrix[i][j] == 1, the column j is in selected.\n\n• Or, no cell in row i has a value of 1.\n\nReturn the maximum number of rows that can be covered by a set of numSelect columns.\n\nExample 1:\n\nInput: matrix = [[0,0,0],[1,0,1],[0,1,1],[0,0,1]], numSelect = 2\n\nOutput: 3\n\nExplanation: One possible way to cover 3 rows is shown in the diagram above.\n\nWe choose s = {0, 2}.\n\n- Row 0 is covered because it has no occurrences of 1.\n\n- Row 1 is covered because the columns with value 1, i.e. 0 and 2 are present in s.\n\n- Row 2 is not covered because matrix[2][1] == 1 but 1 is not present in s.\n\n- Row 3 is covered because matrix[2][2] == 1 and 2 is present in s.\n\nThus, we can cover three rows.\n\nNote that s = {1, 2} will also cover 3 rows, but it can be shown that no more than three rows can be covered.\n\nExample 2:\n\nInput: matrix = [[1],[0]], numSelect = 1\n\nOutput: 2\n\nExplanation: Selecting the only column will result in both rows being covered since the entire matrix is selected.\n\nConstraints:\n\n• m == matrix.length\n\n• n == matrix[i].length\n\n• 1 <= m, n <= 12\n\n• matrix[i][j] is either 0 or 1.\n\n• 1 <= numSelect <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumRows(self, matrix, numSelect):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :type numSelect: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try a brute-force approach.",
+    "Iterate through all possible sets of exactly cols columns.",
+    "For each valid set, check how many rows are covered, and return the maximum."
+  ],
+  "testCases": [
+    [
+      "[[0,0,0],[1,0,1],[0,1,1],[0,0,1]]",
+      "2"
+    ],
+    [
+      "[[1],[0]]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Matchsticks to Square\", \"titleSlug\": \"matchsticks-to-square\", \"difficulty\": \"Medium\"}, {\"title\": \"Partition to K Equal Sum Subsets\", \"titleSlug\": \"partition-to-k-equal-sum-subsets\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Shortest Superstring\", \"titleSlug\": \"find-the-shortest-superstring\", \"difficulty\": \"Hard\"}, {\"title\": \"Smallest Sufficient Team\", \"titleSlug\": \"smallest-sufficient-team\", \"difficulty\": \"Hard\"}, {\"title\": \"Fair Distribution of Cookies\", \"titleSlug\": \"fair-distribution-of-cookies\", \"difficulty\": \"Medium\"}]"
+}

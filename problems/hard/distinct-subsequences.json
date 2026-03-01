@@ -1,0 +1,45 @@
+{
+  "questionId": "115",
+  "title": "Distinct Subsequences",
+  "titleSlug": "distinct-subsequences",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given two strings s and t, return the number of distinct subsequences of s which equals t.\n\nThe test cases are generated so that the answer fits on a 32-bit signed integer.\n\nExample 1:\n\nInput: s = \"rabbbit\", t = \"rabbit\"\nOutput: 3\nExplanation:\n    As shown below, there are 3 ways you can generate \"rabbit\" from s.\n    rabbbit\n    rabbbit\n    rabbbit\n\nExample 2:\n\nInput: s = \"babgbag\", t = \"bag\"\nOutput: 5\nExplanation:\n    As shown below, there are 5 ways you can generate \"bag\" from s.\n    babgbag\n    babgbag\n    babgbag\n    babgbag\n    babgbag\n\nConstraints:\n\n• 1 <= s.length, t.length <= 1000\n\n• s and t consist of English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numDistinct(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"rabbbit\"",
+      "\"rabbit\""
+    ],
+    [
+      "\"babgbag\"",
+      "\"bag\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numDistinct(s: str, t: str) -> int:\n    m, n = len(s), len(t)\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n\n    for i in range(m + 1):\n        dp[i][0] = 1\n\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if s[i - 1] == t[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j]\n            else:\n                dp[i][j] = dp[i - 1][j]\n\n    return dp[m][n]",
+    "explanation": "The algorithm uses dynamic programming to count the number of distinct subsequences. The main idea is to create a 2D table `dp` where `dp[i][j]` represents the number of distinct subsequences of the first `i` characters in string `s` that equal the first `j` characters in string `t`. \n\nThe algorithm initializes the first row of the table since there are no subsequences of an empty string. Then, it iterates through each character in both strings, comparing for equality. If the characters are equal, the value of `dp[i][j]` is updated to `dp[i - 1][j - 1] + dp[i - 1][j]`. If the characters are not equal, the value of `dp[i][j]` is updated to `dp[i - 1][j]`. After filling the 2D table, the value at `dp[m][n]` represents the total number of distinct subsequences of `s` that equal `t`."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Unique Good Subsequences\", \"titleSlug\": \"number-of-unique-good-subsequences\", \"difficulty\": \"Hard\"}]"
+}

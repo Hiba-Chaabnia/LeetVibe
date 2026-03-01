@@ -1,0 +1,63 @@
+{
+  "questionId": "3834",
+  "title": "Minimum Operations to Convert All Elements to Zero",
+  "titleSlug": "minimum-operations-to-convert-all-elements-to-zero",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given an array nums of size n, consisting of non-negative integers. Your task is to apply some (possibly zero) operations on the array so that all elements become 0.\n\nIn one operation, you can select a subarray [i, j] (where 0 <= i <= j < n) and set all occurrences of the minimum non-negative integer in that subarray to 0.\n\nReturn the minimum number of operations required to make all elements in the array 0.\n\nExample 1:\n\nInput: nums = [0,2]\n\nOutput: 1\n\nExplanation:\n\n• Select the subarray [1,1] (which is [2]), where the minimum non-negative integer is 2. Setting all occurrences of 2 to 0 results in [0,0].\n\n• Thus, the minimum number of operations required is 1.\n\nExample 2:\n\nInput: nums = [3,1,2,1]\n\nOutput: 3\n\nExplanation:\n\n• Select subarray [1,3] (which is [1,2,1]), where the minimum non-negative integer is 1. Setting all occurrences of 1 to 0 results in [3,0,2,0].\n\n• Select subarray [2,2] (which is [2]), where the minimum non-negative integer is 2. Setting all occurrences of 2 to 0 results in [3,0,0,0].\n\n• Select subarray [0,0] (which is [3]), where the minimum non-negative integer is 3. Setting all occurrences of 3 to 0 results in [0,0,0,0].\n\n• Thus, the minimum number of operations required is 3.\n\nExample 3:\n\nInput: nums = [1,2,1,2,1,2]\n\nOutput: 4\n\nExplanation:\n\n• Select subarray [0,5] (which is [1,2,1,2,1,2]), where the minimum non-negative integer is 1. Setting all occurrences of 1 to 0 results in [0,2,0,2,0,2].\n\n• Select subarray [1,1] (which is [2]), where the minimum non-negative integer is 2. Setting all occurrences of 2 to 0 results in [0,0,0,2,0,2].\n\n• Select subarray [3,3] (which is [2]), where the minimum non-negative integer is 2. Setting all occurrences of 2 to 0 results in [0,0,0,0,0,2].\n\n• Select subarray [5,5] (which is [2]), where the minimum non-negative integer is 2. Setting all occurrences of 2 to 0 results in [0,0,0,0,0,0].\n\n• Thus, the minimum number of operations required is 4.\n\nConstraints:\n\n• 1 <= n == nums.length <= 105\n\n• 0 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Process the values in nums from smallest to largest (excluding 0).",
+    "For each target value v, identify its maximal contiguous segments (subarrays where nums[i] == v); each segment can be zeroed out in one operation.",
+    "After setting those segments to zero, dynamically update the remaining array and repeat with the next value."
+  ],
+  "testCases": [
+    [
+      "[0,2]"
+    ],
+    [
+      "[3,1,2,1]"
+    ],
+    [
+      "[1,2,1,2,1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, nums):\n        stack = []\n        ops = 0\n        for v in nums:\n            if v == 0:\n                stack = []\n                continue\n            while stack and stack[-1] > v:\n                stack.pop()\n            if not stack or stack[-1] != v:\n                stack.append(v)\n                ops += 1\n        return ops",
+    "explanation": "Monotonic stack: scan left to right. On 0, reset stack. Pop elements larger than v (they've been split). If top != v, push v and increment ops (new segment of v starts). Each push = one operation needed.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

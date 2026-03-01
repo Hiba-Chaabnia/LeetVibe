@@ -1,0 +1,51 @@
+{
+  "questionId": "318",
+  "title": "Maximum Product of Word Lengths",
+  "titleSlug": "maximum-product-of-word-lengths",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given a string array words, return the maximum value of length(word[i]) * length(word[j]) where the two words do not share common letters. If no such two words exist, return 0.\n\nExample 1:\n\nInput: words = [\"abcw\",\"baz\",\"foo\",\"bar\",\"xtfn\",\"abcdef\"]\nOutput: 16\nExplanation: The two words can be \"abcw\", \"xtfn\".\n\nExample 2:\n\nInput: words = [\"a\",\"ab\",\"abc\",\"d\",\"cd\",\"bcd\",\"abcd\"]\nOutput: 4\nExplanation: The two words can be \"ab\", \"cd\".\n\nExample 3:\n\nInput: words = [\"a\",\"aa\",\"aaa\",\"aaaa\"]\nOutput: 0\nExplanation: No such pair of words.\n\nConstraints:\n\n• 2 <= words.length <= 1000\n\n• 1 <= words[i].length <= 1000\n\n• words[i] consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxProduct(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"abcw\",\"baz\",\"foo\",\"bar\",\"xtfn\",\"abcdef\"]"
+    ],
+    [
+      "[\"a\",\"ab\",\"abc\",\"d\",\"cd\",\"bcd\",\"abcd\"]"
+    ],
+    [
+      "[\"a\",\"aa\",\"aaa\",\"aaaa\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "16",
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxProduct(words):\n    n = len(words)\n    mask = [0] * n\n    for i, word in enumerate(words):\n        for c in word:\n            mask[i] |= (1 << (ord(c) - ord('a')))\n    \n    max_product = 0\n    for i in range(n):\n        for j in range(i + 1, n):\n            if (mask[i] & mask[j]) == 0:\n                max_product = max(max_product, len(words[i]) * len(words[j]))\n    \n    return max_product",
+    "explanation": "The algorithm first calculates a binary representation of each word, where each character is represented by a bit '1' in the corresponding position. For example, for the words \"abc\" and \"xyz\", the representation would be: \"abc\" = 0000..0111 and \"xyz\" = 111..0000.\n\nThen, for each pair of words, the algorithm checks if there are common characters by applying the 'and' bitwise operation. If there are no common characters, the 'and' operation will result in 0, meaning that the condition is met. In this case, the product of the lengths of the words is calculated, and the maximum product is updated if needed.\n\nThe algorithm runs in O(n^2) where 'n' is the number of words, since it checks each pair of words."
+  },
+  "similarQuestions": "[]"
+}

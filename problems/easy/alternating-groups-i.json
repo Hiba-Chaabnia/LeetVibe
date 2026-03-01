@@ -1,0 +1,45 @@
+{
+  "questionId": "3463",
+  "title": "Alternating Groups I",
+  "titleSlug": "alternating-groups-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "There is a circle of red and blue tiles. You are given an array of integers colors. The color of tile i is represented by colors[i]:\n\n• colors[i] == 0 means that tile i is red.\n\n• colors[i] == 1 means that tile i is blue.\n\nEvery 3 contiguous tiles in the circle with alternating colors (the middle tile has a different color from its left and right tiles) is called an alternating group.\n\nReturn the number of alternating groups.\n\nNote that since colors represents a circle, the first and the last tiles are considered to be next to each other.\n\nExample 1:\n\nInput: colors = [1,1,1]\n\nOutput: 0\n\nExplanation: Example 2:\n\nInput: colors = [0,1,0,0,1]\n\nOutput: 3\n\nExplanation: Alternating groups:\n\nConstraints:\n\n• 3 <= colors.length <= 100\n\n• 0 <= colors[i] <= 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfAlternatingGroups(self, colors):\n        \"\"\"\n        :type colors: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each tile, check that the previous and the next tile have different colors from that tile or not."
+  ],
+  "testCases": [
+    [
+      "[1,1,1]"
+    ],
+    [
+      "[0,1,0,0,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfAlternatingGroups(self, colors):\n        n = len(colors)\n        count = 0\n        for i in range(n):\n            prev = colors[(i - 1) % n]\n            curr = colors[i]\n            nxt = colors[(i + 1) % n]\n            if prev != curr and curr != nxt:\n                count += 1\n        return count",
+    "explanation": "Count tiles where middle differs from both neighbors (circular)."
+  },
+  "similarQuestions": "[]"
+}

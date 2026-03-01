@@ -1,0 +1,51 @@
+{
+  "questionId": "1653",
+  "title": "Number of Good Leaf Nodes Pairs",
+  "titleSlug": "number-of-good-leaf-nodes-pairs",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary tree and an integer distance. A pair of two different leaf nodes of a binary tree is said to be good if the length of the shortest path between them is less than or equal to distance.\n\nReturn the number of good leaf node pairs in the tree.\n\nExample 1:\n\nInput: root = [1,2,3,null,4], distance = 3\nOutput: 1\nExplanation: The leaf nodes of the tree are 3 and 4 and the length of the shortest path between them is 3. This is the only good pair.\n\nExample 2:\n\nInput: root = [1,2,3,4,5,6,7], distance = 3\nOutput: 2\nExplanation: The good pairs are [4,5] and [6,7] with shortest path = 2. The pair [4,6] is not good because the length of ther shortest path between them is 4.\n\nExample 3:\n\nInput: root = [7,1,4,6,null,5,3,null,null,null,null,null,2], distance = 3\nOutput: 1\nExplanation: The only good pair is [2,5].\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 210].\n\n• 1 <= Node.val <= 100\n\n• 1 <= distance <= 10",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def countPairs(self, root, distance):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type distance: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Start DFS from each leaf node. stop the DFS when the number of steps done > distance.",
+    "If you reach another leaf node within distance steps, add 1 to the answer.",
+    "Note that all pairs will be counted twice so divide the answer by 2."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,null,4]",
+      "3",
+      "[1,2,3,4,5,6,7]"
+    ],
+    [
+      "3",
+      "[7,1,4,6,null,5,3,null,null,null,null,null,2]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,64 @@
+{
+  "questionId": "2027",
+  "title": "Maximum Number of Removable Characters",
+  "titleSlug": "maximum-number-of-removable-characters",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You are given two strings s and p where p is a subsequence of s. You are also given a distinct 0-indexed integer array removable containing a subset of indices of s (s is also 0-indexed).\n\nYou want to choose an integer k (0 <= k <= removable.length) such that, after removing k characters from s using the first k indices in removable, p is still a subsequence of s. More formally, you will mark the character at s[removable[i]] for each 0 <= i < k, then remove all marked characters and check if p is still a subsequence.\n\nReturn the maximum k you can choose such that p is still a subsequence of s after the removals.\n\nA subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.\n\nExample 1:\n\nInput: s = \"abcacb\", p = \"ab\", removable = [3,1,0]\nOutput: 2\nExplanation: After removing the characters at indices 3 and 1, \"abcacb\" becomes \"accb\".\n    \"ab\" is a subsequence of \"accb\".\n    If we remove the characters at indices 3, 1, and 0, \"abcacb\" becomes \"ccb\", and \"ab\" is no longer a subsequence.\n    Hence, the maximum k is 2.\n\nExample 2:\n\nInput: s = \"abcbddddd\", p = \"abcd\", removable = [3,2,1,4,5,6]\nOutput: 1\nExplanation: After removing the character at index 3, \"abcbddddd\" becomes \"abcddddd\".\n    \"abcd\" is a subsequence of \"abcddddd\".\n\nExample 3:\n\nInput: s = \"abcab\", p = \"abc\", removable = [0,1,2,3,4]\nOutput: 0\nExplanation: If you remove the first index in the array removable, \"abc\" is no longer a subsequence.\n\nConstraints:\n\n• 1 <= p.length <= s.length <= 105\n\n• 0 <= removable.length < s.length\n\n• 0 <= removable[i] < s.length\n\n• p is a subsequence of s.\n\n• s and p both consist of lowercase English letters.\n\n• The elements in removable are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumRemovals(self, s, p, removable):\n        \"\"\"\n        :type s: str\n        :type p: str\n        :type removable: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "First, we need to think about solving an easier problem, If we remove a set of indices from the string does P exist in S as a subsequence",
+    "We can binary search the K and check by solving the above problem."
+  ],
+  "testCases": [
+    [
+      "\"abcacb\"",
+      "\"ab\"",
+      "[3,1,0]"
+    ],
+    [
+      "\"abcbddddd\"",
+      "\"abcd\"",
+      "[3,2,1,4,5,6]"
+    ],
+    [
+      "\"abcab\"",
+      "\"abc\"",
+      "[0,1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maximumRemovals(s: str, p: str, removable: List[int]) -> int:\n    low, high = 0, len(removable)\n    while low < high:\n        mid = (low + high + 1) // 2\n        temp_s = list(s)\n        for i in range(mid):\n            temp_s[removable[i]] = '-'\n        i, j = 0, 0\n        while i < len(temp_s) and j < len(p):\n            if temp_s[i] == p[j]:\n                j += 1\n            i += 1\n        if j == len(p):\n            low = mid\n        else:\n            high = mid - 1\n    return low",
+    "explanation": "We first initialize two variables low and high with values 0 and the length of the removable array.\n\nWe then enter a while loop. In that loop:\n1. Calculate the mid using low and high.\n2. Create a temporary string \"temp_s\" based on \"s\" for testing purposes.\n3. Mark the character at the index in \"temp_s\" that's stored in the removable array for the first k indices.\n4. Initialize two variables i and j with value 0.\n5. Enter a while loop:\n   a. Check if the character at index i in \"temp_s\" is equal to the character at index j in \"p\".\n   b. If they are equal, increment the variable j.\n   c. Increment the variable i.\n6. Check if j is equal to the length of \"p\".\n   a. If true, we set low = mid.\n   b. If false, we set high = mid - 1.\n\nAfter the loop, return the value of low which will be the maximum k such that p is still a subsequence of s after the removals."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Candies Allocated to K Children\", \"titleSlug\": \"maximum-candies-allocated-to-k-children\", \"difficulty\": \"Medium\"}]"
+}

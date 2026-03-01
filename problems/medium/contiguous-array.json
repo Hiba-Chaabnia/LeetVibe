@@ -1,0 +1,51 @@
+{
+  "questionId": "525",
+  "title": "Contiguous Array",
+  "titleSlug": "contiguous-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.\n\nExample 1:\n\nInput: nums = [0,1]\nOutput: 2\nExplanation: [0, 1] is the longest contiguous subarray with an equal number of 0 and 1.\n\nExample 2:\n\nInput: nums = [0,1,0]\nOutput: 2\nExplanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.\n\nExample 3:\n\nInput: nums = [0,1,1,1,1,1,0,0,0]\nOutput: 6\nExplanation: [1,1,1,0,0,0] is the longest contiguous subarray with equal number of 0 and 1.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• nums[i] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMaxLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[0,1]"
+    ],
+    [
+      "[0,1,0]"
+    ],
+    [
+      "[0,1,1,1,1,1,0,0,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findMaxLength(nums):\n    counts = {0: -1}\n    max_len = count = 0\n    for i, num in enumerate(nums):\n        count += 1 if num == 1 else -1\n        if count in counts:\n            max_len = max(max_len, i - counts[count])\n        else:\n            counts[count] = i\n    return max_len",
+    "explanation": "This algorithm iterates through the given binary array and maintains a running count. It uses a hash table called \"counts\" to store the count-value pairs in which the count is the key and its index is the value. We initialize the hash table with a pair {0: -1} to handle the edge case when the first few elements form a valid subarray.\n\nFor each element in the array, we increment the count by 1 if the element is 1 or decrement by 1 if it is 0. The count then represents the difference between 1's and 0's in the array up to the current index.\n\nThen, we check if the current count is present in the hash table. If it is, that means we have encountered an equal number of 1's and 0's between the current index and the index stored under the current count in the hash table, so we compare this subarray's length with the previously stored max length of a valid subarray. Finally, we store the current count and index in the hash table if it isn't already present."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Size Subarray Sum Equals k\", \"titleSlug\": \"maximum-size-subarray-sum-equals-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Find All Possible Stable Binary Arrays I\", \"titleSlug\": \"find-all-possible-stable-binary-arrays-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Find All Possible Stable Binary Arrays II\", \"titleSlug\": \"find-all-possible-stable-binary-arrays-ii\", \"difficulty\": \"Hard\"}]"
+}

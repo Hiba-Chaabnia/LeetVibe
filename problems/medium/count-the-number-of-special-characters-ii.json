@@ -1,0 +1,49 @@
+{
+  "questionId": "3405",
+  "title": "Count the Number of Special Characters II",
+  "titleSlug": "count-the-number-of-special-characters-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string word. A letter c is called special if it appears both in lowercase and uppercase in word, and every lowercase occurrence of c appears before the first uppercase occurrence of c.\n\nReturn the number of special letters in word.\n\nExample 1:\n\nInput: word = \"aaAbcBC\"\n\nOutput: 3\n\nExplanation: The special characters are 'a', 'b', and 'c'.\n\nExample 2:\n\nInput: word = \"abc\"\n\nOutput: 0\n\nExplanation: There are no special characters in word.\n\nExample 3:\n\nInput: word = \"AbBCab\"\n\nOutput: 0\n\nExplanation: There are no special characters in word.\n\nConstraints:\n\n• 1 <= word.length <= 2 * 105\n\n• word consists of only lowercase and uppercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfSpecialChars(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each character c, store the first occurrence of its uppercase and the last occurrence of its lowercase."
+  ],
+  "testCases": [
+    [
+      "\"aaAbcBC\""
+    ],
+    [
+      "\"abc\""
+    ],
+    [
+      "\"AbBCab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfSpecialChars(self, word):\n        last_lower = {}  # last occurrence of lowercase c\n        first_upper = {}  # first occurrence of uppercase c\n        for i, ch in enumerate(word):\n            if ch.islower():\n                last_lower[ch] = i\n            else:\n                c = ch.lower()\n                if c not in first_upper:\n                    first_upper[c] = i\n        ans = 0\n        for c in set(last_lower) & set(first_upper):\n            if last_lower[c] < first_upper[c]:\n                ans += 1\n        return ans",
+    "explanation": "For each character: track last occurrence of lowercase and first occurrence of uppercase. Special if both exist and last_lower < first_upper.\n\nTime: O(n). Space: O(26)."
+  },
+  "similarQuestions": "[{\"title\": \"Detect Capital\", \"titleSlug\": \"detect-capital\", \"difficulty\": \"Easy\"}, {\"title\": \"Greatest English Letter in Upper and Lower Case\", \"titleSlug\": \"greatest-english-letter-in-upper-and-lower-case\", \"difficulty\": \"Easy\"}, {\"title\": \"Count the Number of Special Characters I\", \"titleSlug\": \"count-the-number-of-special-characters-i\", \"difficulty\": \"Easy\"}]"
+}

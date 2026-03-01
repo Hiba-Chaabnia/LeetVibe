@@ -1,0 +1,63 @@
+{
+  "questionId": "532",
+  "title": "K-diff Pairs in an Array",
+  "titleSlug": "k-diff-pairs-in-an-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array of integers nums and an integer k, return the number of unique k-diff pairs in the array.\n\nA k-diff pair is an integer pair (nums[i], nums[j]), where the following are true:\n\n• 0 <= i, j < nums.length\n\n• i != j\n\n• |nums[i] - nums[j]| == k\n\nNotice that |val| denotes the absolute value of val.\n\nExample 1:\n\nInput: nums = [3,1,4,1,5], k = 2\nOutput: 2\nExplanation: There are two 2-diff pairs in the array, (1, 3) and (3, 5).\n    Although we have two 1s in the input, we should only return the number of unique pairs.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5], k = 1\nOutput: 4\nExplanation: There are four 1-diff pairs in the array, (1, 2), (2, 3), (3, 4) and (4, 5).\n\nExample 3:\n\nInput: nums = [1,3,1,5,4], k = 0\nOutput: 1\nExplanation: There is one 0-diff pair in the array, (1, 1).\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• -107 <= nums[i] <= 107\n\n• 0 <= k <= 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,1,4,1,5]",
+      "2"
+    ],
+    [
+      "[1,2,3,4,5]",
+      "1"
+    ],
+    [
+      "[1,3,1,5,4]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def findPairs(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        count = Counter(nums)\n        pairs = 0\n        \n        for num in count:\n            # Case 1: k == 0, need at least 2 of same number\n            if k == 0:\n                if count[num] > 1:\n                    pairs += 1\n            # Case 2: k > 0, check if complement exists\n            elif k > 0 and num + k in count:\n                pairs += 1\n        \n        return pairs",
+    "explanation": "Use counter to track frequencies. Handle k=0 case (need duplicates) and k>0 case (check if complement exists).",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Absolute Difference in BST\", \"titleSlug\": \"minimum-absolute-difference-in-bst\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Number of Pairs With Absolute Difference K\", \"titleSlug\": \"count-number-of-pairs-with-absolute-difference-k\", \"difficulty\": \"Easy\"}, {\"title\": \"Kth Smallest Product of Two Sorted Arrays\", \"titleSlug\": \"kth-smallest-product-of-two-sorted-arrays\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Number of Bad Pairs\", \"titleSlug\": \"count-number-of-bad-pairs\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Pairs Satisfying Inequality\", \"titleSlug\": \"number-of-pairs-satisfying-inequality\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Absolute Difference Between Elements With Constraint\", \"titleSlug\": \"minimum-absolute-difference-between-elements-with-constraint\", \"difficulty\": \"Medium\"}]"
+}

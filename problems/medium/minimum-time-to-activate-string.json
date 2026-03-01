@@ -1,0 +1,55 @@
+{
+  "questionId": "3944",
+  "title": "Minimum Time to Activate String",
+  "titleSlug": "minimum-time-to-activate-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You are given a string s of length n and an integer array order, where order is a permutation of the numbers in the range [0, n - 1].\n\nStarting from time t = 0, replace the character at index order[t] in s with '*' at each time step.\n\nA substring is valid if it contains at least one '*'.\n\nA string is active if the total number of valid substrings is greater than or equal to k.\n\nReturn the minimum time t at which the string s becomes active. If it is impossible, return -1.\n\nExample 1:\n\nInput: s = \"abc\", order = [1,0,2], k = 2\n\nOutput: 0\n\nExplanation: \t\t\t\tt\n\t\t\t\torder[t]\n\t\t\t\tModified s\n\t\t\t\tValid Substrings\n\t\t\t\tCount\n\t\t\t\tActive\n\n\t\t\t(Count >= k)\n\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t\"a*c\"\n\t\t\t\t\"*\", \"a*\", \"*c\", \"a*c\"\n\t\t\t\t4\n\t\t\t\tYes\n\nThe string s becomes active at t = 0. Thus, the answer is 0.\n\nExample 2:\n\nInput: s = \"cat\", order = [0,2,1], k = 6\n\nOutput: 2\n\nExplanation: \t\t\t\tt\n\t\t\t\torder[t]\n\t\t\t\tModified s\n\t\t\t\tValid Substrings\n\t\t\t\tCount\n\t\t\t\tActive\n\n\t\t\t(Count >= k)\n\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t\"*at\"\n\t\t\t\t\"*\", \"*a\", \"*at\"\n\t\t\t\t3\n\t\t\t\tNo\n\n\t\t\t\t1\n\t\t\t\t2\n\t\t\t\t\"*a*\"\n\t\t\t\t\"*\", \"*a\", \"*a*\", \"a*\", \"*\"\n\t\t\t\t5\n\t\t\t\tNo\n\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\t\"***\"\n\t\t\t\tAll substrings (contain '*')\n\t\t\t\t6\n\t\t\t\tYes\n\nThe string s becomes active at t = 2. Thus, the answer is 2.\n\nExample 3:\n\nInput: s = \"xy\", order = [0,1], k = 4\n\nOutput: -1\n\nExplanation: Even after all replacements, it is impossible to obtain k = 4 valid substrings. Thus, the answer is -1.\n\nConstraints:\n\n• 1 <= n == s.length <= 105\n\n• order.length == n\n\n• 0 <= order[i] <= n - 1\n\n• s consists of lowercase English letters.\n\n• order is a permutation of integers from 0 to n - 1.\n\n• 1 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minTime(self, s, order, k):\n        \"\"\"\n        :type s: str\n        :type order: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Binary-search on t and for each t mark the first t+1 positions in order as *, then in one pass subtract from n(n+1)/2 the substrings of each non-* run of length L (L(L+1)/2) and check if the remainder >= k."
+  ],
+  "testCases": [
+    [
+      "\"abc\"",
+      "[1,0,2]",
+      "2"
+    ],
+    [
+      "\"cat\"",
+      "[0,2,1]",
+      "6"
+    ],
+    [
+      "\"xy\"",
+      "[0,1]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minTime(self, s, order, k):\n        n = len(s)\n        total = n * (n + 1) // 2\n        if total < k:\n            return -1\n\n        def count_valid(t):\n            starred = set(order[:t + 1])\n            invalid = 0\n            run = 0\n            for i in range(n):\n                if i in starred:\n                    invalid += run * (run + 1) // 2\n                    run = 0\n                else:\n                    run += 1\n            invalid += run * (run + 1) // 2\n            return total - invalid\n\n        lo, hi = 0, n - 1\n        ans = -1\n        while lo <= hi:\n            mid = (lo + hi) // 2\n            if count_valid(mid) >= k:\n                ans = mid\n                hi = mid - 1\n            else:\n                lo = mid + 1\n        return ans",
+    "explanation": "Binary search on t. For a given t, mark order[0..t] as '*'. Valid substrings = total - invalid; invalid substrings lie entirely within runs of non-starred characters: a run of length L contributes L*(L+1)/2 invalid substrings. If valid >= k, try smaller t. If even all n positions starred can't reach k (k > n*(n+1)/2), return -1.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

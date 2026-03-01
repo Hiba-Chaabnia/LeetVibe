@@ -1,0 +1,45 @@
+{
+  "questionId": "777",
+  "title": "Toeplitz Matrix",
+  "titleSlug": "toeplitz-matrix",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given an m x n matrix, return true if the matrix is Toeplitz. Otherwise, return false.\n\nA matrix is Toeplitz if every diagonal from top-left to bottom-right has the same elements.\n\nExample 1:\n\nInput: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]\nOutput: true\nExplanation:\n    In the above grid, the diagonals are:\n    \"[9]\", \"[5, 5]\", \"[1, 1, 1]\", \"[2, 2, 2]\", \"[3, 3]\", \"[4]\".\n    In each diagonal all elements are the same, so the answer is True.\n\nExample 2:\n\nInput: matrix = [[1,2],[2,2]]\nOutput: false\nExplanation:\n    The diagonal \"[1, 2]\" has different elements.\n\nConstraints:\n\n• m == matrix.length\n\n• n == matrix[i].length\n\n• 1 <= m, n <= 20\n\n• 0 <= matrix[i][j] <= 99\n\nFollow up:\n\n• What if the matrix is stored on disk, and the memory is limited such that you can only load at most one row of the matrix into the memory at once?\n\n• What if the matrix is so large that you can only load up a partial row into the memory at once?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isToeplitzMatrix(self, matrix):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Check whether each value is equal to the value of it's top-left neighbor."
+  ],
+  "testCases": [
+    [
+      "[[1,2,3,4],[5,1,2,3],[9,5,1,2]]"
+    ],
+    [
+      "[[1,2],[2,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isToeplitzMatrix(self, matrix):\n        for i in range(len(matrix) - 1):\n            for j in range(len(matrix[0]) - 1):\n                if matrix[i][j] != matrix[i+1][j+1]:\n                    return False\n        return True",
+    "explanation": "Check if each element equals its bottom-right neighbor.\nTime: O(m*n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Valid Word Square\", \"titleSlug\": \"valid-word-square\", \"difficulty\": \"Easy\"}]"
+}

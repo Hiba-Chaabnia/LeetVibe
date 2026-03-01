@@ -1,0 +1,54 @@
+{
+  "questionId": "2873",
+  "title": "Prime Pairs With Target Sum",
+  "titleSlug": "prime-pairs-with-target-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer n. We say that two integers x and y form a prime number pair if:\n\n• 1 <= x <= y <= n\n\n• x + y == n\n\n• x and y are prime numbers\n\nReturn the 2D sorted list of prime number pairs [xi, yi]. The list should be sorted in increasing order of xi. If there are no prime number pairs at all, return an empty array.\n\nNote: A prime number is a natural number greater than 1 with only two factors, itself and 1.\n\nExample 1:\n\nInput: n = 10\nOutput: [[3,7],[5,5]]\nExplanation: In this example, there are two prime pairs that satisfy the criteria.\n    These pairs are [3,7] and [5,5], and we return them in the sorted order as described in the problem statement.\n\nExample 2:\n\nInput: n = 2\nOutput: []\nExplanation: We can show that there is no prime number pair that gives a sum of 2, so we return an empty array.\n\nConstraints:\n\n• 1 <= n <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findPrimePairs(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Pre-compute all the prime numbers in the range [1, n] using a sieve, and store them in a data structure where they can be accessed in O(1) time.",
+    "For x in the range [2, n/2], we can use the pre-computed list of prime numbers to check if both x and n - x are primes. If they are, we add them to the result."
+  ],
+  "testCases": [
+    [
+      "10"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[3,7],[5,5]]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findPrimePairs(self, n):\n        # Sieve of Eratosthenes\n        is_prime = [True] * (n + 1)\n        is_prime[0] = is_prime[1] = False\n        for i in range(2, int(n**0.5) + 1):\n            if is_prime[i]:\n                for j in range(i * i, n + 1, i):\n                    is_prime[j] = False\n\n        result = []\n        for x in range(2, n // 2 + 1):\n            y = n - x\n            if is_prime[x] and is_prime[y]:\n                result.append([x, y])\n        return result",
+    "explanation": "We precompute all primes up to n using the Sieve of Eratosthenes in O(n log log n). Then we iterate x from 2 to n//2 (to avoid duplicate pairs) and check if both x and n-x are prime.\n\nTime complexity: O(n log log n) for sieve + O(n) for pairs = O(n log log n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Count Primes\", \"titleSlug\": \"count-primes\", \"difficulty\": \"Medium\"}]"
+}

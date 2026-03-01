@@ -1,0 +1,42 @@
+{
+  "questionId": "1910",
+  "title": "Check if Binary String Has at Most One Segment of Ones",
+  "titleSlug": "check-if-binary-string-has-at-most-one-segment-of-ones",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a binary string s ​​​​​without leading zeros, return true​​​ if s contains at most one contiguous segment of ones. Otherwise, return false.\n\nExample 1:\n\nInput: s = \"1001\"\nOutput: false\nExplanation: The ones do not form a contiguous segment.\n\nExample 2:\n\nInput: s = \"110\"\nOutput: true\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s[i]​​​​ is either '0' or '1'.\n\n• s[0] is '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkOnesSegment(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It's guaranteed to have at least one segment",
+    "The string size is small so you can count all segments of ones with no that have no adjacent ones."
+  ],
+  "testCases": [
+    [
+      "\"1001\""
+    ],
+    [
+      "\"110\""
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkOnesSegment(self, s):\n        return '01' not in s",
+    "explanation": "If '01' exists, there's a 0 between two 1-segments. Single segment has no '01'."
+  },
+  "similarQuestions": "[{\"title\": \"Longer Contiguous Segments of Ones than Zeros\", \"titleSlug\": \"longer-contiguous-segments-of-ones-than-zeros\", \"difficulty\": \"Easy\"}]"
+}

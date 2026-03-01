@@ -1,0 +1,51 @@
+{
+  "questionId": "1336",
+  "title": "Maximum Product of the Length of Two Palindromic Substrings",
+  "titleSlug": "maximum-product-of-the-length-of-two-palindromic-substrings",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are given a 0-indexed string s and are tasked with finding two non-intersecting palindromic substrings of odd length such that the product of their lengths is maximized.\n\nMore formally, you want to choose four integers i, j, k, l such that 0 <= i <= j < k <= l < s.length and both the substrings s[i...j] and s[k...l] are palindromes and have odd lengths. s[i...j] denotes a substring from index i to index j inclusive.\n\nReturn the maximum possible product of the lengths of the two non-intersecting palindromic substrings.\n\nA palindrome is a string that is the same forward and backward. A substring is a contiguous sequence of characters in a string.\n\nExample 1:\n\nInput: s = \"ababbb\"\nOutput: 9\nExplanation: Substrings \"aba\" and \"bbb\" are palindromes with odd length. product = 3 * 3 = 9.\n\nExample 2:\n\nInput: s = \"zaaaxbbby\"\nOutput: 9\nExplanation: Substrings \"aaa\" and \"bbb\" are palindromes with odd length. product = 3 * 3 = 9.\n\nConstraints:\n\n• 2 <= s.length <= 105\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxProduct(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You can use Manacher's algorithm to get the maximum palindromic substring centered at each index",
+    "After using Manacher's for each center use a line sweep from the center to the left and from the center to the right to find for each index the farthest center to it with distance ≤ palin[center]",
+    "After that, find the maximum palindrome size for each prefix in the string and for each suffix and the answer would be max(prefix[i] * suffix[i + 1])"
+  ],
+  "testCases": [
+    [
+      "\"ababbb\""
+    ],
+    [
+      "\"zaaaxbbby\""
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "9"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Product of the Length of Two Palindromic Subsequences\", \"titleSlug\": \"maximum-product-of-the-length-of-two-palindromic-subsequences\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Cost to Make Array Equal\", \"titleSlug\": \"minimum-cost-to-make-array-equal\", \"difficulty\": \"Hard\"}]"
+}

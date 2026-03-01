@@ -1,0 +1,48 @@
+{
+  "questionId": "962",
+  "title": "Flip String to Monotone Increasing",
+  "titleSlug": "flip-string-to-monotone-increasing",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "A binary string is monotone increasing if it consists of some number of 0's (possibly none), followed by some number of 1's (also possibly none).\n\nYou are given a binary string s. You can flip s[i] changing it from 0 to 1 or from 1 to 0.\n\nReturn the minimum number of flips to make s monotone increasing.\n\nExample 1:\n\nInput: s = \"00110\"\nOutput: 1\nExplanation: We flip the last digit to get 00111.\n\nExample 2:\n\nInput: s = \"010110\"\nOutput: 2\nExplanation: We flip to get 011111, or alternatively 000111.\n\nExample 3:\n\nInput: s = \"00011000\"\nOutput: 2\nExplanation: We flip to get 00000000.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minFlipsMonoIncr(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"00110\""
+    ],
+    [
+      "\"010110\""
+    ],
+    [
+      "\"00011000\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minFlipsMonoIncr(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ones = 0  # Count of 1s seen so far\n        flips = 0  # Flips needed\n        \n        for char in s:\n            if char == '1':\n                ones += 1\n            else:\n                # Either flip this 0 to 1, or flip all previous 1s to 0\n                flips = min(ones, flips + 1)\n        \n        return flips",
+    "explanation": "DP approach. Track ones seen and minimum flips. When seeing 0, either flip it or all previous 1s.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cost to Make All Characters Equal\", \"titleSlug\": \"minimum-cost-to-make-all-characters-equal\", \"difficulty\": \"Medium\"}]"
+}

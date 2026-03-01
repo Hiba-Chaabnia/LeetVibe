@@ -1,0 +1,61 @@
+{
+  "questionId": "3761",
+  "title": "Maximum Difference Between Even and Odd Frequency II",
+  "titleSlug": "maximum-difference-between-even-and-odd-frequency-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a string s and an integer k. Your task is to find the maximum difference between the frequency of two characters, freq[a] - freq[b], in a substring subs of s, such that:\n\n• subs has a size of at least k.\n\n• Character a has an odd frequency in subs.\n\n• Character b has a non-zero even frequency in subs.\n\nReturn the maximum difference.\n\nNote that subs can contain more than 2 distinct characters.\n\nExample 1:\n\nInput: s = \"12233\", k = 4\n\nOutput: -1\n\nExplanation: For the substring \"12233\", the frequency of '1' is 1 and the frequency of '3' is 2. The difference is 1 - 2 = -1.\n\nExample 2:\n\nInput: s = \"1122211\", k = 3\n\nOutput: 1\n\nExplanation: For the substring \"11222\", the frequency of '2' is 3 and the frequency of '1' is 2. The difference is 3 - 2 = 1.\n\nExample 3:\n\nInput: s = \"110\", k = 3\n\nOutput: -1\n\nConstraints:\n\n• 3 <= s.length <= 3 * 104\n\n• s consists only of digits '0' to '4'.\n\n• The input is generated that at least one substring has a character with an even frequency and a character with an odd frequency.\n\n• 1 <= k <= s.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxDifference(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Fix the two characters.",
+    "Use prefix sum (maintain 2 characters' parities as status)."
+  ],
+  "testCases": [
+    [
+      "\"12233\"",
+      "4"
+    ],
+    [
+      "\"1122211\"",
+      "3"
+    ],
+    [
+      "\"110\"",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "-1",
+    "1",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxDifference(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(s)\n        max_diff = float('-inf')\n        \n        # Try all pairs of characters (a with odd frequency, b with even frequency)\n        chars = set(s)\n        \n        for char_a in chars:\n            for char_b in chars:\n                if char_a == char_b:\n                    continue\n                \n                # For pair (char_a, char_b), find all substrings of length >= k\n                # where char_a has odd frequency and char_b has even frequency\n                \n                for start in range(n):\n                    freq_a = 0\n                    freq_b = 0\n                    \n                    for end in range(start, n):\n                        if s[end] == char_a:\n                            freq_a += 1\n                        elif s[end] == char_b:\n                            freq_b += 1\n                        \n                        length = end - start + 1\n                        if length >= k:\n                            # Check if valid for this pair\n                            if freq_a % 2 == 1 and freq_b % 2 == 0 and freq_b > 0:\n                                diff = freq_a - freq_b\n                                max_diff = max(max_diff, diff)\n        \n        return max_diff",
+    "explanation": "This solution uses brute force substring enumeration:\n\n1. **Problem Understanding**:\n   - Find substring of length >= k\n   - Has a character with odd frequency\n   - Has b character with even (non-zero) frequency\n   - Maximize (freq[a] - freq[b])\n\n2. **Brute Force Approach**:\n   - Try all pairs of characters (a, b)\n   - Try all substrings\n   - For valid substrings (length >= k):\n     - Check if freq[a] is odd and freq[b] is even (and > 0)\n     - Calculate difference\n     - Track maximum\n\n3. **Enumeration**:\n   - For each starting position:\n     - Expand end position right\n     - Track frequencies of target characters\n     - When length >= k and conditions met, update max\n\n4. **Conditions**:\n   - Length >= k\n   - freq[a] is odd\n   - freq[b] is even and > 0 (must appear at least twice)\n   - char_a != char_b\n\n5. **Optimization Notes**:\n   - Hints suggest prefix sum with parity tracking\n   - For fixed pair (a, b):\n     - Maintain prefix parities of a and b\n     - Two positions with same parity of a, and b even in between\n     - Can use hashmap to track first occurrence of each parity\n\n6. **Current Complexity**:\n   - O(|chars|² * n²) = O(25 * n²)\n   - With |s| ≤ 3*10^4 and only digits 0-4: feasible\n\nTime Complexity: O(25 * n²) = O(n²)\nSpace Complexity: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Frequency of the Most Frequent Element\", \"titleSlug\": \"frequency-of-the-most-frequent-element\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Elements With Maximum Frequency\", \"titleSlug\": \"count-elements-with-maximum-frequency\", \"difficulty\": \"Easy\"}]"
+}

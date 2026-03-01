@@ -1,0 +1,49 @@
+{
+  "questionId": "3905",
+  "title": "Partition String ",
+  "titleSlug": "partition-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given a string s, partition it into unique segments according to the following procedure:\n\n• Start building a segment beginning at index 0.\n\n• Continue extending the current segment character by character until the current segment has not been seen before.\n\n• Once the segment is unique, add it to your list of segments, mark it as seen, and begin a new segment from the next index.\n\n• Repeat until you reach the end of s.\n\nReturn an array of strings segments, where segments[i] is the ith segment created.\n\nExample 1:\n\nInput: s = \"abbccccd\"\n\nOutput: [\"a\",\"b\",\"bc\",\"c\",\"cc\",\"d\"]\n\nExplanation: \t\t\t\tIndex\n\t\t\t\tSegment After Adding\n\t\t\t\tSeen Segments\n\t\t\t\tCurrent Segment Seen Before?\n\t\t\t\tNew Segment\n\t\t\t\tUpdated Seen Segments\n\n\t\t\t\t0\n\t\t\t\t\"a\"\n\t\t\t\t[]\n\t\t\t\tNo\n\t\t\t\t\"\"\n\t\t\t\t[\"a\"]\n\n\t\t\t\t1\n\t\t\t\t\"b\"\n\t\t\t\t[\"a\"]\n\t\t\t\tNo\n\t\t\t\t\"\"\n\t\t\t\t[\"a\", \"b\"]\n\n\t\t\t\t2\n\t\t\t\t\"b\"\n\t\t\t\t[\"a\", \"b\"]\n\t\t\t\tYes\n\t\t\t\t\"b\"\n\t\t\t\t[\"a\", \"b\"]\n\n\t\t\t\t3\n\t\t\t\t\"bc\"\n\t\t\t\t[\"a\", \"b\"]\n\t\t\t\tNo\n\t\t\t\t\"\"\n\t\t\t\t[\"a\", \"b\", \"bc\"]\n\n\t\t\t\t4\n\t\t\t\t\"c\"\n\t\t\t\t[\"a\", \"b\", \"bc\"]\n\t\t\t\tNo\n\t\t\t\t\"\"\n\t\t\t\t[\"a\", \"b\", \"bc\", \"c\"]\n\n\t\t\t\t5\n\t\t\t\t\"c\"\n\t\t\t\t[\"a\", \"b\", \"bc\", \"c\"]\n\t\t\t\tYes\n\t\t\t\t\"c\"\n\t\t\t\t[\"a\", \"b\", \"bc\", \"c\"]\n\n\t\t\t\t6\n\t\t\t\t\"cc\"\n\t\t\t\t[\"a\", \"b\", \"bc\", \"c\"]\n\t\t\t\tNo\n\t\t\t\t\"\"\n\t\t\t\t[\"a\", \"b\", \"bc\", \"c\", \"cc\"]\n\n\t\t\t\t7\n\t\t\t\t\"d\"\n\t\t\t\t[\"a\", \"b\", \"bc\", \"c\", \"cc\"]\n\t\t\t\tNo\n\t\t\t\t\"\"\n\t\t\t\t[\"a\", \"b\", \"bc\", \"c\", \"cc\", \"d\"]\n\nHence, the final output is [\"a\", \"b\", \"bc\", \"c\", \"cc\", \"d\"].\n\nExample 2:\n\nInput: s = \"aaaa\"\n\nOutput: [\"a\",\"aa\"]\n\nExplanation: \t\t\t\tIndex\n\t\t\t\tSegment After Adding\n\t\t\t\tSeen Segments\n\t\t\t\tCurrent Segment Seen Before?\n\t\t\t\tNew Segment\n\t\t\t\tUpdated Seen Segments\n\n\t\t\t\t0\n\t\t\t\t\"a\"\n\t\t\t\t[]\n\t\t\t\tNo\n\t\t\t\t\"\"\n\t\t\t\t[\"a\"]\n\n\t\t\t\t1\n\t\t\t\t\"a\"\n\t\t\t\t[\"a\"]\n\t\t\t\tYes\n\t\t\t\t\"a\"\n\t\t\t\t[\"a\"]\n\n\t\t\t\t2\n\t\t\t\t\"aa\"\n\t\t\t\t[\"a\"]\n\t\t\t\tNo\n\t\t\t\t\"\"\n\t\t\t\t[\"a\", \"aa\"]\n\n\t\t\t\t3\n\t\t\t\t\"a\"\n\t\t\t\t[\"a\", \"aa\"]\n\t\t\t\tYes\n\t\t\t\t\"a\"\n\t\t\t\t[\"a\", \"aa\"]\n\nHence, the final output is [\"a\", \"aa\"].\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def partitionString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "\"abbccccd\""
+    ],
+    [
+      "\"aaaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"a\",\"b\",\"bc\",\"c\",\"cc\",\"d\"]",
+    "[\"a\",\"aa\"]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

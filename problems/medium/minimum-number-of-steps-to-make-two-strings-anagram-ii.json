@@ -1,0 +1,54 @@
+{
+  "questionId": "2293",
+  "title": "Minimum Number of Steps to Make Two Strings Anagram II",
+  "titleSlug": "minimum-number-of-steps-to-make-two-strings-anagram-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given two strings s and t. In one step, you can append any character to either s or t.\n\nReturn the minimum number of steps to make s and t anagrams of each other.\n\nAn anagram of a string is a string that contains the same characters with a different (or the same) ordering.\n\nExample 1:\n\nInput: s = \"leetcode\", t = \"coats\"\nOutput: 7\nExplanation:\n    - In 2 steps, we can append the letters in \"as\" onto s = \"leetcode\", forming s = \"leetcodeas\".\n    - In 5 steps, we can append the letters in \"leede\" onto t = \"coats\", forming t = \"coatsleede\".\n    \"leetcodeas\" and \"coatsleede\" are now anagrams of each other.\n    We used a total of 2 + 5 = 7 steps.\n    It can be shown that there is no way to make them anagrams of each other with less than 7 steps.\n\nExample 2:\n\nInput: s = \"night\", t = \"thing\"\nOutput: 0\nExplanation: The given strings are already anagrams of each other. Thus, we do not need any further steps.\n\nConstraints:\n\n• 1 <= s.length, t.length <= 2 * 105\n\n• s and t consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSteps(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that for anagrams, the order of the letters is irrelevant.",
+    "For each letter, we can count its frequency in s and t.",
+    "For each letter, its contribution to the answer is the absolute difference between its frequency in s and t."
+  ],
+  "testCases": [
+    [
+      "\"leetcode\"",
+      "\"coats\""
+    ],
+    [
+      "\"night\"",
+      "\"thing\""
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minSteps(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: int\n        \"\"\"\n        freq_s = Counter(s)\n        freq_t = Counter(t)\n        \n        steps = 0\n        \n        # Count all character differences\n        all_chars = set(freq_s.keys()) | set(freq_t.keys())\n        \n        for ch in all_chars:\n            count_s = freq_s.get(ch, 0)\n            count_t = freq_t.get(ch, 0)\n            steps += abs(count_s - count_t)\n        \n        return steps",
+    "explanation": "Count frequency of each character in both strings. Sum of absolute differences is total steps needed.",
+    "complexity": "Time: O(n + m). Space: O(1) for fixed alphabet."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Number of Steps to Make Two Strings Anagram\", \"titleSlug\": \"minimum-number-of-steps-to-make-two-strings-anagram\", \"difficulty\": \"Medium\"}]"
+}

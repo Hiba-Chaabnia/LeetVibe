@@ -1,0 +1,54 @@
+{
+  "questionId": "1956",
+  "title": "Maximum Element After Decreasing and Rearranging",
+  "titleSlug": "maximum-element-after-decreasing-and-rearranging",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an array of positive integers arr. Perform some operations (possibly none) on arr so that it satisfies these conditions:\n\n• The value of the first element in arr must be 1.\n\n• The absolute difference between any 2 adjacent elements must be less than or equal to 1. In other words, abs(arr[i] - arr[i - 1]) <= 1 for each i where 1 <= i < arr.length (0-indexed). abs(x) is the absolute value of x.\n\nThere are 2 types of operations that you can perform any number of times:\n\n• Decrease the value of any element of arr to a smaller positive integer.\n\n• Rearrange the elements of arr to be in any order.\n\nReturn the maximum possible value of an element in arr after performing the operations to satisfy the conditions.\n\nExample 1:\n\nInput: arr = [2,2,1,2,1]\nOutput: 2\nExplanation:\n    We can satisfy the conditions by rearranging arr so it becomes [1,2,2,2,1].\n    The largest element in arr is 2.\n\nExample 2:\n\nInput: arr = [100,1,1000]\nOutput: 3\nExplanation:\n    One possible way to satisfy the conditions is by doing the following:\n    1. Rearrange arr so it becomes [1,100,1000].\n    2. Decrease the value of the second element to 2.\n    3. Decrease the value of the third element to 3.\n    Now arr = [1,2,3], which satisfies the conditions.\n    The largest element in arr is 3.\n\nExample 3:\n\nInput: arr = [1,2,3,4,5]\nOutput: 5\nExplanation: The array already satisfies the conditions, and the largest element is 5.\n\nConstraints:\n\n• 1 <= arr.length <= 105\n\n• 1 <= arr[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumElementAfterDecrementingAndRearranging(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the Array.",
+    "Decrement each element to the largest integer that satisfies the conditions."
+  ],
+  "testCases": [
+    [
+      "[2,2,1,2,1]"
+    ],
+    [
+      "[100,1,1000]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maximumElementAfterDecrementingAndRearranging(arr: List[int]) -> int:\n    arr.sort()\n    arr[0] = 1\n    for i in range(1, len(arr)):\n        arr[i] = min(arr[i], arr[i - 1] + 1)\n    return arr[-1]",
+    "explanation": "The main idea of this algorithm is to sort the array and modify it following these steps:\n1. Set the first element to 1.\n2. Iterate through the array starting from the second element. For each element, set its value to the minimum of its current value and the value of the previous element plus one.\n\nSince we sort the array, the absolute difference between adjacent elements after this transformation will always satisfy the conditions. Sorting ensures that we decrement the values as little as possible.\n\nOur goal is to return the maximum value, which will be the last element of the array after modifying it in this way."
+  },
+  "similarQuestions": "[]"
+}

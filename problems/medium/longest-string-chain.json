@@ -1,0 +1,67 @@
+{
+  "questionId": "1129",
+  "title": "Longest String Chain",
+  "titleSlug": "longest-string-chain",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an array of words where each word consists of lowercase English letters.\n\nwordA is a predecessor of wordB if and only if we can insert exactly one letter anywhere in wordA without changing the order of the other characters to make it equal to wordB.\n\n• For example, \"abc\" is a predecessor of \"abac\", while \"cba\" is not a predecessor of \"bcad\".\n\nA word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, where word1 is a predecessor of word2, word2 is a predecessor of word3, and so on. A single word is trivially a word chain with k == 1.\n\nReturn the length of the longest possible word chain with words chosen from the given list of words.\n\nExample 1:\n\nInput: words = [\"a\",\"b\",\"ba\",\"bca\",\"bda\",\"bdca\"]\nOutput: 4\nExplanation: One of the longest word chains is [\"a\",\"ba\",\"bda\",\"bdca\"].\n\nExample 2:\n\nInput: words = [\"xbc\",\"pcxbcf\",\"xb\",\"cxbc\",\"pcxbc\"]\nOutput: 5\nExplanation: All the words can be put in a word chain [\"xb\", \"xbc\", \"cxbc\", \"pcxbc\", \"pcxbcf\"].\n\nExample 3:\n\nInput: words = [\"abcd\",\"dbqca\"]\nOutput: 1\nExplanation: The trivial word chain [\"abcd\"] is one of the longest word chains.\n    [\"abcd\",\"dbqca\"] is not a valid word chain because the ordering of the letters is changed.\n\nConstraints:\n\n• 1 <= words.length <= 1000\n\n• 1 <= words[i].length <= 16\n\n• words[i] only consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestStrChain(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Instead of adding a character, try deleting a character to form a chain in reverse.",
+    "For each word in order of length, for each word2 which is word with one character removed, length[word2] = max(length[word2], length[word] + 1)."
+  ],
+  "testCases": [
+    [
+      "[\"a\",\"b\",\"ba\",\"bca\",\"bda\",\"bdca\"]"
+    ],
+    [
+      "[\"xbc\",\"pcxbcf\",\"xb\",\"cxbc\",\"pcxbc\"]"
+    ],
+    [
+      "[\"abcd\",\"dbqca\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "5",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def longestStrChain(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        words.sort(key=len)\n        dp = {}\n        max_chain = 1\n        \n        for word in words:\n            dp[word] = 1\n            \n            # Try removing each character\n            for i in range(len(word)):\n                predecessor = word[:i] + word[i+1:]\n                \n                if predecessor in dp:\n                    dp[word] = max(dp[word], dp[predecessor] + 1)\n            \n            max_chain = max(max_chain, dp[word])\n        \n        return max_chain",
+    "explanation": "Sort by word length. For each word, try all predecessors (remove one char). DP tracks longest chain ending at each word.",
+    "complexity": "Time: O(n*L²). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "2271",
+  "title": "Rearrange Array Elements by Sign",
+  "titleSlug": "rearrange-array-elements-by-sign",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums of even length consisting of an equal number of positive and negative integers.\n\nYou should return the array of nums such that the array follows the given conditions:\n\n• Every consecutive pair of integers have opposite signs.\n\n• For all integers with the same sign, the order in which they were present in nums is preserved.\n\n• The rearranged array begins with a positive integer.\n\nReturn the modified array after rearranging the elements to satisfy the aforementioned conditions.\n\nExample 1:\n\nInput: nums = [3,1,-2,-5,2,-4]\nOutput: [3,-2,1,-5,2,-4]\nExplanation:\n    The positive integers in nums are [3,1,2]. The negative integers are [-2,-5,-4].\n    The only possible way to rearrange them such that they satisfy all conditions is [3,-2,1,-5,2,-4].\n    Other ways such as [1,-2,2,-5,3,-4], [3,1,2,-2,-5,-4], [-2,3,-5,1,-4,2] are incorrect because they do not satisfy one or more conditions.\n\nExample 2:\n\nInput: nums = [-1,1]\nOutput: [1,-1]\nExplanation:\n    1 is the only positive integer and -1 the only negative integer in nums.\n    So nums is rearranged to [1,-1].\n\nConstraints:\n\n• 2 <= nums.length <= 2 * 105\n\n• nums.length is even\n\n• 1 <= |nums[i]| <= 105\n\n• nums consists of equal number of positive and negative integers.\n\nIt is not required to do the modifications in-place.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rearrangeArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Divide the array into two parts- one comprising of only positive integers and the other of negative integers.",
+    "Merge the two parts to get the resultant array."
+  ],
+  "testCases": [
+    [
+      "[3,1,-2,-5,2,-4]"
+    ],
+    [
+      "[-1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,-2,1,-5,2,-4]",
+    "[1,-1]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Wiggle Subsequence\", \"titleSlug\": \"wiggle-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Sort Array By Parity II\", \"titleSlug\": \"sort-array-by-parity-ii\", \"difficulty\": \"Easy\"}, {\"title\": \"Partition Array According to Given Pivot\", \"titleSlug\": \"partition-array-according-to-given-pivot\", \"difficulty\": \"Medium\"}, {\"title\": \"Largest Number After Digit Swaps by Parity\", \"titleSlug\": \"largest-number-after-digit-swaps-by-parity\", \"difficulty\": \"Easy\"}]"
+}

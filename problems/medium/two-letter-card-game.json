@@ -1,0 +1,66 @@
+{
+  "questionId": "3877",
+  "title": "Two-Letter Card Game",
+  "titleSlug": "two-letter-card-game",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a deck of cards represented by a string array cards, and each card displays two lowercase letters.\n\nYou are also given a letter x. You play a game with the following rules:\n\n• Start with 0 points.\n\n• On each turn, you must find two compatible cards from the deck that both contain the letter x in any position.\n\n• Remove the pair of cards and earn 1 point.\n\n• The game ends when you can no longer find a pair of compatible cards.\n\nReturn the maximum number of points you can gain with optimal play.\n\nTwo cards are compatible if the strings differ in exactly 1 position.\n\nExample 1:\n\nInput: cards = [\"aa\",\"ab\",\"ba\",\"ac\"], x = \"a\"\n\nOutput: 2\n\nExplanation:\n\n• On the first turn, select and remove cards \"ab\" and \"ac\", which are compatible because they differ at only index 1.\n\n• On the second turn, select and remove cards \"aa\" and \"ba\", which are compatible because they differ at only index 0.\n\nBecause there are no more compatible pairs, the total score is 2.\n\nExample 2:\n\nInput: cards = [\"aa\",\"ab\",\"ba\"], x = \"a\"\n\nOutput: 1\n\nExplanation:\n\n• On the first turn, select and remove cards \"aa\" and \"ba\".\n\nBecause there are no more compatible pairs, the total score is 1.\n\nExample 3:\n\nInput: cards = [\"aa\",\"ab\",\"ba\",\"ac\"], x = \"b\"\n\nOutput: 0\n\nExplanation: The only cards that contain the character 'b' are \"ab\" and \"ba\". However, they differ in both indices, so they are not compatible. Thus, the output is 0.\n\nConstraints:\n\n• 2 <= cards.length <= 105\n\n• cards[i].length == 2\n\n• Each cards[i] is composed of only lowercase English letters between 'a' and 'j'.\n\n• x is a lowercase English letter between 'a' and 'j'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def score(self, cards, x):\n        \"\"\"\n        :type cards: List[str]\n        :type x: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Compute both, cnt1[c], cnt2[c] as the counts of cards with x in both positions, only the first position (other letter c), and only the second position.",
+    "Let solve(cnt, have) be the maximum pairs you can form from one‐sided counts cnt plus have two‐sided cards by sorting cnt, computing the total, and applying the same logic as in the solution.",
+    "Return the maximum over i = 0..both of solve(cnt1, i) + solve(cnt2, both - i)."
+  ],
+  "testCases": [
+    [
+      "[\"aa\",\"ab\",\"ba\",\"ac\"]",
+      "\"a\""
+    ],
+    [
+      "[\"aa\",\"ab\",\"ba\"]",
+      "\"a\""
+    ],
+    [
+      "[\"aa\",\"ab\",\"ba\",\"ac\"]",
+      "\"b\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def score(self, cards, x):\n        both = 0\n        cnt1 = defaultdict(int)  # x at pos 0, other letter at pos 1\n        cnt2 = defaultdict(int)  # other letter at pos 0, x at pos 1\n\n        for card in cards:\n            has0 = card[0] == x\n            has1 = card[1] == x\n            if has0 and has1:\n                both += 1\n            elif has0:\n                cnt1[card[1]] += 1\n            elif has1:\n                cnt2[card[0]] += 1\n\n        def solve(cnt, have):\n            if not cnt:\n                return 0\n            total = sum(cnt.values())\n            M = max(cnt.values())\n            rest = total - M\n            if have < M - rest:\n                # Not enough wildcards to balance the dominant letter\n                return have + rest\n            else:\n                w = min(have, total)\n                return w + (total - w) // 2\n\n        ans = 0\n        for i in range(both + 1):\n            ans = max(ans, solve(cnt1, i) + solve(cnt2, both - i))\n        return ans",
+    "explanation": "Cards containing x fall into three groups: 'xx' (x in both positions, count=both), 'xc' (x only at position 0, grouped by the other letter c in cnt1), and 'cx' (x only at position 1, grouped in cnt2).\n\nCompatible pairs only form within cnt1 (cards differing at pos 1), within cnt2 (cards differing at pos 0), or between 'xx' and any one-sided card. Cross-group 'xc'+'cx' pairs differ at both positions and are incompatible.\n\nWe split the 'both' wildcards: i go to assist cnt1, and (both-i) assist cnt2.\n\nsolve(cnt, have) computes max pairs from one-sided cards plus 'have' wildcards (which can pair with any one-sided card). If the dominant letter has count M > rest+have, pairs = have+rest. Otherwise, wildcards replace one side of a pair, yielding min(have,total) + (total-min(have,total))//2.\n\nWe maximize over all splits i from 0 to both.\n\nTime complexity: O(both * 10) where 10 is the alphabet size."
+  },
+  "similarQuestions": "[]"
+}

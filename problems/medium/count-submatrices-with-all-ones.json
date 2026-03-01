@@ -1,0 +1,58 @@
+{
+  "questionId": "1628",
+  "title": "Count Submatrices With All Ones",
+  "titleSlug": "count-submatrices-with-all-ones",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "Given an m x n binary matrix mat, return the number of submatrices that have all ones.\n\nExample 1:\n\nInput: mat = [[1,0,1],[1,1,0],[1,1,0]]\nOutput: 13\nExplanation:\n    There are 6 rectangles of side 1x1.\n    There are 2 rectangles of side 1x2.\n    There are 3 rectangles of side 2x1.\n    There is 1 rectangle of side 2x2.\n    There is 1 rectangle of side 3x1.\n    Total number of rectangles = 6 + 2 + 3 + 1 + 1 = 13.\n\nExample 2:\n\nInput: mat = [[0,1,1,0],[0,1,1,1],[1,1,1,0]]\nOutput: 24\nExplanation:\n    There are 8 rectangles of side 1x1.\n    There are 5 rectangles of side 1x2.\n    There are 2 rectangles of side 1x3.\n    There are 4 rectangles of side 2x1.\n    There are 2 rectangles of side 2x2.\n    There are 2 rectangles of side 3x1.\n    There is 1 rectangle of side 3x2.\n    Total number of rectangles = 8 + 5 + 2 + 4 + 2 + 2 + 1 = 24.\n\nConstraints:\n\n• 1 <= m, n <= 150\n\n• mat[i][j] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSubmat(self, mat):\n        \"\"\"\n        :type mat: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each row i, create an array nums where:  if mat[i][j] == 0 then nums[j] = 0 else nums[j] = nums[j-1] +1.",
+    "In the row i, number of rectangles between column j and k(inclusive) and ends in row i, is equal to SUM(min(nums[j, .. idx])) where idx go from j to k.  Expected solution is O(n^3)."
+  ],
+  "testCases": [
+    [
+      "[[1,0,1],[1,1,0],[1,1,0]]"
+    ],
+    [
+      "[[0,1,1,0],[0,1,1,1],[1,1,1,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "24"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numSubmat(mat: List[List[int]]) -> int:\n    m, n = len(mat), len(mat[0])\n    dp = [[0] * n for _ in range(m)]\n    ans = 0\n    \n    for i in range(m):\n        for j in range(n):\n            if mat[i][j]:\n                dp[i][j] = 1 if j == 0 else dp[i][j-1] + 1\n                width = dp[i][j]\n                for k in range(i, -1, -1):\n                    width = min(width, dp[k][j])\n                    ans += width\n    \n    return ans",
+    "explanation": "The algorithm uses dynamic programming to solve the problem. We first create a 2D array `dp` of the same size as `mat`. Then, we iterate through each element `mat[i][j]`. If `mat[i][j]` is 1, we calculate the value of `dp[i][j]`. The value `dp[i][j]` represents the number of continuous 1s in the row from the current position to the left. Thus, `dp[i][j] = 1` if `j == 0` (i.e., this is the first element in the row), otherwise `dp[i][j] = dp[i][j-1] + 1`.\n\nThen, we iterate from the current row `i` to the first row (0) and calculate the minimum width of the continuous 1s in the columns at position `j` for each row. The sum of these minimum widths gives the total number of submatrices containing all 1s.\n\nFinally, the function returns the sum of all submatrices.\n\nTime complexity: O(m * n * m) since we have to iterate through all the elements in the matrix and then again for each row from the current row to the first.\nSpace complexity: O(m * n) for the `dp` array."
+  },
+  "similarQuestions": "[{\"title\": \"Count Submatrices With Equal Frequency of X and Y\", \"titleSlug\": \"count-submatrices-with-equal-frequency-of-x-and-y\", \"difficulty\": \"Medium\"}]"
+}

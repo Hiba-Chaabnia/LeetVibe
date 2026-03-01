@@ -1,0 +1,46 @@
+{
+  "questionId": "2443",
+  "title": "Check if There is a Valid Partition For The Array",
+  "titleSlug": "check-if-there-is-a-valid-partition-for-the-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. You have to partition the array into one or more contiguous subarrays.\n\nWe call a partition of the array valid if each of the obtained subarrays satisfies one of the following conditions:\n\n• The subarray consists of exactly 2, equal elements. For example, the subarray [2,2] is good.\n\n• The subarray consists of exactly 3, equal elements. For example, the subarray [4,4,4] is good.\n\n• The subarray consists of exactly 3 consecutive increasing elements, that is, the difference between adjacent elements is 1. For example, the subarray [3,4,5] is good, but the subarray [1,3,5] is not.\n\nReturn true if the array has at least one valid partition. Otherwise, return false.\n\nExample 1:\n\nInput: nums = [4,4,4,5,6]\nOutput: true\nExplanation: The array can be partitioned into the subarrays [4,4] and [4,5,6].\n    This partition is valid, so we return true.\n\nExample 2:\n\nInput: nums = [1,1,1,2]\nOutput: false\nExplanation: There is no valid partition for this array.\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def validPartition(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can you reduce the problem to checking if there is a valid partition for a smaller array?",
+    "Use dynamic programming to reduce the problem until you have an empty array."
+  ],
+  "testCases": [
+    [
+      "[4,4,4,5,6]"
+    ],
+    [
+      "[1,1,1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def validPartition(self, nums):\n        n = len(nums)\n        dp = [False] * (n + 1)\n        dp[0] = True\n        for i in range(1, n + 1):\n            if i >= 2 and dp[i-2] and nums[i-1] == nums[i-2]:\n                dp[i] = True\n            if i >= 3 and dp[i-3] and nums[i-1] == nums[i-2] == nums[i-3]:\n                dp[i] = True\n            if i >= 3 and dp[i-3] and nums[i-1] == nums[i-2] + 1 == nums[i-3] + 2:\n                dp[i] = True\n        return dp[n]",
+    "explanation": "DP approach. dp[i] = can partition nums[0:i]. Check 3 conditions at each position.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Count the Number of Good Partitions\", \"titleSlug\": \"count-the-number-of-good-partitions\", \"difficulty\": \"Hard\"}]"
+}

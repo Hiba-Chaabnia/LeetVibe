@@ -1,0 +1,56 @@
+{
+  "questionId": "114",
+  "title": "Flatten Binary Tree to Linked List",
+  "titleSlug": "flatten-binary-tree-to-linked-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, flatten the tree into a \"linked list\":\n\n• The \"linked list\" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.\n\n• The \"linked list\" should be in the same order as a pre-order traversal of the binary tree.\n\nExample 1:\n\nInput: root = [1,2,5,3,4,null,6]\nOutput: [1,null,2,null,3,null,4,null,5,null,6]\n\nExample 2:\n\nInput: root = []\nOutput: []\n\nExample 3:\n\nInput: root = [0]\nOutput: [0]\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 2000].\n\n• -100 <= Node.val <= 100\n\nFollow up: Can you flatten the tree in-place (with O(1) extra space)?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def flatten(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: None Do not return anything, modify root in-place instead.\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If you notice carefully in the flattened tree, each node's right child points to the next node of a pre-order traversal."
+  ],
+  "testCases": [
+    [
+      "[1,2,5,3,4,null,6]",
+      "[]",
+      "[0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,null,2,null,3,null,4,null,5,null,6]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def flatten(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: None Do not return anything, modify root in-place instead.\n        \"\"\"\n        if not root:\n            return\n        \n        def flatten_helper(node):\n            # Returns tail of flattened tree rooted at node\n            if not node:\n                return None\n            \n            if not node.left and not node.right:\n                return node\n            \n            left_tail = flatten_helper(node.left)\n            right_tail = flatten_helper(node.right)\n            \n            # If there's left subtree, connect it\n            if left_tail:\n                left_tail.right = node.right\n                node.right = node.left\n                node.left = None\n            \n            # Return rightmost tail\n            return right_tail if right_tail else left_tail\n        \n        flatten_helper(root)",
+    "explanation": "Post-order traversal. Flatten left and right subtrees. Connect left tail to right subtree, move left to right.",
+    "complexity": "Time: O(n). Space: O(h) for recursion."
+  },
+  "similarQuestions": "[{\"title\": \"Flatten a Multilevel Doubly Linked List\", \"titleSlug\": \"flatten-a-multilevel-doubly-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Correct a Binary Tree\", \"titleSlug\": \"correct-a-binary-tree\", \"difficulty\": \"Medium\"}]"
+}

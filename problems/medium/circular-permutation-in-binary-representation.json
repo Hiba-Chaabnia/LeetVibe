@@ -1,0 +1,52 @@
+{
+  "questionId": "1359",
+  "title": "Circular Permutation in Binary Representation",
+  "titleSlug": "circular-permutation-in-binary-representation",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given 2 integers n and start. Your task is return any permutation p of (0,1,2.....,2^n -1) such that :\n\n• p[0] = start\n\n• p[i] and p[i+1] differ by only one bit in their binary representation.\n\n• p[0] and p[2^n -1] must also differ by only one bit in their binary representation.\n\nExample 1:\n\nInput: n = 2, start = 3\nOutput: [3,2,0,1]\nExplanation: The binary representation of the permutation is (11,10,00,01).\n    All the adjacent element differ by one bit. Another valid permutation is [3,1,0,2]\n\nExample 2:\n\nInput: n = 3, start = 2\nOutput: [2,6,7,5,4,0,1,3]\nExplanation: The binary representation of the permutation is (010,110,111,101,100,000,001,011).\n\nConstraints:\n\n• 1 <= n <= 16\n\n• 0 <= start < 2 ^ n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\r\n    def circularPermutation(self, n, start):\r\n        \"\"\"\r\n        :type n: int\r\n        :type start: int\r\n        :rtype: List[int]\r\n        \"\"\""
+    }
+  ],
+  "hints": [
+    "Use gray code to generate a n-bit sequence.",
+    "Rotate the sequence such that its first element is start."
+  ],
+  "testCases": [
+    [
+      "2",
+      "3"
+    ],
+    [
+      "3",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,2,0,1]",
+    "[2,6,7,5,4,0,1,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def circularPermutation(self, n, start):\n        result = []\n        for i in range(1 << n):\n            result.append((i >> 1) ^ i)\n        idx = result.index(start)\n        return result[idx:] + result[:idx]",
+    "explanation": "Gray code sequence. Find start position and rotate to make it first.\nTime: O(2^n)\nSpace: O(2^n)"
+  },
+  "similarQuestions": "[]"
+}

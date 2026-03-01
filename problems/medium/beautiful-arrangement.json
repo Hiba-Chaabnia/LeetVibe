@@ -1,0 +1,55 @@
+{
+  "questionId": "526",
+  "title": "Beautiful Arrangement",
+  "titleSlug": "beautiful-arrangement",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "Suppose you have n integers labeled 1 through n. A permutation of those n integers perm (1-indexed) is considered a beautiful arrangement if for every i (1 <= i <= n), either of the following is true:\n\n• perm[i] is divisible by i.\n\n• i is divisible by perm[i].\n\nGiven an integer n, return the number of the beautiful arrangements that you can construct.\n\nExample 1:\n\nInput: n = 2\nOutput: 2\nExplanation:\n    The first beautiful arrangement is [1,2]:\n        - perm[1] = 1 is divisible by i = 1\n        - perm[2] = 2 is divisible by i = 2\n    The second beautiful arrangement is [2,1]:\n        - perm[1] = 2 is divisible by i = 1\n        - i = 2 is divisible by perm[2] = 1\n\nExample 2:\n\nInput: n = 1\nOutput: 1\n\nConstraints:\n\n• 1 <= n <= 15",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countArrangement(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "2"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def countArrangement(n: int) -> int:\n    def helper(idx: int, visited: List[bool], n: int) -> int:\n        if idx > n:\n            return 1\n\n        count = 0\n        for i in range(1, n+1):\n            if not visited[i] and (idx % i == 0 or i % idx == 0):\n                visited[i] = True\n                count += helper(idx+1, visited, n)\n                visited[i] = False\n\n        return count\n\n    visited = [False] * (n+1)\n    return helper(1, visited, n)",
+    "explanation": "This problem can be solved using a backtracking algorithm. We can start by creating a helper function (a recursive function) that will iterate through all possibilities. The base case for the recursion is when the current index (idx) is greater than the given integer n. When this condition is met, increment the result (res) by 1.\n\nIn the helper function, iterate a loop for each integer i (1 <= i <= n). Check if i is not visited (visited[i] == false) and if i is divisible by idx or idx is divisible by i. If either of these conditions is true, mark i as visited and call the helper function recursively with the index incremented by 1. After the recursive call, unmark i as visited to backtrack to the previous state.\n\nInitially, pass an array or vector of visited flags, which are all initialized to false along with the integer n and index 1 to the helper function. The helper function will traverse all possibilities and return the result (res) as the final count of beautiful arrangements."
+  },
+  "similarQuestions": "[{\"title\": \"Beautiful Arrangement II\", \"titleSlug\": \"beautiful-arrangement-ii\", \"difficulty\": \"Medium\"}]"
+}

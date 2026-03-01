@@ -1,0 +1,45 @@
+{
+  "questionId": "107",
+  "title": "Binary Tree Level Order Traversal II",
+  "titleSlug": "binary-tree-level-order-traversal-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the bottom-up level order traversal of its nodes' values. (i.e., from left to right, level by level from leaf to root).\n\nExample 1:\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: [[15,7],[9,20],[3]]\n\nExample 2:\n\nInput: root = [1]\nOutput: [[1]]\n\nExample 3:\n\nInput: root = []\nOutput: []\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 2000].\n\n• -1000 <= Node.val <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def levelOrderBottom(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,9,20,null,null,15,7]",
+      "[1]",
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[15,7],[9,20],[3]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def levelOrderBottom(self, root):\n        from collections import deque\n        if not root:\n            return []\n        result = []\n        queue = deque([root])\n        while queue:\n            level = []\n            for _ in range(len(queue)):\n                node = queue.popleft()\n                level.append(node.val)\n                if node.left:\n                    queue.append(node.left)\n                if node.right:\n                    queue.append(node.right)\n            result.append(level)\n        return result[::-1]",
+    "explanation": "BFS level by level. Reverse result at end for bottom-up order.\nTime: O(n)\nSpace: O(w) where w is max width"
+  },
+  "similarQuestions": "[{\"title\": \"Binary Tree Level Order Traversal\", \"titleSlug\": \"binary-tree-level-order-traversal\", \"difficulty\": \"Medium\"}, {\"title\": \"Average of Levels in Binary Tree\", \"titleSlug\": \"average-of-levels-in-binary-tree\", \"difficulty\": \"Easy\"}]"
+}

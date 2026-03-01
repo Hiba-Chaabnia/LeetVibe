@@ -1,0 +1,49 @@
+{
+  "questionId": "2786",
+  "title": "Find the Longest Semi-Repetitive Substring",
+  "titleSlug": "find-the-longest-semi-repetitive-substring",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a digit string s that consists of digits from 0 to 9.\n\nA string is called semi-repetitive if there is at most one adjacent pair of the same digit. For example, \"0010\", \"002020\", \"0123\", \"2002\", and \"54944\" are semi-repetitive while the following are not: \"00101022\" (adjacent same digit pairs are 00 and 22), and \"1101234883\" (adjacent same digit pairs are 11 and 88).\n\nReturn the length of the longest semi-repetitive substring of s.\n\nExample 1:\n\nInput: s = \"52233\"\n\nOutput: 4\n\nExplanation: The longest semi-repetitive substring is \"5223\". Picking the whole string \"52233\" has two adjacent same digit pairs 22 and 33, but at most one is allowed.\n\nExample 2:\n\nInput: s = \"5494\"\n\nOutput: 4\n\nExplanation: s is a semi-repetitive string.\n\nExample 3:\n\nInput: s = \"1111111\"\n\nOutput: 2\n\nExplanation: The longest semi-repetitive substring is \"11\". Picking the substring \"111\" has two adjacent same digit pairs, but at most one is allowed.\n\nConstraints:\n\n• 1 <= s.length <= 50\n\n• '0' <= s[i] <= '9'",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestSemiRepetitiveSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since n is small, we can just check every substring, and if the substring is semi-repetitive, maximize the answer with its length."
+  ],
+  "testCases": [
+    [
+      "\"52233\""
+    ],
+    [
+      "\"5494\""
+    ],
+    [
+      "\"1111111\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "4",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def longestSemiRepetitiveSubstring(self, s):\n        n = len(s)\n        ans = 1\n        left = 0\n        pairs = 0  # count of adjacent equal pairs in window\n        for right in range(1, n):\n            if s[right] == s[right-1]:\n                pairs += 1\n            while pairs > 1:\n                if s[left] == s[left+1]:\n                    pairs -= 1\n                left += 1\n            ans = max(ans, right - left + 1)\n        return ans",
+    "explanation": "Sliding window: track count of adjacent equal pairs. Shrink left when pairs > 1.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

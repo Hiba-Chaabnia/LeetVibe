@@ -1,0 +1,57 @@
+{
+  "questionId": "3250",
+  "title": "Maximum Square Area by Removing Fences From a Field",
+  "titleSlug": "maximum-square-area-by-removing-fences-from-a-field",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "There is a large (m - 1) x (n - 1) rectangular field with corners at (1, 1) and (m, n) containing some horizontal and vertical fences given in arrays hFences and vFences respectively.\n\nHorizontal fences are from the coordinates (hFences[i], 1) to (hFences[i], n) and vertical fences are from the coordinates (1, vFences[i]) to (m, vFences[i]).\n\nReturn the maximum area of a square field that can be formed by removing some fences (possibly none) or -1 if it is impossible to make a square field.\n\nSince the answer may be large, return it modulo 109 + 7.\n\nNote: The field is surrounded by two horizontal fences from the coordinates (1, 1) to (1, n) and (m, 1) to (m, n) and two vertical fences from the coordinates (1, 1) to (m, 1) and (1, n) to (m, n). These fences cannot be removed.\n\nExample 1:\n\nInput: m = 4, n = 3, hFences = [2,3], vFences = [2]\nOutput: 4\nExplanation: Removing the horizontal fence at 2 and the vertical fence at 2 will give a square field of area 4.\n\nExample 2:\n\nInput: m = 6, n = 7, hFences = [2], vFences = [4]\nOutput: -1\nExplanation: It can be proved that there is no way to create a square field by removing fences.\n\nConstraints:\n\n• 3 <= m, n <= 109\n\n• 1 <= hFences.length, vFences.length <= 600\n\n• 1 < hFences[i] < m\n\n• 1 < vFences[i] < n\n\n• hFences and vFences are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximizeSquareArea(self, m, n, hFences, vFences):\n        \"\"\"\n        :type m: int\n        :type n: int\n        :type hFences: List[int]\n        :type vFences: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Put 1 and m into hFences. The differences of any two values in the new hFences can be a horizontal edge of a rectangle.",
+    "Similarly put 1 and n into vFences. The differences of any two values in the new vFences can be a vertical edge of a rectangle.",
+    "Our goal is to find the maximum common value in both parts."
+  ],
+  "testCases": [
+    [
+      "4",
+      "3",
+      "[2,3]",
+      "[2]"
+    ],
+    [
+      "6",
+      "7",
+      "[2]",
+      "[4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximizeSquareArea(self, m, n, hFences, vFences):\n        MOD = 10**9 + 7\n        # Add boundary fences\n        hf = sorted([1] + hFences + [m])\n        vf = sorted([1] + vFences + [n])\n\n        # Compute all possible horizontal gaps\n        h_gaps = set()\n        for i in range(len(hf)):\n            for j in range(i+1, len(hf)):\n                h_gaps.add(hf[j] - hf[i])\n\n        # Compute all possible vertical gaps and find max common gap\n        ans = -1\n        for i in range(len(vf)):\n            for j in range(i+1, len(vf)):\n                gap = vf[j] - vf[i]\n                if gap in h_gaps:\n                    ans = max(ans, gap)\n\n        if ans == -1:\n            return -1\n        return (ans * ans) % MOD",
+    "explanation": "Add boundary positions 1 and m to hFences, 1 and n to vFences. Any pair of horizontal fence lines (i, j) defines a possible square side length hf[j] - hf[i]. Similarly for vertical. Find the maximum value that appears in both sets.\n\nWith at most 602 fence lines each, there are at most 602² ≈ 360K pairs — manageable.\n\nTime: O((|hf| + |vf|)²). Space: O((|hf| + |vf|)²)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximize Area of Square Hole in Grid\", \"titleSlug\": \"maximize-area-of-square-hole-in-grid\", \"difficulty\": \"Medium\"}]"
+}

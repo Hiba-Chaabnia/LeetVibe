@@ -1,0 +1,57 @@
+{
+  "questionId": "4118",
+  "title": "Design Ride Sharing System",
+  "titleSlug": "design-ride-sharing-system",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Design",
+      "slug": "design"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Data Stream",
+      "slug": "data-stream"
+    }
+  ],
+  "content": "A ride sharing system manages ride requests from riders and availability from drivers. Riders request rides, and drivers become available over time. The system should match riders and drivers in the order they arrive.\n\nImplement the RideSharingSystem class:\n\n• RideSharingSystem() Initializes the system.\n\n• void addRider(int riderId) Adds a new rider with the given riderId.\n\n• void addDriver(int driverId) Adds a new driver with the given driverId.\n\n• int[] matchDriverWithRider() Matches the earliest available driver with the earliest waiting rider and removes both of them from the system. Returns an integer array of size 2 where result = [driverId, riderId] if a match is made. If no match is available, returns [-1, -1].\n\n• void cancelRider(int riderId) Cancels the ride request of the rider with the given riderId if the rider exists and has not yet been matched.\n\nExample 1:\n\nInput:\n\n[\"RideSharingSystem\", \"addRider\", \"addDriver\", \"addRider\", \"matchDriverWithRider\", \"addDriver\", \"cancelRider\", \"matchDriverWithRider\", \"matchDriverWithRider\"]\n\n[[], [3], [2], [1], [], [5], [3], [], []]\n\nOutput:\n\n[null, null, null, null, [2, 3], null, null, [5, 1], [-1, -1]]\n\nExplanation\n\nRideSharingSystem rideSharingSystem = new RideSharingSystem(); // Initializes the system\n\nrideSharingSystem.addRider(3); // rider 3 joins the queue\n\nrideSharingSystem.addDriver(2); // driver 2 joins the queue\n\nrideSharingSystem.addRider(1); // rider 1 joins the queue\n\nrideSharingSystem.matchDriverWithRider(); // returns [2, 3]\n\nrideSharingSystem.addDriver(5); // driver 5 becomes available\n\nrideSharingSystem.cancelRider(3); // rider 3 is already matched, cancel has no effect\n\nrideSharingSystem.matchDriverWithRider(); // returns [5, 1]\n\nrideSharingSystem.matchDriverWithRider(); // returns [-1, -1]\n\nExample 2:\n\nInput:\n\n[\"RideSharingSystem\", \"addRider\", \"addDriver\", \"addDriver\", \"matchDriverWithRider\", \"addRider\", \"cancelRider\", \"matchDriverWithRider\"]\n\n[[], [8], [8], [6], [], [2], [2], []]\n\nOutput:\n\n[null, null, null, null, [8, 8], null, null, [-1, -1]]\n\nExplanation\n\nRideSharingSystem rideSharingSystem = new RideSharingSystem(); // Initializes the system\n\nrideSharingSystem.addRider(8); // rider 8 joins the queue\n\nrideSharingSystem.addDriver(8); // driver 8 joins the queue\n\nrideSharingSystem.addDriver(6); // driver 6 joins the queue\n\nrideSharingSystem.matchDriverWithRider(); // returns [8, 8]\n\nrideSharingSystem.addRider(2); // rider 2 joins the queue\n\nrideSharingSystem.cancelRider(2); // rider 2 cancels\n\nrideSharingSystem.matchDriverWithRider(); // returns [-1, -1]\n\nConstraints:\n\n• 1 <= riderId, driverId <= 1000\n\n• Each riderId is unique among riders and is added at most once.\n\n• Each driverId is unique among drivers and is added at most once.\n\n• At most 1000 calls will be made in total to addRider​​​​​​​, addDriver, matchDriverWithRider, and cancelRider.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class RideSharingSystem(object):\n\n    def __init__(self):\n        \n\n    def addRider(self, riderId):\n        \"\"\"\n        :type riderId: int\n        :rtype: None\n        \"\"\"\n        \n\n    def addDriver(self, driverId):\n        \"\"\"\n        :type driverId: int\n        :rtype: None\n        \"\"\"\n        \n\n    def matchDriverWithRider(self):\n        \"\"\"\n        :rtype: List[int]\n        \"\"\"\n        \n\n    def cancelRider(self, riderId):\n        \"\"\"\n        :type riderId: int\n        :rtype: None\n        \"\"\"\n        \n\n\n# Your RideSharingSystem object will be instantiated and called as such:\n# obj = RideSharingSystem()\n# obj.addRider(riderId)\n# obj.addDriver(driverId)\n# param_3 = obj.matchDriverWithRider()\n# obj.cancelRider(riderId)"
+    }
+  ],
+  "hints": [
+    "Use queues to preserve FIFO order for riders and drivers.",
+    "Track waiting riders with a structure that supports efficient removal on cancel (for example, a list plus a map).",
+    "Before matching, skip or remove canceled riders to ensure the earliest valid rider is paired with the earliest driver."
+  ],
+  "testCases": [
+    [
+      "[\"RideSharingSystem\",\"addRider\",\"addDriver\",\"addRider\",\"matchDriverWithRider\",\"addDriver\",\"cancelRider\",\"matchDriverWithRider\",\"matchDriverWithRider\"]"
+    ],
+    [
+      "[[],[3],[2],[1],[],[5],[3],[],[]]"
+    ],
+    [
+      "[\"RideSharingSystem\",\"addRider\",\"addDriver\",\"addDriver\",\"matchDriverWithRider\",\"addRider\",\"cancelRider\",\"matchDriverWithRider\"]"
+    ],
+    [
+      "[[],[8],[8],[6],[],[2],[2],[]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[null, null, null, null, [2, 3], null, null, [5, 1], [-1, -1]]",
+    "[null, null, null, null, [8, 8], null, null, [-1, -1]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

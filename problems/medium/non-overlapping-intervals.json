@@ -1,0 +1,55 @@
+{
+  "questionId": "435",
+  "title": "Non-overlapping Intervals",
+  "titleSlug": "non-overlapping-intervals",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array of intervals intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.\n\nNote that intervals which only touch at a point are non-overlapping. For example, [1, 2] and [2, 3] are non-overlapping.\n\nExample 1:\n\nInput: intervals = [[1,2],[2,3],[3,4],[1,3]]\nOutput: 1\nExplanation: [1,3] can be removed and the rest of the intervals are non-overlapping.\n\nExample 2:\n\nInput: intervals = [[1,2],[1,2],[1,2]]\nOutput: 2\nExplanation: You need to remove two [1,2] to make the rest of the intervals non-overlapping.\n\nExample 3:\n\nInput: intervals = [[1,2],[2,3]]\nOutput: 0\nExplanation: You don't need to remove any of the intervals since they're already non-overlapping.\n\nConstraints:\n\n• 1 <= intervals.length <= 105\n\n• intervals[i].length == 2\n\n• -5 * 104 <= starti < endi <= 5 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def eraseOverlapIntervals(self, intervals):\n        \"\"\"\n        :type intervals: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2],[2,3],[3,4],[1,3]]"
+    ],
+    [
+      "[[1,2],[1,2],[1,2]]"
+    ],
+    [
+      "[[1,2],[2,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def eraseOverlapIntervals(intervals):\n    if not intervals:\n        return 0\n    \n    intervals.sort(key=lambda x: x[1])\n    \n    count = 0\n    prev_end = intervals[0][1]\n    \n    for i in range(1, len(intervals)):\n        if intervals[i][0] < prev_end:\n            count += 1\n        else:\n            prev_end = intervals[i][1]\n    \n    return count",
+    "explanation": "The algorithm starts by sorting the input intervals by their ending times. This is because we want to select a minimum number of intervals with the smallest end time to make the rest of the intervals non-overlapping. Then, the algorithm initializes the count of overlapping intervals to 0 and the previous ending value with the first interval's end time.\n\nWe loop through the intervals starting from the second interval. In each iteration, if the current interval's start time is less than the previous end time, it means the current interval overlaps with the previous one. We increment the count in this case. If there's no overlap, we update the previous end time with the current interval's end time. After looping through all the intervals, the count is returned as the minimum number of intervals to remove for non-overlapping intervals."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Number of Arrows to Burst Balloons\", \"titleSlug\": \"minimum-number-of-arrows-to-burst-balloons\", \"difficulty\": \"Medium\"}, {\"title\": \"Determine if Two Events Have Conflict\", \"titleSlug\": \"determine-if-two-events-have-conflict\", \"difficulty\": \"Easy\"}]"
+}

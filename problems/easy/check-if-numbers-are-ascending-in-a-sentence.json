@@ -1,0 +1,47 @@
+{
+  "questionId": "2168",
+  "title": "Check if Numbers Are Ascending in a Sentence",
+  "titleSlug": "check-if-numbers-are-ascending-in-a-sentence",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A sentence is a list of tokens separated by a single space with no leading or trailing spaces. Every token is either a positive number consisting of digits 0-9 with no leading zeros, or a word consisting of lowercase English letters.\n\n• For example, \"a puppy has 2 eyes 4 legs\" is a sentence with seven tokens: \"2\" and \"4\" are numbers and the other tokens such as \"puppy\" are words.\n\nGiven a string s representing a sentence, you need to check if all the numbers in s are strictly increasing from left to right (i.e., other than the last number, each number is strictly smaller than the number on its right in s).\n\nReturn true if so, or false otherwise.\n\nExample 1:\n\nInput: s = \"1 box has 3 blue 4 red 6 green and 12 yellow marbles\"\nOutput: true\nExplanation: The numbers in s are: 1, 3, 4, 6, 12.\n    They are strictly increasing from left to right: 1 Example 2:\n\nInput: s = \"hello world 5 x 5\"\nOutput: false\nExplanation: The numbers in s are: 5, 5. They are not strictly increasing.\n\nExample 3:\n\nInput: s = \"sunset is at 7 51 pm overnight lows will be in the low 50 and 60 s\"\nOutput: false\nExplanation: The numbers in s are: 7, 51, 50, 60. They are not strictly increasing.\n\nConstraints:\n\n• 3 <= s.length <= 200\n\n• s consists of lowercase English letters, spaces, and digits from 0 to 9, inclusive.\n\n• The number of tokens in s is between 2 and 100, inclusive.\n\n• The tokens in s are separated by a single space.\n\n• There are at least two numbers in s.\n\n• Each number in s is a positive number less than 100, with no leading zeros.\n\n• s contains no leading or trailing spaces.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def areNumbersAscending(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use string tokenization of your language to extract all the tokens of the string easily.",
+    "For each token extracted, how can you tell if it is a number? Does the first letter being a digit mean something?",
+    "Compare the number with the previously occurring number to check if ascending order is maintained."
+  ],
+  "testCases": [
+    [
+      "\"1 box has 3 blue 4 red 6 green and 12 yellow marbles\""
+    ],
+    [
+      "\"hello world 5 x 5\""
+    ],
+    [
+      "\"sunset is at 7 51 pm overnight lows will be in the low 50 and 60 s\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def areNumbersAscending(self, s):\n        tokens = s.split()\n        numbers = [int(t) for t in tokens if t.isdigit()]\n        for i in range(1, len(numbers)):\n            if numbers[i] <= numbers[i-1]:\n                return False\n        return True",
+    "explanation": "Extract digits from tokens. Check if strictly ascending."
+  },
+  "similarQuestions": "[{\"title\": \"String to Integer (atoi)\", \"titleSlug\": \"string-to-integer-atoi\", \"difficulty\": \"Medium\"}, {\"title\": \"Sorting the Sentence\", \"titleSlug\": \"sorting-the-sentence\", \"difficulty\": \"Easy\"}, {\"title\": \"Check if All A's Appears Before All B's\", \"titleSlug\": \"check-if-all-as-appears-before-all-bs\", \"difficulty\": \"Easy\"}]"
+}

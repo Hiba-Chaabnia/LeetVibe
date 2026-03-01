@@ -1,0 +1,58 @@
+{
+  "questionId": "2847",
+  "title": "Find Maximum Number of String Pairs",
+  "titleSlug": "find-maximum-number-of-string-pairs",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a 0-indexed array words consisting of distinct strings.\n\nThe string words[i] can be paired with the string words[j] if:\n\n• The string words[i] is equal to the reversed string of words[j].\n\n• 0 <= i < j < words.length.\n\nReturn the maximum number of pairs that can be formed from the array words.\n\nNote that each string can belong in at most one pair.\n\nExample 1:\n\nInput: words = [\"cd\",\"ac\",\"dc\",\"ca\",\"zz\"]\nOutput: 2\nExplanation: In this example, we can form 2 pair of strings in the following way:\n    - We pair the 0th string with the 2nd string, as the reversed string of word[0] is \"dc\" and is equal to words[2].\n    - We pair the 1st string with the 3rd string, as the reversed string of word[1] is \"ca\" and is equal to words[3].\n    It can be proven that 2 is the maximum number of pairs that can be formed.\n\nExample 2:\n\nInput: words = [\"ab\",\"ba\",\"cc\"]\nOutput: 1\nExplanation: In this example, we can form 1 pair of strings in the following way:\n    - We pair the 0th string with the 1st string, as the reversed string of words[1] is \"ab\" and is equal to words[0].\n    It can be proven that 1 is the maximum number of pairs that can be formed.\n\nExample 3:\n\nInput: words = [\"aa\",\"ab\"]\nOutput: 0\nExplanation: In this example, we are unable to form any pair of strings.\n\nConstraints:\n\n• 1 <= words.length <= 50\n\n• words[i].length == 2\n\n• words consists of distinct strings.\n\n• words[i] contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumNumberOfStringPairs(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that array words consist of distinct strings.",
+    "Iterate over all indices (i, j) and check if they can be paired."
+  ],
+  "testCases": [
+    [
+      "[\"cd\",\"ac\",\"dc\",\"ca\",\"zz\"]"
+    ],
+    [
+      "[\"ab\",\"ba\",\"cc\"]"
+    ],
+    [
+      "[\"aa\",\"ab\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumNumberOfStringPairs(self, words):\n        seen = set()\n        count = 0\n        for w in words:\n            r = w[::-1]\n            if r in seen:\n                count += 1\n            seen.add(w)\n        return count",
+    "explanation": "Track seen words; for each word check if its reverse was seen earlier. O(n*L) time."
+  },
+  "similarQuestions": "[{\"title\": \"Group Shifted Strings\", \"titleSlug\": \"group-shifted-strings\", \"difficulty\": \"Medium\"}, {\"title\": \"Palindrome Pairs\", \"titleSlug\": \"palindrome-pairs\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "887",
+  "title": "Minimum Cost to Hire K Workers",
+  "titleSlug": "minimum-cost-to-hire-k-workers",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "There are n workers. You are given two integer arrays quality and wage where quality[i] is the quality of the ith worker and wage[i] is the minimum wage expectation for the ith worker.\n\nWe want to hire exactly k workers to form a paid group. To hire a group of k workers, we must pay them according to the following rules:\n\n• Every worker in the paid group must be paid at least their minimum wage expectation.\n\n• In the group, each worker's pay must be directly proportional to their quality. This means if a worker’s quality is double that of another worker in the group, then they must be paid twice as much as the other worker.\n\nGiven the integer k, return the least amount of money needed to form a paid group satisfying the above conditions. Answers within 10-5 of the actual answer will be accepted.\n\nExample 1:\n\nInput: quality = [10,20,5], wage = [70,50,30], k = 2\nOutput: 105.00000\nExplanation: We pay 70 to 0th worker and 35 to 2nd worker.\n\nExample 2:\n\nInput: quality = [3,1,10,10,1], wage = [4,8,2,2,7], k = 3\nOutput: 30.66667\nExplanation: We pay 4 to 0th worker, 13.33333 to 2nd and 3rd workers separately.\n\nConstraints:\n\n• n == quality.length == wage.length\n\n• 1 <= k <= n <= 104\n\n• 1 <= quality[i], wage[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mincostToHireWorkers(self, quality, wage, k):\n        \"\"\"\n        :type quality: List[int]\n        :type wage: List[int]\n        :type k: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[10,20,5]",
+      "[70,50,30]",
+      "2"
+    ],
+    [
+      "[3,1,10,10,1]",
+      "[4,8,2,2,7]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "105.00000",
+    "30.66667"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Subsequence Score\", \"titleSlug\": \"maximum-subsequence-score\", \"difficulty\": \"Medium\"}]"
+}

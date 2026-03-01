@@ -1,0 +1,50 @@
+{
+  "questionId": "2518",
+  "title": "The Employee That Worked on the Longest Task",
+  "titleSlug": "the-employee-that-worked-on-the-longest-task",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "There are n employees, each with a unique id from 0 to n - 1.\n\nYou are given a 2D integer array logs where logs[i] = [idi, leaveTimei] where:\n\n• idi is the id of the employee that worked on the ith task, and\n\n• leaveTimei is the time at which the employee finished the ith task. All the values leaveTimei are unique.\n\nNote that the ith task starts the moment right after the (i - 1)th task ends, and the 0th task starts at time 0.\n\nReturn the id of the employee that worked the task with the longest time. If there is a tie between two or more employees, return the smallest id among them.\n\nExample 1:\n\nInput: n = 10, logs = [[0,3],[2,5],[0,9],[1,15]]\nOutput: 1\nExplanation:\n    Task 0 started at 0 and ended at 3 with 3 units of times.\n    Task 1 started at 3 and ended at 5 with 2 units of times.\n    Task 2 started at 5 and ended at 9 with 4 units of times.\n    Task 3 started at 9 and ended at 15 with 6 units of times.\n    The task with the longest time is task 3 and the employee with id 1 is the one that worked on it, so we return 1.\n\nExample 2:\n\nInput: n = 26, logs = [[1,1],[3,7],[2,12],[7,17]]\nOutput: 3\nExplanation:\n    Task 0 started at 0 and ended at 1 with 1 unit of times.\n    Task 1 started at 1 and ended at 7 with 6 units of times.\n    Task 2 started at 7 and ended at 12 with 5 units of times.\n    Task 3 started at 12 and ended at 17 with 5 units of times.\n    The tasks with the longest time is task 1. The employee that worked on it is 3, so we return 3.\n\nExample 3:\n\nInput: n = 2, logs = [[0,10],[1,20]]\nOutput: 0\nExplanation:\n    Task 0 started at 0 and ended at 10 with 10 units of times.\n    Task 1 started at 10 and ended at 20 with 10 units of times.\n    The tasks with the longest time are tasks 0 and 1. The employees that worked on them are 0 and 1, so we return the smallest id 0.\n\nConstraints:\n\n• 2 <= n <= 500\n\n• 1 <= logs.length <= 500\n\n• logs[i].length == 2\n\n• 0 <= idi <= n - 1\n\n• 1 <= leaveTimei <= 500\n\n• idi != idi+1\n\n• leaveTimei are sorted in a strictly increasing order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def hardestWorker(self, n, logs):\n        \"\"\"\n        :type n: int\n        :type logs: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the time of the longest task",
+    "Store each employee’s longest task time in a hash table",
+    "For employees that have the same longest task time, we only need the employee with the smallest ID"
+  ],
+  "testCases": [
+    [
+      "10",
+      "[[0,3],[2,5],[0,9],[1,15]]"
+    ],
+    [
+      "26",
+      "[[1,1],[3,7],[2,12],[7,17]]"
+    ],
+    [
+      "2",
+      "[[0,10],[1,20]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def hardestWorker(self, n, logs):\n        max_time = logs[0][1]\n        result = logs[0][0]\n        for i in range(1, len(logs)):\n            task_time = logs[i][1] - logs[i-1][1]\n            if task_time > max_time:\n                max_time = task_time\n                result = logs[i][0]\n            elif task_time == max_time:\n                result = min(result, logs[i][0])\n        return result",
+    "explanation": "Track max task duration and corresponding employee. Min ID on tie.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "576",
+  "title": "Out of Boundary Paths",
+  "titleSlug": "out-of-boundary-paths",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "There is an m x n grid with a ball. The ball is initially at the position [startRow, startColumn]. You are allowed to move the ball to one of the four adjacent cells in the grid (possibly out of the grid crossing the grid boundary). You can apply at most maxMove moves to the ball.\n\nGiven the five integers m, n, maxMove, startRow, startColumn, return the number of paths to move the ball out of the grid boundary. Since the answer can be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: m = 2, n = 2, maxMove = 2, startRow = 0, startColumn = 0\nOutput: 6\n\nExample 2:\n\nInput: m = 1, n = 3, maxMove = 3, startRow = 0, startColumn = 1\nOutput: 12\n\nConstraints:\n\n• 1 <= m, n <= 50\n\n• 0 <= maxMove <= 50\n\n• 0 <= startRow < m\n\n• 0 <= startColumn < n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findPaths(self, m, n, maxMove, startRow, startColumn):\n        \"\"\"\n        :type m: int\n        :type n: int\n        :type maxMove: int\n        :type startRow: int\n        :type startColumn: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Is traversing every path feasible? There are many possible paths for a small matrix. Try to optimize it.",
+    "Can we use some space to store the number of paths and update them after every move?",
+    "One obvious thing: the ball will go out of the boundary only by crossing it. Also, there is only one possible way the ball can go out of the boundary from the boundary cell except for corner cells. From the corner cell, the ball can go out in two different ways.\r\n\r\nCan you use this thing to solve the problem?"
+  ],
+  "testCases": [
+    [
+      "2",
+      "2",
+      "2",
+      "0",
+      "0"
+    ],
+    [
+      "1",
+      "3",
+      "3",
+      "0",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findPaths(m, n, maxMove, startRow, startColumn):               \n    MOD = 10**9 + 7                     \n    dp = [[[0]* n for _ in range(m)] for _ in range(maxMove + 1)]\n    moves = ((-1, 0), (1, 0), (0, -1), (0, 1))\n\n    for k in range(1, maxMove + 1):                                \n        for i in range(m):                                         \n            for j in range(n):                                           \n                for move in moves:              \n                    ni, nj = i + move[0], j + move[1]\n                    if ni < 0 or ni >= m or nj < 0 or nj >= n:                                 \n                        dp[k][i][j] = (dp[k][i][j] + 1) % MOD          \n                    else:\n                        dp[k][i][j] = (dp[k][i][j] + dp[k - 1][ni][nj]) % MOD\n\n    return dp[maxMove][startRow][startColumn]",
+    "explanation": "We use dynamic programming to accumulate the ways to move the ball up to the maximum allowed moves. The `dp` array has dimensions `maxMove + 1` by `m` by `n`, where `dp[k][i][j]` represents the number of ways the ball can reach position `(i, j)` in exactly `k` moves.\n\nWe loop through moves from `1` to `maxMove`, and then loop through each cell of the grid. For each cell, we check each possible move direction. If moving in that direction causes the ball to cross the grid boundary (i.e., the new coordinates are outside of the grid), we increment the number of ways to move in exactly `k` moves by `1`. If the new coordinates are inside the grid, we add the number of ways to move to the new position in exactly `k - 1` moves to our current ways. We do this modulo `10^9 + 7` to prevent integer overflow.\n\nFinally, we return the number of ways to move the ball out of the grid boundary in exactly `maxMove` moves, which is stored at `dp[maxMove][startRow][startColumn]`."
+  },
+  "similarQuestions": "[{\"title\": \"Knight Probability in Chessboard\", \"titleSlug\": \"knight-probability-in-chessboard\", \"difficulty\": \"Medium\"}, {\"title\": \"Execution of All Suffix Instructions Staying in a Grid\", \"titleSlug\": \"execution-of-all-suffix-instructions-staying-in-a-grid\", \"difficulty\": \"Medium\"}]"
+}

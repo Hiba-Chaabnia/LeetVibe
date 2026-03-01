@@ -1,0 +1,57 @@
+{
+  "questionId": "3113",
+  "title": "Beautiful Towers II",
+  "titleSlug": "beautiful-towers-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given a 0-indexed array maxHeights of n integers.\n\nYou are tasked with building n towers in the coordinate line. The ith tower is built at coordinate i and has a height of heights[i].\n\nA configuration of towers is beautiful if the following conditions hold:\n\n• 1 <= heights[i] <= maxHeights[i]\n\n• heights is a mountain array.\n\nArray heights is a mountain if there exists an index i such that:\n\n• For all 0 < j <= i, heights[j - 1] <= heights[j]\n\n• For all i <= k < n - 1, heights[k + 1] <= heights[k]\n\nReturn the maximum possible sum of heights of a beautiful configuration of towers.\n\nExample 1:\n\nInput: maxHeights = [5,3,4,1,1]\nOutput: 13\nExplanation: One beautiful configuration with a maximum sum is heights = [5,3,3,1,1]. This configuration is beautiful since:\n    - 1 Example 2:\n\nInput: maxHeights = [6,5,3,9,2,7]\nOutput: 22\nExplanation: One beautiful configuration with a maximum sum is heights = [3,3,3,9,2,2]. This configuration is beautiful since:\n    - 1 Example 3:\n\nInput: maxHeights = [3,2,5,5,2,3]\nOutput: 18\nExplanation: One beautiful configuration with a maximum sum is heights = [2,2,5,5,2,2]. This configuration is beautiful since:\n    - 1\n\nConstraints:\n\n• 1 <= n == maxHeights.length <= 105\n\n• 1 <= maxHeights[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumSumOfHeights(self, maxHeights):\n        \"\"\"\n        :type maxHeights: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try all the possible indices i as the peak.",
+    "Let left[i] be the maximum sum of heights for the prefix 0, …, i when index i is the peak.",
+    "Let right[i] be the maximum sum of heights for suffix i, …, (n - 1) when i is the peak",
+    "Compute values of left[i] from left to right using DP.\r\nFor each i from 0 to n - 1, left[i] = maxHeights * (i - j) + answer[j], where j is the rightmost index to the left of i such that maxHeights[j] < maxHeights[i] .",
+    "For each i from n - 1 to 0, right[i] = maxHeights * (j - i) + answer[j], where j is the leftmost index to the right of i such that maxHeights[j] < maxHeights[i] ."
+  ],
+  "testCases": [
+    [
+      "[5,3,4,1,1]"
+    ],
+    [
+      "[6,5,3,9,2,7]"
+    ],
+    [
+      "[3,2,5,5,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "22",
+    "18"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumSumOfHeights(self, maxHeights):\n        n = len(maxHeights)\n        best = 0\n        for peak in range(n):\n            total = maxHeights[peak]\n            cur = maxHeights[peak]\n            for i in range(peak - 1, -1, -1):\n                cur = min(cur, maxHeights[i])\n                total += cur\n            cur = maxHeights[peak]\n            for i in range(peak + 1, n):\n                cur = min(cur, maxHeights[i])\n                total += cur\n            best = max(best, total)\n        return best",
+    "explanation": "Try each position as peak; greedily cap left and right sides; take the best total. O(n^2) time."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Number of Removals to Make Mountain Array\", \"titleSlug\": \"minimum-number-of-removals-to-make-mountain-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Number of Books You Can Take\", \"titleSlug\": \"maximum-number-of-books-you-can-take\", \"difficulty\": \"Hard\"}]"
+}

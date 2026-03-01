@@ -1,0 +1,64 @@
+{
+  "questionId": "4153",
+  "title": "Count Routes to Climb a Rectangular Grid",
+  "titleSlug": "count-routes-to-climb-a-rectangular-grid",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a string array grid of size n, where each string grid[i] has length m. The character grid[i][j] is one of the following symbols:\n\n• '.': The cell is available.\n\n• '#': The cell is blocked.\n\nYou want to count the number of different routes to climb grid. Each route must start from any cell in the bottom row (row n - 1) and end in the top row (row 0).\n\nHowever, there are some constraints on the route.\n\n• You can only move from one available cell to another available cell.\n\n• The Euclidean distance of each move is at most d, where d is an integer parameter given to you. The Euclidean distance between two cells (r1, c1), (r2, c2) is sqrt((r1 - r2)2 + (c1 - c2)2).\n\n• Each move either stays on the same row or moves to the row directly above (from row r to r - 1).\n\n• You cannot stay on the same row for two consecutive turns. If you stay on the same row in a move (and this move is not the last move), your next move must go to the row above.\n\nReturn an integer denoting the number of such routes. Since the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: grid = [\"..\",\"#.\"], d = 1\n\nOutput: 2\n\nExplanation: We label the cells we visit in the routes sequentially, starting from 1. The two routes are:\n\n    .2\n    #1\n\n    32\n    #1\n\nWe can move from the cell (1, 1) to the cell (0, 1) because the Euclidean distance is sqrt((1 - 0)2 + (1 - 1)2) = sqrt(1) <= d.\n\nHowever, we cannot move from the cell (1, 1) to the cell (0, 0) because the Euclidean distance is sqrt((1 - 0)2 + (1 - 0)2) = sqrt(2) > d.\n\nExample 2:\n\nInput: grid = [\"..\",\"#.\"], d = 2\n\nOutput: 4\n\nExplanation: Two of the routes are given in example 1. The other two routes are:\n\n    2.\n    #1\n\n    23\n    #1\n\nNote that we can move from (1, 1) to (0, 0) because the Euclidean distance is sqrt(2) <= d.\n\nExample 3:\n\nInput: grid = [\"#\"], d = 750\n\nOutput: 0\n\nExplanation: We cannot choose any cell as the starting cell. Therefore, there are no routes.\n\nExample 4:\n\nInput: grid = [\"..\"], d = 1\n\nOutput: 4\n\nExplanation: The possible routes are:\n\n    .1\n\n    1.\n\n    12\n\n    21\n\nConstraints:\n\n• 1 <= n == grid.length <= 750\n\n• 1 <= m == grid[i].length <= 750\n\n• grid[i][j] is '.' or '#'.\n\n• 1 <= d <= 750",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfRoutes(self, grid, d):\n        \"\"\"\n        :type grid: List[str]\n        :type d: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "Let dp[r][c][0] be the number of ways to reach (r, c) where the last move came from row r + 1 (moved up), and let dp[r][c][1] be the number of ways where the last move stayed on row r.",
+    "Make computations faster using prefix sums over columns to aggregate contributions from cells within Euclidean distance d.",
+    "Combine dp[r][c][0] and dp[r][c][1] for all columns c in row r to produce the dp values used for row r - 1."
+  ],
+  "testCases": [
+    [
+      "[\"..\",\"#.\"]",
+      "1"
+    ],
+    [
+      "[\"..\",\"#.\"]",
+      "2"
+    ],
+    [
+      "[\"#\"]",
+      "750"
+    ],
+    [
+      "[\"..\"]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "0",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

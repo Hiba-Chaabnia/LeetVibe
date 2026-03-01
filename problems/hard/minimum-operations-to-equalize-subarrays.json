@@ -1,0 +1,60 @@
+{
+  "questionId": "4022",
+  "title": "Minimum Operations to Equalize Subarrays",
+  "titleSlug": "minimum-operations-to-equalize-subarrays",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nIn one operation, you can increase or decrease any element of nums by exactly k.\n\nYou are also given a 2D integer array queries, where each queries[i] = [li, ri].\n\nFor each query, find the minimum number of operations required to make all elements in the subarray nums[li..ri] equal. If it is impossible, the answer for that query is -1.\n\nReturn an array ans, where ans[i] is the answer for the ith query.\n\nExample 1:\n\nInput: nums = [1,4,7], k = 3, queries = [[0,1],[0,2]]\n\nOutput: [1,2]\n\nExplanation: One optimal set of operations:\n\n\t\t\t\ti\n\t\t\t\t[li, ri]\n\t\t\t\tnums[li..ri]\n\t\t\t\tPossibility\n\t\t\t\tOperations\n\t\t\t\tFinal\n\n\t\t\tnums[li..ri]\n\t\t\t\tans[i]\n\n\t\t\t\t0\n\t\t\t\t[0, 1]\n\t\t\t\t[1, 4]\n\t\t\t\tYes\n\t\t\t\tnums[0] + k = 1 + 3 = 4 = nums[1]\n\t\t\t\t[4, 4]\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\t[0, 2]\n\t\t\t\t[1, 4, 7]\n\t\t\t\tYes\n\t\t\t\tnums[0] + k = 1 + 3 = 4 = nums[1]\n\n\t\t\tnums[2] - k = 7 - 3 = 4 = nums[1]\n\t\t\t\t[4, 4, 4]\n\t\t\t\t2\n\nThus, ans = [1, 2].\n\nExample 2:\n\nInput: nums = [1,2,4], k = 2, queries = [[0,2],[0,0],[1,2]]\n\nOutput: [-1,0,1]\n\nExplanation: One optimal set of operations:\n\n\t\t\t\ti\n\t\t\t\t[li, ri]\n\t\t\t\tnums[li..ri]\n\t\t\t\tPossibility\n\t\t\t\tOperations\n\t\t\t\tFinal\n\n\t\t\tnums[li..ri]\n\t\t\t\tans[i]\n\n\t\t\t\t0\n\t\t\t\t[0, 2]\n\t\t\t\t[1, 2, 4]\n\t\t\t\tNo\n\t\t\t\t-\n\t\t\t\t[1, 2, 4]\n\t\t\t\t-1\n\n\t\t\t\t1\n\t\t\t\t[0, 0]\n\t\t\t\t[1]\n\t\t\t\tYes\n\t\t\t\tAlready equal\n\t\t\t\t[1]\n\t\t\t\t0\n\n\t\t\t\t2\n\t\t\t\t[1, 2]\n\t\t\t\t[2, 4]\n\t\t\t\tYes\n\t\t\t\tnums[1] + k = 2 + 2 = 4 = nums[2]\n\t\t\t\t[4, 4]\n\t\t\t\t1\n\nThus, ans = [-1, 0, 1].\n\nConstraints:\n\n• 1 <= n == nums.length <= 4 × 104\n\n• 1 <= nums[i] <= 109​​​​​​​\n\n• 1 <= k <= 109\n\n• 1 <= queries.length <= 4 × 104\n\n• ​​​​​​​queries[i] = [li, ri]\n\n• 0 <= li <= ri <= n - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums, k, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "To make all elements in a subarray equal, they must all share the same remainder when divided by k.",
+    "The problem is equivalent to making nums[i] / k equal for all elements in the subarray. The minimum operations to achieve this is to make them all equal to the median of these nums[i] / k values.",
+    "To handle many queries efficiently, pre-process the array. Group elements by their remainder mod k. For each group, we need a data structure to find the median and sum of absolute differences for any given range.",
+    "A Persistent Segment Tree can answer range median and range sum queries in logarithmic time, making it suitable for this problem."
+  ],
+  "testCases": [
+    [
+      "[1,4,7]",
+      "3",
+      "[[0,1],[0,2]]"
+    ],
+    [
+      "[1,2,4]",
+      "2",
+      "[[0,2],[0,0],[1,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2]",
+    "[-1,0,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, nums, k, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        results = []\n        \n        for l, r in queries:\n            subarray = nums[l:r+1]\n            \n            # Check if all elements have same remainder when divided by k\n            remainders = set(num % k for num in subarray)\n            \n            if len(remainders) > 1:\n                # Impossible - different remainders can't all be equal\n                results.append(-1)\n                continue\n            \n            # All elements have same remainder\n            # Find median of quotients (num // k)\n            quotients = [num // k for num in subarray]\n            quotients.sort()\n            median = quotients[len(quotients) // 2]\n            \n            # Calculate operations: sum of absolute differences from median\n            operations = sum(abs(q - median) for q in quotients)\n            results.append(operations)\n        \n        return results",
+    "explanation": "This solution uses remainders and median calculation:\n\n1. **Key Insight**:\n   - To make elements equal by incrementing by k:\n   - All elements must have same remainder mod k\n   - Then minimize sum of absolute differences in quotients (num // k)\n\n2. **Remainder Check**:\n   - For subarray to be equalizeable:\n     - All num % k must be identical\n   - If different remainders exist: return -1\n\n3. **Quotient Minimization**:\n   - If all num % k are same, say r:\n   - Elements are: q₁*k + r, q₂*k + r, ...\n   - To make all equal to target = m*k + r:\n     - Operations for element i: |qᵢ - m| * (operations per difference)\n   - Minimize sum of |qᵢ - m|\n\n4. **Optimal Target**:\n   - Minimizing sum of absolute deviations → choose median\n   - Sort quotients, take middle value as optimal m\n   - Operations = sum(|qᵢ - median|)\n\n5. **Algorithm**:\n   - Extract quotients: num // k for each element\n   - Sort quotients\n   - Find median: quotients[len // 2]\n   - Sum absolute differences: sum(|q - median|)\n\n6. **Complexity**:\n   - Per query: O((r-l) log(r-l)) for sorting\n   - Q queries: O(Q * N log N)\n\nTime Complexity: O(Q * N log N) where N = max subarray length\nSpace Complexity: O(N)"
+  },
+  "similarQuestions": "[]"
+}

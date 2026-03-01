@@ -1,0 +1,55 @@
+{
+  "questionId": "2679",
+  "title": "Count Distinct Numbers on Board",
+  "titleSlug": "count-distinct-numbers-on-board",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a positive integer n, that is initially placed on a board. Every day, for 109 days, you perform the following procedure:\n\n• For each number x present on the board, find all numbers 1 <= i <= n such that x % i == 1.\n\n• Then, place those numbers on the board.\n\nReturn the number of distinct integers present on the board after 109 days have elapsed.\n\nNote:\n\n• Once a number is placed on the board, it will remain on it until the end.\n\n• % stands for the modulo operation. For example, 14 % 3 is 2.\n\nExample 1:\n\nInput: n = 5\nOutput: 4\nExplanation: Initially, 5 is present on the board.\n    The next day, 2 and 4 will be added since 5 % 2 == 1 and 5 % 4 == 1.\n    After that day, 3 will be added to the board because 4 % 3 == 1.\n    At the end of a billion days, the distinct numbers on the board will be 2, 3, 4, and 5.\n\nExample 2:\n\nInput: n = 3\nOutput: 2\nExplanation:\n    Since 3 % 2 == 1, 2 will be added to the board.\n    After a billion days, the only two distinct numbers on the board are 2 and 3.\n\nConstraints:\n\n• 1 <= n <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def distinctIntegers(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For n > 2, n % (n - 1) == 1 thus n - 1 will be added on the board the next day.",
+    "As the operations are performed for so long time, all the numbers lesser than n except 1 will be added to the board.",
+    "What will happen if n == 1?"
+  ],
+  "testCases": [
+    [
+      "5"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def distinctIntegers(self, n):\n        if n == 1:\n            return 1\n        return n - 1",
+    "explanation": "Key insight: n % (n-1) = 1, so all numbers 2 to n appear eventually. Only n=1 returns 1.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Count of Matches in Tournament\", \"titleSlug\": \"count-of-matches-in-tournament\", \"difficulty\": \"Easy\"}]"
+}

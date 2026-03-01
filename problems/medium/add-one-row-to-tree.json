@@ -1,0 +1,55 @@
+{
+  "questionId": "623",
+  "title": "Add One Row to Tree",
+  "titleSlug": "add-one-row-to-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree and two integers val and depth, add a row of nodes with value val at the given depth depth.\n\nNote that the root node is at depth 1.\n\nThe adding rule is:\n\n• Given the integer depth, for each not null tree node cur at the depth depth - 1, create two tree nodes with value val as cur's left subtree root and right subtree root.\n\n• cur's original left subtree should be the left subtree of the new left subtree root.\n\n• cur's original right subtree should be the right subtree of the new right subtree root.\n\n• If depth == 1 that means there is no depth depth - 1 at all, then create a tree node with value val as the new root of the whole original tree, and the original tree is the new root's left subtree.\n\nExample 1:\n\nInput: root = [4,2,6,3,1,5], val = 1, depth = 2\nOutput: [4,1,1,2,null,null,6,3,1,5]\n\nExample 2:\n\nInput: root = [4,2,null,3,1], val = 1, depth = 3\nOutput: [4,2,null,1,1,3,null,null,1]\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 104].\n\n• The depth of the tree is in the range [1, 104].\n\n• -100 <= Node.val <= 100\n\n• -105 <= val <= 105\n\n• 1 <= depth <= the depth of tree + 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def addOneRow(self, root, val, depth):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type val: int\n        :type depth: int\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,2,6,3,1,5]",
+      "1",
+      "2"
+    ],
+    [
+      "[4,2,null,3,1]",
+      "1",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[4,1,1,2,null,null,6,3,1,5]",
+    "[4,2,null,1,1,3,null,null,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def addOneRow(self, root, val, depth):\n        if depth == 1:\n            new_root = TreeNode(val)\n            new_root.left = root\n            return new_root\n        def dfs(node, d):\n            if not node:\n                return\n            if d == 1:\n                new_left = TreeNode(val)\n                new_right = TreeNode(val)\n                new_left.left = node.left\n                new_right.right = node.right\n                node.left = new_left\n                node.right = new_right\n                return\n            dfs(node.left, d - 1)\n            dfs(node.right, d - 1)\n        dfs(root, depth - 1)\n        return root",
+    "explanation": "DFS to depth-1. Create new nodes wrapping children. Special case for depth=1.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[]"
+}

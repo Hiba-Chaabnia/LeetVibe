@@ -1,0 +1,56 @@
+{
+  "questionId": "3591",
+  "title": "Shift Distance Between Two Strings",
+  "titleSlug": "shift-distance-between-two-strings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given two strings s and t of the same length, and two integer arrays nextCost and previousCost.\n\nIn one operation, you can pick any index i of s, and perform either one of the following actions:\n\n• Shift s[i] to the next letter in the alphabet. If s[i] == 'z', you should replace it with 'a'. This operation costs nextCost[j] where j is the index of s[i] in the alphabet.\n\n• Shift s[i] to the previous letter in the alphabet. If s[i] == 'a', you should replace it with 'z'. This operation costs previousCost[j] where j is the index of s[i] in the alphabet.\n\nThe shift distance is the minimum total cost of operations required to transform s into t.\n\nReturn the shift distance from s to t.\n\nExample 1:\n\nInput: s = \"abab\", t = \"baba\", nextCost = [100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], previousCost = [1,100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\n\nOutput: 2\n\nExplanation:\n\n• We choose index i = 0 and shift s[0] 25 times to the previous character for a total cost of 1.\n\n• We choose index i = 1 and shift s[1] 25 times to the next character for a total cost of 0.\n\n• We choose index i = 2 and shift s[2] 25 times to the previous character for a total cost of 1.\n\n• We choose index i = 3 and shift s[3] 25 times to the next character for a total cost of 0.\n\nExample 2:\n\nInput: s = \"leet\", t = \"code\", nextCost = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], previousCost = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]\n\nOutput: 31\n\nExplanation:\n\n• We choose index i = 0 and shift s[0] 9 times to the previous character for a total cost of 9.\n\n• We choose index i = 1 and shift s[1] 10 times to the next character for a total cost of 10.\n\n• We choose index i = 2 and shift s[2] 1 time to the previous character for a total cost of 1.\n\n• We choose index i = 3 and shift s[3] 11 times to the next character for a total cost of 11.\n\nConstraints:\n\n• 1 <= s.length == t.length <= 105\n\n• s and t consist only of lowercase English letters.\n\n• nextCost.length == previousCost.length == 26\n\n• 0 <= nextCost[i], previousCost[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shiftDistance(self, s, t, nextCost, previousCost):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :type nextCost: List[int]\n        :type previousCost: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "- For every unordered pair of characters (a, b), the cost of turning a into b is equal to the minimum between: \r\n<ul>\r\n<li>If i < j, nextCost[i] + nextCost[i + 1] + … + nextCost[j - 1], and nextCost[i] + nextCost[i + 1] + … + nextCost[25] + nextCost[0] + … + nextCost[j - 1] otherwise.</li>\r\n    \r\n    <li>If i < j, prevCost[i] + prevCost[i - 1] + … + prevCost[0] + prevCost[25] + … + prevCost[j + 1], and prevCost[i] + prevCost[i - 1] + … + prevCost[j + 1] otherwise.</li>\r\n    </ul>\r\n    Where i and j are the indices of a and b in the alphabet.",
+    "The shift distance is the sum of costs of turning s[i] into t[i]."
+  ],
+  "testCases": [
+    [
+      "\"abab\"",
+      "\"baba\"",
+      "[100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]",
+      "[1,100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]"
+    ],
+    [
+      "\"leet\"",
+      "\"code\"",
+      "[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]",
+      "[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "31"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def shiftDistance(self, s, t, nextCost, previousCost):\n        # Precompute prefix sums for forward and backward costs (doubled alphabet for wrap)\n        # forward_prefix[i] = cumulative next cost from 'a' to index i\n        fwd = [0] * 27\n        for i in range(26):\n            fwd[i + 1] = fwd[i] + nextCost[i]\n        # For wraparound, double the array\n        fwd2 = fwd[1:] + [fwd[26] + x for x in fwd[1:]]\n\n        bwd = [0] * 27\n        for i in range(26):\n            bwd[i + 1] = bwd[i] + previousCost[25 - i]\n\n        ans = 0\n        for si, ti in zip(s, t):\n            a = ord(si) - ord('a')\n            b = ord(ti) - ord('a')\n            if a == b:\n                continue\n            # Forward: go from a to b stepping nextCost[a], nextCost[a+1], ...\n            if b > a:\n                fwd_cost = fwd[b] - fwd[a]\n            else:\n                fwd_cost = fwd[26] - fwd[a] + fwd[b]\n            # Backward: go from a to b stepping previousCost[a], previousCost[a-1], ...\n            if a > b:\n                bwd_cost = sum(previousCost[(a - i) % 26] for i in range(a - b))\n            else:\n                bwd_cost = sum(previousCost[(a - i) % 26] for i in range(26 - (b - a)))\n            ans += min(fwd_cost, bwd_cost)\n        return ans",
+    "explanation": "For each character pair (s[i], t[i]), we compute two costs:\n- Forward: accumulate nextCost[a], nextCost[a+1], ..., nextCost[b-1] (mod 26 for wrap). This is efficiently computed using prefix sums on nextCost.\n- Backward: accumulate previousCost[a], previousCost[a-1], ..., previousCost[b+1] (mod 26 for wrap).\n\nWe take the minimum of the two directions and sum across all positions.\n\nTime complexity: O(|s| * 26) in the worst case for backward cost, but bounded by O(26 * |s|) = O(n). Space complexity: O(26)."
+  },
+  "similarQuestions": "[{\"title\": \"Shifting Letters\", \"titleSlug\": \"shifting-letters\", \"difficulty\": \"Medium\"}, {\"title\": \"Shifting Letters II\", \"titleSlug\": \"shifting-letters-ii\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,52 @@
+{
+  "questionId": "3332",
+  "title": "Minimum Operations to Exceed Threshold Value II",
+  "titleSlug": "minimum-operations-to-exceed-threshold-value-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums, and an integer k.\n\nYou are allowed to perform some operations on nums, where in a single operation, you can:\n\n• Select the two smallest integers x and y from nums.\n\n• Remove x and y from nums.\n\n• Insert (min(x, y) * 2 + max(x, y)) at any position in the array.\n\nNote that you can only apply the described operation if nums contains at least two elements.\n\nReturn the minimum number of operations needed so that all elements of the array are greater than or equal to k.\n\nExample 1:\n\nInput: nums = [2,11,10,1,3], k = 10\n\nOutput: 2\n\nExplanation:\n\n• In the first operation, we remove elements 1 and 2, then add 1 * 2 + 2 to nums. nums becomes equal to [4, 11, 10, 3].\n\n• In the second operation, we remove elements 3 and 4, then add 3 * 2 + 4 to nums. nums becomes equal to [10, 11, 10].\n\nAt this stage, all the elements of nums are greater than or equal to 10 so we can stop.\n\nIt can be shown that 2 is the minimum number of operations needed so that all elements of the array are greater than or equal to 10.\n\nExample 2:\n\nInput: nums = [1,1,2,4,9], k = 20\n\nOutput: 4\n\nExplanation:\n\n• After one operation, nums becomes equal to [2, 4, 9, 3].\n\n• After two operations, nums becomes equal to [7, 4, 9].\n\n• After three operations, nums becomes equal to [15, 9].\n\n• After four operations, nums becomes equal to [33].\n\nAt this stage, all the elements of nums are greater than 20 so we can stop.\n\nIt can be shown that 4 is the minimum number of operations needed so that all elements of the array are greater than or equal to 20.\n\nConstraints:\n\n• 2 <= nums.length <= 2 * 105\n\n• 1 <= nums[i] <= 109\n\n• 1 <= k <= 109\n\n• The input is generated such that an answer always exists. That is, after performing some number of operations, all elements of the array are greater than or equal to k.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use priority queue to keep track of minimum elements.",
+    "Remove the minimum two elements, perform the operation, and insert the resulting number into the priority queue."
+  ],
+  "testCases": [
+    [
+      "[2,11,10,1,3]",
+      "10"
+    ],
+    [
+      "[1,1,2,4,9]",
+      "20"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def minOperations(self, nums, k):\n        heapq.heapify(nums)\n        ops = 0\n        while nums[0] < k:\n            x = heapq.heappop(nums)\n            y = heapq.heappop(nums)\n            heapq.heappush(nums, x * 2 + y)\n            ops += 1\n        return ops",
+    "explanation": "Min-heap: always combine the two smallest. Operation: pop x (min), pop y (second min), push x*2+y (since x<=y, min(x,y)*2+max(x,y)=2x+y). Continue until heap minimum >= k.\n\nTime: O(n + ops*log n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Operations to Halve Array Sum\", \"titleSlug\": \"minimum-operations-to-halve-array-sum\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "3873",
+  "title": "Subsequence Sum After Capping Elements",
+  "titleSlug": "subsequence-sum-after-capping-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer array nums of size n and a positive integer k.\n\nAn array capped by value x is obtained by replacing every element nums[i] with min(nums[i], x).\n\nFor each integer x from 1 to n, determine whether it is possible to choose a subsequence from the array capped by x such that the sum of the chosen elements is exactly k.\n\nReturn a 0-indexed boolean array answer of size n, where answer[i] is true if it is possible when using x = i + 1, and false otherwise.\n\nExample 1:\n\nInput: nums = [4,3,2,4], k = 5\n\nOutput: [false,false,true,true]\n\nExplanation:\n\n• For x = 1, the capped array is [1, 1, 1, 1]. Possible sums are 1, 2, 3, 4, so it is impossible to form a sum of 5.\n\n• For x = 2, the capped array is [2, 2, 2, 2]. Possible sums are 2, 4, 6, 8, so it is impossible to form a sum of 5.\n\n• For x = 3, the capped array is [3, 3, 2, 3]. A subsequence [2, 3] sums to 5, so it is possible.\n\n• For x = 4, the capped array is [4, 3, 2, 4]. A subsequence [3, 2] sums to 5, so it is possible.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5], k = 3\n\nOutput: [true,true,true,true,true]\n\nExplanation: For every value of x, it is always possible to select a subsequence from the capped array that sums exactly to 3.\n\nConstraints:\n\n• 1 <= n == nums.length <= 4000\n\n• 1 <= nums[i] <= n\n\n• 1 <= k <= 4000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def subsequenceSumAfterCapping(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[bool]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the array nums in descending order.",
+    "Build a knapsack DP table dp[idx][sum] where dp[idx][sum] == true if and only if there exists a subsequence of nums[idx] through the end that sums exactly to sum.",
+    "Observe that capping all values above x to x in a sorted array is equivalent to taking the first t elements (those originally > x) and treating each as x. Precompute which multiples of x up to t * x are selectable.",
+    "For each cap value x from 1 to n, let t be the number of elements in nums originally greater than x. Then iterate over all sums s with dp[t][s] == true and all counts m from 0 to t; if there exists an m such that s + m * x == k, set answer[x-1] to true. Otherwise, it remains false."
+  ],
+  "testCases": [
+    [
+      "[4,3,2,4]",
+      "5"
+    ],
+    [
+      "[1,2,3,4,5]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[false,false,true,true]",
+    "[true,true,true,true,true]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def subsequenceSumAfterCapping(self, nums, k):\n        n = len(nums)\n        sorted_desc = sorted(nums, reverse=True)\n\n        # dp[t][s] = can we pick a subsequence from sorted_desc[t:] summing to s?\n        # Build incrementally: dp starts as dp for the full array (t=n), then we add elements\n        # going from t=n down to t=0.\n        # dp[s] = True if achievable from elements sorted_desc[t:]\n        dp = [False] * (k + 1)\n        dp[0] = True\n\n        # We'll store dp snapshots at each t (number of \"capped\" elements)\n        # snapshots[t] = reachable set from sorted_desc[t:]\n        snapshots = [None] * (n + 1)\n        snapshots[n] = list(dp)\n\n        for t in range(n - 1, -1, -1):\n            val = sorted_desc[t]\n            new_dp = list(dp)\n            for s in range(k, -1, -1):\n                if dp[s] and s + val <= k:\n                    new_dp[s + val] = True\n            dp = new_dp\n            snapshots[t] = list(dp)\n\n        answer = [False] * n\n        for x in range(1, n + 1):\n            # t = number of elements in sorted_desc that are > x\n            # Binary search: find first index where sorted_desc[i] <= x\n            lo, hi = 0, n\n            while lo < hi:\n                mid = (lo + hi) // 2\n                if sorted_desc[mid] > x:\n                    lo = mid + 1\n                else:\n                    hi = mid\n            t = lo\n            # Capped array: t copies of x, then sorted_desc[t:] unchanged\n            # From snapshots[t], check if any s is reachable such that k-s is\n            # achievable by picking m copies of x (0 <= m <= t), i.e., (k-s) % x == 0 and (k-s)//x <= t\n            snap = snapshots[t]\n            for s in range(k + 1):\n                if snap[s]:\n                    remainder = k - s\n                    if remainder >= 0 and remainder % x == 0 and remainder // x <= t:\n                        answer[x - 1] = True\n                        break\n\n        return answer",
+    "explanation": "We sort nums in descending order. For cap value x, let t be the count of elements originally > x. The capped array has t copies of x followed by the unchanged remaining elements.\n\nWe precompute subset-sum DP snapshots: snapshots[t] stores which sums in [0, k] are reachable from sorted_desc[t:] (the uncapped part). We build this by adding one element at a time from right to left.\n\nFor each x (1 to n), using snapshots[t], we check if there exists a reachable sum s (from the uncapped part) such that the remaining k-s can be formed by selecting m copies of x (0 <= m <= t), i.e., (k-s) is a non-negative multiple of x and (k-s)/x <= t.\n\nTime complexity: O(n*k) for building snapshots + O(n*k) for queries = O(n*k). Space complexity: O(n*k)."
+  },
+  "similarQuestions": "[]"
+}

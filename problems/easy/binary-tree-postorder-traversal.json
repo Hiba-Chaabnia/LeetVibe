@@ -1,0 +1,49 @@
+{
+  "questionId": "145",
+  "title": "Binary Tree Postorder Traversal",
+  "titleSlug": "binary-tree-postorder-traversal",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the postorder traversal of its nodes' values.\n\nExample 1:\n\nInput: root = [1,null,2,3]\n\nOutput: [3,2,1]\n\nExplanation: Example 2:\n\nInput: root = [1,2,3,4,5,null,8,null,null,6,7,9]\n\nOutput: [4,6,7,5,2,9,8,3,1]\n\nExplanation: Example 3:\n\nInput: root = []\n\nOutput: []\n\nExample 4:\n\nInput: root = [1]\n\nOutput: [1]\n\nConstraints:\n\n• The number of the nodes in the tree is in the range [0, 100].\n\n• -100 <= Node.val <= 100\n\nFollow up: Recursive solution is trivial, could you do it iteratively?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def postorderTraversal(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,null,2,3]",
+      "[1,2,3,4,5,null,8,null,null,6,7,9]",
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,2,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def postorderTraversal(self, root):\n        result = []\n        stack = []\n        last_visited = None\n        node = root\n        while node or stack:\n            while node:\n                stack.append(node)\n                node = node.left\n            peek = stack[-1]\n            if peek.right and peek.right != last_visited:\n                node = peek.right\n            else:\n                result.append(peek.val)\n                last_visited = stack.pop()\n        return result",
+    "explanation": "Iterative postorder: Left -> Right -> Root with tracking last visited."
+  },
+  "similarQuestions": "[{\"title\": \"Binary Tree Inorder Traversal\", \"titleSlug\": \"binary-tree-inorder-traversal\", \"difficulty\": \"Easy\"}, {\"title\": \"N-ary Tree Postorder Traversal\", \"titleSlug\": \"n-ary-tree-postorder-traversal\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Fuel Cost to Report to the Capital\", \"titleSlug\": \"minimum-fuel-cost-to-report-to-the-capital\", \"difficulty\": \"Medium\"}]"
+}

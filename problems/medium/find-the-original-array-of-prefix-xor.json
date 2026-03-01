@@ -1,0 +1,46 @@
+{
+  "questionId": "2519",
+  "title": "Find The Original Array of Prefix Xor",
+  "titleSlug": "find-the-original-array-of-prefix-xor",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given an integer array pref of size n. Find and return the array arr of size n that satisfies:\n\n• pref[i] = arr[0] ^ arr[1] ^ ... ^ arr[i].\n\nNote that ^ denotes the bitwise-xor operation.\n\nIt can be proven that the answer is unique.\n\nExample 1:\n\nInput: pref = [5,2,0,3,1]\nOutput: [5,7,2,3,2]\nExplanation: From the array [5,7,2,3,2] we have the following:\n    - pref[0] = 5.\n    - pref[1] = 5 ^ 7 = 2.\n    - pref[2] = 5 ^ 7 ^ 2 = 0.\n    - pref[3] = 5 ^ 7 ^ 2 ^ 3 = 3.\n    - pref[4] = 5 ^ 7 ^ 2 ^ 3 ^ 2 = 1.\n\nExample 2:\n\nInput: pref = [13]\nOutput: [13]\nExplanation: We have pref[0] = arr[0] = 13.\n\nConstraints:\n\n• 1 <= pref.length <= 105\n\n• 0 <= pref[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findArray(self, pref):\n        \"\"\"\n        :type pref: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider the following equation: x ^ a = b. How can you find x?",
+    "Notice that arr[i] ^ pref[i-1] = pref[i]. This is the same as the previous equation."
+  ],
+  "testCases": [
+    [
+      "[5,2,0,3,1]"
+    ],
+    [
+      "[13]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[5,7,2,3,2]",
+    "[13]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findArray(pref):\n    arr = [pref[0]]\n    for i in range(1, len(pref)):\n        arr.append(pref[i] ^ pref[i - 1])\n    return arr",
+    "explanation": "The function first initializes the first element of the `arr` array to the first element of the input `pref` array. Then, for each remaining element in the `pref` array, the function calculates the corresponding `arr` element by XORing the current `pref` element with the previous `pref` element. This is based on the property of XOR, where `(a ^ b) ^ b == a`. After all elements in the `arr` array are calculated, the function returns the `arr` array."
+  },
+  "similarQuestions": "[{\"title\": \"Single Number III\", \"titleSlug\": \"single-number-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Triplets That Can Form Two Arrays of Equal XOR\", \"titleSlug\": \"count-triplets-that-can-form-two-arrays-of-equal-xor\", \"difficulty\": \"Medium\"}, {\"title\": \"Decode XORed Array\", \"titleSlug\": \"decode-xored-array\", \"difficulty\": \"Easy\"}]"
+}

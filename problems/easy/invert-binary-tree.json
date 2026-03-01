@@ -1,0 +1,49 @@
+{
+  "questionId": "226",
+  "title": "Invert Binary Tree",
+  "titleSlug": "invert-binary-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, invert the tree, and return its root.\n\nExample 1:\n\nInput: root = [4,2,7,1,3,6,9]\nOutput: [4,7,2,9,6,3,1]\n\nExample 2:\n\nInput: root = [2,1,3]\nOutput: [2,3,1]\n\nExample 3:\n\nInput: root = []\nOutput: []\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 100].\n\n• -100 <= Node.val <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def invertTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,2,7,1,3,6,9]",
+      "[2,1,3]",
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[4,7,2,9,6,3,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def invertTree(self, root):\n        if not root:\n            return None\n        root.left, root.right = root.right, root.left\n        self.invertTree(root.left)\n        self.invertTree(root.right)\n        return root",
+    "explanation": "Recursively swap left and right subtrees at each node.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Odd Levels of Binary Tree\", \"titleSlug\": \"reverse-odd-levels-of-binary-tree\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,59 @@
+{
+  "questionId": "472",
+  "title": "Concatenated Words",
+  "titleSlug": "concatenated-words",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array of strings words (without duplicates), return all the concatenated words in the given list of words.\n\nA concatenated word is defined as a string that is comprised entirely of at least two shorter words (not necessarily distinct) in the given array.\n\nExample 1:\n\nInput: words = [\"cat\",\"cats\",\"catsdogcats\",\"dog\",\"dogcatsdog\",\"hippopotamuses\",\"rat\",\"ratcatdogcat\"]\nOutput: [\"catsdogcats\",\"dogcatsdog\",\"ratcatdogcat\"]\nExplanation: \"catsdogcats\" can be concatenated by \"cats\", \"dog\" and \"cats\";\n    \"dogcatsdog\" can be concatenated by \"dog\", \"cats\" and \"dog\";\n    \"ratcatdogcat\" can be concatenated by \"rat\", \"cat\", \"dog\" and \"cat\".\n\nExample 2:\n\nInput: words = [\"cat\",\"dog\",\"catdog\"]\nOutput: [\"catdog\"]\n\nConstraints:\n\n• 1 <= words.length <= 104\n\n• 1 <= words[i].length <= 30\n\n• words[i] consists of only lowercase English letters.\n\n• All the strings of words are unique.\n\n• 1 <= sum(words[i].length) <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findAllConcatenatedWordsInADict(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"cat\",\"cats\",\"catsdogcats\",\"dog\",\"dogcatsdog\",\"hippopotamuses\",\"rat\",\"ratcatdogcat\"]"
+    ],
+    [
+      "[\"cat\",\"dog\",\"catdog\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"catsdogcats\",\"dogcatsdog\",\"ratcatdogcat\"]",
+    "[\"catdog\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findAllConcatenatedWordsInADict(self, words):\n        word_set = set(words)\n        memo = {}\n        \n        def is_concat(word):\n            if word in memo:\n                return memo[word]\n            \n            for i in range(1, len(word)):\n                left = word[:i]\n                right = word[i:]\n                \n                if left in word_set:\n                    if right in word_set or is_concat(right):\n                        memo[word] = True\n                        return True\n            \n            memo[word] = False\n            return False\n        \n        return [w for w in words if is_concat(w)]",
+    "explanation": "DFS with memoization to check if word is concatenation. Time: O(n*m²)"
+  },
+  "similarQuestions": "[{\"title\": \"Word Break II\", \"titleSlug\": \"word-break-ii\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "867",
+  "title": "New 21 Game",
+  "titleSlug": "new-21-game",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Probability and Statistics",
+      "slug": "probability-and-statistics"
+    }
+  ],
+  "content": "Alice plays the following game, loosely based on the card game \"21\".\n\nAlice starts with 0 points and draws numbers while she has less than k points. During each draw, she gains an integer number of points randomly from the range [1, maxPts], where maxPts is an integer. Each draw is independent and the outcomes have equal probabilities.\n\nAlice stops drawing numbers when she gets k or more points.\n\nReturn the probability that Alice has n or fewer points.\n\nAnswers within 10-5 of the actual answer are considered accepted.\n\nExample 1:\n\nInput: n = 10, k = 1, maxPts = 10\nOutput: 1.00000\nExplanation: Alice gets a single card, then stops.\n\nExample 2:\n\nInput: n = 6, k = 1, maxPts = 10\nOutput: 0.60000\nExplanation: Alice gets a single card, then stops.\n    In 6 out of 10 possibilities, she is at or below 6 points.\n\nExample 3:\n\nInput: n = 21, k = 17, maxPts = 10\nOutput: 0.73278\n\nConstraints:\n\n• 0 <= k <= n <= 104\n\n• 1 <= maxPts <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def new21Game(self, n, k, maxPts):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :type maxPts: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "10",
+      "1",
+      "10"
+    ],
+    [
+      "6",
+      "1",
+      "10"
+    ],
+    [
+      "21",
+      "17",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "1.00000",
+    "0.60000",
+    "0.73278"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

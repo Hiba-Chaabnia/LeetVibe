@@ -1,0 +1,43 @@
+{
+  "questionId": "670",
+  "title": "Maximum Swap",
+  "titleSlug": "maximum-swap",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an integer num. You can swap two digits at most once to get the maximum valued number.\n\nReturn the maximum valued number you can get.\n\nExample 1:\n\nInput: num = 2736\nOutput: 7236\nExplanation: Swap the number 2 and the number 7.\n\nExample 2:\n\nInput: num = 9973\nOutput: 9973\nExplanation: No swap.\n\nConstraints:\n\n• 0 <= num <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumSwap(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "2736"
+    ],
+    [
+      "9973"
+    ]
+  ],
+  "expectedOutputs": [
+    "7236",
+    "9973"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maximumSwap(num):\n    num_str = list(str(num))\n    last = {int(v): i for i, v in enumerate(num_str)}\n\n    for i, v in enumerate(num_str):\n        for d in range(9, int(v), -1):\n            if last.get(d, -1) > i:\n                num_str[i], num_str[last[d]] = num_str[last[d]], num_str[i]\n                return int(\"\".join(num_str))\n\n    return num",
+    "explanation": "1. Convert the input number to a string (num_str) so that we can manipulate individual digits easily.\n2. Create an array (last) to store the last occurrences of each digit, and populate it by iterating through num_str.\n3. Iterate through num_str; for each digit, check if there is a larger digit that appears later in the number.\n   - If there is, swap the current digit with the larger digit and return the result as an integer.\n4. If no suitable pair of digits is found to swap, return the original input."
+  },
+  "similarQuestions": "[{\"title\": \"Create Maximum Number\", \"titleSlug\": \"create-maximum-number\", \"difficulty\": \"Hard\"}]"
+}

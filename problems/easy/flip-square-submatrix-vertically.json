@@ -1,0 +1,55 @@
+{
+  "questionId": "3973",
+  "title": "Flip Square Submatrix Vertically",
+  "titleSlug": "flip-square-submatrix-vertically",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n integer matrix grid, and three integers x, y, and k.\n\nThe integers x and y represent the row and column indices of the top-left corner of a square submatrix and the integer k represents the size (side length) of the square submatrix.\n\nYour task is to flip the submatrix by reversing the order of its rows vertically.\n\nReturn the updated matrix.\n\nExample 1:\n\nInput: grid = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]], x = 1, y = 0, k = 3\n\nOutput: [[1,2,3,4],[13,14,15,8],[9,10,11,12],[5,6,7,16]]\n\nExplanation: The diagram above shows the grid before and after the transformation.\n\nExample 2:\n\n​​​​​​​\n\nInput: grid = [[3,4,2,3],[2,3,4,2]], x = 0, y = 2, k = 2\n\nOutput: [[3,4,4,2],[2,3,2,3]]\n\nExplanation: The diagram above shows the grid before and after the transformation.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 50\n\n• 1 <= grid[i][j] <= 100\n\n• 0 <= x < m\n\n• 0 <= y < n\n\n• 1 <= k <= min(m - x, n - y)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reverseSubmatrix(self, grid, x, y, k):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type x: int\n        :type y: int\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use two pointers at the block's top and bottom rows and swap their k columns pairwise until the pointers meet."
+  ],
+  "testCases": [
+    [
+      "[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]]",
+      "1",
+      "0",
+      "3"
+    ],
+    [
+      "[[3,4,2,3],[2,3,4,2]]",
+      "0",
+      "2",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,2,3,4],[13,14,15,8],[9,10,11,12],[5,6,7,16]]",
+    "[[3,4,4,2],[2,3,2,3]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def reverseSubmatrix(self, grid, x, y, k):\n        import copy\n        g = copy.deepcopy(grid)\n        for col in range(y, y + k):\n            rows = [g[r][col] for r in range(x, x + k)]\n            rows.reverse()\n            for i, r in enumerate(range(x, x + k)):\n                g[r][col] = rows[i]\n        return g",
+    "explanation": "For each column in the k×k submatrix starting at (x,y), reverse the values in rows x to x+k-1 in place. O(k^2) time."
+  },
+  "similarQuestions": "[]"
+}

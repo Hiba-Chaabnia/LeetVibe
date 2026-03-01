@@ -1,0 +1,53 @@
+{
+  "questionId": "966",
+  "title": "Binary Subarrays With Sum",
+  "titleSlug": "binary-subarrays-with-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a binary array nums and an integer goal, return the number of non-empty subarrays with a sum goal.\n\nA subarray is a contiguous part of the array.\n\nExample 1:\n\nInput: nums = [1,0,1,0,1], goal = 2\nOutput: 4\nExplanation: The 4 subarrays are bolded and underlined below:\n    [1,0,1,0,1]\n    [1,0,1,0,1]\n    [1,0,1,0,1]\n    [1,0,1,0,1]\n\nExample 2:\n\nInput: nums = [0,0,0,0,0], goal = 0\nOutput: 15\n\nConstraints:\n\n• 1 <= nums.length <= 3 * 104\n\n• nums[i] is either 0 or 1.\n\n• 0 <= goal <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSubarraysWithSum(self, nums, goal):\n        \"\"\"\n        :type nums: List[int]\n        :type goal: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,0,1,0,1]",
+      "2"
+    ],
+    [
+      "[0,0,0,0,0]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "15"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numSubarraysWithSum(self, nums, goal):\n        from collections import defaultdict\n        count = defaultdict(int)\n        count[0] = 1\n        result = 0\n        curr_sum = 0\n        for num in nums:\n            curr_sum += num\n            result += count[curr_sum - goal]\n            count[curr_sum] += 1\n        return result",
+    "explanation": "Prefix sum + hash map. For each sum, check if (sum - goal) existed.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Subarrays With Score Less Than K\", \"titleSlug\": \"count-subarrays-with-score-less-than-k\", \"difficulty\": \"Hard\"}, {\"title\": \"Ways to Split Array Into Good Subarrays\", \"titleSlug\": \"ways-to-split-array-into-good-subarrays\", \"difficulty\": \"Medium\"}, {\"title\": \"Find All Possible Stable Binary Arrays I\", \"titleSlug\": \"find-all-possible-stable-binary-arrays-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Find All Possible Stable Binary Arrays II\", \"titleSlug\": \"find-all-possible-stable-binary-arrays-ii\", \"difficulty\": \"Hard\"}]"
+}

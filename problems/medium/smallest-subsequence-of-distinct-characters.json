@@ -1,0 +1,49 @@
+{
+  "questionId": "1159",
+  "title": "Smallest Subsequence of Distinct Characters",
+  "titleSlug": "smallest-subsequence-of-distinct-characters",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "Given a string s, return the lexicographically smallest subsequence of s that contains all the distinct characters of s exactly once.\n\nExample 1:\n\nInput: s = \"bcabc\"\nOutput: \"abc\"\n\nExample 2:\n\nInput: s = \"cbacdcbc\"\nOutput: \"acdb\"\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s consists of lowercase English letters.\n\nNote: This question is the same as 316: https://leetcode.com/problems/remove-duplicate-letters/",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestSubsequence(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Greedily try to add one missing character. How to check if adding some character will not cause problems ? Use bit-masks to check whether you will be able to complete the sub-sequence if you add the character at some index i."
+  ],
+  "testCases": [
+    [
+      "\"bcabc\""
+    ],
+    [
+      "\"cbacdcbc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"abc\"",
+    "\"acdb\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find the Most Competitive Subsequence\", \"titleSlug\": \"find-the-most-competitive-subsequence\", \"difficulty\": \"Medium\"}]"
+}

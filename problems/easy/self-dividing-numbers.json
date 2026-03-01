@@ -1,0 +1,43 @@
+{
+  "questionId": "728",
+  "title": "Self Dividing Numbers",
+  "titleSlug": "self-dividing-numbers",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "A self-dividing number is a number that is divisible by every digit it contains.\n\n• For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.\n\nA self-dividing number is not allowed to contain the digit zero.\n\nGiven two integers left and right, return a list of all the self-dividing numbers in the range [left, right] (both inclusive).\n\nExample 1:\n\nInput: left = 1, right = 22\nOutput: [1,2,3,4,5,6,7,8,9,11,12,15,22]\nExample 2:\n\nInput: left = 47, right = 85\nOutput: [48,55,66,77]\n\nConstraints:\n\n• 1 <= left <= right <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def selfDividingNumbers(self, left, right):\n        \"\"\"\n        :type left: int\n        :type right: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each number in the range, check whether it is self dividing by converting that number to a character array (or string in Python), then checking that each digit is nonzero and divides the original number."
+  ],
+  "testCases": [
+    [
+      "1",
+      "22"
+    ],
+    [
+      "47",
+      "85"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,3,4,5,6,7,8,9,11,12,15,22]",
+    "[48,55,66,77]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def selfDividingNumbers(self, left, right):\n        def is_self_dividing(num):\n            for digit in str(num):\n                if digit == '0' or num % int(digit) != 0:\n                    return False\n            return True\n        return [num for num in range(left, right+1) if is_self_dividing(num)]",
+    "explanation": "For each number, check if divisible by all its digits (excluding 0).\nTime: O(n*d) where d=digits\nSpace: O(k) for result"
+  },
+  "similarQuestions": "[{\"title\": \"Perfect Number\", \"titleSlug\": \"perfect-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Check if Number Has Equal Digit Count and Digit Value\", \"titleSlug\": \"check-if-number-has-equal-digit-count-and-digit-value\", \"difficulty\": \"Easy\"}, {\"title\": \"Count the Digits That Divide a Number\", \"titleSlug\": \"count-the-digits-that-divide-a-number\", \"difficulty\": \"Easy\"}]"
+}

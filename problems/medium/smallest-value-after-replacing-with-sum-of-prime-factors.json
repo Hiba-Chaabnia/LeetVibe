@@ -1,0 +1,47 @@
+{
+  "questionId": "2595",
+  "title": "Smallest Value After Replacing With Sum of Prime Factors",
+  "titleSlug": "smallest-value-after-replacing-with-sum-of-prime-factors",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given a positive integer n.\n\nContinuously replace n with the sum of its prime factors.\n\n• Note that if a prime factor divides n multiple times, it should be included in the sum as many times as it divides n.\n\nReturn the smallest value n will take on.\n\nExample 1:\n\nInput: n = 15\nOutput: 5\nExplanation: Initially, n = 15.\n    15 = 3 * 5, so replace n with 3 + 5 = 8.\n    8 = 2 * 2 * 2, so replace n with 2 + 2 + 2 = 6.\n    6 = 2 * 3, so replace n with 2 + 3 = 5.\n    5 is the smallest value n will take on.\n\nExample 2:\n\nInput: n = 3\nOutput: 3\nExplanation: Initially, n = 3.\n    3 is the smallest value n will take on.\n\nConstraints:\n\n• 2 <= n <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestValue(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Every time you replace n, it will become smaller until it is a prime number, where it will keep the same value each time you replace it.",
+    "n decreases logarithmically, allowing you to simulate the process.",
+    "To find the prime factors, iterate through all numbers less than n from least to greatest and find the maximum number of times each number divides n."
+  ],
+  "testCases": [
+    [
+      "15"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Happy Number\", \"titleSlug\": \"happy-number\", \"difficulty\": \"Easy\"}, {\"title\": \"2 Keys Keyboard\", \"titleSlug\": \"2-keys-keyboard\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Ways to Make Array With Product\", \"titleSlug\": \"count-ways-to-make-array-with-product\", \"difficulty\": \"Hard\"}, {\"title\": \"Distinct Prime Factors of Product of Array\", \"titleSlug\": \"distinct-prime-factors-of-product-of-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Division Operations to Make Array Non Decreasing\", \"titleSlug\": \"minimum-division-operations-to-make-array-non-decreasing\", \"difficulty\": \"Medium\"}]"
+}

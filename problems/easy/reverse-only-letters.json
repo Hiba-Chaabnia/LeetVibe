@@ -1,0 +1,49 @@
+{
+  "questionId": "953",
+  "title": "Reverse Only Letters",
+  "titleSlug": "reverse-only-letters",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s, reverse the string according to the following rules:\n\n• All the characters that are not English letters remain in the same position.\n\n• All the English letters (lowercase or uppercase) should be reversed.\n\nReturn s after reversing it.\n\nExample 1:\n\nInput: s = \"ab-cd\"\nOutput: \"dc-ba\"\nExample 2:\n\nInput: s = \"a-bC-dEf-ghIj\"\nOutput: \"j-Ih-gfE-dCba\"\nExample 3:\n\nInput: s = \"Test1ng-Leet=code-Q!\"\nOutput: \"Qedo1ct-eeLg=ntse-T!\"\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists of characters with ASCII values in the range [33, 122].\n\n• s does not contain '\\\"' or '\\\\'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reverseOnlyLetters(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "This problem is exactly like reversing a normal string except that there are certain characters that we have to simply skip. That should be easy enough to do if you know how to reverse a string using the two-pointer approach."
+  ],
+  "testCases": [
+    [
+      "\"ab-cd\""
+    ],
+    [
+      "\"a-bC-dEf-ghIj\""
+    ],
+    [
+      "\"Test1ng-Leet=code-Q!\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"dc-ba\"",
+    "\"j-Ih-gfE-dCba\"",
+    "\"Qedo1ct-eeLg=ntse-T!\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def reverseOnlyLetters(self, s):\n        s_list = list(s)\n        left, right = 0, len(s) - 1\n        while left < right:\n            if not s_list[left].isalpha():\n                left += 1\n            elif not s_list[right].isalpha():\n                right -= 1\n            else:\n                s_list[left], s_list[right] = s_list[right], s_list[left]\n                left += 1\n                right -= 1\n        return ''.join(s_list)",
+    "explanation": "Two pointer. Skip non-letters, swap letters.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Faulty Keyboard\", \"titleSlug\": \"faulty-keyboard\", \"difficulty\": \"Easy\"}, {\"title\": \"Reverse Letters Then Special Characters in a String\", \"titleSlug\": \"reverse-letters-then-special-characters-in-a-string\", \"difficulty\": \"Easy\"}]"
+}

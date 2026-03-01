@@ -1,0 +1,46 @@
+{
+  "questionId": "4179",
+  "title": "Largest Even Number",
+  "titleSlug": "largest-even-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string s consisting only of the characters '1' and '2'.\n\nYou may delete any number of characters from s without changing the order of the remaining characters.\n\nReturn the largest possible resultant string that represents an even integer. If there is no such string, return the empty string \"\".\n\nExample 1:\n\nInput: s = \"1112\"\n\nOutput: \"1112\"\n\nExplanation: The string already represents the largest possible even number, so no deletions are needed.\n\nExample 2:\n\nInput: s = \"221\"\n\nOutput: \"22\"\n\nExplanation: Deleting '1' results in the largest possible even number which is equal to 22.\n\nExample 3:\n\nInput: s = \"1\"\n\nOutput: \"\"\n\nExplanation: There is no way to get an even number.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists only of the characters '1' and '2'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestEven(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A number ending with '1' is odd.",
+    "Find the last '2' in s. If none, return \"\". Otherwise return the prefix up to and including that '2'."
+  ],
+  "testCases": [
+    [
+      "\"1112\""
+    ],
+    [
+      "\"221\""
+    ],
+    [
+      "\"1\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"1112\"",
+    "\"22\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def largestEven(self, s):\n        for i in range(len(s) - 1, -1, -1):\n            if int(s[i]) % 2 == 0:\n                return s[:i + 1]\n        return ''",
+    "explanation": "Find the rightmost even digit; the substring ending there is the largest even number obtainable by deleting trailing digits. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "560",
+  "title": "Subarray Sum Equals K",
+  "titleSlug": "subarray-sum-equals-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [1,1,1], k = 2\nOutput: 2\nExample 2:\n\nInput: nums = [1,2,3], k = 3\nOutput: 2\n\nConstraints:\n\n• 1 <= nums.length <= 2 * 104\n\n• -1000 <= nums[i] <= 1000\n\n• -107 <= k <= 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def subarraySum(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Will Brute force work here? Try to optimize it.",
+    "Can we optimize it by using some extra space?",
+    "What about storing sum frequencies in a hash table? Will it be useful?",
+    "sum(i,j)=sum(0,j)-sum(0,i), where sum(i,j) represents the sum of all the elements from index i to j-1.\r\n\r\nCan we use this property to optimize it."
+  ],
+  "testCases": [
+    [
+      "[1,1,1]",
+      "2"
+    ],
+    [
+      "[1,2,3]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def subarraySum(nums, k):\n    prefix_sum_frequency = {0: 1}\n    prefix_sum, result = 0, 0\n    \n    for num in nums:\n        prefix_sum += num\n        result += prefix_sum_frequency.get(prefix_sum - k, 0)\n        prefix_sum_frequency[prefix_sum] = prefix_sum_frequency.get(prefix_sum, 0) + 1\n\n    return result",
+    "explanation": "The algorithm utilizes a hash map to store the frequency of the prefix sum up to the current element in the array. We start by initializing the hash map with a key-value pair (0, 1), which represents the empty subarray sum. Then we iterate through the input array, updating the prefix sum and result.\n\nFor each element in the array, we increment the prefix sum by the value of the element. We then increment the result by the value of the key (prefix sum - k) in the hash map, using a default value of 0 if the key is not found. This represents the number of subarrays ending at the current index with the sum equal to k. Finally, we increment the value of the prefix sum key in the hash map.\n\nThe time complexity of the algorithm is O(n), where n is the length of the input array. This is because we iterate through the array once and perform constant time operations for each element. The space complexity is O(n), which comes from using the hash map to store frequency of prefix sums."
+  },
+  "similarQuestions": "[{\"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Continuous Subarray Sum\", \"titleSlug\": \"continuous-subarray-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Subarray Product Less Than K\", \"titleSlug\": \"subarray-product-less-than-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Pivot Index\", \"titleSlug\": \"find-pivot-index\", \"difficulty\": \"Easy\"}, {\"title\": \"Subarray Sums Divisible by K\", \"titleSlug\": \"subarray-sums-divisible-by-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Reduce X to Zero\", \"titleSlug\": \"minimum-operations-to-reduce-x-to-zero\", \"difficulty\": \"Medium\"}, {\"title\": \"K Radius Subarray Averages\", \"titleSlug\": \"k-radius-subarray-averages\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Sum Score of Array\", \"titleSlug\": \"maximum-sum-score-of-array\", \"difficulty\": \"Medium\"}]"
+}

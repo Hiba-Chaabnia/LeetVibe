@@ -1,0 +1,57 @@
+{
+  "questionId": "1912",
+  "title": "Number of Restricted Paths From First to Last Node",
+  "titleSlug": "number-of-restricted-paths-from-first-to-last-node",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Topological Sort",
+      "slug": "topological-sort"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "There is an undirected weighted connected graph. You are given a positive integer n which denotes that the graph has n nodes labeled from 1 to n, and an array edges where each edges[i] = [ui, vi, weighti] denotes that there is an edge between nodes ui and vi with weight equal to weighti.\n\nA path from node start to node end is a sequence of nodes [z0, z1, z2, ..., zk] such that z0 = start and zk = end and there is an edge between zi and zi+1 where 0 <= i <= k-1.\n\nThe distance of a path is the sum of the weights on the edges of the path. Let distanceToLastNode(x) denote the shortest distance of a path between node n and node x. A restricted path is a path that also satisfies that distanceToLastNode(zi) > distanceToLastNode(zi+1) where 0 <= i <= k-1.\n\nReturn the number of restricted paths from node 1 to node n. Since that number may be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: n = 5, edges = [[1,2,3],[1,3,3],[2,3,1],[1,4,2],[5,2,2],[3,5,1],[5,4,10]]\nOutput: 3\nExplanation: Each circle contains the node number in black and its distanceToLastNode value in blue. The three restricted paths are:\n    1) 1 --> 2 --> 5\n    2) 1 --> 2 --> 3 --> 5\n    3) 1 --> 3 --> 5\n\nExample 2:\n\nInput: n = 7, edges = [[1,3,1],[4,1,2],[7,3,4],[2,5,3],[5,6,1],[6,7,2],[7,5,3],[2,6,4]]\nOutput: 1\nExplanation: Each circle contains the node number in black and its distanceToLastNode value in blue. The only restricted path is 1 --> 3 --> 7.\n\nConstraints:\n\n• 1 <= n <= 2 * 104\n\n• n - 1 <= edges.length <= 4 * 104\n\n• edges[i].length == 3\n\n• 1 <= ui, vi <= n\n\n• ui != vi\n\n• 1 <= weighti <= 105\n\n• There is at most one edge between any two nodes.\n\n• There is at least one path between any two nodes.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countRestrictedPaths(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Run a Dijkstra from node numbered n to compute distance from the last node.",
+    "Consider all edges [u, v] one by one and direct them such that distance of u to n > distance of v to n. If both u and v are at the same distance from n, discard this edge.",
+    "Now this problem reduces to computing the number of paths from 1 to n in a DAG, a standard DP problem."
+  ],
+  "testCases": [
+    [
+      "5",
+      "[[1,2,3],[1,3,3],[2,3,1],[1,4,2],[5,2,2],[3,5,1],[5,4,10]]"
+    ],
+    [
+      "7",
+      "[[1,3,1],[4,1,2],[7,3,4],[2,5,3],[5,6,1],[6,7,2],[7,5,3],[2,6,4]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"All Ancestors of a Node in a Directed Acyclic Graph\", \"titleSlug\": \"all-ancestors-of-a-node-in-a-directed-acyclic-graph\", \"difficulty\": \"Medium\"}, {\"title\": \"Design Graph With Shortest Path Calculator\", \"titleSlug\": \"design-graph-with-shortest-path-calculator\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Cost of a Path With Special Roads\", \"titleSlug\": \"minimum-cost-of-a-path-with-special-roads\", \"difficulty\": \"Medium\"}]"
+}

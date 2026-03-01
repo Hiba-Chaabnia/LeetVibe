@@ -1,0 +1,47 @@
+{
+  "questionId": "506",
+  "title": "Relative Ranks",
+  "titleSlug": "relative-ranks",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given an integer array score of size n, where score[i] is the score of the ith athlete in a competition. All the scores are guaranteed to be unique.\n\nThe athletes are placed based on their scores, where the 1st place athlete has the highest score, the 2nd place athlete has the 2nd highest score, and so on. The placement of each athlete determines their rank:\n\n• The 1st place athlete's rank is \"Gold Medal\".\n\n• The 2nd place athlete's rank is \"Silver Medal\".\n\n• The 3rd place athlete's rank is \"Bronze Medal\".\n\n• For the 4th place to the nth place athlete, their rank is their placement number (i.e., the xth place athlete's rank is \"x\").\n\nReturn an array answer of size n where answer[i] is the rank of the ith athlete.\n\nExample 1:\n\nInput: score = [5,4,3,2,1]\nOutput: [\"Gold Medal\",\"Silver Medal\",\"Bronze Medal\",\"4\",\"5\"]\nExplanation: The placements are [1st, 2nd, 3rd, 4th, 5th].\n\nExample 2:\n\nInput: score = [10,3,8,9,4]\nOutput: [\"Gold Medal\",\"5\",\"Bronze Medal\",\"Silver Medal\",\"4\"]\nExplanation: The placements are [1st, 5th, 3rd, 2nd, 4th].\n\nConstraints:\n\n• n == score.length\n\n• 1 <= n <= 104\n\n• 0 <= score[i] <= 106\n\n• All the values in score are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findRelativeRanks(self, score):\n        \"\"\"\n        :type score: List[int]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[5,4,3,2,1]"
+    ],
+    [
+      "[10,3,8,9,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"Gold Medal\",\"Silver Medal\",\"Bronze Medal\",\"4\",\"5\"]",
+    "[\"Gold Medal\",\"5\",\"Bronze Medal\",\"Silver Medal\",\"4\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findRelativeRanks(self, score):\n        indexed_scores = [(s, i) for i, s in enumerate(score)]\n        indexed_scores.sort(reverse=True)\n        result = [''] * len(score)\n        medals = [\"Gold Medal\", \"Silver Medal\", \"Bronze Medal\"]\n        for rank, (s, idx) in enumerate(indexed_scores):\n            if rank < 3:\n                result[idx] = medals[rank]\n            else:\n                result[idx] = str(rank + 1)\n        return result",
+    "explanation": "Sort scores with indices. Assign medals or placement numbers based on rank.\nTime: O(n*log(n))\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

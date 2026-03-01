@@ -1,0 +1,54 @@
+{
+  "questionId": "2427",
+  "title": "First Letter to Appear Twice",
+  "titleSlug": "first-letter-to-appear-twice",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given a string s consisting of lowercase English letters, return the first letter to appear twice.\n\nNote:\n\n• A letter a appears twice before another letter b if the second occurrence of a is before the second occurrence of b.\n\n• s will contain at least one letter that appears twice.\n\nExample 1:\n\nInput: s = \"abccbaacz\"\nOutput: \"c\"\nExplanation:\n    The letter 'a' appears on the indexes 0, 5 and 6.\n    The letter 'b' appears on the indexes 1 and 4.\n    The letter 'c' appears on the indexes 2, 3 and 7.\n    The letter 'z' appears on the index 8.\n    The letter 'c' is the first letter to appear twice, because out of all the letters the index of its second occurrence is the smallest.\n\nExample 2:\n\nInput: s = \"abcdd\"\nOutput: \"d\"\nExplanation:\n    The only letter that appears twice is 'd' so we return 'd'.\n\nConstraints:\n\n• 2 <= s.length <= 100\n\n• s consists of lowercase English letters.\n\n• s has at least one repeated letter.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def repeatedCharacter(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate through the string from left to right. Keep track of the elements you have already seen in a set.",
+    "If the current element is already in the set, return that element."
+  ],
+  "testCases": [
+    [
+      "\"abccbaacz\""
+    ],
+    [
+      "\"abcdd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"c\"",
+    "\"d\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def repeatedCharacter(self, s):\n        seen = set()\n        for char in s:\n            if char in seen:\n                return char\n            seen.add(char)\n        return ''",
+    "explanation": "Track seen characters. Return first one that appears again.\nTime: O(n)\nSpace: O(26)"
+  },
+  "similarQuestions": "[{\"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"First Unique Character in a String\", \"titleSlug\": \"first-unique-character-in-a-string\", \"difficulty\": \"Easy\"}]"
+}

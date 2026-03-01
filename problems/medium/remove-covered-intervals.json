@@ -1,0 +1,47 @@
+{
+  "questionId": "1222",
+  "title": "Remove Covered Intervals",
+  "titleSlug": "remove-covered-intervals",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array intervals where intervals[i] = [li, ri] represent the interval [li, ri), remove all intervals that are covered by another interval in the list.\n\nThe interval [a, b) is covered by the interval [c, d) if and only if c <= a and b <= d.\n\nReturn the number of remaining intervals.\n\nExample 1:\n\nInput: intervals = [[1,4],[3,6],[2,8]]\nOutput: 2\nExplanation: Interval [3,6] is covered by [2,8], therefore it is removed.\n\nExample 2:\n\nInput: intervals = [[1,4],[2,3]]\nOutput: 1\n\nConstraints:\n\n• 1 <= intervals.length <= 1000\n\n• intervals[i].length == 2\n\n• 0 <= li < ri <= 105\n\n• All the given intervals are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeCoveredIntervals(self, intervals):\n        \"\"\"\n        :type intervals: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How to check if an interval is covered by another?",
+    "Compare each interval to all others and check if it is covered by any interval."
+  ],
+  "testCases": [
+    [
+      "[[1,4],[3,6],[2,8]]"
+    ],
+    [
+      "[[1,4],[2,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def removeCoveredIntervals(self, intervals):\n        \"\"\"\n        :type intervals: List[List[int]]\n        :rtype: int\n        \"\"\"\n        intervals.sort(key=lambda x: (x[0], -x[1]))\n        \n        count = 0\n        prev_end = 0\n        \n        for start, end in intervals:\n            # If current interval extends beyond previous, it's not covered\n            if end > prev_end:\n                count += 1\n                prev_end = end\n        \n        return count",
+    "explanation": "Sort by start asc, end desc. Count intervals where end > max previous end.",
+    "complexity": "Time: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

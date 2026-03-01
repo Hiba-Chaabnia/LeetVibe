@@ -1,0 +1,50 @@
+{
+  "questionId": "3019",
+  "title": "Furthest Point From Origin",
+  "titleSlug": "furthest-point-from-origin",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string moves of length n consisting only of characters 'L', 'R', and '_'. The string represents your movement on a number line starting from the origin 0.\n\nIn the ith move, you can choose one of the following directions:\n\n• move to the left if moves[i] = 'L' or moves[i] = '_'\n\n• move to the right if moves[i] = 'R' or moves[i] = '_'\n\nReturn the distance from the origin of the furthest point you can get to after n moves.\n\nExample 1:\n\nInput: moves = \"L_RL__R\"\nOutput: 3\nExplanation: The furthest point we can reach from the origin 0 is point -3 through the following sequence of moves \"LLRLLLR\".\n\nExample 2:\n\nInput: moves = \"_R__LL_\"\nOutput: 5\nExplanation: The furthest point we can reach from the origin 0 is point -5 through the following sequence of moves \"LRLLLLL\".\n\nExample 3:\n\nInput: moves = \"_______\"\nOutput: 7\nExplanation: The furthest point we can reach from the origin 0 is point 7 through the following sequence of moves \"RRRRRRR\".\n\nConstraints:\n\n• 1 <= moves.length == n <= 50\n\n• moves consists only of characters 'L', 'R' and '_'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def furthestDistanceFromOrigin(self, moves):\n        \"\"\"\n        :type moves: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "In an optimal answer, all occurrences of '_’ will be replaced with the <strong>same</strong> character.",
+    "Replace all characters of '_’ with the character that occurs the most. "
+  ],
+  "testCases": [
+    [
+      "\"L_RL__R\""
+    ],
+    [
+      "\"_R__LL_\""
+    ],
+    [
+      "\"_______\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5",
+    "7"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def furthestDistanceFromOrigin(self, moves):\n        l = moves.count('L')\n        r = moves.count('R')\n        wild = moves.count('_')\n        return abs(r - l) + wild",
+    "explanation": "The fixed moves give a net displacement; all wildcards can be assigned to the dominant direction to extend it maximally. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Robot Return to Origin\", \"titleSlug\": \"robot-return-to-origin\", \"difficulty\": \"Easy\"}]"
+}

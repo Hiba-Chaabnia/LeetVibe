@@ -1,0 +1,61 @@
+{
+  "questionId": "1777",
+  "title": "Determine if Two Strings Are Close",
+  "titleSlug": "determine-if-two-strings-are-close",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Two strings are considered close if you can attain one from the other using the following operations:\n\n• Operation 1: Swap any two existing characters.\n\n• For example, abcde -> aecdb\n\n• Operation 2: Transform every occurrence of one existing character into another existing character, and do the same with the other character.\n\n• For example, aacabb -> bbcbaa (all a's turn into b's, and all b's turn into a's)\n\nYou can use the operations on either string as many times as necessary.\n\nGiven two strings, word1 and word2, return true if word1 and word2 are close, and false otherwise.\n\nExample 1:\n\nInput: word1 = \"abc\", word2 = \"bca\"\nOutput: true\nExplanation: You can attain word2 from word1 in 2 operations.\n    Apply Operation 1: \"abc\" -> \"acb\"\n    Apply Operation 1: \"acb\" -> \"bca\"\n\nExample 2:\n\nInput: word1 = \"a\", word2 = \"aa\"\nOutput: false\nExplanation: It is impossible to attain word2 from word1, or vice versa, in any number of operations.\n\nExample 3:\n\nInput: word1 = \"cabbba\", word2 = \"abbccc\"\nOutput: true\nExplanation: You can attain word2 from word1 in 3 operations.\n    Apply Operation 1: \"cabbba\" -> \"caabbb\"\n    Apply Operation 2: \"caabbb\" -> \"baaccc\"\n    Apply Operation 2: \"baaccc\" -> \"abbccc\"\n\nConstraints:\n\n• 1 <= word1.length, word2.length <= 105\n\n• word1 and word2 contain only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def closeStrings(self, word1, word2):\n        \"\"\"\n        :type word1: str\n        :type word2: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Operation 1 allows you to freely reorder the string.",
+    "Operation 2 allows you to freely reassign the letters' frequencies."
+  ],
+  "testCases": [
+    [
+      "\"abc\"",
+      "\"bca\""
+    ],
+    [
+      "\"a\"",
+      "\"aa\""
+    ],
+    [
+      "\"cabbba\"",
+      "\"abbccc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def closeStrings(self, word1, word2):\n        if set(word1) != set(word2):\n            return False\n        from collections import Counter\n        return sorted(Counter(word1).values()) == sorted(Counter(word2).values())",
+    "explanation": "Same characters required. Same frequency multiset required.\nTime: O(n*log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Buddy Strings\", \"titleSlug\": \"buddy-strings\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Swaps to Make Strings Equal\", \"titleSlug\": \"minimum-swaps-to-make-strings-equal\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Steps to Make Two Strings Anagram\", \"titleSlug\": \"minimum-number-of-steps-to-make-two-strings-anagram\", \"difficulty\": \"Medium\"}]"
+}

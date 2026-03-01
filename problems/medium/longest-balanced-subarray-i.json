@@ -1,0 +1,62 @@
+{
+  "questionId": "4045",
+  "title": "Longest Balanced Subarray I",
+  "titleSlug": "longest-balanced-subarray-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nA subarray is called balanced if the number of distinct even numbers in the subarray is equal to the number of distinct odd numbers.\n\nReturn the length of the longest balanced subarray.\n\nExample 1:\n\nInput: nums = [2,5,4,3]\n\nOutput: 4\n\nExplanation:\n\n• The longest balanced subarray is [2, 5, 4, 3].\n\n• It has 2 distinct even numbers [2, 4] and 2 distinct odd numbers [5, 3]. Thus, the answer is 4.\n\nExample 2:\n\nInput: nums = [3,2,2,5,4]\n\nOutput: 5\n\nExplanation:\n\n• The longest balanced subarray is [3, 2, 2, 5, 4].\n\n• It has 2 distinct even numbers [2, 4] and 2 distinct odd numbers [3, 5]. Thus, the answer is 5.\n\nExample 3:\n\nInput: nums = [1,2,3,2]\n\nOutput: 3\n\nExplanation:\n\n• The longest balanced subarray is [2, 3, 2].\n\n• It has 1 distinct even number [2] and 1 distinct odd number [3]. Thus, the answer is 3.\n\nConstraints:\n\n• 1 <= nums.length <= 1500\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestBalanced(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use brute force",
+    "Try every subarray and use a map/set data structure to track the distinct even and odd numbers"
+  ],
+  "testCases": [
+    [
+      "[2,5,4,3]"
+    ],
+    [
+      "[3,2,2,5,4]"
+    ],
+    [
+      "[1,2,3,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "5",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def longestBalanced(self, nums):\n        n = len(nums)\n        best = 0\n        for i in range(n):\n            evens, odds = set(), set()\n            for j in range(i, n):\n                v = nums[j]\n                if v % 2 == 0:\n                    evens.add(v)\n                else:\n                    odds.add(v)\n                if len(evens) == len(odds):\n                    best = max(best, j - i + 1)\n        return best",
+    "explanation": "Brute force O(n²): for each starting index i, expand right tracking distinct even and odd values. Update best when counts are equal.\n\nTime: O(n²). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

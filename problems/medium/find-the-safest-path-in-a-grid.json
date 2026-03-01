@@ -1,0 +1,68 @@
+{
+  "questionId": "2914",
+  "title": "Find the Safest Path in a Grid",
+  "titleSlug": "find-the-safest-path-in-a-grid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a 0-indexed 2D matrix grid of size n x n, where (r, c) represents:\n\n• A cell containing a thief if grid[r][c] = 1\n\n• An empty cell if grid[r][c] = 0\n\nYou are initially positioned at cell (0, 0). In one move, you can move to any adjacent cell in the grid, including cells containing thieves.\n\nThe safeness factor of a path on the grid is defined as the minimum manhattan distance from any cell in the path to any thief in the grid.\n\nReturn the maximum safeness factor of all paths leading to cell (n - 1, n - 1).\n\nAn adjacent cell of cell (r, c), is one of the cells (r, c + 1), (r, c - 1), (r + 1, c) and (r - 1, c) if it exists.\n\nThe Manhattan distance between two cells (a, b) and (x, y) is equal to |a - x| + |b - y|, where |val| denotes the absolute value of val.\n\nExample 1:\n\nInput: grid = [[1,0,0],[0,0,0],[0,0,1]]\nOutput: 0\nExplanation: All paths from (0, 0) to (n - 1, n - 1) go through the thieves in cells (0, 0) and (n - 1, n - 1).\n\nExample 2:\n\nInput: grid = [[0,0,1],[0,0,0],[0,0,0]]\nOutput: 2\nExplanation: The path depicted in the picture above has a safeness factor of 2 since:\n    - The closest cell of the path to the thief at cell (0, 2) is cell (0, 0). The distance between them is | 0 - 0 | + | 0 - 2 | = 2.\n    It can be shown that there are no other paths with a higher safeness factor.\n\nExample 3:\n\nInput: grid = [[0,0,0,1],[0,0,0,0],[0,0,0,0],[1,0,0,0]]\nOutput: 2\nExplanation: The path depicted in the picture above has a safeness factor of 2 since:\n    - The closest cell of the path to the thief at cell (0, 3) is cell (1, 2). The distance between them is | 0 - 1 | + | 3 - 2 | = 2.\n    - The closest cell of the path to the thief at cell (3, 0) is cell (3, 2). The distance between them is | 3 - 3 | + | 0 - 2 | = 2.\n    It can be shown that there are no other paths with a higher safeness factor.\n\nConstraints:\n\n• 1 <= grid.length == n <= 400\n\n• grid[i].length == n\n\n• grid[i][j] is either 0 or 1.\n\n• There is at least one thief in the grid.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumSafenessFactor(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider using both BFS and binary search together.",
+    "Launch a BFS starting from all the cells containing thieves to calculate d[x][y] which is the smallest Manhattan distance from (x, y) to the nearest grid that contains thieves.",
+    "To check if the bottom-right cell of the grid can be reached through a path of safeness factor v, eliminate all cells (x, y) such that grid[x][y]  < v. if (0, 0) and (n - 1, n - 1) are still connected, there exists a path between (0, 0) and (n - 1, n - 1) of safeness factor v.",
+    "Binary search over the final safeness factor v."
+  ],
+  "testCases": [
+    [
+      "[[1,0,0],[0,0,0],[0,0,1]]"
+    ],
+    [
+      "[[0,0,1],[0,0,0],[0,0,0]]"
+    ],
+    [
+      "[[0,0,0,1],[0,0,0,0],[0,0,0,0],[1,0,0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumSafenessFactor(self, grid):\n        from collections import deque\n        n = len(grid)\n        multi_source_bfs = deque()\n        dist = [[float('inf')] * n for _ in range(n)]\n        for i in range(n):\n            for j in range(n):\n                if grid[i][j] == 1:\n                    dist[i][j] = 0\n                    multi_source_bfs.append((i, j))\n        while multi_source_bfs:\n            r, c = multi_source_bfs.popleft()\n            for dr, dc in [(0,1), (1,0), (0,-1), (-1,0)]:\n                nr, nc = r + dr, c + dc\n                if 0 <= nr < n and 0 <= nc < n and dist[nr][nc] > dist[r][c] + 1:\n                    dist[nr][nc] = dist[r][c] + 1\n                    multi_source_bfs.append((nr, nc))\n        def can_reach(min_safe):\n            if dist[0][0] < min_safe:\n                return False\n            visited = set([(0, 0)])\n            q = deque([(0, 0)])\n            while q:\n                r, c = q.popleft()\n                if r == n - 1 and c == n - 1:\n                    return True\n                for dr, dc in [(0,1), (1,0), (0,-1), (-1,0)]:\n                    nr, nc = r + dr, c + dc\n                    if 0 <= nr < n and 0 <= nc < n and (nr, nc) not in visited and dist[nr][nc] >= min_safe:\n                        visited.add((nr, nc))\n                        q.append((nr, nc))\n            return False\n        left, right = 0, 2 * n\n        result = 0\n        while left <= right:\n            mid = (left + right) // 2\n            if can_reach(mid):\n                result = mid\n                left = mid + 1\n            else:\n                right = mid - 1\n        return result",
+    "explanation": "Multi-source BFS for distances to thieves. Binary search on safeness factor.\nTime: O(n² log n)\nSpace: O(n²)"
+  },
+  "similarQuestions": "[{\"title\": \"Path With Minimum Effort\", \"titleSlug\": \"path-with-minimum-effort\", \"difficulty\": \"Medium\"}]"
+}

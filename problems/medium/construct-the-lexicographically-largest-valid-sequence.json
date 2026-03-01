@@ -1,0 +1,45 @@
+{
+  "questionId": "1819",
+  "title": "Construct the Lexicographically Largest Valid Sequence",
+  "titleSlug": "construct-the-lexicographically-largest-valid-sequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "Given an integer n, find a sequence with elements in the range [1, n] that satisfies all of the following:\n\n• The integer 1 occurs once in the sequence.\n\n• Each integer between 2 and n occurs twice in the sequence.\n\n• For every integer i between 2 and n, the distance between the two occurrences of i is exactly i.\n\nThe distance between two numbers on the sequence, a[i] and a[j], is the absolute difference of their indices, |j - i|.\n\nReturn the lexicographically largest sequence. It is guaranteed that under the given constraints, there is always a solution.\n\nA sequence a is lexicographically larger than a sequence b (of the same length) if in the first position where a and b differ, sequence a has a number greater than the corresponding number in b. For example, [0,1,9,0] is lexicographically larger than [0,1,5,6] because the first position they differ is at the third number, and 9 is greater than 5.\n\nExample 1:\n\nInput: n = 3\nOutput: [3,1,2,3,2]\nExplanation: [2,3,2,1,3] is also a valid sequence, but [3,1,2,3,2] is the lexicographically largest valid sequence.\n\nExample 2:\n\nInput: n = 5\nOutput: [5,3,1,4,3,5,2,4,2]\n\nConstraints:\n\n• 1 <= n <= 20",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def constructDistancedSequence(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Heuristic algorithm may work."
+  ],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,1,2,3,2]",
+    "[5,3,1,4,3,5,2,4,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def constructDistancedSequence(self, n: int) -> List[int]:\n        res = [0] * (2 * n - 1)\n\n        def backtrack(i, unused):\n            if i == len(res):\n                return True\n            if res[i]:\n                return backtrack(i + 1, unused)\n            for num in range(n, 0, -1):\n                if (unused >> num) & 1:\n                    if num == 1 or (i + num < len(res) and not res[i + num]):\n                        res[i] = num\n                        if num > 1:\n                            res[i + num] = num\n                        if backtrack(i + 1, unused ^ (1 << num)):\n                            return True\n                        res[i] = 0\n                        if num > 1:\n                            res[i + num] = 0\n            return False\n\n        backtrack(0, (1 << (n + 1)) - 2)\n        return res",
+    "explanation": "The algorithm is based on a depth-first search and backtracking. Create an empty result array `res` with a length of `2 * n - 1` and fill it with zeros. The `dfs` function takes two parameters: the current index `i` and a bitmask `unused` that represents the unused numbers from `1` to `n`. The bitmask is initialized as `(1 << (n + 1)) - 2`.\n\nIn the `dfs` function, if the current index `i` reaches the length of `res`, we've found a valid sequence and return `true`. If the current position of `res[i]` is already filled (non-zero), we move forward and call `dfs` recursively with `i + 1`. \n\nFor each remaining number from `n` down to `1`, we check if it is still unused by checking the corresponding bit in the `unused` bitmask. If the number is unused and either the number is `1` or there's available space in the result array to place it, we mark the positions in the result array and update the bitmask. We then call `dfs` recursively with `i + 1` and the updated bitmask. If the recursive call returns `true`, we've found a valid sequence and return `true` immediately.\n\nIf none of the remaining numbers can be placed, perform the backtracking by resetting the positions in the result array, undoing the bitmask changes, and then return `false`.\n\nCall the `dfs` function initially with `0` as the starting index and the initialized `unused` bitmask. Finally, return the result array `res` as the lexicographically largest valid sequence."
+  },
+  "similarQuestions": "[{\"title\": \"The Number of Beautiful Subsets\", \"titleSlug\": \"the-number-of-beautiful-subsets\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Lexicographically Largest String From the Box I\", \"titleSlug\": \"find-the-lexicographically-largest-string-from-the-box-i\", \"difficulty\": \"Medium\"}]"
+}

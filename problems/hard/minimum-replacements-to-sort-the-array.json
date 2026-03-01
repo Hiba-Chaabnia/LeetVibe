@@ -1,0 +1,46 @@
+{
+  "questionId": "2450",
+  "title": "Minimum Replacements to Sort the Array",
+  "titleSlug": "minimum-replacements-to-sort-the-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. In one operation you can replace any element of the array with any two elements that sum to it.\n\n• For example, consider nums = [5,6,7]. In one operation, we can replace nums[1] with 2 and 4 and convert nums to [5,2,4,7].\n\nReturn the minimum number of operations to make an array that is sorted in non-decreasing order.\n\nExample 1:\n\nInput: nums = [3,9,3]\nOutput: 2\nExplanation: Here are the steps to sort the array in non-decreasing order:\n    - From [3,9,3], replace the 9 with 3 and 6 so the array becomes [3,3,6,3]\n    - From [3,3,6,3], replace the 6 with 3 and 3 so the array becomes [3,3,3,3,3]\n    There are 2 steps to sort the array in non-decreasing order. Therefore, we return 2.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5]\nOutput: 0\nExplanation: The array is already in non-decreasing order. Therefore, we return 0.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumReplacement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It is optimal to never make an operation to the last element of the array.",
+    "You can iterate from the second last element to the first. If the current value is greater than the previous bound, we want to break it into pieces so that the smaller one is as large as possible but not larger than the previous one."
+  ],
+  "testCases": [
+    [
+      "[3,9,3]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Operations to Make the Array Increasing\", \"titleSlug\": \"minimum-operations-to-make-the-array-increasing\", \"difficulty\": \"Easy\"}]"
+}

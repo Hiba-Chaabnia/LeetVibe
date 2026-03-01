@@ -1,0 +1,59 @@
+{
+  "questionId": "1473",
+  "title": "Find the Longest Substring Containing Vowels in Even Counts",
+  "titleSlug": "find-the-longest-substring-containing-vowels-in-even-counts",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given the string s, return the size of the longest substring containing each vowel an even number of times. That is, 'a', 'e', 'i', 'o', and 'u' must appear an even number of times.\n\nExample 1:\n\nInput: s = \"eleetminicoworoep\"\nOutput: 13\nExplanation: The longest substring is \"leetminicowor\" which contains two each of the vowels: e, i and o and zero of the vowels: a and u.\n\nExample 2:\n\nInput: s = \"leetcodeisgreat\"\nOutput: 5\nExplanation: The longest substring is \"leetc\" which contains two e's.\n\nExample 3:\n\nInput: s = \"bcbcbc\"\nOutput: 6\nExplanation: In this case, the given string \"bcbcbc\" is the longest because all vowels: a, e, i, o and u appear zero times.\n\nConstraints:\n\n• 1 <= s.length <= 5 x 10^5\n\n• s contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findTheLongestSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Represent the counts (odd or even) of vowels with a bitmask.",
+    "Precompute the prefix xor for the bitmask of vowels and then get the longest valid substring."
+  ],
+  "testCases": [
+    [
+      "\"eleetminicoworoep\""
+    ],
+    [
+      "\"leetcodeisgreat\""
+    ],
+    [
+      "\"bcbcbc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "5",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def findTheLongestSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        # Use bitmask for vowel parity\n        vowels = \"aeiou\"\n        state = 0\n        seen = {0: -1}  # state: earliest index\n        max_len = 0\n        \n        for i, char in enumerate(s):\n            if char in vowels:\n                idx = vowels.index(char)\n                state ^= (1 << idx)  # Toggle bit\n            \n            if state in seen:\n                max_len = max(max_len, i - seen[state])\n            else:\n                seen[state] = i\n        \n        return max_len",
+    "explanation": "Use 5-bit bitmask to track parity of each vowel. When same state repeats, substring between has all vowels with even count.",
+    "complexity": "Time: O(n). Space: O(1) - at most 2^5=32 states."
+  },
+  "similarQuestions": "[]"
+}

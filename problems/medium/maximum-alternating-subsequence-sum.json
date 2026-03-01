@@ -1,0 +1,46 @@
+{
+  "questionId": "2022",
+  "title": "Maximum Alternating Subsequence Sum",
+  "titleSlug": "maximum-alternating-subsequence-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "The alternating sum of a 0-indexed array is defined as the sum of the elements at even indices minus the sum of the elements at odd indices.\n\n• For example, the alternating sum of [4,2,5,3] is (4 + 5) - (2 + 3) = 4.\n\nGiven an array nums, return the maximum alternating sum of any subsequence of nums (after reindexing the elements of the subsequence).\n\nA subsequence of an array is a new array generated from the original array by deleting some elements (possibly none) without changing the remaining elements' relative order. For example, [2,7,4] is a subsequence of [4,2,3,7,2,1,4] (the underlined elements), while [2,4,2] is not.\n\nExample 1:\n\nInput: nums = [4,2,5,3]\nOutput: 7\nExplanation: It is optimal to choose the subsequence [4,2,5] with alternating sum (4 + 5) - 2 = 7.\n\nExample 2:\n\nInput: nums = [5,6,7,8]\nOutput: 8\nExplanation: It is optimal to choose the subsequence [8] with alternating sum 8.\n\nExample 3:\n\nInput: nums = [6,2,1,2,4,5]\nOutput: 10\nExplanation: It is optimal to choose the subsequence [6,1,5] with alternating sum (6 + 5) - 1 = 10.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\r\n    def maxAlternatingSum(self, nums):\r\n        \"\"\"\r\n        :type nums: List[int]\r\n        :rtype: int\r\n        \"\"\""
+    }
+  ],
+  "hints": [
+    "Is only tracking a single sum enough to solve the problem?",
+    "How does tracking an odd sum and an even sum reduce the number of states?"
+  ],
+  "testCases": [
+    [
+      "[4,2,5,3]"
+    ],
+    [
+      "[5,6,7,8]"
+    ],
+    [
+      "[6,2,1,2,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "8",
+    "10"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Alternating Subarray Sum\", \"titleSlug\": \"maximum-alternating-subarray-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Element-Sum of a Complete Subset of Indices\", \"titleSlug\": \"maximum-element-sum-of-a-complete-subset-of-indices\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Product of Subsequences With an Alternating Sum Equal to K\", \"titleSlug\": \"maximum-product-of-subsequences-with-an-alternating-sum-equal-to-k\", \"difficulty\": \"Hard\"}]"
+}

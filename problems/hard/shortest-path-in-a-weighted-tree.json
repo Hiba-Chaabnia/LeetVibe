@@ -1,0 +1,69 @@
+{
+  "questionId": "3829",
+  "title": "Shortest Path in a Weighted Tree",
+  "titleSlug": "shortest-path-in-a-weighted-tree",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "You are given an integer n and an undirected, weighted tree rooted at node 1 with n nodes numbered from 1 to n. This is represented by a 2D array edges of length n - 1, where edges[i] = [ui, vi, wi] indicates an undirected edge from node ui to vi with weight wi.\n\nYou are also given a 2D integer array queries of length q, where each queries[i] is either:\n\n• [1, u, v, w'] – Update the weight of the edge between nodes u and v to w', where (u, v) is guaranteed to be an edge present in edges.\n\n• [2, x] – Compute the shortest path distance from the root node 1 to node x.\n\nReturn an integer array answer, where answer[i] is the shortest path distance from node 1 to x for the ith query of [2, x].\n\nExample 1:\n\nInput: n = 2, edges = [[1,2,7]], queries = [[2,2],[1,1,2,4],[2,2]]\n\nOutput: [7,4]\n\nExplanation:\n\n• Query [2,2]: The shortest path from root node 1 to node 2 is 7.\n\n• Query [1,1,2,4]: The weight of edge (1,2) changes from 7 to 4.\n\n• Query [2,2]: The shortest path from root node 1 to node 2 is 4.\n\nExample 2:\n\nInput: n = 3, edges = [[1,2,2],[1,3,4]], queries = [[2,1],[2,3],[1,1,3,7],[2,2],[2,3]]\n\nOutput: [0,4,2,7]\n\nExplanation:\n\n• Query [2,1]: The shortest path from root node 1 to node 1 is 0.\n\n• Query [2,3]: The shortest path from root node 1 to node 3 is 4.\n\n• Query [1,1,3,7]: The weight of edge (1,3) changes from 4 to 7.\n\n• Query [2,2]: The shortest path from root node 1 to node 2 is 2.\n\n• Query [2,3]: The shortest path from root node 1 to node 3 is 7.\n\nExample 3:\n\nInput: n = 4, edges = [[1,2,2],[2,3,1],[3,4,5]], queries = [[2,4],[2,3],[1,2,3,3],[2,2],[2,3]]\n\nOutput: [8,3,2,5]\n\nExplanation:\n\n• Query [2,4]: The shortest path from root node 1 to node 4 consists of edges (1,2), (2,3), and (3,4) with weights 2 + 1 + 5 = 8.\n\n• Query [2,3]: The shortest path from root node 1 to node 3 consists of edges (1,2) and (2,3) with weights 2 + 1 = 3.\n\n• Query [1,2,3,3]: The weight of edge (2,3) changes from 1 to 3.\n\n• Query [2,2]: The shortest path from root node 1 to node 2 is 2.\n\n• Query [2,3]: The shortest path from root node 1 to node 3 consists of edges (1,2) and (2,3) with updated weights 2 + 3 = 5.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• edges.length == n - 1\n\n• edges[i] == [ui, vi, wi]\n\n• 1 <= ui, vi <= n\n\n• 1 <= wi <= 104\n\n• The input is generated such that edges represents a valid tree.\n\n• 1 <= queries.length == q <= 105\n\n• queries[i].length == 2 or 4\n\n• queries[i] == [1, u, v, w'] or,\n\n• queries[i] == [2, x]\n\n• 1 <= u, v, x <= n\n\n• (u, v) is always an edge from edges.\n\n• 1 <= w' <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def treeQueries(self, n, edges, queries):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use an Euler tour to flatten the tree into an array so each node’s subtree corresponds to a contiguous segment.",
+    "Build a segment tree over this Euler tour to support efficient range updates and point queries.",
+    "For an update query [1, u, v, w'], adjust the distance for all descendants by applying a delta update to the corresponding range in the flattened array."
+  ],
+  "testCases": [
+    [
+      "2",
+      "[[1,2,7]]",
+      "[[2,2],[1,1,2,4],[2,2]]"
+    ],
+    [
+      "3",
+      "[[1,2,2],[1,3,4]]",
+      "[[2,1],[2,3],[1,1,3,7],[2,2],[2,3]]"
+    ],
+    [
+      "4",
+      "[[1,2,2],[2,3,1],[3,4,5]]",
+      "[[2,4],[2,3],[1,2,3,3],[2,2],[2,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[7,4]",
+    "[0,4,2,7]",
+    "[8,3,2,5]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def treeQueries(self, n, edges, queries):\n        adj = defaultdict(list)\n        for u, v, w in edges:\n            adj[u].append((v, w))\n            adj[v].append((u, w))\n        # Euler tour: each node's subtree = contiguous range [tin, tout]\n        tin = [0] * (n + 1)\n        tout = [0] * (n + 1)\n        parent = [0] * (n + 1)\n        parent_weight = [0] * (n + 1)\n        dist = [0] * (n + 1)  # initial dist from root 1\n        timer = [0]\n        order = []\n        stack = [(1, 0, 0)]\n        visited = [False] * (n + 1)\n        visited[1] = True\n        # Iterative DFS with post-order tracking\n        stk = [(1, 0, 0, False)]\n        while stk:\n            u, p, w, post = stk.pop()\n            if post:\n                tout[u] = timer[0]\n                continue\n            timer[0] += 1\n            tin[u] = timer[0]\n            order.append(u)\n            parent[u] = p\n            parent_weight[u] = w\n            if p:\n                dist[u] = dist[p] + w\n            stk.append((u, p, w, True))\n            for v, wv in adj[u]:\n                if v != p:\n                    stk.append((v, u, wv, False))\n        # Segment tree with lazy range-add, point-query\n        lazy = [0] * (4 * (n + 1))\n        def update(node, lo, hi, l, r, val):\n            if r < lo or hi < l:\n                return\n            if l <= lo and hi <= r:\n                lazy[node] += val\n                return\n            mid = (lo + hi) >> 1\n            update(2*node, lo, mid, l, r, val)\n            update(2*node+1, mid+1, hi, l, r, val)\n        def query(node, lo, hi, pos):\n            if lo == hi:\n                return lazy[node]\n            mid = (lo + hi) >> 1\n            if pos <= mid:\n                return lazy[node] + query(2*node, lo, mid, pos)\n            return lazy[node] + query(2*node+1, mid+1, hi, pos)\n        # Map edge to its child node\n        edge_child = {}\n        for u, v, w in edges:\n            if parent[v] == u:\n                edge_child[(u, v)] = v\n                edge_child[(v, u)] = v\n            else:\n                edge_child[(u, v)] = u\n                edge_child[(v, u)] = u\n        cur_weight = {}\n        for u, v, w in edges:\n            child = edge_child[(u, v)]\n            cur_weight[(min(u,v), max(u,v))] = w\n        result = []\n        for q in queries:\n            if q[0] == 2:\n                x = q[1]\n                result.append(dist[x] + query(1, 1, n, tin[x]))\n            else:\n                _, u, v, new_w = q\n                key = (min(u,v), max(u,v))\n                child = edge_child[(u, v)]\n                old_w = cur_weight[key]\n                delta = new_w - old_w\n                cur_weight[key] = new_w\n                update(1, 1, n, tin[child], tout[child], delta)\n        return result",
+    "explanation": "Euler tour maps each node's subtree to a contiguous range [tin, tout]. Segment tree with lazy range-add supports: update edge (u,v,w') as range-add(delta) on child's subtree range; query node x as dist[x] + point_query(tin[x]). The delta propagates correctly to all descendants.\n\nTime: O((n + q) log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

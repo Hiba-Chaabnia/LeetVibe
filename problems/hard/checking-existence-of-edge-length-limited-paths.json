@@ -1,0 +1,61 @@
+{
+  "questionId": "1815",
+  "title": "Checking Existence of Edge Length Limited Paths",
+  "titleSlug": "checking-existence-of-edge-length-limited-paths",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "An undirected graph of n nodes is defined by edgeList, where edgeList[i] = [ui, vi, disi] denotes an edge between nodes ui and vi with distance disi. Note that there may be multiple edges between two nodes.\n\nGiven an array queries, where queries[j] = [pj, qj, limitj], your task is to determine for each queries[j] whether there is a path between pj and qj such that each edge on the path has a distance strictly less than limitj .\n\nReturn a boolean array answer, where answer.length == queries.length and the jth value of answer is true if there is a path for queries[j] is true, and false otherwise.\n\nExample 1:\n\nInput: n = 3, edgeList = [[0,1,2],[1,2,4],[2,0,8],[1,0,16]], queries = [[0,1,2],[0,2,5]]\nOutput: [false,true]\nExplanation: The above figure shows the given graph. Note that there are two overlapping edges between 0 and 1 with distances 2 and 16.\n    For the first query, between 0 and 1 there is no path where each distance is less than 2, thus we return false for this query.\n    For the second query, there is a path (0 -> 1 -> 2) of two edges with distances less than 5, thus we return true for this query.\n\nExample 2:\n\nInput: n = 5, edgeList = [[0,1,10],[1,2,5],[2,3,9],[3,4,13]], queries = [[0,4,14],[1,4,13]]\nOutput: [true,false]\nExplanation: The above figure shows the given graph.\n\nConstraints:\n\n• 2 <= n <= 105\n\n• 1 <= edgeList.length, queries.length <= 105\n\n• edgeList[i].length == 3\n\n• queries[j].length == 3\n\n• 0 <= ui, vi, pj, qj <= n - 1\n\n• ui != vi\n\n• pj != qj\n\n• 1 <= disi, limitj <= 109\n\n• There may be multiple edges between two nodes.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def distanceLimitedPathsExist(self, n, edgeList, queries):\n        \"\"\"\n        :type n: int\n        :type edgeList: List[List[int]]\n        :type queries: List[List[int]]\n        :rtype: List[bool]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "All the queries are given in advance. Is there a way you can reorder the queries to avoid repeated computations?"
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[0,1,2],[1,2,4],[2,0,8],[1,0,16]]",
+      "[[0,1,2],[0,2,5]]"
+    ],
+    [
+      "5",
+      "[[0,1,10],[1,2,5],[2,3,9],[3,4,13]]",
+      "[[0,4,14],[1,4,13]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[false,true]",
+    "[true,false]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def distanceLimitedPathsExist(self, n, edges, queries):\n        # Sort edges and queries, use Union-Find\n        edges.sort(key=lambda x: x[2])\n        queries = [(q[0], q[1], q[2], i) for i, q in enumerate(queries)]\n        queries.sort(key=lambda x: x[2])\n        \n        parent = list(range(n))\n        \n        def find(x):\n            if parent[x] != x:\n                parent[x] = find(parent[x])\n            return parent[x]\n        \n        def union(x, y):\n            px, py = find(x), find(y)\n            if px != py:\n                parent[px] = py\n        \n        result = [False] * len(queries)\n        edge_idx = 0\n        \n        for u, v, limit, q_idx in queries:\n            while edge_idx < len(edges) and edges[edge_idx][2] < limit:\n                a, b, _ = edges[edge_idx]\n                union(a, b)\n                edge_idx += 1\n            \n            result[q_idx] = find(u) == find(v)\n        \n        return result",
+    "explanation": "Sort edges by weight, process queries by limit. Union-Find for connectivity. Time: O((n+m)log(n+m) + qlogq)"
+  },
+  "similarQuestions": "[{\"title\": \"Checking Existence of Edge Length Limited Paths II\", \"titleSlug\": \"checking-existence-of-edge-length-limited-paths-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Good Paths\", \"titleSlug\": \"number-of-good-paths\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Score of a Path Between Two Cities\", \"titleSlug\": \"minimum-score-of-a-path-between-two-cities\", \"difficulty\": \"Medium\"}]"
+}

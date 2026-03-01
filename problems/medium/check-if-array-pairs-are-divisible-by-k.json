@@ -1,0 +1,58 @@
+{
+  "questionId": "1620",
+  "title": "Check If Array Pairs Are Divisible by k",
+  "titleSlug": "check-if-array-pairs-are-divisible-by-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an array of integers arr of even length n and an integer k.\n\nWe want to divide the array into exactly n / 2 pairs such that the sum of each pair is divisible by k.\n\nReturn true If you can find a way to do that or false otherwise.\n\nExample 1:\n\nInput: arr = [1,2,3,4,5,10,6,7,8,9], k = 5\nOutput: true\nExplanation: Pairs are (1,9),(2,8),(3,7),(4,6) and (5,10).\n\nExample 2:\n\nInput: arr = [1,2,3,4,5,6], k = 7\nOutput: true\nExplanation: Pairs are (1,6),(2,5) and(3,4).\n\nExample 3:\n\nInput: arr = [1,2,3,4,5,6], k = 10\nOutput: false\nExplanation: You can try all possible pairs to see that there is no way to divide arr into 3 pairs each with sum divisible by 10.\n\nConstraints:\n\n• arr.length == n\n\n• 1 <= n <= 105\n\n• n is even.\n\n• -109 <= arr[i] <= 109\n\n• 1 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canArrange(self, arr, k):\n        \"\"\"\n        :type arr: List[int]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep an array of the frequencies of ((x % k) + k) % k for each x in arr.",
+    "for each i in [0, k - 1] we need to check if freq[i] == freq[k - i]",
+    "Take care of the case when i == k - i and when i == 0"
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5,10,6,7,8,9]",
+      "5"
+    ],
+    [
+      "[1,2,3,4,5,6]",
+      "7"
+    ],
+    [
+      "[1,2,3,4,5,6]",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canArrange(self, arr, k):\n        from collections import Counter\n        cnt = Counter(x % k for x in arr)\n        for r in list(cnt.keys()):\n            if r == 0:\n                if cnt[r] % 2 != 0:\n                    return False\n            else:\n                if cnt[r] != cnt.get(k - r, 0):\n                    return False\n        return True",
+    "explanation": "Count remainders mod k; remainder r pairs with k-r; remainder 0 must have even count. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Count Array Pairs Divisible by K\", \"titleSlug\": \"count-array-pairs-divisible-by-k\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Deletions to Make Array Divisible\", \"titleSlug\": \"minimum-deletions-to-make-array-divisible\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Pairs That Form a Complete Day II\", \"titleSlug\": \"count-pairs-that-form-a-complete-day-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Pairs That Form a Complete Day I\", \"titleSlug\": \"count-pairs-that-form-a-complete-day-i\", \"difficulty\": \"Easy\"}]"
+}

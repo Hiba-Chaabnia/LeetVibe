@@ -1,0 +1,50 @@
+{
+  "questionId": "2050",
+  "title": "Count Good Numbers",
+  "titleSlug": "count-good-numbers",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "A digit string is good if the digits (0-indexed) at even indices are even and the digits at odd indices are prime (2, 3, 5, or 7).\n\n• For example, \"2582\" is good because the digits (2 and 8) at even positions are even and the digits (5 and 2) at odd positions are prime. However, \"3245\" is not good because 3 is at an even index but is not even.\n\nGiven an integer n, return the total number of good digit strings of length n. Since the answer may be large, return it modulo 109 + 7.\n\nA digit string is a string consisting of digits 0 through 9 that may contain leading zeros.\n\nExample 1:\n\nInput: n = 1\nOutput: 5\nExplanation: The good numbers of length 1 are \"0\", \"2\", \"4\", \"6\", \"8\".\n\nExample 2:\n\nInput: n = 4\nOutput: 400\n\nExample 3:\n\nInput: n = 50\nOutput: 564908303\n\nConstraints:\n\n• 1 <= n <= 1015",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countGoodNumbers(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Is there a formula we can use to find the count of all the good numbers?",
+    "Exponentiation can be done very fast if we looked at the binary bits of n."
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "4"
+    ],
+    [
+      "50"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "400",
+    "564908303"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countGoodNumbers(self, n):\n        MOD = 10**9 + 7\n        def power(base, exp, mod):\n            result = 1\n            while exp > 0:\n                if exp % 2 == 1:\n                    result = (result * base) % mod\n                exp //= 2\n                base = (base * base) % mod\n            return result\n        even_count = (n + 1) // 2\n        odd_count = n // 2\n        return (power(5, even_count, MOD) * power(4, odd_count, MOD)) % MOD",
+    "explanation": "Even positions: 5 choices (0,2,4,6,8). Odd positions: 4 choices (2,3,5,7).\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Count the Number of Arrays with K Matching Adjacent Elements\", \"titleSlug\": \"count-the-number-of-arrays-with-k-matching-adjacent-elements\", \"difficulty\": \"Hard\"}]"
+}

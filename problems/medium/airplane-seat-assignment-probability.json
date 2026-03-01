@@ -1,0 +1,55 @@
+{
+  "questionId": "1362",
+  "title": "Airplane Seat Assignment Probability",
+  "titleSlug": "airplane-seat-assignment-probability",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    },
+    {
+      "name": "Probability and Statistics",
+      "slug": "probability-and-statistics"
+    }
+  ],
+  "content": "n passengers board an airplane with exactly n seats. The first passenger has lost the ticket and picks a seat randomly. But after that, the rest of the passengers will:\n\n• Take their own seat if it is still available, and\n\n• Pick other seats randomly when they find their seat occupied\n\nReturn the probability that the nth person gets his own seat.\n\nExample 1:\n\nInput: n = 1\nOutput: 1.00000\nExplanation: The first person can only get the first seat.\n\nExample 2:\n\nInput: n = 2\nOutput: 0.50000\nExplanation: The second person has a probability of 0.5 to get the second seat (when first person gets the first seat).\n\nConstraints:\n\n• 1 <= n <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nthPersonGetsNthSeat(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let f(n) denote the probability of the n-th person getting correct seat in n-person case, then:\r\n\r\nf(1) = 1 (base case, trivial)\r\nf(2) = 1/2 (also trivial)",
+    "Try to calculate f(3), f(4), and f(5) using the base cases. What is the value of them?\r\nf(i) for i >= 2 will also be 1/2.",
+    "Try to proof why f(i) = 1/2 for i >= 2."
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "1.00000",
+    "0.50000"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def nthPersonGetsNthSeat(self, n):\n        if n == 1:\n            return 1.0\n        return 0.5",
+    "explanation": "Mathematical insight: Only persons 1 and n matter. Person 1 takes seat 1 (prob 0.5) or n (prob 0.5).\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

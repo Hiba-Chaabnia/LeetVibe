@@ -1,0 +1,53 @@
+{
+  "questionId": "3407",
+  "title": "Find All Possible Stable Binary Arrays II",
+  "titleSlug": "find-all-possible-stable-binary-arrays-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given 3 positive integers zero, one, and limit.\n\nA binary array arr is called stable if:\n\n• The number of occurrences of 0 in arr is exactly zero.\n\n• The number of occurrences of 1 in arr is exactly one.\n\n• Each subarray of arr with a size greater than limit must contain both 0 and 1.\n\nReturn the total number of stable binary arrays.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: zero = 1, one = 1, limit = 2\n\nOutput: 2\n\nExplanation: The two possible stable binary arrays are [1,0] and [0,1].\n\nExample 2:\n\nInput: zero = 1, one = 2, limit = 1\n\nOutput: 1\n\nExplanation: The only possible stable binary array is [1,0,1].\n\nExample 3:\n\nInput: zero = 3, one = 3, limit = 2\n\nOutput: 14\n\nExplanation: All the possible stable binary arrays are [0,0,1,0,1,1], [0,0,1,1,0,1], [0,1,0,0,1,1], [0,1,0,1,0,1], [0,1,0,1,1,0], [0,1,1,0,0,1], [0,1,1,0,1,0], [1,0,0,1,0,1], [1,0,0,1,1,0], [1,0,1,0,0,1], [1,0,1,0,1,0], [1,0,1,1,0,0], [1,1,0,0,1,0], and [1,1,0,1,0,0].\n\nConstraints:\n\n• 1 <= zero, one, limit <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfStableArrays(self, zero, one, limit):\n        \"\"\"\n        :type zero: int\n        :type one: int\n        :type limit: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let dp[x][y][z = 0/1] be the number of stable arrays with exactly x zeros, y ones, and the last element is z. (0 or 1).\r\ndp[x][y][0] + dp[x][y][1] is the answer for given (x, y).",
+    "If we have already placed x 1 and y 0, if we place a group of k 0, the number of ways is dp[x-k][y][1]. We can place a group with size i, where i varies from 1 to min(limit, zero - x).\r\nSimilarly, we can solve by placing a group of ones.",
+    "Speed up the calculation using prefix arrays to store the sum of dp states."
+  ],
+  "testCases": [
+    [
+      "1",
+      "1",
+      "2"
+    ],
+    [
+      "1",
+      "2",
+      "1"
+    ],
+    [
+      "3",
+      "3",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "14"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Contiguous Array\", \"titleSlug\": \"contiguous-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Binary Subarrays With Sum\", \"titleSlug\": \"binary-subarrays-with-sum\", \"difficulty\": \"Medium\"}]"
+}

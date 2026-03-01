@@ -1,0 +1,44 @@
+{
+  "questionId": "2323",
+  "title": "Minimum Bit Flips to Convert Number",
+  "titleSlug": "minimum-bit-flips-to-convert-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "A bit flip of a number x is choosing a bit in the binary representation of x and flipping it from either 0 to 1 or 1 to 0.\n\n• For example, for x = 7, the binary representation is 111 and we may choose any bit (including any leading zeros not shown) and flip it. We can flip the first bit from the right to get 110, flip the second bit from the right to get 101, flip the fifth bit from the right (a leading zero) to get 10111, etc.\n\nGiven two integers start and goal, return the minimum number of bit flips to convert start to goal.\n\nExample 1:\n\nInput: start = 10, goal = 7\nOutput: 3\nExplanation: The binary representation of 10 and 7 are 1010 and 0111 respectively. We can convert 10 to 7 in 3 steps:\n    - Flip the first bit from the right: 1010 -> 1011.\n    - Flip the third bit from the right: 1011 -> 1111.\n    - Flip the fourth bit from the right: 1111 -> 0111.\n    It can be shown we cannot convert 10 to 7 in less than 3 steps. Hence, we return 3.\n\nExample 2:\n\nInput: start = 3, goal = 4\nOutput: 3\nExplanation: The binary representation of 3 and 4 are 011 and 100 respectively. We can convert 3 to 4 in 3 steps:\n    - Flip the first bit from the right: 011 -> 010.\n    - Flip the second bit from the right: 010 -> 000.\n    - Flip the third bit from the right: 000 -> 100.\n    It can be shown we cannot convert 3 to 4 in less than 3 steps. Hence, we return 3.\n\nConstraints:\n\n• 0 <= start, goal <= 109\n\nNote: This question is the same as 461: Hamming Distance.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minBitFlips(self, start, goal):\n        \"\"\"\n        :type start: int\n        :type goal: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If the value of a bit in start and goal differ, then we need to flip that bit.",
+    "Consider using the XOR operation to determine which bits need a bit flip."
+  ],
+  "testCases": [
+    [
+      "10",
+      "7"
+    ],
+    [
+      "3",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minBitFlips(self, start, goal):\n        xor = start ^ goal\n        count = 0\n        while xor:\n            count += xor & 1\n            xor >>= 1\n        return count",
+    "explanation": "XOR shows differing bits. Count set bits using bit manipulation.\nTime: O(log(n))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Flips to Make a OR b Equal to c\", \"titleSlug\": \"minimum-flips-to-make-a-or-b-equal-to-c\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Operations to Make Array XOR Equal to K\", \"titleSlug\": \"minimum-number-of-operations-to-make-array-xor-equal-to-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Smallest Number With All Set Bits\", \"titleSlug\": \"smallest-number-with-all-set-bits\", \"difficulty\": \"Easy\"}]"
+}

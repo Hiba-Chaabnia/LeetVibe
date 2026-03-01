@@ -1,0 +1,54 @@
+{
+  "questionId": "167",
+  "title": "Two Sum II - Input Array Is Sorted",
+  "titleSlug": "two-sum-ii-input-array-is-sorted",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length.\n\nReturn the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.\n\nThe tests are generated such that there is exactly one solution. You may not use the same element twice.\n\nYour solution must use only constant extra space.\n\nExample 1:\n\nInput: numbers = [2,7,11,15], target = 9\nOutput: [1,2]\nExplanation: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].\n\nExample 2:\n\nInput: numbers = [2,3,4], target = 6\nOutput: [1,3]\nExplanation: The sum of 2 and 4 is 6. Therefore index1 = 1, index2 = 3. We return [1, 3].\n\nExample 3:\n\nInput: numbers = [-1,0], target = -1\nOutput: [1,2]\nExplanation: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We return [1, 2].\n\nConstraints:\n\n• 2 <= numbers.length <= 3 * 104\n\n• -1000 <= numbers[i] <= 1000\n\n• numbers is sorted in non-decreasing order.\n\n• -1000 <= target <= 1000\n\n• The tests are generated such that there is exactly one solution.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def twoSum(self, numbers, target):\n        \"\"\"\n        :type numbers: List[int]\n        :type target: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,7,11,15]",
+      "9"
+    ],
+    [
+      "[2,3,4]",
+      "6"
+    ],
+    [
+      "[-1,0]",
+      "-1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2]",
+    "[1,3]",
+    "[1,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def twoSum(numbers, target):\n    left, right = 0, len(numbers) - 1\n    while left < right:\n        current_sum = numbers[left] + numbers[right]\n        if current_sum == target:\n            return [left + 1, right + 1]\n        elif current_sum < target:\n            left += 1\n        else:\n            right -= 1\n    return []",
+    "explanation": "The algorithm uses a two-pointer approach. Initialize two pointers, `left` and `right`, to the first and last elements of the sorted array. Then, iterate until `left < right`. In each iteration, calculate the sum of the elements pointed to by `left` and `right`. If the sum equals the target, return the indices of the two numbers (1-indexed). If the sum is less than the target, increment `left` to consider a larger number. If the sum is greater than the target, decrement `right` to consider a smaller number. Since the input is guaranteed to have a solution, the loop will always return a valid result. This algorithm has a constant space complexity as it does not use any additional data structures."
+  },
+  "similarQuestions": "[{\"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Two Sum IV - Input is a BST\", \"titleSlug\": \"two-sum-iv-input-is-a-bst\", \"difficulty\": \"Easy\"}, {\"title\": \"Two Sum Less Than K\", \"titleSlug\": \"two-sum-less-than-k\", \"difficulty\": \"Easy\"}]"
+}

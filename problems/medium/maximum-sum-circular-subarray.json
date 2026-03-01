@@ -1,0 +1,64 @@
+{
+  "questionId": "954",
+  "title": "Maximum Sum Circular Subarray",
+  "titleSlug": "maximum-sum-circular-subarray",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Monotonic Queue",
+      "slug": "monotonic-queue"
+    }
+  ],
+  "content": "Given a circular integer array nums of length n, return the maximum possible sum of a non-empty subarray of nums.\n\nA circular array means the end of the array connects to the beginning of the array. Formally, the next element of nums[i] is nums[(i + 1) % n] and the previous element of nums[i] is nums[(i - 1 + n) % n].\n\nA subarray may only include each element of the fixed buffer nums at most once. Formally, for a subarray nums[i], nums[i + 1], ..., nums[j], there does not exist i <= k1, k2 <= j with k1 % n == k2 % n.\n\nExample 1:\n\nInput: nums = [1,-2,3,-2]\nOutput: 3\nExplanation: Subarray [3] has maximum sum 3.\n\nExample 2:\n\nInput: nums = [5,-3,5]\nOutput: 10\nExplanation: Subarray [5,5] has maximum sum 5 + 5 = 10.\n\nExample 3:\n\nInput: nums = [-3,-2,-3]\nOutput: -2\nExplanation: Subarray [-2] has maximum sum -2.\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 3 * 104\n\n• -3 * 104 <= nums[i] <= 3 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSubarraySumCircular(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For those of you who are familiar with the <b>Kadane's algorithm</b>, think in terms of that. For the newbies, Kadane's algorithm is used to finding the maximum sum subarray from a given array. This problem is a twist on that idea and it is advisable to read up on that algorithm first before starting this problem. Unless you already have a great algorithm brewing up in your mind in which case, go right ahead!",
+    "What is an alternate way of representing a circular array so that it appears to be a straight array?\r\nEssentially, there are two cases of this problem that we need to take care of. Let's look at the figure below to understand those two cases:\r\n\r\n<br>\r\n<img src=\"https://assets.leetcode.com/uploads/2019/10/20/circular_subarray_hint_1.png\" width=\"700\"/>",
+    "The first case can be handled by the good old Kadane's algorithm. However, is there a smarter way of going about handling the second case as well?"
+  ],
+  "testCases": [
+    [
+      "[1,-2,3,-2]"
+    ],
+    [
+      "[5,-3,5]"
+    ],
+    [
+      "[-3,-2,-3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "10",
+    "-2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxSubarraySumCircular(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        def kadane_max(arr):\n            max_sum = curr_sum = arr[0]\n            for num in arr[1:]:\n                curr_sum = max(num, curr_sum + num)\n                max_sum = max(max_sum, curr_sum)\n            return max_sum\n        \n        def kadane_min(arr):\n            min_sum = curr_sum = arr[0]\n            for num in arr[1:]:\n                curr_sum = min(num, curr_sum + num)\n                min_sum = min(min_sum, curr_sum)\n            return min_sum\n        \n        total_sum = sum(nums)\n        max_kadane = kadane_max(nums)\n        min_kadane = kadane_min(nums)\n        \n        # If all numbers are negative, return max element\n        if total_sum == min_kadane:\n            return max_kadane\n        \n        # Return max of: max subarray or (total - min subarray)\n        return max(max_kadane, total_sum - min_kadane)",
+    "explanation": "Two cases: max subarray is in middle (Kadane) or wraps around (total - min subarray).",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,53 @@
+{
+  "questionId": "3704",
+  "title": "Count Partitions with Even Sum Difference",
+  "titleSlug": "count-partitions-with-even-sum-difference",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums of length n.\n\nA partition is defined as an index i where 0 <= i < n - 1, splitting the array into two non-empty subarrays such that:\n\n• Left subarray contains indices [0, i].\n\n• Right subarray contains indices [i + 1, n - 1].\n\nReturn the number of partitions where the difference between the sum of the left and right subarrays is even.\n\nExample 1:\n\nInput: nums = [10,10,3,7,6]\n\nOutput: 4\n\nExplanation: The 4 partitions are:\n\n• [10], [10, 3, 7, 6] with a sum difference of 10 - 26 = -16, which is even.\n\n• [10, 10], [3, 7, 6] with a sum difference of 20 - 16 = 4, which is even.\n\n• [10, 10, 3], [7, 6] with a sum difference of 23 - 13 = 10, which is even.\n\n• [10, 10, 3, 7], [6] with a sum difference of 30 - 6 = 24, which is even.\n\nExample 2:\n\nInput: nums = [1,2,2]\n\nOutput: 0\n\nExplanation: No partition results in an even sum difference.\n\nExample 3:\n\nInput: nums = [2,4,6,8]\n\nOutput: 3\n\nExplanation: All partitions result in an even sum difference.\n\nConstraints:\n\n• 2 <= n == nums.length <= 100\n\n• 1 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPartitions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If the parity of the sum is even, the partition is valid; otherwise, there is no partition."
+  ],
+  "testCases": [
+    [
+      "[10,10,3,7,6]"
+    ],
+    [
+      "[1,2,2]"
+    ],
+    [
+      "[2,4,6,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countPartitions(self, nums):\n        total = sum(nums)\n        count = 0\n        left = 0\n        for i in range(len(nums) - 1):\n            left += nums[i]\n            right = total - left\n            if (left - right) % 2 == 0:\n                count += 1\n        return count",
+    "explanation": "Difference is even iff total is even; iterate partitions."
+  },
+  "similarQuestions": "[]"
+}

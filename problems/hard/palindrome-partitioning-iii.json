@@ -1,0 +1,49 @@
+{
+  "questionId": "1403",
+  "title": "Palindrome Partitioning III",
+  "titleSlug": "palindrome-partitioning-iii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a string s containing lowercase letters and an integer k. You need to :\n\n• First, change some characters of s to other lowercase English letters.\n\n• Then divide s into k non-empty disjoint substrings such that each substring is a palindrome.\n\nReturn the minimal number of characters that you need to change to divide the string.\n\nExample 1:\n\nInput: s = \"abc\", k = 2\nOutput: 1\nExplanation: You can split the string into \"ab\" and \"c\", and change 1 character in \"ab\" to make it palindrome.\n\nExample 2:\n\nInput: s = \"aabbc\", k = 3\nOutput: 0\nExplanation: You can split the string into \"aa\", \"bb\" and \"c\", all of them are palindrome.\n\nExample 3:\n\nInput: s = \"leetcode\", k = 8\nOutput: 0\n\nConstraints:\n\n• 1 <= k <= s.length <= 100.\n\n• s only contains lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def palindromePartition(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each substring calculate the minimum number of steps to make it palindrome and store it in a table.",
+    "Create a dp(pos, cnt) which means the minimum number of characters changed for the suffix of s starting on pos splitting the suffix on cnt chunks."
+  ],
+  "testCases": [
+    [
+      "\"abc\"",
+      "2"
+    ],
+    [
+      "\"aabbc\"",
+      "3"
+    ],
+    [
+      "\"leetcode\"",
+      "8"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Palindrome Partitioning IV\", \"titleSlug\": \"palindrome-partitioning-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Number of Non-overlapping Palindrome Substrings\", \"titleSlug\": \"maximum-number-of-non-overlapping-palindrome-substrings\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Changes to Make K Semi-palindromes\", \"titleSlug\": \"minimum-changes-to-make-k-semi-palindromes\", \"difficulty\": \"Hard\"}]"
+}

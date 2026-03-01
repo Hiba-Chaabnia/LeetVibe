@@ -1,0 +1,59 @@
+{
+  "questionId": "2564",
+  "title": "Most Profitable Path in a Tree",
+  "titleSlug": "most-profitable-path-in-a-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There is an undirected tree with n nodes labeled from 0 to n - 1, rooted at node 0. You are given a 2D integer array edges of length n - 1 where edges[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the tree.\n\nAt every node i, there is a gate. You are also given an array of even integers amount, where amount[i] represents:\n\n• the price needed to open the gate at node i, if amount[i] is negative, or,\n\n• the cash reward obtained on opening the gate at node i, otherwise.\n\nThe game goes on as follows:\n\n• Initially, Alice is at node 0 and Bob is at node bob.\n\n• At every second, Alice and Bob each move to an adjacent node. Alice moves towards some leaf node, while Bob moves towards node 0.\n\n• For every node along their path, Alice and Bob either spend money to open the gate at that node, or accept the reward. Note that:\n\n• If the gate is already open, no price will be required, nor will there be any cash reward.\n\n• If Alice and Bob reach the node simultaneously, they share the price/reward for opening the gate there. In other words, if the price to open the gate is c, then both Alice and Bob pay c / 2 each. Similarly, if the reward at the gate is c, both of them receive c / 2 each.\n\n• If Alice reaches a leaf node, she stops moving. Similarly, if Bob reaches node 0, he stops moving. Note that these events are independent of each other.\n\nReturn the maximum net income Alice can have if she travels towards the optimal leaf node.\n\nExample 1:\n\nInput: edges = [[0,1],[1,2],[1,3],[3,4]], bob = 3, amount = [-2,4,2,-4,6]\nOutput: 6\nExplanation:\n    The above diagram represents the given tree. The game goes as follows:\n    - Alice is initially on node 0, Bob on node 3. They open the gates of their respective nodes.\n      Alice's net income is now -2.\n    - Both Alice and Bob move to node 1.\n      Since they reach here simultaneously, they open the gate together and share the reward.\n      Alice's net income becomes -2 + (4 / 2) = 0.\n    - Alice moves on to node 3. Since Bob already opened its gate, Alice's income remains unchanged.\n      Bob moves on to node 0, and stops moving.\n    - Alice moves on to node 4 and opens the gate there. Her net income becomes 0 + 6 = 6.\n    Now, neither Alice nor Bob can make any further moves, and the game ends.\n    It is not possible for Alice to get a higher net income.\n\nExample 2:\n\nInput: edges = [[0,1]], bob = 1, amount = [-7280,2350]\nOutput: -7280\nExplanation:\n    Alice follows the path 0->1 whereas Bob follows the path 1->0.\n    Thus, Alice opens the gate at node 0 only. Hence, her net income is -7280.\n\nConstraints:\n\n• 2 <= n <= 105\n\n• edges.length == n - 1\n\n• edges[i].length == 2\n\n• 0 <= ai, bi < n\n\n• ai != bi\n\n• edges represents a valid tree.\n\n• 1 <= bob < n\n\n• amount.length == n\n\n• amount[i] is an even integer in the range [-104, 104].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mostProfitablePath(self, edges, bob, amount):\n        \"\"\"\n        :type edges: List[List[int]]\n        :type bob: int\n        :type amount: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Bob travels along a fixed path (from node “bob” to node 0).",
+    "Calculate Alice’s distance to each node via DFS.",
+    "We can calculate Alice’s score along a path ending at some node easily using Hints 1 and 2."
+  ],
+  "testCases": [
+    [
+      "[[0,1],[1,2],[1,3],[3,4]]",
+      "3",
+      "[-2,4,2,-4,6]"
+    ],
+    [
+      "[[0,1]]",
+      "1",
+      "[-7280,2350]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "-7280"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Snakes and Ladders\", \"titleSlug\": \"snakes-and-ladders\", \"difficulty\": \"Medium\"}, {\"title\": \"Time Taken to Mark All Nodes\", \"titleSlug\": \"time-taken-to-mark-all-nodes\", \"difficulty\": \"Hard\"}]"
+}

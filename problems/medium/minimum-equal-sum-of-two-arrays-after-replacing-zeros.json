@@ -1,0 +1,48 @@
+{
+  "questionId": "3171",
+  "title": "Minimum Equal Sum of Two Arrays After Replacing Zeros",
+  "titleSlug": "minimum-equal-sum-of-two-arrays-after-replacing-zeros",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given two arrays nums1 and nums2 consisting of positive integers.\n\nYou have to replace all the 0's in both arrays with strictly positive integers such that the sum of elements of both arrays becomes equal.\n\nReturn the minimum equal sum you can obtain, or -1 if it is impossible.\n\nExample 1:\n\nInput: nums1 = [3,2,0,1,0], nums2 = [6,5,0]\nOutput: 12\nExplanation: We can replace 0's in the following way:\n    - Replace the two 0's in nums1 with the values 2 and 4. The resulting array is nums1 = [3,2,2,1,4].\n    - Replace the 0 in nums2 with the value 1. The resulting array is nums2 = [6,5,1].\n    Both arrays have an equal sum of 12. It can be shown that it is the minimum sum we can obtain.\n\nExample 2:\n\nInput: nums1 = [2,0,2,0], nums2 = [1,4]\nOutput: -1\nExplanation: It is impossible to make the sum of both arrays equal.\n\nConstraints:\n\n• 1 <= nums1.length, nums2.length <= 105\n\n• 0 <= nums1[i], nums2[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSum(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider we replace all the 0’s with 1’s on both arrays, the answer will be -1 if there was no 0 in the array with the smaller sum of elements.",
+    "Otherwise, how can you update the value of exactly one of these 1’s to make the sum of the two arrays equal?"
+  ],
+  "testCases": [
+    [
+      "[3,2,0,1,0]",
+      "[6,5,0]"
+    ],
+    [
+      "[2,0,2,0]",
+      "[1,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minSum(self, nums1, nums2):\n        sum1 = sum(nums1)\n        sum2 = sum(nums2)\n        zeros1 = nums1.count(0)\n        zeros2 = nums2.count(0)\n\n        # Replace each 0 with at least 1, so minimum achievable sums:\n        min1 = sum1 + zeros1\n        min2 = sum2 + zeros2\n\n        # The equal sum must be >= max(min1, min2)\n        target = max(min1, min2)\n\n        # Check feasibility:\n        # If min1 > min2 and zeros2 == 0: can't raise sum2 to target\n        if min1 > min2 and zeros2 == 0:\n            return -1\n        if min2 > min1 and zeros1 == 0:\n            return -1\n\n        return target",
+    "explanation": "Replace each 0 with at least 1. The minimum achievable sum for nums1 is sum(nums1) + count_zeros(nums1), and similarly for nums2.\n\nThe equal target must be >= max(min1, min2). We can always reach this target if the array with the smaller minimum sum has at least one zero (we can inflate one zero to bridge the gap).\n\nIf the array with the smaller minimum sum has no zeros, its sum is fixed and we can't raise it — return -1.\n\nTime: O(n + m). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

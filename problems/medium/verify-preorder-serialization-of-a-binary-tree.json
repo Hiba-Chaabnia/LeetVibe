@@ -1,0 +1,56 @@
+{
+  "questionId": "331",
+  "title": "Verify Preorder Serialization of a Binary Tree",
+  "titleSlug": "verify-preorder-serialization-of-a-binary-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "One way to serialize a binary tree is to use preorder traversal. When we encounter a non-null node, we record the node's value. If it is a null node, we record using a sentinel value such as '#'.\n\nFor example, the above binary tree can be serialized to the string \"9,3,4,#,#,1,#,#,2,#,6,#,#\", where '#' represents a null node.\n\nGiven a string of comma-separated values preorder, return true if it is a correct preorder traversal serialization of a binary tree.\n\nIt is guaranteed that each comma-separated value in the string must be either an integer or a character '#' representing null pointer.\n\nYou may assume that the input format is always valid.\n\n• For example, it could never contain two consecutive commas, such as \"1,,3\".\n\nNote: You are not allowed to reconstruct the tree.\n\nExample 1:\n\nInput: preorder = \"9,3,4,#,#,1,#,#,2,#,6,#,#\"\nOutput: true\nExample 2:\n\nInput: preorder = \"1,#\"\nOutput: false\nExample 3:\n\nInput: preorder = \"9,#,#,1\"\nOutput: false\n\nConstraints:\n\n• 1 <= preorder.length <= 104\n\n• preorder consist of integers in the range [0, 100] and '#' separated by commas ','.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isValidSerialization(self, preorder):\n        \"\"\"\n        :type preorder: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"9,3,4,#,#,1,#,#,2,#,6,#,#\""
+    ],
+    [
+      "\"1,#\""
+    ],
+    [
+      "\"9,#,#,1\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def isValidSerialization(self, preorder):\n        \"\"\"\n        :type preorder: str\n        :rtype: bool\n        \"\"\"\n        nodes = preorder.split(',')\n        \n        # Capacity tracking: each node needs one slot, provides two for children\n        capacity = 1\n        \n        for node in nodes:\n            capacity -= 1\n            \n            # No slot available\n            if capacity < 0:\n                return False\n            \n            # Non-null node adds two child slots\n            if node != '#':\n                capacity += 2\n        \n        # Exactly consumed all slots\n        return capacity == 0",
+    "explanation": "Capacity: -1 per node, +2 per non-null. Should end at 0.",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

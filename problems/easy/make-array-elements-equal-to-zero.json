@@ -1,0 +1,49 @@
+{
+  "questionId": "3616",
+  "title": "Make Array Elements Equal to Zero",
+  "titleSlug": "make-array-elements-equal-to-zero",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nStart by selecting a starting position curr such that nums[curr] == 0, and choose a movement direction of either left or right.\n\nAfter that, you repeat the following process:\n\n• If curr is out of the range [0, n - 1], this process ends.\n\n• If nums[curr] == 0, move in the current direction by incrementing curr if you are moving right, or decrementing curr if you are moving left.\n\n• Else if nums[curr] > 0:\n\n• Decrement nums[curr] by 1.\n\n• Reverse your movement direction (left becomes right and vice versa).\n\n• Take a step in your new direction.\n\nA selection of the initial position curr and movement direction is considered valid if every element in nums becomes 0 by the end of the process.\n\nReturn the number of possible valid selections.\n\nExample 1:\n\nInput: nums = [1,0,2,0,3]\n\nOutput: 2\n\nExplanation: The only possible valid selections are the following:\n\n• Choose curr = 3, and a movement direction to the left.\n\n• [1,0,2,0,3] -> [1,0,2,0,3] -> [1,0,1,0,3] -> [1,0,1,0,3] -> [1,0,1,0,2] -> [1,0,1,0,2] -> [1,0,0,0,2] -> [1,0,0,0,2] -> [1,0,0,0,1] -> [1,0,0,0,1] -> [1,0,0,0,1] -> [1,0,0,0,1] -> [0,0,0,0,1] -> [0,0,0,0,1] -> [0,0,0,0,1] -> [0,0,0,0,1] -> [0,0,0,0,0].\n\n• Choose curr = 3, and a movement direction to the right.\n\n• [1,0,2,0,3] -> [1,0,2,0,3] -> [1,0,2,0,2] -> [1,0,2,0,2] -> [1,0,1,0,2] -> [1,0,1,0,2] -> [1,0,1,0,1] -> [1,0,1,0,1] -> [1,0,0,0,1] -> [1,0,0,0,1] -> [1,0,0,0,0] -> [1,0,0,0,0] -> [1,0,0,0,0] -> [1,0,0,0,0] -> [0,0,0,0,0].\n\nExample 2:\n\nInput: nums = [2,3,4,0,4,1,0]\n\nOutput: 0\n\nExplanation: There are no possible valid selections.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 0 <= nums[i] <= 100\n\n• There is at least one element i where nums[i] == 0.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countValidSelections(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since the constraints are very small, you can simulate the process described."
+  ],
+  "testCases": [
+    [
+      "[1,0,2,0,3]"
+    ],
+    [
+      "[2,3,4,0,4,1,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countValidSelections(self, nums):\n        total = sum(nums)\n        count = 0\n        prefix = 0\n        for x in nums:\n            if x == 0:\n                suffix = total - prefix\n                if prefix == suffix:\n                    count += 2\n            else:\n                prefix += x\n        return count",
+    "explanation": "For each zero, if the prefix sum equals the suffix sum both movement directions are valid, contributing 2 to the answer. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

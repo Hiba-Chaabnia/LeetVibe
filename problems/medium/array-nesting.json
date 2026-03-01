@@ -1,0 +1,43 @@
+{
+  "questionId": "565",
+  "title": "Array Nesting",
+  "titleSlug": "array-nesting",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    }
+  ],
+  "content": "You are given an integer array nums of length n where nums is a permutation of the numbers in the range [0, n - 1].\n\nYou should build a set s[k] = {nums[k], nums[nums[k]], nums[nums[nums[k]]], ... } subjected to the following rule:\n\n• The first element in s[k] starts with the selection of the element nums[k] of index = k.\n\n• The next element in s[k] should be nums[nums[k]], and then nums[nums[nums[k]]], and so on.\n\n• We stop adding right before a duplicate element occurs in s[k].\n\nReturn the longest length of a set s[k].\n\nExample 1:\n\nInput: nums = [5,4,0,3,1,6,2]\nOutput: 4\nExplanation:\n    nums[0] = 5, nums[1] = 4, nums[2] = 0, nums[3] = 3, nums[4] = 1, nums[5] = 6, nums[6] = 2.\n    One of the longest sets s[k]:\n    s[0] = {nums[0], nums[5], nums[6], nums[2]} = {5, 6, 2, 0}\n\nExample 2:\n\nInput: nums = [0,1,2]\nOutput: 1\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] < nums.length\n\n• All the values of nums are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def arrayNesting(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[5,4,0,3,1,6,2]"
+    ],
+    [
+      "[0,1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def arrayNesting(nums):\n    n = len(nums)\n    max_len = 0\n    for i in range(n):\n        if nums[i] != -1:\n            start = nums[i]\n            count = 0\n            while nums[start] != -1:\n                temp = start\n                start = nums[start]\n                count += 1\n                nums[temp] = -1\n            max_len = max(max_len, count)\n    return max_len",
+    "explanation": "This algorithm iterates through the given `nums` array. During the iteration, when the current element `nums[i]` is not equal to -1, it initializes a new set by setting `start` to `nums[i]` and sets the `count` to 0. Then, in the inner while loop, it keeps following the chain as described in the problem statement and sets the visited element to -1. After completing the chain for the current element, it calculates the maximum length found so far and assigns it to `max_len`. This process is repeated for all elements in the `nums` array. Finally, the algorithm returns the longest length of a set `s[k]` found."
+  },
+  "similarQuestions": "[{\"title\": \"Nested List Weight Sum\", \"titleSlug\": \"nested-list-weight-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Flatten Nested List Iterator\", \"titleSlug\": \"flatten-nested-list-iterator\", \"difficulty\": \"Medium\"}, {\"title\": \"Nested List Weight Sum II\", \"titleSlug\": \"nested-list-weight-sum-ii\", \"difficulty\": \"Medium\"}]"
+}

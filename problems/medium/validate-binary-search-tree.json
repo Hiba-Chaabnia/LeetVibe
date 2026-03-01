@@ -1,0 +1,52 @@
+{
+  "questionId": "98",
+  "title": "Validate Binary Search Tree",
+  "titleSlug": "validate-binary-search-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, determine if it is a valid binary search tree (BST).\n\nA valid BST is defined as follows:\n\n• The left subtree of a node contains only nodes with keys strictly less than the node's key.\n\n• The right subtree of a node contains only nodes with keys strictly greater than the node's key.\n\n• Both the left and right subtrees must also be binary search trees.\n\nExample 1:\n\nInput: root = [2,1,3]\nOutput: true\n\nExample 2:\n\nInput: root = [5,1,4,null,null,3,6]\nOutput: false\nExplanation: The root node's value is 5 but its right child's value is 4.\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 104].\n\n• -231 <= Node.val <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isValidBST(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,1,3]"
+    ],
+    [
+      "[5,1,4,null,null,3,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def isValidBST(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        def validate(node, min_val, max_val):\n            if not node:\n                return True\n            \n            if node.val <= min_val or node.val >= max_val:\n                return False\n            \n            return (validate(node.left, min_val, node.val) and\n                    validate(node.right, node.val, max_val))\n        \n        return validate(root, float('-inf'), float('inf'))",
+    "explanation": "DFS with min/max bounds. Each node must be in valid range.",
+    "complexity": "Time: O(n). Space: O(h)."
+  },
+  "similarQuestions": "[{\"title\": \"Binary Tree Inorder Traversal\", \"titleSlug\": \"binary-tree-inorder-traversal\", \"difficulty\": \"Easy\"}, {\"title\": \"Find Mode in Binary Search Tree\", \"titleSlug\": \"find-mode-in-binary-search-tree\", \"difficulty\": \"Easy\"}]"
+}

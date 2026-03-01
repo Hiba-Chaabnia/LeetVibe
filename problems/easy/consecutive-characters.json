@@ -1,0 +1,42 @@
+{
+  "questionId": "1542",
+  "title": "Consecutive Characters",
+  "titleSlug": "consecutive-characters",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "The power of the string is the maximum length of a non-empty substring that contains only one unique character.\n\nGiven a string s, return the power of s.\n\nExample 1:\n\nInput: s = \"leetcode\"\nOutput: 2\nExplanation: The substring \"ee\" is of length 2 with the character 'e' only.\n\nExample 2:\n\nInput: s = \"abbcccddddeeeeedcba\"\nOutput: 5\nExplanation: The substring \"eeeee\" is of length 5 with the character 'e' only.\n\nConstraints:\n\n• 1 <= s.length <= 500\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxPower(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep an array power where power[i] is the maximum power of the i-th character.",
+    "The answer is max(power[i])."
+  ],
+  "testCases": [
+    [
+      "\"leetcode\""
+    ],
+    [
+      "\"abbcccddddeeeeedcba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxPower(self, s):\n        max_power = 1\n        current_power = 1\n        for i in range(1, len(s)):\n            if s[i] == s[i-1]:\n                current_power += 1\n                max_power = max(max_power, current_power)\n            else:\n                current_power = 1\n        return max_power",
+    "explanation": "Track consecutive same characters. Update max when consecutive run ends.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Max Consecutive Ones\", \"titleSlug\": \"max-consecutive-ones\", \"difficulty\": \"Easy\"}, {\"title\": \"Longest Continuous Increasing Subsequence\", \"titleSlug\": \"longest-continuous-increasing-subsequence\", \"difficulty\": \"Easy\"}, {\"title\": \"Check if an Array Is Consecutive\", \"titleSlug\": \"check-if-an-array-is-consecutive\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Number of Homogenous Substrings\", \"titleSlug\": \"count-number-of-homogenous-substrings\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Substring of One Repeating Character\", \"titleSlug\": \"longest-substring-of-one-repeating-character\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Number of Chairs in a Waiting Room\", \"titleSlug\": \"minimum-number-of-chairs-in-a-waiting-room\", \"difficulty\": \"Easy\"}]"
+}

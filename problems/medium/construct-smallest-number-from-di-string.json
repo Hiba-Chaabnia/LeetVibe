@@ -1,0 +1,54 @@
+{
+  "questionId": "2456",
+  "title": "Construct Smallest Number From DI String",
+  "titleSlug": "construct-smallest-number-from-di-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed string pattern of length n consisting of the characters 'I' meaning increasing and 'D' meaning decreasing.\n\nA 0-indexed string num of length n + 1 is created using the following conditions:\n\n• num consists of the digits '1' to '9', where each digit is used at most once.\n\n• If pattern[i] == 'I', then num[i] < num[i + 1].\n\n• If pattern[i] == 'D', then num[i] > num[i + 1].\n\nReturn the lexicographically smallest possible string num that meets the conditions.\n\nExample 1:\n\nInput: pattern = \"IIIDIDDD\"\nOutput: \"123549876\"\nExplanation:\n    At indices 0, 1, 2, and 4 we must have that num[i]  num[i+1].\n    Some possible values of num are \"245639871\", \"135749862\", and \"123849765\".\n    It can be proven that \"123549876\" is the smallest possible num that meets the conditions.\n    Note that \"123414321\" is not possible because the digit '1' is used more than once.\n\nExample 2:\n\nInput: pattern = \"DDD\"\nOutput: \"4321\"\nExplanation:\n    Some possible values of num are \"9876\", \"7321\", and \"8742\".\n    It can be proven that \"4321\" is the smallest possible num that meets the conditions.\n\nConstraints:\n\n• 1 <= pattern.length <= 8\n\n• pattern consists of only the letters 'I' and 'D'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestNumber(self, pattern):\n        \"\"\"\n        :type pattern: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "With the constraints, could we generate every possible string?",
+    "Yes we can. Now we just need to check if the string meets all the conditions."
+  ],
+  "testCases": [
+    [
+      "\"IIIDIDDD\""
+    ],
+    [
+      "\"DDD\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"123549876\"",
+    "\"4321\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def smallestNumber(self, pattern):\n        n = len(pattern)\n        result = list(range(1, n + 2))\n        i = 0\n        while i < n:\n            if pattern[i] == 'D':\n                j = i\n                while j < n and pattern[j] == 'D':\n                    j += 1\n                result[i:j+1] = reversed(result[i:j+1])\n                i = j + 1\n            else:\n                i += 1\n        return ''.join(map(str, result))",
+    "explanation": "Start with 1..n+1. Reverse segments of consecutive 'D's.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"DI String Match\", \"titleSlug\": \"di-string-match\", \"difficulty\": \"Easy\"}]"
+}

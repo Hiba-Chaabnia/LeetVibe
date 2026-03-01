@@ -1,0 +1,54 @@
+{
+  "questionId": "1447",
+  "title": "Jump Game IV",
+  "titleSlug": "jump-game-iv",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "Given an array of integers arr, you are initially positioned at the first index of the array.\n\nIn one step you can jump from index i to index:\n\n• i + 1 where: i + 1 < arr.length.\n\n• i - 1 where: i - 1 >= 0.\n\n• j where: arr[i] == arr[j] and i != j.\n\nReturn the minimum number of steps to reach the last index of the array.\n\nNotice that you can not jump outside of the array at any time.\n\nExample 1:\n\nInput: arr = [100,-23,-23,404,100,23,23,23,3,404]\nOutput: 3\nExplanation: You need three jumps from index 0 --> 4 --> 3 --> 9. Note that index 9 is the last index of the array.\n\nExample 2:\n\nInput: arr = [7]\nOutput: 0\nExplanation: Start index is the last index. You do not need to jump.\n\nExample 3:\n\nInput: arr = [7,6,9,6,9,6,9,7]\nOutput: 1\nExplanation: You can jump directly from index 0 to index 7 which is last index of the array.\n\nConstraints:\n\n• 1 <= arr.length <= 5 * 104\n\n• -108 <= arr[i] <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minJumps(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Build a graph of n nodes where nodes are the indices of the array and edges for node i are nodes i+1, i-1, j where arr[i] == arr[j].",
+    "Start bfs from node 0 and keep distance. The answer is the distance when you reach node n-1."
+  ],
+  "testCases": [
+    [
+      "[100,-23,-23,404,100,23,23,23,3,404]"
+    ],
+    [
+      "[7]"
+    ],
+    [
+      "[7,6,9,6,9,6,9,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\ndef minJumps(arr):\n    n = len(arr)\n    if n <= 1:\n        return 0\n\n    value_indices = defaultdict(list)\n    \n    for i, value in enumerate(arr):\n        value_indices[value].append(i)\n\n    q = [0]\n    visited = [False] * n\n    visited[0] = True\n    steps = 0\n\n    while q:\n        size = len(q)\n        for _ in range(size):\n            index = q.pop(0)\n            \n            if index == n - 1:\n                return steps\n            \n            if index > 0 and not visited[index - 1]:\n                q.append(index - 1)\n                visited[index - 1] = True\n                \n            if index < n - 1 and not visited[index + 1]:\n                q.append(index + 1)\n                visited[index + 1] = True\n\n            for neighbor in value_indices[arr[index]]:\n                if not visited[neighbor]:\n                    q.append(neighbor)\n                    visited[neighbor] = True\n            \n            value_indices[arr[index]] = []\n\n        steps += 1\n\n    return -1",
+    "explanation": "The algorithm to solve this problem is using the Breadth-First Search (BFS) approach.\n\n1. First, iterate through the `arr` and create a hash map (`value_indices`) to map each unique value to their indices in the array.\n2. Initialize the BFS queue `q`, the visited array `visited`, and steps counter `steps`.\n3. While queue `q` is not empty, perform the following:\n   a. Set the `size` variable as the current length of the queue `q`.\n   b. Iterate through the `size` of the queue `q`. For each iteration:\n      i. Pop the front of the queue `q` and assign the popped index to `index`.\n      ii. If the popped index is the last index of the array, return the steps counter.\n      iii. Check the valid neighbors `(index-1, index+1, or the same value as arr[index])` that haven't been visited yet:\n         - If it's a valid neighbor and not visited before, mark the neighbor as visited and push the neighbor to the queue `q`.\n      iv. Clear the value_indices entry for this index, as we don't want to revisit it.\n   c. Increase the steps counter by 1.\n4. If the last index is not reached, return -1. (This will not happen in the given constraints)\n\nIn each programming language, the major difference is in the syntax and data structures used to implement this algorithm. The key points of the language-specific implementations are as follows:\n\n- In C++, we use `std::vector`, `std::queue`, `std::unordered_map`, and `std::vector<bool>` for array manipulation and storage.\n- In Java, we use `java.util.HashMap`, `java.util.LinkedList` for both queue and mapping values, and a boolean array for storing visited status.\n- In Python, we use Python's `list` and `collections.defaultdict` for mapping values and storing visited status.\n- In JavaScript, we use a `Map` and `Array` objects to implement the algorithm."
+  },
+  "similarQuestions": "[{\"title\": \"Jump Game VII\", \"titleSlug\": \"jump-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game VIII\", \"titleSlug\": \"jump-game-viii\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Jumps to Reach the Last Index\", \"titleSlug\": \"maximum-number-of-jumps-to-reach-the-last-index\", \"difficulty\": \"Medium\"}]"
+}

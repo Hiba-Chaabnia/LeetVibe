@@ -1,0 +1,49 @@
+{
+  "questionId": "454",
+  "title": "4Sum II",
+  "titleSlug": "4sum-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "Given four integer arrays nums1, nums2, nums3, and nums4 all of length n, return the number of tuples (i, j, k, l) such that:\n\n• 0 <= i, j, k, l < n\n\n• nums1[i] + nums2[j] + nums3[k] + nums4[l] == 0\n\nExample 1:\n\nInput: nums1 = [1,2], nums2 = [-2,-1], nums3 = [-1,2], nums4 = [0,2]\nOutput: 2\nExplanation:\n    The two tuples are:\n    1. (0, 0, 0, 1) -> nums1[0] + nums2[0] + nums3[0] + nums4[1] = 1 + (-2) + (-1) + 2 = 0\n    2. (1, 1, 0, 0) -> nums1[1] + nums2[1] + nums3[0] + nums4[0] = 2 + (-1) + (-1) + 0 = 0\n\nExample 2:\n\nInput: nums1 = [0], nums2 = [0], nums3 = [0], nums4 = [0]\nOutput: 1\n\nConstraints:\n\n• n == nums1.length\n\n• n == nums2.length\n\n• n == nums3.length\n\n• n == nums4.length\n\n• 1 <= n <= 200\n\n• -228 <= nums1[i], nums2[i], nums3[i], nums4[i] <= 228",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def fourSumCount(self, nums1, nums2, nums3, nums4):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type nums3: List[int]\n        :type nums4: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2]",
+      "[-2,-1]",
+      "[-1,2]",
+      "[0,2]"
+    ],
+    [
+      "[0]",
+      "[0]",
+      "[0]",
+      "[0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def fourSumCount(nums1, nums2, nums3, nums4):\n    hashMap = {}\n    count = 0\n\n    for i in nums1:\n        for j in nums2:\n            hashMap[i + j] = hashMap.get(i + j, 0) + 1\n\n    for k in nums3:\n        for l in nums4:\n            count += hashMap.get(-(k + l), 0)\n\n    return count",
+    "explanation": "The algorithm follows these steps to solve the problem:\n1. Create an empty hashmap to store the sum of two integers and their frequency.\n2. Iterate through the first two arrays nums1 and nums2, calculate their sum and store their frequency in the hashmap.\n3. Iterate through the third and fourth arrays nums3 and nums4, and for each pair of elements, calculate their sum, and check if the negative of this sum exists in the hashmap. If it exists, add the frequency of that sum to the result count.\n4. Finally, return the count."
+  },
+  "similarQuestions": "[{\"title\": \"4Sum\", \"titleSlug\": \"4sum\", \"difficulty\": \"Medium\"}]"
+}

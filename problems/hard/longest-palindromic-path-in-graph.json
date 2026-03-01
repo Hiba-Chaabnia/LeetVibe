@@ -1,0 +1,66 @@
+{
+  "questionId": "3930",
+  "title": "Longest Palindromic Path in Graph",
+  "titleSlug": "longest-palindromic-path-in-graph",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given an integer n and an undirected graph with n nodes labeled from 0 to n - 1 and a 2D array edges, where edges[i] = [ui, vi] indicates an edge between nodes ui and vi.\n\nYou are also given a string label of length n, where label[i] is the character associated with node i.\n\nYou may start at any node and move to any adjacent node, visiting each node at most once.\n\nReturn the maximum possible length of a palindrome that can be formed by visiting a set of unique nodes along a valid path.\n\nExample 1:\n\nInput: n = 3, edges = [[0,1],[1,2]], label = \"aba\"\n\nOutput: 3\n\nExplanation:\n\n• The longest palindromic path is from node 0 to node 2 via node 1, following the path 0 → 1 → 2 forming string \"aba\".\n\n• This is a valid palindrome of length 3.\n\nExample 2:\n\nInput: n = 3, edges = [[0,1],[0,2]], label = \"abc\"\n\nOutput: 1\n\nExplanation:\n\n• No path with more than one node forms a palindrome.\n\n• The best option is any single node, giving a palindrome of length 1.\n\nExample 3:\n\nInput: n = 4, edges = [[0,2],[0,3],[3,1]], label = \"bbac\"\n\nOutput: 3\n\nExplanation:\n\n• The longest palindromic path is from node 0 to node 1, following the path 0 → 3 → 1, forming string \"bcb\".\n\n• This is a valid palindrome of length 3.\n\nConstraints:\n\n• 1 <= n <= 14\n\n• n - 1 <= edges.length <= n * (n - 1) / 2\n\n• edges[i] == [ui, vi]\n\n• 0 <= ui, vi <= n - 1\n\n• ui != vi\n\n• label.length == n\n\n• label consists of lowercase English letters.\n\n• There are no duplicate edges.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxLen(self, n, edges, label):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type label: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use bitmask dynamic programming.",
+    "Build the palindrome by expanding from both endpoints: you can include a new pair of nodes as endpoints if neither is already in the current bitmask mask.",
+    "Before adding new endpoints to the current palindrome, ensure their labels match the labels at the previous endpoints prev_l and prev_r.",
+    "Memoize each state as dp[mask][prev_l][prev_r], representing the maximum palindrome length achievable using the set of visited nodes in mask with current endpoints at prev_l and prev_r."
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[0,1],[1,2]]",
+      "\"aba\""
+    ],
+    [
+      "3",
+      "[[0,1],[0,2]]",
+      "\"abc\""
+    ],
+    [
+      "4",
+      "[[0,2],[0,3],[3,1]]",
+      "\"bbac\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

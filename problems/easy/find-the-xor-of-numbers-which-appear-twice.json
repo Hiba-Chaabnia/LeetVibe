@@ -1,0 +1,53 @@
+{
+  "questionId": "3428",
+  "title": "Find the XOR of Numbers Which Appear Twice",
+  "titleSlug": "find-the-xor-of-numbers-which-appear-twice",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given an array nums, where each number in the array appears either once or twice.\n\nReturn the bitwise XOR of all the numbers that appear twice in the array, or 0 if no number appears twice.\n\nExample 1:\n\nInput: nums = [1,2,1,3]\n\nOutput: 1\n\nExplanation: The only number that appears twice in nums is 1.\n\nExample 2:\n\nInput: nums = [1,2,3]\n\nOutput: 0\n\nExplanation: No number appears twice in nums.\n\nExample 3:\n\nInput: nums = [1,2,2,1]\n\nOutput: 3\n\nExplanation: Numbers 1 and 2 appeared twice. 1 XOR 2 == 3.\n\nConstraints:\n\n• 1 <= nums.length <= 50\n\n• 1 <= nums[i] <= 50\n\n• Each number in nums appears either once or twice.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def duplicateNumbersXOR(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints are small. Brute force checking each value in the array."
+  ],
+  "testCases": [
+    [
+      "[1,2,1,3]"
+    ],
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[1,2,2,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def duplicateNumbersXOR(self, nums):\n        from collections import Counter\n        result = 0\n        for v, c in Counter(nums).items():\n            if c == 2:\n                result ^= v\n        return result",
+    "explanation": "Count occurrences; XOR together all values that appear exactly twice. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Single Number\", \"titleSlug\": \"single-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Single Number II\", \"titleSlug\": \"single-number-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Single Number III\", \"titleSlug\": \"single-number-iii\", \"difficulty\": \"Medium\"}]"
+}

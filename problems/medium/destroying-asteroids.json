@@ -1,0 +1,54 @@
+{
+  "questionId": "2245",
+  "title": "Destroying Asteroids",
+  "titleSlug": "destroying-asteroids",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer mass, which represents the original mass of a planet. You are further given an integer array asteroids, where asteroids[i] is the mass of the ith asteroid.\n\nYou can arrange for the planet to collide with the asteroids in any arbitrary order. If the mass of the planet is greater than or equal to the mass of the asteroid, the asteroid is destroyed and the planet gains the mass of the asteroid. Otherwise, the planet is destroyed.\n\nReturn true if all asteroids can be destroyed. Otherwise, return false.\n\nExample 1:\n\nInput: mass = 10, asteroids = [3,9,19,5,21]\nOutput: true\nExplanation: One way to order the asteroids is [9,19,5,3,21]:\n    - The planet collides with the asteroid with a mass of 9. New planet mass: 10 + 9 = 19\n    - The planet collides with the asteroid with a mass of 19. New planet mass: 19 + 19 = 38\n    - The planet collides with the asteroid with a mass of 5. New planet mass: 38 + 5 = 43\n    - The planet collides with the asteroid with a mass of 3. New planet mass: 43 + 3 = 46\n    - The planet collides with the asteroid with a mass of 21. New planet mass: 46 + 21 = 67\n    All asteroids are destroyed.\n\nExample 2:\n\nInput: mass = 5, asteroids = [4,9,23,4]\nOutput: false\nExplanation:\n    The planet cannot ever gain enough mass to destroy the asteroid with a mass of 23.\n    After the planet destroys the other asteroids, it will have a mass of 5 + 4 + 9 + 4 = 22.\n    This is less than 23, so a collision would not destroy the last asteroid.\n\nConstraints:\n\n• 1 <= mass <= 105\n\n• 1 <= asteroids.length <= 105\n\n• 1 <= asteroids[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def asteroidsDestroyed(self, mass, asteroids):\n        \"\"\"\n        :type mass: int\n        :type asteroids: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Choosing the asteroid to collide with can be done greedily.",
+    "If an asteroid will destroy the planet, then every bigger asteroid will also destroy the planet.",
+    "You only need to check the smallest asteroid at each collision. If it will destroy the planet, then every other asteroid will also destroy the planet.",
+    "Sort the asteroids in non-decreasing order by mass, then greedily try to collide with the asteroids in that order."
+  ],
+  "testCases": [
+    [
+      "10",
+      "[3,9,19,5,21]"
+    ],
+    [
+      "5",
+      "[4,9,23,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def asteroidsDestroyed(self, mass, asteroids):\n        asteroids.sort()\n        for asteroid in asteroids:\n            if mass >= asteroid:\n                mass += asteroid\n            else:\n                return False\n        return True",
+    "explanation": "Sort asteroids. Greedily destroy smallest first. Accumulate mass.\nTime: O(n*log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Asteroid Collision\", \"titleSlug\": \"asteroid-collision\", \"difficulty\": \"Medium\"}]"
+}

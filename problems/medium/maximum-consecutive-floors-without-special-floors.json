@@ -1,0 +1,53 @@
+{
+  "questionId": "2355",
+  "title": "Maximum Consecutive Floors Without Special Floors",
+  "titleSlug": "maximum-consecutive-floors-without-special-floors",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Alice manages a company and has rented some floors of a building as office space. Alice has decided some of these floors should be special floors, used for relaxation only.\n\nYou are given two integers bottom and top, which denote that Alice has rented all the floors from bottom to top (inclusive). You are also given the integer array special, where special[i] denotes a special floor that Alice has designated for relaxation.\n\nReturn the maximum number of consecutive floors without a special floor.\n\nExample 1:\n\nInput: bottom = 2, top = 9, special = [4,6]\nOutput: 3\nExplanation: The following are the ranges (inclusive) of consecutive floors without a special floor:\n    - (2, 3) with a total amount of 2 floors.\n    - (5, 5) with a total amount of 1 floor.\n    - (7, 9) with a total amount of 3 floors.\n    Therefore, we return the maximum number which is 3 floors.\n\nExample 2:\n\nInput: bottom = 6, top = 8, special = [7,6,8]\nOutput: 0\nExplanation: Every floor rented is a special floor, so we return 0.\n\nConstraints:\n\n• 1 <= special.length <= 105\n\n• 1 <= bottom <= special[i] <= top <= 109\n\n• All the values of special are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxConsecutive(self, bottom, top, special):\n        \"\"\"\n        :type bottom: int\n        :type top: int\n        :type special: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Say we have a pair of special floors (x, y) with no other special floors in between. There are x - y - 1 consecutive floors in between them without a special floor.",
+    "Say there are n special floors. After sorting special, we have answer = max(answer, special[i] – special[i – 1] – 1) for all 0 < i < n.",
+    "However, there are two special cases left to consider: the floors before special[0] and after special[n-1].",
+    "To consider these cases, we have answer = max(answer, special[0] – bottom, top – special[n-1])."
+  ],
+  "testCases": [
+    [
+      "2",
+      "9",
+      "[4,6]"
+    ],
+    [
+      "6",
+      "8",
+      "[7,6,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxConsecutive(self, bottom, top, special):\n        \"\"\"\n        :type bottom: int\n        :type top: int\n        :type special: List[int]\n        :rtype: int\n        \"\"\"\n        special.sort()\n        max_gap = special[0] - bottom\n        \n        # Check gaps between consecutive special floors\n        for i in range(len(special) - 1):\n            gap = special[i + 1] - special[i] - 1\n            max_gap = max(max_gap, gap)\n        \n        # Check gap after last special floor\n        max_gap = max(max_gap, top - special[-1])\n        \n        return max_gap",
+    "explanation": "Sort special floors. Calculate gaps: before first, between consecutive, after last. Return max.",
+    "complexity": "Time: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Consecutive Sequence\", \"titleSlug\": \"longest-consecutive-sequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Gap\", \"titleSlug\": \"maximum-gap\", \"difficulty\": \"Medium\"}, {\"title\": \"Widest Vertical Area Between Two Points Containing No Points\", \"titleSlug\": \"widest-vertical-area-between-two-points-containing-no-points\", \"difficulty\": \"Easy\"}]"
+}

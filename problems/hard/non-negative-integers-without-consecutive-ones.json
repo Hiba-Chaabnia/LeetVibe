@@ -1,0 +1,43 @@
+{
+  "questionId": "600",
+  "title": "Non-negative Integers without Consecutive Ones",
+  "titleSlug": "non-negative-integers-without-consecutive-ones",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given a positive integer n, return the number of the integers in the range [0, n] whose binary representations do not contain consecutive ones.\n\nExample 1:\n\nInput: n = 5\nOutput: 5\nExplanation:\n    Here are the non-negative integers Example 2:\n\nInput: n = 1\nOutput: 2\n\nExample 3:\n\nInput: n = 2\nOutput: 3\n\nConstraints:\n\n• 1 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findIntegers(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "5"
+    ],
+    [
+      "1"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findIntegers(n: int) -> int:\n    dp = [[0, 0] for _ in range(32)]\n    dp[0][0], dp[0][1] = 1, 1\n\n    for i in range(1, 32):\n        dp[i][0] = dp[i - 1][0] + dp[i - 1][1]\n        dp[i][1] = dp[i - 1][0]\n\n    ans = 0\n    prev_bit = 0\n    for i in range(30, -1, -1):\n        if n & (1 << i):\n            ans += dp[i][0]\n            if prev_bit:\n                break\n            prev_bit = 1\n        else:\n            prev_bit = 0\n\n    return ans + 1",
+    "explanation": "The algorithm uses dynamic programming to count the number of valid integers with no consecutive 1s in their binary representation. It initializes an array `dp` with the dimensions [32][2], where the first dimension represents the length of the binary representation and the second dimension represents whether the last bit is a 1 (consecutive 1s) or a 0.\n\nFor every index i from `1` to `32`, dp[i][0] represents the count of valid integers without leading 1s, while dp[i][1] represents the count of valid integers without consecutive 1s ending with a 1. Starting from the highest bit and moving to the lowest bit, the algorithm checks if bit `i` is set in the given number `n`. If the bit is set, the algorithm increments the counter `ans` by the number of valid integers with that bit position.\n\nIf the previous bit was set, the algorithm breaks the loop because consecutive 1s were found. Finally, the algorithm returns the count of valid integers incremented by 1 to account for the integer 0, which always satisfies the condition."
+  },
+  "similarQuestions": "[{\"title\": \"House Robber\", \"titleSlug\": \"house-robber\", \"difficulty\": \"Medium\"}, {\"title\": \"House Robber II\", \"titleSlug\": \"house-robber-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Ones and Zeroes\", \"titleSlug\": \"ones-and-zeroes\", \"difficulty\": \"Medium\"}, {\"title\": \"Generate Binary Strings Without Adjacent Zeros\", \"titleSlug\": \"generate-binary-strings-without-adjacent-zeros\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,43 @@
+{
+  "questionId": "7",
+  "title": "Reverse Integer",
+  "titleSlug": "reverse-integer",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.\n\nAssume the environment does not allow you to store 64-bit integers (signed or unsigned).\n\nExample 1:\n\nInput: x = 123\nOutput: 321\n\nExample 2:\n\nInput: x = -123\nOutput: -321\n\nExample 3:\n\nInput: x = 120\nOutput: 21\n\nConstraints:\n\n• -231 <= x <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reverse(self, x):\n        \"\"\"\n        :type x: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "123"
+    ],
+    [
+      "-123"
+    ],
+    [
+      "120"
+    ]
+  ],
+  "expectedOutputs": [
+    "321",
+    "-321",
+    "21"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def reverse(x: int) -> int:\n    sign = -1 if x < 0 else 1\n    x = abs(x)\n    res = 0\n    while x:\n        res = res * 10 + x % 10\n        x //= 10\n    res *= sign\n    return res if -2**31 <= res <= 2**31 - 1 else 0",
+    "explanation": "The algorithm initializes `res` as 0. Then, we determine the sign of the input integer and take its absolute value. We use a while loop to iterate through each digit of `x` from right to left. In each iteration, we multiply the current `res` by 10 and add the last digit of `x` to it. The last digit of `x` is obtained by `x % 10`. After adding the last digit, we remove it from `x` by doing either `x /= 10` or `x //= 10`.\n\nAfter processing all the digits, we adjust `res` with the sign we computed earlier. Finally, we check if the reversed integer is within the 32-bit integer range. If it is, we return the result; otherwise, we return 0."
+  },
+  "similarQuestions": "[{\"title\": \"String to Integer (atoi)\", \"titleSlug\": \"string-to-integer-atoi\", \"difficulty\": \"Medium\"}, {\"title\": \"Reverse Bits\", \"titleSlug\": \"reverse-bits\", \"difficulty\": \"Easy\"}, {\"title\": \"A Number After a Double Reversal\", \"titleSlug\": \"a-number-after-a-double-reversal\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Number of Distinct Integers After Reverse Operations\", \"titleSlug\": \"count-number-of-distinct-integers-after-reverse-operations\", \"difficulty\": \"Medium\"}]"
+}

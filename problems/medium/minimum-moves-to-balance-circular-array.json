@@ -1,0 +1,55 @@
+{
+  "questionId": "4018",
+  "title": "Minimum Moves to Balance Circular Array",
+  "titleSlug": "minimum-moves-to-balance-circular-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a circular array balance of length n, where balance[i] is the net balance of person i.\n\nIn one move, a person can transfer exactly 1 unit of balance to either their left or right neighbor.\n\nReturn the minimum number of moves required so that every person has a non-negative balance. If it is impossible, return -1.\n\nNote: You are guaranteed that at most 1 index has a negative balance initially.\n\nExample 1:\n\nInput: balance = [5,1,-4]\n\nOutput: 4\n\nExplanation: One optimal sequence of moves is:\n\n• Move 1 unit from i = 1 to i = 2, resulting in balance = [5, 0, -3]\n\n• Move 1 unit from i = 0 to i = 2, resulting in balance = [4, 0, -2]\n\n• Move 1 unit from i = 0 to i = 2, resulting in balance = [3, 0, -1]\n\n• Move 1 unit from i = 0 to i = 2, resulting in balance = [2, 0, 0]\n\nThus, the minimum number of moves required is 4.\n\nExample 2:\n\nInput: balance = [1,2,-5,2]\n\nOutput: 6\n\nExplanation: One optimal sequence of moves is:\n\n• Move 1 unit from i = 1 to i = 2, resulting in balance = [1, 1, -4, 2]\n\n• Move 1 unit from i = 1 to i = 2, resulting in balance = [1, 0, -3, 2]\n\n• Move 1 unit from i = 3 to i = 2, resulting in balance = [1, 0, -2, 1]\n\n• Move 1 unit from i = 3 to i = 2, resulting in balance = [1, 0, -1, 0]\n\n• Move 1 unit from i = 0 to i = 1, resulting in balance = [0, 1, -1, 0]\n\n• Move 1 unit from i = 1 to i = 2, resulting in balance = [0, 0, 0, 0]\n\nThus, the minimum number of moves required is 6.​​​\n\nExample 3:\n\nInput: balance = [-3,2]\n\nOutput: -1\n\nExplanation: ​​​​​​​It is impossible to make all balances non-negative for balance = [-3, 2], so the answer is -1.\n\nConstraints:\n\n• 1 <= n == balance.length <= 105\n\n• -109 <= balance[i] <= 109\n\n• There is at most one negative value in balance initially.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMoves(self, balance):\n        \"\"\"\n        :type balance: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If there is no negative value, then the answer is 0. If the total sum is less than 0, then the answer is -1.",
+    "Sort the positive values in nums by their distance from the index with the negative value.",
+    "Greedily use as many values as needed from the sorted nums to offset the current negative value."
+  ],
+  "testCases": [
+    [
+      "[5,1,-4]"
+    ],
+    [
+      "[1,2,-5,2]"
+    ],
+    [
+      "[-3,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "6",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minMoves(self, balance):\n        n = len(balance)\n        total = sum(balance)\n        if total < 0:\n            return -1\n\n        # Find the negative index (at most one)\n        neg_idx = -1\n        for i, v in enumerate(balance):\n            if v < 0:\n                neg_idx = i\n                break\n\n        if neg_idx == -1:\n            return 0  # already balanced\n\n        deficit = -balance[neg_idx]\n        # Sort positive values by their circular distance to neg_idx\n        positives = []\n        for i, v in enumerate(balance):\n            if v > 0:\n                # Circular distance: min(|i - neg_idx|, n - |i - neg_idx|)\n                d = abs(i - neg_idx)\n                dist = min(d, n - d)\n                positives.append((dist, v))\n\n        positives.sort()\n        moves = 0\n        for dist, v in positives:\n            if deficit <= 0:\n                break\n            take = min(v, deficit)\n            moves += take * dist\n            deficit -= take\n\n        return moves if deficit <= 0 else -1",
+    "explanation": "At most one index has negative balance. If total < 0, it's impossible. If no negative exists, return 0.\n\nFor the single negative index with deficit d, we need to transfer |d| units to it. The cost of transferring 1 unit from index i to neg_idx is the circular distance between them.\n\nGreedy: sort all positive-balance indices by their circular distance to neg_idx and greedily take from the closest first, accumulating cost = amount_taken * distance.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

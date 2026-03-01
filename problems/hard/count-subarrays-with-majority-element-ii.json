@@ -1,0 +1,72 @@
+{
+  "questionId": "4075",
+  "title": "Count Subarrays With Majority Element II",
+  "titleSlug": "count-subarrays-with-majority-element-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Merge Sort",
+      "slug": "merge-sort"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer target.\n\nReturn the number of subarrays of nums in which target is the majority element.\n\nThe majority element of a subarray is the element that appears strictly more than half of the times in that subarray.\n\nExample 1:\n\nInput: nums = [1,2,2,3], target = 2\n\nOutput: 5\n\nExplanation: Valid subarrays with target = 2 as the majority element:\n\n• nums[1..1] = [2]\n\n• nums[2..2] = [2]\n\n• nums[1..2] = [2,2]\n\n• nums[0..2] = [1,2,2]\n\n• nums[1..3] = [2,2,3]\n\nSo there are 5 such subarrays.\n\nExample 2:\n\nInput: nums = [1,1,1,1], target = 1\n\nOutput: 10\n\nExplanation: ​​​​​​​All 10 subarrays have 1 as the majority element.\n\nExample 3:\n\nInput: nums = [1,2,3], target = 4\n\nOutput: 0\n\nExplanation: target = 4 does not appear in nums at all. Therefore, there cannot be any subarray where 4 is the majority element. Hence the answer is 0.\n\nConstraints:\n\n• 1 <= nums.length <= 10​​​​​​​5\n\n• 1 <= nums[i] <= 10​​​​​​​9\n\n• 1 <= target <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countMajoritySubarrays(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Convert to +1/-1: let arr[i] = 1 if nums[i] == target else -1.",
+    "Build prefix sums: pref[0]=0, pref[k] = pref[k - 1] + arr[k - 1] for k=1..n.",
+    "Count pairs (i < j) with pref[j] > pref[i] (these correspond to subarrays where target is majority).",
+    "Use coordinate compression on all pref values and a Fenwick tree / ordered map: iterate k from 0..n, query how many previous pref are < current, add to ans, then update.",
+    "If target never appears return 0."
+  ],
+  "testCases": [
+    [
+      "[1,2,2,3]",
+      "2"
+    ],
+    [
+      "[1,1,1,1]",
+      "1"
+    ],
+    [
+      "[1,2,3]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "10",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countMajoritySubarrays(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        # Convert to +1/-1\n        arr = [1 if x == target else -1 for x in nums]\n        \n        # Build prefix sums\n        n = len(arr)\n        pref = [0] * (n + 1)\n        for i in range(n):\n            pref[i + 1] = pref[i] + arr[i]\n        \n        # Count pairs (i < j) where pref[j] > pref[i]\n        # This means subarray [i+1..j] has more target than non-target\n        \n        # Use coordinate compression + Fenwick tree\n        from collections import defaultdict\n        \n        sorted_prefs = sorted(set(pref))\n        compress = {v: i + 1 for i, v in enumerate(sorted_prefs)}  # 1-indexed\n        \n        class FenwickTree:\n            def __init__(self, size):\n                self.tree = [0] * (size + 1)\n            \n            def update(self, i):\n                while i < len(self.tree):\n                    self.tree[i] += 1\n                    i += i & (-i)\n            \n            def query(self, i):\n                s = 0\n                while i > 0:\n                    s += self.tree[i]\n                    i -= i & (-i)\n                return s\n        \n        ft = FenwickTree(len(sorted_prefs))\n        result = 0\n        \n        for j in range(n + 1):\n            # Count how many i < j have pref[i] < pref[j]\n            curr_compressed = compress[pref[j]]\n            \n            # Query for values < curr_compressed\n            if curr_compressed > 1:\n                result += ft.query(curr_compressed - 1)\n            \n            # Add current prefix to tree\n            ft.update(curr_compressed)\n        \n        return result",
+    "explanation": "Majority counting with prefix sums:\n\n1. **Transform**: target=+1, other=-1\n2. **Majority Condition**: sum > 0 (more +1 than -1)\n3. **Subarray [i+1..j]**: sum = pref[j] - pref[i]\n   - Valid if pref[j] > pref[i]\n\n4. **Count Pairs**: Use Fenwick tree for efficiency\n   - For each j, query how many i have pref[i] < pref[j]\n   - Update with pref[j]\n\nTime: O(n log n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

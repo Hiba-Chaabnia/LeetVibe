@@ -1,0 +1,51 @@
+{
+  "questionId": "3094",
+  "title": "Minimum Number of Operations to Make Array Empty",
+  "titleSlug": "minimum-number-of-operations-to-make-array-empty",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a 0-indexed array nums consisting of positive integers.\n\nThere are two types of operations that you can apply on the array any number of times:\n\n• Choose two elements with equal values and delete them from the array.\n\n• Choose three elements with equal values and delete them from the array.\n\nReturn the minimum number of operations required to make the array empty, or -1 if it is not possible.\n\nExample 1:\n\nInput: nums = [2,3,3,2,2,4,2,3,4]\nOutput: 4\nExplanation: We can apply the following operations to make the array empty:\n    - Apply the first operation on the elements at indices 0 and 3. The resulting array is nums = [3,3,2,4,2,3,4].\n    - Apply the first operation on the elements at indices 2 and 4. The resulting array is nums = [3,3,4,3,4].\n    - Apply the second operation on the elements at indices 0, 1, and 3. The resulting array is nums = [4,4].\n    - Apply the first operation on the elements at indices 0 and 1. The resulting array is nums = [].\n    It can be shown that we cannot make the array empty in less than 4 operations.\n\nExample 2:\n\nInput: nums = [2,1,2,2,3,3]\nOutput: -1\nExplanation: It is impossible to empty the array.\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• 1 <= nums[i] <= 106\n\nNote: This question is the same as 2244: Minimum Rounds to Complete All Tasks.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,3,3,2,2,4,2,3,4]"
+    ],
+    [
+      "[2,1,2,2,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\nimport math\n\nclass Solution(object):\n    def minOperations(self, nums):\n        freq = Counter(nums)\n        ops = 0\n        for cnt in freq.values():\n            if cnt == 1:\n                return -1\n            ops += math.ceil(cnt / 3)\n        return ops",
+    "explanation": "For each distinct value with frequency cnt: if cnt==1 return -1. Otherwise ceil(cnt/3) ops suffice (prefer groups of 3; any remainder handled by groups of 2). Values are independent so we sum.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

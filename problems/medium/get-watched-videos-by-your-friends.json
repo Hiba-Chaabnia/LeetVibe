@@ -1,0 +1,65 @@
+{
+  "questionId": "1436",
+  "title": "Get Watched Videos by Your Friends",
+  "titleSlug": "get-watched-videos-by-your-friends",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "There are n people, each person has a unique id between 0 and n-1. Given the arrays watchedVideos and friends, where watchedVideos[i] and friends[i] contain the list of watched videos and the list of friends respectively for the person with id = i.\n\nLevel 1 of videos are all watched videos by your friends, level 2 of videos are all watched videos by the friends of your friends and so on. In general, the level k of videos are all watched videos by people with the shortest path exactly equal to k with you. Given your id and the level of videos, return the list of videos ordered by their frequencies (increasing). For videos with the same frequency order them alphabetically from least to greatest.\n\nExample 1:\n\nInput: watchedVideos = [[\"A\",\"B\"],[\"C\"],[\"B\",\"C\"],[\"D\"]], friends = [[1,2],[0,3],[0,3],[1,2]], id = 0, level = 1\nOutput: [\"B\",\"C\"]\nExplanation:\n    You have id = 0 (green color in the figure) and your friends are (yellow color in the figure):\n    Person with id = 1 -> watchedVideos = [\"C\"]\n    Person with id = 2 -> watchedVideos = [\"B\",\"C\"]\n    The frequencies of watchedVideos by your friends are:\n    B -> 1\n    C -> 2\n\nExample 2:\n\nInput: watchedVideos = [[\"A\",\"B\"],[\"C\"],[\"B\",\"C\"],[\"D\"]], friends = [[1,2],[0,3],[0,3],[1,2]], id = 0, level = 2\nOutput: [\"D\"]\nExplanation:\n    You have id = 0 (green color in the figure) and the only friend of your friends is the person with id = 3 (yellow color in the figure).\n\nConstraints:\n\n• n == watchedVideos.length == friends.length\n\n• 2 <= n <= 100\n\n• 1 <= watchedVideos[i].length <= 100\n\n• 1 <= watchedVideos[i][j].length <= 8\n\n• 0 <= friends[i].length < n\n\n• 0 <= friends[i][j] < n\n\n• 0 <= id < n\n\n• 1 <= level < n\n\n• if friends[i] contains j, then friends[j] contains i",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def watchedVideosByFriends(self, watchedVideos, friends, id, level):\n        \"\"\"\n        :type watchedVideos: List[List[str]]\n        :type friends: List[List[int]]\n        :type id: int\n        :type level: int\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Do BFS to find the kth level friends.",
+    "Then collect movies saw by kth level friends and sort them accordingly."
+  ],
+  "testCases": [
+    [
+      "[[\"A\",\"B\"],[\"C\"],[\"B\",\"C\"],[\"D\"]]",
+      "[[1,2],[0,3],[0,3],[1,2]]",
+      "0",
+      "1"
+    ],
+    [
+      "[[\"A\",\"B\"],[\"C\"],[\"B\",\"C\"],[\"D\"]]",
+      "[[1,2],[0,3],[0,3],[1,2]]",
+      "0",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"B\",\"C\"]",
+    "[\"D\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def watchedVideosByFriends(self, watchedVideos, friends, id, level):\n        \"\"\"\n        :type watchedVideos: List[List[str]]\n        :type friends: List[List[int]]\n        :type id: int\n        :type level: int\n        :rtype: List[str]\n        \"\"\"\n        # BFS to find friends at specific level\n        from collections import deque, defaultdict\n        \n        queue = deque([(id, 0)])\n        visited = {id}\n        current_level_friends = []\n        \n        while queue:\n            person, dist = queue.popleft()\n            \n            if dist == level:\n                current_level_friends.append(person)\n                continue\n            \n            if dist < level:\n                for friend in friends[person]:\n                    if friend not in visited:\n                        visited.add(friend)\n                        queue.append((friend, dist + 1))\n        \n        # Count videos watched by level friends\n        video_count = defaultdict(int)\n        for person in current_level_friends:\n            for video in watchedVideos[person]:\n                video_count[video] += 1\n        \n        # Sort by frequency then alphabetically\n        result = sorted(video_count.items(), key=lambda x: (x[1], x[0]))\n        return [v for v, c in result]",
+    "explanation": "BFS to find all friends at exactly 'level' distance. Count videos watched by those friends. Sort by frequency.",
+    "complexity": "Time: O(n + v log v) where n is people, v is unique videos. Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

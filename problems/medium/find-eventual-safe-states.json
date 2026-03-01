@@ -1,0 +1,51 @@
+{
+  "questionId": "820",
+  "title": "Find Eventual Safe States",
+  "titleSlug": "find-eventual-safe-states",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Topological Sort",
+      "slug": "topological-sort"
+    }
+  ],
+  "content": "There is a directed graph of n nodes with each node labeled from 0 to n - 1. The graph is represented by a 0-indexed 2D integer array graph where graph[i] is an integer array of nodes adjacent to node i, meaning there is an edge from node i to each node in graph[i].\n\nA node is a terminal node if there are no outgoing edges. A node is a safe node if every possible path starting from that node leads to a terminal node (or another safe node).\n\nReturn an array containing all the safe nodes of the graph. The answer should be sorted in ascending order.\n\nExample 1:\n\nInput: graph = [[1,2],[2,3],[5],[0],[5],[],[]]\nOutput: [2,4,5,6]\nExplanation: The given graph is shown above.\n    Nodes 5 and 6 are terminal nodes as there are no outgoing edges from either of them.\n    Every path starting at nodes 2, 4, 5, and 6 all lead to either node 5 or 6.\n\nExample 2:\n\nInput: graph = [[1,2,3,4],[1,2],[3,4],[0,4],[]]\nOutput: [4]\nExplanation:\n    Only node 4 is a terminal node, and every path starting at node 4 leads to node 4.\n\nConstraints:\n\n• n == graph.length\n\n• 1 <= n <= 104\n\n• 0 <= graph[i].length <= n\n\n• 0 <= graph[i][j] <= n - 1\n\n• graph[i] is sorted in a strictly increasing order.\n\n• The graph may contain self-loops.\n\n• The number of edges in the graph will be in the range [1, 4 * 104].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def eventualSafeNodes(self, graph):\n        \"\"\"\n        :type graph: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2],[2,3],[5],[0],[5],[],[]]"
+    ],
+    [
+      "[[1,2,3,4],[1,2],[3,4],[0,4],[]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,4,5,6]",
+    "[4]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def eventualSafeNodes(self, graph):\n        n = len(graph)\n        color = [0] * n\n        def dfs(node):\n            if color[node] != 0:\n                return color[node] == 2\n            color[node] = 1\n            for neighbor in graph[node]:\n                if not dfs(neighbor):\n                    return False\n            color[node] = 2\n            return True\n        return [i for i in range(n) if dfs(i)]",
+    "explanation": "3-color DFS. 0=unvisited, 1=visiting, 2=safe. Detect cycles.\nTime: O(n+e)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Build a Matrix With Conditions\", \"titleSlug\": \"build-a-matrix-with-conditions\", \"difficulty\": \"Hard\"}]"
+}

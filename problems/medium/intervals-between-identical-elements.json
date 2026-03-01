@@ -1,0 +1,53 @@
+{
+  "questionId": "2240",
+  "title": "Intervals Between Identical Elements",
+  "titleSlug": "intervals-between-identical-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed array of n integers arr.\n\nThe interval between two elements in arr is defined as the absolute difference between their indices. More formally, the interval between arr[i] and arr[j] is |i - j|.\n\nReturn an array intervals of length n where intervals[i] is the sum of intervals between arr[i] and each element in arr with the same value as arr[i].\n\nNote: |x| is the absolute value of x.\n\nExample 1:\n\nInput: arr = [2,1,3,1,2,3,3]\nOutput: [4,2,7,2,4,4,5]\nExplanation:\n    - Index 0: Another 2 is found at index 4. |0 - 4| = 4\n    - Index 1: Another 1 is found at index 3. |1 - 3| = 2\n    - Index 2: Two more 3s are found at indices 5 and 6. |2 - 5| + |2 - 6| = 7\n    - Index 3: Another 1 is found at index 1. |3 - 1| = 2\n    - Index 4: Another 2 is found at index 0. |4 - 0| = 4\n    - Index 5: Two more 3s are found at indices 2 and 6. |5 - 2| + |5 - 6| = 4\n    - Index 6: Two more 3s are found at indices 2 and 5. |6 - 2| + |6 - 5| = 5\n\nExample 2:\n\nInput: arr = [10,5,10,10]\nOutput: [5,0,3,4]\nExplanation:\n    - Index 0: Two more 10s are found at indices 2 and 3. |0 - 2| + |0 - 3| = 5\n    - Index 1: There is only one 5 in the array, so its sum of intervals to identical elements is 0.\n    - Index 2: Two more 10s are found at indices 0 and 3. |2 - 0| + |2 - 3| = 3\n    - Index 3: Two more 10s are found at indices 0 and 2. |3 - 0| + |3 - 2| = 4\n\nConstraints:\n\n• n == arr.length\n\n• 1 <= n <= 105\n\n• 1 <= arr[i] <= 105\n\nNote: This question is the same as  2615: Sum of Distances.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getDistances(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each unique value found in the array, store a sorted list of indices of elements that have this value in the array.",
+    "One way of doing this is to use a HashMap that maps the values to their list of indices. Update this mapping as you iterate through the array.",
+    "Process each list of indices separately and get the sum of intervals for the elements of that value by utilizing prefix sums.",
+    "For each element, keep track of the sum of indices of the identical elements that have come before and that will come after respectively. Use this to calculate the sum of intervals for that element to the rest of the elements with identical values."
+  ],
+  "testCases": [
+    [
+      "[2,1,3,1,2,3,3]"
+    ],
+    [
+      "[10,5,10,10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[4,2,7,2,4,4,5]",
+    "[5,0,3,4]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def getDistances(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: List[int]\n        \"\"\"\n        n = len(arr)\n        result = [0] * n\n        indices = defaultdict(list)\n        \n        # Group indices by value\n        for i, val in enumerate(arr):\n            indices[val].append(i)\n        \n        # For each value, calculate distances\n        for val, idx_list in indices.items():\n            m = len(idx_list)\n            \n            # Prefix sum of indices\n            prefix = [0] * (m + 1)\n            for i in range(m):\n                prefix[i + 1] = prefix[i] + idx_list[i]\n            \n            # Calculate distance for each occurrence\n            for i in range(m):\n                curr_idx = idx_list[i]\n                \n                # Distance to all left occurrences\n                left_count = i\n                left_sum = prefix[i]\n                left_dist = curr_idx * left_count - left_sum\n                \n                # Distance to all right occurrences\n                right_count = m - i - 1\n                right_sum = prefix[m] - prefix[i + 1]\n                right_dist = right_sum - curr_idx * right_count\n                \n                result[curr_idx] = left_dist + right_dist\n        \n        return result",
+    "explanation": "Group identical elements by value. Use prefix sums to efficiently calculate distances. For each element, sum distances to all identical elements.",
+    "complexity": "Time: O(n). Space: O(n) for indices map."
+  },
+  "similarQuestions": "[{\"title\": \"Continuous Subarray Sum\", \"titleSlug\": \"continuous-subarray-sum\", \"difficulty\": \"Medium\"}]"
+}

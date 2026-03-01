@@ -1,0 +1,74 @@
+{
+  "questionId": "3487",
+  "title": "Find Maximum Removals From Source String",
+  "titleSlug": "find-maximum-removals-from-source-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a string source of size n, a string pattern that is a subsequence of source, and a sorted integer array targetIndices that contains distinct numbers in the range [0, n - 1].\n\nWe define an operation as removing a character at an index idx from source such that:\n\n• idx is an element of targetIndices.\n\n• pattern remains a subsequence of source after removing the character.\n\nPerforming an operation does not change the indices of the other characters in source. For example, if you remove 'c' from \"acb\", the character at index 2 would still be 'b'.\n\nReturn the maximum number of operations that can be performed.\n\nExample 1:\n\nInput: source = \"abbaa\", pattern = \"aba\", targetIndices = [0,1,2]\n\nOutput: 1\n\nExplanation: We can't remove source[0] but we can do either of these two operations:\n\n• Remove source[1], so that source becomes \"a_baa\".\n\n• Remove source[2], so that source becomes \"ab_aa\".\n\nExample 2:\n\nInput: source = \"bcda\", pattern = \"d\", targetIndices = [0,3]\n\nOutput: 2\n\nExplanation: We can remove source[0] and source[3] in two operations.\n\nExample 3:\n\nInput: source = \"dda\", pattern = \"dda\", targetIndices = [0,1,2]\n\nOutput: 0\n\nExplanation: We can't remove any character from source.\n\nExample 4:\n\nInput: source = \"yeyeykyded\", pattern = \"yeyyd\", targetIndices = [0,2,3,4]\n\nOutput: 2\n\nExplanation: We can remove source[2] and source[3] in two operations.\n\nConstraints:\n\n• 1 <= n == source.length <= 3 * 103\n\n• 1 <= pattern.length <= n\n\n• 1 <= targetIndices.length <= n\n\n• targetIndices is sorted in ascending order.\n\n• The input is generated such that targetIndices contains distinct elements in the range [0, n - 1].\n\n• source and pattern consist only of lowercase English letters.\n\n• The input is generated such that pattern appears as a subsequence in source.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxRemovals(self, source, pattern, targetIndices):\n        \"\"\"\n        :type source: str\n        :type pattern: str\n        :type targetIndices: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "At each index in targetIndices, make the choice to remove or not remove the character."
+  ],
+  "testCases": [
+    [
+      "\"abbaa\"",
+      "\"aba\"",
+      "[0,1,2]"
+    ],
+    [
+      "\"bcda\"",
+      "\"d\"",
+      "[0,3]"
+    ],
+    [
+      "\"dda\"",
+      "\"dda\"",
+      "[0,1,2]"
+    ],
+    [
+      "\"yeyeykyded\"",
+      "\"yeyyd\"",
+      "[0,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxRemovals(self, source, pattern, targetIndices):\n        n, m = len(source), len(pattern)\n        target_set = set(targetIndices)\n        # dp[j] = max removals when we've matched j chars of pattern\n        NEG_INF = float('-inf')\n        dp = [NEG_INF] * (m + 1)\n        dp[0] = 0\n        for i in range(n):\n            is_target = i in target_set\n            # Process right-to-left to avoid reuse\n            for j in range(min(i, m-1), -1, -1):\n                if dp[j] == NEG_INF:\n                    continue\n                if source[i] == pattern[j]:\n                    # Can match: use this char for pattern (don't remove)\n                    dp[j+1] = max(dp[j+1], dp[j])\n                # Can remove if target\n                if is_target:\n                    dp[j] = max(dp[j], dp[j] + 1)  # remove doesn't advance j\n            # Handle removal at position i for j=current state\n            # Actually need to handle removal separately\n        # Redo with cleaner formulation\n        dp = [NEG_INF] * (m + 1)\n        dp[0] = 0\n        for i in range(n):\n            is_target = i in target_set\n            new_dp = list(dp)\n            for j in range(m + 1):\n                if dp[j] == NEG_INF:\n                    continue\n                # Option 1: remove source[i] (only if target)\n                if is_target:\n                    new_dp[j] = max(new_dp[j], dp[j] + 1)\n                # Option 2: use source[i] to match pattern[j]\n                if j < m and source[i] == pattern[j]:\n                    new_dp[j+1] = max(new_dp[j+1], dp[j])\n                # Option 3: skip source[i] (not remove, not match)\n                # new_dp[j] already initialized from dp[j]\n            dp = new_dp\n        return dp[m]",
+    "explanation": "DP: dp[j] = max removals when j characters of pattern have been matched. For each source character: option to remove (if in targetIndices, +1 removal, j unchanged), match (advances j if matches pattern[j]), or skip. Take max.\n\nTime: O(n*m). Space: O(m)."
+  },
+  "similarQuestions": "[{\"title\": \"Delete Characters to Make Fancy String\", \"titleSlug\": \"delete-characters-to-make-fancy-string\", \"difficulty\": \"Easy\"}]"
+}

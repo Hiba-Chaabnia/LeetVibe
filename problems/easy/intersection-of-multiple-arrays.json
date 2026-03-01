@@ -1,0 +1,54 @@
+{
+  "questionId": "2331",
+  "title": "Intersection of Multiple Arrays",
+  "titleSlug": "intersection-of-multiple-arrays",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given a 2D integer array nums where nums[i] is a non-empty array of distinct positive integers, return the list of integers that are present in each array of nums sorted in ascending order.\n\nExample 1:\n\nInput: nums = [[3,1,2,4,5],[1,2,3,4],[3,4,5,6]]\nOutput: [3,4]\nExplanation:\n    The only integers present in each of nums[0] = [3,1,2,4,5], nums[1] = [1,2,3,4], and nums[2] = [3,4,5,6] are 3 and 4, so we return [3,4].\n\nExample 2:\n\nInput: nums = [[1,2,3],[4,5,6]]\nOutput: []\nExplanation:\n    There does not exist any integer present both in nums[0] and nums[1], so we return an empty list [].\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= sum(nums[i].length) <= 1000\n\n• 1 <= nums[i][j] <= 1000\n\n• All the values of nums[i] are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def intersection(self, nums):\n        \"\"\"\n        :type nums: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep a count of the number of times each integer occurs in nums.",
+    "Since all integers of nums[i] are distinct, if an integer is present in each array, its count will be equal to the total number of arrays."
+  ],
+  "testCases": [
+    [
+      "[[3,1,2,4,5],[1,2,3,4],[3,4,5,6]]"
+    ],
+    [
+      "[[1,2,3],[4,5,6]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,4]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def intersection(self, nums):\n        from collections import Counter\n        freq = Counter()\n        for arr in nums:\n            for num in arr:\n                freq[num] += 1\n        result = [num for num in freq if freq[num] == len(nums)]\n        return sorted(result)",
+    "explanation": "Count occurrences across all arrays. Return numbers appearing in all arrays.\nTime: O(n*m + k*log(k))\nSpace: O(k)"
+  },
+  "similarQuestions": "[{\"title\": \"Intersection of Two Arrays\", \"titleSlug\": \"intersection-of-two-arrays\", \"difficulty\": \"Easy\"}, {\"title\": \"Intersection of Two Arrays II\", \"titleSlug\": \"intersection-of-two-arrays-ii\", \"difficulty\": \"Easy\"}, {\"title\": \"Find Smallest Common Element in All Rows\", \"titleSlug\": \"find-smallest-common-element-in-all-rows\", \"difficulty\": \"Medium\"}, {\"title\": \"Intersection of Three Sorted Arrays\", \"titleSlug\": \"intersection-of-three-sorted-arrays\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Difference of Two Arrays\", \"titleSlug\": \"find-the-difference-of-two-arrays\", \"difficulty\": \"Easy\"}]"
+}

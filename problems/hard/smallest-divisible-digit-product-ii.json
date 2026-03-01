@@ -1,0 +1,62 @@
+{
+  "questionId": "3635",
+  "title": "Smallest Divisible Digit Product II",
+  "titleSlug": "smallest-divisible-digit-product-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given a string num which represents a positive integer, and an integer t.\n\nA number is called zero-free if none of its digits are 0.\n\nReturn a string representing the smallest zero-free number greater than or equal to num such that the product of its digits is divisible by t. If no such number exists, return \"-1\".\n\nExample 1:\n\nInput: num = \"1234\", t = 256\n\nOutput: \"1488\"\n\nExplanation: The smallest zero-free number that is greater than 1234 and has the product of its digits divisible by 256 is 1488, with the product of its digits equal to 256.\n\nExample 2:\n\nInput: num = \"12355\", t = 50\n\nOutput: \"12355\"\n\nExplanation: 12355 is already zero-free and has the product of its digits divisible by 50, with the product of its digits equal to 150.\n\nExample 3:\n\nInput: num = \"11111\", t = 26\n\nOutput: \"-1\"\n\nExplanation: No number greater than 11111 has the product of its digits divisible by 26.\n\nConstraints:\n\n• 2 <= num.length <= 2 * 105\n\n• num consists only of digits in the range ['0', '9'].\n\n• num does not contain leading zeros.\n\n• 1 <= t <= 1014",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestNumber(self, num, t):\n        \"\"\"\n        :type num: str\n        :type t: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "t should only have 2, 3, 5 and 7 as prime factors.",
+    "Find the shortest suffix that must be changed.",
+    "Try to form the string greedily."
+  ],
+  "testCases": [
+    [
+      "\"1234\"",
+      "256"
+    ],
+    [
+      "\"12355\"",
+      "50"
+    ],
+    [
+      "\"11111\"",
+      "26"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"1488\"",
+    "\"12355\"",
+    "\"-1\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Smallest Number With Given Digit Product\", \"titleSlug\": \"smallest-number-with-given-digit-product\", \"difficulty\": \"Medium\"}]"
+}

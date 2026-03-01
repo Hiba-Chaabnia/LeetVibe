@@ -1,0 +1,61 @@
+{
+  "questionId": "4021",
+  "title": "Distinct Points Reachable After Substring Removal",
+  "titleSlug": "distinct-points-reachable-after-substring-removal",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a string s consisting of characters 'U', 'D', 'L', and 'R', representing moves on an infinite 2D Cartesian grid.\n\n• 'U': Move from (x, y) to (x, y + 1).\n\n• 'D': Move from (x, y) to (x, y - 1).\n\n• 'L': Move from (x, y) to (x - 1, y).\n\n• 'R': Move from (x, y) to (x + 1, y).\n\nYou are also given a positive integer k.\n\nYou must choose and remove exactly one contiguous substring of length k from s. Then, start from coordinate (0, 0) and perform the remaining moves in order.\n\nReturn an integer denoting the number of distinct final coordinates reachable.\n\nExample 1:\n\nInput: s = \"LUL\", k = 1\n\nOutput: 2\n\nExplanation: After removing a substring of length 1, s can be \"UL\", \"LL\" or \"LU\". Following these moves, the final coordinates will be (-1, 1), (-2, 0) and (-1, 1) respectively. There are two distinct points (-1, 1) and (-2, 0) so the answer is 2.\n\nExample 2:\n\nInput: s = \"UDLR\", k = 4\n\nOutput: 1\n\nExplanation: After removing a substring of length 4, s can only be the empty string. The final coordinates will be (0, 0). There is only one distinct point (0, 0) so the answer is 1.\n\nExample 3:\n\nInput: s = \"UU\", k = 1\n\nOutput: 1\n\nExplanation: After removing a substring of length 1, s becomes \"U\", which always ends at (0, 1), so there is only one distinct final coordinate.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of only 'U', 'D', 'L', and 'R'.\n\n• 1 <= k <= s.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def distinctPoints(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use prefix sums for the x-coordinate and y-coordinate.",
+    "Using the prefix sum arrays, compute the x-coordinate and y-coordinate after removing a subarray of size k."
+  ],
+  "testCases": [
+    [
+      "\"LUL\"",
+      "1"
+    ],
+    [
+      "\"UDLR\"",
+      "4"
+    ],
+    [
+      "\"UU\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def distinctPoints(self, s, k):\n        n = len(s)\n        # Compute prefix sums for x and y\n        dx = {'R': 1, 'L': -1, 'U': 0, 'D': 0}\n        dy = {'U': 1, 'D': -1, 'L': 0, 'R': 0}\n        px = [0] * (n + 1)\n        py = [0] * (n + 1)\n        for i, c in enumerate(s):\n            px[i+1] = px[i] + dx[c]\n            py[i+1] = py[i] + dy[c]\n        # Removing substring s[l..l+k-1] (0-indexed)\n        # Final x = px[l] + (px[n] - px[l+k]) = px[l] - px[l+k] + px[n]\n        # Final y similarly\n        # Distinct points = |{(px[l] - px[l+k], py[l] - py[l+k]) : 0 <= l <= n-k}|\n        points = set()\n        total_x = px[n]\n        total_y = py[n]\n        for l in range(n - k + 1):\n            x = px[l] - px[l + k] + total_x\n            y = py[l] - py[l + k] + total_y\n            points.add((x, y))\n        return len(points)",
+    "explanation": "Prefix sums for x and y coordinates. Removing s[l..l+k-1] gives final position (px[l] - px[l+k] + px[n], py[l] - py[l+k] + py[n]). Count distinct values in a set.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

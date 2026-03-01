@@ -1,0 +1,50 @@
+{
+  "questionId": "2687",
+  "title": "Lexicographically Smallest Beautiful String",
+  "titleSlug": "lexicographically-smallest-beautiful-string",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "A string is beautiful if:\n\n• It consists of the first k letters of the English lowercase alphabet.\n\n• It does not contain any substring of length 2 or more which is a palindrome.\n\nYou are given a beautiful string s of length n and a positive integer k.\n\nReturn the lexicographically smallest string of length n, which is larger than s and is beautiful. If there is no such string, return an empty string.\n\nA string a is lexicographically larger than a string b (of the same length) if in the first position where a and b differ, a has a character strictly larger than the corresponding character in b.\n\n• For example, \"abcd\" is lexicographically larger than \"abcc\" because the first position they differ is at the fourth character, and d is greater than c.\n\nExample 1:\n\nInput: s = \"abcz\", k = 26\nOutput: \"abda\"\nExplanation: The string \"abda\" is beautiful and lexicographically larger than the string \"abcz\".\n    It can be proven that there is no string that is lexicographically larger than the string \"abcz\", beautiful, and lexicographically smaller than the string \"abda\".\n\nExample 2:\n\nInput: s = \"dc\", k = 4\nOutput: \"\"\nExplanation: It can be proven that there is no string that is lexicographically larger than the string \"dc\" and is beautiful.\n\nConstraints:\n\n• 1 <= n == s.length <= 105\n\n• 4 <= k <= 26\n\n• s is a beautiful string.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestBeautifulString(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If the string does not contain any palindromic substrings of lengths 2 and 3, then the string does not contain any palindromic substrings at all.",
+    "Iterate from right to left and if it is possible to increase character at index i without creating any palindromic substrings of lengths 2 and 3, then increase it.",
+    "After increasing the character at index i, set every character after index i equal to character a. With this, we will ensure that we have created a lexicographically larger string than s, which does not contain any palindromes before index i and is lexicographically the smallest.",
+    "Finally, we are just left with a case to fix palindromic substrings, which come after index i. This can be done with a similar method mentioned in the second hint."
+  ],
+  "testCases": [
+    [
+      "\"abcz\"",
+      "26"
+    ],
+    [
+      "\"dc\"",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"abda\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def smallestBeautifulString(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        s = list(s)\n        n = len(s)\n        \n        # Find the rightmost position to increment\n        for i in range(n - 1, -1, -1):\n            # Try incrementing character at position i\n            for c in range(ord(s[i]) + 1, ord('a') + k):\n                s[i] = chr(c)\n                \n                # Check if it creates palindrome at position i and i-1\n                if i >= 1 and s[i] == s[i-1]:\n                    continue\n                \n                # Check if it creates palindrome at position i and i-2\n                if i >= 2 and s[i] == s[i-2]:\n                    continue\n                \n                # Valid, now fill rest greedily\n                valid = True\n                for j in range(i + 1, n):\n                    # Try smallest character\n                    found = False\n                    for c2 in range(ord('a'), ord('a') + k):\n                        ch = chr(c2)\n                        # Check no palindrome of length 2 or 3\n                        if j >= 1 and ch == s[j-1]:\n                            continue\n                        if j >= 2 and ch == s[j-2]:\n                            continue\n                        s[j] = ch\n                        found = True\n                        break\n                    \n                    if not found:\n                        valid = False\n                        break\n                \n                if valid:\n                    return ''.join(s)\n        \n        return \"\"",
+    "explanation": "This solution uses greedy backtracking with palindrome checking:\n\n1. **Problem Understanding**:\n   - Beautiful string: first k letters, no palindromic substrings length >= 2\n   - Find lexicographically smallest beautiful string > s\n\n2. **Key Insight**:\n   - If no palindromes of length 2 and 3, no palindromes at all\n   - Only need to check s[i] != s[i-1] and s[i] != s[i-2]\n\n3. **Algorithm**:\n   - From right to left, try to increment a character\n   - For each position i, try characters from (s[i]+1) to (k-1)\n   - Check it doesn't create length-2 or length-3 palindrome\n   - If valid, greedily fill rest with smallest valid characters\n\n4. **Greedy Filling**:\n   - For each position after incremented position\n   - Try 'a' first, then 'b', etc.\n   - Skip if creates palindrome with previous 1 or 2 characters\n   - Fill until success or until no valid character\n\n5. **Why Backtrack Right to Left**:\n   - Want lexicographically smallest larger string\n   - Incrementing leftmost position gives larger result\n   - But must ensure rest can be filled validly\n   - Backtrack from right to find valid increment point\n\nTime Complexity: O(n * k²) in worst case\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Smallest String With Swaps\", \"titleSlug\": \"smallest-string-with-swaps\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Palindrome With Fixed Length\", \"titleSlug\": \"find-palindrome-with-fixed-length\", \"difficulty\": \"Medium\"}]"
+}

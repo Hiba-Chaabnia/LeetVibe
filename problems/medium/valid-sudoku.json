@@ -1,0 +1,47 @@
+{
+  "questionId": "36",
+  "title": "Valid Sudoku",
+  "titleSlug": "valid-sudoku",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:\n\n• Each row must contain the digits 1-9 without repetition.\n\n• Each column must contain the digits 1-9 without repetition.\n\n• Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.\n\nNote:\n\n• A Sudoku board (partially filled) could be valid but is not necessarily solvable.\n\n• Only the filled cells need to be validated according to the mentioned rules.\n\nExample 1:\n\nInput: board =\n    [[\"5\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"]\n    ,[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"]\n    ,[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"]\n    ,[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"]\n    ,[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"]\n    ,[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"]\n    ,[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"]\n    ,[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"]\n    ,[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]\nOutput: true\n\nExample 2:\n\nInput: board =\n    [[\"8\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"]\n    ,[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"]\n    ,[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"]\n    ,[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"]\n    ,[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"]\n    ,[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"]\n    ,[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"]\n    ,[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"]\n    ,[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]\nOutput: false\nExplanation: Same as Example 1, except with the 5 in the top left corner being modified to 8. Since there are two 8's in the top left 3x3 sub-box, it is invalid.\n\nConstraints:\n\n• board.length == 9\n\n• board[i].length == 9\n\n• board[i][j] is a digit 1-9 or '.'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isValidSudoku(self, board):\n        \"\"\"\n        :type board: List[List[str]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[\"5\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]"
+    ],
+    [
+      "[[\"8\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def isValidSudoku(board):\n    seen = set()\n\n    for i in range(9):\n        for j in range(9):\n            current_val = board[i][j]\n            \n            if current_val != '.':\n                row = f\"{current_val} in row {i}\"\n                col = f\"{current_val} in col {j}\"\n                box = f\"{current_val} in box {i // 3}-{j // 3}\"\n                \n                if row in seen or col in seen or box in seen:\n                    return False\n\n                seen.add(row)\n                seen.add(col)\n                seen.add(box)\n\n    return True",
+    "explanation": "Iterate through the entire board and check each value. If it's not an empty cell, construct a row identifier, a column identifier, and a box identifier. Check if any of these identifiers have been seen before; if so, return false. If not, add these identifiers to the 'seen' set. Once the entire board has been traversed, return true as no conflicts have been found."
+  },
+  "similarQuestions": "[{\"title\": \"Sudoku Solver\", \"titleSlug\": \"sudoku-solver\", \"difficulty\": \"Hard\"}, {\"title\": \"Check if Every Row and Column Contains All Numbers\", \"titleSlug\": \"check-if-every-row-and-column-contains-all-numbers\", \"difficulty\": \"Easy\"}]"
+}

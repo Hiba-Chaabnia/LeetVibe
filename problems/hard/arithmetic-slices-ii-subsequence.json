@@ -1,0 +1,43 @@
+{
+  "questionId": "446",
+  "title": "Arithmetic Slices II - Subsequence",
+  "titleSlug": "arithmetic-slices-ii-subsequence",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given an integer array nums, return the number of all the arithmetic subsequences of nums.\n\nA sequence of numbers is called arithmetic if it consists of at least three elements and if the difference between any two consecutive elements is the same.\n\n• For example, [1, 3, 5, 7, 9], [7, 7, 7, 7], and [3, -1, -5, -9] are arithmetic sequences.\n\n• For example, [1, 1, 2, 5, 7] is not an arithmetic sequence.\n\nA subsequence of an array is a sequence that can be formed by removing some elements (possibly none) of the array.\n\n• For example, [2,5,10] is a subsequence of [1,2,1,2,4,1,5,10].\n\nThe test cases are generated so that the answer fits in 32-bit integer.\n\nExample 1:\n\nInput: nums = [2,4,6,8,10]\nOutput: 7\nExplanation: All arithmetic subsequence slices are:\n    [2,4,6]\n    [4,6,8]\n    [6,8,10]\n    [2,4,6,8]\n    [4,6,8,10]\n    [2,4,6,8,10]\n    [2,6,10]\n\nExample 2:\n\nInput: nums = [7,7,7,7,7]\nOutput: 16\nExplanation: Any subsequence of this array is arithmetic.\n\nConstraints:\n\n• 1  <= nums.length <= 1000\n\n• -231 <= nums[i] <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfArithmeticSlices(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,4,6,8,10]"
+    ],
+    [
+      "[7,7,7,7,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "16"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numberOfArithmeticSlices(nums):\n    res = 0\n    n = len(nums)\n    dp = [dict() for _ in range(n)]\n\n    for i in range(n):\n        for j in range(i):\n            diff = nums[i] - nums[j]\n            if diff <= -2**31 or diff > 2**31:\n                continue\n\n            dp[i][diff] = dp[i].get(diff, 0) + 1\n\n            if diff in dp[j]:\n                res += dp[j][diff]\n                dp[i][diff] += dp[j][diff]\n\n    return res",
+    "explanation": "To solve this problem, we use dynamic programming. The `dp` data structure is an array of hashmaps or dictionaries. Each index `i` in the array represents an element in the given array `nums`, and the hashmap stored at `dp[i]` will store the count of arithmetic subsequences that end at the element `nums[i]`, with keys representing the differences between elements.\n\nStarting with index `i = 0`, we iterate through the `nums` array. For each element `nums[i]`, we iterate through all previous elements `nums[j]` with `j < i`.\n\nFor each pair of elements `(nums[i], nums[j])`, we calculate their difference and store the count of arithmetic subsequences formed by this difference at `dp[i]`.\n\nIf an existing subsequence with the same difference is found in `dp[j]`, we should be able to append `nums[i]` to all previously formed subsequences ending at `nums[j]`. Thus, we add the count of subsequences from `dp[j][delta]` to the result, and also update the count in `dp[i][delta]`.\n\nFinally, after iterating through all elements, the `res` variable will hold the count of all the arithmetic subsequences."
+  },
+  "similarQuestions": "[{\"title\": \"Arithmetic Slices\", \"titleSlug\": \"arithmetic-slices\", \"difficulty\": \"Medium\"}, {\"title\": \"Destroy Sequential Targets\", \"titleSlug\": \"destroy-sequential-targets\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Palindromic Subsequences\", \"titleSlug\": \"count-palindromic-subsequences\", \"difficulty\": \"Hard\"}]"
+}

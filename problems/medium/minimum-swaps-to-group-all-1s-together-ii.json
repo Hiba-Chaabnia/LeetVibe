@@ -1,0 +1,49 @@
+{
+  "questionId": "2255",
+  "title": "Minimum Swaps to Group All 1's Together II",
+  "titleSlug": "minimum-swaps-to-group-all-1s-together-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "A swap is defined as taking two distinct positions in an array and swapping the values in them.\n\nA circular array is defined as an array where we consider the first element and the last element to be adjacent.\n\nGiven a binary circular array nums, return the minimum number of swaps required to group all 1's present in the array together at any location.\n\nExample 1:\n\nInput: nums = [0,1,0,1,1,0,0]\nOutput: 1\nExplanation: Here are a few of the ways to group all the 1's together:\n    [0,0,1,1,1,0,0] using 1 swap.\n    [0,1,1,1,0,0,0] using 1 swap.\n    [1,1,0,0,0,0,1] using 2 swaps (using the circular property of the array).\n    There is no way to group all 1's together with 0 swaps.\n    Thus, the minimum number of swaps required is 1.\n\nExample 2:\n\nInput: nums = [0,1,1,1,0,0,1,1,0]\nOutput: 2\nExplanation: Here are a few of the ways to group all the 1's together:\n    [1,1,1,0,0,0,0,1,1] using 2 swaps (using the circular property of the array).\n    [1,1,1,1,1,0,0,0,0] using 2 swaps.\n    There is no way to group all 1's together with 0 or 1 swaps.\n    Thus, the minimum number of swaps required is 2.\n\nExample 3:\n\nInput: nums = [1,1,0,0,1]\nOutput: 0\nExplanation: All the 1's are already grouped together due to the circular property of the array.\n    Thus, the minimum number of swaps required is 0.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• nums[i] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSwaps(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that the number of 1’s to be grouped together is fixed. It is the number of 1's the whole array has.",
+    "Call this number total. We should then check for every subarray of size total (possibly wrapped around), how many swaps are required to have the subarray be all 1’s.",
+    "The number of swaps required is the number of 0’s in the subarray.",
+    "To eliminate the circular property of the array, we can append the original array to itself. Then, we check each subarray of length total.",
+    "How do we avoid recounting the number of 0’s in the subarray each time? The Sliding Window technique can help."
+  ],
+  "testCases": [
+    [
+      "[0,1,0,1,1,0,0]"
+    ],
+    [
+      "[0,1,1,1,0,0,1,1,0]"
+    ],
+    [
+      "[1,1,0,0,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Swaps to Group All 1's Together\", \"titleSlug\": \"minimum-swaps-to-group-all-1s-together\", \"difficulty\": \"Medium\"}, {\"title\": \"Time Needed to Rearrange a Binary String\", \"titleSlug\": \"time-needed-to-rearrange-a-binary-string\", \"difficulty\": \"Medium\"}]"
+}

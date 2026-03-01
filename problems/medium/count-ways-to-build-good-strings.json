@@ -1,0 +1,48 @@
+{
+  "questionId": "2562",
+  "title": "Count Ways To Build Good Strings",
+  "titleSlug": "count-ways-to-build-good-strings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given the integers zero, one, low, and high, we can construct a string by starting with an empty string, and then at each step perform either of the following:\n\n• Append the character '0' zero times.\n\n• Append the character '1' one times.\n\nThis can be performed any number of times.\n\nA good string is a string constructed by the above process having a length between low and high (inclusive).\n\nReturn the number of different good strings that can be constructed satisfying these properties. Since the answer can be large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: low = 3, high = 3, zero = 1, one = 1\nOutput: 8\nExplanation:\n    One possible valid good string is \"011\".\n    It can be constructed as follows: \"\" -> \"0\" -> \"01\" -> \"011\".\n    All binary strings from \"000\" to \"111\" are good strings in this example.\n\nExample 2:\n\nInput: low = 2, high = 3, zero = 1, one = 2\nOutput: 5\nExplanation: The good strings are \"00\", \"11\", \"000\", \"110\", and \"011\".\n\nConstraints:\n\n• 1 <= low <= high <= 105\n\n• 1 <= zero, one <= low",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countGoodStrings(self, low, high, zero, one):\n        \"\"\"\n        :type low: int\n        :type high: int\n        :type zero: int\n        :type one: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Calculate the number of good strings with length less or equal to some constant x.",
+    "Apply dynamic programming using the group size of consecutive zeros and ones."
+  ],
+  "testCases": [
+    [
+      "3",
+      "3",
+      "1",
+      "1"
+    ],
+    [
+      "2",
+      "3",
+      "1",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countGoodStrings(self, low, high, zero, one):\n        MOD = 10**9 + 7\n        dp = [0] * (high + 1)\n        dp[0] = 1\n        for i in range(1, high + 1):\n            if i >= zero:\n                dp[i] += dp[i - zero]\n            if i >= one:\n                dp[i] += dp[i - one]\n            dp[i] %= MOD\n        result = 0\n        for i in range(low, high + 1):\n            result = (result + dp[i]) % MOD\n        return result",
+    "explanation": "DP. dp[i] = ways to form string of length i. Sum dp[low..high].\nTime: O(high)\nSpace: O(high)"
+  },
+  "similarQuestions": "[{\"title\": \"Climbing Stairs\", \"titleSlug\": \"climbing-stairs\", \"difficulty\": \"Easy\"}]"
+}

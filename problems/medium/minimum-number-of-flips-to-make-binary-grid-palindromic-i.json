@@ -1,0 +1,53 @@
+{
+  "questionId": "3526",
+  "title": "Minimum Number of Flips to Make Binary Grid Palindromic I",
+  "titleSlug": "minimum-number-of-flips-to-make-binary-grid-palindromic-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n binary matrix grid.\n\nA row or column is considered palindromic if its values read the same forward and backward.\n\nYou can flip any number of cells in grid from 0 to 1, or from 1 to 0.\n\nReturn the minimum number of cells that need to be flipped to make either all rows palindromic or all columns palindromic.\n\nExample 1:\n\nInput: grid = [[1,0,0],[0,0,0],[0,0,1]]\n\nOutput: 2\n\nExplanation: Flipping the highlighted cells makes all the rows palindromic.\n\nExample 2:\n\nInput: grid = [[0,1],[0,1],[0,0]]\n\nOutput: 1\n\nExplanation: Flipping the highlighted cell makes all the columns palindromic.\n\nExample 3:\n\nInput: grid = [[1],[0]]\n\nOutput: 0\n\nExplanation: All rows are already palindromic.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m * n <= 2 * 105\n\n• 0 <= grid[i][j] <= 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minFlips(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We need to perform the operation only when the equivalent element of i from the back is not equal."
+  ],
+  "testCases": [
+    [
+      "[[1,0,0],[0,0,0],[0,0,1]]"
+    ],
+    [
+      "[[0,1],[0,1],[0,0]]"
+    ],
+    [
+      "[[1],[0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minFlips(self, grid):\n        m, n = len(grid), len(grid[0])\n\n        # Cost to make all rows palindromic\n        row_cost = 0\n        for r in range(m):\n            for c in range(n // 2):\n                if grid[r][c] != grid[r][n - 1 - c]:\n                    row_cost += 1\n\n        # Cost to make all columns palindromic\n        col_cost = 0\n        for c in range(n):\n            for r in range(m // 2):\n                if grid[r][c] != grid[m - 1 - r][c]:\n                    col_cost += 1\n\n        return min(row_cost, col_cost)",
+    "explanation": "We compute the cost to make ALL rows palindromic and the cost to make ALL columns palindromic, then return the minimum.\n\nFor rows: for each row r, count pairs (c, n-1-c) where values differ — each needs 1 flip.\nFor columns: for each column c, count pairs (r, m-1-r) where values differ — each needs 1 flip.\n\nTime: O(m*n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Number of Moves to Make Palindrome\", \"titleSlug\": \"minimum-number-of-moves-to-make-palindrome\", \"difficulty\": \"Hard\"}]"
+}

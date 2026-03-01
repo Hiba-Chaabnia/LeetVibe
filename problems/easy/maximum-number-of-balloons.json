@@ -1,0 +1,54 @@
+{
+  "questionId": "1297",
+  "title": "Maximum Number of Balloons",
+  "titleSlug": "maximum-number-of-balloons",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given a string text, you want to use the characters of text to form as many instances of the word \"balloon\" as possible.\n\nYou can use each character in text at most once. Return the maximum number of instances that can be formed.\n\nExample 1:\n\nInput: text = \"nlaebolko\"\nOutput: 1\n\nExample 2:\n\nInput: text = \"loonbalxballpoon\"\nOutput: 2\n\nExample 3:\n\nInput: text = \"leetcode\"\nOutput: 0\n\nConstraints:\n\n• 1 <= text.length <= 104\n\n• text consists of lower case English letters only.\n\nNote: This question is the same as  2287: Rearrange Characters to Make Target String.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxNumberOfBalloons(self, text):\n        \"\"\"\n        :type text: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the frequency of letters in the given string.",
+    "Find the letter than can make the minimum number of instances of the word \"balloon\"."
+  ],
+  "testCases": [
+    [
+      "\"nlaebolko\""
+    ],
+    [
+      "\"loonbalxballpoon\""
+    ],
+    [
+      "\"leetcode\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxNumberOfBalloons(self, text):\n        from collections import Counter\n        freq = Counter(text)\n        return min(freq['b'], freq['a'], freq['l']//2, freq['o']//2, freq['n'])",
+    "explanation": "Count 'balloon' letters. 'l' and 'o' needed twice. Return min count.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

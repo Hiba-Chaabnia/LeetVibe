@@ -1,0 +1,58 @@
+{
+  "questionId": "3941",
+  "title": "Number of Integers With Popcount-Depth Equal to K II",
+  "titleSlug": "number-of-integers-with-popcount-depth-equal-to-k-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nFor any positive integer x, define the following sequence:\n\n• p0 = x\n\n• pi+1 = popcount(pi) for all i >= 0, where popcount(y) is the number of set bits (1's) in the binary representation of y.\n\nThis sequence will eventually reach the value 1.\n\nThe popcount-depth of x is defined as the smallest integer d >= 0 such that pd = 1.\n\nFor example, if x = 7 (binary representation \"111\"). Then, the sequence is: 7 → 3 → 2 → 1, so the popcount-depth of 7 is 3.\n\nYou are also given a 2D integer array queries, where each queries[i] is either:\n\n• [1, l, r, k] - Determine the number of indices j such that l <= j <= r and the popcount-depth of nums[j] is equal to k.\n\n• [2, idx, val] - Update nums[idx] to val.\n\nReturn an integer array answer, where answer[i] is the number of indices for the ith query of type [1, l, r, k].\n\nExample 1:\n\nInput: nums = [2,4], queries = [[1,0,1,1],[2,1,1],[1,0,1,0]]\n\nOutput: [2,1]\n\nExplanation: \t\t\t\ti\n\t\t\t\tqueries[i]\n\t\t\t\tnums\n\t\t\t\tbinary(nums)\n\t\t\t\tpopcount-\n\n\t\t\tdepth\n\t\t\t\t[l, r]\n\t\t\t\tk\n\t\t\t\tValid\n\n\t\t\tnums[j]\n\t\t\t\tupdated\n\n\t\t\tnums\n\t\t\t\tAnswer\n\n\t\t\t\t0\n\t\t\t\t[1,0,1,1]\n\t\t\t\t[2,4]\n\t\t\t\t[10, 100]\n\t\t\t\t[1, 1]\n\t\t\t\t[0, 1]\n\t\t\t\t1\n\t\t\t\t[0, 1]\n\t\t\t\t—\n\t\t\t\t2\n\n\t\t\t\t1\n\t\t\t\t[2,1,1]\n\t\t\t\t[2,4]\n\t\t\t\t[10, 100]\n\t\t\t\t[1, 1]\n\t\t\t\t—\n\t\t\t\t—\n\t\t\t\t—\n\t\t\t\t[2,1]\n\t\t\t\t—\n\n\t\t\t\t2\n\t\t\t\t[1,0,1,0]\n\t\t\t\t[2,1]\n\t\t\t\t[10, 1]\n\t\t\t\t[1, 0]\n\t\t\t\t[0, 1]\n\t\t\t\t0\n\t\t\t\t[1]\n\t\t\t\t—\n\t\t\t\t1\n\nThus, the final answer is [2, 1].\n\nExample 2:\n\nInput: nums = [3,5,6], queries = [[1,0,2,2],[2,1,4],[1,1,2,1],[1,0,1,0]]\n\nOutput: [3,1,0]\n\nExplanation: \t\t\t\ti\n\t\t\t\tqueries[i]\n\t\t\t\tnums\n\t\t\t\tbinary(nums)\n\t\t\t\tpopcount-\n\n\t\t\tdepth\n\t\t\t\t[l, r]\n\t\t\t\tk\n\t\t\t\tValid\n\n\t\t\tnums[j]\n\t\t\t\tupdated\n\n\t\t\tnums\n\t\t\t\tAnswer\n\n\t\t\t\t0\n\t\t\t\t[1,0,2,2]\n\t\t\t\t[3, 5, 6]\n\t\t\t\t[11, 101, 110]\n\t\t\t\t[2, 2, 2]\n\t\t\t\t[0, 2]\n\t\t\t\t2\n\t\t\t\t[0, 1, 2]\n\t\t\t\t—\n\t\t\t\t3\n\n\t\t\t\t1\n\t\t\t\t[2,1,4]\n\t\t\t\t[3, 5, 6]\n\t\t\t\t[11, 101, 110]\n\t\t\t\t[2, 2, 2]\n\t\t\t\t—\n\t\t\t\t—\n\t\t\t\t—\n\t\t\t\t[3, 4, 6]\n\t\t\t\t—\n\n\t\t\t\t2\n\t\t\t\t[1,1,2,1]\n\t\t\t\t[3, 4, 6]\n\t\t\t\t[11, 100, 110]\n\t\t\t\t[2, 1, 2]\n\t\t\t\t[1, 2]\n\t\t\t\t1\n\t\t\t\t[1]\n\t\t\t\t—\n\t\t\t\t1\n\n\t\t\t\t3\n\t\t\t\t[1,0,1,0]\n\t\t\t\t[3, 4, 6]\n\t\t\t\t[11, 100, 110]\n\t\t\t\t[2, 1, 2]\n\t\t\t\t[0, 1]\n\t\t\t\t0\n\t\t\t\t[]\n\t\t\t\t—\n\t\t\t\t0\n\nThus, the final answer is [3, 1, 0].\n\nExample 3:\n\nInput: nums = [1,2], queries = [[1,0,1,1],[2,0,3],[1,0,0,1],[1,0,0,2]]\n\nOutput: [1,0,1]\n\nExplanation: \t\t\t\ti\n\t\t\t\tqueries[i]\n\t\t\t\tnums\n\t\t\t\tbinary(nums)\n\t\t\t\tpopcount-\n\n\t\t\tdepth\n\t\t\t\t[l, r]\n\t\t\t\tk\n\t\t\t\tValid\n\n\t\t\tnums[j]\n\t\t\t\tupdated\n\n\t\t\tnums\n\t\t\t\tAnswer\n\n\t\t\t\t0\n\t\t\t\t[1,0,1,1]\n\t\t\t\t[1, 2]\n\t\t\t\t[1, 10]\n\t\t\t\t[0, 1]\n\t\t\t\t[0, 1]\n\t\t\t\t1\n\t\t\t\t[1]\n\t\t\t\t—\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\t[2,0,3]\n\t\t\t\t[1, 2]\n\t\t\t\t[1, 10]\n\t\t\t\t[0, 1]\n\t\t\t\t—\n\t\t\t\t—\n\t\t\t\t—\n\t\t\t\t[3, 2]\n\n\t\t\t\t2\n\t\t\t\t[1,0,0,1]\n\t\t\t\t[3, 2]\n\t\t\t\t[11, 10]\n\t\t\t\t[2, 1]\n\t\t\t\t[0, 0]\n\t\t\t\t1\n\t\t\t\t[]\n\t\t\t\t—\n\t\t\t\t0\n\n\t\t\t\t3\n\t\t\t\t[1,0,0,2]\n\t\t\t\t[3, 2]\n\t\t\t\t[11, 10]\n\t\t\t\t[2, 1]\n\t\t\t\t[0, 0]\n\t\t\t\t2\n\t\t\t\t[0]\n\t\t\t\t—\n\t\t\t\t1\n\nThus, the final answer is [1, 0, 1].\n\nConstraints:\n\n• 1 <= n == nums.length <= 105\n\n• 1 <= nums[i] <= 1015\n\n• 1 <= queries.length <= 105\n\n• queries[i].length == 3 or 4\n\n• queries[i] == [1, l, r, k] or,\n\n• queries[i] == [2, idx, val]\n\n• 0 <= l <= r <= n - 1\n\n• 0 <= k <= 5\n\n• 0 <= idx <= n - 1\n\n• 1 <= val <= 1015",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def popcountDepth(self, nums, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Precompute depth[i] for each nums[i] by applying popcount until you reach 1.",
+    "Maintain six Fenwick trees fenw[0] through fenw[5], where fenw[d] stores a 1 at index i iff depth[i] == d.",
+    "For an update [2, idx, val], remove index idx from its old fenw[old_depth] and insert into fenw[new_depth]; for a query [1, l, r, k], return fenw[k].query(r) - fenw[k].query(l-1)."
+  ],
+  "testCases": [
+    [
+      "[2,4]",
+      "[[1,0,1,1],[2,1,1],[1,0,1,0]]"
+    ],
+    [
+      "[3,5,6]",
+      "[[1,0,2,2],[2,1,4],[1,1,2,1],[1,0,1,0]]"
+    ],
+    [
+      "[1,2]",
+      "[[1,0,1,1],[2,0,3],[1,0,0,1],[1,0,0,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,1]",
+    "[3,1,0]",
+    "[1,0,1]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

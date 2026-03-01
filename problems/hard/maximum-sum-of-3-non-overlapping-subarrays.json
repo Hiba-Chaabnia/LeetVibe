@@ -1,0 +1,49 @@
+{
+  "questionId": "689",
+  "title": "Maximum Sum of 3 Non-Overlapping Subarrays",
+  "titleSlug": "maximum-sum-of-3-non-overlapping-subarrays",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, find three non-overlapping subarrays of length k with maximum sum and return them.\n\nReturn the result as a list of indices representing the starting position of each interval (0-indexed). If there are multiple answers, return the lexicographically smallest one.\n\nExample 1:\n\nInput: nums = [1,2,1,2,6,7,5,1], k = 2\nOutput: [0,3,5]\nExplanation: Subarrays [1, 2], [2, 6], [7, 5] correspond to the starting indices [0, 3, 5].\n    We could have also taken [2, 1], but an answer of [1, 3, 5] would be lexicographically larger.\n\nExample 2:\n\nInput: nums = [1,2,1,2,1,2,1,2,1], k = 2\nOutput: [0,2,4]\n\nConstraints:\n\n• 1 <= nums.length <= 2 * 104\n\n• 1 <= nums[i] < 216\n\n• 1 <= k <= floor(nums.length / 3)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSumOfThreeSubarrays(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,1,2,6,7,5,1]",
+      "2"
+    ],
+    [
+      "[1,2,1,2,1,2,1,2,1]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,3,5]",
+    "[0,2,4]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Best Time to Buy and Sell Stock III\", \"titleSlug\": \"best-time-to-buy-and-sell-stock-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Sum of Variable Length Subarrays\", \"titleSlug\": \"sum-of-variable-length-subarrays\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximize Y\\u2011Sum by Picking a Triplet of Distinct X\\u2011Values\", \"titleSlug\": \"maximize-ysum-by-picking-a-triplet-of-distinct-xvalues\", \"difficulty\": \"Medium\"}]"
+}

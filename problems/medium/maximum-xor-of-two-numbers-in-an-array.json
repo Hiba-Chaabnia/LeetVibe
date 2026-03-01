@@ -1,0 +1,51 @@
+{
+  "questionId": "421",
+  "title": "Maximum XOR of Two Numbers in an Array",
+  "titleSlug": "maximum-xor-of-two-numbers-in-an-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    }
+  ],
+  "content": "Given an integer array nums, return the maximum result of nums[i] XOR nums[j], where 0 <= i <= j < n.\n\nExample 1:\n\nInput: nums = [3,10,5,25,2,8]\nOutput: 28\nExplanation: The maximum result is 5 XOR 25 = 28.\n\nExample 2:\n\nInput: nums = [14,70,53,83,49,91,36,80,92,51,66,70]\nOutput: 127\n\nConstraints:\n\n• 1 <= nums.length <= 2 * 105\n\n• 0 <= nums[i] <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMaximumXOR(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,10,5,25,2,8]"
+    ],
+    [
+      "[14,70,53,83,49,91,36,80,92,51,66,70]"
+    ]
+  ],
+  "expectedOutputs": [
+    "28",
+    "127"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findMaximumXOR(nums):\n    max_xor = 0\n    mask = 0\n\n    for i in range(31, -1, -1):\n        mask |= (1 << i)\n        prefixes = {num & mask for num in nums}\n\n        possible_max = max_xor | (1 << i)\n\n        for prefix in prefixes:\n            if prefix ^ possible_max in prefixes:\n                max_xor = possible_max\n                break\n\n    return max_xor",
+    "explanation": "1. Initialize max_xor and mask to 0.\n2. Loop through the 32-bit integer type from the most significant bit to the least significant bit.\n3. In each iteration, find the longest prefix of the XOR value, which is built from more significant bits to less significant bit. Update mask by left-shifting 1 and bitwise OR with the mask.\n4. Add each element bitwise AND the mask into a set called prefixes.\n5. Calculate the possible max XOR value up to the current bit by bitwise OR with (1 << i) and the current max_xor.\n6. Loop through the prefixes and check if the XOR of prefix and possible_max is in the set of prefixes.\n7. If it's in the set, update max_xor to the possible_max and break the loop, otherwise, continue with the next bit.\n8. After processing all bits, return max_xor as the final result."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum XOR With an Element From Array\", \"titleSlug\": \"maximum-xor-with-an-element-from-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum XOR After Operations \", \"titleSlug\": \"maximum-xor-after-operations\", \"difficulty\": \"Medium\"}, {\"title\": \"Sum of Prefix Scores of Strings\", \"titleSlug\": \"sum-of-prefix-scores-of-strings\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimize XOR\", \"titleSlug\": \"minimize-xor\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Strong Pair XOR I\", \"titleSlug\": \"maximum-strong-pair-xor-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Strong Pair XOR II\", \"titleSlug\": \"maximum-strong-pair-xor-ii\", \"difficulty\": \"Hard\"}]"
+}

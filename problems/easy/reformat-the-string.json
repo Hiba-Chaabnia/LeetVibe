@@ -1,0 +1,46 @@
+{
+  "questionId": "1532",
+  "title": "Reformat The String",
+  "titleSlug": "reformat-the-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given an alphanumeric string s. (Alphanumeric string is a string consisting of lowercase English letters and digits).\n\nYou have to find a permutation of the string where no letter is followed by another letter and no digit is followed by another digit. That is, no two adjacent characters have the same type.\n\nReturn the reformatted string or return an empty string if it is impossible to reformat the string.\n\nExample 1:\n\nInput: s = \"a0b1c2\"\nOutput: \"0a1b2c\"\nExplanation: No two adjacent characters have the same type in \"0a1b2c\". \"a0b1c2\", \"0a1b2c\", \"0c2a1b\" are also valid permutations.\n\nExample 2:\n\nInput: s = \"leetcode\"\nOutput: \"\"\nExplanation: \"leetcode\" has only characters so we cannot separate them by digits.\n\nExample 3:\n\nInput: s = \"1229857369\"\nOutput: \"\"\nExplanation: \"1229857369\" has only digits so we cannot separate them by characters.\n\nConstraints:\n\n• 1 <= s.length <= 500\n\n• s consists of only lowercase English letters and/or digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reformat(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the number of letters and digits in the string. if cntLetters - cntDigits has any of the values [-1, 0, 1] we have an answer, otherwise we don't have any answer.",
+    "Build the string anyway as you wish. Keep in mind that you need to start with the type that has more characters if cntLetters ≠ cntDigits."
+  ],
+  "testCases": [
+    [
+      "\"a0b1c2\""
+    ],
+    [
+      "\"leetcode\""
+    ],
+    [
+      "\"1229857369\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"0a1b2c\"",
+    "\"\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\ndef reformat(s: str) -> str:\n    letters, digits = deque(), deque()\n\n    for c in s:\n        if c.isalpha():\n            letters.append(c)\n        else:\n            digits.append(c)\n\n    if abs(len(letters) - len(digits)) > 1:\n        return \"\"\n\n    result = []\n    use_letter = len(letters) > len(digits)\n\n    while letters or digits:\n        if use_letter:\n            result.append(letters.popleft())\n        else:\n            result.append(digits.popleft())\n        use_letter = not use_letter\n\n    return ''.join(result)",
+    "explanation": "The algorithm first separates the input string `s` into two queues, `letters` and `digits`. This can be done by iterating through the input string `s` and checking if each character is a letter or digit. Then it checks if the difference between the number of letters and digits is greater than 1. If so, it returns an empty string as it is impossible to reformat the string with no two adjacent characters having the same type.\n\nIf the difference is not greater than 1, the algorithm initializes an empty result string or list. Then, it checks which type (letter or digit) has more elements, and iterates through the queues, alternating between types (letters and digits) and inserting the next character of the current type into the result. This ensures no two adjacent characters have the same type. Finally, the algorithm returns the result in the appropriate type (string or list, depending on the language).\n\nThe algorithm's complexity is O(n), where n is the length of the input string `s`."
+  },
+  "similarQuestions": "[]"
+}

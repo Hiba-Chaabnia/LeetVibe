@@ -1,0 +1,55 @@
+{
+  "questionId": "2448",
+  "title": "Count Number of Bad Pairs",
+  "titleSlug": "count-number-of-bad-pairs",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. A pair of indices (i, j) is a bad pair if i < j and j - i != nums[j] - nums[i].\n\nReturn the total number of bad pairs in nums.\n\nExample 1:\n\nInput: nums = [4,1,3,3]\nOutput: 5\nExplanation: The pair (0, 1) is a bad pair since 1 - 0 != 1 - 4.\n    The pair (0, 2) is a bad pair since 2 - 0 != 3 - 4, 2 != -1.\n    The pair (0, 3) is a bad pair since 3 - 0 != 3 - 4, 3 != -1.\n    The pair (1, 2) is a bad pair since 2 - 1 != 3 - 1, 1 != 2.\n    The pair (2, 3) is a bad pair since 3 - 2 != 3 - 3, 1 != 0.\n    There are a total of 5 bad pairs, so we return 5.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5]\nOutput: 0\nExplanation: There are no bad pairs.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countBadPairs(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Would it be easier to count the number of pairs that are not bad pairs?",
+    "Notice that (j - i != nums[j] - nums[i]) is the same as (nums[i] - i != nums[j] - j).",
+    "Keep a counter of nums[i] - i. To be efficient, use a HashMap."
+  ],
+  "testCases": [
+    [
+      "[4,1,3,3]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countBadPairs(self, nums):\n        n = len(nums)\n        total = n * (n - 1) // 2\n        from collections import defaultdict\n        freq = defaultdict(int)\n        good = 0\n        for i in range(n):\n            key = nums[i] - i\n            good += freq[key]\n            freq[key] += 1\n        return total - good",
+    "explanation": "Total pairs - good pairs. Good pairs: nums[i]-i == nums[j]-j, i<j.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"K-diff Pairs in an Array\", \"titleSlug\": \"k-diff-pairs-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Subarray Sums Divisible by K\", \"titleSlug\": \"subarray-sums-divisible-by-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Nice Pairs in an Array\", \"titleSlug\": \"count-nice-pairs-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Number of Pairs With Absolute Difference K\", \"titleSlug\": \"count-number-of-pairs-with-absolute-difference-k\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Equal and Divisible Pairs in an Array\", \"titleSlug\": \"count-equal-and-divisible-pairs-in-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Number of Pairs Satisfying Inequality\", \"titleSlug\": \"number-of-pairs-satisfying-inequality\", \"difficulty\": \"Hard\"}]"
+}

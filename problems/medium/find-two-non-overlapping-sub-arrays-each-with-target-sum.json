@@ -1,0 +1,67 @@
+{
+  "questionId": "1573",
+  "title": "Find Two Non-overlapping Sub-arrays Each With Target Sum",
+  "titleSlug": "find-two-non-overlapping-sub-arrays-each-with-target-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an array of integers arr and an integer target.\n\nYou have to find two non-overlapping sub-arrays of arr each with a sum equal target. There can be multiple answers so you have to find an answer where the sum of the lengths of the two sub-arrays is minimum.\n\nReturn the minimum sum of the lengths of the two required sub-arrays, or return -1 if you cannot find such two sub-arrays.\n\nExample 1:\n\nInput: arr = [3,2,2,4,3], target = 3\nOutput: 2\nExplanation: Only two sub-arrays have sum = 3 ([3] and [3]). The sum of their lengths is 2.\n\nExample 2:\n\nInput: arr = [7,3,4,7], target = 7\nOutput: 2\nExplanation: Although we have three non-overlapping sub-arrays of sum = 7 ([7], [3,4] and [7]), but we will choose the first and third sub-arrays as the sum of their lengths is 2.\n\nExample 3:\n\nInput: arr = [4,3,2,6,2,3,4], target = 6\nOutput: -1\nExplanation: We have only one sub-array of sum = 6.\n\nConstraints:\n\n• 1 <= arr.length <= 105\n\n• 1 <= arr[i] <= 1000\n\n• 1 <= target <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSumOfLengths(self, arr, target):\n        \"\"\"\n        :type arr: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let's create two arrays prefix and suffix where prefix[i] is the minimum length of sub-array ends before i and has sum = k, suffix[i] is the minimum length of sub-array starting at or after i and has sum = k.",
+    "The answer we are searching for is min(prefix[i] + suffix[i]) for all values of i from 0 to n-1 where n == arr.length.",
+    "If you are still stuck with how to build prefix and suffix, you can store for each index i the length of the sub-array starts at i and has sum = k or infinity otherwise, and you can use it to build both prefix and suffix."
+  ],
+  "testCases": [
+    [
+      "[3,2,2,4,3]",
+      "3"
+    ],
+    [
+      "[7,3,4,7]",
+      "7"
+    ],
+    [
+      "[4,3,2,6,2,3,4]",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minSumOfLengths(self, arr, target):\n        \"\"\"\n        :type arr: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        n = len(arr)\n        best = float('inf')  # Best subarray ending at or before i\n        result = float('inf')\n        current_sum = 0\n        left = 0\n        \n        for right in range(n):\n            current_sum += arr[right]\n            \n            while current_sum > target:\n                current_sum -= arr[left]\n                left += 1\n            \n            if current_sum == target:\n                # Found subarray [left, right]\n                if best != float('inf'):\n                    result = min(result, best + (right - left + 1))\n                best = min(best, right - left + 1)\n        \n        return -1 if result == float('inf') else result",
+    "explanation": "Sliding window to find all subarrays with target sum. Track best length before current position, update result when finding second match.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Find Subarrays With Equal Sum\", \"titleSlug\": \"find-subarrays-with-equal-sum\", \"difficulty\": \"Easy\"}]"
+}

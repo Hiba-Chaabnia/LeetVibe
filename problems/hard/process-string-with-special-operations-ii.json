@@ -1,0 +1,53 @@
+{
+  "questionId": "3939",
+  "title": "Process String with Special Operations II",
+  "titleSlug": "process-string-with-special-operations-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters and the special characters: '*', '#', and '%'.\n\nYou are also given an integer k.\n\nBuild a new string result by processing s according to the following rules from left to right:\n\n• If the letter is a lowercase English letter append it to result.\n\n• A '*' removes the last character from result, if it exists.\n\n• A '#' duplicates the current result and appends it to itself.\n\n• A '%' reverses the current result.\n\nReturn the kth character of the final string result. If k is out of the bounds of result, return '.'.\n\nExample 1:\n\nInput: s = \"a#b%*\", k = 1\n\nOutput: \"a\"\n\nExplanation: \t\t\t\ti\n\t\t\t\ts[i]\n\t\t\t\tOperation\n\t\t\t\tCurrent result\n\n\t\t\t\t0\n\t\t\t\t'a'\n\t\t\t\tAppend 'a'\n\t\t\t\t\"a\"\n\n\t\t\t\t1\n\t\t\t\t'#'\n\t\t\t\tDuplicate result\n\t\t\t\t\"aa\"\n\n\t\t\t\t2\n\t\t\t\t'b'\n\t\t\t\tAppend 'b'\n\t\t\t\t\"aab\"\n\n\t\t\t\t3\n\t\t\t\t'%'\n\t\t\t\tReverse result\n\t\t\t\t\"baa\"\n\n\t\t\t\t4\n\t\t\t\t'*'\n\t\t\t\tRemove the last character\n\t\t\t\t\"ba\"\n\nThe final result is \"ba\". The character at index k = 1 is 'a'.\n\nExample 2:\n\nInput: s = \"cd%#*#\", k = 3\n\nOutput: \"d\"\n\nExplanation: \t\t\t\ti\n\t\t\t\ts[i]\n\t\t\t\tOperation\n\t\t\t\tCurrent result\n\n\t\t\t\t0\n\t\t\t\t'c'\n\t\t\t\tAppend 'c'\n\t\t\t\t\"c\"\n\n\t\t\t\t1\n\t\t\t\t'd'\n\t\t\t\tAppend 'd'\n\t\t\t\t\"cd\"\n\n\t\t\t\t2\n\t\t\t\t'%'\n\t\t\t\tReverse result\n\t\t\t\t\"dc\"\n\n\t\t\t\t3\n\t\t\t\t'#'\n\t\t\t\tDuplicate result\n\t\t\t\t\"dcdc\"\n\n\t\t\t\t4\n\t\t\t\t'*'\n\t\t\t\tRemove the last character\n\t\t\t\t\"dcd\"\n\n\t\t\t\t5\n\t\t\t\t'#'\n\t\t\t\tDuplicate result\n\t\t\t\t\"dcddcd\"\n\nThe final result is \"dcddcd\". The character at index k = 3 is 'd'.\n\nExample 3:\n\nInput: s = \"z*#\", k = 0\n\nOutput: \".\"\n\nExplanation: \t\t\t\ti\n\t\t\t\ts[i]\n\t\t\t\tOperation\n\t\t\t\tCurrent result\n\n\t\t\t\t0\n\t\t\t\t'z'\n\t\t\t\tAppend 'z'\n\t\t\t\t\"z\"\n\n\t\t\t\t1\n\t\t\t\t'*'\n\t\t\t\tRemove the last character\n\t\t\t\t\"\"\n\n\t\t\t\t2\n\t\t\t\t'#'\n\t\t\t\tDuplicate the string\n\t\t\t\t\"\"\n\nThe final result is \"\". Since index k = 0 is out of bounds, the output is '.'.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of only lowercase English letters and special characters '*', '#', and '%'.\n\n• 0 <= k <= 1015\n\n• The length of result after processing s will not exceed 1015.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def processStr(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Track the length of the string after each operation on s.",
+    "Walk backwards through s, undoing each # by using modulus on the tracked lengths, and undoing each % by mirroring across the midpoint, to pinpoint the kth character."
+  ],
+  "testCases": [
+    [
+      "\"a#b%*\"",
+      "1"
+    ],
+    [
+      "\"cd%#*#\"",
+      "3"
+    ],
+    [
+      "\"z*#\"",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"a\"",
+    "\"d\"",
+    "\".\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def processStr(self, s, k):\n        # Track length after each operation\n        lengths = [0]  # lengths[i] = length after processing s[0..i-1]\n        cur_len = 0\n        for c in s:\n            if c.islower():\n                cur_len += 1\n            elif c == '*':\n                cur_len = max(0, cur_len - 1)\n            elif c == '#':\n                cur_len *= 2\n            elif c == '%':\n                pass  # length unchanged\n            lengths.append(cur_len)\n        if k >= lengths[-1]:\n            return '.'\n        # Walk backwards to find k-th character\n        pos = k  # 0-indexed position we're looking for\n        for i in range(len(s) - 1, -1, -1):\n            c = s[i]\n            if c.islower():\n                # This char was appended at position lengths[i] (0-indexed)\n                if pos == lengths[i]:\n                    return c\n                # else pos < lengths[i], continue\n            elif c == '*':\n                # Last char was removed; if pos == lengths[i+1]-1, it's gone (but we started with valid pos)\n                # Actually: lengths[i+1] = lengths[i] - 1, so pos < lengths[i+1] = lengths[i]-1\n                # pos is valid in result after *, which has length lengths[i]-1\n                # Before *, the string had length lengths[i]; pos is unchanged\n                pass\n            elif c == '#':\n                # length doubled: lengths[i+1] = 2 * lengths[i]\n                # pos in doubled string maps to pos % lengths[i] in original\n                pos = pos % lengths[i]\n            elif c == '%':\n                # reversed: pos in reversed string maps to lengths[i]-1-pos in original\n                pos = lengths[i] - 1 - pos\n        return '.'  # should not reach here",
+    "explanation": "Forward pass: record string length after each operation. Backward pass: trace index k back through operations in reverse. '#' undoes by taking pos % prev_length; '%' mirrors pos to prev_length-1-pos; lowercase char: if pos == prev_length, return that char; '*' does nothing (pos stays valid).\n\nTime: O(|s|). Space: O(|s|)."
+  },
+  "similarQuestions": "[]"
+}

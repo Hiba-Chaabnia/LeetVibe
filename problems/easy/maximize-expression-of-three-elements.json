@@ -1,0 +1,54 @@
+{
+  "questionId": "4112",
+  "title": "Maximize Expression of Three Elements",
+  "titleSlug": "maximize-expression-of-three-elements",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nChoose three elements a, b, and c from nums at distinct indices such that the value of the expression a + b - c is maximized.\n\nReturn an integer denoting the maximum possible value of this expression.\n\nExample 1:\n\nInput: nums = [1,4,2,5]\n\nOutput: 8\n\nExplanation: We can choose a = 4, b = 5, and c = 1. The expression value is 4 + 5 - 1 = 8, which is the maximum possible.\n\nExample 2:\n\nInput: nums = [-2,0,5,-2,4]\n\nOutput: 11\n\nExplanation: We can choose a = 5, b = 4, and c = -2. The expression value is 5 + 4 - (-2) = 11, which is the maximum possible.\n\nConstraints:\n\n• 3 <= nums.length <= 100\n\n• -100 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximizeExpressionOfThree(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "a and b should be the two largest values in nums",
+    "c should be the smallest value in nums"
+  ],
+  "testCases": [
+    [
+      "[1,4,2,5]"
+    ],
+    [
+      "[-2,0,5,-2,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "11"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximizeExpressionOfThree(self, nums):\n        nums_s = sorted(nums)\n        return nums_s[-1] + nums_s[-2] - nums_s[0]",
+    "explanation": "The expression a+b-c is maximised by taking the two largest elements plus the negation of the smallest; sort and pick ends. O(n log n) time."
+  },
+  "similarQuestions": "[]"
+}

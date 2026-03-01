@@ -1,0 +1,56 @@
+{
+  "questionId": "3833",
+  "title": "Merge Operations for Minimum Travel Time",
+  "titleSlug": "merge-operations-for-minimum-travel-time",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a straight road of length l km, an integer n, an integer k, and two integer arrays, position and time, each of length n.\n\nThe array position lists the positions (in km) of signs in strictly increasing order (with position[0] = 0 and position[n - 1] = l).\n\nEach time[i] represents the time (in minutes) required to travel 1 km between position[i] and position[i + 1].\n\nYou must perform exactly k merge operations. In one merge, you can choose any two adjacent signs at indices i and i + 1 (with i > 0 and i + 1 < n) and:\n\n• Update the sign at index i + 1 so that its time becomes time[i] + time[i + 1].\n\n• Remove the sign at index i.\n\nReturn the minimum total travel time (in minutes) to travel from 0 to l after exactly k merges.\n\nExample 1:\n\nInput: l = 10, n = 4, k = 1, position = [0,3,8,10], time = [5,8,3,6]\n\nOutput: 62\n\nExplanation:\n\n•\n\tMerge the signs at indices 1 and 2. Remove the sign at index 1, and change the time at index 2 to 8 + 3 = 11.\n\n• After the merge:\n\n• position array: [0, 8, 10]\n\n• time array: [5, 11, 6]\n\n•\n\n•\n\n\t\t\t\t\tSegment\n\t\t\t\t\tDistance (km)\n\t\t\t\t\tTime per km (min)\n\t\t\t\t\tSegment Travel Time (min)\n\n\t\t\t\t\t0 → 8\n\t\t\t\t\t8\n\t\t\t\t\t5\n\t\t\t\t\t8 × 5 = 40\n\n\t\t\t\t\t8 → 10\n\t\t\t\t\t2\n\t\t\t\t\t11\n\t\t\t\t\t2 × 11 = 22\n\n• Total Travel Time: 40 + 22 = 62, which is the minimum possible time after exactly 1 merge.\n\nExample 2:\n\nInput: l = 5, n = 5, k = 1, position = [0,1,2,3,5], time = [8,3,9,3,3]\n\nOutput: 34\n\nExplanation:\n\n• Merge the signs at indices 1 and 2. Remove the sign at index 1, and change the time at index 2 to 3 + 9 = 12.\n\n• After the merge:\n\n• position array: [0, 2, 3, 5]\n\n• time array: [8, 12, 3, 3]\n\n•\n\n•\n\n\t\t\t\t\tSegment\n\t\t\t\t\tDistance (km)\n\t\t\t\t\tTime per km (min)\n\t\t\t\t\tSegment Travel Time (min)\n\n\t\t\t\t\t0 → 2\n\t\t\t\t\t2\n\t\t\t\t\t8\n\t\t\t\t\t2 × 8 = 16\n\n\t\t\t\t\t2 → 3\n\t\t\t\t\t1\n\t\t\t\t\t12\n\t\t\t\t\t1 × 12 = 12\n\n\t\t\t\t\t3 → 5\n\t\t\t\t\t2\n\t\t\t\t\t3\n\t\t\t\t\t2 × 3 = 6\n\n• Total Travel Time: 16 + 12 + 6 = 34, which is the minimum possible time after exactly 1 merge.\n\nConstraints:\n\n• 1 <= l <= 105\n\n• 2 <= n <= min(l + 1, 50)\n\n• 0 <= k <= min(n - 2, 10)\n\n• position.length == n\n\n• position[0] = 0 and position[n - 1] = l\n\n• position is sorted in strictly increasing order.\n\n• time.length == n\n\n• 1 <= time[i] <= 100​\n\n• 1 <= sum(time) <= 100​​​​​​",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minTravelTime(self, l, n, k, position, time):\n        \"\"\"\n        :type l: int\n        :type n: int\n        :type k: int\n        :type position: List[int]\n        :type time: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "After k merges, you’ll have n-k signs left.",
+    "Define DP[i][j][s] as the minimum travel time for positions 0..i when i is kept, j deletions are done overall, and s consecutive deletions occurred immediately before i.",
+    "Update the DP by either merging (increment s and j) or not merging (reset s) and adding the appropriate travel time."
+  ],
+  "testCases": [
+    [
+      "10",
+      "4",
+      "1",
+      "[0,3,8,10]",
+      "[5,8,3,6]"
+    ],
+    [
+      "5",
+      "5",
+      "1",
+      "[0,1,2,3,5]",
+      "[8,3,9,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "62",
+    "34"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

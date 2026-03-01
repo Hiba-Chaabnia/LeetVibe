@@ -1,0 +1,63 @@
+{
+  "questionId": "2221",
+  "title": "Check if a Parentheses String Can Be Valid",
+  "titleSlug": "check-if-a-parentheses-string-can-be-valid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "A parentheses string is a non-empty string consisting only of '(' and ')'. It is valid if any of the following conditions is true:\n\n• It is ().\n\n• It can be written as AB (A concatenated with B), where A and B are valid parentheses strings.\n\n• It can be written as (A), where A is a valid parentheses string.\n\nYou are given a parentheses string s and a string locked, both of length n. locked is a binary string consisting only of '0's and '1's. For each index i of locked,\n\n• If locked[i] is '1', you cannot change s[i].\n\n• But if locked[i] is '0', you can change s[i] to either '(' or ')'.\n\nReturn true if you can make s a valid parentheses string. Otherwise, return false.\n\nExample 1:\n\nInput: s = \"))()))\", locked = \"010100\"\nOutput: true\nExplanation: locked[1] == '1' and locked[3] == '1', so we cannot change s[1] or s[3].\n    We change s[0] and s[4] to '(' while leaving s[2] and s[5] unchanged to make s valid.\n\nExample 2:\n\nInput: s = \"()()\", locked = \"0000\"\nOutput: true\nExplanation: We do not need to make any changes because s is already valid.\n\nExample 3:\n\nInput: s = \")\", locked = \"0\"\nOutput: false\nExplanation: locked permits us to change s[0].\n    Changing s[0] to either '(' or ')' will not make s valid.\n\nExample 4:\n\nInput: s = \"(((())(((())\", locked = \"111111010111\"\nOutput: true\nExplanation: locked permits us to change s[6] and s[8].\n    We change s[6] and s[8] to ')' to make s valid.\n\nConstraints:\n\n• n == s.length == locked.length\n\n• 1 <= n <= 105\n\n• s[i] is either '(' or ')'.\n\n• locked[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canBeValid(self, s, locked):\n        \"\"\"\n        :type s: str\n        :type locked: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can an odd length string ever be valid?",
+    "From left to right, if a locked ')' is encountered, it must be balanced with either a locked '(' or an unlocked index on its left. If neither exist, what conclusion can be drawn? If both exist, which one is more preferable to use?",
+    "After the above, we may have locked indices of '(' and additional unlocked indices. How can you balance out the locked '(' now? What if you cannot balance any locked '('?"
+  ],
+  "testCases": [
+    [
+      "\"))()))\"",
+      "\"010100\""
+    ],
+    [
+      "\"()()\"",
+      "\"0000\""
+    ],
+    [
+      "\")\"",
+      "\"0\""
+    ],
+    [
+      "\"(((())(((())\"",
+      "\"111111010111\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canBeValid(self, s, locked):\n        if len(s) % 2 == 1:\n            return False\n        open_count = 0\n        for i in range(len(s)):\n            if locked[i] == '1':\n                if s[i] == '(':\n                    open_count += 1\n                else:\n                    open_count -= 1\n            else:\n                open_count += 1\n            if open_count < 0:\n                return False\n        close_count = 0\n        for i in range(len(s) - 1, -1, -1):\n            if locked[i] == '1':\n                if s[i] == ')':\n                    close_count += 1\n                else:\n                    close_count -= 1\n            else:\n                close_count += 1\n            if close_count < 0:\n                return False\n        return True",
+    "explanation": "Two pass: left-to-right and right-to-left. Treat unlocked as flexible.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Valid Parentheses\", \"titleSlug\": \"valid-parentheses\", \"difficulty\": \"Easy\"}, {\"title\": \"Generate Parentheses\", \"titleSlug\": \"generate-parentheses\", \"difficulty\": \"Medium\"}, {\"title\": \"Valid Parenthesis String\", \"titleSlug\": \"valid-parenthesis-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Remove to Make Valid Parentheses\", \"titleSlug\": \"minimum-remove-to-make-valid-parentheses\", \"difficulty\": \"Medium\"}, {\"title\": \" Check if There Is a Valid Parentheses String Path\", \"titleSlug\": \"check-if-there-is-a-valid-parentheses-string-path\", \"difficulty\": \"Hard\"}]"
+}

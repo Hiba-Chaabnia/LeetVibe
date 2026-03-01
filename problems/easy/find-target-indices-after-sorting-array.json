@@ -1,0 +1,57 @@
+{
+  "questionId": "2210",
+  "title": "Find Target Indices After Sorting Array",
+  "titleSlug": "find-target-indices-after-sorting-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums and a target element target.\n\nA target index is an index i such that nums[i] == target.\n\nReturn a list of the target indices of nums after sorting nums in non-decreasing order. If there are no target indices, return an empty list. The returned list must be sorted in increasing order.\n\nExample 1:\n\nInput: nums = [1,2,5,2,3], target = 2\nOutput: [1,2]\nExplanation: After sorting, nums is [1,2,2,3,5].\n    The indices where nums[i] == 2 are 1 and 2.\n\nExample 2:\n\nInput: nums = [1,2,5,2,3], target = 3\nOutput: [3]\nExplanation: After sorting, nums is [1,2,2,3,5].\n    The index where nums[i] == 3 is 3.\n\nExample 3:\n\nInput: nums = [1,2,5,2,3], target = 5\nOutput: [4]\nExplanation: After sorting, nums is [1,2,2,3,5].\n    The index where nums[i] == 5 is 4.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i], target <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def targetIndices(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try \"sorting\" the array first.",
+    "Now find all indices in the array whose values are equal to target."
+  ],
+  "testCases": [
+    [
+      "[1,2,5,2,3]",
+      "2"
+    ],
+    [
+      "[1,2,5,2,3]",
+      "3"
+    ],
+    [
+      "[1,2,5,2,3]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2]",
+    "[3]",
+    "[4]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def targetIndices(self, nums, target):\n        nums.sort()\n        return [i for i in range(len(nums)) if nums[i] == target]",
+    "explanation": "Sort array. Find all indices where value equals target.\nTime: O(n*log(n))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Find First and Last Position of Element in Sorted Array\", \"titleSlug\": \"find-first-and-last-position-of-element-in-sorted-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Rank Transform of an Array\", \"titleSlug\": \"rank-transform-of-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Find Words Containing Character\", \"titleSlug\": \"find-words-containing-character\", \"difficulty\": \"Easy\"}]"
+}

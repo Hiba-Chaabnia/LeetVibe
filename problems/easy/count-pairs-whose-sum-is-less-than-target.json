@@ -1,0 +1,55 @@
+{
+  "questionId": "2917",
+  "title": "Count Pairs Whose Sum is Less than Target",
+  "titleSlug": "count-pairs-whose-sum-is-less-than-target",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given a 0-indexed integer array nums of length n and an integer target, return the number of pairs (i, j) where 0 <= i < j < n and nums[i] + nums[j] < target.\n\nExample 1:\n\nInput: nums = [-1,1,2,3,1], target = 2\nOutput: 3\nExplanation: There are 3 pairs of indices that satisfy the conditions in the statement:\n    - (0, 1) since 0 Example 2:\n\nInput: nums = [-6,2,5,-2,-7,-1,3], target = -2\nOutput: 10\nExplanation: There are 10 pairs of indices that satisfy the conditions in the statement:\n    - (0, 1) since 0\n\nConstraints:\n\n• 1 <= nums.length == n <= 50\n\n• -50 <= nums[i], target <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPairs(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints are small enough for a brute-force solution to pass"
+  ],
+  "testCases": [
+    [
+      "[-1,1,2,3,1]",
+      "2"
+    ],
+    [
+      "[-6,2,5,-2,-7,-1,3]",
+      "-2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countPairs(self, nums, target):\n        count = 0\n        n = len(nums)\n        for i in range(n):\n            for j in range(i + 1, n):\n                if nums[i] + nums[j] < target:\n                    count += 1\n        return count",
+    "explanation": "Brute force: check all pairs."
+  },
+  "similarQuestions": "[{\"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Count the Number of Fair Pairs\", \"titleSlug\": \"count-the-number-of-fair-pairs\", \"difficulty\": \"Medium\"}]"
+}

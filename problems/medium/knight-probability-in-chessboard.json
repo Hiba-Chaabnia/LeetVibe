@@ -1,0 +1,45 @@
+{
+  "questionId": "688",
+  "title": "Knight Probability in Chessboard",
+  "titleSlug": "knight-probability-in-chessboard",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "On an n x n chessboard, a knight starts at the cell (row, column) and attempts to make exactly k moves. The rows and columns are 0-indexed, so the top-left cell is (0, 0), and the bottom-right cell is (n - 1, n - 1).\n\nA chess knight has eight possible moves it can make, as illustrated below. Each move is two cells in a cardinal direction, then one cell in an orthogonal direction.\n\nEach time the knight is to move, it chooses one of eight possible moves uniformly at random (even if the piece would go off the chessboard) and moves there.\n\nThe knight continues moving until it has made exactly k moves or has moved off the chessboard.\n\nReturn the probability that the knight remains on the board after it has stopped moving.\n\nExample 1:\n\nInput: n = 3, k = 2, row = 0, column = 0\nOutput: 0.06250\nExplanation: There are two moves (to (1,2), (2,1)) that will keep the knight on the board.\n    From each of those positions, there are also two moves that will keep the knight on the board.\n    The total probability the knight stays on the board is 0.0625.\n\nExample 2:\n\nInput: n = 1, k = 0, row = 0, column = 0\nOutput: 1.00000\n\nConstraints:\n\n• 1 <= n <= 25\n\n• 0 <= k <= 100\n\n• 0 <= row, column <= n - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def knightProbability(self, n, k, row, column):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :type row: int\n        :type column: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3",
+      "2",
+      "0",
+      "0"
+    ],
+    [
+      "1",
+      "0",
+      "0",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "0.06250",
+    "1.00000"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def knightProbability(self, n: int, k: int, row: int, column: int) -> float:\n        memo = [[[-1.0 for _ in range(k + 1)] for _ in range(n)] for _ in range(n)]\n        return self.helper(n, k, row, column, memo)\n    \n    def helper(self, n, k, row, column, memo):\n        if row < 0 or row >= n or column < 0 or column >= n:\n            return 0.0\n        if k == 0:\n            return 1.0\n        if memo[row][column][k] >= 0:\n            return memo[row][column][k]\n    \n        result = 0.0\n        moves = [(-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2, 1)]\n        for move in moves:\n            result += self.helper(n, k - 1, row + move[0], column + move[1], memo) / 8\n    \n        memo[row][column][k] = result\n        return result",
+    "explanation": "The algorithm uses a depth-first search and memoization approach to find the probability that the knight remains on the board after k moves. It utilizes helper function, which receives parameters `n`, `k`, `row`, `column`, and `memo`.\n\nAt each step of the helper function, we check if the current position (row and column) is off the board. If it is, we return 0, as the knight is no longer on the board. If `k` equals 0, it means the knight has completed its moves and is still on the board, so we return 1. If the memo table has a valid value for the current position and moves remaining (k), we can return the memoized value to avoid redundant calculations.\n\nNext, we set a variable `result` to 0 and define an array of possible knight moves. We iterate through these moves and recursively call the helper function with the updated position (row + move[0], column + move[1]) and k - 1 moves remaining. We divide the result by 8 because the knight has 8 possible moves, and we need the average probability of staying on the board for each move. We store the result in the memo table and return it.\n\nWe call the helper function with the initial values for the given problem, and it returns the probability that the knight remains on the board after k moves."
+  },
+  "similarQuestions": "[{\"title\": \"Out of Boundary Paths\", \"titleSlug\": \"out-of-boundary-paths\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Moves to Kill All Pawns\", \"titleSlug\": \"maximum-number-of-moves-to-kill-all-pawns\", \"difficulty\": \"Hard\"}]"
+}

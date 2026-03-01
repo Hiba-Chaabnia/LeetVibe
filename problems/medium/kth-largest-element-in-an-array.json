@@ -1,0 +1,57 @@
+{
+  "questionId": "215",
+  "title": "Kth Largest Element in an Array",
+  "titleSlug": "kth-largest-element-in-an-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Quickselect",
+      "slug": "quickselect"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, return the kth largest element in the array.\n\nNote that it is the kth largest element in the sorted order, not the kth distinct element.\n\nCan you solve it without sorting?\n\nExample 1:\n\nInput: nums = [3,2,1,5,6,4], k = 2\nOutput: 5\nExample 2:\n\nInput: nums = [3,2,3,1,2,4,5,5,6], k = 4\nOutput: 4\n\nConstraints:\n\n• 1 <= k <= nums.length <= 105\n\n• -104 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findKthLargest(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,2,1,5,6,4]",
+      "2"
+    ],
+    [
+      "[3,2,3,1,2,4,5,5,6]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findKthLargest(nums: List[int], k: int) -> int:\n    nums.sort(reverse=True)\n    return nums[k-1]",
+    "explanation": "The algorithm sorts the input array in descending order (non-increasing order). Then it returns the element at the index `k-1`. In the case of the C++ and Python implementations, the built-in `sort()` method was used to sort the array in descending order, while in the Java implementation, a min-heap was used for efficiency. In the Javascript implementation, the custom comparator `(a, b) => b - a` was used to sort the input array in descending order.\n\nSorting the array in descending order ensures that the kth largest element will be located at the index `k-1` (since indexing starts at 0)."
+  },
+  "similarQuestions": "[{\"title\": \"Wiggle Sort II\", \"titleSlug\": \"wiggle-sort-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Top K Frequent Elements\", \"titleSlug\": \"top-k-frequent-elements\", \"difficulty\": \"Medium\"}, {\"title\": \"Third Maximum Number\", \"titleSlug\": \"third-maximum-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Kth Largest Element in a Stream\", \"titleSlug\": \"kth-largest-element-in-a-stream\", \"difficulty\": \"Easy\"}, {\"title\": \"K Closest Points to Origin\", \"titleSlug\": \"k-closest-points-to-origin\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Kth Largest Integer in the Array\", \"titleSlug\": \"find-the-kth-largest-integer-in-the-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Subsequence of Length K With the Largest Sum\", \"titleSlug\": \"find-subsequence-of-length-k-with-the-largest-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"K Highest Ranked Items Within a Price Range\", \"titleSlug\": \"k-highest-ranked-items-within-a-price-range\", \"difficulty\": \"Medium\"}]"
+}

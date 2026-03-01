@@ -1,0 +1,53 @@
+{
+  "questionId": "529",
+  "title": "Minesweeper",
+  "titleSlug": "minesweeper",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Let's play the minesweeper game (Wikipedia, online game)!\n\nYou are given an m x n char matrix board representing the game board where:\n\n• 'M' represents an unrevealed mine,\n\n• 'E' represents an unrevealed empty square,\n\n• 'B' represents a revealed blank square that has no adjacent mines (i.e., above, below, left, right, and all 4 diagonals),\n\n• digit ('1' to '8') represents how many mines are adjacent to this revealed square, and\n\n• 'X' represents a revealed mine.\n\nYou are also given an integer array click where click = [clickr, clickc] represents the next click position among all the unrevealed squares ('M' or 'E').\n\nReturn the board after revealing this position according to the following rules:\n\n• If a mine 'M' is revealed, then the game is over. You should change it to 'X'.\n\n• If an empty square 'E' with no adjacent mines is revealed, then change it to a revealed blank 'B' and all of its adjacent unrevealed squares should be revealed recursively.\n\n• If an empty square 'E' with at least one adjacent mine is revealed, then change it to a digit ('1' to '8') representing the number of adjacent mines.\n\n• Return the board when no more squares will be revealed.\n\nExample 1:\n\nInput: board = [[\"E\",\"E\",\"E\",\"E\",\"E\"],[\"E\",\"E\",\"M\",\"E\",\"E\"],[\"E\",\"E\",\"E\",\"E\",\"E\"],[\"E\",\"E\",\"E\",\"E\",\"E\"]], click = [3,0]\nOutput: [[\"B\",\"1\",\"E\",\"1\",\"B\"],[\"B\",\"1\",\"M\",\"1\",\"B\"],[\"B\",\"1\",\"1\",\"1\",\"B\"],[\"B\",\"B\",\"B\",\"B\",\"B\"]]\n\nExample 2:\n\nInput: board = [[\"B\",\"1\",\"E\",\"1\",\"B\"],[\"B\",\"1\",\"M\",\"1\",\"B\"],[\"B\",\"1\",\"1\",\"1\",\"B\"],[\"B\",\"B\",\"B\",\"B\",\"B\"]], click = [1,2]\nOutput: [[\"B\",\"1\",\"E\",\"1\",\"B\"],[\"B\",\"1\",\"X\",\"1\",\"B\"],[\"B\",\"1\",\"1\",\"1\",\"B\"],[\"B\",\"B\",\"B\",\"B\",\"B\"]]\n\nConstraints:\n\n• m == board.length\n\n• n == board[i].length\n\n• 1 <= m, n <= 50\n\n• board[i][j] is either 'M', 'E', 'B', or a digit from '1' to '8'.\n\n• click.length == 2\n\n• 0 <= clickr < m\n\n• 0 <= clickc < n\n\n• board[clickr][clickc] is either 'M' or 'E'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def updateBoard(self, board, click):\n        \"\"\"\n        :type board: List[List[str]]\n        :type click: List[int]\n        :rtype: List[List[str]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[\"E\",\"E\",\"E\",\"E\",\"E\"],[\"E\",\"E\",\"M\",\"E\",\"E\"],[\"E\",\"E\",\"E\",\"E\",\"E\"],[\"E\",\"E\",\"E\",\"E\",\"E\"]]",
+      "[3,0]"
+    ],
+    [
+      "[[\"B\",\"1\",\"E\",\"1\",\"B\"],[\"B\",\"1\",\"M\",\"1\",\"B\"],[\"B\",\"1\",\"1\",\"1\",\"B\"],[\"B\",\"B\",\"B\",\"B\",\"B\"]]",
+      "[1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[\"B\",\"1\",\"E\",\"1\",\"B\"],[\"B\",\"1\",\"M\",\"1\",\"B\"],[\"B\",\"1\",\"1\",\"1\",\"B\"],[\"B\",\"B\",\"B\",\"B\",\"B\"]]",
+    "[[\"B\",\"1\",\"E\",\"1\",\"B\"],[\"B\",\"1\",\"X\",\"1\",\"B\"],[\"B\",\"1\",\"1\",\"1\",\"B\"],[\"B\",\"B\",\"B\",\"B\",\"B\"]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from typing import List\n\ndef reveal(board: List[List[str]], row: int, col: int, directions: List[List[int]]) -> None:\n    if row < 0 or row >= len(board) or col < 0 or col >= len(board[0]) or board[row][col] != 'E':\n        return\n\n    mines = 0\n    for dir in directions:\n        newRow, newCol = row + dir[0], col + dir[1]\n        if newRow >= 0 and newRow < len(board) and newCol >= 0 and newCol < len(board[0]) and board[newRow][newCol] == 'M':\n            mines += 1\n\n    if mines > 0:\n        board[row][col] = str(mines)\n    else:\n        board[row][col] = 'B'\n        for dir in directions:\n            reveal(board, row + dir[0], col + dir[1], directions)\n\ndef updateBoard(board: List[List[str]], click: List[int]) -> List[List[str]]:\n    row, col = click\n\n    if board[row][col] == 'M':\n        board[row][col] = 'X'\n    else:\n        directions = [[1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1]]\n        reveal(board, row, col, directions)\n\n    return board",
+    "explanation": "The algorithm starts by checking if the clicked cell contains a mine ('M'). If it does, the cell is updated with an 'X' to show it's been clicked. \n\nIf there's no mine, the algorithm calculates the number of adjacent mines. If there are one or more mines, the cell is updated with the number of adjacent mines. If there are 0 mines, the cell is updated with 'B' for Blank and its adjacent cells are recursively checked.\n\nThe algorithm keeps revealing the cells according to the rules until it reaches the boundary or cells that have already been revealed."
+  },
+  "similarQuestions": "[{\"title\": \"Detonate the Maximum Bombs\", \"titleSlug\": \"detonate-the-maximum-bombs\", \"difficulty\": \"Medium\"}]"
+}

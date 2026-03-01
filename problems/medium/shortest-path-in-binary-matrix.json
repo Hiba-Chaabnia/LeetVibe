@@ -1,0 +1,53 @@
+{
+  "questionId": "1171",
+  "title": "Shortest Path in Binary Matrix",
+  "titleSlug": "shortest-path-in-binary-matrix",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given an n x n binary matrix grid, return the length of the shortest clear path in the matrix. If there is no clear path, return -1.\n\nA clear path in a binary matrix is a path from the top-left cell (i.e., (0, 0)) to the bottom-right cell (i.e., (n - 1, n - 1)) such that:\n\n• All the visited cells of the path are 0.\n\n• All the adjacent cells of the path are 8-directionally connected (i.e., they are different and they share an edge or a corner).\n\nThe length of a clear path is the number of visited cells of this path.\n\nExample 1:\n\nInput: grid = [[0,1],[1,0]]\nOutput: 2\n\nExample 2:\n\nInput: grid = [[0,0,0],[1,1,0],[1,1,0]]\nOutput: 4\n\nExample 3:\n\nInput: grid = [[1,0,0],[1,1,0],[1,1,0]]\nOutput: -1\n\nConstraints:\n\n• n == grid.length\n\n• n == grid[i].length\n\n• 1 <= n <= 100\n\n• grid[i][j] is 0 or 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestPathBinaryMatrix(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Do a breadth first search to find the shortest path."
+  ],
+  "testCases": [
+    [
+      "[[0,1],[1,0]]"
+    ],
+    [
+      "[[0,0,0],[1,1,0],[1,1,0]]"
+    ],
+    [
+      "[[1,0,0],[1,1,0],[1,1,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\ndef shortestPathBinaryMatrix(grid):\n    n = len(grid)\n    if grid[0][0] or grid[n - 1][n - 1]: return -1\n\n    dir = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]\n    q = deque([(0, 0)])\n    grid[0][0] = 1\n\n    pathLength = 1\n\n    while q:\n        qlen = len(q)\n        for _ in range(qlen):\n            x, y = q.popleft()\n\n            if x == n - 1 and y == n - 1: return pathLength\n\n            for d in dir:\n                newX, newY = x + d[0], y + d[1]\n\n                if 0 <= newX < n and 0 <= newY < n and grid[newX][newY] == 0:\n                    q.append((newX, newY))\n                    grid[newX][newY] = 1\n        pathLength += 1\n\n    return -1",
+    "explanation": "The idea is to use BFS (Breadth First Search) algorithm to start from the top left (0, 0), explore reachable cells, and reach the bottom right (n-1, n-1). During the search, mark any visited cell as 1 to prevent revisiting the same cell.\n\n1. Check if the top-left cell or the bottom-right cell is 1. If either of them is 1, return -1 because there is no valid path.\n2. Define the 8 directions that can be taken from each cell.\n3. Create a queue for BFS and initially push the top-left cell into the queue.\n4. Initialize the path length as 1.\n5. While the queue has elements in it:\n   a. Store the length of the queue.\n   b. For each element in the queue at that level of BFS, check if the current cell is the bottom-right cell. If yes, return path length.\n   c. Otherwise, explore all possible 8 directions from the current cell. If the new cell is unvisited (0) and within the grid boundaries, push it to the queue and mark it visited.\n   d. Increment the path length and repeat the process.\n6. If the bottom-right cell is not reached, return -1."
+  },
+  "similarQuestions": "[{\"title\": \"Paths in Matrix Whose Sum Is Divisible by K\", \"titleSlug\": \"paths-in-matrix-whose-sum-is-divisible-by-k\", \"difficulty\": \"Hard\"}]"
+}

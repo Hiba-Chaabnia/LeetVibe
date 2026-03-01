@@ -1,0 +1,48 @@
+{
+  "questionId": "3737",
+  "title": "Paint House IV",
+  "titleSlug": "paint-house-iv",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an even integer n representing the number of houses arranged in a straight line, and a 2D array cost of size n x 3, where cost[i][j] represents the cost of painting house i with color j + 1.\n\nThe houses will look beautiful if they satisfy the following conditions:\n\n• No two adjacent houses are painted the same color.\n\n• Houses equidistant from the ends of the row are not painted the same color. For example, if n = 6, houses at positions (0, 5), (1, 4), and (2, 3) are considered equidistant.\n\nReturn the minimum cost to paint the houses such that they look beautiful.\n\nExample 1:\n\nInput: n = 4, cost = [[3,5,7],[6,2,9],[4,8,1],[7,3,5]]\n\nOutput: 9\n\nExplanation: The optimal painting sequence is [1, 2, 3, 2] with corresponding costs [3, 2, 1, 3]. This satisfies the following conditions:\n\n• No adjacent houses have the same color.\n\n• Houses at positions 0 and 3 (equidistant from the ends) are not painted the same color (1 != 2).\n\n• Houses at positions 1 and 2 (equidistant from the ends) are not painted the same color (2 != 3).\n\nThe minimum cost to paint the houses so that they look beautiful is 3 + 2 + 1 + 3 = 9.\n\nExample 2:\n\nInput: n = 6, cost = [[2,4,6],[5,3,8],[7,1,9],[4,6,2],[3,5,7],[8,2,4]]\n\nOutput: 18\n\nExplanation: The optimal painting sequence is [1, 3, 2, 3, 1, 2] with corresponding costs [2, 8, 1, 2, 3, 2]. This satisfies the following conditions:\n\n• No adjacent houses have the same color.\n\n• Houses at positions 0 and 5 (equidistant from the ends) are not painted the same color (1 != 2).\n\n• Houses at positions 1 and 4 (equidistant from the ends) are not painted the same color (3 != 1).\n\n• Houses at positions 2 and 3 (equidistant from the ends) are not painted the same color (2 != 3).\n\nThe minimum cost to paint the houses so that they look beautiful is 2 + 8 + 1 + 2 + 3 + 2 = 18.\n\nConstraints:\n\n• 2 <= n <= 105\n\n• n is even.\n\n• cost.length == n\n\n• cost[i].length == 3\n\n• 0 <= cost[i][j] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCost(self, n, cost):\n        \"\"\"\n        :type n: int\n        :type cost: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming to calculate the minimum cost while ensuring that the adjacency and equidistant constraints are satisfied.",
+    "Try all 9 combinations of colors for equidistant pairs to get the minimum cost."
+  ],
+  "testCases": [
+    [
+      "4",
+      "[[3,5,7],[6,2,9],[4,8,1],[7,3,5]]"
+    ],
+    [
+      "6",
+      "[[2,4,6],[5,3,8],[7,1,9],[4,6,2],[3,5,7],[8,2,4]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "18"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minCost(self, n, cost):\n        INF = float('inf')\n        half = n // 2\n\n        # dp[c1][c2] = min cost using colors c1 for current left house,\n        # c2 for current right house (equidistant partner)\n        # c1 != c2 (equidistant constraint)\n        # Initialize with the outermost pair (index 0 and index n-1)\n        dp = [[INF] * 3 for _ in range(3)]\n        for c1 in range(3):\n            for c2 in range(3):\n                if c1 != c2:\n                    dp[c1][c2] = cost[0][c1] + cost[n - 1][c2]\n\n        # Process pairs from outside in\n        for i in range(1, half):\n            j = n - 1 - i  # partner index\n            new_dp = [[INF] * 3 for _ in range(3)]\n            for c1 in range(3):  # color for house i\n                for c2 in range(3):  # color for house j\n                    if c1 == c2:\n                        continue\n                    # Prev left color must differ from c1 (adjacency: house i-1 and i)\n                    # Prev right color must differ from c2 (adjacency: house j and j+1)\n                    for pc1 in range(3):\n                        if pc1 == c1:\n                            continue\n                        for pc2 in range(3):\n                            if pc2 == c2:\n                                continue\n                            if dp[pc1][pc2] == INF:\n                                continue\n                            val = dp[pc1][pc2] + cost[i][c1] + cost[j][c2]\n                            if val < new_dp[c1][c2]:\n                                new_dp[c1][c2] = val\n            dp = new_dp\n\n        return min(dp[c1][c2] for c1 in range(3) for c2 in range(3) if c1 != c2)",
+    "explanation": "We process houses in pairs from outside inward: (0, n-1), (1, n-2), ..., (half-1, half).\n\nState dp[c1][c2] = minimum cost when the current left house has color c1 and the current right house has color c2, subject to:\n- c1 ≠ c2 (equidistant constraint)\n- Adjacency: color of left house differs from its left neighbor (previous left), right house differs from its right neighbor (previous right).\n\nFor each new pair (i, j), we try all 9 color combinations and check adjacency with the previous pair's colors.\n\nTime complexity: O(n * 81) = O(n). Space complexity: O(9) = O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Paint House III\", \"titleSlug\": \"paint-house-iii\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "1037",
+  "title": "Minimum Number of K Consecutive Bit Flips",
+  "titleSlug": "minimum-number-of-k-consecutive-bit-flips",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a binary array nums and an integer k.\n\nA k-bit flip is choosing a subarray of length k from nums and simultaneously changing every 0 in the subarray to 1, and every 1 in the subarray to 0.\n\nReturn the minimum number of k-bit flips required so that there is no 0 in the array. If it is not possible, return -1.\n\nA subarray is a contiguous part of an array.\n\nExample 1:\n\nInput: nums = [0,1,0], k = 1\nOutput: 2\nExplanation: Flip nums[0], then flip nums[2].\n\nExample 2:\n\nInput: nums = [1,1,0], k = 2\nOutput: -1\nExplanation: No matter how we flip subarrays of size 2, we cannot make the array become [1,1,1].\n\nExample 3:\n\nInput: nums = [0,0,0,1,0,1,1,0], k = 3\nOutput: 3\nExplanation:\n    Flip nums[0],nums[1],nums[2]: nums becomes [1,1,1,1,0,1,1,0]\n    Flip nums[4],nums[5],nums[6]: nums becomes [1,1,1,1,1,0,0,0]\n    Flip nums[5],nums[6],nums[7]: nums becomes [1,1,1,1,1,1,1,1]\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minKBitFlips(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[0,1,0]",
+      "1"
+    ],
+    [
+      "[1,1,0]",
+      "2"
+    ],
+    [
+      "[0,0,0,1,0,1,1,0]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "-1",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Bulb Switcher\", \"titleSlug\": \"bulb-switcher\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Time to Remove All Cars Containing Illegal Goods\", \"titleSlug\": \"minimum-time-to-remove-all-cars-containing-illegal-goods\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Distinct Binary Strings After Applying Operations\", \"titleSlug\": \"number-of-distinct-binary-strings-after-applying-operations\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Make Binary Array Elements Equal to One I\", \"titleSlug\": \"minimum-operations-to-make-binary-array-elements-equal-to-one-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Smallest Number With All Set Bits\", \"titleSlug\": \"smallest-number-with-all-set-bits\", \"difficulty\": \"Easy\"}]"
+}

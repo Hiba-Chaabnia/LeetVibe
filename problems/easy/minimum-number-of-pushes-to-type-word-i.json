@@ -1,0 +1,50 @@
+{
+  "questionId": "3275",
+  "title": "Minimum Number of Pushes to Type Word I",
+  "titleSlug": "minimum-number-of-pushes-to-type-word-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a string word containing distinct lowercase English letters.\n\nTelephone keypads have keys mapped with distinct collections of lowercase English letters, which can be used to form words by pushing them. For example, the key 2 is mapped with [\"a\",\"b\",\"c\"], we need to push the key one time to type \"a\", two times to type \"b\", and three times to type \"c\" .\n\nIt is allowed to remap the keys numbered 2 to 9 to distinct collections of letters. The keys can be remapped to any amount of letters, but each letter must be mapped to exactly one key. You need to find the minimum number of times the keys will be pushed to type the string word.\n\nReturn the minimum number of pushes needed to type word after remapping the keys.\n\nAn example mapping of letters to keys on a telephone keypad is given below. Note that 1, *, #, and 0 do not map to any letters.\n\nExample 1:\n\nInput: word = \"abcde\"\nOutput: 5\nExplanation: The remapped keypad given in the image provides the minimum cost.\n    \"a\" -> one push on key 2\n    \"b\" -> one push on key 3\n    \"c\" -> one push on key 4\n    \"d\" -> one push on key 5\n    \"e\" -> one push on key 6\n    Total cost is 1 + 1 + 1 + 1 + 1 = 5.\n    It can be shown that no other mapping can provide a lower cost.\n\nExample 2:\n\nInput: word = \"xycdefghij\"\nOutput: 12\nExplanation: The remapped keypad given in the image provides the minimum cost.\n    \"x\" -> one push on key 2\n    \"y\" -> two pushes on key 2\n    \"c\" -> one push on key 3\n    \"d\" -> two pushes on key 3\n    \"e\" -> one push on key 4\n    \"f\" -> one push on key 5\n    \"g\" -> one push on key 6\n    \"h\" -> one push on key 7\n    \"i\" -> one push on key 8\n    \"j\" -> one push on key 9\n    Total cost is 1 + 2 + 1 + 2 + 1 + 1 + 1 + 1 + 1 + 1 = 12.\n    It can be shown that no other mapping can provide a lower cost.\n\nConstraints:\n\n• 1 <= word.length <= 26\n\n• word consists of lowercase English letters.\n\n• All letters in word are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumPushes(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We have 8 keys in total. We can type 8 characters with one push each, 8 different characters with two pushes each, and so on.",
+    "The optimal way is to map letters to keys evenly."
+  ],
+  "testCases": [
+    [
+      "\"abcde\""
+    ],
+    [
+      "\"xycdefghij\""
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumPushes(self, word):\n        n = len(set(word))\n        return sum((i // 8) + 1 for i in range(n))",
+    "explanation": "Assign distinct letters to 8 keys: letters 1-8 cost 1 push each, 9-16 cost 2 each, etc.; total = sum of push counts for n distinct letters. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Letter Combinations of a Phone Number\", \"titleSlug\": \"letter-combinations-of-a-phone-number\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,63 @@
+{
+  "questionId": "2160",
+  "title": "Minimum Operations to Make a Uni-Value Grid",
+  "titleSlug": "minimum-operations-to-make-a-uni-value-grid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a 2D integer grid of size m x n and an integer x. In one operation, you can add x to or subtract x from any element in the grid.\n\nA uni-value grid is a grid where all the elements of it are equal.\n\nReturn the minimum number of operations to make the grid uni-value. If it is not possible, return -1.\n\nExample 1:\n\nInput: grid = [[2,4],[6,8]], x = 2\nOutput: 4\nExplanation: We can make every element equal to 4 by doing the following:\n    - Add x to 2 once.\n    - Subtract x from 6 once.\n    - Subtract x from 8 twice.\n    A total of 4 operations were used.\n\nExample 2:\n\nInput: grid = [[1,5],[2,3]], x = 1\nOutput: 5\nExplanation: We can make every element equal to 3.\n\nExample 3:\n\nInput: grid = [[1,2],[3,4]], x = 2\nOutput: -1\nExplanation: It is impossible to make every element equal.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 105\n\n• 1 <= m * n <= 105\n\n• 1 <= x, grid[i][j] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, grid, x):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type x: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Is it possible to make two integers a and b equal if they have different remainders dividing by x?",
+    "If it is possible, which number should you select to minimize the number of operations?",
+    "What if the elements are sorted?"
+  ],
+  "testCases": [
+    [
+      "[[2,4],[6,8]]",
+      "2"
+    ],
+    [
+      "[[1,5],[2,3]]",
+      "1"
+    ],
+    [
+      "[[1,2],[3,4]]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "5",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minOperations(self, grid, x):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type x: int\n        :rtype: int\n        \"\"\"\n        # All elements must have same remainder mod x\n        remainder = grid[0][0] % x\n        \n        flat = []\n        for row in grid:\n            for val in row:\n                if val % x != remainder:\n                    return -1\n                flat.append(val)\n        \n        # Sort and find optimal target\n        flat.sort()\n        \n        # Try each element as target\n        min_ops = float('inf')\n        for target in flat:\n            ops = sum(abs(val - target) // x for val in flat)\n            min_ops = min(min_ops, ops)\n        \n        return min_ops",
+    "explanation": "Check if all elements have same remainder mod x. Find optimal target value and count operations.",
+    "complexity": "Time: O(n² log n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Moves to Equal Array Elements II\", \"titleSlug\": \"minimum-moves-to-equal-array-elements-ii\", \"difficulty\": \"Medium\"}]"
+}

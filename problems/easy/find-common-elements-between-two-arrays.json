@@ -1,0 +1,53 @@
+{
+  "questionId": "3206",
+  "title": "Find Common Elements Between Two Arrays",
+  "titleSlug": "find-common-elements-between-two-arrays",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given two integer arrays nums1 and nums2 of sizes n and m, respectively. Calculate the following values:\n\n• answer1 : the number of indices i such that nums1[i] exists in nums2.\n\n• answer2 : the number of indices i such that nums2[i] exists in nums1.\n\nReturn [answer1,answer2].\n\nExample 1:\n\nInput: nums1 = [2,3,2], nums2 = [1,2]\n\nOutput: [2,1]\n\nExplanation: Example 2:\n\nInput: nums1 = [4,3,2,3,1], nums2 = [2,2,5,2,3,6]\n\nOutput: [3,4]\n\nExplanation: The elements at indices 1, 2, and 3 in nums1 exist in nums2 as well. So answer1 is 3.\n\nThe elements at indices 0, 1, 3, and 4 in nums2 exist in nums1. So answer2 is 4.\n\nExample 3:\n\nInput: nums1 = [3,4,2,3], nums2 = [1,5]\n\nOutput: [0,0]\n\nExplanation: No numbers are common between nums1 and nums2, so answer is [0,0].\n\nConstraints:\n\n• n == nums1.length\n\n• m == nums2.length\n\n• 1 <= n, m <= 100\n\n• 1 <= nums1[i], nums2[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findIntersectionValues(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since the constraints are small, you can use brute force to solve the problem.",
+    "For each element i in nums1, iterate over all elements of nums2 to find if it occurs."
+  ],
+  "testCases": [
+    [
+      "[2,3,2]",
+      "[1,2]"
+    ],
+    [
+      "[4,3,2,3,1]",
+      "[2,2,5,2,3,6]"
+    ],
+    [
+      "[3,4,2,3]",
+      "[1,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,1]",
+    "[3,4]",
+    "[0,0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findIntersectionValues(self, nums1, nums2):\n        s1, s2 = set(nums1), set(nums2)\n        a1 = sum(1 for x in nums1 if x in s2)\n        a2 = sum(1 for x in nums2 if x in s1)\n        return [a1, a2]",
+    "explanation": "Use sets for O(1) lookup; count elements of each array that exist in the other. O(n+m) time."
+  },
+  "similarQuestions": "[]"
+}

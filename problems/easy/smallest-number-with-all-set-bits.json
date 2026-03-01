@@ -1,0 +1,49 @@
+{
+  "questionId": "3676",
+  "title": "Smallest Number With All Set Bits",
+  "titleSlug": "smallest-number-with-all-set-bits",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a positive number n.\n\nReturn the smallest number x greater than or equal to n, such that the binary representation of x contains only set bits\n\nExample 1:\n\nInput: n = 5\n\nOutput: 7\n\nExplanation: The binary representation of 7 is \"111\".\n\nExample 2:\n\nInput: n = 10\n\nOutput: 15\n\nExplanation: The binary representation of 15 is \"1111\".\n\nExample 3:\n\nInput: n = 3\n\nOutput: 3\n\nExplanation: The binary representation of 3 is \"11\".\n\nConstraints:\n\n• 1 <= n <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestNumber(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the strictly greater power of 2, and subtract 1 from it."
+  ],
+  "testCases": [
+    [
+      "5"
+    ],
+    [
+      "10"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "15",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def smallestNumber(self, n):\n        bits = n.bit_length()\n        return (1 << bits) - 1",
+    "explanation": "The smallest all-bits-set number >= n has exactly bit_length(n) bits set; it equals 2^bit_length - 1. O(1) time."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Number of K Consecutive Bit Flips\", \"titleSlug\": \"minimum-number-of-k-consecutive-bit-flips\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Bit Flips to Convert Number\", \"titleSlug\": \"minimum-bit-flips-to-convert-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Find Sum of Array Product of Magical Sequences\", \"titleSlug\": \"find-sum-of-array-product-of-magical-sequences\", \"difficulty\": \"Hard\"}]"
+}

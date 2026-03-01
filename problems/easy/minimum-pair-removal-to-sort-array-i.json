@@ -1,0 +1,65 @@
+{
+  "questionId": "3773",
+  "title": "Minimum Pair Removal to Sort Array I",
+  "titleSlug": "minimum-pair-removal-to-sort-array-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Doubly-Linked List",
+      "slug": "doubly-linked-list"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "Given an array nums, you can perform the following operation any number of times:\n\n• Select the adjacent pair with the minimum sum in nums. If multiple such pairs exist, choose the leftmost one.\n\n• Replace the pair with their sum.\n\nReturn the minimum number of operations needed to make the array non-decreasing.\n\nAn array is said to be non-decreasing if each element is greater than or equal to its previous element (if it exists).\n\nExample 1:\n\nInput: nums = [5,2,3,1]\n\nOutput: 2\n\nExplanation:\n\n• The pair (3,1) has the minimum sum of 4. After replacement, nums = [5,2,4].\n\n• The pair (2,4) has the minimum sum of 6. After replacement, nums = [5,6].\n\nThe array nums became non-decreasing in two operations.\n\nExample 2:\n\nInput: nums = [1,2,2]\n\nOutput: 0\n\nExplanation: The array nums is already sorted.\n\nConstraints:\n\n• 1 <= nums.length <= 50\n\n• -1000 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumPairRemoval(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the operations"
+  ],
+  "testCases": [
+    [
+      "[5,2,3,1]"
+    ],
+    [
+      "[1,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumPairRemoval(self, nums):\n        nums = list(nums)\n        ops = 0\n        while nums != sorted(nums):\n            min_sum = float('inf')\n            min_i = 0\n            for i in range(len(nums) - 1):\n                if nums[i] + nums[i + 1] < min_sum:\n                    min_sum = nums[i] + nums[i + 1]\n                    min_i = i\n            nums[min_i] = min_sum\n            nums.pop(min_i + 1)\n            ops += 1\n        return ops",
+    "explanation": "While the array is unsorted, greedily merge the adjacent pair with minimum sum; repeat until sorted and count operations. O(n^3) time."
+  },
+  "similarQuestions": "[]"
+}

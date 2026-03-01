@@ -1,0 +1,63 @@
+{
+  "questionId": "3908",
+  "title": "Minimum Time for K Connected Components",
+  "titleSlug": "minimum-time-for-k-connected-components",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer n and an undirected graph with n nodes labeled from 0 to n - 1. This is represented by a 2D array edges, where edges[i] = [ui, vi, timei] indicates an undirected edge between nodes ui and vi that can be removed at timei.\n\nYou are also given an integer k.\n\nInitially, the graph may be connected or disconnected. Your task is to find the minimum time t such that after removing all edges with time <= t, the graph contains at least k connected components.\n\nReturn the minimum time t.\n\nA connected component is a subgraph of a graph in which there exists a path between any two vertices, and no vertex of the subgraph shares an edge with a vertex outside of the subgraph.\n\nExample 1:\n\nInput: n = 2, edges = [[0,1,3]], k = 2\n\nOutput: 3\n\nExplanation:\n\n• Initially, there is one connected component {0, 1}.\n\n• At time = 1 or 2, the graph remains unchanged.\n\n• At time = 3, edge [0, 1] is removed, resulting in k = 2 connected components {0}, {1}. Thus, the answer is 3.\n\nExample 2:\n\nInput: n = 3, edges = [[0,1,2],[1,2,4]], k = 3\n\nOutput: 4\n\nExplanation:\n\n• Initially, there is one connected component {0, 1, 2}.\n\n• At time = 2, edge [0, 1] is removed, resulting in two connected components {0}, {1, 2}.\n\n• At time = 4, edge [1, 2] is removed, resulting in k = 3 connected components {0}, {1}, {2}. Thus, the answer is 4.\n\nExample 3:\n\nInput: n = 3, edges = [[0,2,5]], k = 2\n\nOutput: 0\n\nExplanation:\n\n• Since there are already k = 2 disconnected components {1}, {0, 2}, no edge removal is needed. Thus, the answer is 0.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• 0 <= edges.length <= 105\n\n• edges[i] = [ui, vi, timei]\n\n• 0 <= ui, vi < n\n\n• ui != vi\n\n• 1 <= timei <= 109\n\n• 1 <= k <= n\n\n• There are no duplicate edges.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minTime(self, n, edges, k):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Binary-search the smallest t such that, after removing all edges with time <= t, the graph splits into >= k connected components."
+  ],
+  "testCases": [
+    [
+      "2",
+      "[[0,1,3]]",
+      "2"
+    ],
+    [
+      "3",
+      "[[0,1,2],[1,2,4]]",
+      "3"
+    ],
+    [
+      "3",
+      "[[0,2,5]]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minTime(self, n, edges, k):\n        def count_components(t):\n            parent = list(range(n))\n            def find(x):\n                while parent[x] != x:\n                    parent[x] = parent[parent[x]]\n                    x = parent[x]\n                return x\n            comps = n\n            for u, v, time in edges:\n                if time > t:\n                    pu, pv = find(u), find(v)\n                    if pu != pv:\n                        parent[pu] = pv\n                        comps -= 1\n            return comps\n\n        if count_components(0) >= k:\n            return 0\n\n        times = sorted(set(e[2] for e in edges))\n        lo, hi = 0, len(times) - 1\n        ans = times[-1]\n        while lo <= hi:\n            mid = (lo + hi) // 2\n            t = times[mid]\n            if count_components(t) >= k:\n                ans = t\n                hi = mid - 1\n            else:\n                lo = mid + 1\n        return ans",
+    "explanation": "Binary search on t: after removing all edges with time <= t, count connected components with Union-Find on remaining edges (time > t). If components >= k, try smaller t; otherwise larger. Check t=0 first (initial graph might already have >= k components). Binary search over distinct edge times.\n\nTime: O(E log E * alpha(n)). Space: O(n + E)."
+  },
+  "similarQuestions": "[]"
+}

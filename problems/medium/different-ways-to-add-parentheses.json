@@ -1,0 +1,55 @@
+{
+  "questionId": "241",
+  "title": "Different Ways to Add Parentheses",
+  "titleSlug": "different-ways-to-add-parentheses",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "Given a string expression of numbers and operators, return all possible results from computing all the different possible ways to group numbers and operators. You may return the answer in any order.\n\nThe test cases are generated such that the output values fit in a 32-bit integer and the number of different results does not exceed 104.\n\nExample 1:\n\nInput: expression = \"2-1-1\"\nOutput: [0,2]\nExplanation:\n    ((2-1)-1) = 0\n    (2-(1-1)) = 2\n\nExample 2:\n\nInput: expression = \"2*3-4*5\"\nOutput: [-34,-14,-10,-10,10]\nExplanation:\n    (2*(3-(4*5))) = -34\n    ((2*3)-(4*5)) = -14\n    ((2*(3-4))*5) = -10\n    (2*((3-4)*5)) = -10\n    (((2*3)-4)*5) = 10\n\nConstraints:\n\n• 1 <= expression.length <= 20\n\n• expression consists of digits and the operator '+', '-', and '*'.\n\n• All the integer values in the input expression are in the range [0, 99].\n\n• The integer values in the input expression do not have a leading '-' or '+' denoting the sign.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def diffWaysToCompute(self, expression):\n        \"\"\"\n        :type expression: str\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"2-1-1\""
+    ],
+    [
+      "\"2*3-4*5\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,2]",
+    "[-34,-14,-10,-10,10]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def diffWaysToCompute(input: str):\n    result = []\n    for i in range(len(input)):\n        c = input[i]\n        if c == '+' or c == '-' or c == '*':\n            left = diffWaysToCompute(input[:i])\n            right = diffWaysToCompute(input[i + 1:])\n            for l in left:\n                for r in right:\n                    if c == '+': result.append(l + r)\n                    elif c == '-': result.append(l - r)\n                    elif c == '*': result.append(l * r)\n    if not result:\n        result.append(int(input))\n    return result",
+    "explanation": "The algorithm is a recursive divide-and-conquer approach. It starts by iterating through the `input` string and looks for operators (+, -, *). When an operator is found, the problem is divided into two sub-problems: left and right. These sub-problems are independently solved through recursively calling the `diffWaysToCompute` function with corresponding substrings. \n\nEach recursion returns a list of possible results for each sub-problem. For each operator, we combine these results by iterating through both lists and performing the corresponding operation (addition, subtraction, or multiplication).\n\nIf no operators are present in the input string, a base case is reached, and the current number in the input string is returned as the only result. The recursion ultimately produces a list of all possible results for the original expression by combining results from all sub-problems."
+  },
+  "similarQuestions": "[{\"title\": \"Unique Binary Search Trees II\", \"titleSlug\": \"unique-binary-search-trees-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Basic Calculator\", \"titleSlug\": \"basic-calculator\", \"difficulty\": \"Hard\"}, {\"title\": \"Expression Add Operators\", \"titleSlug\": \"expression-add-operators\", \"difficulty\": \"Hard\"}, {\"title\": \"The Score of Students Solving Math Expression\", \"titleSlug\": \"the-score-of-students-solving-math-expression\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimize Result by Adding Parentheses to Expression\", \"titleSlug\": \"minimize-result-by-adding-parentheses-to-expression\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,48 @@
+{
+  "questionId": "1849",
+  "title": "Maximum Absolute Sum of Any Subarray",
+  "titleSlug": "maximum-absolute-sum-of-any-subarray",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums. The absolute sum of a subarray [numsl, numsl+1, ..., numsr-1, numsr] is abs(numsl + numsl+1 + ... + numsr-1 + numsr).\n\nReturn the maximum absolute sum of any (possibly empty) subarray of nums.\n\nNote that abs(x) is defined as follows:\n\n• If x is a negative integer, then abs(x) = -x.\n\n• If x is a non-negative integer, then abs(x) = x.\n\nExample 1:\n\nInput: nums = [1,-3,2,3,-4]\nOutput: 5\nExplanation: The subarray [2,3] has absolute sum = abs(2+3) = abs(5) = 5.\n\nExample 2:\n\nInput: nums = [2,-5,1,-4,3,-2]\nOutput: 8\nExplanation: The subarray [-5,1,-4] has absolute sum = abs(-5+1-4) = abs(-8) = 8.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -104 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxAbsoluteSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What if we asked for maximum sum, not absolute sum?",
+    "It's a standard problem that can be solved by Kadane's algorithm.",
+    "The key idea is the max absolute sum will be either the max sum or the min sum.",
+    "So just run kadane twice, once calculating the max sum and once calculating the min sum."
+  ],
+  "testCases": [
+    [
+      "[1,-3,2,3,-4]"
+    ],
+    [
+      "[2,-5,1,-4,3,-2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxAbsoluteSum(nums):\n    max_sum = max_end = min_sum = min_end = 0\n    for num in nums:\n        max_end = max(max_end + num, num)\n        min_end = min(min_end + num, num)\n        max_sum = max(max_sum, max_end)\n        min_sum = min(min_sum, min_end)\n    return max(max_sum, -min_sum)",
+    "explanation": "We use the Kadane's algorithm to maintain both the maximum sum subarray (max_end) and the minimum sum subarray (min_end) ending at the current position.\n\n1. Iterate through the given array nums\n2. For each number in nums:\n   1. Update max_end to be the maximum of max_end + num and num\n   2. Update min_end to be the minimum of min_end + num and num\n   3. Update max_sum to be the maximum of max_sum and max_end\n   4. Update min_sum to be the minimum of min_sum and min_end\n3. Return the maximum of max_sum and -min_sum.\n\nKeep in mind that empty subarray is allowed, but in practice we won't need any additional code to handle empty subarray since the minimum absolute sum is always 0 (which can be the result of an empty subarray)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Subarray\", \"titleSlug\": \"maximum-subarray\", \"difficulty\": \"Medium\"}]"
+}

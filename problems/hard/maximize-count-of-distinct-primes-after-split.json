@@ -1,0 +1,53 @@
+{
+  "questionId": "3878",
+  "title": "Maximize Count of Distinct Primes After Split",
+  "titleSlug": "maximize-count-of-distinct-primes-after-split",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array nums having length n and a 2D integer array queries where queries[i] = [idx, val].\n\nFor each query:\n\n• Update nums[idx] = val.\n\n• Choose an integer k with 1 <= k < n to split the array into the non-empty prefix nums[0..k-1] and suffix nums[k..n-1] such that the sum of the counts of distinct prime values in each part is maximum.\n\nNote: The changes made to the array in one query persist into the next query.\n\nReturn an array containing the result for each query, in the order they are given.\n\nExample 1:\n\nInput: nums = [2,1,3,1,2], queries = [[1,2],[3,3]]\n\nOutput: [3,4]\n\nExplanation:\n\n• Initially nums = [2, 1, 3, 1, 2].\n\n• After 1st query, nums = [2, 2, 3, 1, 2]. Split nums into [2] and [2, 3, 1, 2]. [2] consists of 1 distinct prime and [2, 3, 1, 2] consists of 2 distinct primes. Hence, the answer for this query is 1 + 2 = 3.\n\n• After 2nd query, nums = [2, 2, 3, 3, 2]. Split nums into [2, 2, 3] and [3, 2] with an answer of 2 + 2 = 4.\n\n• The output is [3, 4].\n\nExample 2:\n\nInput: nums = [2,1,4], queries = [[0,1]]\n\nOutput: [0]\n\nExplanation:\n\n• Initially nums = [2, 1, 4].\n\n• After 1st query, nums = [1, 1, 4]. There are no prime numbers in nums, hence the answer for this query is 0.\n\n• The output is [0].\n\nConstraints:\n\n• 2 <= n == nums.length <= 5 * 104\n\n• 1 <= queries.length <= 5 * 104\n\n• 1 <= nums[i] <= 105\n\n• 0 <= queries[i][0] < nums.length\n\n• 1 <= queries[i][1] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumCount(self, nums, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Preprocess all primes up to max(nums) with a sieve to enable O(1) primality checks.",
+    "For each prime p, record its occurrence indices; if it appears at least twice, treat [first, last] as a segment, and note that the split position k with the most overlapping segments equals the number of primes counted on both sides.",
+    "Use a segment tree with lazy propagation over all possible k to maintain, update, and query the sum of distinct-prime counts in the prefix and suffix, adjusting for overlaps."
+  ],
+  "testCases": [
+    [
+      "[2,1,3,1,2]",
+      "[[1,2],[3,3]]"
+    ],
+    [
+      "[2,1,4]",
+      "[[0,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,4]",
+    "[0]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

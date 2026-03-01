@@ -1,0 +1,50 @@
+{
+  "questionId": "1769",
+  "title": "Get Maximum in Generated Array",
+  "titleSlug": "get-maximum-in-generated-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an integer n. A 0-indexed integer array nums of length n + 1 is generated in the following way:\n\n• nums[0] = 0\n\n• nums[1] = 1\n\n• nums[2 * i] = nums[i] when 2 <= 2 * i <= n\n\n• nums[2 * i + 1] = nums[i] + nums[i + 1] when 2 <= 2 * i + 1 <= n\n\nReturn the maximum integer in the array nums​​​.\n\nExample 1:\n\nInput: n = 7\nOutput: 3\nExplanation: According to the given rules:\n      nums[0] = 0\n      nums[1] = 1\n      nums[(1 * 2) = 2] = nums[1] = 1\n      nums[(1 * 2) + 1 = 3] = nums[1] + nums[2] = 1 + 1 = 2\n      nums[(2 * 2) = 4] = nums[2] = 1\n      nums[(2 * 2) + 1 = 5] = nums[2] + nums[3] = 1 + 2 = 3\n      nums[(3 * 2) = 6] = nums[3] = 2\n      nums[(3 * 2) + 1 = 7] = nums[3] + nums[4] = 2 + 1 = 3\n    Hence, nums = [0,1,1,2,1,3,2,3], and the maximum is max(0,1,1,2,1,3,2,3) = 3.\n\nExample 2:\n\nInput: n = 2\nOutput: 1\nExplanation: According to the given rules, nums = [0,1,1]. The maximum is max(0,1,1) = 1.\n\nExample 3:\n\nInput: n = 3\nOutput: 2\nExplanation: According to the given rules, nums = [0,1,1,2]. The maximum is max(0,1,1,2) = 2.\n\nConstraints:\n\n• 0 <= n <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getMaximumGenerated(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try generating the array.",
+    "Make sure not to fall in the base case of 0."
+  ],
+  "testCases": [
+    [
+      "7"
+    ],
+    [
+      "2"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getMaximumGenerated(self, n):\n        if n == 0:\n            return 0\n        nums = [0] * (n + 1)\n        nums[1] = 1\n        for i in range(2, n + 1):\n            if i % 2 == 0:\n                nums[i] = nums[i // 2]\n            else:\n                nums[i] = nums[i // 2] + nums[i // 2 + 1]\n        return max(nums)",
+    "explanation": "Build array per rules: even index = nums[i//2], odd = nums[i//2] + nums[i//2+1].\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Largest Element in an Array after Merge Operations\", \"titleSlug\": \"largest-element-in-an-array-after-merge-operations\", \"difficulty\": \"Medium\"}]"
+}

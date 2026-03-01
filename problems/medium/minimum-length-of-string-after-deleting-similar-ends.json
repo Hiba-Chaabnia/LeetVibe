@@ -1,0 +1,50 @@
+{
+  "questionId": "1850",
+  "title": "Minimum Length of String After Deleting Similar Ends",
+  "titleSlug": "minimum-length-of-string-after-deleting-similar-ends",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s consisting only of characters 'a', 'b', and 'c'. You are asked to apply the following algorithm on the string any number of times:\n\n• Pick a non-empty prefix from the string s where all the characters in the prefix are equal.\n\n• Pick a non-empty suffix from the string s where all the characters in this suffix are equal.\n\n• The prefix and the suffix should not intersect at any index.\n\n• The characters from the prefix and suffix must be the same.\n\n• Delete both the prefix and the suffix.\n\nReturn the minimum length of s after performing the above operation any number of times (possibly zero times).\n\nExample 1:\n\nInput: s = \"ca\"\nOutput: 2\nExplanation: You can't remove any characters, so the string stays as is.\n\nExample 2:\n\nInput: s = \"cabaabac\"\nOutput: 0\nExplanation: An optimal sequence of operations is:\n    - Take prefix = \"c\" and suffix = \"c\" and remove them, s = \"abaaba\".\n    - Take prefix = \"a\" and suffix = \"a\" and remove them, s = \"baab\".\n    - Take prefix = \"b\" and suffix = \"b\" and remove them, s = \"aa\".\n    - Take prefix = \"a\" and suffix = \"a\" and remove them, s = \"\".\n\nExample 3:\n\nInput: s = \"aabccabba\"\nOutput: 3\nExplanation: An optimal sequence of operations is:\n    - Take prefix = \"aa\" and suffix = \"a\" and remove them, s = \"bccabb\".\n    - Take prefix = \"b\" and suffix = \"bb\" and remove them, s = \"cca\".\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s only consists of characters 'a', 'b', and 'c'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumLength(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If both ends have distinct characters, no more operations can be made. Otherwise, the only operation is to remove all of the same characters from both ends. We will do this as many times as we can.",
+    "Note that if the length is equal 1 the answer is 1"
+  ],
+  "testCases": [
+    [
+      "\"ca\""
+    ],
+    [
+      "\"cabaabac\""
+    ],
+    [
+      "\"aabccabba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minimumLength(s: str) -> int:\n    if not s: return 0\n    i, j = 0, len(s) - 1\n    while i < j:\n        if s[i] != s[j]: break\n        remove_char = s[i]\n        while i < len(s) and s[i] == remove_char: i += 1\n        while j >= 0 and s[j] == remove_char: j -= 1\n    return max(0, j - i + 1)",
+    "explanation": "The algorithm involves the use of two pointers, one at the beginning and the other at the end of the string. While the characters at the positions of both pointers are the same, we increment the first pointer (i) until a different character is found in the string, and decrement the second pointer (j) until a different character is found. We then return the difference between j and i plus 1, or 0 if the result is negative, as the minimum length after performing the operations."
+  },
+  "similarQuestions": "[]"
+}

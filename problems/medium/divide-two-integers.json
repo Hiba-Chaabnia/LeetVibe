@@ -1,0 +1,45 @@
+{
+  "questionId": "29",
+  "title": "Divide Two Integers",
+  "titleSlug": "divide-two-integers",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given two integers dividend and divisor, divide two integers without using multiplication, division, and mod operator.\n\nThe integer division should truncate toward zero, which means losing its fractional part. For example, 8.345 would be truncated to 8, and -2.7335 would be truncated to -2.\n\nReturn the quotient after dividing dividend by divisor.\n\nNote: Assume we are dealing with an environment that could only store integers within the 32-bit signed integer range: [−231, 231 − 1]. For this problem, if the quotient is strictly greater than 231 - 1, then return 231 - 1, and if the quotient is strictly less than -231, then return -231.\n\nExample 1:\n\nInput: dividend = 10, divisor = 3\nOutput: 3\nExplanation: 10/3 = 3.33333.. which is truncated to 3.\n\nExample 2:\n\nInput: dividend = 7, divisor = -3\nOutput: -2\nExplanation: 7/-3 = -2.33333.. which is truncated to -2.\n\nConstraints:\n\n• -231 <= dividend, divisor <= 231 - 1\n\n• divisor != 0",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def divide(self, dividend, divisor):\n        \"\"\"\n        :type dividend: int\n        :type divisor: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "10",
+      "3"
+    ],
+    [
+      "7",
+      "-3"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def divide(dividend: int, divisor: int) -> int:\n    if dividend == -(2**31) and divisor == -1:\n        return 2**31 - 1\n\n    sign = -1 if (dividend > 0) ^ (divisor > 0) else 1\n\n    dvd = abs(dividend)\n    dvs = abs(divisor)\n    ans = 0\n\n    while dvd >= dvs:\n        temp = dvs\n        multiple = 1\n        while dvd >= (temp << 1):\n            temp <<= 1\n            multiple <<= 1\n        dvd -= temp\n        ans += multiple\n\n    return ans * sign",
+    "explanation": "1. First, we handle the edge case where dividend = -2^31 and divisor = -1. The result must be 2^31, but since it's out of the signed integer range, we should return 2^31 - 1.\n2. Calculate the sign of the result based on the signs of dividend and divisor.\n3. We use the bitwise shift operator to handle divisions by powers of 2. In each iteration, we initialize the temp variable as the absolute value of the divisor to calculate how many times it fits into the remaining dividend. We then use another loop to repeatedly double the temp variable (by bitwise left shift) and check if the dividend is still greater or equal. If so, we also double the 'multiple' value associated with temp, as that's the actual quotient in the current iteration.\n4. When the shifting loop exits, we subtract the current temp from dividend and accumulate the current multiple to our answer.\n5. Once the dividend is less than the divisor, we break the loop and return the signed quotient by multiplying the sign variable to our answer."
+  },
+  "similarQuestions": "[]"
+}

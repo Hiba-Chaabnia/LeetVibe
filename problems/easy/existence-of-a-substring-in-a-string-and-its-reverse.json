@@ -1,0 +1,50 @@
+{
+  "questionId": "3353",
+  "title": "Existence of a Substring in a String and Its Reverse",
+  "titleSlug": "existence-of-a-substring-in-a-string-and-its-reverse",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s, find any substring of length 2 which is also present in the reverse of s.\n\nReturn true if such a substring exists, and false otherwise.\n\nExample 1:\n\nInput: s = \"leetcode\"\n\nOutput: true\n\nExplanation: Substring \"ee\" is of length 2 which is also present in reverse(s) == \"edocteel\".\n\nExample 2:\n\nInput: s = \"abcba\"\n\nOutput: true\n\nExplanation: All of the substrings of length 2 \"ab\", \"bc\", \"cb\", \"ba\" are also present in reverse(s) == \"abcba\".\n\nExample 3:\n\nInput: s = \"abcd\"\n\nOutput: false\n\nExplanation: There is no substring of length 2 in s, which is also present in the reverse of s.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isSubstringPresent(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Make a new string by reversing the string s.",
+    "For every substring of length 2 in s, check if there is a corresponding substring in the reverse of s."
+  ],
+  "testCases": [
+    [
+      "\"leetcode\""
+    ],
+    [
+      "\"abcba\""
+    ],
+    [
+      "\"abcd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isSubstringPresent(self, s):\n        rev = s[::-1]\n        subs = {s[i:i+2] for i in range(len(s) - 1)}\n        rev_subs = {rev[i:i+2] for i in range(len(rev) - 1)}\n        return bool(subs & rev_subs)",
+    "explanation": "Collect all length-2 substrings of s and its reverse; return True if any are shared. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

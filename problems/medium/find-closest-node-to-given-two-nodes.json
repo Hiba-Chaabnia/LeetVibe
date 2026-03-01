@@ -1,0 +1,46 @@
+{
+  "questionId": "2438",
+  "title": "Find Closest Node to Given Two Nodes",
+  "titleSlug": "find-closest-node-to-given-two-nodes",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "You are given a directed graph of n nodes numbered from 0 to n - 1, where each node has at most one outgoing edge.\n\nThe graph is represented with a given 0-indexed array edges of size n, indicating that there is a directed edge from node i to node edges[i]. If there is no outgoing edge from i, then edges[i] == -1.\n\nYou are also given two integers node1 and node2.\n\nReturn the index of the node that can be reached from both node1 and node2, such that the maximum between the distance from node1 to that node, and from node2 to that node is minimized. If there are multiple answers, return the node with the smallest index, and if no possible answer exists, return -1.\n\nNote that edges may contain cycles.\n\nExample 1:\n\nInput: edges = [2,2,3,-1], node1 = 0, node2 = 1\nOutput: 2\nExplanation: The distance from node 0 to node 2 is 1, and the distance from node 1 to node 2 is 1.\n    The maximum of those two distances is 1. It can be proven that we cannot get a node with a smaller maximum distance than 1, so we return node 2.\n\nExample 2:\n\nInput: edges = [1,2,-1], node1 = 0, node2 = 2\nOutput: 2\nExplanation: The distance from node 0 to node 2 is 2, and the distance from node 2 to itself is 0.\n    The maximum of those two distances is 2. It can be proven that we cannot get a node with a smaller maximum distance than 2, so we return node 2.\n\nConstraints:\n\n• n == edges.length\n\n• 2 <= n <= 105\n\n• -1 <= edges[i] < n\n\n• edges[i] != i\n\n• 0 <= node1, node2 < n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def closestMeetingNode(self, edges, node1, node2):\n        \"\"\"\n        :type edges: List[int]\n        :type node1: int\n        :type node2: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can you find the shortest distance from one node to all nodes in the graph?",
+    "Use BFS to find the shortest distance from both node1 and node2 to all nodes in the graph. Then iterate over all nodes, and find the node with the minimum max distance."
+  ],
+  "testCases": [
+    [
+      "[2,2,3,-1]",
+      "0",
+      "1"
+    ],
+    [
+      "[1,2,-1]",
+      "0",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

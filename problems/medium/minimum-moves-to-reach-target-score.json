@@ -1,0 +1,49 @@
+{
+  "questionId": "1303",
+  "title": "Minimum Moves to Reach Target Score",
+  "titleSlug": "minimum-moves-to-reach-target-score",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are playing a game with integers. You start with the integer 1 and you want to reach the integer target.\n\nIn one move, you can either:\n\n• Increment the current integer by one (i.e., x = x + 1).\n\n• Double the current integer (i.e., x = 2 * x).\n\nYou can use the increment operation any number of times, however, you can only use the double operation at most maxDoubles times.\n\nGiven the two integers target and maxDoubles, return the minimum number of moves needed to reach target starting with 1.\n\nExample 1:\n\nInput: target = 5, maxDoubles = 0\nOutput: 4\nExplanation: Keep incrementing by 1 until you reach target.\n\nExample 2:\n\nInput: target = 19, maxDoubles = 2\nOutput: 7\nExplanation: Initially, x = 1\n    Increment 3 times so x = 4\n    Double once so x = 8\n    Increment once so x = 9\n    Double again so x = 18\n    Increment once so x = 19\n\nExample 3:\n\nInput: target = 10, maxDoubles = 4\nOutput: 4\nExplanation: Initially, x = 1\n    Increment once so x = 2\n    Double once so x = 4\n    Increment once so x = 5\n    Double again so x = 10\n\nConstraints:\n\n• 1 <= target <= 109\n\n• 0 <= maxDoubles <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMoves(self, target, maxDoubles):\n        \"\"\"\n        :type target: int\n        :type maxDoubles: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Solve the opposite problem: start at the given score and move to 1.",
+    "It is better to use the move of the second type once we can to lose more scores fast."
+  ],
+  "testCases": [
+    [
+      "5",
+      "0"
+    ],
+    [
+      "19",
+      "2"
+    ],
+    [
+      "10",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "7",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Number of Steps to Reduce a Number to Zero\", \"titleSlug\": \"number-of-steps-to-reduce-a-number-to-zero\", \"difficulty\": \"Easy\"}, {\"title\": \"Number of Steps to Reduce a Number in Binary Representation to One\", \"titleSlug\": \"number-of-steps-to-reduce-a-number-in-binary-representation-to-one\", \"difficulty\": \"Medium\"}]"
+}

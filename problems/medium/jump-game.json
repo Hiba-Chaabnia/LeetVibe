@@ -1,0 +1,47 @@
+{
+  "questionId": "55",
+  "title": "Jump Game",
+  "titleSlug": "jump-game",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.\n\nReturn true if you can reach the last index, or false otherwise.\n\nExample 1:\n\nInput: nums = [2,3,1,1,4]\nOutput: true\nExplanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.\n\nExample 2:\n\nInput: nums = [3,2,1,0,4]\nOutput: false\nExplanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• 0 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canJump(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,3,1,1,4]"
+    ],
+    [
+      "[3,2,1,0,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def canJump(nums):\n    max_reach = 0\n    for i, num in enumerate(nums):\n        if i > max_reach:\n            return False\n        max_reach = max(max_reach, i + num)\n    return True",
+    "explanation": "The algorithm iterates through the `nums` array, keeping track of the maximum reachable index in `maxReach`. In each iteration, it compares the current index `i` with `maxReach`. If `i` is greater than `maxReach`, it means that the last index cannot be reached. Otherwise, it updates the `maxReach` by taking the maximum value between the current `maxReach` and the sum of the current index `i` and the value of `nums[i]`. If the end of iteration is reached, it means that the last index can be reached, so the function returns true."
+  },
+  "similarQuestions": "[{\"title\": \"Jump Game II\", \"titleSlug\": \"jump-game-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game III\", \"titleSlug\": \"jump-game-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game VII\", \"titleSlug\": \"jump-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game VIII\", \"titleSlug\": \"jump-game-viii\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Visited Cells in a Grid\", \"titleSlug\": \"minimum-number-of-visited-cells-in-a-grid\", \"difficulty\": \"Hard\"}, {\"title\": \"Largest Element in an Array after Merge Operations\", \"titleSlug\": \"largest-element-in-an-array-after-merge-operations\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "1284",
+  "title": "Four Divisors",
+  "titleSlug": "four-divisors",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given an integer array nums, return the sum of divisors of the integers in that array that have exactly four divisors. If there is no such integer in the array, return 0.\n\nExample 1:\n\nInput: nums = [21,4,7]\nOutput: 32\nExplanation:\n    21 has 4 divisors: 1, 3, 7, 21\n    4 has 3 divisors: 1, 2, 4\n    7 has 2 divisors: 1, 7\n    The answer is the sum of divisors of 21 only.\n\nExample 2:\n\nInput: nums = [21,21]\nOutput: 64\n\nExample 3:\n\nInput: nums = [1,2,3,4,5]\nOutput: 0\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumFourDivisors(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the divisors of each element in the array.",
+    "You only need to loop to the square root of a number to find its divisors."
+  ],
+  "testCases": [
+    [
+      "[21,4,7]"
+    ],
+    [
+      "[21,21]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "32",
+    "64",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def sumFourDivisors(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        def count_divisors(n):\n            divisors = []\n            i = 1\n            while i * i <= n:\n                if n % i == 0:\n                    divisors.append(i)\n                    if i != n // i:\n                        divisors.append(n // i)\n                i += 1\n            return divisors\n        \n        total = 0\n        for num in nums:\n            divisors = count_divisors(num)\n            if len(divisors) == 4:\n                total += sum(divisors)\n        \n        return total",
+    "explanation": "For each number, find all divisors by checking up to sqrt(n). If exactly 4, add their sum to result.",
+    "complexity": "Time: O(n*sqrt(max)) . Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,65 @@
+{
+  "questionId": "4089",
+  "title": "Maximize Points After Choosing K Tasks",
+  "titleSlug": "maximize-points-after-choosing-k-tasks",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given two integer arrays, technique1 and technique2, each of length n, where n represents the number of tasks to complete.\n\n• If the ith task is completed using technique 1, you earn technique1[i] points.\n\n• If it is completed using technique 2, you earn technique2[i] points.\n\nYou are also given an integer k, representing the minimum number of tasks that must be completed using technique 1.\n\nYou must complete at least k tasks using technique 1 (they do not need to be the first k tasks).\n\nThe remaining tasks may be completed using either technique.\n\nReturn an integer denoting the maximum total points you can earn.\n\nExample 1:\n\nInput: technique1 = [5,2,10], technique2 = [10,3,8], k = 2\n\nOutput: 22\n\nExplanation: We must complete at least k = 2 tasks using technique1.\n\nChoosing technique1[1] and technique1[2] (completed using technique 1), and technique2[0] (completed using technique 2), yields the maximum points: 2 + 10 + 10 = 22.\n\nExample 2:\n\nInput: technique1 = [10,20,30], technique2 = [5,15,25], k = 2\n\nOutput: 60\n\nExplanation: We must complete at least k = 2 tasks using technique1.\n\nChoosing all tasks using technique 1 yields the maximum points: 10 + 20 + 30 = 60.\n\nExample 3:\n\nInput: technique1 = [1,2,3], technique2 = [4,5,6], k = 0\n\nOutput: 15\n\nExplanation: Since k = 0, we are not required to choose any task using technique1.\n\nChoosing all tasks using technique 2 yields the maximum points: 4 + 5 + 6 = 15.\n\nConstraints:\n\n• 1 <= n == technique1.length == technique2.length <= 105\n\n• 1 <= technique1[i], technique2​​​​​​​[i] <= 10​​​​​​​5\n\n• 0 <= k <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxPoints(self, technique1, technique2, k):\n        \"\"\"\n        :type technique1: List[int]\n        :type technique2: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Initially complete all tasks using way 1; let the initial total be sum(reward1).",
+    "The delta when switching task i from way 1 to way 2 is reward2[i] - reward1[i].",
+    "Sort deltas descending and apply the largest n - k; after each switch update the maximum."
+  ],
+  "testCases": [
+    [
+      "[5,2,10]",
+      "[10,3,8]",
+      "2"
+    ],
+    [
+      "[10,20,30]",
+      "[5,15,25]",
+      "2"
+    ],
+    [
+      "[1,2,3]",
+      "[4,5,6]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "22",
+    "60",
+    "15"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxPoints(self, technique1, technique2, k):\n        n = len(technique1)\n        # Start with all tasks using technique1\n        total = sum(technique1)\n        # Delta for switching task i from t1 to t2\n        deltas = sorted([technique2[i] - technique1[i] for i in range(n)], reverse=True)\n        # Apply the best (n-k) switches (only positive ones)\n        for i in range(n - k):\n            if deltas[i] > 0:\n                total += deltas[i]\n            else:\n                break\n        return total",
+    "explanation": "Start with all tasks using technique1 (sum = sum(technique1)). For each task, switching to technique2 gives delta = technique2[i] - technique1[i]. We can switch at most n-k tasks (must keep at least k on technique1). Sort deltas descending; apply the top n-k positive deltas.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

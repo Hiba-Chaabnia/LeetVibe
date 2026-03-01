@@ -1,0 +1,44 @@
+{
+  "questionId": "2373",
+  "title": "Apply Discount to Prices",
+  "titleSlug": "apply-discount-to-prices",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A sentence is a string of single-space separated words where each word can contain digits, lowercase letters, and the dollar sign '$'. A word represents a price if it is a sequence of digits preceded by a dollar sign.\n\n• For example, \"$100\", \"$23\", and \"$6\" represent prices while \"100\", \"$\", and \"$1e5\" do not.\n\nYou are given a string sentence representing a sentence and an integer discount. For each word representing a price, apply a discount of discount% on the price and update the word in the sentence. All updated prices should be represented with exactly two decimal places.\n\nReturn a string representing the modified sentence.\n\nNote that all prices will contain at most 10 digits.\n\nExample 1:\n\nInput: sentence = \"there are $1 $2 and 5$ candies in the shop\", discount = 50\nOutput: \"there are $0.50 $1.00 and 5$ candies in the shop\"\nExplanation:\n    The words which represent prices are \"$1\" and \"$2\".\n    - A 50% discount on \"$1\" yields \"$0.50\", so \"$1\" is replaced by \"$0.50\".\n    - A 50% discount on \"$2\" yields \"$1\". Since we need to have exactly 2 decimal places after a price, we replace \"$2\" with \"$1.00\".\n\nExample 2:\n\nInput: sentence = \"1 2 $3 4 $5 $6 7 8$ $9 $10$\", discount = 100\nOutput: \"1 2 $0.00 4 $0.00 $0.00 7 8$ $0.00 $10$\"\nExplanation:\n    Applying a 100% discount on any price will result in 0.\n    The words representing prices are \"$3\", \"$5\", \"$6\", and \"$9\".\n    Each of them is replaced by \"$0.00\".\n\nConstraints:\n\n• 1 <= sentence.length <= 105\n\n• sentence consists of lowercase English letters, digits, ' ', and '$'.\n\n• sentence does not have leading or trailing spaces.\n\n• All words in sentence are separated by a single space.\n\n• All prices will be positive numbers without leading zeros.\n\n• All prices will have at most 10 digits.\n\n• 0 <= discount <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def discountPrices(self, sentence, discount):\n        \"\"\"\n        :type sentence: str\n        :type discount: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Extract each word from the sentence and check if it represents a price.",
+    "For each price, apply the given discount to it and update it."
+  ],
+  "testCases": [
+    [
+      "\"there are $1 $2 and 5$ candies in the shop\"",
+      "50"
+    ],
+    [
+      "\"1 2 $3 4 $5 $6 7 8$ $9 $10$\"",
+      "100"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"there are $0.50 $1.00 and 5$ candies in the shop\"",
+    "\"1 2 $0.00 4 $0.00 $0.00 7 8$ $0.00 $10$\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def discountPrices(self, sentence, discount):\n        words = sentence.split()\n        result = []\n        for word in words:\n            if word[0] == '$' and word[1:].isdigit():\n                price = int(word[1:])\n                discounted = price * (1 - discount / 100.0)\n                result.append(f\"${discounted:.2f}\")\n            else:\n                result.append(word)\n        return ' '.join(result)",
+    "explanation": "Parse words. Check if valid price ($digits). Apply discount. Format to 2 decimals.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Multiply Strings\", \"titleSlug\": \"multiply-strings\", \"difficulty\": \"Medium\"}, {\"title\": \"Apply Discount Every n Orders\", \"titleSlug\": \"apply-discount-every-n-orders\", \"difficulty\": \"Medium\"}]"
+}

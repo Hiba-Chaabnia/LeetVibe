@@ -1,0 +1,56 @@
+{
+  "questionId": "2916",
+  "title": "Check if it is Possible to Split Array",
+  "titleSlug": "check-if-it-is-possible-to-split-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an array nums of length n and an integer m. You need to determine if it is possible to split the array into n arrays of size 1 by performing a series of steps.\n\nAn array is called good if:\n\n• The length of the array is one, or\n\n• The sum of the elements of the array is greater than or equal to m.\n\nIn each step, you can select an existing array (which may be the result of previous steps) with a length of at least two and split it into two arrays, if both resulting arrays are good.\n\nReturn true if you can split the given array into n arrays, otherwise return false.\n\nExample 1:\n\nInput: nums = [2, 2, 1], m = 4\n\nOutput: true\n\nExplanation:\n\n• Split [2, 2, 1] to [2, 2] and [1]. The array [1] has a length of one, and the array [2, 2] has the sum of its elements equal to 4 >= m, so both are good arrays.\n\n• Split [2, 2] to [2] and [2]. both arrays have the length of one, so both are good arrays.\n\nExample 2:\n\nInput: nums = [2, 1, 3], m = 5\n\nOutput: false\n\nExplanation: The first move has to be either of the following:\n\n• Split [2, 1, 3] to [2, 1] and [3]. The array [2, 1] has neither length of one nor sum of elements greater than or equal to m.\n\n• Split [2, 1, 3] to [2] and [1, 3]. The array [1, 3] has neither length of one nor sum of elements greater than or equal to m.\n\nSo as both moves are invalid (they do not divide the array into two good arrays), we are unable to split nums into n arrays of size 1.\n\nExample 3:\n\nInput: nums = [2, 3, 3, 2, 3], m = 6\n\nOutput: true\n\nExplanation:\n\n• Split [2, 3, 3, 2, 3] to [2] and [3, 3, 2, 3].\n\n• Split [3, 3, 2, 3] to [3, 3, 2] and [3].\n\n• Split [3, 3, 2] to [3, 3] and [2].\n\n• Split [3, 3] to [3] and [3].\n\nConstraints:\n\n• 1 <= n == nums.length <= 100\n\n• 1 <= nums[i] <= 100\n\n• 1 <= m <= 200",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canSplitArray(self, nums, m):\n        \"\"\"\n        :type nums: List[int]\n        :type m: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It can be proven that if you can split more than one element as a subarray, then you can split exactly one element."
+  ],
+  "testCases": [
+    [
+      "[2, 2, 1]",
+      "4"
+    ],
+    [
+      "[2, 1, 3]",
+      "5"
+    ],
+    [
+      "[2, 3, 3, 2, 3]",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canSplitArray(self, nums, m):\n        if len(nums) <= 2:\n            return True\n        return any(nums[i] + nums[i + 1] >= m for i in range(len(nums) - 1))",
+    "explanation": "Array of length > 2 can be split iff some adjacent pair sums to >= m (needed when the pair becomes a length-2 subarray). O(n) time."
+  },
+  "similarQuestions": "[]"
+}

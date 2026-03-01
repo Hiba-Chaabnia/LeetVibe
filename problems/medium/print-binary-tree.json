@@ -1,0 +1,47 @@
+{
+  "questionId": "655",
+  "title": "Print Binary Tree",
+  "titleSlug": "print-binary-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, construct a 0-indexed m x n string matrix res that represents a formatted layout of the tree. The formatted layout matrix should be constructed using the following rules:\n\n• The height of the tree is height and the number of rows m should be equal to height + 1.\n\n• The number of columns n should be equal to 2height+1 - 1.\n\n• Place the root node in the middle of the top row (more formally, at location res[0][(n-1)/2]).\n\n• For each node that has been placed in the matrix at position res[r][c], place its left child at res[r+1][c-2height-r-1] and its right child at res[r+1][c+2height-r-1].\n\n• Continue this process until all the nodes in the tree have been placed.\n\n• Any empty cells should contain the empty string \"\".\n\nReturn the constructed matrix res.\n\nExample 1:\n\nInput: root = [1,2]\nOutput:\n    [[\"\",\"1\",\"\"],\n     [\"2\",\"\",\"\"]]\n\nExample 2:\n\nInput: root = [1,2,3,null,4]\nOutput:\n    [[\"\",\"\",\"\",\"1\",\"\",\"\",\"\"],\n     [\"\",\"2\",\"\",\"\",\"\",\"3\",\"\"],\n     [\"\",\"\",\"4\",\"\",\"\",\"\",\"\"]]\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 210].\n\n• -99 <= Node.val <= 99\n\n• The depth of the tree will be in the range [1, 10].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def printTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[List[str]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2]"
+    ],
+    [
+      "[1,2,3,null,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[\"\",\"1\",\"\"],",
+    "[[\"\",\"\",\"\",\"1\",\"\",\"\",\"\"],"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,45 @@
+{
+  "questionId": "4052",
+  "title": "Equal Score Substrings",
+  "titleSlug": "equal-score-substrings",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters.\n\nThe score of a string is the sum of the positions of its characters in the alphabet, where 'a' = 1, 'b' = 2, ..., 'z' = 26.\n\nDetermine whether there exists an index i such that the string can be split into two non-empty substrings s[0..i] and s[(i + 1)..(n - 1)] that have equal scores.\n\nReturn true if such a split exists, otherwise return false.\n\nExample 1:\n\nInput: s = \"adcb\"\n\nOutput: true\n\nExplanation: Split at index i = 1:\n\n• Left substring = s[0..1] = \"ad\" with score = 1 + 4 = 5\n\n• Right substring = s[2..3] = \"cb\" with score = 3 + 2 = 5\n\nBoth substrings have equal scores, so the output is true.\n\nExample 2:\n\nInput: s = \"bace\"\n\nOutput: false\n\nExplanation:​​​​​​\n\n​​​​​​​No split produces equal scores, so the output is false.\n\nConstraints:\n\n• 2 <= s.length <= 100\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def scoreBalance(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use brute-force"
+  ],
+  "testCases": [
+    [
+      "\"adcb\""
+    ],
+    [
+      "\"bace\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def scoreBalance(self, s):\n        def score(sub):\n            return sum(ord(c) - ord('a') + 1 for c in sub)\n        for i in range(1, len(s)):\n            if score(s[:i]) == score(s[i:]):\n                return True\n        return False",
+    "explanation": "Try every split point; return True if any split produces equal alphabet-position sums. O(n^2) time."
+  },
+  "similarQuestions": "[]"
+}

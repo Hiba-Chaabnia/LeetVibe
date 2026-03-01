@@ -1,0 +1,54 @@
+{
+  "questionId": "1562",
+  "title": "People Whose List of Favorite Companies Is Not a Subset of Another List",
+  "titleSlug": "people-whose-list-of-favorite-companies-is-not-a-subset-of-another-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given the array favoriteCompanies where favoriteCompanies[i] is the list of favorites companies for the ith person (indexed from 0).\n\nReturn the indices of people whose list of favorite companies is not a subset of any other list of favorites companies. You must return the indices in increasing order.\n\nExample 1:\n\nInput: favoriteCompanies = [[\"leetcode\",\"google\",\"facebook\"],[\"google\",\"microsoft\"],[\"google\",\"facebook\"],[\"google\"],[\"amazon\"]]\nOutput: [0,1,4]\nExplanation:\n    Person with index=2 has favoriteCompanies[2]=[\"google\",\"facebook\"] which is a subset of favoriteCompanies[0]=[\"leetcode\",\"google\",\"facebook\"] corresponding to the person with index 0.\n    Person with index=3 has favoriteCompanies[3]=[\"google\"] which is a subset of favoriteCompanies[0]=[\"leetcode\",\"google\",\"facebook\"] and favoriteCompanies[1]=[\"google\",\"microsoft\"].\n    Other lists of favorite companies are not a subset of another list, therefore, the answer is [0,1,4].\n\nExample 2:\n\nInput: favoriteCompanies = [[\"leetcode\",\"google\",\"facebook\"],[\"leetcode\",\"amazon\"],[\"facebook\",\"google\"]]\nOutput: [0,1]\nExplanation: In this case favoriteCompanies[2]=[\"facebook\",\"google\"] is a subset of favoriteCompanies[0]=[\"leetcode\",\"google\",\"facebook\"], therefore, the answer is [0,1].\n\nExample 3:\n\nInput: favoriteCompanies = [[\"leetcode\"],[\"google\"],[\"facebook\"],[\"amazon\"]]\nOutput: [0,1,2,3]\n\nConstraints:\n\n• 1 <= favoriteCompanies.length <= 100\n\n• 1 <= favoriteCompanies[i].length <= 500\n\n• 1 <= favoriteCompanies[i][j].length <= 20\n\n• All strings in favoriteCompanies[i] are distinct.\n\n• All lists of favorite companies are distinct, that is, If we sort alphabetically each list then favoriteCompanies[i] != favoriteCompanies[j].\n\n• All strings consist of lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def peopleIndexes(self, favoriteCompanies):\n        \"\"\"\n        :type favoriteCompanies: List[List[str]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use hashing to convert company names in numbers and then for each list check if this is a subset of any other list.",
+    "In order to check if a list is a subset of another list, use two pointers technique to get a linear solution for this task. The total complexity will be O(n^2 * m) where n is the number of lists and m is the maximum number of elements in a list."
+  ],
+  "testCases": [
+    [
+      "[[\"leetcode\",\"google\",\"facebook\"],[\"google\",\"microsoft\"],[\"google\",\"facebook\"],[\"google\"],[\"amazon\"]]"
+    ],
+    [
+      "[[\"leetcode\",\"google\",\"facebook\"],[\"leetcode\",\"amazon\"],[\"facebook\",\"google\"]]"
+    ],
+    [
+      "[[\"leetcode\"],[\"google\"],[\"facebook\"],[\"amazon\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,1,4]",
+    "[0,1]",
+    "[0,1,2,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from typing import List\n\ndef peopleIndexes(favoriteCompanies: List[List[str]]) -> List[int]:\n    result = []\n    companySets = [set(companies) for companies in favoriteCompanies]\n\n    for i, companies in enumerate(companySets):\n        isSubset = False\n        for j, otherCompanies in enumerate(companySets):\n            if i != j and companies.issubset(otherCompanies):\n                isSubset = True\n                break\n        if not isSubset:\n            result.append(i)\n\n    return result",
+    "explanation": "The algorithm first converts the favoriteCompanies array of lists to an array of sets (for faster lookups).\nThen, for each list, iterate through the lists again to find if there's any list that contains all the favorite companies of the current list. If it's a subset of any other list, then continue to the next list without adding the current index to the result. If it's not a subset of any other list, append the index to the result."
+  },
+  "similarQuestions": "[]"
+}

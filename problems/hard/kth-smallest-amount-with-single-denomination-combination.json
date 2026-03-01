@@ -1,0 +1,64 @@
+{
+  "questionId": "3375",
+  "title": "Kth Smallest Amount With Single Denomination Combination",
+  "titleSlug": "kth-smallest-amount-with-single-denomination-combination",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array coins representing coins of different denominations and an integer k.\n\nYou have an infinite number of coins of each denomination. However, you are not allowed to combine coins of different denominations.\n\nReturn the kth smallest amount that can be made using these coins.\n\nExample 1:\n\nInput: coins = [3,6,9], k = 3\n\nOutput:  9\n\nExplanation: The given coins can make the following amounts:\n\nCoin 3 produces multiples of 3: 3, 6, 9, 12, 15, etc.\n\nCoin 6 produces multiples of 6: 6, 12, 18, 24, etc.\n\nCoin 9 produces multiples of 9: 9, 18, 27, 36, etc.\n\nAll of the coins combined produce: 3, 6, 9, 12, 15, etc.\n\nExample 2:\n\nInput: coins = [5,2], k = 7\n\nOutput: 12\n\nExplanation: The given coins can make the following amounts:\n\nCoin 5 produces multiples of 5: 5, 10, 15, 20, etc.\n\nCoin 2 produces multiples of 2: 2, 4, 6, 8, 10, 12, etc.\n\nAll of the coins combined produce: 2, 4, 5, 6, 8, 10, 12, 14, 15, etc.\n\nConstraints:\n\n• 1 <= coins.length <= 15\n\n• 1 <= coins[i] <= 25\n\n• 1 <= k <= 2 * 109\n\n• coins contains pairwise distinct integers.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findKthSmallest(self, coins, k):\n        \"\"\"\n        :type coins: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Binary search the answer x.",
+    "Use the inclusion-exclusion principle to count the number of distinct amounts that can be made up to x."
+  ],
+  "testCases": [
+    [
+      "[3,6,9]",
+      "3"
+    ],
+    [
+      "[5,2]",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findKthSmallest(self, coins, k):\n        \"\"\"\n        :type coins: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        from math import gcd\n        from functools import reduce\n        \n        def count_amounts(limit, coins):\n            \"\"\"Count distinct amounts up to limit using inclusion-exclusion\"\"\"\n            n = len(coins)\n            count = 0\n            \n            # Iterate through all non-empty subsets\n            for mask in range(1, 1 << n):\n                # Get LCM of selected coins\n                selected = []\n                bits = bin(mask).count('1')\n                \n                for i in range(n):\n                    if mask & (1 << i):\n                        selected.append(coins[i])\n                \n                # Calculate LCM\n                def lcm(a, b):\n                    return a * b // gcd(a, b)\n                \n                lcm_val = reduce(lcm, selected)\n                \n                # Count multiples of lcm_val up to limit\n                multiples = limit // lcm_val\n                \n                # Inclusion-exclusion: odd bits add, even bits subtract\n                if bits % 2 == 1:\n                    count += multiples\n                else:\n                    count -= multiples\n            \n            return count\n        \n        # Binary search for kth smallest amount\n        left, right = 1, k * max(coins)\n        \n        while left < right:\n            mid = (left + right) // 2\n            count = count_amounts(mid, coins)\n            \n            if count < k:\n                left = mid + 1\n            else:\n                right = mid\n        \n        return left",
+    "explanation": "This solution uses inclusion-exclusion with binary search:\n\n1. **Problem Understanding**:\n   - Each coin type: can make multiples (coin, 2*coin, ...)\n   - Find kth smallest distinct amount\n   - Can't combine different denomination types\n\n2. **Distinct Amounts**:\n   - Amounts for coin c: c, 2c, 3c, ...\n   - Union of all: distinct values achievable\n   - Count distinct amounts using inclusion-exclusion\n\n3. **Inclusion-Exclusion Principle**:\n   - For subsets of coins:\n     - Single coin c: contributes c, 2c, 3c, ...\n     - Two coins a, b: overlaps at multiples of lcm(a,b)\n     - Remove double-counted:\n       - Add: single coins\n       - Subtract: pairs\n       - Add: triples\n       - ...\n\n4. **Counting Amounts ≤ x**:\n   - For each non-empty subset:\n     - Find lcm of coins in subset\n     - Count multiples: x // lcm\n     - If subset size odd: add count\n     - If subset size even: subtract count\n\n5. **Binary Search**:\n   - Search for minimum amount x where:\n   - count_amounts(x) >= k\n   - This x is kth smallest\n\n6. **LCM Calculation**:\n   - lcm(a,b) = a*b / gcd(a,b)\n   - For multiple: use reduce\n\nTime Complexity: O(2^n * log(k*max_coin))\nSpace Complexity: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Kth Smallest Number in Multiplication Table\", \"titleSlug\": \"kth-smallest-number-in-multiplication-table\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Number of Possible Ways for an Event\", \"titleSlug\": \"find-the-number-of-possible-ways-for-an-event\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,43 @@
+{
+  "questionId": "1548",
+  "title": "Check If All 1's Are at Least Length K Places Away",
+  "titleSlug": "check-if-all-1s-are-at-least-length-k-places-away",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given an binary array nums and an integer k, return true if all 1's are at least k places away from each other, otherwise return false.\n\nExample 1:\n\nInput: nums = [1,0,0,0,1,0,0,1], k = 2\nOutput: true\nExplanation: Each of the 1s are at least 2 places away from each other.\n\nExample 2:\n\nInput: nums = [1,0,0,1,0,1], k = 2\nOutput: false\nExplanation: The second 1 and third 1 are only one apart from each other.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= k <= nums.length\n\n• nums[i] is 0 or 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kLengthApart(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Each time you find a number 1, check whether or not it is K or more places away from the next one. If it's not, return false."
+  ],
+  "testCases": [
+    [
+      "[1,0,0,0,1,0,0,1]",
+      "2"
+    ],
+    [
+      "[1,0,0,1,0,1]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def kLengthApart(self, nums, k):\n        last_one = -(k + 1)\n        for i in range(len(nums)):\n            if nums[i] == 1:\n                if i - last_one - 1 < k:\n                    return False\n                last_one = i\n        return True",
+    "explanation": "Track last 1 position. Gap between 1s = i - last_one - 1. If gap < k, return False.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Task Scheduler II\", \"titleSlug\": \"task-scheduler-ii\", \"difficulty\": \"Medium\"}]"
+}

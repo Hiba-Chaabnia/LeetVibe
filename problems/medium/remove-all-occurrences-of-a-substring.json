@@ -1,0 +1,53 @@
+{
+  "questionId": "2021",
+  "title": "Remove All Occurrences of a Substring",
+  "titleSlug": "remove-all-occurrences-of-a-substring",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given two strings s and part, perform the following operation on s until all occurrences of the substring part are removed:\n\n• Find the leftmost occurrence of the substring part and remove it from s.\n\nReturn s after removing all occurrences of part.\n\nA substring is a contiguous sequence of characters in a string.\n\nExample 1:\n\nInput: s = \"daabcbaabcbc\", part = \"abc\"\nOutput: \"dab\"\nExplanation: The following operations are done:\n    - s = \"daabcbaabcbc\", remove \"abc\" starting at index 2, so s = \"dabaabcbc\".\n    - s = \"dabaabcbc\", remove \"abc\" starting at index 4, so s = \"dababc\".\n    - s = \"dababc\", remove \"abc\" starting at index 3, so s = \"dab\".\n    Now s has no occurrences of \"abc\".\n\nExample 2:\n\nInput: s = \"axxxxyyyyb\", part = \"xy\"\nOutput: \"ab\"\nExplanation: The following operations are done:\n    - s = \"axxxxyyyyb\", remove \"xy\" starting at index 4 so s = \"axxxyyyb\".\n    - s = \"axxxyyyb\", remove \"xy\" starting at index 3 so s = \"axxyyb\".\n    - s = \"axxyyb\", remove \"xy\" starting at index 2 so s = \"axyb\".\n    - s = \"axyb\", remove \"xy\" starting at index 1 so s = \"ab\".\n    Now s has no occurrences of \"xy\".\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• 1 <= part.length <= 1000\n\n• s​​​​​​ and part consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeOccurrences(self, s, part):\n        \"\"\"\n        :type s: str\n        :type part: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that a new occurrence of pattern can appear if you remove an old one, For example, s = \"ababcc\" and pattern = \"abc\".",
+    "You can maintain a stack of characters and if the last character of the pattern size in the stack match the pattern remove them"
+  ],
+  "testCases": [
+    [
+      "\"daabcbaabcbc\"",
+      "\"abc\""
+    ],
+    [
+      "\"axxxxyyyyb\"",
+      "\"xy\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"dab\"",
+    "\"ab\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def removeOccurrences(self, s, part):\n        \"\"\"\n        :type s: str\n        :type part: str\n        :rtype: str\n        \"\"\"\n        stack = []\n        part_len = len(part)\n        \n        for char in s:\n            stack.append(char)\n            \n            # Check if last len(part) chars match part\n            if len(stack) >= part_len and ''.join(stack[-part_len:]) == part:\n                for _ in range(part_len):\n                    stack.pop()\n        \n        return ''.join(stack)",
+    "explanation": "Use stack to build result. When top matches part, pop it. Handles overlapping cases.",
+    "complexity": "Time: O(n*m) where m=part length. Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Deletions on a String\", \"titleSlug\": \"maximum-deletions-on-a-string\", \"difficulty\": \"Hard\"}]"
+}

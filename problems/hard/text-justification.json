@@ -1,0 +1,50 @@
+{
+  "questionId": "68",
+  "title": "Text Justification",
+  "titleSlug": "text-justification",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given an array of strings words and a width maxWidth, format the text such that each line has exactly maxWidth characters and is fully (left and right) justified.\n\nYou should pack your words in a greedy approach; that is, pack as many words as you can in each line. Pad extra spaces ' ' when necessary so that each line has exactly maxWidth characters.\n\nExtra spaces between words should be distributed as evenly as possible. If the number of spaces on a line does not divide evenly between words, the empty slots on the left will be assigned more spaces than the slots on the right.\n\nFor the last line of text, it should be left-justified, and no extra space is inserted between words.\n\nNote:\n\n• A word is defined as a character sequence consisting of non-space characters only.\n\n• Each word's length is guaranteed to be greater than 0 and not exceed maxWidth.\n\n• The input array words contains at least one word.\n\nExample 1:\n\nInput: words = [\"This\", \"is\", \"an\", \"example\", \"of\", \"text\", \"justification.\"], maxWidth = 16\nOutput:\n    [\n       \"This    is    an\",\n       \"example  of text\",\n       \"justification.  \"\n    ]\n\nExample 2:\n\nInput: words = [\"What\",\"must\",\"be\",\"acknowledgment\",\"shall\",\"be\"], maxWidth = 16\nOutput:\n    [\n      \"What   must   be\",\n      \"acknowledgment  \",\n      \"shall be        \"\n    ]\nExplanation: Note that the last line is \"shall be    \" instead of \"shall     be\", because the last line must be left-justified instead of fully-justified.\n    Note that the second line is also left-justified because it contains only one word.\n\nExample 3:\n\nInput: words = [\"Science\",\"is\",\"what\",\"we\",\"understand\",\"well\",\"enough\",\"to\",\"explain\",\"to\",\"a\",\"computer.\",\"Art\",\"is\",\"everything\",\"else\",\"we\",\"do\"], maxWidth = 20\nOutput:\n    [\n      \"Science  is  what we\",\n      \"understand      well\",\n      \"enough to explain to\",\n      \"a  computer.  Art is\",\n      \"everything  else  we\",\n      \"do                  \"\n    ]\n\nConstraints:\n\n• 1 <= words.length <= 300\n\n• 1 <= words[i].length <= 20\n\n• words[i] consists of only English letters and symbols.\n\n• 1 <= maxWidth <= 100\n\n• words[i].length <= maxWidth",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def fullJustify(self, words, maxWidth):\n        \"\"\"\n        :type words: List[str]\n        :type maxWidth: int\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"This\", \"is\", \"an\", \"example\", \"of\", \"text\", \"justification.\"]",
+      "16"
+    ],
+    [
+      "[\"What\",\"must\",\"be\",\"acknowledgment\",\"shall\",\"be\"]",
+      "16"
+    ],
+    [
+      "[\"Science\",\"is\",\"what\",\"we\",\"understand\",\"well\",\"enough\",\"to\",\"explain\",\"to\",\"a\",\"computer.\",\"Art\",\"is\",\"everything\",\"else\",\"we\",\"do\"]",
+      "20"
+    ]
+  ],
+  "expectedOutputs": [
+    "[",
+    "[",
+    "["
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Rearrange Spaces Between Words\", \"titleSlug\": \"rearrange-spaces-between-words\", \"difficulty\": \"Easy\"}, {\"title\": \"Divide a String Into Groups of Size k\", \"titleSlug\": \"divide-a-string-into-groups-of-size-k\", \"difficulty\": \"Easy\"}, {\"title\": \"Split Message Based on Limit\", \"titleSlug\": \"split-message-based-on-limit\", \"difficulty\": \"Hard\"}]"
+}

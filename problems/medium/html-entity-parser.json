@@ -1,0 +1,47 @@
+{
+  "questionId": "1526",
+  "title": "HTML Entity Parser",
+  "titleSlug": "html-entity-parser",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "HTML entity parser is the parser that takes HTML code as input and replace all the entities of the special characters by the characters itself.\n\nThe special characters and their entities for HTML are:\n\n• Quotation Mark: the entity is &quot; and symbol character is \".\n\n• Single Quote Mark: the entity is &apos; and symbol character is '.\n\n• Ampersand: the entity is &amp; and symbol character is &.\n\n• Greater Than Sign: the entity is &gt; and symbol character is >.\n\n• Less Than Sign: the entity is &lt; and symbol character is <.\n\n• Slash: the entity is &frasl; and symbol character is /.\n\nGiven the input text string to the HTML parser, you have to implement the entity parser.\n\nReturn the text after replacing the entities by the special characters.\n\nExample 1:\n\nInput: text = \"& is an HTML entity but &ambassador; is not.\"\nOutput: \"& is an HTML entity but &ambassador; is not.\"\nExplanation: The parser will replace the & entity by &\n\nExample 2:\n\nInput: text = \"and I quote: \"...\"\"\nOutput: \"and I quote: \\\"...\\\"\"\n\nConstraints:\n\n• 1 <= text.length <= 105\n\n• The string may contain any possible characters out of all the 256 ASCII characters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def entityParser(self, text):\n        \"\"\"\n        :type text: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Search the string for all the occurrences of the character '&'.",
+    "For every '&' check if it matches an HTML entity by checking the ';' character and if entity found replace it in the answer."
+  ],
+  "testCases": [
+    [
+      "\"&amp; is an HTML entity but &ambassador; is not.\""
+    ],
+    [
+      "\"and I quote: &quot;...&quot;\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"& is an HTML entity but &ambassador; is not.\"",
+    "\"and I quote: \\\"...\\\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def entityParser(self, text):\n        \"\"\"\n        :type text: str\n        :rtype: str\n        \"\"\"\n        entities = {\n            \"&quot;\": '\"',\n            \"&apos;\": \"'\",\n            \"&amp;\": \"&\",\n            \"&gt;\": \">\",\n            \"&lt;\": \"<\",\n            \"&frasl;\": \"/\"\n        }\n        \n        result = []\n        i = 0\n        \n        while i < len(text):\n            if text[i] == '&':\n                # Try to match entity\n                found = False\n                for entity, char in entities.items():\n                    if text[i:i+len(entity)] == entity:\n                        result.append(char)\n                        i += len(entity)\n                        found = True\n                        break\n                \n                if not found:\n                    result.append(text[i])\n                    i += 1\n            else:\n                result.append(text[i])\n                i += 1\n        \n        return ''.join(result)",
+    "explanation": "Parse entities by pattern matching. Replace matched entities with characters.",
+    "complexity": "Time: O(n*m) where m is max entity length. Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

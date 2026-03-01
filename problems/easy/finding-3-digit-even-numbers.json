@@ -1,0 +1,61 @@
+{
+  "questionId": "2215",
+  "title": "Finding 3-Digit Even Numbers",
+  "titleSlug": "finding-3-digit-even-numbers",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an integer array digits, where each element is a digit. The array may contain duplicates.\n\nYou need to find all the unique integers that follow the given requirements:\n\n• The integer consists of the concatenation of three elements from digits in any arbitrary order.\n\n• The integer does not have leading zeros.\n\n• The integer is even.\n\nFor example, if the given digits were [1, 2, 3], integers 132 and 312 follow the requirements.\n\nReturn a sorted array of the unique integers.\n\nExample 1:\n\nInput: digits = [2,1,3,0]\nOutput: [102,120,130,132,210,230,302,310,312,320]\nExplanation: All the possible integers that follow the requirements are in the output array.\n    Notice that there are no odd integers or integers with leading zeros.\n\nExample 2:\n\nInput: digits = [2,2,8,8,2]\nOutput: [222,228,282,288,822,828,882]\nExplanation: The same digit can be used as many times as it appears in digits.\n    In this example, the digit 8 is used twice each time in 288, 828, and 882.\n\nExample 3:\n\nInput: digits = [3,7,5]\nOutput: []\nExplanation: No even integers can be formed using the given digits.\n\nConstraints:\n\n• 3 <= digits.length <= 100\n\n• 0 <= digits[i] <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findEvenNumbers(self, digits):\n        \"\"\"\n        :type digits: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The range of possible answers includes all even numbers between 100 and 999 inclusive. Could you check each possible answer to see if it could be formed from the digits in the array?"
+  ],
+  "testCases": [
+    [
+      "[2,1,3,0]"
+    ],
+    [
+      "[2,2,8,8,2]"
+    ],
+    [
+      "[3,7,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[102,120,130,132,210,230,302,310,312,320]",
+    "[222,228,282,288,822,828,882]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findEvenNumbers(self, digits):\n        from collections import Counter\n        freq = Counter(digits)\n        result = []\n        for num in range(100, 1000, 2):\n            temp_freq = freq.copy()\n            valid = True\n            for digit in str(num):\n                if temp_freq[int(digit)] > 0:\n                    temp_freq[int(digit)] -= 1\n                else:\n                    valid = False\n                    break\n            if valid:\n                result.append(num)\n        return result",
+    "explanation": "Check each even 3-digit number. Verify all its digits are available in array.\nTime: O(900 * 3 * d)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Numbers with Even Number of Digits\", \"titleSlug\": \"find-numbers-with-even-number-of-digits\", \"difficulty\": \"Easy\"}, {\"title\": \"Unique 3-Digit Even Numbers\", \"titleSlug\": \"unique-3-digit-even-numbers\", \"difficulty\": \"Easy\"}]"
+}

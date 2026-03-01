@@ -1,0 +1,58 @@
+{
+  "questionId": "1122",
+  "title": "Longest Duplicate Substring",
+  "titleSlug": "longest-duplicate-substring",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "Suffix Array",
+      "slug": "suffix-array"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "Given a string s, consider all duplicated substrings: (contiguous) substrings of s that occur 2 or more times. The occurrences may overlap.\n\nReturn any duplicated substring that has the longest possible length. If s does not have a duplicated substring, the answer is \"\".\n\nExample 1:\n\nInput: s = \"banana\"\nOutput: \"ana\"\nExample 2:\n\nInput: s = \"abcd\"\nOutput: \"\"\n\nConstraints:\n\n• 2 <= s.length <= 3 * 104\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestDupSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Binary search for the length of the answer.  (If there's an answer of length 10, then there are answers of length 9, 8, 7, ...)",
+    "To check whether an answer of length K exists, we can use Rabin-Karp 's algorithm."
+  ],
+  "testCases": [
+    [
+      "\"banana\""
+    ],
+    [
+      "\"abcd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"ana\"",
+    "\"\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

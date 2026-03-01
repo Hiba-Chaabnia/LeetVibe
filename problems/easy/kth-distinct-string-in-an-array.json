@@ -1,0 +1,60 @@
+{
+  "questionId": "2163",
+  "title": "Kth Distinct String in an Array",
+  "titleSlug": "kth-distinct-string-in-an-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "A distinct string is a string that is present only once in an array.\n\nGiven an array of strings arr, and an integer k, return the kth distinct string present in arr. If there are fewer than k distinct strings, return an empty string \"\".\n\nNote that the strings are considered in the order in which they appear in the array.\n\nExample 1:\n\nInput: arr = [\"d\",\"b\",\"c\",\"b\",\"c\",\"a\"], k = 2\nOutput: \"a\"\nExplanation:\n    The only distinct strings in arr are \"d\" and \"a\".\n    \"d\" appears 1st, so it is the 1st distinct string.\n    \"a\" appears 2nd, so it is the 2nd distinct string.\n    Since k == 2, \"a\" is returned.\n\nExample 2:\n\nInput: arr = [\"aaa\",\"aa\",\"a\"], k = 1\nOutput: \"aaa\"\nExplanation:\n    All strings in arr are distinct, so the 1st string \"aaa\" is returned.\n\nExample 3:\n\nInput: arr = [\"a\",\"b\",\"a\"], k = 3\nOutput: \"\"\nExplanation:\n    The only distinct string is \"b\". Since there are fewer than 3 distinct strings, we return an empty string \"\".\n\nConstraints:\n\n• 1 <= k <= arr.length <= 1000\n\n• 1 <= arr[i].length <= 5\n\n• arr[i] consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kthDistinct(self, arr, k):\n        \"\"\"\n        :type arr: List[str]\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try 'mapping' the strings to check if they are unique or not."
+  ],
+  "testCases": [
+    [
+      "[\"d\",\"b\",\"c\",\"b\",\"c\",\"a\"]",
+      "2"
+    ],
+    [
+      "[\"aaa\",\"aa\",\"a\"]",
+      "1"
+    ],
+    [
+      "[\"a\",\"b\",\"a\"]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"a\"",
+    "\"aaa\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def kthDistinct(self, arr, k):\n        from collections import Counter\n        freq = Counter(arr)\n        count = 0\n        for word in arr:\n            if freq[word] == 1:\n                count += 1\n                if count == k:\n                    return word\n        return ''",
+    "explanation": "Count frequencies. Iterate array, count distinct strings, return kth.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Common Words With One Occurrence\", \"titleSlug\": \"count-common-words-with-one-occurrence\", \"difficulty\": \"Easy\"}]"
+}

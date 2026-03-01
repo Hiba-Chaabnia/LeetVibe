@@ -1,0 +1,49 @@
+{
+  "questionId": "3893",
+  "title": "Generate Tag for Video Caption",
+  "titleSlug": "generate-tag-for-video-caption",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string caption representing the caption for a video.\n\nThe following actions must be performed in order to generate a valid tag for the video:\n\n•\n\tCombine all words in the string into a single camelCase string prefixed with '#'. A camelCase string is one where the first letter of all words except the first one is capitalized. All characters after the first character in each word must be lowercase.\n\n•\n\tRemove all characters that are not an English letter, except the first '#'.\n\n•\n\tTruncate the result to a maximum of 100 characters.\n\nReturn the tag after performing the actions on caption.\n\nExample 1:\n\nInput: caption = \"Leetcode daily streak achieved\"\n\nOutput: \"#leetcodeDailyStreakAchieved\"\n\nExplanation: The first letter for all words except \"leetcode\" should be capitalized.\n\nExample 2:\n\nInput: caption = \"can I Go There\"\n\nOutput: \"#canIGoThere\"\n\nExplanation: The first letter for all words except \"can\" should be capitalized.\n\nExample 3:\n\nInput: caption = \"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\"\n\nOutput: \"#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\"\n\nExplanation: Since the first word has length 101, we need to truncate the last two letters from the word.\n\nConstraints:\n\n• 1 <= caption.length <= 150\n\n• caption consists only of English letters and ' '.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def generateTag(self, caption):\n        \"\"\"\n        :type caption: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "\"Leetcode daily streak achieved\""
+    ],
+    [
+      "\"can I Go There\""
+    ],
+    [
+      "\"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"#leetcodeDailyStreakAchieved\"",
+    "\"#canIGoThere\"",
+    "\"#hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def generateTag(self, caption):\n        words = caption.split()\n        tag = \"#\" + words[0].lower() + \"\".join(w.capitalize() for w in words[1:])\n        return tag[:100]",
+    "explanation": "Split caption into words; lowercase the first, capitalize each subsequent word, join with # prefix and truncate to 100 characters. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

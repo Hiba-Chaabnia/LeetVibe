@@ -1,0 +1,62 @@
+{
+  "questionId": "3717",
+  "title": "Minimum Operations to Make Elements Within K Subarrays Equal",
+  "titleSlug": "minimum-operations-to-make-elements-within-k-subarrays-equal",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given an integer array nums and two integers, x and k. You can perform the following operation any number of times (including zero):\n\n• Increase or decrease any element of nums by 1.\n\nReturn the minimum number of operations needed to have at least k non-overlapping subarrays of size exactly x in nums, where all elements within each subarray are equal.\n\nExample 1:\n\nInput: nums = [5,-2,1,3,7,3,6,4,-1], x = 3, k = 2\n\nOutput: 8\n\nExplanation:\n\n• Use 3 operations to add 3 to nums[1] and use 2 operations to subtract 2 from nums[3]. The resulting array is [5, 1, 1, 1, 7, 3, 6, 4, -1].\n\n• Use 1 operation to add 1 to nums[5] and use 2 operations to subtract 2 from nums[6]. The resulting array is [5, 1, 1, 1, 7, 4, 4, 4, -1].\n\n• Now, all elements within each subarray [1, 1, 1] (from indices 1 to 3) and [4, 4, 4] (from indices 5 to 7) are equal. Since 8 total operations were used, 8 is the output.\n\nExample 2:\n\nInput: nums = [9,-2,-2,-2,1,5], x = 2, k = 2\n\nOutput: 3\n\nExplanation:\n\n• Use 3 operations to subtract 3 from nums[4]. The resulting array is [9, -2, -2, -2, -2, 5].\n\n• Now, all elements within each subarray [-2, -2] (from indices 1 to 2) and [-2, -2] (from indices 3 to 4) are equal. Since 3 operations were used, 3 is the output.\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• -106 <= nums[i] <= 106\n\n• 2 <= x <= nums.length\n\n• 1 <= k <= 15\n\n• 2 <= k * x <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums, x, k):\n        \"\"\"\n        :type nums: List[int]\n        :type x: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Making every element of an x-sized window equal to its median is optimal.",
+    "Precalculate this for each window."
+  ],
+  "testCases": [
+    [
+      "[5,-2,1,3,7,3,6,4,-1]",
+      "3",
+      "2"
+    ],
+    [
+      "[9,-2,-2,-2,1,5]",
+      "2",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find Median from Data Stream\", \"titleSlug\": \"find-median-from-data-stream\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Moves to Equal Array Elements II\", \"titleSlug\": \"minimum-moves-to-equal-array-elements-ii\", \"difficulty\": \"Medium\"}]"
+}

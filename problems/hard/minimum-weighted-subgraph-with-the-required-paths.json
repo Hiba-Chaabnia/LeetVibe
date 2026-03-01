@@ -1,0 +1,55 @@
+{
+  "questionId": "2321",
+  "title": "Minimum Weighted Subgraph With the Required Paths",
+  "titleSlug": "minimum-weighted-subgraph-with-the-required-paths",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "You are given an integer n denoting the number of nodes of a weighted directed graph. The nodes are numbered from 0 to n - 1.\n\nYou are also given a 2D integer array edges where edges[i] = [fromi, toi, weighti] denotes that there exists a directed edge from fromi to toi with weight weighti.\n\nLastly, you are given three distinct integers src1, src2, and dest denoting three distinct nodes of the graph.\n\nReturn the minimum weight of a subgraph of the graph such that it is possible to reach dest from both src1 and src2 via a set of edges of this subgraph. In case such a subgraph does not exist, return -1.\n\nA subgraph is a graph whose vertices and edges are subsets of the original graph. The weight of a subgraph is the sum of weights of its constituent edges.\n\nExample 1:\n\nInput: n = 6, edges = [[0,2,2],[0,5,6],[1,0,3],[1,4,5],[2,1,1],[2,3,3],[2,3,4],[3,4,2],[4,5,1]], src1 = 0, src2 = 1, dest = 5\nOutput: 9\nExplanation:\n    The above figure represents the input graph.\n    The blue edges represent one of the subgraphs that yield the optimal answer.\n    Note that the subgraph [[1,0,3],[0,5,6]] also yields the optimal answer. It is not possible to get a subgraph with less weight satisfying all the constraints.\n\nExample 2:\n\nInput: n = 3, edges = [[0,1,1],[2,1,1]], src1 = 0, src2 = 1, dest = 2\nOutput: -1\nExplanation:\n    The above figure represents the input graph.\n    It can be seen that there does not exist any path from node 1 to node 2, hence there are no subgraphs satisfying all the constraints.\n\nConstraints:\n\n• 3 <= n <= 105\n\n• 0 <= edges.length <= 105\n\n• edges[i].length == 3\n\n• 0 <= fromi, toi, src1, src2, dest <= n - 1\n\n• fromi != toi\n\n• src1, src2, and dest are pairwise distinct.\n\n• 1 <= weight[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumWeight(self, n, edges, src1, src2, dest):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type src1: int\n        :type src2: int\n        :type dest: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider what the paths from src1 to dest and src2 to dest would look like in the optimal solution.",
+    "It can be shown that in an optimal solution, the two paths from src1 and src2 will coincide at one node, and the remaining part to dest will be the same for both paths. Now consider how to find the node where the paths will coincide.",
+    "How can algorithms for finding the shortest path between two nodes help us?"
+  ],
+  "testCases": [
+    [
+      "6",
+      "[[0,2,2],[0,5,6],[1,0,3],[1,4,5],[2,1,1],[2,3,3],[2,3,4],[3,4,2],[4,5,1]]",
+      "0",
+      "1",
+      "5"
+    ],
+    [
+      "3",
+      "[[0,1,1],[2,1,1]]",
+      "0",
+      "1",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Cost to Make at Least One Valid Path in a Grid\", \"titleSlug\": \"minimum-cost-to-make-at-least-one-valid-path-in-a-grid\", \"difficulty\": \"Hard\"}, {\"title\": \"Escape the Spreading Fire\", \"titleSlug\": \"escape-the-spreading-fire\", \"difficulty\": \"Hard\"}, {\"title\": \"Disconnect Path in a Binary Matrix by at Most One Flip\", \"titleSlug\": \"disconnect-path-in-a-binary-matrix-by-at-most-one-flip\", \"difficulty\": \"Medium\"}]"
+}

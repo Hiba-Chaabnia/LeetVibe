@@ -1,0 +1,50 @@
+{
+  "questionId": "2085",
+  "title": "Array With Elements Not Equal to Average of Neighbors",
+  "titleSlug": "array-with-elements-not-equal-to-average-of-neighbors",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed array nums of distinct integers. You want to rearrange the elements in the array such that every element in the rearranged array is not equal to the average of its neighbors.\n\nMore formally, the rearranged array should have the property such that for every i in the range 1 <= i < nums.length - 1, (nums[i-1] + nums[i+1]) / 2 is not equal to nums[i].\n\nReturn any rearrangement of nums that meets the requirements.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5]\nOutput: [1,2,4,5,3]\nExplanation:\n    When i=1, nums[i] = 2, and the average of its neighbors is (1+4) / 2 = 2.5.\n    When i=2, nums[i] = 4, and the average of its neighbors is (2+5) / 2 = 3.5.\n    When i=3, nums[i] = 5, and the average of its neighbors is (4+3) / 2 = 3.5.\n\nExample 2:\n\nInput: nums = [6,2,0,9,7]\nOutput: [9,7,6,2,0]\nExplanation:\n    When i=1, nums[i] = 7, and the average of its neighbors is (9+6) / 2 = 7.5.\n    When i=2, nums[i] = 6, and the average of its neighbors is (7+2) / 2 = 4.5.\n    When i=3, nums[i] = 2, and the average of its neighbors is (6+0) / 2 = 3.\n    Note that the original array [6,2,0,9,7] also satisfies the conditions.\n\nConstraints:\n\n• 3 <= nums.length <= 105\n\n• 0 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rearrangeArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A number can be the average of its neighbors if one neighbor is smaller than the number and the other is greater than the number.",
+    "We can put numbers smaller than the median on odd indices and the rest on even indices."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[6,2,0,9,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,4,5,3]",
+    "[9,7,6,2,0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def rearrangeArray(self, nums):\n        nums.sort()\n        result = [0] * len(nums)\n        result[::2] = nums[:len(nums)//2 + len(nums)%2]\n        result[1::2] = nums[len(nums)//2 + len(nums)%2:]\n        return result",
+    "explanation": "Sort array. Place smaller half at even indices, larger half at odd indices.\nTime: O(n*log n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Wiggle Sort\", \"titleSlug\": \"wiggle-sort\", \"difficulty\": \"Medium\"}, {\"title\": \"Wiggle Sort II\", \"titleSlug\": \"wiggle-sort-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Design Neighbor Sum Service\", \"titleSlug\": \"design-neighbor-sum-service\", \"difficulty\": \"Easy\"}]"
+}

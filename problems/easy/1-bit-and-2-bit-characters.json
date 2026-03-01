@@ -1,0 +1,41 @@
+{
+  "questionId": "717",
+  "title": "1-bit and 2-bit Characters",
+  "titleSlug": "1-bit-and-2-bit-characters",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "We have two special characters:\n\n• The first character can be represented by one bit 0.\n\n• The second character can be represented by two bits (10 or 11).\n\nGiven a binary array bits that ends with 0, return true if the last character must be a one-bit character.\n\nExample 1:\n\nInput: bits = [1,0,0]\nOutput: true\nExplanation: The only way to decode it is two-bit character and one-bit character.\nSo the last character is one-bit character.\n\nExample 2:\n\nInput: bits = [1,1,1,0]\nOutput: false\nExplanation: The only way to decode it is two-bit character and two-bit character.\nSo the last character is not one-bit character.\n\nConstraints:\n\n• 1 <= bits.length <= 1000\n\n• bits[i] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n  def isOneBitCharacter(self, bits):\n  \"\"\"\n  :type bits: List[int]\n  :rtype: bool\n  \"\"\"\n"
+    }
+  ],
+  "hints": [
+    "Keep track of where the next character starts.  At the end, you want to know if you started on the last bit."
+  ],
+  "testCases": [
+    [
+      "[1,0,0]"
+    ],
+    [
+      "[1,1,1,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isOneBitCharacter(self, bits):\n        i = 0\n        while i < len(bits) - 1:\n            i += bits[i] + 1\n        return i == len(bits) - 1",
+    "explanation": "Greedy iteration: If we see 1, skip 2 bits. If we see 0, skip 1 bit. Last element must be reached exactly at the end."
+  },
+  "similarQuestions": "[{\"title\": \"Gray Code\", \"titleSlug\": \"gray-code\", \"difficulty\": \"Medium\"}]"
+}

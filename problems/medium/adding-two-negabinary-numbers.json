@@ -1,0 +1,52 @@
+{
+  "questionId": "1148",
+  "title": "Adding Two Negabinary Numbers",
+  "titleSlug": "adding-two-negabinary-numbers",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given two numbers arr1 and arr2 in base -2, return the result of adding them together.\n\nEach number is given in array format:  as an array of 0s and 1s, from most significant bit to least significant bit.  For example, arr = [1,1,0,1] represents the number (-2)^3 + (-2)^2 + (-2)^0 = -3.  A number arr in array, format is also guaranteed to have no leading zeros: either arr == [0] or arr[0] == 1.\n\nReturn the result of adding arr1 and arr2 in the same format: as an array of 0s and 1s with no leading zeros.\n\nExample 1:\n\nInput: arr1 = [1,1,1,1,1], arr2 = [1,0,1]\nOutput: [1,0,0,0,0]\nExplanation: arr1 represents 11, arr2 represents 5, the output represents 16.\n\nExample 2:\n\nInput: arr1 = [0], arr2 = [0]\nOutput: [0]\n\nExample 3:\n\nInput: arr1 = [0], arr2 = [1]\nOutput: [1]\n\nConstraints:\n\n• 1 <= arr1.length, arr2.length <= 1000\n\n• arr1[i] and arr2[i] are 0 or 1\n\n• arr1 and arr2 have no leading zeros",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def addNegabinary(self, arr1, arr2):\n        \"\"\"\n        :type arr1: List[int]\n        :type arr2: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can try to determine the last digit of the answer, then divide everything by 2 and repeat."
+  ],
+  "testCases": [
+    [
+      "[1,1,1,1,1]",
+      "[1,0,1]"
+    ],
+    [
+      "[0]",
+      "[0]"
+    ],
+    [
+      "[0]",
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,0,0,0,0]",
+    "[0]",
+    "[1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\ndef addNegabinary(arr1, arr2):\n    res = deque()\n    carry, i, j = 0, len(arr1) - 1, len(arr2) - 1\n    while i >= 0 or j >= 0 or carry:\n        if i >= 0: carry += arr1[i]; i -= 1\n        if j >= 0: carry += arr2[j]; j -= 1\n        res.appendleft(carry & 1)\n        carry = -(carry >> 1)\n    while len(res) > 1 and res[0] == 0: res.popleft()\n    return list(res)",
+    "explanation": "The algorithm follows the idea of binary addition. We iterate through the input arrays from right to left, summing the corresponding bits and keeping track of the carry value. Since we are working with base -2, we divide the carry value by -2 after each step of calculation (equivalent to -right shift by 1). We keep updating the carry value until we reach the end of both arrays and the carry value is 0. Finally, we remove any leading zeros in the result array."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "371",
+  "title": "Sum of Two Integers",
+  "titleSlug": "sum-of-two-integers",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given two integers a and b, return the sum of the two integers without using the operators + and -.\n\nExample 1:\n\nInput: a = 1, b = 2\nOutput: 3\nExample 2:\n\nInput: a = 2, b = 3\nOutput: 5\n\nConstraints:\n\n• -1000 <= a, b <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getSum(self, a, b):\n        \"\"\"\n        :type a: int\n        :type b: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "1",
+      "2"
+    ],
+    [
+      "2",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def getSum(self, a, b):\n        \"\"\"\n        :type a: int\n        :type b: int\n        :rtype: int\n        \"\"\"\n        mask = 0xFFFFFFFF\n        \n        while b != 0:\n            carry = ((a & b) << 1) & mask\n            a = (a ^ b) & mask\n            b = carry\n        \n        # Handle negative numbers\n        return a if a < 0x80000000 else ~(a ^ mask)",
+    "explanation": "XOR for sum without carry. AND+shift for carry. Repeat until no carry.",
+    "complexity": "Time: O(1). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Add Two Numbers\", \"titleSlug\": \"add-two-numbers\", \"difficulty\": \"Medium\"}]"
+}

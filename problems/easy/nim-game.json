@@ -1,0 +1,53 @@
+{
+  "questionId": "292",
+  "title": "Nim Game",
+  "titleSlug": "nim-game",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "You are playing the following Nim Game with your friend:\n\n• Initially, there is a heap of stones on the table.\n\n• You and your friend will alternate taking turns, and you go first.\n\n• On each turn, the person whose turn it is will remove 1 to 3 stones from the heap.\n\n• The one who removes the last stone is the winner.\n\nGiven n, the number of stones in the heap, return true if you can win the game assuming both you and your friend play optimally, otherwise return false.\n\nExample 1:\n\nInput: n = 4\nOutput: false\nExplanation: These are the possible outcomes:\n    1. You remove 1 stone. Your friend removes 3 stones, including the last stone. Your friend wins.\n    2. You remove 2 stones. Your friend removes 2 stones, including the last stone. Your friend wins.\n    3. You remove 3 stones. Your friend removes the last stone. Your friend wins.\n    In all outcomes, your friend wins.\n\nExample 2:\n\nInput: n = 1\nOutput: true\n\nExample 3:\n\nInput: n = 2\nOutput: true\n\nConstraints:\n\n• 1 <= n <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canWinNim(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If there are 5 stones in the heap, could you figure out a way to remove the stones such that you will always be the winner?"
+  ],
+  "testCases": [
+    [
+      "4"
+    ],
+    [
+      "1"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def canWinNim(n):\n    return n % 4 != 0",
+    "explanation": "In the Nim game, the optimal strategy is to make the other player take the last stone. The game is won by the player who can force the opponent to take the last stone. If the current number of stones is divisible by 4, the next player can always make the other player take the last stone. Therefore, whenever the current number of stones is divisible by 4, the player will lose. If the number of stones is not divisible by 4, the player can make the next player play with a number of stones divisible by 4, thus making the next player lose.\n\nIn the code, we simply check if the number of stones `n` is not divisible by 4 (`n % 4 != 0`), and if it is, then the player can win the game."
+  },
+  "similarQuestions": "[{\"title\": \"Flip Game II\", \"titleSlug\": \"flip-game-ii\", \"difficulty\": \"Medium\"}]"
+}

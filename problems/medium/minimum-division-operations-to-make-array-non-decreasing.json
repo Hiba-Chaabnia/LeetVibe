@@ -1,0 +1,54 @@
+{
+  "questionId": "3607",
+  "title": "Minimum Division Operations to Make Array Non Decreasing",
+  "titleSlug": "minimum-division-operations-to-make-array-non-decreasing",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nAny positive divisor of a natural number x that is strictly less than x is called a proper divisor of x. For example, 2 is a proper divisor of 4, while 6 is not a proper divisor of 6.\n\nYou are allowed to perform an operation any number of times on nums, where in each operation you select any one element from nums and divide it by its greatest proper divisor.\n\nReturn the minimum number of operations required to make the array non-decreasing.\n\nIf it is not possible to make the array non-decreasing using any number of operations, return -1.\n\nExample 1:\n\nInput: nums = [25,7]\n\nOutput: 1\n\nExplanation: Using a single operation, 25 gets divided by 5 and nums becomes [5, 7].\n\nExample 2:\n\nInput: nums = [7,7,6]\n\nOutput: -1\n\nExample 3:\n\nInput: nums = [1,1,1,1]\n\nOutput: 0\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate backward from the last index.",
+    "Each number can be divided by its largest proper divisor to yield its smallest prime divisor."
+  ],
+  "testCases": [
+    [
+      "[25,7]"
+    ],
+    [
+      "[7,7,6]"
+    ],
+    [
+      "[1,1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "-1",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Smallest Value After Replacing With Sum of Prime Factors\", \"titleSlug\": \"smallest-value-after-replacing-with-sum-of-prime-factors\", \"difficulty\": \"Medium\"}]"
+}

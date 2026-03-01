@@ -1,0 +1,45 @@
+{
+  "questionId": "926",
+  "title": "Find and Replace Pattern",
+  "titleSlug": "find-and-replace-pattern",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a list of strings words and a string pattern, return a list of words[i] that match pattern. You may return the answer in any order.\n\nA word matches the pattern if there exists a permutation of letters p so that after replacing every letter x in the pattern with p(x), we get the desired word.\n\nRecall that a permutation of letters is a bijection from letters to letters: every letter maps to another letter, and no two letters map to the same letter.\n\nExample 1:\n\nInput: words = [\"abc\",\"deq\",\"mee\",\"aqq\",\"dkd\",\"ccc\"], pattern = \"abb\"\nOutput: [\"mee\",\"aqq\"]\nExplanation: \"mee\" matches the pattern because there is a permutation {a -> m, b -> e, ...}.\n    \"ccc\" does not match the pattern because {a -> c, b -> c, ...} is not a permutation, since a and b map to the same letter.\n\nExample 2:\n\nInput: words = [\"a\",\"b\",\"c\"], pattern = \"a\"\nOutput: [\"a\",\"b\",\"c\"]\n\nConstraints:\n\n• 1 <= pattern.length <= 20\n\n• 1 <= words.length <= 50\n\n• words[i].length == pattern.length\n\n• pattern and words[i] are lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findAndReplacePattern(self, words, pattern):\n        \"\"\"\n        :type words: List[str]\n        :type pattern: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"abc\",\"deq\",\"mee\",\"aqq\",\"dkd\",\"ccc\"]",
+      "\"abb\""
+    ],
+    [
+      "[\"a\",\"b\",\"c\"]",
+      "\"a\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"mee\",\"aqq\"]",
+    "[\"a\",\"b\",\"c\"]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Isomorphic Strings\", \"titleSlug\": \"isomorphic-strings\", \"difficulty\": \"Easy\"}, {\"title\": \"Word Pattern\", \"titleSlug\": \"word-pattern\", \"difficulty\": \"Easy\"}]"
+}

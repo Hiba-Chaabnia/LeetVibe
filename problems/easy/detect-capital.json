@@ -1,0 +1,39 @@
+{
+  "questionId": "520",
+  "title": "Detect Capital",
+  "titleSlug": "detect-capital",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "We define the usage of capitals in a word to be right when one of the following cases holds:\n\n• All letters in this word are capitals, like \"USA\".\n\n• All letters in this word are not capitals, like \"leetcode\".\n\n• Only the first letter in this word is capital, like \"Google\".\n\nGiven a string word, return true if the usage of capitals in it is right.\n\nExample 1:\n\nInput: word = \"USA\"\nOutput: true\nExample 2:\n\nInput: word = \"FlaG\"\nOutput: false\n\nConstraints:\n\n• 1 <= word.length <= 100\n\n• word consists of lowercase and uppercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def detectCapitalUse(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"USA\""
+    ],
+    [
+      "\"FlaG\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def detectCapitalUse(word: str) -> bool:\n    numCapital = sum(1 for c in word if c.isupper())\n    return numCapital == 0 or numCapital == len(word) or (numCapital == 1 and word[0].isupper())",
+    "explanation": "The algorithm keeps track of the count of capital letters in the word. It iterates over each character in the word, and if the character is uppercase, it increments the `numCapital` counter.\n\nAfter iterating through the word, the algorithm checks if one of the three conditions holds:\n1. There are no capital letters (`numCapital == 0`)\n2. All letters are capital (`numCapital == word.size()` in C++ / `word.length` in Java and JavaScript / `len(word)` in Python)\n3. Only the first letter is capital (`numCapital == 1` and the first letter is uppercase)\n\nIf any of these conditions hold, the function returns `true`, otherwise `false`."
+  },
+  "similarQuestions": "[{\"title\": \"Capitalize the Title\", \"titleSlug\": \"capitalize-the-title\", \"difficulty\": \"Easy\"}, {\"title\": \"Count the Number of Special Characters II\", \"titleSlug\": \"count-the-number-of-special-characters-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Count the Number of Special Characters I\", \"titleSlug\": \"count-the-number-of-special-characters-i\", \"difficulty\": \"Easy\"}]"
+}

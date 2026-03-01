@@ -1,0 +1,65 @@
+{
+  "questionId": "2696",
+  "title": "The Number of Beautiful Subsets",
+  "titleSlug": "the-number-of-beautiful-subsets",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given an array nums of positive integers and a positive integer k.\n\nA subset of nums is beautiful if it does not contain two integers with an absolute difference equal to k.\n\nReturn the number of non-empty beautiful subsets of the array nums.\n\nA subset of nums is an array that can be obtained by deleting some (possibly none) elements from nums. Two subsets are different if and only if the chosen indices to delete are different.\n\nExample 1:\n\nInput: nums = [2,4,6], k = 2\nOutput: 4\nExplanation: The beautiful subsets of the array nums are: [2], [4], [6], [2, 6].\n    It can be proved that there are only 4 beautiful subsets in the array [2,4,6].\n\nExample 2:\n\nInput: nums = [1], k = 1\nOutput: 1\nExplanation: The beautiful subset of the array nums is [1].\n    It can be proved that there is only 1 beautiful subset in the array [1].\n\nConstraints:\n\n• 1 <= nums.length <= 18\n\n• 1 <= nums[i], k <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def beautifulSubsets(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the array nums and create another array cnt of size nums[i].",
+    "Use backtracking to generate all the beautiful subsets. If cnt[nums[i] - k] is positive, then it is impossible to add nums[i] in the subset, and we just move to the next index. Otherwise, it is also possible to add nums[i] in the subset, in this case, increase cnt[nums[i]], and move to the next index.",
+    "Bonus: Can you solve the problem in O(n log n)?"
+  ],
+  "testCases": [
+    [
+      "[2,4,6]",
+      "2"
+    ],
+    [
+      "[1]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Construct the Lexicographically Largest Valid Sequence\", \"titleSlug\": \"construct-the-lexicographically-largest-valid-sequence\", \"difficulty\": \"Medium\"}]"
+}

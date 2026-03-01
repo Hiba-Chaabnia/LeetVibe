@@ -1,0 +1,55 @@
+{
+  "questionId": "1770",
+  "title": "Minimum Deletions to Make Character Frequencies Unique",
+  "titleSlug": "minimum-deletions-to-make-character-frequencies-unique",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "A string s is called good if there are no two different characters in s that have the same frequency.\n\nGiven a string s, return the minimum number of characters you need to delete to make s good.\n\nThe frequency of a character in a string is the number of times it appears in the string. For example, in the string \"aab\", the frequency of 'a' is 2, while the frequency of 'b' is 1.\n\nExample 1:\n\nInput: s = \"aab\"\nOutput: 0\nExplanation: s is already good.\n\nExample 2:\n\nInput: s = \"aaabbbcc\"\nOutput: 2\nExplanation: You can delete two 'b's resulting in the good string \"aaabcc\".\n    Another way it to delete one 'b' and one 'c' resulting in the good string \"aaabbc\".\n\nExample 3:\n\nInput: s = \"ceabaacb\"\nOutput: 2\nExplanation: You can delete both 'c's resulting in the good string \"eabaab\".\n    Note that we only care about characters that are still in the string at the end (i.e. frequency of 0 is ignored).\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDeletions(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "As we can only delete characters, if we have multiple characters having the same frequency, we must decrease all the frequencies of them, except one.",
+    "Sort the alphabet characters by their frequencies non-increasingly.",
+    "Iterate on the alphabet characters, keep decreasing the frequency of the current character until it reaches a value that has not appeared before."
+  ],
+  "testCases": [
+    [
+      "\"aab\""
+    ],
+    [
+      "\"aaabbbcc\""
+    ],
+    [
+      "\"ceabaacb\""
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Deletions to Make Array Beautiful\", \"titleSlug\": \"minimum-deletions-to-make-array-beautiful\", \"difficulty\": \"Medium\"}, {\"title\": \"Removing Minimum and Maximum From Array\", \"titleSlug\": \"removing-minimum-and-maximum-from-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Remove Letter To Equalize Frequency\", \"titleSlug\": \"remove-letter-to-equalize-frequency\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Deletions to Make String K-Special\", \"titleSlug\": \"minimum-deletions-to-make-string-k-special\", \"difficulty\": \"Medium\"}]"
+}

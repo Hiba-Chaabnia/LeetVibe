@@ -1,0 +1,54 @@
+{
+  "questionId": "2005",
+  "title": "Check if All the Integers in a Range Are Covered",
+  "titleSlug": "check-if-all-the-integers-in-a-range-are-covered",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 2D integer array ranges and two integers left and right. Each ranges[i] = [starti, endi] represents an inclusive interval between starti and endi.\n\nReturn true if each integer in the inclusive range [left, right] is covered by at least one interval in ranges. Return false otherwise.\n\nAn integer x is covered by an interval ranges[i] = [starti, endi] if starti <= x <= endi.\n\nExample 1:\n\nInput: ranges = [[1,2],[3,4],[5,6]], left = 2, right = 5\nOutput: true\nExplanation: Every integer between 2 and 5 is covered:\n    - 2 is covered by the first range.\n    - 3 and 4 are covered by the second range.\n    - 5 is covered by the third range.\n\nExample 2:\n\nInput: ranges = [[1,10],[10,20]], left = 21, right = 21\nOutput: false\nExplanation: 21 is not covered by any range.\n\nConstraints:\n\n• 1 <= ranges.length <= 50\n\n• 1 <= starti <= endi <= 50\n\n• 1 <= left <= right <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isCovered(self, ranges, left, right):\n        \"\"\"\n        :type ranges: List[List[int]]\n        :type left: int\n        :type right: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate over every integer point in the range [left, right].",
+    "For each of these points check if it is included in one of the ranges."
+  ],
+  "testCases": [
+    [
+      "[[1,2],[3,4],[5,6]]",
+      "2",
+      "5"
+    ],
+    [
+      "[[1,10],[10,20]]",
+      "21",
+      "21"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def isCovered(ranges: List[List[int]], left: int, right: int) -> bool:\n    for i in range(left, right + 1):\n        found = False\n        for _range in ranges:\n            if _range[0] <= i <= _range[1]:\n                found = True\n                break\n        if not found:\n            return False\n    return True",
+    "explanation": "The algorithm iterates through the inclusive range `[left, right]` and checks if each integer is covered by at least one interval. To accomplish this, it iterates through each interval in `ranges` and checks if the current integer is within an interval in `ranges`. If the integer is within an interval, the loop breaks, and the next integer will be checked. If an integer is not within any of the intervals, the function returns `false`. Otherwise, the function returns `true` after all integers have been checked."
+  },
+  "similarQuestions": "[{\"title\": \"Find Maximal Uncovered Ranges\", \"titleSlug\": \"find-maximal-uncovered-ranges\", \"difficulty\": \"Medium\"}]"
+}

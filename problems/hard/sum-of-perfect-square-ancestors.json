@@ -1,0 +1,79 @@
+{
+  "questionId": "3957",
+  "title": "Sum of Perfect Square Ancestors",
+  "titleSlug": "sum-of-perfect-square-ancestors",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer n and an undirected tree rooted at node 0 with n nodes numbered from 0 to n - 1. This is represented by a 2D array edges of length n - 1, where edges[i] = [ui, vi] indicates an undirected edge between nodes ui and vi.\n\nYou are also given an integer array nums, where nums[i] is the positive integer assigned to node i.\n\nDefine a value ti as the number of ancestors of node i such that the product nums[i] * nums[ancestor] is a perfect square.\n\nReturn the sum of all ti values for all nodes i in range [1, n - 1].\n\nNote:\n\n• In a rooted tree, the ancestors of node i are all nodes on the path from node i to the root node 0, excluding i itself.\n\nExample 1:\n\nInput: n = 3, edges = [[0,1],[1,2]], nums = [2,8,2]\n\nOutput: 3\n\nExplanation: \t\t\t\ti\n\t\t\t\tAncestors\n\t\t\t\tnums[i] * nums[ancestor]\n\t\t\t\tSquare Check\n\t\t\t\tti\n\n\t\t\t\t1\n\t\t\t\t[0]\n\t\t\t\tnums[1] * nums[0] = 8 * 2 = 16\n\t\t\t\t16 is a perfect square\n\t\t\t\t1\n\n\t\t\t\t2\n\t\t\t\t[1, 0]\n\t\t\t\tnums[2] * nums[1] = 2 * 8 = 16\n\n\t\t\tnums[2] * nums[0] = 2 * 2 = 4\n\t\t\t\tBoth 4 and 16 are perfect squares\n\t\t\t\t2\n\nThus, the total number of valid ancestor pairs across all non-root nodes is 1 + 2 = 3.\n\nExample 2:\n\nInput: n = 3, edges = [[0,1],[0,2]], nums = [1,2,4]\n\nOutput: 1\n\nExplanation: \t\t\t\ti\n\t\t\t\tAncestors\n\t\t\t\tnums[i] * nums[ancestor]\n\t\t\t\tSquare Check\n\t\t\t\tti\n\n\t\t\t\t1\n\t\t\t\t[0]\n\t\t\t\tnums[1] * nums[0] = 2 * 1 = 2\n\t\t\t\t2 is not a perfect square\n\t\t\t\t0\n\n\t\t\t\t2\n\t\t\t\t[0]\n\t\t\t\tnums[2] * nums[0] = 4 * 1 = 4\n\t\t\t\t4 is a perfect square\n\t\t\t\t1\n\nThus, the total number of valid ancestor pairs across all non-root nodes is 1.\n\nExample 3:\n\nInput: n = 4, edges = [[0,1],[0,2],[1,3]], nums = [1,2,9,4]\n\nOutput: 2\n\nExplanation: \t\t\t\ti\n\t\t\t\tAncestors\n\t\t\t\tnums[i] * nums[ancestor]\n\t\t\t\tSquare Check\n\t\t\t\tti\n\n\t\t\t\t1\n\t\t\t\t[0]\n\t\t\t\tnums[1] * nums[0] = 2 * 1 = 2\n\t\t\t\t2 is not a perfect square\n\t\t\t\t0\n\n\t\t\t\t2\n\t\t\t\t[0]\n\t\t\t\tnums[2] * nums[0] = 9 * 1 = 9\n\t\t\t\t9 is a perfect square\n\t\t\t\t1\n\n\t\t\t\t3\n\t\t\t\t[1, 0]\n\t\t\t\tnums[3] * nums[1] = 4 * 2 = 8\n\n\t\t\tnums[3] * nums[0] = 4 * 1 = 4\n\t\t\t\tOnly 4 is a perfect square\n\t\t\t\t1\n\nThus, the total number of valid ancestor pairs across all non-root nodes is 0 + 1 + 1 = 2.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• edges.length == n - 1\n\n• edges[i] = [ui, vi]\n\n• 0 <= ui, vi <= n - 1\n\n• nums.length == n\n\n• 1 <= nums[i] <= 105\n\n• The input is generated such that edges represents a valid tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumOfAncestors(self, n, edges, nums):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that the product nums[i] * nums[ancestor] is a perfect square if and only if both numbers have the same \"square-free kernel\" (i.e., after removing all even powers of primes, the remaining product is identical).",
+    "Precompute the square-free representation of every node's value using prime factorization up to max(nums[i]).",
+    "Perform a DFS from the root. While traversing down the tree, maintain a frequency map of the square-free values of the ancestors.",
+    "For each node, the number of valid ancestors equals the count of ancestors with the same square-free value.",
+    "Carefully backtrack the frequency map after finishing a subtree to maintain correctness."
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[0,1],[1,2]]",
+      "[2,8,2]"
+    ],
+    [
+      "3",
+      "[[0,1],[0,2]]",
+      "[1,2,4]"
+    ],
+    [
+      "4",
+      "[[0,1],[0,2],[1,3]]",
+      "[1,2,9,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def sumOfAncestors(self, n, edges, nums):\n        # nums[i]*nums[j] is perfect square iff square-free kernels are equal\n        def square_free(x):\n            res = 1\n            d = 2\n            while d * d <= x:\n                cnt = 0\n                while x % d == 0:\n                    x //= d\n                    cnt += 1\n                if cnt % 2 == 1:\n                    res *= d\n                d += 1\n            if x > 1:\n                res *= x\n            return res\n        sf = [square_free(v) for v in nums]\n        adj = defaultdict(list)\n        for u, v in edges:\n            adj[u].append(v)\n            adj[v].append(u)\n        # Iterative DFS with ancestor freq map\n        parent = [-1] * n\n        order = []\n        visited = [False] * n\n        stack = [0]\n        visited[0] = True\n        while stack:\n            u = stack.pop()\n            order.append(u)\n            for v in adj[u]:\n                if not visited[v]:\n                    visited[v] = True\n                    parent[v] = u\n                    stack.append(v)\n        children = defaultdict(list)\n        for u in order[1:]:\n            children[parent[u]].append(u)\n        # DFS with backtracking\n        ans = 0\n        freq = defaultdict(int)\n        stk = [(0, False)]\n        while stk:\n            u, leaving = stk.pop()\n            if leaving:\n                freq[sf[u]] -= 1\n                continue\n            ans += freq[sf[u]]\n            freq[sf[u]] += 1\n            stk.append((u, True))\n            for c in children[u]:\n                stk.append((c, False))\n        return ans",
+    "explanation": "nums[i]*nums[j] is a perfect square iff they share the same square-free kernel. DFS from root maintaining ancestor frequency map of square-free values. For each node, add freq[sf[node]] to answer, then increment. Backtrack by decrementing on return.\n\nTime: O(n * sqrt(max_val)). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

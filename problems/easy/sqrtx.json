@@ -1,0 +1,46 @@
+{
+  "questionId": "69",
+  "title": "Sqrt(x)",
+  "titleSlug": "sqrtx",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be non-negative as well.\n\nYou must not use any built-in exponent function or operator.\n\n• For example, do not use pow(x, 0.5) in c++ or x ** 0.5 in python.\n\nExample 1:\n\nInput: x = 4\nOutput: 2\nExplanation: The square root of 4 is 2, so we return 2.\n\nExample 2:\n\nInput: x = 8\nOutput: 2\nExplanation: The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.\n\nConstraints:\n\n• 0 <= x <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mySqrt(self, x):\n        \"\"\"\n        :type x: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try exploring all integers. (Credits: @annujoshi)",
+    "Use the sorted property of integers to reduced the search space. (Credits: @annujoshi)"
+  ],
+  "testCases": [
+    [
+      "4"
+    ],
+    [
+      "8"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def mySqrt(x):\n    if x == 0 or x == 1:\n        return x\n    start, end, ans = 1, x, 0\n    while start <= end:\n        mid = (start + end) // 2\n        if mid * mid == x:\n            return mid\n        if mid * mid < x:\n            start = mid + 1\n            ans = mid\n        else:\n            end = mid - 1\n    return ans",
+    "explanation": "The algorithm uses a binary search approach to find the integer square root of the given number `x`. It starts with the smallest possible answer (1) and the largest possible answer (x), updating the \"start\" and \"end\" positions based on whether the current midpoint squared is smaller or larger than x. The integer square root of the number is found when `mid * mid == x`, or when the closest integer (under or equal to x) value has been located. The binary search approach keeps the time complexity at O(log(x)), making it an efficient solution."
+  },
+  "similarQuestions": "[{\"title\": \"Pow(x, n)\", \"titleSlug\": \"powx-n\", \"difficulty\": \"Medium\"}, {\"title\": \"Valid Perfect Square\", \"titleSlug\": \"valid-perfect-square\", \"difficulty\": \"Easy\"}]"
+}

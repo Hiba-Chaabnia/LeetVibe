@@ -1,0 +1,42 @@
+{
+  "questionId": "2304",
+  "title": "Cells in a Range on an Excel Sheet",
+  "titleSlug": "cells-in-a-range-on-an-excel-sheet",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A cell (r, c) of an excel sheet is represented as a string \"<col><row>\" where:\n\n• <col> denotes the column number c of the cell. It is represented by alphabetical letters.\n\n• For example, the 1st column is denoted by 'A', the 2nd by 'B', the 3rd by 'C', and so on.\n\n• <row> is the row number r of the cell. The rth row is represented by the integer r.\n\nYou are given a string s in the format \"<col1><row1>:<col2><row2>\", where <col1> represents the column c1, <row1> represents the row r1, <col2> represents the column c2, and <row2> represents the row r2, such that r1 <= r2 and c1 <= c2.\n\nReturn the list of cells (x, y) such that r1 <= x <= r2 and c1 <= y <= c2. The cells should be represented as strings in the format mentioned above and be sorted in non-decreasing order first by columns and then by rows.\n\nExample 1:\n\nInput: s = \"K1:L2\"\nOutput: [\"K1\",\"K2\",\"L1\",\"L2\"]\nExplanation:\n    The above diagram shows the cells which should be present in the list.\n    The red arrows denote the order in which the cells should be presented.\n\nExample 2:\n\nInput: s = \"A1:F1\"\nOutput: [\"A1\",\"B1\",\"C1\",\"D1\",\"E1\",\"F1\"]\nExplanation:\n    The above diagram shows the cells which should be present in the list.\n    The red arrow denotes the order in which the cells should be presented.\n\nConstraints:\n\n• s.length == 5\n\n• 'A' <= s[0] <= s[3] <= 'Z'\n\n• '1' <= s[1] <= s[4] <= '9'\n\n• s consists of uppercase English letters, digits and ':'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def cellsInRange(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "From the given string, find the corresponding rows and columns.",
+    "Iterate through the columns in ascending order and for each column, iterate through the rows in ascending order to obtain the required cells in sorted order."
+  ],
+  "testCases": [
+    [
+      "\"K1:L2\""
+    ],
+    [
+      "\"A1:F1\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"K1\",\"K2\",\"L1\",\"L2\"]",
+    "[\"A1\",\"B1\",\"C1\",\"D1\",\"E1\",\"F1\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def cellsInRange(self, s):\n        col1, row1, col2, row2 = s[0], int(s[1]), s[3], int(s[4])\n        result = []\n        for col in range(ord(col1), ord(col2) + 1):\n            for row in range(row1, row2 + 1):\n                result.append(chr(col) + str(row))\n        return result",
+    "explanation": "Parse boundaries. Iterate column by column, row by row within each column."
+  },
+  "similarQuestions": "[{\"title\": \"Excel Sheet Column Title\", \"titleSlug\": \"excel-sheet-column-title\", \"difficulty\": \"Easy\"}, {\"title\": \"Excel Sheet Column Number\", \"titleSlug\": \"excel-sheet-column-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Matrix Cells in Distance Order\", \"titleSlug\": \"matrix-cells-in-distance-order\", \"difficulty\": \"Easy\"}]"
+}

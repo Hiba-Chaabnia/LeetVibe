@@ -1,0 +1,47 @@
+{
+  "questionId": "1529",
+  "title": "Max Difference You Can Get From Changing an Integer",
+  "titleSlug": "max-difference-you-can-get-from-changing-an-integer",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an integer num. You will apply the following steps to num two separate times:\n\n• Pick a digit x (0 <= x <= 9).\n\n• Pick another digit y (0 <= y <= 9). Note y can be equal to x.\n\n• Replace all the occurrences of x in the decimal representation of num by y.\n\nLet a and b be the two results from applying the operation to num independently.\n\nReturn the max difference between a and b.\n\nNote that neither a nor b may have any leading zeros, and must not be 0.\n\nExample 1:\n\nInput: num = 555\nOutput: 888\nExplanation: The first time pick x = 5 and y = 9 and store the new integer in a.\n    The second time pick x = 5 and y = 1 and store the new integer in b.\n    We have now a = 999 and b = 111 and max difference = 888\n\nExample 2:\n\nInput: num = 9\nOutput: 8\nExplanation: The first time pick x = 9 and y = 9 and store the new integer in a.\n    The second time pick x = 9 and y = 1 and store the new integer in b.\n    We have now a = 9 and b = 1 and max difference = 8\n\nConstraints:\n\n• 1 <= num <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxDiff(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We need to get the max and min value after changing num and the answer is max - min.",
+    "Use brute force, try all possible changes and keep the minimum and maximum values."
+  ],
+  "testCases": [
+    [
+      "555"
+    ],
+    [
+      "9"
+    ]
+  ],
+  "expectedOutputs": [
+    "888",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxDiff(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        s = str(num)\n        \n        # Maximize: find first digit != 9 from left, replace with 9\n        max_str = list(s)\n        for i in range(len(max_str)):\n            if max_str[i] != '9':\n                digit = max_str[i]\n                for j in range(len(max_str)):\n                    if max_str[j] == digit:\n                        max_str[j] = '9'\n                break\n        \n        # Minimize: find first digit != 0 and != 1 from left, replace with 1\n        # Special case: first digit can't be 0, so replace with 1\n        min_str = list(s)\n        for i in range(len(min_str)):\n            if i == 0:\n                # First digit: replace with 1 if not 1\n                if min_str[i] != '1':\n                    digit = min_str[i]\n                    for j in range(len(min_str)):\n                        if min_str[j] == digit:\n                            min_str[j] = '1'\n                    break\n            else:\n                # Other digits: replace with 0 if not 0 and not 1\n                if min_str[i] != '0' and min_str[i] != '1':\n                    digit = min_str[i]\n                    for j in range(i, len(min_str)):\n                        if min_str[j] == digit:\n                            min_str[j] = '0'\n                    break\n        \n        return int(''.join(max_str)) - int(''.join(min_str))",
+    "explanation": "For max, replace first non-9 digit with 9. For min, replace first non-0, non-1 digit with 0 (or first digit with 1).",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

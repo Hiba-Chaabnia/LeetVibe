@@ -1,0 +1,49 @@
+{
+  "questionId": "4178",
+  "title": "Vowel-Consonant Score",
+  "titleSlug": "vowel-consonant-score",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters, spaces, and digits.\n\nLet v be the number of vowels in s and c be the number of consonants in s.\n\nA vowel is one of the letters 'a', 'e', 'i', 'o', or 'u', while any other letter in the English alphabet is considered a consonant.\n\nThe score of the string s is defined as follows:\n\n• If c > 0, the score = floor(v / c) where floor denotes rounding down to the nearest integer.\n\n• Otherwise, the score = 0.\n\nReturn an integer denoting the score of the string.\n\nExample 1:\n\nInput: s = \"cooear\"\n\nOutput: 2\n\nExplanation: The string s = \"cooear\" contains v = 4 vowels ('o', 'o', 'e', 'a') and c = 2 consonants ('c', 'r').\n\nThe score is floor(v / c) = floor(4 / 2) = 2.\n\nExample 2:\n\nInput: s = \"axeyizou\"\n\nOutput: 1\n\nExplanation: The string s = \"axeyizou\" contains v = 5 vowels ('a', 'e', 'i', 'o', 'u') and c = 3 consonants ('x', 'y', 'z').\n\nThe score is floor(v / c) = floor(5 / 3) = 1.\n\nExample 3:\n\nInput: s = \"au 123\"\n\nOutput: 0\n\nExplanation: The string s = \"au 123\" contains no consonants (c = 0), so the score is 0.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists of lowercase English letters, spaces and digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def vowelConsonantScore(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "\"cooear\""
+    ],
+    [
+      "\"axeyizou\""
+    ],
+    [
+      "\"au 123\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def vowelConsonantScore(self, s):\n        vowels = set('aeiou')\n        v = sum(1 for c in s if c in vowels)\n        c = sum(1 for c in s if c.isalpha() and c not in vowels)\n        return v // c if c > 0 else 0",
+    "explanation": "Count vowels v and consonants c in s; return floor(v/c) if c>0 else 0. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

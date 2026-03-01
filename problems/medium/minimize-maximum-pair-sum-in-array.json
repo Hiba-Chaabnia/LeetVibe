@@ -1,0 +1,54 @@
+{
+  "questionId": "1988",
+  "title": "Minimize Maximum Pair Sum in Array",
+  "titleSlug": "minimize-maximum-pair-sum-in-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "The pair sum of a pair (a,b) is equal to a + b. The maximum pair sum is the largest pair sum in a list of pairs.\n\n• For example, if we have pairs (1,5), (2,3), and (4,4), the maximum pair sum would be max(1+5, 2+3, 4+4) = max(6, 5, 8) = 8.\n\nGiven an array nums of even length n, pair up the elements of nums into n / 2 pairs such that:\n\n• Each element of nums is in exactly one pair, and\n\n• The maximum pair sum is minimized.\n\nReturn the minimized maximum pair sum after optimally pairing up the elements.\n\nExample 1:\n\nInput: nums = [3,5,2,3]\nOutput: 7\nExplanation: The elements can be paired up into pairs (3,3) and (5,2).\n    The maximum pair sum is max(3+3, 5+2) = max(6, 7) = 7.\n\nExample 2:\n\nInput: nums = [3,5,4,2,4,6]\nOutput: 8\nExplanation: The elements can be paired up into pairs (3,5), (4,4), and (6,2).\n    The maximum pair sum is max(3+5, 4+4, 6+2) = max(8, 8, 8) = 8.\n\nConstraints:\n\n• n == nums.length\n\n• 2 <= n <= 105\n\n• n is even.\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minPairSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Would sorting help find the optimal order?",
+    "Given a specific element, how would you minimize its specific pairwise sum?"
+  ],
+  "testCases": [
+    [
+      "[3,5,2,3]"
+    ],
+    [
+      "[3,5,4,2,4,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minPairSum(nums):\n    nums.sort()\n    max_sum = 0\n    for i in range(len(nums) // 2):\n        max_sum = max(max_sum, nums[i] + nums[-1 - i])\n    return max_sum",
+    "explanation": "First, we sort the nums array in ascending order. Then, we iterate through the first half of the nums and use the two-pointer technique to find pairs of elements that minimize the maximum pair sum. For each pair, we calculate the sum of the current element and the element at the opposite end of the array (last element minus the index). We then update max_sum with the max value between the current max_sum and the pair sum for each iteration. Finally, we return the max_sum."
+  },
+  "similarQuestions": "[]"
+}

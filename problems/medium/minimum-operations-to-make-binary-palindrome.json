@@ -1,0 +1,54 @@
+{
+  "questionId": "4099",
+  "title": "Minimum Operations to Make Binary Palindrome",
+  "titleSlug": "minimum-operations-to-make-binary-palindrome",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nFor each element nums[i], you may perform the following operations any number of times (including zero):\n\n• Increase nums[i] by 1, or\n\n• Decrease nums[i] by 1.\n\nA number is called a binary palindrome if its binary representation without leading zeros reads the same forward and backward.\n\nYour task is to return an integer array ans, where ans[i] represents the minimum number of operations required to convert nums[i] into a binary palindrome.\n\nExample 1:\n\nInput: nums = [1,2,4]\n\nOutput: [0,1,1]\n\nExplanation: One optimal set of operations:\n\n\t\t\t\tnums[i]\n\t\t\t\tBinary(nums[i])\n\t\t\t\tNearest\n\n\t\t\tPalindrome\n\t\t\t\tBinary\n\n\t\t\t(Palindrome)\n\t\t\t\tOperations Required\n\t\t\t\tans[i]\n\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\tAlready palindrome\n\t\t\t\t0\n\n\t\t\t\t2\n\t\t\t\t10\n\t\t\t\t3\n\t\t\t\t11\n\t\t\t\tIncrease by 1\n\t\t\t\t1\n\n\t\t\t\t4\n\t\t\t\t100\n\t\t\t\t3\n\t\t\t\t11\n\t\t\t\tDecrease by 1\n\t\t\t\t1\n\nThus, ans = [0, 1, 1].\n\nExample 2:\n\nInput: nums = [6,7,12]\n\nOutput: [1,0,3]\n\nExplanation: One optimal set of operations:\n\n\t\t\t\tnums[i]\n\t\t\t\tBinary(nums[i])\n\t\t\t\tNearest\n\n\t\t\tPalindrome\n\t\t\t\tBinary\n\n\t\t\t(Palindrome)\n\t\t\t\tOperations Required\n\t\t\t\tans[i]\n\n\t\t\t\t6\n\t\t\t\t110\n\t\t\t\t5\n\t\t\t\t101\n\t\t\t\tDecrease by 1\n\t\t\t\t1\n\n\t\t\t\t7\n\t\t\t\t111\n\t\t\t\t7\n\t\t\t\t111\n\t\t\t\tAlready palindrome\n\t\t\t\t0\n\n\t\t\t\t12\n\t\t\t\t1100\n\t\t\t\t15\n\t\t\t\t1111\n\t\t\t\tIncrease by 3\n\t\t\t\t3\n\nThus, ans = [1, 0, 3].\n\nConstraints:\n\n• 1 <= nums.length <= 5000\n\n• ​​​​​​​1 <= nums[i] <= 5000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Preprocess the binary palindromes",
+    "For each nums[i] find the closest binary palindrome from the preprocessed values"
+  ],
+  "testCases": [
+    [
+      "[1,2,4]"
+    ],
+    [
+      "[6,7,12]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,1,1]",
+    "[1,0,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, nums):\n        def is_bin_pal(x):\n            b = bin(x)[2:]\n            return b == b[::-1]\n\n        def cost(x):\n            if is_bin_pal(x):\n                return 0\n            lo, hi = x - 1, x + 1\n            while True:\n                if lo >= 1 and is_bin_pal(lo):\n                    return x - lo\n                if is_bin_pal(hi):\n                    return hi - x\n                lo -= 1\n                hi += 1\n\n        return [cost(x) for x in nums]",
+    "explanation": "For each x, expand outward from x to find the nearest binary palindrome. Check x-1, x+1, x-2, x+2, ... returning the first palindrome found. With nums[i] <= 5000 (at most 13-bit numbers), the search terminates quickly.\n\nTime: O(n * search_dist). Space: O(1) per query."
+  },
+  "similarQuestions": "[]"
+}

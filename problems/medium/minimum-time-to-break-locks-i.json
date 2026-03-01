@@ -1,0 +1,63 @@
+{
+  "questionId": "3649",
+  "title": "Minimum Time to Break Locks I",
+  "titleSlug": "minimum-time-to-break-locks-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "Bob is stuck in a dungeon and must break n locks, each requiring some amount of energy to break. The required energy for each lock is stored in an array called strength where strength[i] indicates the energy needed to break the ith lock.\n\nTo break a lock, Bob uses a sword with the following characteristics:\n\n• The initial energy of the sword is 0.\n\n• The initial factor x by which the energy of the sword increases is 1.\n\n• Every minute, the energy of the sword increases by the current factor x.\n\n• To break the ith lock, the energy of the sword must reach at least strength[i].\n\n• After breaking a lock, the energy of the sword resets to 0, and the factor x increases by a given value k.\n\nYour task is to determine the minimum time in minutes required for Bob to break all n locks and escape the dungeon.\n\nReturn the minimum time required for Bob to break all n locks.\n\nExample 1:\n\nInput: strength = [3,4,1], k = 1\n\nOutput: 4\n\nExplanation: \t\t\t\tTime\n\t\t\t\tEnergy\n\t\t\t\tx\n\t\t\t\tAction\n\t\t\t\tUpdated x\n\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\tNothing\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\tBreak 3rd Lock\n\t\t\t\t2\n\n\t\t\t\t2\n\t\t\t\t2\n\t\t\t\t2\n\t\t\t\tNothing\n\t\t\t\t2\n\n\t\t\t\t3\n\t\t\t\t4\n\t\t\t\t2\n\t\t\t\tBreak 2nd Lock\n\t\t\t\t3\n\n\t\t\t\t4\n\t\t\t\t3\n\t\t\t\t3\n\t\t\t\tBreak 1st Lock\n\t\t\t\t3\n\nThe locks cannot be broken in less than 4 minutes; thus, the answer is 4.\n\nExample 2:\n\nInput: strength = [2,5,4], k = 2\n\nOutput: 5\n\nExplanation: \t\t\t\tTime\n\t\t\t\tEnergy\n\t\t\t\tx\n\t\t\t\tAction\n\t\t\t\tUpdated x\n\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\tNothing\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\tNothing\n\t\t\t\t1\n\n\t\t\t\t2\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\tBreak 1st Lock\n\t\t\t\t3\n\n\t\t\t\t3\n\t\t\t\t3\n\t\t\t\t3\n\t\t\t\tNothing\n\t\t\t\t3\n\n\t\t\t\t4\n\t\t\t\t6\n\t\t\t\t3\n\t\t\t\tBreak 2nd Lock\n\t\t\t\t5\n\n\t\t\t\t5\n\t\t\t\t5\n\t\t\t\t5\n\t\t\t\tBreak 3rd Lock\n\t\t\t\t7\n\nThe locks cannot be broken in less than 5 minutes; thus, the answer is 5.\n\nConstraints:\n\n• n == strength.length\n\n• 1 <= n <= 8\n\n• 1 <= K <= 10\n\n• 1 <= strength[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMinimumTime(self, strength, k):\n        \"\"\"\n        :type strength: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try all n! permutation ways of breaking the locks."
+  ],
+  "testCases": [
+    [
+      "[3,4,1]",
+      "1"
+    ],
+    [
+      "[2,5,4]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import math\nfrom itertools import permutations\n\nclass Solution(object):\n    def findMinimumTime(self, strength, k):\n        n = len(strength)\n        ans = float('inf')\n        for perm in permutations(range(n)):\n            time = 0\n            x = 1\n            for lock_idx in perm:\n                s = strength[lock_idx]\n                minutes = math.ceil(s / float(x))\n                time += minutes\n                x += k\n            ans = min(ans, time)\n        return ans",
+    "explanation": "With n <= 8, there are at most 8! = 40,320 permutations. For each ordering of locks, simulate: start with factor x=1, for each lock need ceil(strength/x) minutes (energy grows at x per minute), then x increases by k. Try all permutations and return the minimum total time.\n\nTime: O(n! * n). With n <= 8: ~320K operations. Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

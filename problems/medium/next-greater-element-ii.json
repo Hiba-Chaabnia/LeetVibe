@@ -1,0 +1,47 @@
+{
+  "questionId": "503",
+  "title": "Next Greater Element II",
+  "titleSlug": "next-greater-element-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "Given a circular integer array nums (i.e., the next element of nums[nums.length - 1] is nums[0]), return the next greater number for every element in nums.\n\nThe next greater number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, return -1 for this number.\n\nExample 1:\n\nInput: nums = [1,2,1]\nOutput: [2,-1,2]\nExplanation: The first 1's next greater number is 2;\n    The number 2 can't find next greater number.\n    The second 1's next greater number needs to search circularly, which is also 2.\n\nExample 2:\n\nInput: nums = [1,2,3,4,3]\nOutput: [2,3,4,-1,4]\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nextGreaterElements(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,1]"
+    ],
+    [
+      "[1,2,3,4,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,-1,2]",
+    "[2,3,4,-1,4]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def nextGreaterElements(nums):\n    result = [-1] * len(nums)\n    stack = []\n\n    for i in range(len(nums) * 2):\n        index = i % len(nums)\n        while stack and nums[stack[-1]] < nums[index]:\n            result[stack.pop()] = nums[index]\n        if i < len(nums):\n            stack.append(index)\n\n    return result",
+    "explanation": "The algorithm uses a stack to keep track of the indices of the elements in the `nums` array. We traverse the array twice (using modulo operator) since it's circular. For each element, we check if it's greater than the top element (index) of the stack. If it is, we update the corresponding result for that index with the current element and pop the index from the stack. We push the current index onto the stack if we are still in the first traversal.\n\nFinally, we return `result` list which holds the next greater element for all elements in the input list. If a greater element is not found for an element, its value in the result list will remain `-1`."
+  },
+  "similarQuestions": "[{\"title\": \"Next Greater Element I\", \"titleSlug\": \"next-greater-element-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Next Greater Element III\", \"titleSlug\": \"next-greater-element-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum and Minimum Sums of at Most Size K Subarrays\", \"titleSlug\": \"maximum-and-minimum-sums-of-at-most-size-k-subarrays\", \"difficulty\": \"Hard\"}]"
+}

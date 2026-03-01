@@ -1,0 +1,55 @@
+{
+  "questionId": "2689",
+  "title": "Rearranging Fruits",
+  "titleSlug": "rearranging-fruits",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sort",
+      "slug": "sort"
+    }
+  ],
+  "content": "You have two fruit baskets containing n fruits each. You are given two 0-indexed integer arrays basket1 and basket2 representing the cost of fruit in each basket. You want to make both baskets equal. To do so, you can use the following operation as many times as you want:\n\n• Choose two indices i and j, and swap the ith fruit of basket1 with the jth fruit of basket2.\n\n• The cost of the swap is min(basket1[i], basket2[j]).\n\nTwo baskets are considered equal if sorting them according to the fruit cost makes them exactly the same baskets.\n\nReturn the minimum cost to make both the baskets equal or -1 if impossible.\n\nExample 1:\n\nInput: basket1 = [4,2,2,2], basket2 = [1,4,1,2]\nOutput: 1\nExplanation: Swap index 1 of basket1 with index 0 of basket2, which has cost 1. Now basket1 = [4,1,2,2] and basket2 = [2,4,1,2]. Rearranging both the arrays makes them equal.\n\nExample 2:\n\nInput: basket1 = [2,3,4,1], basket2 = [3,2,5,1]\nOutput: -1\nExplanation: It can be shown that it is impossible to make both the baskets equal.\n\nConstraints:\n\n• basket1.length == basket2.length\n\n• 1 <= basket1.length <= 105\n\n• 1 <= basket1[i], basket2[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCost(self, basket1, basket2):\n        \"\"\"\n        :type basket1: List[int]\n        :type basket2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Create two frequency maps for both arrays, and find the minimum element among all elements of both arrays.",
+    "Check if the sum of frequencies of an element in both arrays is odd, if so return -1",
+    "Store the elements that need to be swapped in a vector, and sort it.",
+    "Can we reduce swapping cost with the help of minimum element?",
+    "Calculate the minimum cost of swapping."
+  ],
+  "testCases": [
+    [
+      "[4,2,2,2]",
+      "[1,4,1,2]"
+    ],
+    [
+      "[2,3,4,1]",
+      "[3,2,5,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"The Latest Time to Catch a Bus\", \"titleSlug\": \"the-latest-time-to-catch-a-bus\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Operations to Make Arrays Similar\", \"titleSlug\": \"minimum-number-of-operations-to-make-arrays-similar\", \"difficulty\": \"Hard\"}]"
+}

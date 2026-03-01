@@ -1,0 +1,43 @@
+{
+  "questionId": "755",
+  "title": "Reach a Number",
+  "titleSlug": "reach-a-number",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You are standing at position 0 on an infinite number line. There is a destination at position target.\n\nYou can make some number of moves numMoves so that:\n\n• On each move, you can either go left or right.\n\n• During the ith move (starting from i == 1 to i == numMoves), you take i steps in the chosen direction.\n\nGiven the integer target, return the minimum number of moves required (i.e., the minimum numMoves) to reach the destination.\n\nExample 1:\n\nInput: target = 2\nOutput: 3\nExplanation:\n    On the 1st move, we step from 0 to 1 (1 step).\n    On the 2nd move, we step from 1 to -1 (2 steps).\n    On the 3rd move, we step from -1 to 2 (3 steps).\n\nExample 2:\n\nInput: target = 3\nOutput: 2\nExplanation:\n    On the 1st move, we step from 0 to 1 (1 step).\n    On the 2nd move, we step from 1 to 3 (2 steps).\n\nConstraints:\n\n• -109 <= target <= 109\n\n• target != 0",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reachNumber(self, target):\n        \"\"\"\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "2"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def reachNumber(target: int) -> int:\n    target = abs(target)\n    step = 0\n    sum = 0\n    while sum < target:\n        step += 1\n        sum += step\n    while (sum - target) % 2 != 0:\n        step += 1\n        sum += step\n    return step",
+    "explanation": "1. Calculate the absolute value of `target` since reaching a negative target can be achieved similarly to reaching a positive target.\n2. Initialize the steps count `step` and a variable `sum` to store the sum of steps.\n3. Keep adding steps to `sum` until the `sum` is greater than or equal to the target.\n4. If the difference between the `sum` and the `target` is not divisible by 2, it means we haven't reached an even-numbered position or an odd-numbered position according to the parity of the `target`. If that's the case, increment `step` and add the new `step` to the `sum`.\n5. Repeat step 4 until the difference between the `sum` and the `target` is divisible by 2.\n6. Return the value of `step`."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Ways to Reach a Position After Exactly k Steps\", \"titleSlug\": \"number-of-ways-to-reach-a-position-after-exactly-k-steps\", \"difficulty\": \"Medium\"}]"
+}

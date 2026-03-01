@@ -1,0 +1,53 @@
+{
+  "questionId": "3346",
+  "title": "Lexicographically Smallest String After Operations With Constraint",
+  "titleSlug": "lexicographically-smallest-string-after-operations-with-constraint",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a string s and an integer k.\n\nDefine a function distance(s1, s2) between two strings s1 and s2 of the same length n as:\n\n• The sum of the minimum distance between s1[i] and s2[i] when the characters from 'a' to 'z' are placed in a cyclic order, for all i in the range [0, n - 1].\n\nFor example, distance(\"ab\", \"cd\") == 4, and distance(\"a\", \"z\") == 1.\n\nYou can change any letter of s to any other lowercase English letter, any number of times.\n\nReturn a string denoting the lexicographically smallest string t you can get after some changes, such that distance(s, t) <= k.\n\nExample 1:\n\nInput: s = \"zbbz\", k = 3\n\nOutput: \"aaaz\"\n\nExplanation: Change s to \"aaaz\". The distance between \"zbbz\" and \"aaaz\" is equal to k = 3.\n\nExample 2:\n\nInput: s = \"xaxcd\", k = 4\n\nOutput: \"aawcd\"\n\nExplanation: The distance between \"xaxcd\" and \"aawcd\" is equal to k = 4.\n\nExample 3:\n\nInput: s = \"lol\", k = 0\n\nOutput: \"lol\"\n\nExplanation: It's impossible to change any character as k = 0.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• 0 <= k <= 2000\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getSmallestString(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The problem can be approached greedily.",
+    "For each index in order from 0 to n - 1, we try all letters from 'a' to 'z', selecting the first one as long as the current total distance accumulated is not larger than k."
+  ],
+  "testCases": [
+    [
+      "\"zbbz\"",
+      "3"
+    ],
+    [
+      "\"xaxcd\"",
+      "4"
+    ],
+    [
+      "\"lol\"",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"aaaz\"",
+    "\"aawcd\"",
+    "\"lol\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getSmallestString(self, s, k):\n        res = list(s)\n        for i in range(len(s)):\n            c = ord(s[i]) - ord('a')\n            # Cost to change s[i] to 'a': min(c, 26 - c)\n            cost = min(c, 26 - c)\n            if k >= cost:\n                res[i] = 'a'\n                k -= cost\n            else:\n                # Use remaining k to get as close to 'a' as possible\n                # Try going forward: s[i] - k (if positive)\n                # forward: reduce char index by k\n                forward = c - k  # new char index going toward 'a'\n                # backward: increase by 26-c-k... going the other way\n                # Minimum cyclic distance to 'a' with k steps:\n                # We can reach char 'a' + (c - k) or 'a' - (26 - c - k)... \n                # Best char reachable within k steps closest to 'a':\n                # Going left (toward 'a'): c - k if c >= k else wraps\n                # Going right (toward 'z' then 'a'): c + (26 - k) ... \n                # Smallest reachable = chr(ord('a') + max(0, c - k))\n                res[i] = chr(ord('a') + max(0, c - k))\n                k = 0\n                break\n        return ''.join(res)",
+    "explanation": "Greedy: for each character left to right, try to change it to 'a'. The cyclic cost to reach 'a' from c is min(c, 26-c). If we have enough budget, set it to 'a'. Otherwise, use all remaining k steps to get as close to 'a' as possible (reduce character index by k), then stop.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Lexicographically Smallest String After Substring Operation\", \"titleSlug\": \"lexicographically-smallest-string-after-substring-operation\", \"difficulty\": \"Medium\"}]"
+}

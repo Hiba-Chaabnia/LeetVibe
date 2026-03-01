@@ -1,0 +1,47 @@
+{
+  "questionId": "2278",
+  "title": "Find Three Consecutive Integers That Sum to a Given Number",
+  "titleSlug": "find-three-consecutive-integers-that-sum-to-a-given-number",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given an integer num, return three consecutive integers (as a sorted array) that sum to num. If num cannot be expressed as the sum of three consecutive integers, return an empty array.\n\nExample 1:\n\nInput: num = 33\nOutput: [10,11,12]\nExplanation: 33 can be expressed as 10 + 11 + 12 = 33.\n    10, 11, 12 are 3 consecutive integers, so we return [10, 11, 12].\n\nExample 2:\n\nInput: num = 4\nOutput: []\nExplanation: There is no way to express 4 as the sum of 3 consecutive integers.\n\nConstraints:\n\n• 0 <= num <= 1015",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumOfThree(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that if a solution exists, we can represent them as x-1, x, x+1. What does this tell us about the number?",
+    "Notice the sum of the numbers will be 3x. Can you solve for x?"
+  ],
+  "testCases": [
+    [
+      "33"
+    ],
+    [
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[10,11,12]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def sumOfThree(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: List[int]\n        \"\"\"\n        # Three consecutive: x-1, x, x+1\n        # Sum: (x-1) + x + (x+1) = 3x = num\n        # So x = num / 3\n        \n        if num % 3 != 0:\n            return []\n        \n        x = num // 3\n        return [x - 1, x, x + 1]",
+    "explanation": "For three consecutive integers summing to num, their sum is 3x where x is middle. So x = num/3. Check divisibility.",
+    "complexity": "Time: O(1). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Consecutive Sequence\", \"titleSlug\": \"longest-consecutive-sequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Ways to Buy Pens and Pencils\", \"titleSlug\": \"number-of-ways-to-buy-pens-and-pencils\", \"difficulty\": \"Medium\"}]"
+}

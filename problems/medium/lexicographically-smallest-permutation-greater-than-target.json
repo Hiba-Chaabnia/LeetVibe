@@ -1,0 +1,67 @@
+{
+  "questionId": "4020",
+  "title": "Lexicographically Smallest Permutation Greater Than Target",
+  "titleSlug": "lexicographically-smallest-permutation-greater-than-target",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given two strings s and target, both having length n, consisting of lowercase English letters.\n\nReturn the lexicographically smallest permutation of s that is strictly greater than target. If no permutation of s is lexicographically strictly greater than target, return an empty string.\n\nA string a is lexicographically strictly greater than a string b (of the same length) if in the first position where a and b differ, string a has a letter that appears later in the alphabet than the corresponding letter in b.\n\nExample 1:\n\nInput: s = \"abc\", target = \"bba\"\n\nOutput: \"bca\"\n\nExplanation:\n\n• The permutations of s (in lexicographical order) are \"abc\", \"acb\", \"bac\", \"bca\", \"cab\", and \"cba\".\n\n• The lexicographically smallest permutation that is strictly greater than target is \"bca\".\n\nExample 2:\n\nInput: s = \"leet\", target = \"code\"\n\nOutput: \"eelt\"\n\nExplanation:\n\n• The permutations of s (in lexicographical order) are \"eelt\", \"eetl\", \"elet\", \"elte\", \"etel\", \"etle\", \"leet\", \"lete\", \"ltee\", \"teel\", \"tele\", and \"tlee\".\n\n• The lexicographically smallest permutation that is strictly greater than target is \"eelt\".\n\nExample 3:\n\nInput: s = \"baba\", target = \"bbaa\"\n\nOutput: \"\"\n\nExplanation:\n\n• The permutations of s (in lexicographical order) are \"aabb\", \"abab\", \"abba\", \"baab\", \"baba\", and \"bbaa\".\n\n• None of them is lexicographically strictly greater than target. Therefore, the answer is \"\".\n\nConstraints:\n\n• 1 <= s.length == target.length <= 300\n\n• s and target consist of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lexGreaterPermutation(self, s, target):\n        \"\"\"\n        :type s: str\n        :type target: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Maintain frequency counts of s.",
+    "Walk left-to-right; if equal to target[i] is possible, take it and continue.",
+    "If not, try the smallest letter strictly greater than target[i].",
+    "If neither, backtrack left to the most recent index where you matched target and try to bump there."
+  ],
+  "testCases": [
+    [
+      "\"abc\"",
+      "\"bba\""
+    ],
+    [
+      "\"leet\"",
+      "\"code\""
+    ],
+    [
+      "\"baba\"",
+      "\"bbaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"bca\"",
+    "\"eelt\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def lexGreaterPermutation(self, s, target):\n        n = len(s)\n        freq = Counter(s)\n        result = []\n        # Try to build the smallest permutation > target\n        # At each position, try to match target[i] then go greater\n        for i in range(n):\n            t = target[i]\n            # Option A: place char > t here, fill rest with smallest\n            # Find smallest char > t available\n            best = None\n            for c in range(ord(t)+1, ord('z')+1):\n                if freq[chr(c)] > 0:\n                    best = chr(c)\n                    break\n            # Option B: place t here and continue matching\n            can_match = freq[t] > 0\n            if can_match:\n                freq[t] -= 1\n                result.append(t)\n                # Continue to next position\n                if i == n - 1:\n                    # Matched entirely = equal, not strictly greater\n                    # Backtrack\n                    result.pop()\n                    freq[t] += 1\n                    can_match = False\n                else:\n                    # Keep matching; if we eventually can't beat target, we backtrack\n                    # Actually: try matching first, only use 'best' if matching fails\n                    continue\n            # Place best here and fill rest with smallest available\n            if best is not None:\n                # Undo any matched prefix and place best\n                # Actually result currently has matched prefix; place best now\n                freq[best] -= 1\n                result.append(best)\n                # Fill remaining with sorted remaining chars\n                remaining = sorted(''.join(chr(ord('a')+c)*freq[chr(ord('a')+c)] for c in range(26)))\n                return ''.join(result) + ''.join(remaining)\n            else:\n                # Can't go greater at this position, backtrack\n                # Undo last matched char\n                while result:\n                    last = result.pop()\n                    freq[last] += 1\n                    # Find smallest char > last available (from target context)\n                    # The position we backtracked to is i - len already popped\n                    pos = len(result)\n                    t_pos = target[pos]\n                    bump = None\n                    for c in range(ord(last)+1, ord('z')+1):\n                        if freq[chr(c)] > 0:\n                            bump = chr(c)\n                            break\n                    if bump is not None:\n                        freq[bump] -= 1\n                        result.append(bump)\n                        remaining = sorted(''.join(chr(ord('a')+c)*freq[chr(ord('a')+c)] for c in range(26)))\n                        return ''.join(result) + ''.join(remaining)\n                return ''  # no valid permutation\n        return ''",
+    "explanation": "Greedy with backtracking: try to match target[i] at each position. If we can place a character strictly greater than target[i], place the smallest such character and fill the rest with sorted remaining chars. If we must match target[i], continue. If we've matched entirely (equal) or can't match, backtrack to find the last position where we can bump up.\n\nTime: O(n * 26). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

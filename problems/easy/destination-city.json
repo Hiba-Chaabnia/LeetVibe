@@ -1,0 +1,54 @@
+{
+  "questionId": "1547",
+  "title": "Destination City",
+  "titleSlug": "destination-city",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given the array paths, where paths[i] = [cityAi, cityBi] means there exists a direct path going from cityAi to cityBi. Return the destination city, that is, the city without any path outgoing to another city.\n\nIt is guaranteed that the graph of paths forms a line without any loop, therefore, there will be exactly one destination city.\n\nExample 1:\n\nInput: paths = [[\"London\",\"New York\"],[\"New York\",\"Lima\"],[\"Lima\",\"Sao Paulo\"]]\nOutput: \"Sao Paulo\"\nExplanation: Starting at \"London\" city you will reach \"Sao Paulo\" city which is the destination city. Your trip consist of: \"London\" -> \"New York\" -> \"Lima\" -> \"Sao Paulo\".\n\nExample 2:\n\nInput: paths = [[\"B\",\"C\"],[\"D\",\"B\"],[\"C\",\"A\"]]\nOutput: \"A\"\nExplanation: All possible trips are:\n    \"D\" -> \"B\" -> \"C\" -> \"A\".\n    \"B\" -> \"C\" -> \"A\".\n    \"C\" -> \"A\".\n    \"A\".\n    Clearly the destination city is \"A\".\n\nExample 3:\n\nInput: paths = [[\"A\",\"Z\"]]\nOutput: \"Z\"\n\nConstraints:\n\n• 1 <= paths.length <= 100\n\n• paths[i].length == 2\n\n• 1 <= cityAi.length, cityBi.length <= 10\n\n• cityAi != cityBi\n\n• All strings consist of lowercase and uppercase English letters and the space character.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def destCity(self, paths):\n        \"\"\"\n        :type paths: List[List[str]]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Start in any city and use the path to move to the next city.",
+    "Eventually, you will reach a city with no path outgoing, this is the destination city."
+  ],
+  "testCases": [
+    [
+      "[[\"London\",\"New York\"],[\"New York\",\"Lima\"],[\"Lima\",\"Sao Paulo\"]]"
+    ],
+    [
+      "[[\"B\",\"C\"],[\"D\",\"B\"],[\"C\",\"A\"]]"
+    ],
+    [
+      "[[\"A\",\"Z\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Sao Paulo\"",
+    "\"A\"",
+    "\"Z\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def destCity(self, paths):\n        outgoing = set(path[0] for path in paths)\n        for start, end in paths:\n            if end not in outgoing:\n                return end\n        return ''",
+    "explanation": "Find city that is never a starting point (always an ending point).\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

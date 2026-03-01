@@ -1,0 +1,50 @@
+{
+  "questionId": "1666",
+  "title": "Make The String Great",
+  "titleSlug": "make-the-string-great",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "Given a string s of lower and upper case English letters.\n\nA good string is a string which doesn't have two adjacent characters s[i] and s[i + 1] where:\n\n• 0 <= i <= s.length - 2\n\n• s[i] is a lower-case letter and s[i + 1] is the same letter but in upper-case or vice-versa.\n\nTo make the string good, you can choose two adjacent characters that make the string bad and remove them. You can keep doing this until the string becomes good.\n\nReturn the string after making it good. The answer is guaranteed to be unique under the given constraints.\n\nNotice that an empty string is also good.\n\nExample 1:\n\nInput: s = \"leEeetcode\"\nOutput: \"leetcode\"\nExplanation: In the first step, either you choose i = 1 or i = 2, both will result \"leEeetcode\" to be reduced to \"leetcode\".\n\nExample 2:\n\nInput: s = \"abBAcC\"\nOutput: \"\"\nExplanation: We have many possible scenarios, and all lead to the same answer. For example:\n    \"abBAcC\" --> \"aAcC\" --> \"cC\" --> \"\"\n    \"abBAcC\" --> \"abBA\" --> \"aA\" --> \"\"\n\nExample 3:\n\nInput: s = \"s\"\nOutput: \"s\"\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s contains only lower and upper case English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def makeGood(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The order you choose 2 characters to remove doesn't matter.",
+    "Keep applying the mentioned step to s till the length of the string is not changed."
+  ],
+  "testCases": [
+    [
+      "\"leEeetcode\""
+    ],
+    [
+      "\"abBAcC\""
+    ],
+    [
+      "\"s\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"leetcode\"",
+    "\"\"",
+    "\"s\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def makeGood(self, s):\n        stack = []\n        for char in s:\n            if stack and stack[-1] != char and stack[-1].lower() == char.lower():\n                stack.pop()\n            else:\n                stack.append(char)\n        return ''.join(stack)",
+    "explanation": "Use stack. If top and current are same letter (different case), pop. Else push.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

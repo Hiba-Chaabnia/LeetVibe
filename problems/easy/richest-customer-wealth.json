@@ -1,0 +1,50 @@
+{
+  "questionId": "1791",
+  "title": "Richest Customer Wealth",
+  "titleSlug": "richest-customer-wealth",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n integer grid accounts where accounts[i][j] is the amount of money the i​​​​​​​​​​​th​​​​ customer has in the j​​​​​​​​​​​th​​​​ bank. Return the wealth that the richest customer has.\n\nA customer's wealth is the amount of money they have in all their bank accounts. The richest customer is the customer that has the maximum wealth.\n\nExample 1:\n\nInput: accounts = [[1,2,3],[3,2,1]]\nOutput: 6\nExplanation:\n    1st customer has wealth = 1 + 2 + 3 = 6\n    2nd customer has wealth = 3 + 2 + 1 = 6\n    Both customers are considered the richest with a wealth of 6 each, so return 6.\n\nExample 2:\n\nInput: accounts = [[1,5],[7,3],[3,5]]\nOutput: 10\nExplanation:\n    1st customer has wealth = 6\n    2nd customer has wealth = 10\n    3rd customer has wealth = 8\n    The 2nd customer is the richest with a wealth of 10.\n\nExample 3:\n\nInput: accounts = [[2,8,7],[7,1,3],[1,9,5]]\nOutput: 17\n\nConstraints:\n\n• m == accounts.length\n\n• n == accounts[i].length\n\n• 1 <= m, n <= 50\n\n• 1 <= accounts[i][j] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumWealth(self, accounts):\n        \"\"\"\n        :type accounts: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Calculate the wealth of each customer",
+    "Find the maximum element in array."
+  ],
+  "testCases": [
+    [
+      "[[1,2,3],[3,2,1]]"
+    ],
+    [
+      "[[1,5],[7,3],[3,5]]"
+    ],
+    [
+      "[[2,8,7],[7,1,3],[1,9,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "10",
+    "17"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maximumWealth(accounts):\n    max_wealth = 0\n    for customer in accounts:\n        wealth = sum(customer)\n        max_wealth = max(max_wealth, wealth)\n    return max_wealth",
+    "explanation": "The algorithm iterates through each customer in the given grid (accounts) and calculates their total wealth by summing the values in their bank accounts. After calculating the wealth for a customer, the algorithm checks if it is greater than the current maximum wealth, and if so, the maximum wealth gets updated to the new wealth value. After all iterations, the algorithm returns the maximum wealth found.\n\nThe approach is the same for each language, just with minor syntactical differences between them."
+  },
+  "similarQuestions": "[]"
+}

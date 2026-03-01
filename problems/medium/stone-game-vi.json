@@ -1,0 +1,69 @@
+{
+  "questionId": "1788",
+  "title": "Stone Game VI",
+  "titleSlug": "stone-game-vi",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "Alice and Bob take turns playing a game, with Alice starting first.\n\nThere are n stones in a pile. On each player's turn, they can remove a stone from the pile and receive points based on the stone's value. Alice and Bob may value the stones differently.\n\nYou are given two integer arrays of length n, aliceValues and bobValues. Each aliceValues[i] and bobValues[i] represents how Alice and Bob, respectively, value the ith stone.\n\nThe winner is the person with the most points after all the stones are chosen. If both players have the same amount of points, the game results in a draw. Both players will play optimally. Both players know the other's values.\n\nDetermine the result of the game, and:\n\n• If Alice wins, return 1.\n\n• If Bob wins, return -1.\n\n• If the game results in a draw, return 0.\n\nExample 1:\n\nInput: aliceValues = [1,3], bobValues = [2,1]\nOutput: 1\nExplanation:\n    If Alice takes stone 1 (0-indexed) first, Alice will receive 3 points.\n    Bob can only choose stone 0, and will only receive 2 points.\n    Alice wins.\n\nExample 2:\n\nInput: aliceValues = [1,2], bobValues = [3,1]\nOutput: 0\nExplanation:\n    If Alice takes stone 0, and Bob takes stone 1, they will both have 1 point.\n    Draw.\n\nExample 3:\n\nInput: aliceValues = [2,4,3], bobValues = [1,6,7]\nOutput: -1\nExplanation:\n    Regardless of how Alice plays, Bob will be able to have more points than Alice.\n    For example, if Alice takes stone 1, Bob can take stone 2, and Alice takes stone 0, Alice will have 6 points to Bob's 7.\n    Bob wins.\n\nConstraints:\n\n• n == aliceValues.length == bobValues.length\n\n• 1 <= n <= 105\n\n• 1 <= aliceValues[i], bobValues[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def stoneGameVI(self, aliceValues, bobValues):\n        \"\"\"\n        :type aliceValues: List[int]\n        :type bobValues: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "When one takes the stone, they not only get the points, but they take them away from the other player too.",
+    "Greedily choose the stone with the maximum aliceValues[i] + bobValues[i]."
+  ],
+  "testCases": [
+    [
+      "[1,3]",
+      "[2,1]"
+    ],
+    [
+      "[1,2]",
+      "[3,1]"
+    ],
+    [
+      "[2,4,3]",
+      "[1,6,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def stoneGameVI(aliceValues, bobValues):\n    n = len(aliceValues)\n    diff = sorted([(aliceValues[i] + bobValues[i], i) for i in range(n)], reverse=True)\n\n    aliceSum, bobSum = 0, 0\n    for i in range(n):\n        if i % 2 == 0:\n            aliceSum += aliceValues[diff[i][1]]\n        else:\n            bobSum += bobValues[diff[i][1]]\n            \n    return 0 if aliceSum == bobSum else (1 if aliceSum > bobSum else -1)",
+    "explanation": "Instead of looking at the stones' values separately, we can look at them by their total value (`total = aliceValue + bobValue`). We sort the stones in decreasing order of their total value. Essentially, we want both Alice and Bob to take higher value stones.\n\nThen, we iterate over the sorted stones, giving each stone i to the current player (Alice gets the stones from even indices, Bob gets the stones from odd indices). After that, we compare the sum of values obtained by both players, and return the appropriate result value (win, lose, or draw) as per the problem statement."
+  },
+  "similarQuestions": "[{\"title\": \"Stone Game\", \"titleSlug\": \"stone-game\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game II\", \"titleSlug\": \"stone-game-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game III\", \"titleSlug\": \"stone-game-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IV\", \"titleSlug\": \"stone-game-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game V\", \"titleSlug\": \"stone-game-v\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game VII\", \"titleSlug\": \"stone-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VIII\", \"titleSlug\": \"stone-game-viii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IX\", \"titleSlug\": \"stone-game-ix\", \"difficulty\": \"Medium\"}]"
+}

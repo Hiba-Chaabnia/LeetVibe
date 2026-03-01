@@ -1,0 +1,58 @@
+{
+  "questionId": "3555",
+  "title": "Final Array State After K Multiplication Operations I",
+  "titleSlug": "final-array-state-after-k-multiplication-operations-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an integer array nums, an integer k, and an integer multiplier.\n\nYou need to perform k operations on nums. In each operation:\n\n• Find the minimum value x in nums. If there are multiple occurrences of the minimum value, select the one that appears first.\n\n• Replace the selected minimum value x with x * multiplier.\n\nReturn an integer array denoting the final state of nums after performing all k operations.\n\nExample 1:\n\nInput: nums = [2,1,3,5,6], k = 5, multiplier = 2\n\nOutput: [8,4,6,5,6]\n\nExplanation: \t\t\t\tOperation\n\t\t\t\tResult\n\n\t\t\t\tAfter operation 1\n\t\t\t\t[2, 2, 3, 5, 6]\n\n\t\t\t\tAfter operation 2\n\t\t\t\t[4, 2, 3, 5, 6]\n\n\t\t\t\tAfter operation 3\n\t\t\t\t[4, 4, 3, 5, 6]\n\n\t\t\t\tAfter operation 4\n\t\t\t\t[4, 4, 6, 5, 6]\n\n\t\t\t\tAfter operation 5\n\t\t\t\t[8, 4, 6, 5, 6]\n\nExample 2:\n\nInput: nums = [1,2], k = 3, multiplier = 4\n\nOutput: [16,8]\n\nExplanation: \t\t\t\tOperation\n\t\t\t\tResult\n\n\t\t\t\tAfter operation 1\n\t\t\t\t[4, 2]\n\n\t\t\t\tAfter operation 2\n\t\t\t\t[4, 8]\n\n\t\t\t\tAfter operation 3\n\t\t\t\t[16, 8]\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 100\n\n• 1 <= k <= 10\n\n• 1 <= multiplier <= 5",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getFinalState(self, nums, k, multiplier):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type multiplier: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Maintain sorted pairs (nums[index], index) in a priority queue.",
+    "Simulate the operation k times."
+  ],
+  "testCases": [
+    [
+      "[2,1,3,5,6]",
+      "5",
+      "2"
+    ],
+    [
+      "[1,2]",
+      "3",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[8,4,6,5,6]",
+    "[16,8]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getFinalState(self, nums, k, multiplier):\n        for _ in range(k):\n            min_val = min(nums)\n            idx = nums.index(min_val)\n            nums[idx] *= multiplier\n        return nums",
+    "explanation": "Simulate k rounds: find first minimum, multiply it; repeat. O(k*n) time."
+  },
+  "similarQuestions": "[]"
+}

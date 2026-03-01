@@ -1,0 +1,51 @@
+{
+  "questionId": "645",
+  "title": "Set Mismatch",
+  "titleSlug": "set-mismatch",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to another number in the set, which results in repetition of one number and loss of another number.\n\nYou are given an integer array nums representing the data status of this set after the error.\n\nFind the number that occurs twice and the number that is missing and return them in the form of an array.\n\nExample 1:\n\nInput: nums = [1,2,2,4]\nOutput: [2,3]\nExample 2:\n\nInput: nums = [1,1]\nOutput: [1,2]\n\nConstraints:\n\n• 2 <= nums.length <= 104\n\n• 1 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findErrorNums(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,2,4]"
+    ],
+    [
+      "[1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3]",
+    "[1,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findErrorNums(nums):\n    result = []\n    for num in nums:\n        index = abs(num) - 1\n        if nums[index] > 0:\n            nums[index] = -nums[index]\n        else:\n            result.append(index + 1)\n    for i, num in enumerate(nums):\n        if num > 0:\n            result.append(i + 1)\n            break\n    return result",
+    "explanation": "1. Iterate through the given array, creating and using the index as the absolute value of the current number minus one. By doing this, we visit the indices in a specific order that allows us to mark numbers we have already visited.\n2. If the value at the index is positive, we negate it. If it's negative, it means we found the duplicate number. Store the duplicate number (index + 1) in the result array.\n3. Iterate through the array again to find the first positive value. This index plus one will be the missing number, as others should have been negated in the previous steps.\n4. Add the missing number to the result array and return it."
+  },
+  "similarQuestions": "[{\"title\": \"Find the Duplicate Number\", \"titleSlug\": \"find-the-duplicate-number\", \"difficulty\": \"Medium\"}]"
+}

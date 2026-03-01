@@ -1,0 +1,45 @@
+{
+  "questionId": "832",
+  "title": "Binary Tree Pruning",
+  "titleSlug": "binary-tree-pruning",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the same tree where every subtree (of the given tree) not containing a 1 has been removed.\n\nA subtree of a node node is node plus every node that is a descendant of node.\n\nExample 1:\n\nInput: root = [1,null,0,0,1]\nOutput: [1,null,0,null,1]\nExplanation:\n    Only the red nodes satisfy the property \"every subtree not containing a 1\".\n    The diagram on the right represents the answer.\n\nExample 2:\n\nInput: root = [1,0,1,0,0,0,1]\nOutput: [1,null,1,null,1]\n\nExample 3:\n\nInput: root = [1,1,0,1,1,0,1,0]\nOutput: [1,1,0,1,1,null,1]\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 200].\n\n• Node.val is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def pruneTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,null,0,0,1]",
+      "[1,0,1,0,0,0,1]",
+      "[1,1,0,1,1,0,1,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,null,0,null,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def pruneTree(self, root):\n        def dfs(node):\n            if not node:\n                return True\n            left_empty = dfs(node.left)\n            right_empty = dfs(node.right)\n            if left_empty:\n                node.left = None\n            if right_empty:\n                node.right = None\n            return node.val == 0 and left_empty and right_empty\n        dfs(root)\n        return root",
+    "explanation": "Post-order DFS. If subtree has no 1s and node is 0, prune it.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[]"
+}

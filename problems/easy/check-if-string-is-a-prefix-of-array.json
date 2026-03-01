@@ -1,0 +1,52 @@
+{
+  "questionId": "2093",
+  "title": "Check If String Is a Prefix of Array",
+  "titleSlug": "check-if-string-is-a-prefix-of-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s and an array of strings words, determine whether s is a prefix string of words.\n\nA string s is a prefix string of words if s can be made by concatenating the first k strings in words for some positive k no larger than words.length.\n\nReturn true if s is a prefix string of words, or false otherwise.\n\nExample 1:\n\nInput: s = \"iloveleetcode\", words = [\"i\",\"love\",\"leetcode\",\"apples\"]\nOutput: true\nExplanation:\n    s can be made by concatenating \"i\", \"love\", and \"leetcode\" together.\n\nExample 2:\n\nInput: s = \"iloveleetcode\", words = [\"apples\",\"i\",\"love\",\"leetcode\"]\nOutput: false\nExplanation:\n    It is impossible to make s using a prefix of arr.\n\nConstraints:\n\n• 1 <= words.length <= 100\n\n• 1 <= words[i].length <= 20\n\n• 1 <= s.length <= 1000\n\n• words[i] and s consist of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isPrefixString(self, s, words):\n        \"\"\"\n        :type s: str\n        :type words: List[str]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "There are only words.length prefix strings.",
+    "Create all of them and see if s is one of them."
+  ],
+  "testCases": [
+    [
+      "\"iloveleetcode\"",
+      "[\"i\",\"love\",\"leetcode\",\"apples\"]"
+    ],
+    [
+      "\"iloveleetcode\"",
+      "[\"apples\",\"i\",\"love\",\"leetcode\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isPrefixString(self, s, words):\n        current = ''\n        for word in words:\n            current += word\n            if current == s:\n                return True\n            if len(current) >= len(s):\n                break\n        return False",
+    "explanation": "Build string from words. Check if matches s before exceeding length."
+  },
+  "similarQuestions": "[{\"title\": \"Count Prefixes of a Given String\", \"titleSlug\": \"count-prefixes-of-a-given-string\", \"difficulty\": \"Easy\"}]"
+}

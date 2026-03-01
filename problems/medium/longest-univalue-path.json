@@ -1,0 +1,43 @@
+{
+  "questionId": "687",
+  "title": "Longest Univalue Path",
+  "titleSlug": "longest-univalue-path",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the length of the longest path, where each node in the path has the same value. This path may or may not pass through the root.\n\nThe length of the path between two nodes is represented by the number of edges between them.\n\nExample 1:\n\nInput: root = [5,4,5,1,1,null,5]\nOutput: 2\nExplanation: The shown image shows that the longest path of the same value (i.e. 5).\n\nExample 2:\n\nInput: root = [1,4,5,4,4,null,5]\nOutput: 2\nExplanation: The shown image shows that the longest path of the same value (i.e. 4).\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 104].\n\n• -1000 <= Node.val <= 1000\n\n• The depth of the tree will not exceed 1000.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def longestUnivaluePath(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[5,4,5,1,1,null,5]"
+    ],
+    [
+      "[1,4,5,4,4,null,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Binary Tree Maximum Path Sum\", \"titleSlug\": \"binary-tree-maximum-path-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Univalue Subtrees\", \"titleSlug\": \"count-univalue-subtrees\", \"difficulty\": \"Medium\"}, {\"title\": \"Path Sum III\", \"titleSlug\": \"path-sum-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Path With Different Adjacent Characters\", \"titleSlug\": \"longest-path-with-different-adjacent-characters\", \"difficulty\": \"Hard\"}]"
+}

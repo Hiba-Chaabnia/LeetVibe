@@ -1,0 +1,54 @@
+{
+  "questionId": "990",
+  "title": "Verifying an Alien Dictionary",
+  "titleSlug": "verifying-an-alien-dictionary",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "In an alien language, surprisingly, they also use English lowercase letters, but possibly in a different order. The order of the alphabet is some permutation of lowercase letters.\n\nGiven a sequence of words written in the alien language, and the order of the alphabet, return true if and only if the given words are sorted lexicographically in this alien language.\n\nExample 1:\n\nInput: words = [\"hello\",\"leetcode\"], order = \"hlabcdefgijkmnopqrstuvwxyz\"\nOutput: true\nExplanation: As 'h' comes before 'l' in this language, then the sequence is sorted.\n\nExample 2:\n\nInput: words = [\"word\",\"world\",\"row\"], order = \"worldabcefghijkmnpqstuvxyz\"\nOutput: false\nExplanation: As 'd' comes after 'l' in this language, then words[0] > words[1], hence the sequence is unsorted.\n\nExample 3:\n\nInput: words = [\"apple\",\"app\"], order = \"abcdefghijklmnopqrstuvwxyz\"\nOutput: false\nExplanation: The first three characters \"app\" match, and the second string is shorter (in size.) According to lexicographical rules \"apple\" > \"app\", because 'l' > '∅', where '∅' is defined as the blank character which is less than any other character (More info).\n\nConstraints:\n\n• 1 <= words.length <= 100\n\n• 1 <= words[i].length <= 20\n\n• order.length == 26\n\n• All characters in words[i] and order are English lowercase letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isAlienSorted(self, words, order):\n        \"\"\"\n        :type words: List[str]\n        :type order: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"hello\",\"leetcode\"]",
+      "\"hlabcdefgijkmnopqrstuvwxyz\""
+    ],
+    [
+      "[\"word\",\"world\",\"row\"]",
+      "\"worldabcefghijkmnpqstuvxyz\""
+    ],
+    [
+      "[\"apple\",\"app\"]",
+      "\"abcdefghijklmnopqrstuvwxyz\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isAlienSorted(self, words, order):\n        order_map = {char: i for i, char in enumerate(order)}\n        for i in range(len(words) - 1):\n            w1, w2 = words[i], words[i+1]\n            for j in range(min(len(w1), len(w2))):\n                if order_map[w1[j]] < order_map[w2[j]]:\n                    break\n                elif order_map[w1[j]] > order_map[w2[j]]:\n                    return False\n            else:\n                if len(w1) > len(w2):\n                    return False\n        return True",
+    "explanation": "Map chars to order indices. Compare adjacent words by order.\nTime: O(n*m)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,56 @@
+{
+  "questionId": "3032",
+  "title": "Maximize Value of Function in a Ball Passing Game",
+  "titleSlug": "maximize-value-of-function-in-a-ball-passing-game",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given an integer array receiver of length n and an integer k. n players are playing a ball-passing game.\n\nYou choose the starting player, i. The game proceeds as follows: player i passes the ball to player receiver[i], who then passes it to receiver[receiver[i]], and so on, for k passes in total. The game's score is the sum of the indices of the players who touched the ball, including repetitions, i.e. i + receiver[i] + receiver[receiver[i]] + ... + receiver(k)[i].\n\nReturn the maximum possible score.\n\nNotes:\n\n• receiver may contain duplicates.\n\n• receiver[i] may be equal to i.\n\nExample 1:\n\nInput: receiver = [2,0,1], k = 4\n\nOutput: 6\n\nExplanation: Starting with player i = 2 the initial score is 2:\n\n\t\t\t\tPass\n\t\t\t\tSender Index\n\t\t\t\tReceiver Index\n\t\t\t\tScore\n\n\t\t\t\t1\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\t3\n\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t3\n\n\t\t\t\t3\n\t\t\t\t0\n\t\t\t\t2\n\t\t\t\t5\n\n\t\t\t\t4\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\t6\n\nExample 2:\n\nInput: receiver = [1,1,1,2,3], k = 3\n\nOutput: 10\n\nExplanation: Starting with player i = 4 the initial score is 4:\n\n\t\t\t\tPass\n\t\t\t\tSender Index\n\t\t\t\tReceiver Index\n\t\t\t\tScore\n\n\t\t\t\t1\n\t\t\t\t4\n\t\t\t\t3\n\t\t\t\t7\n\n\t\t\t\t2\n\t\t\t\t3\n\t\t\t\t2\n\t\t\t\t9\n\n\t\t\t\t3\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\t10\n\nConstraints:\n\n• 1 <= receiver.length == n <= 105\n\n• 0 <= receiver[i] <= n - 1\n\n• 1 <= k <= 1010",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getMaxFunctionValue(self, receiver, k):\n        \"\"\"\n        :type receiver: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can solve the problem using binary lifting.",
+    "For each player with id x and for every i in the range [0, ceil(log<sub>2</sub>k)], we can determine the last receiver's id and compute the sum of player ids who receive the ball after 2<sup>i</sup> passes, starting from x.",
+    "Let last_receiver[x][i] = the last receiver's id after 2<sup>i</sup> passes, and sum[x][i] = the sum of player ids who receive the ball after 2<sup>i</sup> passes. For all x in the range [0, n - 1], last_receiver[x][0] = receiver[x], and sum[x][0] = receiver[x].",
+    "Then for i in range [1, ceil(log<sub>2</sub>k)], last_receiver[x][i] = last_receiver[last_receiver[x][i - 1]][i - 1] and sum[x][i] = sum[x][i - 1] + sum[last_receiver[x][i - 1]][i - 1], for all x in the range [0, n - 1].",
+    "Starting from each player id x, we can now go through the powers of 2 in the binary representation of k and make jumps corresponding to each power, using the pre-computed values, to compute f(x).",
+    "The answer is the maximum f(x) from each player id."
+  ],
+  "testCases": [
+    [
+      "[2,0,1]",
+      "4"
+    ],
+    [
+      "[1,1,1,2,3]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getMaxFunctionValue(self, receiver, k):\n        \"\"\"\n        :type receiver: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(receiver)\n        LOG = 40  # log2(10^12) ≈ 40\n        \n        # Binary lifting: for each starting position and 2^i passes\n        # next[i][j] = position after 2^i passes starting from i\n        # sum_val[i][j] = sum of player indices during those 2^i passes\n        \n        next_pos = [[0] * LOG for _ in range(n)]\n        sum_val = [[0] * LOG for _ in range(n)]\n        \n        # Base case: 2^0 = 1 pass\n        for i in range(n):\n            next_pos[i][0] = receiver[i]\n            sum_val[i][0] = receiver[i]\n        \n        # Build binary lifting table\n        for j in range(1, LOG):\n            for i in range(n):\n                next_node = next_pos[i][j-1]\n                next_pos[i][j] = next_pos[next_node][j-1]\n                sum_val[i][j] = sum_val[i][j-1] + sum_val[next_node][j-1]\n        \n        max_value = 0\n        \n        # Try each starting position\n        for start in range(n):\n            current = start\n            current_sum = start  # Include starting player\n            \n            # Process k passes using binary representation\n            remaining = k\n            power = 0\n            \n            while remaining > 0 and power < LOG:\n                if remaining & (1 << power):\n                    # Use 2^power passes\n                    current_sum += sum_val[current][power]\n                    current = next_pos[current][power]\n                    remaining -= (1 << power)\n                power += 1\n            \n            max_value = max(max_value, current_sum)\n        \n        return max_value",
+    "explanation": "This solution uses binary lifting for large k:\n\n1. **Problem Understanding**:\n   - k can be up to 10^10 (very large)\n   - Direct simulation would be O(n*k), infeasible\n   - Need efficient way to compute cumulative sum after k passes\n\n2. **Binary Lifting Concept**:\n   - Precompute where we go after 2^i passes\n   - next_pos[i][j] = position after 2^j passes starting from i\n   - sum_val[i][j] = sum of indices during those 2^j passes\n   - Build table in O(n * log k)\n\n3. **Table Construction**:\n   - Base case (j=0): 1 pass = receiver[i]\n   - Induction: 2^j passes = (2^(j-1) passes) + (2^(j-1) more passes)\n   - next_pos[i][j] = next_pos[next_pos[i][j-1]][j-1]\n   - sum_val[i][j] = sum_val[i][j-1] + sum_val[next_pos[i][j-1]][j-1]\n\n4. **Answering Query**:\n   - For each starting position i:\n     - Decompose k using binary representation\n     - k = sum of 2^bi for set bits in k\n     - Jump using precomputed values\n     - Track cumulative sum\n\n5. **Example**:\n   - receiver = [2, 0, 1], k = 4\n   - Binary: 4 = 0b100 = 2^2\n   - From position 2:\n     - After 4 passes: 2 → 1 → 0 → 2 → 1\n     - Sum: 2 + (1 + 0 + 2 + 1) = 2 + 4 = 6\n\n6. **Complexity**:\n   - Preprocessing: O(n * log k)\n   - Per query: O(n * log k) for all starting positions\n   - Total: O(n * log k)\n   - Feasible even with k = 10^10\n\nTime Complexity: O(n * log k)\nSpace Complexity: O(n * log k)"
+  },
+  "similarQuestions": "[{\"title\": \"Jump Game VI\", \"titleSlug\": \"jump-game-vi\", \"difficulty\": \"Medium\"}]"
+}

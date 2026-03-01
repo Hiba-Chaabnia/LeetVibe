@@ -1,0 +1,47 @@
+{
+  "questionId": "374",
+  "title": "Guess Number Higher or Lower",
+  "titleSlug": "guess-number-higher-or-lower",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Interactive",
+      "slug": "interactive"
+    }
+  ],
+  "content": "We are playing the Guess Game. The game is as follows:\n\nI pick a number from 1 to n. You have to guess which number I picked (the number I picked stays the same throughout the game).\n\nEvery time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.\n\nYou call a pre-defined API int guess(int num), which returns three possible results:\n\n• -1: Your guess is higher than the number I picked (i.e. num > pick).\n\n• 1: Your guess is lower than the number I picked (i.e. num < pick).\n\n• 0: your guess is equal to the number I picked (i.e. num == pick).\n\nReturn the number that I picked.\n\nExample 1:\n\nInput: n = 10, pick = 6\nOutput: 6\n\nExample 2:\n\nInput: n = 1, pick = 1\nOutput: 1\n\nExample 3:\n\nInput: n = 2, pick = 1\nOutput: 1\n\nConstraints:\n\n• 1 <= n <= 231 - 1\n\n• 1 <= pick <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# The guess API is already defined for you.\n# @param num, your guess\n# @return -1 if num is higher than the picked number\n#          1 if num is lower than the picked number\n#          otherwise return 0\n# def guess(num):\n\nclass Solution(object):\n    def guessNumber(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "10"
+    ],
+    [
+      "1"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "1",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def guessNumber(self, n):\n        left, right = 1, n\n        while left <= right:\n            mid = (left + right) // 2\n            result = guess(mid)\n            if result == 0:\n                return mid\n            elif result == 1:\n                left = mid + 1\n            else:\n                right = mid - 1",
+    "explanation": "Binary search: if guess returns -1, search left; if 1, search right; if 0, found.\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"First Bad Version\", \"titleSlug\": \"first-bad-version\", \"difficulty\": \"Easy\"}, {\"title\": \"Guess Number Higher or Lower II\", \"titleSlug\": \"guess-number-higher-or-lower-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Find K Closest Elements\", \"titleSlug\": \"find-k-closest-elements\", \"difficulty\": \"Medium\"}]"
+}

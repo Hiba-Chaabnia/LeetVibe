@@ -1,0 +1,52 @@
+{
+  "questionId": "1288",
+  "title": "Maximum Subarray Sum with One Deletion",
+  "titleSlug": "maximum-subarray-sum-with-one-deletion",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given an array of integers, return the maximum sum for a non-empty subarray (contiguous elements) with at most one element deletion. In other words, you want to choose a subarray and optionally delete one element from it so that there is still at least one element left and the sum of the remaining elements is maximum possible.\n\nNote that the subarray needs to be non-empty after deleting one element.\n\nExample 1:\n\nInput: arr = [1,-2,0,3]\nOutput: 4\nExplanation: Because we can choose [1, -2, 0, 3] and drop -2, thus the subarray [1, 0, 3] becomes the maximum value.\n\nExample 2:\n\nInput: arr = [1,-2,-2,3]\nOutput: 3\nExplanation: We just choose [3] and it's the maximum sum.\n\nExample 3:\n\nInput: arr = [-1,-1,-1,-1]\nOutput: -1\nExplanation: The final subarray needs to be non-empty. You can't choose [-1] and delete -1 from it, then get an empty subarray to make the sum equals to 0.\n\nConstraints:\n\n• 1 <= arr.length <= 105\n\n• -104 <= arr[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumSum(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How to solve this problem if no deletions are allowed ?",
+    "Try deleting each element and find the maximum subarray sum to both sides of that element.",
+    "To do that efficiently, use the idea of Kadane's algorithm."
+  ],
+  "testCases": [
+    [
+      "[1,-2,0,3]"
+    ],
+    [
+      "[1,-2,-2,3]"
+    ],
+    [
+      "[-1,-1,-1,-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "3",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maximumSum(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(arr)\n        # dp_no_delete[i] = max sum ending at i without deletion\n        # dp_delete[i] = max sum ending at i with one deletion\n        dp_no_delete = [0] * n\n        dp_delete = [0] * n\n        \n        dp_no_delete[0] = arr[0]\n        dp_delete[0] = 0\n        max_sum = arr[0]\n        \n        for i in range(1, n):\n            # No deletion at i\n            dp_no_delete[i] = max(arr[i], dp_no_delete[i-1] + arr[i])\n            \n            # One deletion: either delete arr[i] or delete some previous element\n            dp_delete[i] = max(dp_no_delete[i-1], dp_delete[i-1] + arr[i])\n            \n            max_sum = max(max_sum, dp_no_delete[i], dp_delete[i])\n        \n        return max_sum",
+    "explanation": "DP with two states: sum without deletion and sum with one deletion. Track max across all states.",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximize Subarray Sum After Removing All Occurrences of One Element\", \"titleSlug\": \"maximize-subarray-sum-after-removing-all-occurrences-of-one-element\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Unique Subarray Sum After Deletion\", \"titleSlug\": \"maximum-unique-subarray-sum-after-deletion\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "3936",
+  "title": "Split Array by Prime Indices",
+  "titleSlug": "split-array-by-prime-indices",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nSplit nums into two arrays A and B using the following rule:\n\n• Elements at prime indices in nums must go into array A.\n\n• All other elements must go into array B.\n\nReturn the absolute difference between the sums of the two arrays: |sum(A) - sum(B)|.\n\nNote: An empty array has a sum of 0.\n\nExample 1:\n\nInput: nums = [2,3,4]\n\nOutput: 1\n\nExplanation:\n\n• The only prime index in the array is 2, so nums[2] = 4 is placed in array A.\n\n• The remaining elements, nums[0] = 2 and nums[1] = 3 are placed in array B.\n\n• sum(A) = 4, sum(B) = 2 + 3 = 5.\n\n• The absolute difference is |4 - 5| = 1.\n\nExample 2:\n\nInput: nums = [-1,5,7,0]\n\nOutput: 3\n\nExplanation:\n\n• The prime indices in the array are 2 and 3, so nums[2] = 7 and nums[3] = 0 are placed in array A.\n\n• The remaining elements, nums[0] = -1 and nums[1] = 5 are placed in array B.\n\n• sum(A) = 7 + 0 = 7, sum(B) = -1 + 5 = 4.\n\n• The absolute difference is |7 - 4| = 3.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def splitArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Generate all primes up to nums.length (e.g., with the Sieve of Eratosthenes).",
+    "Iterate through nums, adding nums[i] to sumA if i is prime, otherwise to sumB, then return |sumA - sumB|."
+  ],
+  "testCases": [
+    [
+      "[2,3,4]"
+    ],
+    [
+      "[-1,5,7,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def splitArray(self, nums):\n        n = len(nums)\n        # Sieve of Eratosthenes\n        is_prime = [False, False] + [True] * (n - 2) if n >= 2 else [False] * n\n        for i in range(2, int(n**0.5) + 1):\n            if is_prime[i]:\n                for j in range(i * i, n, i):\n                    is_prime[j] = False\n\n        sum_a = sum(nums[i] for i in range(n) if is_prime[i])\n        sum_b = sum(nums[i] for i in range(n) if not is_prime[i])\n        return abs(sum_a - sum_b)",
+    "explanation": "We use the Sieve of Eratosthenes to precompute all prime indices up to n-1 in O(n log log n) time.\n\nThen we sum all elements at prime indices into sumA and all elements at non-prime indices into sumB, returning |sumA - sumB|.\n\nNote: index 0 and 1 are not prime, so those elements always go to B.\n\nTime complexity: O(n log log n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[]"
+}

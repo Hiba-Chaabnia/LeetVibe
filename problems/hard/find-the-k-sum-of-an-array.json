@@ -1,0 +1,48 @@
+{
+  "questionId": "2462",
+  "title": "Find the K-Sum of an Array",
+  "titleSlug": "find-the-k-sum-of-an-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given an integer array nums and a positive integer k. You can choose any subsequence of the array and sum all of its elements together.\n\nWe define the K-Sum of the array as the kth largest subsequence sum that can be obtained (not necessarily distinct).\n\nReturn the K-Sum of the array.\n\nA subsequence is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.\n\nNote that the empty subsequence is considered to have a sum of 0.\n\nExample 1:\n\nInput: nums = [2,4,-2], k = 5\nOutput: 2\nExplanation: All the possible subsequence sums that we can obtain are the following sorted in decreasing order:\n    6, 4, 4, 2, 2, 0, 0, -2.\n    The 5-Sum of the array is 2.\n\nExample 2:\n\nInput: nums = [1,-2,3,4,-10,12], k = 16\nOutput: 10\nExplanation: The 16-Sum of the array is 10.\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 105\n\n• -109 <= nums[i] <= 109\n\n• 1 <= k <= min(2000, 2n)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kSum(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Start from the largest sum possible, and keep finding the next largest sum until you reach the kth sum.",
+    "Starting from a sum, what are the two next largest sums that you can obtain from it?"
+  ],
+  "testCases": [
+    [
+      "[2,4,-2]",
+      "5"
+    ],
+    [
+      "[1,-2,3,4,-10,12]",
+      "16"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "10"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

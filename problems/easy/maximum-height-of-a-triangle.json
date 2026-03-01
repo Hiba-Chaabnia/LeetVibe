@@ -1,0 +1,58 @@
+{
+  "questionId": "3469",
+  "title": "Maximum Height of a Triangle",
+  "titleSlug": "maximum-height-of-a-triangle",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given two integers red and blue representing the count of red and blue colored balls. You have to arrange these balls to form a triangle such that the 1st row will have 1 ball, the 2nd row will have 2 balls, the 3rd row will have 3 balls, and so on.\n\nAll the balls in a particular row should be the same color, and adjacent rows should have different colors.\n\nReturn the maximum height of the triangle that can be achieved.\n\nExample 1:\n\nInput: red = 2, blue = 4\n\nOutput: 3\n\nExplanation: The only possible arrangement is shown above.\n\nExample 2:\n\nInput: red = 2, blue = 1\n\nOutput: 2\n\nExplanation: The only possible arrangement is shown above.\n\nExample 3:\n\nInput: red = 1, blue = 1\n\nOutput: 1\n\nExample 4:\n\nInput: red = 10, blue = 1\n\nOutput: 2\n\nExplanation: The only possible arrangement is shown above.\n\nConstraints:\n\n• 1 <= red, blue <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxHeightOfTriangle(self, red, blue):\n        \"\"\"\n        :type red: int\n        :type blue: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the max height using both possibilities. That is, red ball as top and blue ball as top.",
+    "For counting the max height, use a simple for loop and remove the number of balls required at this level."
+  ],
+  "testCases": [
+    [
+      "2",
+      "4"
+    ],
+    [
+      "2",
+      "1"
+    ],
+    [
+      "1",
+      "1"
+    ],
+    [
+      "10",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2",
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxHeightOfTriangle(self, red, blue):\n        def maxH(a, b):\n            h, ra, rb = 0, a, b\n            while True:\n                need = h + 1\n                if h % 2 == 0:\n                    if ra >= need:\n                        ra -= need\n                        h += 1\n                    else:\n                        break\n                else:\n                    if rb >= need:\n                        rb -= need\n                        h += 1\n                    else:\n                        break\n            return h\n        return max(maxH(red, blue), maxH(blue, red))",
+    "explanation": "Simulate building the triangle with alternating colours for both starting-colour assignments; return the maximum height achievable. O(sqrt(n)) time."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "772",
+  "title": "Construct Quad Tree",
+  "titleSlug": "construct-quad-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given a n * n matrix grid of 0's and 1's only. We want to represent grid with a Quad-Tree.\n\nReturn the root of the Quad-Tree representing grid.\n\nA Quad-Tree is a tree data structure in which each internal node has exactly four children. Besides, each node has two attributes:\n\n• val: True if the node represents a grid of 1's or False if the node represents a grid of 0's. Notice that you can assign the val to True or False when isLeaf is False, and both are accepted in the answer.\n\n• isLeaf: True if the node is a leaf node on the tree or False if the node has four children.\n\n    class Node {\n        public boolean val;\n        public boolean isLeaf;\n        public Node topLeft;\n        public Node topRight;\n        public Node bottomLeft;\n        public Node bottomRight;\n    }\n\nWe can construct a Quad-Tree from a two-dimensional area using the following steps:\n\n• If the current grid has the same value (i.e all 1's or all 0's) set isLeaf True and set val to the value of the grid and set the four children to Null and stop.\n\n• If the current grid has different values, set isLeaf to False and set val to any value and divide the current grid into four sub-grids as shown in the photo.\n\n• Recurse for each of the children with the proper sub-grid.\n\nIf you want to know more about the Quad-Tree, you can refer to the wiki.\n\nQuad-Tree format:\n\nYou don't need to read this section for solving the problem. This is only if you want to understand the output format here. The output represents the serialized format of a Quad-Tree using level order traversal, where null signifies a path terminator where no node exists below.\n\nIt is very similar to the serialization of the binary tree. The only difference is that the node is represented as a list [isLeaf, val].\n\nIf the value of isLeaf or val is True we represent it as 1 in the list [isLeaf, val] and if the value of isLeaf or val is False we represent it as 0.\n\nExample 1:\n\nInput: grid = [[0,1],[1,0]]\nOutput: [[0,1],[1,0],[1,1],[1,1],[1,0]]\nExplanation: The explanation of this example is shown below:\n    Notice that 0 represents False and 1 represents True in the photo representing the Quad-Tree.\n\nExample 2:\n\nInput: grid = [[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0]]\nOutput: [[0,1],[1,1],[0,1],[1,1],[1,0],null,null,null,null,[1,0],[1,0],[1,1],[1,1]]\nExplanation: All values in the grid are not the same. We divide the grid into four sub-grids.\n    The topLeft, bottomLeft and bottomRight each has the same value.\n    The topRight have different values so we divide it into 4 sub-grids where each has the same value.\n    Explanation is shown in the photo below:\n\nConstraints:\n\n• n == grid.length == grid[i].length\n\n• n == 2x where 0 <= x <= 6",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "\"\"\"\n# Definition for a QuadTree node.\nclass Node(object):\n    def __init__(self, val=False, isLeaf=False, topLeft=None, topRight=None, bottomLeft=None, bottomRight=None):\n        self.val = val\n        self.isLeaf = isLeaf\n        self.topLeft = topLeft\n        self.topRight = topRight\n        self.bottomLeft = bottomLeft\n        self.bottomRight = bottomRight\n\"\"\"\n\nclass Solution(object):\n    def construct(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: Node\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,1],[1,0]]"
+    ],
+    [
+      "[[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[0,1],[1,0],[1,1],[1,1],[1,0]]",
+    "[[0,1],[1,1],[0,1],[1,1],[1,0],null,null,null,null,[1,0],[1,0],[1,1],[1,1]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

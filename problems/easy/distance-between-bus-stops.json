@@ -1,0 +1,51 @@
+{
+  "questionId": "1287",
+  "title": "Distance Between Bus Stops",
+  "titleSlug": "distance-between-bus-stops",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "A bus has n stops numbered from 0 to n - 1 that form a circle. We know the distance between all pairs of neighboring stops where distance[i] is the distance between the stops number i and (i + 1) % n.\n\nThe bus goes along both directions i.e. clockwise and counterclockwise.\n\nReturn the shortest distance between the given start and destination stops.\n\nExample 1:\n\nInput: distance = [1,2,3,4], start = 0, destination = 1\nOutput: 1\nExplanation: Distance between 0 and 1 is 1 or 9, minimum is 1.\n\nExample 2:\n\nInput: distance = [1,2,3,4], start = 0, destination = 2\nOutput: 3\nExplanation: Distance between 0 and 2 is 3 or 7, minimum is 3.\n\nExample 3:\n\nInput: distance = [1,2,3,4], start = 0, destination = 3\nOutput: 4\nExplanation: Distance between 0 and 3 is 6 or 4, minimum is 4.\n\nConstraints:\n\n• 1 <= n <= 10^4\n\n• distance.length == n\n\n• 0 <= start, destination < n\n\n• 0 <= distance[i] <= 10^4",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def distanceBetweenBusStops(self, distance, start, destination):\n        \"\"\"\n        :type distance: List[int]\n        :type start: int\n        :type destination: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the distance between the two stops if the bus moved in clockwise or counterclockwise directions."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4]",
+      "0",
+      "1"
+    ],
+    [
+      "[1,2,3,4]",
+      "0",
+      "2"
+    ],
+    [
+      "[1,2,3,4]",
+      "0",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def distanceBetweenBusStops(self, distance, start, destination):\n        if start > destination:\n            start, destination = destination, start\n        clockwise = sum(distance[start:destination])\n        total = sum(distance)\n        counterclockwise = total - clockwise\n        return min(clockwise, counterclockwise)",
+    "explanation": "Clockwise distance from start to destination. Counterclockwise = total - clockwise. Return min.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Costs Using the Train Line\", \"titleSlug\": \"minimum-costs-using-the-train-line\", \"difficulty\": \"Hard\"}]"
+}

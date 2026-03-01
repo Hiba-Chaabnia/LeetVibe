@@ -1,0 +1,50 @@
+{
+  "questionId": "3321",
+  "title": "Type of Triangle",
+  "titleSlug": "type-of-triangle",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums of size 3 which can form the sides of a triangle.\n\n• A triangle is called equilateral if it has all sides of equal length.\n\n• A triangle is called isosceles if it has exactly two sides of equal length.\n\n• A triangle is called scalene if all its sides are of different lengths.\n\nReturn a string representing the type of triangle that can be formed or \"none\" if it cannot form a triangle.\n\nExample 1:\n\nInput: nums = [3,3,3]\nOutput: \"equilateral\"\nExplanation: Since all the sides are of equal length, therefore, it will form an equilateral triangle.\n\nExample 2:\n\nInput: nums = [3,4,5]\nOutput: \"scalene\"\nExplanation:\n    nums[0] + nums[1] = 3 + 4 = 7, which is greater than nums[2] = 5.\n    nums[0] + nums[2] = 3 + 5 = 8, which is greater than nums[1] = 4.\n    nums[1] + nums[2] = 4 + 5 = 9, which is greater than nums[0] = 3.\n    Since the sum of the two sides is greater than the third side for all three cases, therefore, it can form a triangle.\n    As all the sides are of different lengths, it will form a scalene triangle.\n\nConstraints:\n\n• nums.length == 3\n\n• 1 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def triangleType(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The condition for a valid triangle is that for any two sides, the sum of their lengths must be greater than the third side.",
+    "Simply count the number of unique edge lengths after checking it’s a valid triangle."
+  ],
+  "testCases": [
+    [
+      "[3,3,3]"
+    ],
+    [
+      "[3,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"equilateral\"",
+    "\"scalene\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def triangleType(self, nums):\n        a, b, c = sorted(nums)\n        if a + b <= c:\n            return 'none'\n        if a == b == c:\n            return 'equilateral'\n        if a == b or b == c:\n            return 'isosceles'\n        return 'scalene'",
+    "explanation": "Sort sides; check triangle inequality; classify by number of equal sides. O(1) time."
+  },
+  "similarQuestions": "[]"
+}

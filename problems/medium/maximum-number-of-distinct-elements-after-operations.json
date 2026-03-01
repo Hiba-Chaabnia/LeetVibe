@@ -1,0 +1,52 @@
+{
+  "questionId": "3620",
+  "title": "Maximum Number of Distinct Elements After Operations",
+  "titleSlug": "maximum-number-of-distinct-elements-after-operations",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nYou are allowed to perform the following operation on each element of the array at most once:\n\n• Add an integer in the range [-k, k] to the element.\n\nReturn the maximum possible number of distinct elements in nums after performing the operations.\n\nExample 1:\n\nInput: nums = [1,2,2,3,3,4], k = 2\n\nOutput: 6\n\nExplanation: nums changes to [-1, 0, 1, 2, 3, 4] after performing operations on the first four elements.\n\nExample 2:\n\nInput: nums = [4,4,4,4], k = 1\n\nOutput: 3\n\nExplanation: By adding -1 to nums[0] and 1 to nums[1], nums changes to [3, 5, 4, 4].\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 0 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxDistinctElements(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we use sorting here?",
+    "Find the minimum element which is not used for each element."
+  ],
+  "testCases": [
+    [
+      "[1,2,2,3,3,4]",
+      "2"
+    ],
+    [
+      "[4,4,4,4]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxDistinctElements(self, nums, k):\n        nums.sort()\n        used = set()\n        for v in nums:\n            # Try to assign smallest unused value in [v-k, v+k]\n            # Greedy: assign the smallest available value >= v-k\n            lo = v - k\n            # Find smallest value >= lo not in used\n            candidate = lo\n            # We need the smallest value in [v-k, v+k] not yet used\n            # Since we process in sorted order, used values are increasing.\n            # The next available value >= lo:\n            while candidate in used:\n                candidate += 1\n            if candidate <= v + k:\n                used.add(candidate)\n        return len(used)",
+    "explanation": "Sort nums. Process in sorted order; for each element, greedily assign the smallest available value in [v-k, v+k] not yet used. Since nums is sorted and we always try the smallest candidate, each candidate only increases monotonically — the while loop is O(n) total across all elements.\n\nTime: O(n log n + n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Least Number of Unique Integers after K Removals\", \"titleSlug\": \"least-number-of-unique-integers-after-k-removals\", \"difficulty\": \"Medium\"}]"
+}

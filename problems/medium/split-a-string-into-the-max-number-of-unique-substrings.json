@@ -1,0 +1,54 @@
+{
+  "questionId": "1715",
+  "title": "Split a String Into the Max Number of Unique Substrings",
+  "titleSlug": "split-a-string-into-the-max-number-of-unique-substrings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "Given a string s, return the maximum number of unique substrings that the given string can be split into.\n\nYou can split string s into any list of non-empty substrings, where the concatenation of the substrings forms the original string. However, you must split the substrings such that all of them are unique.\n\nA substring is a contiguous sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"ababccc\"\nOutput: 5\nExplanation: One way to split maximally is ['a', 'b', 'ab', 'c', 'cc']. Splitting like ['a', 'b', 'a', 'b', 'c', 'cc'] is not valid as you have 'a' and 'b' multiple times.\n\nExample 2:\n\nInput: s = \"aba\"\nOutput: 2\nExplanation: One way to split maximally is ['a', 'ba'].\n\nExample 3:\n\nInput: s = \"aa\"\nOutput: 1\nExplanation: It is impossible to split the string any further.\n\nConstraints:\n\n•\n\t1 <= s.length <= 16\n\n•\n\ts contains only lower case English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxUniqueSplit(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a set to keep track of which substrings have been used already",
+    "Try each possible substring at every position and backtrack if a complete split is not possible"
+  ],
+  "testCases": [
+    [
+      "\"ababccc\""
+    ],
+    [
+      "\"aba\""
+    ],
+    [
+      "\"aa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxUniqueSplit(s, start=0, seen=None):\n    if seen is None:\n        seen = set()\n    if start == len(s):\n        return 0\n    maxUnique = -1\n    for i in range(start + 1, len(s) + 1):\n        sub = s[start:i]\n        if sub not in seen:\n            seen.add(sub)\n            unique = maxUniqueSplit(s, i, seen)\n            if unique != -1:\n                maxUnique = max(maxUnique, unique + 1)\n            seen.remove(sub)\n    return maxUnique",
+    "explanation": "The algorithm is a recursive backtracking algorithm. We start at the beginning of the string and iteratively build substrings from the current starting position. If the substring is not already in the set of seen substrings, we add it to the set and continue the split process for the remaining part of the string. Then we remove the substring from the set of seen substrings and continue with the next possible substring. The base case is reached when we processed the entire string, in which case we return 0 as the initial value for the split count. The final result will be the maximum number of unique substrings found during the recursive process."
+  },
+  "similarQuestions": "[]"
+}

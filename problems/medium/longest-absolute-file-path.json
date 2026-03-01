@@ -1,0 +1,52 @@
+{
+  "questionId": "388",
+  "title": "Longest Absolute File Path",
+  "titleSlug": "longest-absolute-file-path",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    }
+  ],
+  "content": "Suppose we have a file system that stores both files and directories. An example of one system is represented in the following picture:\n\nHere, we have dir as the only directory in the root. dir contains two subdirectories, subdir1 and subdir2. subdir1 contains a file file1.ext and subdirectory subsubdir1. subdir2 contains a subdirectory subsubdir2, which contains a file file2.ext.\n\nIn text form, it looks like this (with ⟶ representing the tab character):\n\n    dir\n    ⟶ subdir1\n    ⟶ ⟶ file1.ext\n    ⟶ ⟶ subsubdir1\n    ⟶ subdir2\n    ⟶ ⟶ subsubdir2\n    ⟶ ⟶ ⟶ file2.ext\n\nIf we were to write this representation in code, it will look like this: \"dir\\n\\tsubdir1\\n\\t\\tfile1.ext\\n\\t\\tsubsubdir1\\n\\tsubdir2\\n\\t\\tsubsubdir2\\n\\t\\t\\tfile2.ext\". Note that the '\\n' and '\\t' are the new-line and tab characters.\n\nEvery file and directory has a unique absolute path in the file system, which is the order of directories that must be opened to reach the file/directory itself, all concatenated by '/'s. Using the above example, the absolute path to file2.ext is \"dir/subdir2/subsubdir2/file2.ext\". Each directory name consists of letters, digits, and/or spaces. Each file name is of the form name.extension, where name and extension consist of letters, digits, and/or spaces.\n\nGiven a string input representing the file system in the explained format, return the length of the longest absolute path to a file in the abstracted file system. If there is no file in the system, return 0.\n\nNote that the testcases are generated such that the file system is valid and no file or directory name has length 0.\n\nExample 1:\n\nInput: input = \"dir\\n\\tsubdir1\\n\\tsubdir2\\n\\t\\tfile.ext\"\nOutput: 20\nExplanation: We have only one file, and the absolute path is \"dir/subdir2/file.ext\" of length 20.\n\nExample 2:\n\nInput: input = \"dir\\n\\tsubdir1\\n\\t\\tfile1.ext\\n\\t\\tsubsubdir1\\n\\tsubdir2\\n\\t\\tsubsubdir2\\n\\t\\t\\tfile2.ext\"\nOutput: 32\nExplanation: We have two files:\n    \"dir/subdir1/file1.ext\" of length 21\n    \"dir/subdir2/subsubdir2/file2.ext\" of length 32.\n    We return 32 since it is the longest absolute path to a file.\n\nExample 3:\n\nInput: input = \"a\"\nOutput: 0\nExplanation: We do not have any files, just a single directory named \"a\".\n\nConstraints:\n\n• 1 <= input.length <= 104\n\n• input may contain lowercase or uppercase English letters, a new line character '\\n', a tab character '\\t', a dot '.', a space ' ', and digits.\n\n• All file and directory names have positive length.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lengthLongestPath(self, input):\n        \"\"\"\n        :type input: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"dir\\n\\tsubdir1\\n\\tsubdir2\\n\\t\\tfile.ext\""
+    ],
+    [
+      "\"dir\\n\\tsubdir1\\n\\t\\tfile1.ext\\n\\t\\tsubsubdir1\\n\\tsubdir2\\n\\t\\tsubsubdir2\\n\\t\\t\\tfile2.ext\""
+    ],
+    [
+      "\"a\""
+    ]
+  ],
+  "expectedOutputs": [
+    "20",
+    "32",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def lengthLongestPath(self, input):\n        \"\"\"\n        :type input: str\n        :rtype: int\n        \"\"\"\n        lines = input.split('\\n')\n        stack = []  # (depth, length)\n        max_len = 0\n        \n        for line in lines:\n            depth = line.count('\\t')\n            name = line.lstrip('\\t')\n            \n            # Pop stack until we match the current depth\n            while len(stack) > depth:\n                stack.pop()\n            \n            # Current path length\n            path_len = sum(length for _, length in stack) + len(name) + depth\n            \n            if '.' in name:\n                # It's a file\n                max_len = max(max_len, path_len)\n            else:\n                # It's a directory\n                stack.append((depth, len(name)))\n        \n        return max_len",
+    "explanation": "Track depth of directories using tab count. Stack stores (depth, name_length) pairs. For files, calculate path length and update max. For directories, push to stack.",
+    "complexity": "Time: O(n). Space: O(d) where d is max depth."
+  },
+  "similarQuestions": "[]"
+}

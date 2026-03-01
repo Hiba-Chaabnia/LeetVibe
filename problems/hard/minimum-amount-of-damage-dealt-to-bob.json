@@ -1,0 +1,60 @@
+{
+  "questionId": "3531",
+  "title": "Minimum Amount of Damage Dealt to Bob",
+  "titleSlug": "minimum-amount-of-damage-dealt-to-bob",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer power and two integer arrays damage and health, both having length n.\n\nBob has n enemies, where enemy i will deal Bob damage[i] points of damage per second while they are alive (i.e. health[i] > 0).\n\nEvery second, after the enemies deal damage to Bob, he chooses one of the enemies that is still alive and deals power points of damage to them.\n\nDetermine the minimum total amount of damage points that will be dealt to Bob before all n enemies are dead.\n\nExample 1:\n\nInput: power = 4, damage = [1,2,3,4], health = [4,5,6,8]\n\nOutput: 39\n\nExplanation:\n\n• Attack enemy 3 in the first two seconds, after which enemy 3 will go down, the number of damage points dealt to Bob is 10 + 10 = 20 points.\n\n• Attack enemy 2 in the next two seconds, after which enemy 2 will go down, the number of damage points dealt to Bob is 6 + 6 = 12 points.\n\n• Attack enemy 0 in the next second, after which enemy 0 will go down, the number of damage points dealt to Bob is 3 points.\n\n• Attack enemy 1 in the next two seconds, after which enemy 1 will go down, the number of damage points dealt to Bob is 2 + 2 = 4 points.\n\nExample 2:\n\nInput: power = 1, damage = [1,1,1,1], health = [1,2,3,4]\n\nOutput: 20\n\nExplanation:\n\n• Attack enemy 0 in the first second, after which enemy 0 will go down, the number of damage points dealt to Bob is 4 points.\n\n• Attack enemy 1 in the next two seconds, after which enemy 1 will go down, the number of damage points dealt to Bob is 3 + 3 = 6 points.\n\n• Attack enemy 2 in the next three seconds, after which enemy 2 will go down, the number of damage points dealt to Bob is 2 + 2 + 2 = 6 points.\n\n• Attack enemy 3 in the next four seconds, after which enemy 3 will go down, the number of damage points dealt to Bob is 1 + 1 + 1 + 1 = 4 points.\n\nExample 3:\n\nInput: power = 8, damage = [40], health = [59]\n\nOutput: 320\n\nConstraints:\n\n• 1 <= power <= 104\n\n• 1 <= n == damage.length == health.length <= 105\n\n• 1 <= damage[i], health[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDamage(self, power, damage, health):\n        \"\"\"\n        :type power: int\n        :type damage: List[int]\n        :type health: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we use sorting here along with a custom comparator?",
+    "For any two enemies i and j with damages damage[i] and damage[j], and time to take each of them down t<sub>i</sub> and t<sub>j</sub>, when is it better to choose enemy i over enemy j first?"
+  ],
+  "testCases": [
+    [
+      "4",
+      "[1,2,3,4]",
+      "[4,5,6,8]"
+    ],
+    [
+      "1",
+      "[1,1,1,1]",
+      "[1,2,3,4]"
+    ],
+    [
+      "8",
+      "[40]",
+      "[59]"
+    ]
+  ],
+  "expectedOutputs": [
+    "39",
+    "20",
+    "320"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minDamage(self, power, damage, health):\n        \"\"\"\n        :type power: int\n        :type damage: List[int]\n        :type health: List[int]\n        :rtype: int\n        \"\"\"\n        import math\n        \n        n = len(damage)\n        # Create list of (time_to_defeat, damage_per_sec, original_index)\n        enemies = []\n        for i in range(n):\n            time_to_defeat = math.ceil(health[i] / power)\n            enemies.append((time_to_defeat, damage[i], i))\n        \n        # Sort by damage[i] / time_to_defeat in descending order\n        # This is the greedy optimal order\n        enemies.sort(key=lambda x: x[1] / x[0], reverse=True)\n        \n        total_damage = 0\n        current_time = 0\n        \n        for time_to_defeat, dmg, idx in enemies:\n            # Damage taken while defeating this enemy\n            # All remaining enemies (including this one) attack\n            current_time += time_to_defeat\n            remaining_enemies = len(enemies) - enemies.index((time_to_defeat, dmg, idx))\n            \n            # Actually, let's recalculate\n            # Total damage = sum over all enemies: (time until defeated) * damage[i]\n            # = time_1 * (sum of all damage) + time_2 * (sum of remaining damage) + ...\n            \n        # Better approach: simulate in order\n        total_damage = 0\n        remaining_damage_per_sec = sum(dmg for _, dmg, _ in enemies)\n        current_time = 0\n        \n        for time_to_defeat, dmg, idx in enemies:\n            # This enemy deals damage for the next time_to_defeat seconds\n            # All remaining enemies (including this) deal damage\n            total_damage += time_to_defeat * remaining_damage_per_sec\n            \n            # After defeating this enemy, it no longer deals damage\n            remaining_damage_per_sec -= dmg\n        \n        return total_damage",
+    "explanation": "This solution uses greedy sorting with exchange argument:\n\n1. **Problem Understanding**:\n   - n enemies, each with health[i] and damage[i]\n   - Each second, all alive enemies deal damage\n   - Bob deals power damage per second to one enemy\n   - Minimize total damage taken\n\n2. **Key Insight - Exchange Argument**:\n   - When should we defeat enemy i vs enemy j first?\n   - Let t_i = ceil(health[i] / power) = time to defeat i\n   - Let t_j = ceil(health[j] / power) = time to defeat j\n   - If we do i then j:\n     - Damage from i: t_i * damage[i]\n     - Damage from j: t_j * (damage[i] + damage[j])\n     - Total: t_i * damage[i] + t_j * (damage[i] + damage[j])\n   - If we do j then i:\n     - Damage from j: t_j * damage[j]\n     - Damage from i: t_i * (damage[i] + damage[j])\n     - Total: t_j * damage[j] + t_i * (damage[i] + damage[j])\n   - Difference: t_i * damage[i] + t_j * damage[j] vs t_j * damage[j] + t_i * damage[i]\n   - Wait, those are the same...\n\n3. **Correct Analysis**:\n   - When i comes before j:\n     - i takes damage for t_i seconds from all enemies: t_i * (damage[i] + damage[j] + ...)\n     - j takes damage for t_j seconds from {j, ...remaining}: t_j * damage[j]\n     - Contribution: t_i * (total) + t_j * (damage[j] + remaining)\n   - Actually, total damage = sum over time of (current alive damage)\n   - Damage from enemy i = (time until i defeated) * damage[i]\n   - Minimize by processing enemies that deal high damage FIRST (when others are still alive)\n   - Optimal order: sort by damage[i]/time[i] in DESCENDING order\n\n4. **Greedy Sort**:\n   - Sort enemies by damage/time in descending order\n   - Defeat highest damage-per-second enemies first\n   - This minimizes total damage because they deal damage for shortest time\n\n5. **Damage Calculation**:\n   - Simulate in sorted order\n   - Track remaining damage per second\n   - For each enemy defeated:\n     - Damage += time_to_defeat * remaining_damage_per_sec\n     - remaining_damage_per_sec -= damage[defeated_enemy]\n\nTime Complexity: O(n log n) for sorting + O(n) for simulation\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Time to Complete Trips\", \"titleSlug\": \"minimum-time-to-complete-trips\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Penalty for a Shop\", \"titleSlug\": \"minimum-penalty-for-a-shop\", \"difficulty\": \"Medium\"}]"
+}

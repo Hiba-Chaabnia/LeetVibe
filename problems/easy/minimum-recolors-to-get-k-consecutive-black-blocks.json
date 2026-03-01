@@ -1,0 +1,48 @@
+{
+  "questionId": "2463",
+  "title": "Minimum Recolors to Get K Consecutive Black Blocks",
+  "titleSlug": "minimum-recolors-to-get-k-consecutive-black-blocks",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a 0-indexed string blocks of length n, where blocks[i] is either 'W' or 'B', representing the color of the ith block. The characters 'W' and 'B' denote the colors white and black, respectively.\n\nYou are also given an integer k, which is the desired number of consecutive black blocks.\n\nIn one operation, you can recolor a white block such that it becomes a black block.\n\nReturn the minimum number of operations needed such that there is at least one occurrence of k consecutive black blocks.\n\nExample 1:\n\nInput: blocks = \"WBBWWBBWBW\", k = 7\nOutput: 3\nExplanation:\n    One way to achieve 7 consecutive black blocks is to recolor the 0th, 3rd, and 4th blocks\n    so that blocks = \"BBBBBBBWBW\".\n    It can be shown that there is no way to achieve 7 consecutive black blocks in less than 3 operations.\n    Therefore, we return 3.\n\nExample 2:\n\nInput: blocks = \"WBWBBBW\", k = 2\nOutput: 0\nExplanation:\n    No changes need to be made, since 2 consecutive black blocks already exist.\n    Therefore, we return 0.\n\nConstraints:\n\n• n == blocks.length\n\n• 1 <= n <= 100\n\n• blocks[i] is either 'W' or 'B'.\n\n• 1 <= k <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumRecolors(self, blocks, k):\n        \"\"\"\n        :type blocks: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate through all possible consecutive substrings of k characters.",
+    "Find the number of changes for each substring to make all blocks black, and return the minimum of these."
+  ],
+  "testCases": [
+    [
+      "\"WBBWWBBWBW\"",
+      "7"
+    ],
+    [
+      "\"WBWBBBW\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumRecolors(self, blocks, k):\n        current = blocks[:k].count('W')\n        result = current\n        for i in range(k, len(blocks)):\n            if blocks[i-k] == 'W':\n                current -= 1\n            if blocks[i] == 'W':\n                current += 1\n            result = min(result, current)\n        return result",
+    "explanation": "Sliding window of size k tracking white count. Separate result from current window count.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Max Consecutive Ones III\", \"titleSlug\": \"max-consecutive-ones-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Points You Can Obtain from Cards\", \"titleSlug\": \"maximum-points-you-can-obtain-from-cards\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Vowels in a Substring of Given Length\", \"titleSlug\": \"maximum-number-of-vowels-in-a-substring-of-given-length\", \"difficulty\": \"Medium\"}]"
+}

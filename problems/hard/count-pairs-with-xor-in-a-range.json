@@ -1,0 +1,50 @@
+{
+  "questionId": "1907",
+  "title": "Count Pairs With XOR in a Range",
+  "titleSlug": "count-pairs-with-xor-in-a-range",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    }
+  ],
+  "content": "Given a (0-indexed) integer array nums and two integers low and high, return the number of nice pairs.\n\nA nice pair is a pair (i, j) where 0 <= i < j < nums.length and low <= (nums[i] XOR nums[j]) <= high.\n\nExample 1:\n\nInput: nums = [1,4,2,7], low = 2, high = 6\nOutput: 6\nExplanation: All nice pairs (i, j) are as follows:\n        - (0, 1): nums[0] XOR nums[1] = 5\n        - (0, 2): nums[0] XOR nums[2] = 3\n        - (0, 3): nums[0] XOR nums[3] = 6\n        - (1, 2): nums[1] XOR nums[2] = 6\n        - (1, 3): nums[1] XOR nums[3] = 3\n        - (2, 3): nums[2] XOR nums[3] = 5\n\nExample 2:\n\nInput: nums = [9,8,4,2,1], low = 5, high = 14\nOutput: 8\nExplanation: All nice pairs (i, j) are as follows:\n    ​​​​​    - (0, 2): nums[0] XOR nums[2] = 13\n        - (0, 3): nums[0] XOR nums[3] = 11\n        - (0, 4): nums[0] XOR nums[4] = 8\n        - (1, 2): nums[1] XOR nums[2] = 12\n        - (1, 3): nums[1] XOR nums[3] = 10\n        - (1, 4): nums[1] XOR nums[4] = 9\n        - (2, 3): nums[2] XOR nums[3] = 6\n        - (2, 4): nums[2] XOR nums[4] = 5\n\nConstraints:\n\n• 1 <= nums.length <= 2 * 104\n\n• 1 <= nums[i] <= 2 * 104\n\n• 1 <= low <= high <= 2 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPairs(self, nums, low, high):\n        \"\"\"\n        :type nums: List[int]\n        :type low: int\n        :type high: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let's note that we can count all pairs with XOR ≤ K, so the answer would be to subtract the number of pairs withs XOR < low from the number of pairs with XOR ≤ high.",
+    "For each value, find out the number of values when you XOR it with the result is  ≤ K using a trie."
+  ],
+  "testCases": [
+    [
+      "[1,4,2,7]",
+      "2",
+      "6"
+    ],
+    [
+      "[9,8,4,2,1]",
+      "5",
+      "14"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "8"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count Paths With the Given XOR Value\", \"titleSlug\": \"count-paths-with-the-given-xor-value\", \"difficulty\": \"Medium\"}]"
+}

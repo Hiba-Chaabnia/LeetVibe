@@ -1,0 +1,54 @@
+{
+  "questionId": "1242",
+  "title": "Matrix Block Sum",
+  "titleSlug": "matrix-block-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a m x n matrix mat and an integer k, return a matrix answer where each answer[i][j] is the sum of all elements mat[r][c] for:\n\n• i - k <= r <= i + k,\n\n• j - k <= c <= j + k, and\n\n• (r, c) is a valid position in the matrix.\n\nExample 1:\n\nInput: mat = [[1,2,3],[4,5,6],[7,8,9]], k = 1\nOutput: [[12,21,16],[27,45,33],[24,39,28]]\n\nExample 2:\n\nInput: mat = [[1,2,3],[4,5,6],[7,8,9]], k = 2\nOutput: [[45,45,45],[45,45,45],[45,45,45]]\n\nConstraints:\n\n• m == mat.length\n\n• n == mat[i].length\n\n• 1 <= m, n, k <= 100\n\n• 1 <= mat[i][j] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def matrixBlockSum(self, mat, k):\n        \"\"\"\n        :type mat: List[List[int]]\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How to calculate the required sum for a cell (i,j) fast ?",
+    "Use the concept of cumulative sum array.",
+    "Create a cumulative sum matrix where dp[i][j] is the sum of all cells in the rectangle from (0,0) to (i,j), use inclusion-exclusion idea."
+  ],
+  "testCases": [
+    [
+      "[[1,2,3],[4,5,6],[7,8,9]]",
+      "1"
+    ],
+    [
+      "[[1,2,3],[4,5,6],[7,8,9]]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[12,21,16],[27,45,33],[24,39,28]]",
+    "[[45,45,45],[45,45,45],[45,45,45]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def matrixBlockSum(self, mat, k):\n        \"\"\"\n        :type mat: List[List[int]]\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        m, n = len(mat), len(mat[0])\n        \n        # Build prefix sum matrix\n        prefix = [[0] * (n + 1) for _ in range(m + 1)]\n        \n        for i in range(1, m + 1):\n            for j in range(1, n + 1):\n                prefix[i][j] = mat[i-1][j-1] + prefix[i-1][j] + prefix[i][j-1] - prefix[i-1][j-1]\n        \n        result = [[0] * n for _ in range(m)]\n        \n        # Calculate block sum for each cell\n        for i in range(m):\n            for j in range(n):\n                r1 = max(0, i - k) + 1\n                r2 = min(m - 1, i + k) + 1\n                c1 = max(0, j - k) + 1\n                c2 = min(n - 1, j + k) + 1\n                \n                result[i][j] = prefix[r2][c2] - prefix[r1-1][c2] - prefix[r2][c1-1] + prefix[r1-1][c1-1]\n        \n        return result",
+    "explanation": "Build 2D prefix sum array. For each cell, use inclusion-exclusion to calculate sum in k-radius block.",
+    "complexity": "Time: O(m*n). Space: O(m*n)."
+  },
+  "similarQuestions": "[{\"title\": \"Stamping the Grid\", \"titleSlug\": \"stamping-the-grid\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Sum of an Hourglass\", \"titleSlug\": \"maximum-sum-of-an-hourglass\", \"difficulty\": \"Medium\"}, {\"title\": \"Design Neighbor Sum Service\", \"titleSlug\": \"design-neighbor-sum-service\", \"difficulty\": \"Easy\"}]"
+}

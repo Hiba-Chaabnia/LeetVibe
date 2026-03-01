@@ -1,0 +1,45 @@
+{
+  "questionId": "3931",
+  "title": "Process String with Special Operations I",
+  "titleSlug": "process-string-with-special-operations-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters and the special characters: *, #, and %.\n\nBuild a new string result by processing s according to the following rules from left to right:\n\n• If the letter is a lowercase English letter append it to result.\n\n• A '*' removes the last character from result, if it exists.\n\n• A '#' duplicates the current result and appends it to itself.\n\n• A '%' reverses the current result.\n\nReturn the final string result after processing all characters in s.\n\nExample 1:\n\nInput: s = \"a#b%*\"\n\nOutput: \"ba\"\n\nExplanation: \t\t\t\ti\n\t\t\t\ts[i]\n\t\t\t\tOperation\n\t\t\t\tCurrent result\n\n\t\t\t\t0\n\t\t\t\t'a'\n\t\t\t\tAppend 'a'\n\t\t\t\t\"a\"\n\n\t\t\t\t1\n\t\t\t\t'#'\n\t\t\t\tDuplicate result\n\t\t\t\t\"aa\"\n\n\t\t\t\t2\n\t\t\t\t'b'\n\t\t\t\tAppend 'b'\n\t\t\t\t\"aab\"\n\n\t\t\t\t3\n\t\t\t\t'%'\n\t\t\t\tReverse result\n\t\t\t\t\"baa\"\n\n\t\t\t\t4\n\t\t\t\t'*'\n\t\t\t\tRemove the last character\n\t\t\t\t\"ba\"\n\nThus, the final result is \"ba\".\n\nExample 2:\n\nInput: s = \"z*#\"\n\nOutput: \"\"\n\nExplanation: \t\t\t\ti\n\t\t\t\ts[i]\n\t\t\t\tOperation\n\t\t\t\tCurrent result\n\n\t\t\t\t0\n\t\t\t\t'z'\n\t\t\t\tAppend 'z'\n\t\t\t\t\"z\"\n\n\t\t\t\t1\n\t\t\t\t'*'\n\t\t\t\tRemove the last character\n\t\t\t\t\"\"\n\n\t\t\t\t2\n\t\t\t\t'#'\n\t\t\t\tDuplicate the string\n\t\t\t\t\"\"\n\nThus, the final result is \"\".\n\nConstraints:\n\n• 1 <= s.length <= 20\n\n• s consists of only lowercase English letters and special characters *, #, and %.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def processStr(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "\"a#b%*\""
+    ],
+    [
+      "\"z*#\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"ba\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def processStr(self, s):\n        result = []\n        for c in s:\n            if c.islower():\n                result.append(c)\n            elif c == '*':\n                if result:\n                    result.pop()\n            elif c == '#':\n                result = result + result  # duplicate\n            elif c == '%':\n                result.reverse()\n        return ''.join(result)",
+    "explanation": "We simulate the operations on a list (used as a mutable string buffer):\n- Lowercase letter: append to result.\n- '*': pop the last character if result is non-empty.\n- '#': duplicate result (result = result + result).\n- '%': reverse result in-place.\n\nWith s.length <= 20, even O(2^n) growth from '#' operations is bounded (at most 2^20 = ~1M characters).\n\nTime complexity: O(2^|s|) in worst case (all '#' operations). Space complexity: O(2^|s|)."
+  },
+  "similarQuestions": "[]"
+}

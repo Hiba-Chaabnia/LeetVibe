@@ -1,0 +1,57 @@
+{
+  "questionId": "2128",
+  "title": "Reverse Prefix of Word",
+  "titleSlug": "reverse-prefix-of-word",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "Given a 0-indexed string word and a character ch, reverse the segment of word that starts at index 0 and ends at the index of the first occurrence of ch (inclusive). If the character ch does not exist in word, do nothing.\n\n• For example, if word = \"abcdefd\" and ch = \"d\", then you should reverse the segment that starts at 0 and ends at 3 (inclusive). The resulting string will be \"dcbaefd\".\n\nReturn the resulting string.\n\nExample 1:\n\nInput: word = \"abcdefd\", ch = \"d\"\nOutput: \"dcbaefd\"\nExplanation: The first occurrence of \"d\" is at index 3.\n    Reverse the part of word from 0 to 3 (inclusive), the resulting string is \"dcbaefd\".\n\nExample 2:\n\nInput: word = \"xyxzxe\", ch = \"z\"\nOutput: \"zxyxxe\"\nExplanation: The first and only occurrence of \"z\" is at index 3.\n    Reverse the part of word from 0 to 3 (inclusive), the resulting string is \"zxyxxe\".\n\nExample 3:\n\nInput: word = \"abcd\", ch = \"z\"\nOutput: \"abcd\"\nExplanation: \"z\" does not exist in word.\n    You should not do any reverse operation, the resulting string is \"abcd\".\n\nConstraints:\n\n• 1 <= word.length <= 250\n\n• word consists of lowercase English letters.\n\n• ch is a lowercase English letter.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reversePrefix(self, word, ch):\n        \"\"\"\n        :type word: str\n        :type ch: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the first index where ch appears.",
+    "Find a way to reverse a substring of word."
+  ],
+  "testCases": [
+    [
+      "\"abcdefd\"",
+      "\"d\""
+    ],
+    [
+      "\"xyxzxe\"",
+      "\"z\""
+    ],
+    [
+      "\"abcd\"",
+      "\"z\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"dcbaefd\"",
+    "\"zxyxxe\"",
+    "\"abcd\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def reversePrefix(self, word, ch):\n        idx = word.find(ch)\n        if idx == -1:\n            return word\n        return word[:idx+1][::-1] + word[idx+1:]",
+    "explanation": "Find first occurrence of ch. Reverse prefix up to and including ch.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

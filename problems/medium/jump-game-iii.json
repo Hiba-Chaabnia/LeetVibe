@@ -1,0 +1,58 @@
+{
+  "questionId": "1428",
+  "title": "Jump Game III",
+  "titleSlug": "jump-game-iii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "Given an array of non-negative integers arr, you are initially positioned at start index of the array. When you are at index i, you can jump to i + arr[i] or i - arr[i], check if you can reach any index with value 0.\n\nNotice that you can not jump outside of the array at any time.\n\nExample 1:\n\nInput: arr = [4,2,3,0,3,1,2], start = 5\nOutput: true\nExplanation:\n    All possible ways to reach at index 3 with value 0 are:\n    index 5 -> index 4 -> index 1 -> index 3\n    index 5 -> index 6 -> index 4 -> index 1 -> index 3\n\nExample 2:\n\nInput: arr = [4,2,3,0,3,1,2], start = 0\nOutput: true\nExplanation:\n    One possible way to reach at index 3 with value 0 is:\n    index 0 -> index 4 -> index 1 -> index 3\n\nExample 3:\n\nInput: arr = [3,0,2,1,2], start = 2\nOutput: false\nExplanation: There is no way to reach at index 1 with value 0.\n\nConstraints:\n\n• 1 <= arr.length <= 5 * 104\n\n• 0 <= arr[i] < arr.length\n\n• 0 <= start < arr.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canReach(self, arr, start):\n        \"\"\"\n        :type arr: List[int]\n        :type start: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think of BFS to solve the problem.",
+    "When you reach a position with a value = 0 then return true."
+  ],
+  "testCases": [
+    [
+      "[4,2,3,0,3,1,2]",
+      "5"
+    ],
+    [
+      "[4,2,3,0,3,1,2]",
+      "0"
+    ],
+    [
+      "[3,0,2,1,2]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def canReach(self, arr, start):\n        \"\"\"\n        :type arr: List[int]\n        :type start: int\n        :rtype: bool\n        \"\"\"\n        visited = set()\n        queue = deque([start])\n        visited.add(start)\n        \n        while queue:\n            idx = queue.popleft()\n            \n            if arr[idx] == 0:\n                return True\n            \n            # Try both jump directions\n            for next_idx in [idx + arr[idx], idx - arr[idx]]:\n                if 0 <= next_idx < len(arr) and next_idx not in visited:\n                    visited.add(next_idx)\n                    queue.append(next_idx)\n        \n        return False",
+    "explanation": "BFS to explore all reachable indices. From each index, jump forward or backward by arr[i] steps. Check if 0 is reachable.",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Jump Game II\", \"titleSlug\": \"jump-game-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game\", \"titleSlug\": \"jump-game\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game VII\", \"titleSlug\": \"jump-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game VIII\", \"titleSlug\": \"jump-game-viii\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Jumps to Reach the Last Index\", \"titleSlug\": \"maximum-number-of-jumps-to-reach-the-last-index\", \"difficulty\": \"Medium\"}]"
+}

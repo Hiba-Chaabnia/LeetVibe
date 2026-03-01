@@ -1,0 +1,59 @@
+{
+  "questionId": "3841",
+  "title": "Concatenated Divisibility",
+  "titleSlug": "concatenated-divisibility",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given an array of positive integers nums and a positive integer k.\n\nA permutation of nums is said to form a divisible concatenation if, when you concatenate the decimal representations of the numbers in the order specified by the permutation, the resulting number is divisible by k.\n\nReturn the lexicographically smallest permutation (when considered as a list of integers) that forms a divisible concatenation. If no such permutation exists, return an empty list.\n\nExample 1:\n\nInput: nums = [3,12,45], k = 5\n\nOutput: [3,12,45]\n\nExplanation: \t\t\t\tPermutation\n\t\t\t\tConcatenated Value\n\t\t\t\tDivisible by 5\n\n\t\t\t\t[3, 12, 45]\n\t\t\t\t31245\n\t\t\t\tYes\n\n\t\t\t\t[3, 45, 12]\n\t\t\t\t34512\n\t\t\t\tNo\n\n\t\t\t\t[12, 3, 45]\n\t\t\t\t12345\n\t\t\t\tYes\n\n\t\t\t\t[12, 45, 3]\n\t\t\t\t12453\n\t\t\t\tNo\n\n\t\t\t\t[45, 3, 12]\n\t\t\t\t45312\n\t\t\t\tNo\n\n\t\t\t\t[45, 12, 3]\n\t\t\t\t45123\n\t\t\t\tNo\n\nThe lexicographically smallest permutation that forms a divisible concatenation is [3,12,45].\n\nExample 2:\n\nInput: nums = [10,5], k = 10\n\nOutput: [5,10]\n\nExplanation: \t\t\t\tPermutation\n\t\t\t\tConcatenated Value\n\t\t\t\tDivisible by 10\n\n\t\t\t\t[5, 10]\n\t\t\t\t510\n\t\t\t\tYes\n\n\t\t\t\t[10, 5]\n\t\t\t\t105\n\t\t\t\tNo\n\nThe lexicographically smallest permutation that forms a divisible concatenation is [5,10].\n\nExample 3:\n\nInput: nums = [1,2,3], k = 5\n\nOutput: []\n\nExplanation: Since no permutation of nums forms a valid divisible concatenation, return an empty list.\n\nConstraints:\n\n• 1 <= nums.length <= 13\n\n• 1 <= nums[i] <= 105\n\n• 1 <= k <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def concatenatedDivisibility(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we write a recursive solution for this?",
+    "Can we use bitmasks with dynamic programming to optimize the above recursion?",
+    "Use the idea of bitmask-based dynamic programming.",
+    "Use the idea to reconstruct the answer from the dynamic programming table using the state variables, such as mask and remainder."
+  ],
+  "testCases": [
+    [
+      "[3,12,45]",
+      "5"
+    ],
+    [
+      "[10,5]",
+      "10"
+    ],
+    [
+      "[1,2,3]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,12,45]",
+    "[5,10]",
+    "[]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

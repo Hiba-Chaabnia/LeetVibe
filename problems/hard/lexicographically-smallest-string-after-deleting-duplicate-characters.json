@@ -1,0 +1,58 @@
+{
+  "questionId": "4086",
+  "title": "Lexicographically Smallest String After Deleting Duplicate Characters",
+  "titleSlug": "lexicographically-smallest-string-after-deleting-duplicate-characters",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given a string s that consists of lowercase English letters.\n\nYou can perform the following operation any number of times (possibly zero times):\n\n• Choose any letter that appears at least twice in the current string s and delete any one occurrence.\n\nReturn the lexicographically smallest resulting string that can be formed this way.\n\nExample 1:\n\nInput: s = \"aaccb\"\n\nOutput: \"aacb\"\n\nExplanation: We can form the strings \"acb\", \"aacb\", \"accb\", and \"aaccb\". \"aacb\" is the lexicographically smallest one.\n\nFor example, we can obtain \"aacb\" by choosing 'c' and deleting its first occurrence.\n\nExample 2:\n\nInput: s = \"z\"\n\nOutput: \"z\"\n\nExplanation: We cannot perform any operations. The only string we can form is \"z\".\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s contains lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lexSmallestAfterDeletion(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Solve greedily.",
+    "Each distinct letter must appear at least once in the final string.",
+    "For each letter, maintain a deque of its positions.",
+    "At each step, try letters from 'a' to 'z' and pick the smallest letter whose earliest position lies within a safe window.",
+    "Do not pick an occurrence if choosing it would make some other letter impossible to keep.",
+    "Mark positions as used and repeat, always minimizing the next chosen character."
+  ],
+  "testCases": [
+    [
+      "\"aaccb\""
+    ],
+    [
+      "\"z\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"aacb\"",
+    "\"z\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Remove Duplicate Letters\", \"titleSlug\": \"remove-duplicate-letters\", \"difficulty\": \"Medium\"}]"
+}

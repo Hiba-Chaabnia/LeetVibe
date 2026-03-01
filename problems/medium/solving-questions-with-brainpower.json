@@ -1,0 +1,45 @@
+{
+  "questionId": "2262",
+  "title": "Solving Questions With Brainpower",
+  "titleSlug": "solving-questions-with-brainpower",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a 0-indexed 2D integer array questions where questions[i] = [pointsi, brainpoweri].\n\nThe array describes the questions of an exam, where you have to process the questions in order (i.e., starting from question 0) and make a decision whether to solve or skip each question. Solving question i will earn you pointsi points but you will be unable to solve each of the next brainpoweri questions. If you skip question i, you get to make the decision on the next question.\n\n• For example, given questions = [[3, 2], [4, 3], [4, 4], [2, 5]]:\n\n• If question 0 is solved, you will earn 3 points but you will be unable to solve questions 1 and 2.\n\n• If instead, question 0 is skipped and question 1 is solved, you will earn 4 points but you will be unable to solve questions 2 and 3.\n\nReturn the maximum points you can earn for the exam.\n\nExample 1:\n\nInput: questions = [[3,2],[4,3],[4,4],[2,5]]\nOutput: 5\nExplanation: The maximum points can be earned by solving questions 0 and 3.\n    - Solve question 0: Earn 3 points, will be unable to solve the next 2 questions\n    - Unable to solve questions 1 and 2\n    - Solve question 3: Earn 2 points\n    Total points earned: 3 + 2 = 5. There is no other way to earn 5 or more points.\n\nExample 2:\n\nInput: questions = [[1,1],[2,2],[3,3],[4,4],[5,5]]\nOutput: 7\nExplanation: The maximum points can be earned by solving questions 1 and 4.\n    - Skip question 0\n    - Solve question 1: Earn 2 points, will be unable to solve the next 2 questions\n    - Unable to solve questions 2 and 3\n    - Solve question 4: Earn 5 points\n    Total points earned: 2 + 5 = 7. There is no other way to earn 7 or more points.\n\nConstraints:\n\n• 1 <= questions.length <= 105\n\n• questions[i].length == 2\n\n• 1 <= pointsi, brainpoweri <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mostPoints(self, questions):\n        \"\"\"\n        :type questions: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each question, we can either solve it or skip it. How can we use Dynamic Programming to decide the most optimal option for each problem?",
+    "We store for each question the maximum points we can earn if we started the exam on that question.",
+    "If we skip a question, then the answer for it will be the same as the answer for the next question.",
+    "If we solve a question, then the answer for it will be the points of the current question plus the answer for the next solvable question.",
+    "The maximum of these two values will be the answer to the current question."
+  ],
+  "testCases": [
+    [
+      "[[3,2],[4,3],[4,4],[2,5]]"
+    ],
+    [
+      "[[1,1],[2,2],[3,3],[4,4],[5,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "7"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"House Robber\", \"titleSlug\": \"house-robber\", \"difficulty\": \"Medium\"}, {\"title\": \"Frog Jump\", \"titleSlug\": \"frog-jump\", \"difficulty\": \"Hard\"}]"
+}

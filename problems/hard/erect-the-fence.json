@@ -1,0 +1,43 @@
+{
+  "questionId": "587",
+  "title": "Erect the Fence",
+  "titleSlug": "erect-the-fence",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "You are given an array trees where trees[i] = [xi, yi] represents the location of a tree in the garden.\n\nFence the entire garden using the minimum length of rope, as it is expensive. The garden is well-fenced only if all the trees are enclosed.\n\nReturn the coordinates of trees that are exactly located on the fence perimeter. You may return the answer in any order.\n\nExample 1:\n\nInput: trees = [[1,1],[2,2],[2,0],[2,4],[3,3],[4,2]]\nOutput: [[1,1],[2,0],[4,2],[3,3],[2,4]]\nExplanation: All the trees will be on the perimeter of the fence except the tree at [2, 2], which will be inside the fence.\n\nExample 2:\n\nInput: trees = [[1,2],[2,2],[4,2]]\nOutput: [[4,2],[2,2],[1,2]]\nExplanation: The fence forms a line that passes through all the trees.\n\nConstraints:\n\n• 1 <= trees.length <= 3000\n\n• trees[i].length == 2\n\n• 0 <= xi, yi <= 100\n\n• All the given positions are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def outerTrees(self, trees):\n        \"\"\"\n        :type trees: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,1],[2,2],[2,0],[2,4],[3,3],[4,2]]"
+    ],
+    [
+      "[[1,2],[2,2],[4,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,1],[2,0],[4,2],[3,3],[2,4]]",
+    "[[4,2],[2,2],[1,2]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Erect the Fence II\", \"titleSlug\": \"erect-the-fence-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Sort the Students by Their Kth Score\", \"titleSlug\": \"sort-the-students-by-their-kth-score\", \"difficulty\": \"Medium\"}]"
+}

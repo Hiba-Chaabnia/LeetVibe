@@ -1,0 +1,49 @@
+{
+  "questionId": "1261",
+  "title": "Swap For Longest Repeated Character Substring",
+  "titleSlug": "swap-for-longest-repeated-character-substring",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a string text. You can swap two of the characters in the text.\n\nReturn the length of the longest substring with repeated characters.\n\nExample 1:\n\nInput: text = \"ababa\"\nOutput: 3\nExplanation: We can swap the first 'b' with the last 'a', or the last 'b' with the first 'a'. Then, the longest repeated character substring is \"aaa\" with length 3.\n\nExample 2:\n\nInput: text = \"aaabaaa\"\nOutput: 6\nExplanation: Swap 'b' with the last 'a' (or the first 'a'), and we get longest repeated character substring \"aaaaaa\" with length 6.\n\nExample 3:\n\nInput: text = \"aaaaa\"\nOutput: 5\nExplanation: No need to swap, longest repeated character substring is \"aaaaa\" with length is 5.\n\nConstraints:\n\n• 1 <= text.length <= 2 * 104\n\n• text consist of lowercase English characters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxRepOpt1(self, text):\n        \"\"\"\n        :type text: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "There are two cases:  a block of characters, or two blocks of characters between one different character. \r\n By keeping a run-length encoded version of the string, we can easily check these cases."
+  ],
+  "testCases": [
+    [
+      "\"ababa\""
+    ],
+    [
+      "\"aaabaaa\""
+    ],
+    [
+      "\"aaaaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "6",
+    "5"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "414",
+  "title": "Third Maximum Number",
+  "titleSlug": "third-maximum-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.\n\nExample 1:\n\nInput: nums = [3,2,1]\nOutput: 1\nExplanation:\n    The first distinct maximum is 3.\n    The second distinct maximum is 2.\n    The third distinct maximum is 1.\n\nExample 2:\n\nInput: nums = [1,2]\nOutput: 2\nExplanation:\n    The first distinct maximum is 2.\n    The second distinct maximum is 1.\n    The third distinct maximum does not exist, so the maximum (2) is returned instead.\n\nExample 3:\n\nInput: nums = [2,2,3,1]\nOutput: 1\nExplanation:\n    The first distinct maximum is 3.\n    The second distinct maximum is 2 (both 2's are counted together since they have the same value).\n    The third distinct maximum is 1.\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• -231 <= nums[i] <= 231 - 1\n\nFollow up: Can you find an O(n) solution?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def thirdMax(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,2,1]"
+    ],
+    [
+      "[1,2]"
+    ],
+    [
+      "[2,2,3,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def thirdMax(self, nums):\n        unique = list(set(nums))\n        if len(unique) < 3:\n            return max(unique)\n        unique.sort(reverse=True)\n        return unique[2]",
+    "explanation": "Get unique elements. If < 3, return max. Else return 3rd largest.\nTime: O(n*log n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Kth Largest Element in an Array\", \"titleSlug\": \"kth-largest-element-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Neither Minimum nor Maximum\", \"titleSlug\": \"neither-minimum-nor-maximum\", \"difficulty\": \"Easy\"}]"
+}

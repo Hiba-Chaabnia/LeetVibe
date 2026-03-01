@@ -1,0 +1,46 @@
+{
+  "questionId": "2591",
+  "title": "Frog Jump II",
+  "titleSlug": "frog-jump-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array stones sorted in strictly increasing order representing the positions of stones in a river.\n\nA frog, initially on the first stone, wants to travel to the last stone and then return to the first stone. However, it can jump to any stone at most once.\n\nThe length of a jump is the absolute difference between the position of the stone the frog is currently on and the position of the stone to which the frog jumps.\n\n• More formally, if the frog is at stones[i] and is jumping to stones[j], the length of the jump is |stones[i] - stones[j]|.\n\nThe cost of a path is the maximum length of a jump among all jumps in the path.\n\nReturn the minimum cost of a path for the frog.\n\nExample 1:\n\nInput: stones = [0,2,5,6,7]\nOutput: 5\nExplanation: The above figure represents one of the optimal paths the frog can take.\n    The cost of this path is 5, which is the maximum length of a jump.\n    Since it is not possible to achieve a cost of less than 5, we return it.\n\nExample 2:\n\nInput: stones = [0,3,9]\nOutput: 9\nExplanation:\n    The frog can jump directly to the last stone and come back to the first stone.\n    In this case, the length of each jump will be 9. The cost for the path will be max(9, 9) = 9.\n    It can be shown that this is the minimum achievable cost.\n\nConstraints:\n\n• 2 <= stones.length <= 105\n\n• 0 <= stones[i] <= 109\n\n• stones[0] == 0\n\n• stones is sorted in a strictly increasing order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxJump(self, stones):\n        \"\"\"\n        :type stones: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "One of the optimal strategies will be to jump to every stone.",
+    "Skipping just one stone in every forward jump and jumping to those skipped stones in backward jump can minimize the maximum jump."
+  ],
+  "testCases": [
+    [
+      "[0,2,5,6,7]"
+    ],
+    [
+      "[0,3,9]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "9"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Climbing Stairs\", \"titleSlug\": \"climbing-stairs\", \"difficulty\": \"Easy\"}, {\"title\": \"Koko Eating Bananas\", \"titleSlug\": \"koko-eating-bananas\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "214",
+  "title": "Shortest Palindrome",
+  "titleSlug": "shortest-palindrome",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are given a string s. You can convert s to a palindrome by adding characters in front of it.\n\nReturn the shortest palindrome you can find by performing this transformation.\n\nExample 1:\n\nInput: s = \"aacecaaa\"\nOutput: \"aaacecaaa\"\nExample 2:\n\nInput: s = \"abcd\"\nOutput: \"dcbabcd\"\n\nConstraints:\n\n• 0 <= s.length <= 5 * 104\n\n• s consists of lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"aacecaaa\""
+    ],
+    [
+      "\"abcd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"aaacecaaa\"",
+    "\"dcbabcd\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Palindromic Substring\", \"titleSlug\": \"longest-palindromic-substring\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Index of the First Occurrence in a String\", \"titleSlug\": \"find-the-index-of-the-first-occurrence-in-a-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Palindrome Pairs\", \"titleSlug\": \"palindrome-pairs\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Deletions on a String\", \"titleSlug\": \"maximum-deletions-on-a-string\", \"difficulty\": \"Hard\"}, {\"title\": \"Smallest Palindromic Rearrangement I\", \"titleSlug\": \"smallest-palindromic-rearrangement-i\", \"difficulty\": \"Medium\"}]"
+}

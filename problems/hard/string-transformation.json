@@ -1,0 +1,59 @@
+{
+  "questionId": "3024",
+  "title": "String Transformation",
+  "titleSlug": "string-transformation",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "You are given two strings s and t of equal length n. You can perform the following operation on the string s:\n\n• Remove a suffix of s of length l where 0 < l < n and append it at the start of s.\n\n\tFor example, let s = 'abcd' then in one operation you can remove the suffix 'cd' and append it in front of s making s = 'cdab'.\n\nYou are also given an integer k. Return the number of ways in which s can be transformed into t in exactly k operations.\n\nSince the answer can be large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: s = \"abcd\", t = \"cdab\", k = 2\nOutput: 2\nExplanation:\n    First way:\n    In first operation, choose suffix from index = 3, so resulting s = \"dabc\".\n    In second operation, choose suffix from index = 3, so resulting s = \"cdab\".\n\n    Second way:\n    In first operation, choose suffix from index = 1, so resulting s = \"bcda\".\n    In second operation, choose suffix from index = 1, so resulting s = \"cdab\".\n\nExample 2:\n\nInput: s = \"ababab\", t = \"ababab\", k = 1\nOutput: 2\nExplanation:\n    First way:\n    Choose suffix from index = 2, so resulting s = \"ababab\".\n\n    Second way:\n    Choose suffix from index = 4, so resulting s = \"ababab\".\n\nConstraints:\n\n• 2 <= s.length <= 5 * 105\n\n• 1 <= k <= 1015\n\n• s.length == t.length\n\n• s and t consist of only lowercase English alphabets.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfWays(self, s, t, k):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "String t can be only constructed if it is a rotated version of string s.",
+    "Use KMP algorithm or Z algorithm to find the number of indices from where s is equal to t.",
+    "Use Dynamic Programming to count the number of ways."
+  ],
+  "testCases": [
+    [
+      "\"abcd\"",
+      "\"cdab\"",
+      "2"
+    ],
+    [
+      "\"ababab\"",
+      "\"ababab\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfWays(self, s, t, k):\n        MOD = 10**9 + 7\n        n = len(s)\n        # Find all rotations r in [1..n-1] where rotate(s, r) == t\n        # Using KMP on t + '#' + s + s\n        combined = t + '#' + s + s\n        fail = [0] * len(combined)\n        j = 0\n        for i in range(1, len(combined)):\n            while j > 0 and combined[i] != combined[j]:\n                j = fail[j-1]\n            if combined[i] == combined[j]:\n                j += 1\n            fail[i] = j\n        valid_rot = set()\n        for i in range(n + 1, len(combined)):\n            if fail[i] == n:\n                # Match ends at i in combined; position in s+s is i - (n+1)\n                # Rotation = position in s+s where match starts\n                pos_in_ss = i - (n + 1) - n + 1  # start of match in s+s\n                r = (i - (n + 1) + 1 - n) % n\n                # Simpler: match starts at i - n + 1 - (n+1) in the full string\n                # In s+s (0-indexed): match start = i - n + 1 - (n+1) = i - 2n\n                # rotation = match_start % n (but match_start is in [0, n-1])\n                match_start = i - 2 * n  # 0-indexed in s+s\n                rotation = match_start % n\n                if 1 <= rotation <= n - 1:\n                    valid_rot.add(rotation)\n        # Also check rotation 0 (s == t)\n        is_same = (s == t)\n        # f(k, r) = number of sequences of k rotations (each in [1..n-1]) summing to r mod n\n        # By roots of unity filter:\n        # f(k, 0) = ((n-1)^k + (n-1)*(-1)^k) / n\n        # f(k, r!=0) = ((n-1)^k - (-1)^k) / n\n        pow_n1_k = pow(n - 1, k, MOD)\n        pow_neg1_k = pow(MOD - 1, k, MOD)  # (-1)^k mod MOD\n        inv_n = pow(n, MOD - 2, MOD)\n        f0 = (pow_n1_k + (n - 1) * pow_neg1_k) % MOD * inv_n % MOD\n        fr = (pow_n1_k - pow_neg1_k) % MOD * inv_n % MOD\n        ans = 0\n        if is_same:\n            ans = (ans + f0) % MOD  # target rotation = 0\n        ans = (ans + len(valid_rot) * fr) % MOD  # target rotations in [1..n-1]\n        return ans",
+    "explanation": "Find all valid target rotations r where rotate(s, r) == t using KMP on t+'#'+s+s. Model k operations as choosing k rotations from [1..n-1] summing to target mod n. By roots-of-unity filter: f(k,0) = ((n-1)^k + (n-1)(-1)^k)/n, f(k,r≠0) = ((n-1)^k - (-1)^k)/n. Answer = is_same*f(k,0) + |valid_rot|*f(k,r).\n\nTime: O(n + log k). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

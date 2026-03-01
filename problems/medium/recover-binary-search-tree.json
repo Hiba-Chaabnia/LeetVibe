@@ -1,0 +1,52 @@
+{
+  "questionId": "99",
+  "title": "Recover Binary Search Tree",
+  "titleSlug": "recover-binary-search-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary search tree (BST), where the values of exactly two nodes of the tree were swapped by mistake. Recover the tree without changing its structure.\n\nExample 1:\n\nInput: root = [1,3,null,null,2]\nOutput: [3,1,null,null,2]\nExplanation: 3 cannot be a left child of 1 because 3 > 1. Swapping 1 and 3 makes the BST valid.\n\nExample 2:\n\nInput: root = [3,1,4,null,null,2]\nOutput: [2,1,4,null,null,3]\nExplanation: 2 cannot be in the right subtree of 3 because 2\n\nConstraints:\n\n• The number of nodes in the tree is in the range [2, 1000].\n\n• -231 <= Node.val <= 231 - 1\n\nFollow up: A solution using O(n) space is pretty straight-forward. Could you devise a constant O(1) space solution?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def recoverTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: None Do not return anything, modify root in-place instead.\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,3,null,null,2]"
+    ],
+    [
+      "[3,1,4,null,null,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,1,null,null,2]",
+    "[2,1,4,null,null,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def recoverTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: None Do not return anything, modify root in-place instead.\n        \"\"\"\n        self.first = None\n        self.second = None\n        self.prev = None\n        \n        def inorder(node):\n            if not node:\n                return\n            \n            inorder(node.left)\n            \n            if self.prev and self.prev.val > node.val:\n                if not self.first:\n                    self.first = self.prev\n                self.second = node\n            \n            self.prev = node\n            inorder(node.right)\n        \n        inorder(root)\n        \n        # Swap values\n        self.first.val, self.second.val = self.second.val, self.first.val",
+    "explanation": "In-order traversal finds violations. When prev > current, mark as swapped nodes. Swap values at end.",
+    "complexity": "Time: O(n). Space: O(h) recursion."
+  },
+  "similarQuestions": "[]"
+}

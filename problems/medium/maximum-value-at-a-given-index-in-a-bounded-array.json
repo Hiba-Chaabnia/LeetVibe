@@ -1,0 +1,57 @@
+{
+  "questionId": "1929",
+  "title": "Maximum Value at a Given Index in a Bounded Array",
+  "titleSlug": "maximum-value-at-a-given-index-in-a-bounded-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given three positive integers: n, index, and maxSum. You want to construct an array nums (0-indexed) that satisfies the following conditions:\n\n• nums.length == n\n\n• nums[i] is a positive integer where 0 <= i < n.\n\n• abs(nums[i] - nums[i+1]) <= 1 where 0 <= i < n-1.\n\n• The sum of all the elements of nums does not exceed maxSum.\n\n• nums[index] is maximized.\n\nReturn nums[index] of the constructed array.\n\nNote that abs(x) equals x if x >= 0, and -x otherwise.\n\nExample 1:\n\nInput: n = 4, index = 2,  maxSum = 6\nOutput: 2\nExplanation: nums = [1,2,2,1] is one array that satisfies all the conditions.\n    There are no arrays that satisfy all the conditions and have nums[2] == 3, so 2 is the maximum nums[2].\n\nExample 2:\n\nInput: n = 6, index = 1,  maxSum = 10\nOutput: 3\n\nConstraints:\n\n• 1 <= n <= maxSum <= 109\n\n• 0 <= index < n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxValue(self, n, index, maxSum):\n        \"\"\"\n        :type n: int\n        :type index: int\n        :type maxSum: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What if the problem was instead determining if you could generate a valid array with nums[index] == target?",
+    "To generate the array, set nums[index] to target, nums[index-i] to target-i, and nums[index+i] to target-i. Then, this will give the minimum possible sum, so check if the sum is less than or equal to maxSum.",
+    "n is too large to actually generate the array, so you can use the formula 1 + 2 + ... + n = n * (n+1) / 2 to quickly find the sum of nums[0...index] and nums[index...n-1].",
+    "Binary search for the target. If it is possible, then move the lower bound up. Otherwise, move the upper bound down."
+  ],
+  "testCases": [
+    [
+      "4",
+      "2",
+      "6"
+    ],
+    [
+      "6",
+      "1",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxValue(self, n, index, maxSum):\n        \"\"\"\n        :type n: int\n        :type index: int\n        :type maxSum: int\n        :rtype: int\n        \"\"\"\n        def getSum(max_val):\n            # Calculate minimum sum with max_val at index\n            left_sum = right_sum = max_val\n            \n            # Left side\n            if index > 0:\n                if max_val > index:\n                    # Arithmetic sequence: max_val-1, max_val-2, ..., max_val-index\n                    left_sum += (max_val - 1 + max_val - index) * index // 2\n                else:\n                    # Some values are 1\n                    left_sum += (max_val - 1) * max_val // 2 + (index - max_val + 1)\n            \n            # Right side\n            right_len = n - index - 1\n            if right_len > 0:\n                if max_val > right_len:\n                    right_sum += (max_val - 1 + max_val - right_len) * right_len // 2\n                else:\n                    right_sum += (max_val - 1) * max_val // 2 + (right_len - max_val + 1)\n            \n            return left_sum + right_sum - max_val\n        \n        left, right = 1, maxSum\n        result = 1\n        \n        while left <= right:\n            mid = (left + right) // 2\n            if getSum(mid) <= maxSum:\n                result = mid\n                left = mid + 1\n            else:\n                right = mid - 1\n        \n        return result",
+    "explanation": "Binary search on value at index. For each candidate, calculate min sum with that value and adjacent constraints.",
+    "complexity": "Time: O(log(maxSum)). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

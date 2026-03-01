@@ -1,0 +1,46 @@
+{
+  "questionId": "2338",
+  "title": "Minimum Consecutive Cards to Pick Up",
+  "titleSlug": "minimum-consecutive-cards-to-pick-up",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an integer array cards where cards[i] represents the value of the ith card. A pair of cards are matching if the cards have the same value.\n\nReturn the minimum number of consecutive cards you have to pick up to have a pair of matching cards among the picked cards. If it is impossible to have matching cards, return -1.\n\nExample 1:\n\nInput: cards = [3,4,2,3,4,7]\nOutput: 4\nExplanation: We can pick up the cards [3,4,2,3] which contain a matching pair of cards with value 3. Note that picking up the cards [4,2,3,4] is also optimal.\n\nExample 2:\n\nInput: cards = [1,0,5,3]\nOutput: -1\nExplanation: There is no way to pick up a set of consecutive cards that contain a pair of matching cards.\n\nConstraints:\n\n• 1 <= cards.length <= 105\n\n• 0 <= cards[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumCardPickup(self, cards):\n        \"\"\"\n        :type cards: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate through the cards and store the location of the last occurrence of each number.",
+    "What data structure could you use to get the last occurrence of a number in O(1) or O(log n)?"
+  ],
+  "testCases": [
+    [
+      "[3,4,2,3,4,7]"
+    ],
+    [
+      "[1,0,5,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Substring Without Repeating Characters\", \"titleSlug\": \"longest-substring-without-repeating-characters\", \"difficulty\": \"Medium\"}]"
+}

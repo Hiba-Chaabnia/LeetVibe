@@ -1,0 +1,49 @@
+{
+  "questionId": "878",
+  "title": "Shifting Letters",
+  "titleSlug": "shifting-letters",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a string s of lowercase English letters and an integer array shifts of the same length.\n\nCall the shift() of a letter, the next letter in the alphabet, (wrapping around so that 'z' becomes 'a').\n\n• For example, shift('a') = 'b', shift('t') = 'u', and shift('z') = 'a'.\n\nNow for each shifts[i] = x, we want to shift the first i + 1 letters of s, x times.\n\nReturn the final string after all such shifts to s are applied.\n\nExample 1:\n\nInput: s = \"abc\", shifts = [3,5,9]\nOutput: \"rpl\"\nExplanation: We start with \"abc\".\n    After shifting the first 1 letters of s by 3, we have \"dbc\".\n    After shifting the first 2 letters of s by 5, we have \"igc\".\n    After shifting the first 3 letters of s by 9, we have \"rpl\", the answer.\n\nExample 2:\n\nInput: s = \"aaa\", shifts = [1,2,3]\nOutput: \"gfd\"\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters.\n\n• shifts.length == s.length\n\n• 0 <= shifts[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shiftingLetters(self, s, shifts):\n        \"\"\"\n        :type s: str\n        :type shifts: List[int]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"abc\"",
+      "[3,5,9]"
+    ],
+    [
+      "\"aaa\"",
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"rpl\"",
+    "\"gfd\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def shiftingLetters(s: str, shifts) -> str:\n    for i in range(len(shifts) - 2, -1, -1):\n        shifts[i] += shifts[i + 1] % 26\n\n    result = list(s)\n    for i in range(len(s)):\n        result[i] = chr((ord(result[i]) - ord('a') + shifts[i] % 26) % 26 + ord('a'))\n        \n    return \"\".join(result)",
+    "explanation": "For this problem, we first need to retrieve the total shifts needed for each character. To achieve this, we start from the last character's shift value and go backwards through the `shifts` array, summing the shifts and taking the modulo 26 to avoid loops in the alphabet.\n\nOnce we have the total shifts needed for each character, we iterate through the given string `s`, and for each character, we calculate its new position in the alphabet by adding the character's total shift modulo 26, and updating its value in the result string or array.\n\nFinally, we return the result string/array, which holds the final string after all of the shifts have been applied."
+  },
+  "similarQuestions": "[{\"title\": \"Replace All Digits with Characters\", \"titleSlug\": \"replace-all-digits-with-characters\", \"difficulty\": \"Easy\"}, {\"title\": \"Shifting Letters II\", \"titleSlug\": \"shifting-letters-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Lexicographically Smallest String After Substring Operation\", \"titleSlug\": \"lexicographically-smallest-string-after-substring-operation\", \"difficulty\": \"Medium\"}, {\"title\": \"Shift Distance Between Two Strings\", \"titleSlug\": \"shift-distance-between-two-strings\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the K-th Character in String Game I\", \"titleSlug\": \"find-the-k-th-character-in-string-game-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the K-th Character in String Game II\", \"titleSlug\": \"find-the-k-th-character-in-string-game-ii\", \"difficulty\": \"Hard\"}]"
+}

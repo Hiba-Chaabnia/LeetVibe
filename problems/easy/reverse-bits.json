@@ -1,0 +1,43 @@
+{
+  "questionId": "190",
+  "title": "Reverse Bits",
+  "titleSlug": "reverse-bits",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Reverse bits of a given 32 bits signed integer.\n\nExample 1:\n\nInput: n = 43261596\n\nOutput: 964176192\n\nExplanation: \t\t\t\tInteger\n\t\t\t\tBinary\n\n\t\t\t\t43261596\n\t\t\t\t00000010100101000001111010011100\n\n\t\t\t\t964176192\n\t\t\t\t00111001011110000010100101000000\n\nExample 2:\n\nInput: n = 2147483644\n\nOutput: 1073741822\n\nExplanation: \t\t\t\tInteger\n\t\t\t\tBinary\n\n\t\t\t\t2147483644\n\t\t\t\t01111111111111111111111111111100\n\n\t\t\t\t1073741822\n\t\t\t\t00111111111111111111111111111110\n\nConstraints:\n\n• 0 <= n <= 231 - 2\n\n• n is even.\n\nFollow up: If this function is called many times, how would you optimize it?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reverseBits(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "43261596"
+    ],
+    [
+      "2147483644"
+    ]
+  ],
+  "expectedOutputs": [
+    "964176192",
+    "1073741822"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def reverseBits(self, n):\n        result = 0\n        for i in range(32):\n            result = (result << 1) | (n & 1)\n            n >>= 1\n        return result",
+    "explanation": "Extract each bit from right. Shift result left, append bit.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Integer\", \"titleSlug\": \"reverse-integer\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of 1 Bits\", \"titleSlug\": \"number-of-1-bits\", \"difficulty\": \"Easy\"}, {\"title\": \"A Number After a Double Reversal\", \"titleSlug\": \"a-number-after-a-double-reversal\", \"difficulty\": \"Easy\"}]"
+}

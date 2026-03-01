@@ -1,0 +1,48 @@
+{
+  "questionId": "2808",
+  "title": "Painting the Walls",
+  "titleSlug": "painting-the-walls",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given two 0-indexed integer arrays, cost and time, of size n representing the costs and the time taken to paint n different walls respectively. There are two painters available:\n\n• A paid painter that paints the ith wall in time[i] units of time and takes cost[i] units of money.\n\n• A free painter that paints any wall in 1 unit of time at a cost of 0. But the free painter can only be used if the paid painter is already occupied.\n\nReturn the minimum amount of money required to paint the n walls.\n\nExample 1:\n\nInput: cost = [1,2,3,2], time = [1,2,3,2]\nOutput: 3\nExplanation: The walls at index 0 and 1 will be painted by the paid painter, and it will take 3 units of time; meanwhile, the free painter will paint the walls at index 2 and 3, free of cost in 2 units of time. Thus, the total cost is 1 + 2 = 3.\n\nExample 2:\n\nInput: cost = [2,3,4,2], time = [1,1,1,1]\nOutput: 4\nExplanation: The walls at index 0 and 3 will be painted by the paid painter, and it will take 2 units of time; meanwhile, the free painter will paint the walls at index 1 and 2, free of cost in 2 units of time. Thus, the total cost is 2 + 2 = 4.\n\nConstraints:\n\n• 1 <= cost.length <= 500\n\n• cost.length == time.length\n\n• 1 <= cost[i] <= 106\n\n• 1 <= time[i] <= 500",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def paintWalls(self, cost, time):\n        \"\"\"\n        :type cost: List[int]\n        :type time: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we break the problem down into smaller subproblems and use DP?",
+    "Paid painters will be used for a maximum of N/2 units of time. There is no need to use paid painter for a time greater than this."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,2]",
+      "[1,2,3,2]"
+    ],
+    [
+      "[2,3,4,2]",
+      "[1,1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def paintWalls(self, cost, time):\n        n = len(cost)\n        INF = float('inf')\n        # dp[j] = min cost to have 'j' walls remaining to be painted by free painter\n        # When paid painter paints wall i: costs cost[i], and free painter can paint time[i] walls simultaneously\n        # Equivalently: paid painter paints wall i and covers time[i] free walls -> net walls covered = time[i]+1\n        # We need to cover exactly n walls total\n        # dp[j] = min cost to cover j walls (paid paints some, free paints rest)\n        # dp[j] = min over walls i: dp[max(0, j - (time[i]+1))] + cost[i]\n        # Base: dp[0] = 0\n        dp = [INF] * (n + 1)\n        dp[0] = 0\n        for i in range(n):\n            # Process in reverse to avoid using wall i twice\n            new_dp = list(dp)\n            for j in range(1, n + 1):\n                prev = max(0, j - (time[i] + 1))\n                if dp[prev] != INF:\n                    new_dp[j] = min(new_dp[j], dp[prev] + cost[i])\n            dp = new_dp\n        return dp[n]",
+    "explanation": "Knapsack DP: painting wall i with paid painter covers time[i]+1 walls total (paid paints 1, free paints time[i] simultaneously). dp[j] = min cost to guarantee j walls covered. Transition: dp[j] = min(dp[max(0, j-time[i]-1)] + cost[i]).\n\nTime: O(n²). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

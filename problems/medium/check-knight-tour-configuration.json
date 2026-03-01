@@ -1,0 +1,54 @@
+{
+  "questionId": "2662",
+  "title": "Check Knight Tour Configuration",
+  "titleSlug": "check-knight-tour-configuration",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "There is a knight on an n x n chessboard. In a valid configuration, the knight starts at the top-left cell of the board and visits every cell on the board exactly once.\n\nYou are given an n x n integer matrix grid consisting of distinct integers from the range [0, n * n - 1] where grid[row][col] indicates that the cell (row, col) is the grid[row][col]th cell that the knight visited. The moves are 0-indexed.\n\nReturn true if grid represents a valid configuration of the knight's movements or false otherwise.\n\nNote that a valid knight move consists of moving two squares vertically and one square horizontally, or two squares horizontally and one square vertically. The figure below illustrates all the possible eight moves of a knight from some cell.\n\nExample 1:\n\nInput: grid = [[0,11,16,5,20],[17,4,19,10,15],[12,1,8,21,6],[3,18,23,14,9],[24,13,2,7,22]]\nOutput: true\nExplanation: The above diagram represents the grid. It can be shown that it is a valid configuration.\n\nExample 2:\n\nInput: grid = [[0,3,6],[5,8,1],[2,7,4]]\nOutput: false\nExplanation: The above diagram represents the grid. The 8th move of the knight is not valid considering its position after the 7th move.\n\nConstraints:\n\n• n == grid.length == grid[i].length\n\n• 3 <= n <= 7\n\n• 0 <= grid[row][col] < n * n\n\n• All integers in grid are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkValidGrid(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It is enough to check if each move of the knight is valid.",
+    "Try all cases of the knight's movements to check if a move is valid."
+  ],
+  "testCases": [
+    [
+      "[[0,11,16,5,20],[17,4,19,10,15],[12,1,8,21,6],[3,18,23,14,9],[24,13,2,7,22]]"
+    ],
+    [
+      "[[0,3,6],[5,8,1],[2,7,4]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Knight Moves\", \"titleSlug\": \"minimum-knight-moves\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Moves to Kill All Pawns\", \"titleSlug\": \"maximum-number-of-moves-to-kill-all-pawns\", \"difficulty\": \"Hard\"}]"
+}

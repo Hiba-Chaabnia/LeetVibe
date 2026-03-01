@@ -1,0 +1,45 @@
+{
+  "questionId": "2181",
+  "title": "Smallest Index With Equal Value",
+  "titleSlug": "smallest-index-with-equal-value",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given a 0-indexed integer array nums, return the smallest index i of nums such that i mod 10 == nums[i], or -1 if such index does not exist.\n\nx mod y denotes the remainder when x is divided by y.\n\nExample 1:\n\nInput: nums = [0,1,2]\nOutput: 0\nExplanation:\n    i=0: 0 mod 10 = 0 == nums[0].\n    i=1: 1 mod 10 = 1 == nums[1].\n    i=2: 2 mod 10 = 2 == nums[2].\n    All indices have i mod 10 == nums[i], so we return the smallest index 0.\n\nExample 2:\n\nInput: nums = [4,3,2,1]\nOutput: 2\nExplanation:\n    i=0: 0 mod 10 = 0 != nums[0].\n    i=1: 1 mod 10 = 1 != nums[1].\n    i=2: 2 mod 10 = 2 == nums[2].\n    i=3: 3 mod 10 = 3 != nums[3].\n    2 is the only index which has i mod 10 == nums[i].\n\nExample 3:\n\nInput: nums = [1,2,3,4,5,6,7,8,9,0]\nOutput: -1\nExplanation: No index satisfies i mod 10 == nums[i].\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 0 <= nums[i] <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestEqual(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Starting with i=0, check the condition for each index. The first one you find to be true is the smallest index."
+  ],
+  "testCases": [
+    [
+      "[0,1,2]"
+    ],
+    [
+      "[4,3,2,1]"
+    ],
+    [
+      "[1,2,3,4,5,6,7,8,9,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def smallestEqual(self, nums):\n        for i in range(len(nums)):\n            if i % 10 == nums[i]:\n                return i\n        return -1",
+    "explanation": "Check each index i: if i % 10 == nums[i], return i.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

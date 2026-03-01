@@ -1,0 +1,54 @@
+{
+  "questionId": "3980",
+  "title": "Best Time to Buy and Sell Stock using Strategy",
+  "titleSlug": "best-time-to-buy-and-sell-stock-using-strategy",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given two integer arrays prices and strategy, where:\n\n• prices[i] is the price of a given stock on the ith day.\n\n• strategy[i] represents a trading action on the ith day, where:\n\n• -1 indicates buying one unit of the stock.\n\n• 0 indicates holding the stock.\n\n• 1 indicates selling one unit of the stock.\n\nYou are also given an even integer k, and may perform at most one modification to strategy. A modification consists of:\n\n• Selecting exactly k consecutive elements in strategy.\n\n• Set the first k / 2 elements to 0 (hold).\n\n• Set the last k / 2 elements to 1 (sell).\n\nThe profit is defined as the sum of strategy[i] * prices[i] across all days.\n\nReturn the maximum possible profit you can achieve.\n\nNote: There are no constraints on budget or stock ownership, so all buy and sell operations are feasible regardless of past actions.\n\nExample 1:\n\nInput: prices = [4,2,8], strategy = [-1,0,1], k = 2\n\nOutput: 10\n\nExplanation: \t\t\t\tModification\n\t\t\t\tStrategy\n\t\t\t\tProfit Calculation\n\t\t\t\tProfit\n\n\t\t\t\tOriginal\n\t\t\t\t[-1, 0, 1]\n\t\t\t\t(-1 × 4) + (0 × 2) + (1 × 8) = -4 + 0 + 8\n\t\t\t\t4\n\n\t\t\t\tModify [0, 1]\n\t\t\t\t[0, 1, 1]\n\t\t\t\t(0 × 4) + (1 × 2) + (1 × 8) = 0 + 2 + 8\n\t\t\t\t10\n\n\t\t\t\tModify [1, 2]\n\t\t\t\t[-1, 0, 1]\n\t\t\t\t(-1 × 4) + (0 × 2) + (1 × 8) = -4 + 0 + 8\n\t\t\t\t4\n\nThus, the maximum possible profit is 10, which is achieved by modifying the subarray [0, 1]​​​​​​​.\n\nExample 2:\n\nInput: prices = [5,4,3], strategy = [1,1,0], k = 2\n\nOutput: 9\n\nExplanation: \t\t\t\tModification\n\t\t\t\tStrategy\n\t\t\t\tProfit Calculation\n\t\t\t\tProfit\n\n\t\t\t\tOriginal\n\t\t\t\t[1, 1, 0]\n\t\t\t\t(1 × 5) + (1 × 4) + (0 × 3) = 5 + 4 + 0\n\t\t\t\t9\n\n\t\t\t\tModify [0, 1]\n\t\t\t\t[0, 1, 0]\n\t\t\t\t(0 × 5) + (1 × 4) + (0 × 3) = 0 + 4 + 0\n\t\t\t\t4\n\n\t\t\t\tModify [1, 2]\n\t\t\t\t[1, 0, 1]\n\t\t\t\t(1 × 5) + (0 × 4) + (1 × 3) = 5 + 0 + 3\n\t\t\t\t8\n\nThus, the maximum possible profit is 9, which is achieved without any modification.\n\nConstraints:\n\n• 2 <= prices.length == strategy.length <= 105\n\n• 1 <= prices[i] <= 105\n\n• -1 <= strategy[i] <= 1\n\n• 2 <= k <= prices.length\n\n• k is even",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxProfit(self, prices, strategy, k):\n        \"\"\"\n        :type prices: List[int]\n        :type strategy: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use prefix sums to precompute the base profit and to get fast range queries (sums of prices and counts of each strategy value over any interval).",
+    "Try every segment of length k: compute the profit delta caused by replacing that segment (using the prefix queries) and take the maximum of base + delta."
+  ],
+  "testCases": [
+    [
+      "[4,2,8]",
+      "[-1,0,1]",
+      "2"
+    ],
+    [
+      "[5,4,3]",
+      "[1,1,0]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "10",
+    "9"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxProfit(self, prices, strategy, k):\n        n = len(prices)\n        base = sum(strategy[i] * prices[i] for i in range(n))\n        half = k // 2\n        prefix_p = [0] * (n + 1)\n        prefix_sp = [0] * (n + 1)\n        for i in range(n):\n            prefix_p[i + 1] = prefix_p[i] + prices[i]\n            prefix_sp[i + 1] = prefix_sp[i] + strategy[i] * prices[i]\n        best = base\n        for l in range(n - k + 1):\n            delta = (-(prefix_sp[l + half] - prefix_sp[l])\n                     + (prefix_p[l + k] - prefix_p[l + half])\n                     - (prefix_sp[l + k] - prefix_sp[l + half]))\n            best = max(best, base + delta)\n        return best",
+    "explanation": "Base profit + try each k-window: first half set to 0, last half set to 1; compute delta via prefix sums. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

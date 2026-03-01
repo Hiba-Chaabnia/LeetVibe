@@ -1,0 +1,41 @@
+{
+  "questionId": "1049",
+  "title": "Minimum Domino Rotations For Equal Row",
+  "titleSlug": "minimum-domino-rotations-for-equal-row",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "In a row of dominoes, tops[i] and bottoms[i] represent the top and bottom halves of the ith domino. (A domino is a tile with two numbers from 1 to 6 - one on each half of the tile.)\n\nWe may rotate the ith domino, so that tops[i] and bottoms[i] swap values.\n\nReturn the minimum number of rotations so that all the values in tops are the same, or all the values in bottoms are the same.\n\nIf it cannot be done, return -1.\n\nExample 1:\n\nInput: tops = [2,1,2,4,2,2], bottoms = [5,2,6,2,3,2]\nOutput: 2\nExplanation:\n    The first figure represents the dominoes as given by tops and bottoms: before we do any rotations.\n    If we rotate the second and fourth dominoes, we can make every value in the top row equal to 2, as indicated by the second figure.\n\nExample 2:\n\nInput: tops = [3,5,1,2,3], bottoms = [3,6,3,3,4]\nOutput: -1\nExplanation:\n    In this case, it is not possible to rotate the dominoes to make one row of values equal.\n\nConstraints:\n\n• 2 <= tops.length <= 2 * 104\n\n• bottoms.length == tops.length\n\n• 1 <= tops[i], bottoms[i] <= 6",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDominoRotations(self, tops, bottoms):\n        \"\"\"\n        :type tops: List[int]\n        :type bottoms: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,1,2,4,2,2]",
+      "[5,2,6,2,3,2]"
+    ],
+    [
+      "[3,5,1,2,3]",
+      "[3,6,3,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

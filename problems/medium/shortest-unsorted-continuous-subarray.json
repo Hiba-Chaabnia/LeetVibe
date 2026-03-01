@@ -1,0 +1,63 @@
+{
+  "questionId": "581",
+  "title": "Shortest Unsorted Continuous Subarray",
+  "titleSlug": "shortest-unsorted-continuous-subarray",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "Given an integer array nums, you need to find one continuous subarray such that if you only sort this subarray in non-decreasing order, then the whole array will be sorted in non-decreasing order.\n\nReturn the shortest such subarray and output its length.\n\nExample 1:\n\nInput: nums = [2,6,4,8,10,9,15]\nOutput: 5\nExplanation: You need to sort [6, 4, 8, 10, 9] in ascending order to make the whole array sorted in ascending order.\n\nExample 2:\n\nInput: nums = [1,2,3,4]\nOutput: 0\n\nExample 3:\n\nInput: nums = [1]\nOutput: 0\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• -105 <= nums[i] <= 105\n\nFollow up: Can you solve it in O(n) time complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findUnsortedSubarray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,6,4,8,10,9,15]"
+    ],
+    [
+      "[1,2,3,4]"
+    ],
+    [
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findUnsortedSubarray(nums):\n    sorted_nums = sorted(nums)\n    start, end = 0, len(nums) - 1\n    while start < len(nums) and nums[start] == sorted_nums[start]:\n        start += 1\n    while end > start and nums[end] == sorted_nums[end]:\n        end -= 1\n    return end - start + 1",
+    "explanation": "1. Create a copy of the input array and sort it in ascending order.\n2. Initialize two variables, `start` and `end`, to check the boundaries of the unsorted subarray.\n3. Loop through the array, comparing the sorted copy and the original array. When we encounter a mismatch at some index, we break the loop and store the index in `start`. This `start` index is the beginning of the unsorted subarray.\n4. Similarly, we start from the end of the array and find the first mismatch. We store this index in `end`. This `end` index is the boundary of the unsorted subarray.\n5. Calculate the length of the unsorted subarray as `end - start + 1`."
+  },
+  "similarQuestions": "[{\"title\": \"Smallest Subarray to Sort in Every Sliding Window\", \"titleSlug\": \"smallest-subarray-to-sort-in-every-sliding-window\", \"difficulty\": \"Medium\"}]"
+}

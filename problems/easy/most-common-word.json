@@ -1,0 +1,53 @@
+{
+  "questionId": "837",
+  "title": "Most Common Word",
+  "titleSlug": "most-common-word",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given a string paragraph and a string array of the banned words banned, return the most frequent word that is not banned. It is guaranteed there is at least one word that is not banned, and that the answer is unique.\n\nThe words in paragraph are case-insensitive and the answer should be returned in lowercase.\n\nNote that words can not contain punctuation symbols.\n\nExample 1:\n\nInput: paragraph = \"Bob hit a ball, the hit BALL flew far after it was hit.\", banned = [\"hit\"]\nOutput: \"ball\"\nExplanation:\n    \"hit\" occurs 3 times, but it is a banned word.\n    \"ball\" occurs twice (and no other word does), so it is the most frequent non-banned word in the paragraph.\n    Note that words in the paragraph are not case sensitive,\n    that punctuation is ignored (even if adjacent to words, such as \"ball,\"),\n    and that \"hit\" isn't the answer even though it occurs more because it is banned.\n\nExample 2:\n\nInput: paragraph = \"a.\", banned = []\nOutput: \"a\"\n\nConstraints:\n\n• 1 <= paragraph.length <= 1000\n\n• paragraph consists of English letters, space ' ', or one of the symbols: \"!?',;.\".\n\n• 0 <= banned.length <= 100\n\n• 1 <= banned[i].length <= 10\n\n• banned[i] consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mostCommonWord(self, paragraph, banned):\n        \"\"\"\n        :type paragraph: str\n        :type banned: List[str]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"Bob hit a ball, the hit BALL flew far after it was hit.\"",
+      "[\"hit\"]"
+    ],
+    [
+      "\"a.\"",
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"ball\"",
+    "\"a\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def mostCommonWord(self, paragraph, banned):\n        import re\n        from collections import Counter\n        banned_set = set(banned)\n        words = re.findall(r'\\b[a-z]+\\b', paragraph.lower())\n        word_freq = Counter(words)\n        for word in sorted(word_freq, key=word_freq.get, reverse=True):\n            if word not in banned_set:\n                return word",
+    "explanation": "Extract words (lowercase). Remove banned. Return most frequent.\nTime: O(n + m*log(m))\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

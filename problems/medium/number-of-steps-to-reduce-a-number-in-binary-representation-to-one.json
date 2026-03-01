@@ -1,0 +1,55 @@
+{
+  "questionId": "1520",
+  "title": "Number of Steps to Reduce a Number in Binary Representation to One",
+  "titleSlug": "number-of-steps-to-reduce-a-number-in-binary-representation-to-one",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given the binary representation of an integer as a string s, return the number of steps to reduce it to 1 under the following rules:\n\n•\n\tIf the current number is even, you have to divide it by 2.\n\n•\n\tIf the current number is odd, you have to add 1 to it.\n\nIt is guaranteed that you can always reach one for all test cases.\n\nExample 1:\n\nInput: s = \"1101\"\nOutput: 6\nExplanation: \"1101\" corressponds to number 13 in their decimal representation.\n    Step 1) 13 is odd, add 1 and obtain 14.\n    Step 2) 14 is even, divide by 2 and obtain 7.\n    Step 3) 7 is odd, add 1 and obtain 8.\n    Step 4) 8 is even, divide by 2 and obtain 4.\n    Step 5) 4 is even, divide by 2 and obtain 2.\n    Step 6) 2 is even, divide by 2 and obtain 1.\n\nExample 2:\n\nInput: s = \"10\"\nOutput: 1\nExplanation: \"10\" corresponds to number 2 in their decimal representation.\n    Step 1) 2 is even, divide by 2 and obtain 1.\n\nExample 3:\n\nInput: s = \"1\"\nOutput: 0\n\nConstraints:\n\n• 1 <= s.length <= 500\n\n• s consists of characters '0' or '1'\n\n• s[0] == '1'",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSteps(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Read the string from right to left, if the string ends in '0' then the number is even otherwise it is odd.",
+    "Simulate the steps described in the binary string."
+  ],
+  "testCases": [
+    [
+      "\"1101\""
+    ],
+    [
+      "\"10\""
+    ],
+    [
+      "\"1\""
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def numSteps(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        steps = 0\n        s = list(s)\n        \n        while len(s) > 1:\n            if s[-1] == '0':\n                # Even: divide by 2\n                s.pop()\n                steps += 1\n            else:\n                # Odd: add 1\n                # Find rightmost 0 and change all 1s to left to 0s, set that 0 to 1\n                i = len(s) - 1\n                while i >= 0 and s[i] == '1':\n                    s[i] = '0'\n                    i -= 1\n                \n                if i >= 0:\n                    s[i] = '1'\n                else:\n                    # All were 1s, need to add new digit\n                    s.insert(0, '1')\n                \n                steps += 1\n        \n        return steps",
+    "explanation": "Simulate: if ends with 0, divide by 2 (remove 0). If ends with 1, add 1 (flip consecutive 1s to 0s from right).",
+    "complexity": "Time: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Moves to Reach Target Score\", \"titleSlug\": \"minimum-moves-to-reach-target-score\", \"difficulty\": \"Medium\"}]"
+}

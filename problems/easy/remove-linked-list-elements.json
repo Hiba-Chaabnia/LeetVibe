@@ -1,0 +1,50 @@
+{
+  "questionId": "203",
+  "title": "Remove Linked List Elements",
+  "titleSlug": "remove-linked-list-elements",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.\n\nExample 1:\n\nInput: head = [1,2,6,3,4,5,6], val = 6\nOutput: [1,2,3,4,5]\n\nExample 2:\n\nInput: head = [], val = 1\nOutput: []\n\nExample 3:\n\nInput: head = [7,7,7,7], val = 7\nOutput: []\n\nConstraints:\n\n• The number of nodes in the list is in the range [0, 104].\n\n• 1 <= Node.val <= 50\n\n• 0 <= val <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def removeElements(self, head, val):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :type val: int\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,6,3,4,5,6]",
+      "6"
+    ],
+    [
+      "[]",
+      "1"
+    ],
+    [
+      "[7,7,7,7]",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,3,4,5]",
+    "[]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def removeElements(self, head, val):\n        dummy = ListNode(0)\n        dummy.next = head\n        current = dummy\n        while current.next:\n            if current.next.val == val:\n                current.next = current.next.next\n            else:\n                current = current.next\n        return dummy.next",
+    "explanation": "Use dummy node. Skip nodes with matching value. Otherwise move forward.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Remove Element\", \"titleSlug\": \"remove-element\", \"difficulty\": \"Easy\"}, {\"title\": \"Delete Node in a Linked List\", \"titleSlug\": \"delete-node-in-a-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Delete the Middle Node of a Linked List\", \"titleSlug\": \"delete-the-middle-node-of-a-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Delete Nodes From Linked List Present in Array\", \"titleSlug\": \"delete-nodes-from-linked-list-present-in-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Convert Doubly Linked List to Array I\", \"titleSlug\": \"convert-doubly-linked-list-to-array-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Convert Doubly Linked List to Array II\", \"titleSlug\": \"convert-doubly-linked-list-to-array-ii\", \"difficulty\": \"Medium\"}]"
+}

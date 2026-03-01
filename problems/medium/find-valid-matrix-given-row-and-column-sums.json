@@ -1,0 +1,47 @@
+{
+  "questionId": "1711",
+  "title": "Find Valid Matrix Given Row and Column Sums",
+  "titleSlug": "find-valid-matrix-given-row-and-column-sums",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given two arrays rowSum and colSum of non-negative integers where rowSum[i] is the sum of the elements in the ith row and colSum[j] is the sum of the elements of the jth column of a 2D matrix. In other words, you do not know the elements of the matrix, but you do know the sums of each row and column.\n\nFind any matrix of non-negative integers of size rowSum.length x colSum.length that satisfies the rowSum and colSum requirements.\n\nReturn a 2D array representing any matrix that fulfills the requirements. It's guaranteed that at least one matrix that fulfills the requirements exists.\n\nExample 1:\n\nInput: rowSum = [3,8], colSum = [4,7]\nOutput: [[3,0],\n             [1,7]]\nExplanation:\n    0th row: 3 + 0 = 3 == rowSum[0]\n    1st row: 1 + 7 = 8 == rowSum[1]\n    0th column: 3 + 1 = 4 == colSum[0]\n    1st column: 0 + 7 = 7 == colSum[1]\n    The row and column sums match, and all matrix elements are non-negative.\n    Another possible matrix is: [[1,2],\n                                 [3,5]]\n\nExample 2:\n\nInput: rowSum = [5,7,10], colSum = [8,6,8]\nOutput: [[0,5,0],\n             [6,1,0],\n             [2,0,8]]\n\nConstraints:\n\n• 1 <= rowSum.length, colSum.length <= 500\n\n• 0 <= rowSum[i], colSum[i] <= 108\n\n• sum(rowSum) == sum(colSum)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def restoreMatrix(self, rowSum, colSum):\n        \"\"\"\n        :type rowSum: List[int]\n        :type colSum: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the smallest rowSum or colSum, and let it be x. Place that number in the grid, and subtract x from rowSum and colSum. Continue until all the sums are satisfied."
+  ],
+  "testCases": [
+    [
+      "[3,8]",
+      "[4,7]"
+    ],
+    [
+      "[5,7,10]",
+      "[8,6,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[3,0],",
+    "[[0,5,0],"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Reconstruct a 2-Row Binary Matrix\", \"titleSlug\": \"reconstruct-a-2-row-binary-matrix\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "123",
+  "title": "Best Time to Buy and Sell Stock III",
+  "titleSlug": "best-time-to-buy-and-sell-stock-iii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an array prices where prices[i] is the price of a given stock on the ith day.\n\nFind the maximum profit you can achieve. You may complete at most two transactions.\n\nNote: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).\n\nExample 1:\n\nInput: prices = [3,3,5,0,0,3,1,4]\nOutput: 6\nExplanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.\n    Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.\n\nExample 2:\n\nInput: prices = [1,2,3,4,5]\nOutput: 4\nExplanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.\n    Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are engaging multiple transactions at the same time. You must sell before buying again.\n\nExample 3:\n\nInput: prices = [7,6,4,3,1]\nOutput: 0\nExplanation: In this case, no transaction is done, i.e. max profit = 0.\n\nConstraints:\n\n• 1 <= prices.length <= 105\n\n• 0 <= prices[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxProfit(self, prices):\n        \"\"\"\n        :type prices: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,3,5,0,0,3,1,4]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[7,6,4,3,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxProfit(prices):\n    buy1, buy2 = float(\"inf\"), float(\"inf\")\n    profit1, profit2 = 0, 0\n\n    for price in prices:\n        buy1 = min(buy1, price)\n        profit1 = max(profit1, price - buy1)\n        buy2 = min(buy2, price - profit1)\n        profit2 = max(profit2, price - buy2)\n\n    return profit2",
+    "explanation": "1. Initialize variables buy1 and buy2 to track the minimum prices, and profit1 and profit2 to track the maximum profits.\n2. Iterate through prices array.\n3. Update buy1 to the minimum of buy1 and the current price.\n4. Update profit1 to the maximum of profit1 and the current price - buy1.\n5. Update buy2 to the minimum of buy2 and the current price - profit1.\n6. Update profit2 to the maximum of profit2 and the current price - buy2.\n7. Return profit2. This is the profit from two transactions."
+  },
+  "similarQuestions": "[{\"title\": \"Best Time to Buy and Sell Stock\", \"titleSlug\": \"best-time-to-buy-and-sell-stock\", \"difficulty\": \"Easy\"}, {\"title\": \"Best Time to Buy and Sell Stock II\", \"titleSlug\": \"best-time-to-buy-and-sell-stock-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Best Time to Buy and Sell Stock IV\", \"titleSlug\": \"best-time-to-buy-and-sell-stock-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Sum of 3 Non-Overlapping Subarrays\", \"titleSlug\": \"maximum-sum-of-3-non-overlapping-subarrays\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Profit From Trading Stocks\", \"titleSlug\": \"maximum-profit-from-trading-stocks\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximize Win From Two Segments\", \"titleSlug\": \"maximize-win-from-two-segments\", \"difficulty\": \"Medium\"}]"
+}

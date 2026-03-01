@@ -1,0 +1,49 @@
+{
+  "questionId": "3502",
+  "title": "Count Substrings With K-Frequency Characters I",
+  "titleSlug": "count-substrings-with-k-frequency-characters-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given a string s and an integer k, return the total number of substrings of s where at least one character appears at least k times.\n\nExample 1:\n\nInput: s = \"abacb\", k = 2\n\nOutput: 4\n\nExplanation: The valid substrings are:\n\n• \"aba\" (character 'a' appears 2 times).\n\n• \"abac\" (character 'a' appears 2 times).\n\n• \"abacb\" (character 'a' appears 2 times).\n\n• \"bacb\" (character 'b' appears 2 times).\n\nExample 2:\n\nInput: s = \"abcde\", k = 1\n\nOutput: 15\n\nExplanation: All substrings are valid because every character appears at least once.\n\nConstraints:\n\n• 1 <= s.length <= 3000\n\n• 1 <= k <= s.length\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfSubstrings(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Fix the left index of the substring.",
+    "For the fixed left index, find the first right index for which substring s[left..right] satisfies the condition.",
+    "Every substring that starts at left and ends after right satisfies the condition."
+  ],
+  "testCases": [
+    [
+      "\"abacb\"",
+      "2"
+    ],
+    [
+      "\"abcde\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "15"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

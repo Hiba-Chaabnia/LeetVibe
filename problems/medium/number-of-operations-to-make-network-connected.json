@@ -1,0 +1,57 @@
+{
+  "questionId": "1442",
+  "title": "Number of Operations to Make Network Connected",
+  "titleSlug": "number-of-operations-to-make-network-connected",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There are n computers numbered from 0 to n - 1 connected by ethernet cables connections forming a network where connections[i] = [ai, bi] represents a connection between computers ai and bi. Any computer can reach any other computer directly or indirectly through the network.\n\nYou are given an initial computer network connections. You can extract certain cables between two directly connected computers, and place them between any pair of disconnected computers to make them directly connected.\n\nReturn the minimum number of times you need to do this in order to make all the computers connected. If it is not possible, return -1.\n\nExample 1:\n\nInput: n = 4, connections = [[0,1],[0,2],[1,2]]\nOutput: 1\nExplanation: Remove cable between computer 1 and 2 and place between computers 1 and 3.\n\nExample 2:\n\nInput: n = 6, connections = [[0,1],[0,2],[0,3],[1,2],[1,3]]\nOutput: 2\n\nExample 3:\n\nInput: n = 6, connections = [[0,1],[0,2],[0,3],[1,2]]\nOutput: -1\nExplanation: There are not enough cables.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• 1 <= connections.length <= min(n * (n - 1) / 2, 105)\n\n• connections[i].length == 2\n\n• 0 <= ai, bi < n\n\n• ai != bi\n\n• There are no repeated connections.\n\n• No two computers are connected by more than one cable.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def makeConnected(self, n, connections):\n        \"\"\"\n        :type n: int\n        :type connections: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "As long as there are at least (n - 1) connections, there is definitely a way to connect all computers.",
+    "Use DFS to determine the number of isolated computer clusters."
+  ],
+  "testCases": [
+    [
+      "4",
+      "[[0,1],[0,2],[1,2]]"
+    ],
+    [
+      "6",
+      "[[0,1],[0,2],[0,3],[1,2],[1,3]]"
+    ],
+    [
+      "6",
+      "[[0,1],[0,2],[0,3],[1,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "3593",
+  "title": "Find the Maximum Factor Score of Array",
+  "titleSlug": "find-the-maximum-factor-score-of-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nThe factor score of an array is defined as the product of the LCM and GCD of all elements of that array.\n\nReturn the maximum factor score of nums after removing at most one element from it.\n\nNote that both the LCM and GCD of a single number are the number itself, and the factor score of an empty array is 0.\n\nExample 1:\n\nInput: nums = [2,4,8,16]\n\nOutput: 64\n\nExplanation: On removing 2, the GCD of the rest of the elements is 4 while the LCM is 16, which gives a maximum factor score of 4 * 16 = 64.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5]\n\nOutput: 60\n\nExplanation: The maximum factor score of 60 can be obtained without removing any elements.\n\nExample 3:\n\nInput: nums = [3]\n\nOutput: 9\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 30",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxScore(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use brute force approach with two loops.",
+    "Optimize using prefix and suffix arrays."
+  ],
+  "testCases": [
+    [
+      "[2,4,8,16]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "64",
+    "60",
+    "9"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from math import gcd\n\nclass Solution(object):\n    def maxScore(self, nums):\n        n = len(nums)\n        if n == 1:\n            return nums[0] * nums[0]\n\n        def lcm(a, b):\n            return a * b // gcd(a, b)\n\n        def compute(arr):\n            if not arr:\n                return 0\n            g, l = arr[0], arr[0]\n            for v in arr[1:]:\n                g = gcd(g, v)\n                l = lcm(l, v)\n            return g * l\n\n        # Try removing each element\n        ans = compute(nums)  # remove none\n        for i in range(n):\n            score = compute(nums[:i] + nums[i+1:])\n            ans = max(ans, score)\n        return ans",
+    "explanation": "Try all n+1 options (remove none, or remove each element). Compute GCD*LCM for each. n ≤ 100 so O(n²) is fine.\n\nTime: O(n² log max_val). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Greatest Common Divisor of Strings\", \"titleSlug\": \"greatest-common-divisor-of-strings\", \"difficulty\": \"Easy\"}, {\"title\": \"Remove One Element to Make the Array Strictly Increasing\", \"titleSlug\": \"remove-one-element-to-make-the-array-strictly-increasing\", \"difficulty\": \"Easy\"}]"
+}

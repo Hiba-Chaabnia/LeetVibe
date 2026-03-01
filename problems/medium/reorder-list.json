@@ -1,0 +1,49 @@
+{
+  "questionId": "143",
+  "title": "Reorder List",
+  "titleSlug": "reorder-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "You are given the head of a singly linked-list. The list can be represented as:\n\n    L0 → L1 → … → Ln - 1 → Ln\n\nReorder the list to be on the following form:\n\n    L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …\n\nYou may not modify the values in the list's nodes. Only nodes themselves may be changed.\n\nExample 1:\n\nInput: head = [1,2,3,4]\nOutput: [1,4,2,3]\n\nExample 2:\n\nInput: head = [1,2,3,4,5]\nOutput: [1,5,2,4,3]\n\nConstraints:\n\n• The number of nodes in the list is in the range [1, 5 * 104].\n\n• 1 <= Node.val <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def reorderList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: None Do not return anything, modify head in-place instead.\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4]",
+      "[1,2,3,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,4,2,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def reorderList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: None Do not return anything, modify head in-place instead.\n        \"\"\"\n        # Find middle\n        slow = fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        \n        # Reverse second half\n        prev, curr = None, slow\n        while curr:\n            next_tmp = curr.next\n            curr.next = prev\n            prev = curr\n            curr = next_tmp\n        \n        # Merge\n        first, second = head, prev\n        while second.next:\n            next_first = first.next\n            next_second = second.next\n            \n            first.next = second\n            second.next = next_first\n            \n            first = next_first\n            second = next_second",
+    "explanation": "Find middle, reverse second half, merge two halves.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Delete the Middle Node of a Linked List\", \"titleSlug\": \"delete-the-middle-node-of-a-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Take K of Each Character From Left and Right\", \"titleSlug\": \"take-k-of-each-character-from-left-and-right\", \"difficulty\": \"Medium\"}]"
+}

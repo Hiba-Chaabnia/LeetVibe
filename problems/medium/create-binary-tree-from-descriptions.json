@@ -1,0 +1,55 @@
+{
+  "questionId": "2306",
+  "title": "Create Binary Tree From Descriptions",
+  "titleSlug": "create-binary-tree-from-descriptions",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given a 2D integer array descriptions where descriptions[i] = [parenti, childi, isLefti] indicates that parenti is the parent of childi in a binary tree of unique values. Furthermore,\n\n• If isLefti == 1, then childi is the left child of parenti.\n\n• If isLefti == 0, then childi is the right child of parenti.\n\nConstruct the binary tree described by descriptions and return its root.\n\nThe test cases will be generated such that the binary tree is valid.\n\nExample 1:\n\nInput: descriptions = [[20,15,1],[20,17,0],[50,20,1],[50,80,0],[80,19,1]]\nOutput: [50,20,80,15,17,19]\nExplanation: The root node is the node with value 50 since it has no parent.\n    The resulting binary tree is shown in the diagram.\n\nExample 2:\n\nInput: descriptions = [[1,2,1],[2,3,0],[3,4,1]]\nOutput: [1,2,null,null,3,4]\nExplanation: The root node is the node with value 1 since it has no parent.\n    The resulting binary tree is shown in the diagram.\n\nConstraints:\n\n• 1 <= descriptions.length <= 104\n\n• descriptions[i].length == 3\n\n• 1 <= parenti, childi <= 105\n\n• 0 <= isLefti <= 1\n\n• The binary tree described by descriptions is valid.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def createBinaryTree(self, descriptions):\n        \"\"\"\n        :type descriptions: List[List[int]]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Could you represent and store the descriptions more efficiently?",
+    "Could you find the root node?",
+    "The node that is not a child in any of the descriptions is the root node."
+  ],
+  "testCases": [
+    [
+      "[[20,15,1],[20,17,0],[50,20,1],[50,80,0],[80,19,1]]"
+    ],
+    [
+      "[[1,2,1],[2,3,0],[3,4,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[50,20,80,15,17,19]",
+    "[1,2,null,null,3,4]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def createBinaryTree(self, descriptions):\n        nodes = {}\n        children = set()\n        for parent, child, isLeft in descriptions:\n            if parent not in nodes:\n                nodes[parent] = TreeNode(parent)\n            if child not in nodes:\n                nodes[child] = TreeNode(child)\n            if isLeft:\n                nodes[parent].left = nodes[child]\n            else:\n                nodes[parent].right = nodes[child]\n            children.add(child)\n        root = None\n        for parent, _, _ in descriptions:\n            if parent not in children:\n                root = nodes[parent]\n                break\n        return root",
+    "explanation": "Build nodes, connect as parent-child, find root (not a child).\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Convert Sorted List to Binary Search Tree\", \"titleSlug\": \"convert-sorted-list-to-binary-search-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Number Of Ways To Reconstruct A Tree\", \"titleSlug\": \"number-of-ways-to-reconstruct-a-tree\", \"difficulty\": \"Hard\"}]"
+}

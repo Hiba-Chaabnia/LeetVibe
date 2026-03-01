@@ -1,0 +1,50 @@
+{
+  "questionId": "2635",
+  "title": "Check if Point Is Reachable",
+  "titleSlug": "check-if-point-is-reachable",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "There exists an infinitely large grid. You are currently at point (1, 1), and you need to reach the point (targetX, targetY) using a finite number of steps.\n\nIn one step, you can move from point (x, y) to any one of the following points:\n\n• (x, y - x)\n\n• (x - y, y)\n\n• (2 * x, y)\n\n• (x, 2 * y)\n\nGiven two integers targetX and targetY representing the X-coordinate and Y-coordinate of your final position, return true if you can reach the point from (1, 1) using some number of steps, and false otherwise.\n\nExample 1:\n\nInput: targetX = 6, targetY = 9\nOutput: false\nExplanation: It is impossible to reach (6,9) from (1,1) using any sequence of moves, so false is returned.\n\nExample 2:\n\nInput: targetX = 4, targetY = 7\nOutput: true\nExplanation: You can follow the path (1,1) -> (1,2) -> (1,4) -> (1,8) -> (1,7) -> (2,7) -> (4,7).\n\nConstraints:\n\n• 1 <= targetX, targetY <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isReachable(self, targetX, targetY):\n        \"\"\"\n        :type targetX: int\n        :type targetY: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let’s go in reverse order, from (targetX, targetY) to (1, 1). So, now we can move from (x, y) to (x+y, y), (x, y+x), (x/2, y) if x is even, and (x, y/2) if y is even.",
+    "When is it optimal to use the third and fourth operations?",
+    "Think how GCD of (x, y) is affected if we apply the first two operations.",
+    "How can we check if we can reach (1, 1) using the GCD value calculate above?"
+  ],
+  "testCases": [
+    [
+      "6",
+      "9"
+    ],
+    [
+      "4",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from math import gcd\n\nclass Solution(object):\n    def isReachable(self, targetX, targetY):\n        \"\"\"\n        :type targetX: int\n        :type targetY: int\n        :rtype: bool\n        \"\"\"\n        # Work backwards from target to (1, 1)\n        # Operations become: (x, y) -> (x+y, y), (x, y+x), (x/2, y), (x, y/2)\n        \n        while targetX != targetY:\n            if targetX > targetY:\n                # Reduce targetX by dividing by 2 repeatedly or via subtraction\n                # If targetX is even, we can divide by 2\n                # Otherwise, we need to subtract targetY repeatedly\n                if targetX % 2 == 0:\n                    targetX //= 2\n                else:\n                    # If targetY >= targetX, we can't make progress\n                    if targetY >= targetX:\n                        return False\n                    # Subtract targetY as many times as possible\n                    targetX -= (targetX // targetY) * targetY\n            else:\n                # Similar logic for targetY\n                if targetY % 2 == 0:\n                    targetY //= 2\n                else:\n                    if targetX >= targetY:\n                        return False\n                    targetY -= (targetY // targetX) * targetX\n        \n        # Both should be equal and it should be a power of 2 if starting from 1\n        # Actually, they both need to reach the same power of 2\n        # Check if the common value is a power of 2\n        return targetX & (targetX - 1) == 0",
+    "explanation": "Work backwards from target to (1,1). Forward operations can be reversed: divide by 2 when possible, or reduce larger coordinate using subtraction. The key insight is that at each step, we need to make progress toward (1,1). If both coordinates reach the same value, that value must be a power of 2 (since we can only reach powers of 2 by doubling from 1). Time complexity: O(log(max(targetX, targetY)))."
+  },
+  "similarQuestions": "[{\"title\": \"Reaching Points\", \"titleSlug\": \"reaching-points\", \"difficulty\": \"Hard\"}, {\"title\": \"Check if the Rectangle Corner Is Reachable\", \"titleSlug\": \"check-if-the-rectangle-corner-is-reachable\", \"difficulty\": \"Hard\"}]"
+}

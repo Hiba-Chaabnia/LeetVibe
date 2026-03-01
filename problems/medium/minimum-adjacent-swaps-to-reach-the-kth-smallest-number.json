@@ -1,0 +1,53 @@
+{
+  "questionId": "1978",
+  "title": "Minimum Adjacent Swaps to Reach the Kth Smallest Number",
+  "titleSlug": "minimum-adjacent-swaps-to-reach-the-kth-smallest-number",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a string num, representing a large integer, and an integer k.\n\nWe call some integer wonderful if it is a permutation of the digits in num and is greater in value than num. There can be many wonderful integers. However, we only care about the smallest-valued ones.\n\n• For example, when num = \"5489355142\":\n\n• The 1st smallest wonderful integer is \"5489355214\".\n\n• The 2nd smallest wonderful integer is \"5489355241\".\n\n• The 3rd smallest wonderful integer is \"5489355412\".\n\n• The 4th smallest wonderful integer is \"5489355421\".\n\nReturn the minimum number of adjacent digit swaps that needs to be applied to num to reach the kth smallest wonderful integer.\n\nThe tests are generated in such a way that kth smallest wonderful integer exists.\n\nExample 1:\n\nInput: num = \"5489355142\", k = 4\nOutput: 2\nExplanation: The 4th smallest wonderful number is \"5489355421\". To get this number:\n    - Swap index 7 with index 8: \"5489355142\" -> \"5489355412\"\n    - Swap index 8 with index 9: \"5489355412\" -> \"5489355421\"\n\nExample 2:\n\nInput: num = \"11112\", k = 4\nOutput: 4\nExplanation: The 4th smallest wonderful number is \"21111\". To get this number:\n    - Swap index 3 with index 4: \"11112\" -> \"11121\"\n    - Swap index 2 with index 3: \"11121\" -> \"11211\"\n    - Swap index 1 with index 2: \"11211\" -> \"12111\"\n    - Swap index 0 with index 1: \"12111\" -> \"21111\"\n\nExample 3:\n\nInput: num = \"00123\", k = 1\nOutput: 1\nExplanation: The 1st smallest wonderful number is \"00132\". To get this number:\n    - Swap index 3 with index 4: \"00123\" -> \"00132\"\n\nConstraints:\n\n• 2 <= num.length <= 1000\n\n• 1 <= k <= 1000\n\n• num only consists of digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getMinSwaps(self, num, k):\n        \"\"\"\n        :type num: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the next permutation of the given string k times.",
+    "Try to move each element to its correct position and calculate the number of steps."
+  ],
+  "testCases": [
+    [
+      "\"5489355142\"",
+      "4"
+    ],
+    [
+      "\"11112\"",
+      "4"
+    ],
+    [
+      "\"00123\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Next Permutation\", \"titleSlug\": \"next-permutation\", \"difficulty\": \"Medium\"}]"
+}

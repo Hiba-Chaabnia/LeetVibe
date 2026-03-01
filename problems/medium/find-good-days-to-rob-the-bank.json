@@ -1,0 +1,58 @@
+{
+  "questionId": "2205",
+  "title": "Find Good Days to Rob the Bank",
+  "titleSlug": "find-good-days-to-rob-the-bank",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You and a gang of thieves are planning on robbing a bank. You are given a 0-indexed integer array security, where security[i] is the number of guards on duty on the ith day. The days are numbered starting from 0. You are also given an integer time.\n\nThe ith day is a good day to rob the bank if:\n\n• There are at least time days before and after the ith day,\n\n• The number of guards at the bank for the time days before i are non-increasing, and\n\n• The number of guards at the bank for the time days after i are non-decreasing.\n\nMore formally, this means day i is a good day to rob the bank if and only if security[i - time] >= security[i - time + 1] >= ... >= security[i] <= ... <= security[i + time - 1] <= security[i + time].\n\nReturn a list of all days (0-indexed) that are good days to rob the bank. The order that the days are returned in does not matter.\n\nExample 1:\n\nInput: security = [5,3,3,3,5,6,2], time = 2\nOutput: [2,3]\nExplanation:\n    On day 2, we have security[0] >= security[1] >= security[2] = security[2] >= security[3] Example 2:\n\nInput: security = [1,1,1,1,1], time = 0\nOutput: [0,1,2,3,4]\nExplanation:\n    Since time equals 0, every day is a good day to rob the bank, so return every day.\n\nExample 3:\n\nInput: security = [1,2,3,4,5,6], time = 2\nOutput: []\nExplanation:\n    No day has 2 days before it that have a non-increasing number of guards.\n    Thus, no day is a good day to rob the bank, so return an empty list.\n\nConstraints:\n\n• 1 <= security.length <= 105\n\n• 0 <= security[i], time <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def goodDaysToRobBank(self, security, time):\n        \"\"\"\n        :type security: List[int]\n        :type time: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The trivial solution is to check the time days before and after each day. There are a lot of repeated operations using this solution. How could we optimize this solution?",
+    "We can use precomputation to make the solution faster.",
+    "Use an array to store the number of days before the i<sup>th</sup> day that is non-increasing, and another array to store the number of days after the i<sup>th</sup> day that is non-decreasing."
+  ],
+  "testCases": [
+    [
+      "[5,3,3,3,5,6,2]",
+      "2"
+    ],
+    [
+      "[1,1,1,1,1]",
+      "0"
+    ],
+    [
+      "[1,2,3,4,5,6]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3]",
+    "[0,1,2,3,4]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def goodDaysToRobBank(self, security, time):\n        n = len(security)\n        non_inc = [0] * n\n        non_dec = [0] * n\n        for i in range(1, n):\n            if security[i] <= security[i-1]:\n                non_inc[i] = non_inc[i-1] + 1\n        for i in range(n-2, -1, -1):\n            if security[i] <= security[i+1]:\n                non_dec[i] = non_dec[i+1] + 1\n        return [i for i in range(time, n-time) if non_inc[i] >= time and non_dec[i] >= time]",
+    "explanation": "Precompute non-increasing/non-decreasing lengths. Check time days before/after.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Non-decreasing Array\", \"titleSlug\": \"non-decreasing-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Mountain in Array\", \"titleSlug\": \"longest-mountain-in-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Find in Mountain Array\", \"titleSlug\": \"find-in-mountain-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Ascending Subarray Sum\", \"titleSlug\": \"maximum-ascending-subarray-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Find All Good Indices\", \"titleSlug\": \"find-all-good-indices\", \"difficulty\": \"Medium\"}]"
+}

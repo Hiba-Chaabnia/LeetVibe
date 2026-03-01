@@ -1,0 +1,51 @@
+{
+  "questionId": "2867",
+  "title": "Ways to Split Array Into Good Subarrays",
+  "titleSlug": "ways-to-split-array-into-good-subarrays",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a binary array nums.\n\nA subarray of an array is good if it contains exactly one element with the value 1.\n\nReturn an integer denoting the number of ways to split the array nums into good subarrays. As the number may be too large, return it modulo 109 + 7.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [0,1,0,0,1]\nOutput: 3\nExplanation: There are 3 ways to split nums into good subarrays:\n    - [0,1] [0,0,1]\n    - [0,1,0] [0,1]\n    - [0,1,0,0] [1]\n\nExample 2:\n\nInput: nums = [0,1,0]\nOutput: 1\nExplanation: There is 1 way to split nums into good subarrays:\n    - [0,1,0]\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfGoodSubarraySplits(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If the array consists of only 0s answer is 0.",
+    "In the final split, exactly one separation point exists between two consecutive 1s.",
+    "In how many ways can separation points be put?"
+  ],
+  "testCases": [
+    [
+      "[0,1,0,0,1]"
+    ],
+    [
+      "[0,1,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfGoodSubarraySplits(self, nums):\n        MOD = 10**9 + 7\n        ones = [i for i, v in enumerate(nums) if v == 1]\n        if not ones:\n            return 0\n        result = 1\n        for i in range(1, len(ones)):\n            result = result * (ones[i] - ones[i - 1]) % MOD\n        return result",
+    "explanation": "Each good subarray must contain exactly one 1. The zeros before the first 1 and after the last 1 are fixed (they must belong to the first and last subarray respectively).\n\nBetween two consecutive 1s at positions p and q, we must place exactly one split point somewhere in the gap (p, q) — that is, at any of the (q - p) positions between them. So there are (q - p) choices for each gap.\n\nThe total number of ways is the product of (ones[i] - ones[i-1]) for all consecutive 1-pairs, taken modulo 10^9+7.\n\nIf there are no 1s, no valid split exists and we return 0.\n\nTime complexity: O(n). Space complexity: O(k) where k is the number of 1s."
+  },
+  "similarQuestions": "[{\"title\": \"Binary Subarrays With Sum\", \"titleSlug\": \"binary-subarrays-with-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Number of Nice Subarrays\", \"titleSlug\": \"count-number-of-nice-subarrays\", \"difficulty\": \"Medium\"}]"
+}

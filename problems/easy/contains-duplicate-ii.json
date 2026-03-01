@@ -1,0 +1,54 @@
+{
+  "questionId": "219",
+  "title": "Contains Duplicate II",
+  "titleSlug": "contains-duplicate-ii",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k.\n\nExample 1:\n\nInput: nums = [1,2,3,1], k = 3\nOutput: true\n\nExample 2:\n\nInput: nums = [1,0,1,1], k = 1\nOutput: true\n\nExample 3:\n\nInput: nums = [1,2,3,1,2,3], k = 2\nOutput: false\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109\n\n• 0 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def containsNearbyDuplicate(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,1]",
+      "3"
+    ],
+    [
+      "[1,0,1,1]",
+      "1"
+    ],
+    [
+      "[1,2,3,1,2,3]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def containsNearbyDuplicate(nums, k):\n    value_index_map = {}\n    for i, num in enumerate(nums):\n        if num in value_index_map and i - value_index_map[num] <= k:\n            return True\n        value_index_map[num] = i\n    return False",
+    "explanation": "The algorithm utilizes a Hashtable, in which we store the integer value present in the array as the key and its latest index position as the value. For each element in the array, we first check if the current number is already in the Hashtable. If it is, we also check if the difference between the current index and the latest index stored in the Hashtable is less than or equal to k. If both conditions are met, we return `true` because there are two repeating integers having an index difference less than or equal to k. Otherwise, we add the number along with its latest index to the Hashtable and continue with the next element. If the loop finishes without finding such a pair, we return `false`.\n\nNote: The algorithm's time complexity is O(n), where n is the length of the input array, and the space complexity is O(min(n, k))."
+  },
+  "similarQuestions": "[{\"title\": \"Contains Duplicate\", \"titleSlug\": \"contains-duplicate\", \"difficulty\": \"Easy\"}, {\"title\": \"Contains Duplicate III\", \"titleSlug\": \"contains-duplicate-iii\", \"difficulty\": \"Hard\"}]"
+}

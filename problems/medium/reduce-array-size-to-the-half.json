@@ -1,0 +1,59 @@
+{
+  "questionId": "1464",
+  "title": "Reduce Array Size to The Half",
+  "titleSlug": "reduce-array-size-to-the-half",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given an integer array arr. You can choose a set of integers and remove all the occurrences of these integers in the array.\n\nReturn the minimum size of the set so that at least half of the integers of the array are removed.\n\nExample 1:\n\nInput: arr = [3,3,3,3,5,5,5,2,2,7]\nOutput: 2\nExplanation: Choosing {3,7} will make the new array [5,5,5,2,2] which has size 5 (i.e equal to half of the size of the old array).\n    Possible sets of size 2 are {3,5},{3,2},{5,2}.\n    Choosing set {2,7} is not possible as it will make the new array [3,3,3,3,5,5,5] which has a size greater than half of the size of the old array.\n\nExample 2:\n\nInput: arr = [7,7,7,7,7,7]\nOutput: 1\nExplanation: The only possible set you can choose is {7}. This will make the new array empty.\n\nConstraints:\n\n• 2 <= arr.length <= 105\n\n• arr.length is even.\n\n• 1 <= arr[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSetSize(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the frequency of each integer in the array.",
+    "Start with an empty set, add to the set the integer with the maximum frequency.",
+    "Keep Adding the integer with the max frequency until you remove at least half of the integers."
+  ],
+  "testCases": [
+    [
+      "[3,3,3,3,5,5,5,2,2,7]"
+    ],
+    [
+      "[7,7,7,7,7,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\nimport heapq\n\ndef minSetSize(arr):\n    freq_map = Counter(arr)\n    max_heap = [-cnt for cnt in freq_map.values()]\n    heapq.heapify(max_heap)\n    half = len(arr) // 2\n    cnt = 0\n    size = 0\n    while size < half:\n        size -= heapq.heappop(max_heap)\n        cnt += 1\n    return cnt",
+    "explanation": "To solve this problem, we need to count the occurrences of each integer in the array. We can then calculate the minimum set size by greedily selecting the most frequent integers until at least half of the elements are removed.\n\n1. Construct a frequency map for each integer, i.e., count how many times each integer appears in the array.\n2. Create a max heap (priority queue) from the frequency map values.\n3. Initialize two counters: one for the total removed elements and one for the set size.\n4. While the total removed elements are less than half of the array's length, pop elements from the max heap and add their frequency to the total removed elements. Increment the set size each time.\n5. Return the minimum set size.\n\nThis algorithm has a time complexity of O(n + k * log(k)) and a space complexity of O(k), where n is the length of the given array and k is the number of distinct integers in the array."
+  },
+  "similarQuestions": "[]"
+}

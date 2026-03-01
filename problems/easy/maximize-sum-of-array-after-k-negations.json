@@ -1,0 +1,54 @@
+{
+  "questionId": "1047",
+  "title": "Maximize Sum Of Array After K Negations",
+  "titleSlug": "maximize-sum-of-array-after-k-negations",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, modify the array in the following way:\n\n• choose an index i and replace nums[i] with -nums[i].\n\nYou should apply this process exactly k times. You may choose the same index i multiple times.\n\nReturn the largest possible sum of the array after modifying it in this way.\n\nExample 1:\n\nInput: nums = [4,2,3], k = 1\nOutput: 5\nExplanation: Choose index 1 and nums becomes [4,-2,3].\n\nExample 2:\n\nInput: nums = [3,-1,0,2], k = 3\nOutput: 6\nExplanation: Choose indices (1, 2, 2) and nums becomes [3,1,0,2].\n\nExample 3:\n\nInput: nums = [2,-3,-1,5,-4], k = 2\nOutput: 13\nExplanation: Choose indices (1, 4) and nums becomes [2,3,-1,5,4].\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• -100 <= nums[i] <= 100\n\n• 1 <= k <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestSumAfterKNegations(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,2,3]",
+      "1"
+    ],
+    [
+      "[3,-1,0,2]",
+      "3"
+    ],
+    [
+      "[2,-3,-1,5,-4]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "6",
+    "13"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def largestSumAfterKNegations(self, nums, k):\n        nums.sort()\n        for i in range(len(nums)):\n            if k > 0 and nums[i] < 0:\n                nums[i] = -nums[i]\n                k -= 1\n        if k % 2 == 1:\n            nums.sort()\n            nums[0] = -nums[0]\n        return sum(nums)",
+    "explanation": "Negate k smallest (most negative). If k odd, negate smallest absolute value.\nTime: O(n*log(n))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Subsequence of Length K With the Largest Sum\", \"titleSlug\": \"find-subsequence-of-length-k-with-the-largest-sum\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,67 @@
+{
+  "questionId": "781",
+  "title": "Basic Calculator IV",
+  "titleSlug": "basic-calculator-iv",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Given an expression such as expression = \"e + 8 - a + 5\" and an evaluation map such as {\"e\": 1} (given in terms of evalvars = [\"e\"] and evalints = [1]), return a list of tokens representing the simplified expression, such as [\"-1*a\",\"14\"]\n\n• An expression alternates chunks and symbols, with a space separating each chunk and symbol.\n\n• A chunk is either an expression in parentheses, a variable, or a non-negative integer.\n\n• A variable is a string of lowercase letters (not including digits.) Note that variables can be multiple letters, and note that variables never have a leading coefficient or unary operator like \"2x\" or \"-x\".\n\nExpressions are evaluated in the usual order: brackets first, then multiplication, then addition and subtraction.\n\n• For example, expression = \"1 + 2 * 3\" has an answer of [\"7\"].\n\nThe format of the output is as follows:\n\n• For each term of free variables with a non-zero coefficient, we write the free variables within a term in sorted order lexicographically.\n\n• For example, we would never write a term like \"b*a*c\", only \"a*b*c\".\n\n• Terms have degrees equal to the number of free variables being multiplied, counting multiplicity. We write the largest degree terms of our answer first, breaking ties by lexicographic order ignoring the leading coefficient of the term.\n\n• For example, \"a*a*b*c\" has degree 4.\n\n• The leading coefficient of the term is placed directly to the left with an asterisk separating it from the variables (if they exist.) A leading coefficient of 1 is still printed.\n\n• An example of a well-formatted answer is [\"-2*a*a*a\", \"3*a*a*b\", \"3*b*b\", \"4*a\", \"5*c\", \"-6\"].\n\n• Terms (including constant terms) with coefficient 0 are not included.\n\n• For example, an expression of \"0\" has an output of [].\n\nNote: You may assume that the given expression is always valid. All intermediate results will be in the range of [-231, 231 - 1].\n\nExample 1:\n\nInput: expression = \"e + 8 - a + 5\", evalvars = [\"e\"], evalints = [1]\nOutput: [\"-1*a\",\"14\"]\n\nExample 2:\n\nInput: expression = \"e - 8 + temperature - pressure\", evalvars = [\"e\", \"temperature\"], evalints = [1, 12]\nOutput: [\"-1*pressure\",\"5\"]\n\nExample 3:\n\nInput: expression = \"(e + 8) * (e - 8)\", evalvars = [], evalints = []\nOutput: [\"1*e*e\",\"-64\"]\n\nConstraints:\n\n• 1 <= expression.length <= 250\n\n• expression consists of lowercase English letters, digits, '+', '-', '*', '(', ')', ' '.\n\n• expression does not contain any leading or trailing spaces.\n\n• All the tokens in expression are separated by a single space.\n\n• 0 <= evalvars.length <= 100\n\n• 1 <= evalvars[i].length <= 20\n\n• evalvars[i] consists of lowercase English letters.\n\n• evalints.length == evalvars.length\n\n• -100 <= evalints[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def basicCalculatorIV(self, expression, evalvars, evalints):\n        \"\"\"\n        :type expression: str\n        :type evalvars: List[str]\n        :type evalints: List[int]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "One way is with a Polynomial class.  For example,\r\n\r\n* `Poly:add(this, that)` returns the result of `this + that`.\r\n* `Poly:sub(this, that)` returns the result of `this - that`.\r\n* `Poly:mul(this, that)` returns the result of `this * that`.\r\n* `Poly:evaluate(this, evalmap)` returns the polynomial after replacing all free variables with constants as specified by `evalmap`.\r\n* `Poly:toList(this)` returns the polynomial in the correct output format.\r\n\r\n* `Solution::combine(left, right, symbol)` returns the result of applying the binary operator represented by `symbol` to `left` and `right`.\r\n* `Solution::make(expr)` makes a new `Poly` represented by either the constant or free variable specified by `expr`.\r\n* `Solution::parse(expr)` parses an expression into a new `Poly`."
+  ],
+  "testCases": [
+    [
+      "\"e + 8 - a + 5\"",
+      "[\"e\"]",
+      "[1]"
+    ],
+    [
+      "\"e - 8 + temperature - pressure\"",
+      "[\"e\", \"temperature\"]",
+      "[1, 12]"
+    ],
+    [
+      "\"(e + 8) * (e - 8)\"",
+      "[]",
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"-1*a\",\"14\"]",
+    "[\"-1*pressure\",\"5\"]",
+    "[\"1*e*e\",\"-64\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def basicCalculatorIV(self, expression, evalvars, evalints):\n        \"\"\"\n        :type expression: str\n        :type evalvars: List[str]\n        :type evalints: List[int]\n        :rtype: List[str]\n        \"\"\"\n        evalmap = {var: val for var, val in zip(evalvars, evalints)}\n        \n        def parse(expr):\n            expr = expr.replace('(', '( ').replace(')', ' )')\n            tokens = expr.split()\n            \n            def parse_expr(index):\n                left, index = parse_term(index)\n                while index < len(tokens) and tokens[index] in ['+', '-']:\n                    op = tokens[index]\n                    index += 1\n                    right, index = parse_term(index)\n                    if op == '+':\n                        left = add(left, right)\n                    else:\n                        left = subtract(left, right)\n                return left, index\n            \n            def parse_term(index):\n                left, index = parse_factor(index)\n                while index < len(tokens) and tokens[index] == '*':\n                    index += 1\n                    right, index = parse_factor(index)\n                    left = multiply(left, right)\n                return left, index\n            \n            def parse_factor(index):\n                if tokens[index] == '(':\n                    index += 1\n                    result, index = parse_expr(index)\n                    index += 1  # skip ')'\n                    return result, index\n                elif tokens[index].isdigit():\n                    return Poly({(): int(tokens[index])}), index + 1\n                else:\n                    var = tokens[index]\n                    if var in evalmap:\n                        return Poly({(): evalmap[var]}), index + 1\n                    return Poly({(var,): 1}), index + 1\n            \n            result, _ = parse_expr(0)\n            return result\n        \n        def add(p1, p2):\n            result = Poly(p1.poly.copy())\n            for key, val in p2.poly.items():\n                result.poly[key] = result.poly.get(key, 0) + val\n            return result\n        \n        def subtract(p1, p2):\n            result = Poly(p1.poly.copy())\n            for key, val in p2.poly.items():\n                result.poly[key] = result.poly.get(key, 0) - val\n            return result\n        \n        def multiply(p1, p2):\n            result = Poly({})\n            for k1, v1 in p1.poly.items():\n                for k2, v2 in p2.poly.items():\n                    key = tuple(sorted(list(k1) + list(k2)))\n                    result.poly[key] = result.poly.get(key, 0) + v1 * v2\n            return result\n        \n        class Poly:\n            def __init__(self, poly):\n                self.poly = {k: v for k, v in poly.items() if v != 0}\n        \n        poly = parse(expression)\n        \n        # Format output\n        result = []\n        for key in sorted(poly.poly.keys(), key=lambda x: (-len(x), x)):\n            if poly.poly[key] != 0:\n                term = str(poly.poly[key])\n                for var in key:\n                    term += '*' + var\n                result.append(term)\n        \n        return result if result else []",
+    "explanation": "Polynomial class stores expressions as dictionary with variable tuples as keys. Parse expression respecting operator precedence: parentheses > multiplication > addition/subtraction. For add/subtract, combine like terms. For multiply, generate all term combinations and sort variables. Format output by sorting by degree (descending) then lexicographically. Time complexity: O(n) parsing + O(m^2) operations where m is number of terms."
+  },
+  "similarQuestions": "[{\"title\": \"Parse Lisp Expression\", \"titleSlug\": \"parse-lisp-expression\", \"difficulty\": \"Hard\"}, {\"title\": \"Basic Calculator III\", \"titleSlug\": \"basic-calculator-iii\", \"difficulty\": \"Hard\"}]"
+}

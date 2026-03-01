@@ -1,0 +1,58 @@
+{
+  "questionId": "2572",
+  "title": "Append Characters to String to Make Subsequence",
+  "titleSlug": "append-characters-to-string-to-make-subsequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given two strings s and t consisting of only lowercase English letters.\n\nReturn the minimum number of characters that need to be appended to the end of s so that t becomes a subsequence of s.\n\nA subsequence is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters.\n\nExample 1:\n\nInput: s = \"coaching\", t = \"coding\"\nOutput: 4\nExplanation: Append the characters \"ding\" to the end of s so that s = \"coachingding\".\n    Now, t is a subsequence of s (\"coachingding\").\n    It can be shown that appending any 3 characters to the end of s will never make t a subsequence.\n\nExample 2:\n\nInput: s = \"abcde\", t = \"a\"\nOutput: 0\nExplanation: t is already a subsequence of s (\"abcde\").\n\nExample 3:\n\nInput: s = \"z\", t = \"abcde\"\nOutput: 5\nExplanation: Append the characters \"abcde\" to the end of s so that s = \"zabcde\".\n    Now, t is a subsequence of s (\"zabcde\").\n    It can be shown that appending any 4 characters to the end of s will never make t a subsequence.\n\nConstraints:\n\n• 1 <= s.length, t.length <= 105\n\n• s and t consist only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def appendCharacters(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the longest prefix of t that is a subsequence of s.",
+    "Use two variables to keep track of your location in s and t. If the characters match, increment both variables. Otherwise, only increment the variable for s.",
+    "The remaining characters in t must be appended to the end of s."
+  ],
+  "testCases": [
+    [
+      "\"coaching\"",
+      "\"coding\""
+    ],
+    [
+      "\"abcde\"",
+      "\"a\""
+    ],
+    [
+      "\"z\"",
+      "\"abcde\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def appendCharacters(self, s, t):\n        j = 0\n        for i in range(len(s)):\n            if j < len(t) and s[i] == t[j]:\n                j += 1\n        return len(t) - j",
+    "explanation": "Greedy two-pointer. Find longest prefix of t as subsequence in s. Return remaining.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Is Subsequence\", \"titleSlug\": \"is-subsequence\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Operations to Make a Subsequence\", \"titleSlug\": \"minimum-operations-to-make-a-subsequence\", \"difficulty\": \"Hard\"}]"
+}

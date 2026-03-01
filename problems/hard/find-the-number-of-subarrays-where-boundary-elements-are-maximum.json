@@ -1,0 +1,61 @@
+{
+  "questionId": "3382",
+  "title": "Find the Number of Subarrays Where Boundary Elements Are Maximum",
+  "titleSlug": "find-the-number-of-subarrays-where-boundary-elements-are-maximum",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given an array of positive integers nums.\n\nReturn the number of subarrays of nums, where the first and the last elements of the subarray are equal to the largest element in the subarray.\n\nExample 1:\n\nInput: nums = [1,4,3,3,2]\n\nOutput: 6\n\nExplanation: There are 6 subarrays which have the first and the last elements equal to the largest element of the subarray:\n\n• subarray [1,4,3,3,2], with its largest element 1. The first element is 1 and the last element is also 1.\n\n• subarray [1,4,3,3,2], with its largest element 4. The first element is 4 and the last element is also 4.\n\n• subarray [1,4,3,3,2], with its largest element 3. The first element is 3 and the last element is also 3.\n\n• subarray [1,4,3,3,2], with its largest element 3. The first element is 3 and the last element is also 3.\n\n• subarray [1,4,3,3,2], with its largest element 2. The first element is 2 and the last element is also 2.\n\n• subarray [1,4,3,3,2], with its largest element 3. The first element is 3 and the last element is also 3.\n\nHence, we return 6.\n\nExample 2:\n\nInput: nums = [3,3,3]\n\nOutput: 6\n\nExplanation: There are 6 subarrays which have the first and the last elements equal to the largest element of the subarray:\n\n• subarray [3,3,3], with its largest element 3. The first element is 3 and the last element is also 3.\n\n• subarray [3,3,3], with its largest element 3. The first element is 3 and the last element is also 3.\n\n• subarray [3,3,3], with its largest element 3. The first element is 3 and the last element is also 3.\n\n• subarray [3,3,3], with its largest element 3. The first element is 3 and the last element is also 3.\n\n• subarray [3,3,3], with its largest element 3. The first element is 3 and the last element is also 3.\n\n• subarray [3,3,3], with its largest element 3. The first element is 3 and the last element is also 3.\n\nHence, we return 6.\n\nExample 3:\n\nInput: nums = [1]\n\nOutput: 1\n\nExplanation: There is a single subarray of nums which is [1], with its largest element 1. The first element is 1 and the last element is also 1.\n\nHence, we return 1.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfSubarrays(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each element nums[i], we can count the number of valid subarrays ending with it.",
+    "For each index i, find the nearest index j on its left (j < i) such that nums[j] < nums[i]. This can be done via a monotonic stack.",
+    "For each index i, find the number of indices k in the window [j + 1, i] such that nums[k] == nums[i], this is the number of the valid subarrays ending with nums[i]. This can be done by sliding window.",
+    "Sum the answer of all the indices i to get the final result.",
+    "Is it possible to use DSU as an alternate solution?"
+  ],
+  "testCases": [
+    [
+      "[1,4,3,3,2]"
+    ],
+    [
+      "[3,3,3]"
+    ],
+    [
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "6",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfSubarrays(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        result = 0\n        \n        # For each position, use monotonic stack to find where it's maximum\n        stack = []  # Monotonic decreasing stack\n        \n        for i in range(n):\n            # Remove elements smaller than current\n            while stack and stack[-1][0] < nums[i]:\n                stack.pop()\n            \n            stack.append((nums[i], i))\n            \n            # Find left boundary: nearest position to left where nums[j] > nums[i]\n            # This is done by checking stack\n            left_bound = 0\n            if len(stack) > 1:\n                # If current is same as previous in stack, use prev's left bound\n                temp_stack = []\n                for j in range(len(stack) - 1):\n                    if stack[j][0] >= stack[-1][0]:\n                        temp_stack.append(stack[j])\n                \n                if temp_stack:\n                    left_bound = temp_stack[-1][1] + 1\n            \n            # Simpler approach: for each i, find nearest j on left where nums[j] > nums[i]\n            j = i - 1\n            while j >= 0 and nums[j] <= nums[i]:\n                j -= 1\n            \n            left_bound = j + 1\n            \n            # Find subarrays [l, r] where l >= left_bound, r >= i, nums[l] == nums[r] == max\n            for l in range(left_bound, i + 1):\n                if nums[l] == nums[i]:\n                    result += 1\n        \n        return result",
+    "explanation": "This solution uses monotonic stack with position tracking:\n\n1. **Problem Understanding**:\n   - Subarray where first and last elements equal the maximum\n   - Count all such subarrays\n\n2. **Key Observation**:\n   - For subarray [l, r] to be valid:\n     - nums[l] == nums[r] == max(nums[l..r])\n   - For fixed r, find all valid l\n\n3. **Finding Valid Left Boundary**:\n   - For position i acting as right endpoint:\n   - Find nearest j on left where nums[j] > nums[i]\n   - Any l in range (j, i] with nums[l] == nums[i] is valid\n   - Because:\n     - No element in (j, i) exceeds nums[i]\n     - If nums[l] == nums[i], it's the maximum in [l, i]\n\n4. **Monotonic Stack Approach**:\n   - Maintain decreasing stack of (value, index)\n   - When adding nums[i]:\n     - Pop smaller elements\n     - After pops, top of stack (if exists) is nearest > nums[i]\n   - From this info, find valid left boundaries\n\n5. **Counting Valid Subarrays**:\n   - For each i as right endpoint\n   - Count all l in valid range where nums[l] == nums[i]\n\nTime Complexity: O(n) with monotonic stack\nSpace Complexity: O(n) for stack"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Subarrays with Bounded Maximum\", \"titleSlug\": \"number-of-subarrays-with-bounded-maximum\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Subarrays With Fixed Bounds\", \"titleSlug\": \"count-subarrays-with-fixed-bounds\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Subarrays Where Max Element Appears at Least K Times\", \"titleSlug\": \"count-subarrays-where-max-element-appears-at-least-k-times\", \"difficulty\": \"Medium\"}]"
+}

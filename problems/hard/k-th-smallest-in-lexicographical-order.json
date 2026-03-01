@@ -1,0 +1,37 @@
+{
+  "questionId": "440",
+  "title": "K-th Smallest in Lexicographical Order",
+  "titleSlug": "k-th-smallest-in-lexicographical-order",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Trie",
+      "slug": "trie"
+    }
+  ],
+  "content": "Given two integers n and k, return the kth lexicographically smallest integer in the range [1, n].\n\nExample 1:\n\nInput: n = 13, k = 2\nOutput: 10\nExplanation: The lexicographical order is [1, 10, 11, 12, 13, 2, 3, 4, 5, 6, 7, 8, 9], so the second smallest number is 10.\n\nExample 2:\n\nInput: n = 1, k = 1\nOutput: 1\n\nConstraints:\n\n• 1 <= k <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findKthNumber(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "13",
+      "2"
+    ],
+    [
+      "1",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "10",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count Special Integers\", \"titleSlug\": \"count-special-integers\", \"difficulty\": \"Hard\"}]"
+}

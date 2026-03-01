@@ -1,0 +1,43 @@
+{
+  "questionId": "1411",
+  "title": "Convert Binary Number in a Linked List to Integer",
+  "titleSlug": "convert-binary-number-in-a-linked-list-to-integer",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given head which is a reference node to a singly-linked list. The value of each node in the linked list is either 0 or 1. The linked list holds the binary representation of a number.\n\nReturn the decimal value of the number in the linked list.\n\nThe most significant bit is at the head of the linked list.\n\nExample 1:\n\nInput: head = [1,0,1]\nOutput: 5\nExplanation: (101) in base 2 = (5) in base 10\n\nExample 2:\n\nInput: head = [0]\nOutput: 0\n\nConstraints:\n\n• The Linked List is not empty.\n\n• Number of nodes will not exceed 30.\n\n• Each node's value is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def getDecimalValue(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Traverse the linked list and store all values in a string or array. convert the values obtained to decimal value.",
+    "You can solve the problem in O(1) memory using bits operation. use shift left operation ( << ) and or operation ( | ) to get the decimal value in one operation."
+  ],
+  "testCases": [
+    [
+      "[1,0,1]",
+      "[0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getDecimalValue(self, head):\n        result = 0\n        node = head\n        while node:\n            result = (result << 1) | node.val\n            node = node.next\n        return result",
+    "explanation": "Traverse linked list, shift result left and add current bit. O(1) space solution.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

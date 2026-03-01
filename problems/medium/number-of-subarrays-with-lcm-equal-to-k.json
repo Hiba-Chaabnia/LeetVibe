@@ -1,0 +1,54 @@
+{
+  "questionId": "2557",
+  "title": "Number of Subarrays With LCM Equal to K",
+  "titleSlug": "number-of-subarrays-with-lcm-equal-to-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, return the number of subarrays of nums where the least common multiple of the subarray's elements is k.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nThe least common multiple of an array is the smallest positive integer that is divisible by all the array elements.\n\nExample 1:\n\nInput: nums = [3,6,2,7,1], k = 6\nOutput: 4\nExplanation: The subarrays of nums where 6 is the least common multiple of all the subarray's elements are:\n    - [3,6,2,7,1]\n    - [3,6,2,7,1]\n    - [3,6,2,7,1]\n    - [3,6,2,7,1]\n\nExample 2:\n\nInput: nums = [3], k = 2\nOutput: 0\nExplanation: There are no subarrays of nums where 2 is the least common multiple of all the subarray's elements.\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= nums[i], k <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def subarrayLCM(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints on nums.length are small. It is possible to check every subarray.",
+    "To calculate LCM, you can use a built-in function or the formula lcm(a, b) = a * b / gcd(a, b).",
+    "As you calculate the LCM of more numbers, it can only become greater. Once it becomes greater than k, you know that any larger subarrays containing all the current elements will not work."
+  ],
+  "testCases": [
+    [
+      "[3,6,2,7,1]",
+      "6"
+    ],
+    [
+      "[3]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def subarrayLCM(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        from math import gcd\n        \n        def lcm(a, b):\n            return a * b // gcd(a, b)\n        \n        count = 0\n        \n        for i in range(len(nums)):\n            current_lcm = 1\n            for j in range(i, len(nums)):\n                current_lcm = lcm(current_lcm, nums[j])\n                \n                if current_lcm == k:\n                    count += 1\n                elif current_lcm > k:\n                    # LCM can only increase, stop if > k\n                    break\n        \n        return count",
+    "explanation": "For each start, compute LCM extending right. Stop when LCM > k.",
+    "complexity": "Time: O(n² log(max(nums))). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Subarrays With GCD Equal to K\", \"titleSlug\": \"number-of-subarrays-with-gcd-equal-to-k\", \"difficulty\": \"Medium\"}]"
+}

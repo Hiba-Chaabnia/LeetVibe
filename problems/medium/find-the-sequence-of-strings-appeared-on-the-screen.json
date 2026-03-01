@@ -1,0 +1,46 @@
+{
+  "questionId": "3566",
+  "title": "Find the Sequence of Strings Appeared on the Screen",
+  "titleSlug": "find-the-sequence-of-strings-appeared-on-the-screen",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string target.\n\nAlice is going to type target on her computer using a special keyboard that has only two keys:\n\n• Key 1 appends the character \"a\" to the string on the screen.\n\n• Key 2 changes the last character of the string on the screen to its next character in the English alphabet. For example, \"c\" changes to \"d\" and \"z\" changes to \"a\".\n\nNote that initially there is an empty string \"\" on the screen, so she can only press key 1.\n\nReturn a list of all strings that appear on the screen as Alice types target, in the order they appear, using the minimum key presses.\n\nExample 1:\n\nInput: target = \"abc\"\n\nOutput: [\"a\",\"aa\",\"ab\",\"aba\",\"abb\",\"abc\"]\n\nExplanation: The sequence of key presses done by Alice are:\n\n• Press key 1, and the string on the screen becomes \"a\".\n\n• Press key 1, and the string on the screen becomes \"aa\".\n\n• Press key 2, and the string on the screen becomes \"ab\".\n\n• Press key 1, and the string on the screen becomes \"aba\".\n\n• Press key 2, and the string on the screen becomes \"abb\".\n\n• Press key 2, and the string on the screen becomes \"abc\".\n\nExample 2:\n\nInput: target = \"he\"\n\nOutput: [\"a\",\"b\",\"c\",\"d\",\"e\",\"f\",\"g\",\"h\",\"ha\",\"hb\",\"hc\",\"hd\",\"he\"]\n\nConstraints:\n\n• 1 <= target.length <= 400\n\n• target consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def stringSequence(self, target):\n        \"\"\"\n        :type target: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Append the character 'a' using key 1.",
+    "Convert it to the required character using key 2."
+  ],
+  "testCases": [
+    [
+      "\"abc\""
+    ],
+    [
+      "\"he\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"a\",\"aa\",\"ab\",\"aba\",\"abb\",\"abc\"]",
+    "[\"a\",\"b\",\"c\",\"d\",\"e\",\"f\",\"g\",\"h\",\"ha\",\"hb\",\"hc\",\"hd\",\"he\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def stringSequence(self, target):\n        result = []\n        current = []\n        for ch in target:\n            current.append('a')\n            result.append(''.join(current))\n            # Increment last char until it matches ch\n            while current[-1] != ch:\n                current[-1] = chr(ord(current[-1]) + 1)\n                result.append(''.join(current))\n        return result",
+    "explanation": "For each target character: press key 1 to append 'a', then press key 2 repeatedly until last char matches target[i]. Record each intermediate string.\n\nTime: O(|target| * 26). Space: O(|target|² in worst case for output)."
+  },
+  "similarQuestions": "[{\"title\": \"Keyboard Row\", \"titleSlug\": \"keyboard-row\", \"difficulty\": \"Easy\"}]"
+}

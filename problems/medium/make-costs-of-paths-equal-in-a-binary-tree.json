@@ -1,0 +1,60 @@
+{
+  "questionId": "2780",
+  "title": "Make Costs of Paths Equal in a Binary Tree",
+  "titleSlug": "make-costs-of-paths-equal-in-a-binary-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given an integer n representing the number of nodes in a perfect binary tree consisting of nodes numbered from 1 to n. The root of the tree is node 1 and each node i in the tree has two children where the left child is the node 2 * i and the right child is 2 * i + 1.\n\nEach node in the tree also has a cost represented by a given 0-indexed integer array cost of size n where cost[i] is the cost of node i + 1. You are allowed to increment the cost of any node by 1 any number of times.\n\nReturn the minimum number of increments you need to make the cost of paths from the root to each leaf node equal.\n\nNote:\n\n• A perfect binary tree is a tree where each node, except the leaf nodes, has exactly 2 children.\n\n• The cost of a path is the sum of costs of nodes in the path.\n\nExample 1:\n\nInput: n = 7, cost = [1,5,2,2,3,3,1]\nOutput: 6\nExplanation: We can do the following increments:\n    - Increase the cost of node 4 one time.\n    - Increase the cost of node 3 three times.\n    - Increase the cost of node 7 two times.\n    Each path from the root to a leaf will have a total cost of 9.\n    The total increments we did is 1 + 3 + 2 = 6.\n    It can be shown that this is the minimum answer we can achieve.\n\nExample 2:\n\nInput: n = 3, cost = [5,3,3]\nOutput: 0\nExplanation: The two paths already have equal total costs, so no increments are needed.\n\nConstraints:\n\n• 3 <= n <= 105\n\n• n + 1 is a power of 2\n\n• cost.length == n\n\n• 1 <= cost[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minIncrements(self, n, cost):\n        \"\"\"\n        :type n: int\n        :type cost: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The path from the root to a leaf that has the maximum cost should not be modified.",
+    "The optimal way is to increase all other paths to make their costs equal to the path with maximum cost."
+  ],
+  "testCases": [
+    [
+      "7",
+      "[1,5,2,2,3,3,1]"
+    ],
+    [
+      "3",
+      "[5,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minIncrements(self, n, cost):\n        # Bottom-up: for each pair of siblings, equalize by incrementing the smaller.\n        # The increments needed = |cost[left] - cost[right]| at each level.\n        # Process from leaves up; propagate the max child cost upward.\n        ans = 0\n        # Nodes are 1-indexed; cost is 0-indexed (cost[i] = node i+1)\n        for i in range(n // 2, 0, -1):  # internal nodes\n            left = 2 * i - 1   # 0-indexed cost of left child (node 2i)\n            right = 2 * i      # 0-indexed cost of right child (node 2i+1)\n            ans += abs(cost[left] - cost[right])\n            # Propagate the max up to parent\n            cost[i - 1] += max(cost[left], cost[right])\n        return ans",
+    "explanation": "Process bottom-up. For each internal node i, its two children are nodes 2i and 2i+1 (0-indexed in cost array: indices 2i-1 and 2i). The cost to equalize the two subtrees is |cost[left] - cost[right]|. Then propagate max(cost[left], cost[right]) upward to the parent. This greedy works because we never need to increase the already-maximum path.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

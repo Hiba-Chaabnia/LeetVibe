@@ -1,0 +1,45 @@
+{
+  "questionId": "961",
+  "title": "Long Pressed Name",
+  "titleSlug": "long-pressed-name",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Your friend is typing his name into a keyboard. Sometimes, when typing a character c, the key might get long pressed, and the character will be typed 1 or more times.\n\nYou examine the typed characters of the keyboard. Return True if it is possible that it was your friends name, with some characters (possibly none) being long pressed.\n\nExample 1:\n\nInput: name = \"alex\", typed = \"aaleex\"\nOutput: true\nExplanation: 'a' and 'e' in 'alex' were long pressed.\n\nExample 2:\n\nInput: name = \"saeed\", typed = \"ssaaedd\"\nOutput: false\nExplanation: 'e' must have been pressed twice, but it was not in the typed output.\n\nConstraints:\n\n• 1 <= name.length, typed.length <= 1000\n\n• name and typed consist of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isLongPressedName(self, name, typed):\n        \"\"\"\n        :type name: str\n        :type typed: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"alex\"",
+      "\"aaleex\""
+    ],
+    [
+      "\"saeed\"",
+      "\"ssaaedd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isLongPressedName(self, name, typed):\n        name_idx = 0\n        for char in typed:\n            if name_idx < len(name) and name[name_idx] == char:\n                name_idx += 1\n            elif not name_idx or name[name_idx - 1] != char:\n                return False\n        return name_idx == len(name)",
+    "explanation": "Match chars from name in typed. Allow repeats of last matched char.\nTime: O(len(typed))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Matching of Players With Trainers\", \"titleSlug\": \"maximum-matching-of-players-with-trainers\", \"difficulty\": \"Medium\"}]"
+}

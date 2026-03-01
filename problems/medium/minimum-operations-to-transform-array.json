@@ -1,0 +1,52 @@
+{
+  "questionId": "4042",
+  "title": "Minimum Operations to Transform Array",
+  "titleSlug": "minimum-operations-to-transform-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given two integer arrays nums1 of length n and nums2 of length n + 1.\n\nYou want to transform nums1 into nums2 using the minimum number of operations.\n\nYou may perform the following operations any number of times, each time choosing an index i:\n\n• Increase nums1[i] by 1.\n\n• Decrease nums1[i] by 1.\n\n• Append nums1[i] to the end of the array.\n\nReturn the minimum number of operations required to transform nums1 into nums2.\n\nExample 1:\n\nInput: nums1 = [2,8], nums2 = [1,7,3]\n\nOutput: 4\n\nExplanation: \t\t\t\tStep\n\t\t\t\ti\n\t\t\t\tOperation\n\t\t\t\tnums1[i]\n\t\t\t\tUpdated nums1\n\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\tAppend\n\t\t\t\t-\n\t\t\t\t[2, 8, 2]\n\n\t\t\t\t2\n\t\t\t\t0\n\t\t\t\tDecrement\n\t\t\t\tDecreases to 1\n\t\t\t\t[1, 8, 2]\n\n\t\t\t\t3\n\t\t\t\t1\n\t\t\t\tDecrement\n\t\t\t\tDecreases to 7\n\t\t\t\t[1, 7, 2]\n\n\t\t\t\t4\n\t\t\t\t2\n\t\t\t\tIncrement\n\t\t\t\tIncreases to 3\n\t\t\t\t[1, 7, 3]\n\nThus, after 4 operations nums1 is transformed into nums2.\n\nExample 2:\n\nInput: nums1 = [1,3,6], nums2 = [2,4,5,3]\n\nOutput: 4\n\nExplanation: \t\t\t\tStep\n\t\t\t\ti\n\t\t\t\tOperation\n\t\t\t\tnums1[i]\n\t\t\t\tUpdated nums1\n\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\tAppend\n\t\t\t\t-\n\t\t\t\t[1, 3, 6, 3]\n\n\t\t\t\t2\n\t\t\t\t0\n\t\t\t\tIncrement\n\t\t\t\tIncreases to 2\n\t\t\t\t[2, 3, 6, 3]\n\n\t\t\t\t3\n\t\t\t\t1\n\t\t\t\tIncrement\n\t\t\t\tIncreases to 4\n\t\t\t\t[2, 4, 6, 3]\n\n\t\t\t\t4\n\t\t\t\t2\n\t\t\t\tDecrement\n\t\t\t\tDecreases to 5\n\t\t\t\t[2, 4, 5, 3]\n\nThus, after 4 operations nums1 is transformed into nums2.\n\nExample 3:\n\nInput: nums1 = [2], nums2 = [3,4]\n\nOutput: 3\n\nExplanation: \t\t\t\tStep\n\t\t\t\ti\n\t\t\t\tOperation\n\t\t\t\tnums1[i]\n\t\t\t\tUpdated nums1\n\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\tIncrement\n\t\t\t\tIncreases to 3\n\t\t\t\t[3]\n\n\t\t\t\t2\n\t\t\t\t0\n\t\t\t\tAppend\n\t\t\t\t-\n\t\t\t\t[3, 3]\n\n\t\t\t\t3\n\t\t\t\t1\n\t\t\t\tIncrement\n\t\t\t\tIncreases to 4\n\t\t\t\t[3, 4]\n\nThus, after 3 operations nums1 is transformed into nums2.\n\nConstraints:\n\n• 1 <= n == nums1.length <= 105\n\n• nums2.length == n + 1\n\n• 1 <= nums1[i], nums2[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that nums2 has exactly one extra element compared to nums1. That extra element must be produced by an append operation.",
+    "Suppose we choose index j in nums1 to append. Then nums1[j] must eventually become both nums2[j] and nums2.back().",
+    "The cost for index j is: adjust nums1[j] so that one copy matches nums2[j] and the appended copy matches nums2.back().",
+    "For each j, compute this adjustment cost, add the cost of transforming all other positions, and take the minimum.",
+    "Use prefix sums."
+  ],
+  "testCases": [
+    [
+      "[2,8]",
+      "[1,7,3]"
+    ],
+    [
+      "[1,3,6]",
+      "[2,4,5,3]"
+    ],
+    [
+      "[2]",
+      "[3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "4",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,49 @@
+{
+  "questionId": "738",
+  "title": "Monotone Increasing Digits",
+  "titleSlug": "monotone-increasing-digits",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "An integer has monotone increasing digits if and only if each pair of adjacent digits x and y satisfy x <= y.\n\nGiven an integer n, return the largest number that is less than or equal to n with monotone increasing digits.\n\nExample 1:\n\nInput: n = 10\nOutput: 9\n\nExample 2:\n\nInput: n = 1234\nOutput: 1234\n\nExample 3:\n\nInput: n = 332\nOutput: 299\n\nConstraints:\n\n• 0 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def monotoneIncreasingDigits(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Build the answer digit by digit, adding the largest possible one that would make the number still less than or equal to N."
+  ],
+  "testCases": [
+    [
+      "10"
+    ],
+    [
+      "1234"
+    ],
+    [
+      "332"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "1234",
+    "299"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def monotoneIncreasingDigits(n: int) -> int:\n    n_str = [c for c in str(n)]\n\n    i = len(n_str) - 1\n    while i > 0:\n        if n_str[i] < n_str[i - 1]:\n            n_str[i - 1] = chr(ord(n_str[i - 1]) - 1)\n            for j in range(i, len(n_str)):\n                n_str[j] = '9'\n        i -= 1\n\n    return int(''.join(n_str))",
+    "explanation": "1. Convert the input integer to a string for easier manipulation of individual digits, and get its length.\n2. Initialize counter `i` starting at the right-most digit and going left.\n3. If the current digit is less than the previous one, we decrement the previous digit by 1 as it must be less than or equal, then set all digits to the right of the modified digit to 9 (so that the number remains the largest possible).\n4. Continue with step 3 until every previous digit has been checked, adjusting digits as needed.\n5. Convert the string of digits back to an integer and return it."
+  },
+  "similarQuestions": "[{\"title\": \"Remove K Digits\", \"titleSlug\": \"remove-k-digits\", \"difficulty\": \"Medium\"}]"
+}

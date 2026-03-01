@@ -1,0 +1,51 @@
+{
+  "questionId": "903",
+  "title": "Implement Rand10() Using Rand7()",
+  "titleSlug": "implement-rand10-using-rand7",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Rejection Sampling",
+      "slug": "rejection-sampling"
+    },
+    {
+      "name": "Randomized",
+      "slug": "randomized"
+    },
+    {
+      "name": "Probability and Statistics",
+      "slug": "probability-and-statistics"
+    }
+  ],
+  "content": "Given the API rand7() that generates a uniform random integer in the range [1, 7], write a function rand10() that generates a uniform random integer in the range [1, 10]. You can only call the API rand7(), and you shouldn't call any other API. Please do not use a language's built-in random API.\n\nEach test case will have one internal argument n, the number of times that your implemented function rand10() will be called while testing. Note that this is not an argument passed to rand10().\n\nExample 1:\n\nInput: n = 1\nOutput: [2]\nExample 2:\n\nInput: n = 2\nOutput: [2,8]\nExample 3:\n\nInput: n = 3\nOutput: [3,8,10]\n\nConstraints:\n\n• 1 <= n <= 105\n\nFollow up:\n\n• What is the expected value for the number of calls to rand7() function?\n\n• Could you minimize the number of calls to rand7()?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# The rand7() API is already defined for you.\n# def rand7():\n# @return a random integer in the range 1 to 7\n\nclass Solution(object):\n    def rand10(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "2"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2]",
+    "[2,8]",
+    "[3,8,10]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

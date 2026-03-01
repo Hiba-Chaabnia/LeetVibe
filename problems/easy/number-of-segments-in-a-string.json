@@ -1,0 +1,39 @@
+{
+  "questionId": "434",
+  "title": "Number of Segments in a String",
+  "titleSlug": "number-of-segments-in-a-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s, return the number of segments in the string.\n\nA segment is defined to be a contiguous sequence of non-space characters.\n\nExample 1:\n\nInput: s = \"Hello, my name is John\"\nOutput: 5\nExplanation: The five segments are [\"Hello,\", \"my\", \"name\", \"is\", \"John\"]\n\nExample 2:\n\nInput: s = \"Hello\"\nOutput: 1\n\nConstraints:\n\n• 0 <= s.length <= 300\n\n• s consists of lowercase and uppercase English letters, digits, or one of the following characters \"!@#$%^&*()_+-=',.:\".\n\n• The only space character in s is ' '.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSegments(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"Hello, my name is John\""
+    ],
+    [
+      "\"Hello\""
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countSegments(self, s):\n        return len(s.split())",
+    "explanation": "Split by spaces (default). Count non-empty segments.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

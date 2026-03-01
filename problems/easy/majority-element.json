@@ -1,0 +1,55 @@
+{
+  "questionId": "169",
+  "title": "Majority Element",
+  "titleSlug": "majority-element",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an array nums of size n, return the majority element.\n\nThe majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.\n\nExample 1:\n\nInput: nums = [3,2,3]\nOutput: 3\nExample 2:\n\nInput: nums = [2,2,1,1,1,2,2]\nOutput: 2\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 5 * 104\n\n• -109 <= nums[i] <= 109\n\n• The input is generated such that a majority element will exist in the array.\n\nFollow-up: Could you solve the problem in linear time and in O(1) space?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,2,3]"
+    ],
+    [
+      "[2,2,1,1,1,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def majorityElement(self, nums):\n        from collections import Counter\n        freq = Counter(nums)\n        return max(freq, key=freq.get)",
+    "explanation": "Count frequencies. Return element with max count.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Majority Element II\", \"titleSlug\": \"majority-element-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Check If a Number Is Majority Element in a Sorted Array\", \"titleSlug\": \"check-if-a-number-is-majority-element-in-a-sorted-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Most Frequent Even Element\", \"titleSlug\": \"most-frequent-even-element\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Index of a Valid Split\", \"titleSlug\": \"minimum-index-of-a-valid-split\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Exceed Threshold Value I\", \"titleSlug\": \"minimum-operations-to-exceed-threshold-value-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Most Common Response\", \"titleSlug\": \"find-the-most-common-response\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Valid Pair of Adjacent Digits in String\", \"titleSlug\": \"find-valid-pair-of-adjacent-digits-in-string\", \"difficulty\": \"Easy\"}]"
+}

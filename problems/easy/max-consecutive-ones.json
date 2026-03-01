@@ -1,0 +1,41 @@
+{
+  "questionId": "485",
+  "title": "Max Consecutive Ones",
+  "titleSlug": "max-consecutive-ones",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given a binary array nums, return the maximum number of consecutive 1's in the array.\n\nExample 1:\n\nInput: nums = [1,1,0,1,1,1]\nOutput: 3\nExplanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.\n\nExample 2:\n\nInput: nums = [1,0,1,1,0,1]\nOutput: 2\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• nums[i] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMaxConsecutiveOnes(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You need to think about two things as far as any window is concerned. One is the starting point for the window. How do you detect that a new window of 1s has started? The next part is detecting the ending point for this window.\r\n\r\nHow do you detect the ending point for an existing window? If you figure these two things out, you will be able to detect the windows of consecutive ones. All that remains afterward is to find the longest such window and return the size."
+  ],
+  "testCases": [
+    [
+      "[1,1,0,1,1,1]"
+    ],
+    [
+      "[1,0,1,1,0,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findMaxConsecutiveOnes(nums):\n    max_consecutive, current_consecutive = 0, 0\n    for num in nums:\n        current_consecutive = current_consecutive + 1 if num == 1 else 0\n        max_consecutive = max(max_consecutive, current_consecutive)\n    return max_consecutive",
+    "explanation": "The algorithm iterates through the given binary array `nums`. For each element, it checks if the current number is 1, then it increments the `current_consecutive` counter; otherwise, it resets the counter to 0. After updating the counter, it compares the current value of `current_consecutive` with the current maximum consecutive ones count (`max_consecutive`) and updates the maximum count if the current count is higher. After iterating through the entire array, the algorithm returns the maximum number of consecutive 1's found."
+  },
+  "similarQuestions": "[{\"title\": \"Max Consecutive Ones II\", \"titleSlug\": \"max-consecutive-ones-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Max Consecutive Ones III\", \"titleSlug\": \"max-consecutive-ones-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Consecutive Characters\", \"titleSlug\": \"consecutive-characters\", \"difficulty\": \"Easy\"}, {\"title\": \"Longer Contiguous Segments of Ones than Zeros\", \"titleSlug\": \"longer-contiguous-segments-of-ones-than-zeros\", \"difficulty\": \"Easy\"}, {\"title\": \"Length of the Longest Alphabetical Continuous Substring\", \"titleSlug\": \"length-of-the-longest-alphabetical-continuous-substring\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Enemy Forts That Can Be Captured\", \"titleSlug\": \"maximum-enemy-forts-that-can-be-captured\", \"difficulty\": \"Easy\"}]"
+}

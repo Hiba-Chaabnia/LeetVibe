@@ -1,0 +1,63 @@
+{
+  "questionId": "1757",
+  "title": "Minimum Jumps to Reach Home",
+  "titleSlug": "minimum-jumps-to-reach-home",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "A certain bug's home is on the x-axis at position x. Help them get there from position 0.\n\nThe bug jumps according to the following rules:\n\n• It can jump exactly a positions forward (to the right).\n\n• It can jump exactly b positions backward (to the left).\n\n• It cannot jump backward twice in a row.\n\n• It cannot jump to any forbidden positions.\n\nThe bug may jump forward beyond its home, but it cannot jump to positions numbered with negative integers.\n\nGiven an array of integers forbidden, where forbidden[i] means that the bug cannot jump to the position forbidden[i], and integers a, b, and x, return the minimum number of jumps needed for the bug to reach its home. If there is no possible sequence of jumps that lands the bug on position x, return -1.\n\nExample 1:\n\nInput: forbidden = [14,4,18,1,15], a = 3, b = 15, x = 9\nOutput: 3\nExplanation: 3 jumps forward (0 -> 3 -> 6 -> 9) will get the bug home.\n\nExample 2:\n\nInput: forbidden = [8,3,16,6,12,20], a = 15, b = 13, x = 11\nOutput: -1\n\nExample 3:\n\nInput: forbidden = [1,6,2,14,5,17,4], a = 16, b = 9, x = 7\nOutput: 2\nExplanation: One jump forward (0 -> 16) then one jump backward (16 -> 7) will get the bug home.\n\nConstraints:\n\n• 1 <= forbidden.length <= 1000\n\n• 1 <= a, b, forbidden[i] <= 2000\n\n• 0 <= x <= 2000\n\n• All the elements in forbidden are distinct.\n\n• Position x is not forbidden.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumJumps(self, forbidden, a, b, x):\n        \"\"\"\n        :type forbidden: List[int]\n        :type a: int\n        :type b: int\n        :type x: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think of the line as a graph",
+    "to handle the no double back jumps condition you can handle it by holding the state of your previous jump"
+  ],
+  "testCases": [
+    [
+      "[14,4,18,1,15]",
+      "3",
+      "15",
+      "9"
+    ],
+    [
+      "[8,3,16,6,12,20]",
+      "15",
+      "13",
+      "11"
+    ],
+    [
+      "[1,6,2,14,5,17,4]",
+      "16",
+      "9",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\ndef minimumJumps(forbidden, a, b, x):\n    forbidden_positions = set(forbidden)\n    q = deque([(0, 0, 0)])\n    visited = {(0, 0)}\n    while q:\n        pos, steps, backward = q.popleft()\n        if pos == x:\n            return steps\n        forward_pos = pos + a\n        backward_pos = pos - b\n        if forward_pos <= 6000 and forward_pos not in forbidden_positions and (forward_pos, 0) not in visited:\n            visited.add((forward_pos, 0))\n            q.append((forward_pos, steps + 1, 0))\n        if backward == 0 and backward_pos > 0 and backward_pos not in forbidden_positions and (backward_pos, 1) not in visited:\n            visited.add((backward_pos, 1))\n            q.append((backward_pos, steps + 1, 1))\n    return -1",
+    "explanation": "The algorithm uses a BFS approach to find the minimum number of jumps needed for the bug to reach its home. We start with position 0 and initialize a queue with that position, steps taken, and the backward status. We then perform BFS while maintaining visited positions with their backward status (either 0 or 1) to avoid revisiting the same position.\n\nAt each step, we calculate the next forward and backward positions if they aren't forbidden or out of range (<= 6000 for forward and > 0 for backward). We update the visited set and add the new positions to the queue with the updated step count and backward status.\n\nThe bug needs to follow the rules of not jumping backwards twice in a row and not jumping to forbidden positions. By checking if the current backward status is 0 before adding the backward position, we ensure we don't jump backwards twice in a row. The forbidden set ensures we don't jump to any forbidden positions.\n\nIf a position is reached where it equals `x`, return the number of steps taken to reach that position. If the queue becomes empty, it means there are no valid moves that land the bug on position `x`, so return -1."
+  },
+  "similarQuestions": "[{\"title\": \"Reachable Nodes With Restrictions\", \"titleSlug\": \"reachable-nodes-with-restrictions\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Jumps to Reach the Last Index\", \"titleSlug\": \"maximum-number-of-jumps-to-reach-the-last-index\", \"difficulty\": \"Medium\"}]"
+}

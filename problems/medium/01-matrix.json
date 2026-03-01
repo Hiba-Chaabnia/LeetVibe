@@ -1,0 +1,51 @@
+{
+  "questionId": "542",
+  "title": "01 Matrix",
+  "titleSlug": "01-matrix",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given an m x n binary matrix mat, return the distance of the nearest 0 for each cell.\n\nThe distance between two cells sharing a common edge is 1.\n\nExample 1:\n\nInput: mat = [[0,0,0],[0,1,0],[0,0,0]]\nOutput: [[0,0,0],[0,1,0],[0,0,0]]\n\nExample 2:\n\nInput: mat = [[0,0,0],[0,1,0],[1,1,1]]\nOutput: [[0,0,0],[0,1,0],[1,2,1]]\n\nConstraints:\n\n• m == mat.length\n\n• n == mat[i].length\n\n• 1 <= m, n <= 104\n\n• 1 <= m * n <= 104\n\n• mat[i][j] is either 0 or 1.\n\n• There is at least one 0 in mat.\n\nNote: This question is the same as 1765: https://leetcode.com/problems/map-of-highest-peak/",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def updateMatrix(self, mat):\n        \"\"\"\n        :type mat: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,0,0],[0,1,0],[0,0,0]]"
+    ],
+    [
+      "[[0,0,0],[0,1,0],[1,1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[0,0,0],[0,1,0],[0,0,0]]",
+    "[[0,0,0],[0,1,0],[1,2,1]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\ndef updateMatrix(mat):\n    m, n = len(mat), len(mat[0])\n    distance = [[0 if mat[i][j] == 0 else float('inf') for j in range(n)] for i in range(m)]\n    queue = deque([(i, j) for i in range(m) for j in range(n) if mat[i][j] == 0])\n\n    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]\n    while queue:\n        x, y = queue.popleft()\n        for dx, dy in directions:\n            newX, newY = x + dx, y + dy\n            if 0 <= newX < m and 0 <= newY < n and distance[newX][newY] > distance[x][y] + 1:\n                distance[newX][newY] = distance[x][y] + 1\n                queue.append((newX, newY))\n\n    return distance",
+    "explanation": "1. Initialize an m x n matrix `distance` with 0 values and a queue.\n2. Iterate through the input matrix, setting the distance values to either 0 or infinity based on the original matrix value. For 0 values, push their coordinates to the queue.\n3. Define the 4 possible directions to move in the matrix.\n4. Use BFS (Breadth-First Search) to find the shortest distance to the nearest 0 for each cell:\n   a. Pop a cell (x, y) from the queue.\n   b. Iterate through each direction, checking if the new position is valid and the current distance is less than the current recorded position's distance.\n   c. If the new distance is shorter, update the distance and push the new position's coordinates to the queue.\n5. Return the `distance` matrix."
+  },
+  "similarQuestions": "[{\"title\": \"Shortest Path to Get Food\", \"titleSlug\": \"shortest-path-to-get-food\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Remove Adjacent Ones in Matrix\", \"titleSlug\": \"minimum-operations-to-remove-adjacent-ones-in-matrix\", \"difficulty\": \"Hard\"}, {\"title\": \"Difference Between Ones and Zeros in Row and Column\", \"titleSlug\": \"difference-between-ones-and-zeros-in-row-and-column\", \"difficulty\": \"Medium\"}]"
+}

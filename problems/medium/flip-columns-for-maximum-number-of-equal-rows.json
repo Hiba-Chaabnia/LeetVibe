@@ -1,0 +1,54 @@
+{
+  "questionId": "1147",
+  "title": "Flip Columns For Maximum Number of Equal Rows",
+  "titleSlug": "flip-columns-for-maximum-number-of-equal-rows",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n binary matrix matrix.\n\nYou can choose any number of columns in the matrix and flip every cell in that column (i.e., Change the value of the cell from 0 to 1 or vice versa).\n\nReturn the maximum number of rows that have all values equal after some number of flips.\n\nExample 1:\n\nInput: matrix = [[0,1],[1,1]]\nOutput: 1\nExplanation: After flipping no values, 1 row has all values equal.\n\nExample 2:\n\nInput: matrix = [[0,1],[1,0]]\nOutput: 2\nExplanation: After flipping values in the first column, both rows have equal values.\n\nExample 3:\n\nInput: matrix = [[0,0,0],[0,0,1],[1,1,0]]\nOutput: 2\nExplanation: After flipping values in the first two columns, the last two rows have equal values.\n\nConstraints:\n\n• m == matrix.length\n\n• n == matrix[i].length\n\n• 1 <= m, n <= 300\n\n• matrix[i][j] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxEqualRowsAfterFlips(self, matrix):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Flipping a subset of columns is like doing a bitwise XOR of some number K onto each row.  We want rows X with X ^ K = all 0s or all 1s.  This is the same as X = X^K ^K = (all 0s or all 1s) ^ K, so we want to count rows that have opposite bits set.  For example, if K = 1, then we count rows X = (00000...001, or 1111....110)."
+  ],
+  "testCases": [
+    [
+      "[[0,1],[1,1]]"
+    ],
+    [
+      "[[0,1],[1,0]]"
+    ],
+    [
+      "[[0,0,0],[0,0,1],[1,1,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxEqualRowsAfterFlips(self, matrix):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :rtype: int\n        \"\"\"\n        from collections import defaultdict\n        \n        patterns = defaultdict(int)\n        \n        for row in matrix:\n            # Get pattern (relative to first bit)\n            pattern = tuple(bit ^ row[0] for bit in row)\n            patterns[pattern] += 1\n        \n        return max(patterns.values())",
+    "explanation": "For each row, normalize to a pattern (XOR with first element). Count occurrences. Rows with same pattern can be made equal with flips.",
+    "complexity": "Time: O(m*n). Space: O(m*n) for patterns."
+  },
+  "similarQuestions": "[]"
+}

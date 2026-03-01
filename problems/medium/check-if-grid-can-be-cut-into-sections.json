@@ -1,0 +1,53 @@
+{
+  "questionId": "3657",
+  "title": "Check if Grid can be Cut into Sections",
+  "titleSlug": "check-if-grid-can-be-cut-into-sections",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer n representing the dimensions of an n x n grid, with the origin at the bottom-left corner of the grid. You are also given a 2D array of coordinates rectangles, where rectangles[i] is in the form [startx, starty, endx, endy], representing a rectangle on the grid. Each rectangle is defined as follows:\n\n• (startx, starty): The bottom-left corner of the rectangle.\n\n• (endx, endy): The top-right corner of the rectangle.\n\nNote that the rectangles do not overlap. Your task is to determine if it is possible to make either two horizontal or two vertical cuts on the grid such that:\n\n• Each of the three resulting sections formed by the cuts contains at least one rectangle.\n\n• Every rectangle belongs to exactly one section.\n\nReturn true if such cuts can be made; otherwise, return false.\n\nExample 1:\n\nInput: n = 5, rectangles = [[1,0,5,2],[0,2,2,4],[3,2,5,3],[0,4,4,5]]\n\nOutput: true\n\nExplanation: The grid is shown in the diagram. We can make horizontal cuts at y = 2 and y = 4. Hence, output is true.\n\nExample 2:\n\nInput: n = 4, rectangles = [[0,0,1,1],[2,0,3,4],[0,2,2,3],[3,0,4,3]]\n\nOutput: true\n\nExplanation: We can make vertical cuts at x = 2 and x = 3. Hence, output is true.\n\nExample 3:\n\nInput: n = 4, rectangles = [[0,2,2,4],[1,0,3,2],[2,2,3,4],[3,0,4,2],[3,2,4,4]]\n\nOutput: false\n\nExplanation: We cannot make two horizontal or two vertical cuts that satisfy the conditions. Hence, output is false.\n\nConstraints:\n\n• 3 <= n <= 109\n\n• 3 <= rectangles.length <= 105\n\n• 0 <= rectangles[i][0] < rectangles[i][2] <= n\n\n• 0 <= rectangles[i][1] < rectangles[i][3] <= n\n\n• No two rectangles overlap.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkValidCuts(self, n, rectangles):\n        \"\"\"\n        :type n: int\n        :type rectangles: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each rectangle, consider ranges [start_x, end_x] and [start_y, end_y] separately.",
+    "For x and y directions, check whether we can split it into 3 parts."
+  ],
+  "testCases": [
+    [
+      "5",
+      "[[1,0,5,2],[0,2,2,4],[3,2,5,3],[0,4,4,5]]"
+    ],
+    [
+      "4",
+      "[[0,0,1,1],[2,0,3,4],[0,2,2,3],[3,0,4,3]]"
+    ],
+    [
+      "4",
+      "[[0,2,2,4],[1,0,3,2],[2,2,3,4],[3,0,4,2],[3,2,4,4]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkValidCuts(self, n, rectangles):\n        def can_split(intervals):\n            intervals.sort()\n            groups = 0\n            max_end = 0\n            for start, end in intervals:\n                if start >= max_end:\n                    groups += 1\n                max_end = max(max_end, end)\n            return groups >= 3\n        x_ivs = [(r[0], r[2]) for r in rectangles]\n        y_ivs = [(r[1], r[3]) for r in rectangles]\n        return can_split(x_ivs) or can_split(y_ivs)",
+    "explanation": "Project rectangles to x and y intervals; if either projection splits into 3+ non-overlapping groups, two cuts exist. O(n log n) time."
+  },
+  "similarQuestions": "[]"
+}

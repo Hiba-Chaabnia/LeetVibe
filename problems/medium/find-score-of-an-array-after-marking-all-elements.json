@@ -1,0 +1,59 @@
+{
+  "questionId": "2695",
+  "title": "Find Score of an Array After Marking All Elements",
+  "titleSlug": "find-score-of-an-array-after-marking-all-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an array nums consisting of positive integers.\n\nStarting with score = 0, apply the following algorithm:\n\n• Choose the smallest integer of the array that is not marked. If there is a tie, choose the one with the smallest index.\n\n• Add the value of the chosen integer to score.\n\n• Mark the chosen element and its two adjacent elements if they exist.\n\n• Repeat until all the array elements are marked.\n\nReturn the score you get after applying the above algorithm.\n\nExample 1:\n\nInput: nums = [2,1,3,4,5,2]\nOutput: 7\nExplanation: We mark the elements as follows:\n    - 1 is the smallest unmarked element, so we mark it and its two adjacent elements: [2,1,3,4,5,2].\n    - 2 is the smallest unmarked element, so we mark it and its left adjacent element: [2,1,3,4,5,2].\n    - 4 is the only remaining unmarked element, so we mark it: [2,1,3,4,5,2].\n    Our score is 1 + 2 + 4 = 7.\n\nExample 2:\n\nInput: nums = [2,3,5,1,3,2]\nOutput: 5\nExplanation: We mark the elements as follows:\n    - 1 is the smallest unmarked element, so we mark it and its two adjacent elements: [2,3,5,1,3,2].\n    - 2 is the smallest unmarked element, since there are two of them, we choose the left-most one, so we mark the one at index 0 and its right adjacent element: [2,3,5,1,3,2].\n    - 2 is the only remaining unmarked element, so we mark it: [2,3,5,1,3,2].\n    Our score is 1 + 2 + 2 = 5.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findScore(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try simulating the process of marking the elements and their adjacent.",
+    "If there is an element that was already marked, then you skip it."
+  ],
+  "testCases": [
+    [
+      "[2,1,3,4,5,2]"
+    ],
+    [
+      "[2,3,5,1,3,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def findScore(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        marked = [False] * n\n        score = 0\n        \n        while True:\n            # Find smallest unmarked element\n            min_idx = -1\n            min_val = float('inf')\n            \n            for i in range(n):\n                if not marked[i] and nums[i] < min_val:\n                    min_val = nums[i]\n                    min_idx = i\n            \n            if min_idx == -1:\n                break\n            \n            # Add to score\n            score += nums[min_idx]\n            \n            # Mark current and adjacent\n            marked[min_idx] = True\n            if min_idx > 0:\n                marked[min_idx - 1] = True\n            if min_idx < n - 1:\n                marked[min_idx + 1] = True\n        \n        return score",
+    "explanation": "Repeatedly find smallest unmarked element, add to score, mark it and adjacent elements. Continue until all marked.",
+    "complexity": "Time: O(n²) worst case for finding minimums. Space: O(n) for marking array."
+  },
+  "similarQuestions": "[{\"title\": \"Sort Integers by The Power Value\", \"titleSlug\": \"sort-integers-by-the-power-value\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,60 @@
+{
+  "questionId": "4035",
+  "title": "Maximum Partition Factor",
+  "titleSlug": "maximum-partition-factor",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "You are given a 2D integer array points, where points[i] = [xi, yi] represents the coordinates of the ith point on the Cartesian plane.\n\nThe Manhattan distance between two points points[i] = [xi, yi] and points[j] = [xj, yj] is |xi - xj| + |yi - yj|.\n\nSplit the n points into exactly two non-empty groups. The partition factor of a split is the minimum Manhattan distance among all unordered pairs of points that lie in the same group.\n\nReturn the maximum possible partition factor over all valid splits.\n\nNote: A group of size 1 contributes no intra-group pairs. When n = 2 (both groups size 1), there are no intra-group pairs, so define the partition factor as 0.\n\nExample 1:\n\nInput: points = [[0,0],[0,2],[2,0],[2,2]]\n\nOutput: 4\n\nExplanation: We split the points into two groups: {[0, 0], [2, 2]} and {[0, 2], [2, 0]}.\n\n•\n\tIn the first group, the only pair has Manhattan distance |0 - 2| + |0 - 2| = 4.\n\n•\n\tIn the second group, the only pair also has Manhattan distance |0 - 2| + |2 - 0| = 4.\n\nThe partition factor of this split is min(4, 4) = 4, which is maximal.\n\nExample 2:\n\nInput: points = [[0,0],[0,1],[10,0]]\n\nOutput: 11\n\nExplanation:​​​​​​​\n\nWe split the points into two groups: {[0, 1], [10, 0]} and {[0, 0]}.\n\n•\n\tIn the first group, the only pair has Manhattan distance |0 - 10| + |1 - 0| = 11.\n\n•\n\tThe second group is a singleton, so it contributes no pairs.\n\nThe partition factor of this split is 11, which is maximal.\n\nConstraints:\n\n• 2 <= points.length <= 500\n\n• points[i] = [xi, yi]\n\n• -108 <= xi, yi <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxPartitionFactor(self, points):\n        \"\"\"\n        :type points: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use binary search",
+    "Binary-search the partition factor D to maximize it",
+    "For a candidate D, add an edge between points i and j iff Manhattan(i,j) < D (they must be in different groups)",
+    "Check whether the resulting graph is bipartite"
+  ],
+  "testCases": [
+    [
+      "[[0,0],[0,2],[2,0],[2,2]]"
+    ],
+    [
+      "[[0,0],[0,1],[10,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "11"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

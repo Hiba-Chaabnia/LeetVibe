@@ -1,0 +1,50 @@
+{
+  "questionId": "1746",
+  "title": "Largest Substring Between Two Equal Characters",
+  "titleSlug": "largest-substring-between-two-equal-characters",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s, return the length of the longest substring between two equal characters, excluding the two characters. If there is no such substring return -1.\n\nA substring is a contiguous sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"aa\"\nOutput: 0\nExplanation: The optimal substring here is an empty substring between the two 'a's.\n\nExample 2:\n\nInput: s = \"abca\"\nOutput: 2\nExplanation: The optimal substring here is \"bc\".\n\nExample 3:\n\nInput: s = \"cbzxy\"\nOutput: -1\nExplanation: There are no characters that appear twice in s.\n\nConstraints:\n\n• 1 <= s.length <= 300\n\n• s contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxLengthBetweenEqualCharacters(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try saving the first and last position of each character",
+    "Try finding every pair of indexes with equal characters"
+  ],
+  "testCases": [
+    [
+      "\"aa\""
+    ],
+    [
+      "\"abca\""
+    ],
+    [
+      "\"cbzxy\""
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxLengthBetweenEqualCharacters(s: str) -> int:\n    result = -1\n    char_map = {}\n\n    for i, c in enumerate(s):\n        if c not in char_map:\n            char_map[c] = i\n        else:\n            result = max(result, i - char_map[c] - 1)\n\n    return result",
+    "explanation": "The algorithm uses a hash map to store the index of the first occurrence of each character in the string. It then iterates through the string, and for each character, checks if it's present in the hash map. If it's not, the character is added to the hash map with its index. If it is present, the length of the substring between the two occurrences of the character is calculated as (current index - stored index - 1). The result is updated as the maximum length between equal characters found so far."
+  },
+  "similarQuestions": "[]"
+}

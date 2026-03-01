@@ -1,0 +1,49 @@
+{
+  "questionId": "841",
+  "title": "Shortest Distance to a Character",
+  "titleSlug": "shortest-distance-to-a-character",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s and a character c that occurs in s, return an array of integers answer where answer.length == s.length and answer[i] is the distance from index i to the closest occurrence of character c in s.\n\nThe distance between two indices i and j is abs(i - j), where abs is the absolute value function.\n\nExample 1:\n\nInput: s = \"loveleetcode\", c = \"e\"\nOutput: [3,2,1,0,1,0,0,1,2,2,1,0]\nExplanation: The character 'e' appears at indices 3, 5, 6, and 11 (0-indexed).\n    The closest occurrence of 'e' for index 0 is at index 3, so the distance is abs(0 - 3) = 3.\n    The closest occurrence of 'e' for index 1 is at index 3, so the distance is abs(1 - 3) = 2.\n    For index 4, there is a tie between the 'e' at index 3 and the 'e' at index 5, but the distance is still the same: abs(4 - 3) == abs(4 - 5) = 1.\n    The closest occurrence of 'e' for index 8 is at index 6, so the distance is abs(8 - 6) = 2.\n\nExample 2:\n\nInput: s = \"aaab\", c = \"b\"\nOutput: [3,2,1,0]\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s[i] and c are lowercase English letters.\n\n• It is guaranteed that c occurs at least once in s.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestToChar(self, s, c):\n        \"\"\"\n        :type s: str\n        :type c: str\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"loveleetcode\"",
+      "\"e\""
+    ],
+    [
+      "\"aaab\"",
+      "\"b\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,2,1,0,1,0,0,1,2,2,1,0]",
+    "[3,2,1,0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def shortestToChar(self, s, c):\n        n = len(s)\n        result = [n] * n\n        last_pos = -n\n        for i in range(n):\n            if s[i] == c:\n                last_pos = i\n            result[i] = min(result[i], i - last_pos)\n        last_pos = 2 * n\n        for i in range(n-1, -1, -1):\n            if s[i] == c:\n                last_pos = i\n            result[i] = min(result[i], last_pos - i)\n        return result",
+    "explanation": "Two pass: forward tracking min distance from left, backward from right.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Check Distances Between Same Letters\", \"titleSlug\": \"check-distances-between-same-letters\", \"difficulty\": \"Easy\"}]"
+}

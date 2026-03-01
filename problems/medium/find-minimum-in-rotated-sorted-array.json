@@ -1,0 +1,52 @@
+{
+  "questionId": "153",
+  "title": "Find Minimum in Rotated Sorted Array",
+  "titleSlug": "find-minimum-in-rotated-sorted-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:\n\n• [4,5,6,7,0,1,2] if it was rotated 4 times.\n\n• [0,1,2,4,5,6,7] if it was rotated 7 times.\n\nNotice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].\n\nGiven the sorted rotated array nums of unique elements, return the minimum element of this array.\n\nYou must write an algorithm that runs in O(log n) time.\n\nExample 1:\n\nInput: nums = [3,4,5,1,2]\nOutput: 1\nExplanation: The original array was [1,2,3,4,5] rotated 3 times.\n\nExample 2:\n\nInput: nums = [4,5,6,7,0,1,2]\nOutput: 0\nExplanation: The original array was [0,1,2,4,5,6,7] and it was rotated 4 times.\n\nExample 3:\n\nInput: nums = [11,13,15,17]\nOutput: 11\nExplanation: The original array was [11,13,15,17] and it was rotated 4 times.\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 5000\n\n• -5000 <= nums[i] <= 5000\n\n• All the integers of nums are unique.\n\n• nums is sorted and rotated between 1 and n times.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Array was originally in ascending order. Now that the array is rotated, there would be a point in the array where there is a small deflection from the increasing sequence. eg. The array would be something like [4, 5, 6, 7, 0, 1, 2].",
+    "You can divide the search space into two and see which direction to go.\r\nCan you think of an algorithm which has O(logN) search complexity?",
+    "<ol>\r\n<li>All the elements to the left of inflection point > first element of the array.</li>\r\n<li>All the elements to the right of inflection point < first element of the array.</li>\r\n<ol>"
+  ],
+  "testCases": [
+    [
+      "[3,4,5,1,2]"
+    ],
+    [
+      "[4,5,6,7,0,1,2]"
+    ],
+    [
+      "[11,13,15,17]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "11"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        left, right = 0, len(nums) - 1\n        \n        while left < right:\n            mid = (left + right) // 2\n            \n            # If mid element is greater than right, rotation is on right side\n            # Minimum must be in right half\n            if nums[mid] > nums[right]:\n                left = mid + 1\n            else:\n                # Minimum is in left half (including mid)\n                right = mid\n        \n        return nums[left]",
+    "explanation": "Binary search on rotated array. Compare middle with right element to determine which half contains minimum. Narrow search space in O(log n).",
+    "complexity": "Time: O(log n) - binary search. Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Search in Rotated Sorted Array\", \"titleSlug\": \"search-in-rotated-sorted-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Minimum in Rotated Sorted Array II\", \"titleSlug\": \"find-minimum-in-rotated-sorted-array-ii\", \"difficulty\": \"Hard\"}]"
+}

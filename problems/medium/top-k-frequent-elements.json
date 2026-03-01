@@ -1,0 +1,70 @@
+{
+  "questionId": "347",
+  "title": "Top K Frequent Elements",
+  "titleSlug": "top-k-frequent-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Bucket Sort",
+      "slug": "bucket-sort"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Quickselect",
+      "slug": "quickselect"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.\n\nExample 1:\n\nInput: nums = [1,1,1,2,2,3], k = 2\n\nOutput: [1,2]\n\nExample 2:\n\nInput: nums = [1], k = 1\n\nOutput: [1]\n\nExample 3:\n\nInput: nums = [1,2,1,2,1,2,3,1,3,2], k = 2\n\nOutput: [1,2]\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -104 <= nums[i] <= 104\n\n• k is in the range [1, the number of unique elements in the array].\n\n• It is guaranteed that the answer is unique.\n\nFollow up: Your algorithm's time complexity must be better than O(n log n), where n is the array's size.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,1,1,2,2,3]",
+      "2"
+    ],
+    [
+      "[1]",
+      "1"
+    ],
+    [
+      "[1,2,1,2,1,2,3,1,3,2]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2]",
+    "[1]",
+    "[1,2]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Word Frequency\", \"titleSlug\": \"word-frequency\", \"difficulty\": \"Medium\"}, {\"title\": \"Kth Largest Element in an Array\", \"titleSlug\": \"kth-largest-element-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Sort Characters By Frequency\", \"titleSlug\": \"sort-characters-by-frequency\", \"difficulty\": \"Medium\"}, {\"title\": \"Split Array into Consecutive Subsequences\", \"titleSlug\": \"split-array-into-consecutive-subsequences\", \"difficulty\": \"Medium\"}, {\"title\": \"Top K Frequent Words\", \"titleSlug\": \"top-k-frequent-words\", \"difficulty\": \"Medium\"}, {\"title\": \"K Closest Points to Origin\", \"titleSlug\": \"k-closest-points-to-origin\", \"difficulty\": \"Medium\"}, {\"title\": \"Sort Features by Popularity\", \"titleSlug\": \"sort-features-by-popularity\", \"difficulty\": \"Medium\"}, {\"title\": \"Sender With Largest Word Count\", \"titleSlug\": \"sender-with-largest-word-count\", \"difficulty\": \"Medium\"}, {\"title\": \"Most Frequent Even Element\", \"titleSlug\": \"most-frequent-even-element\", \"difficulty\": \"Easy\"}, {\"title\": \"Linked List Frequency\", \"titleSlug\": \"linked-list-frequency\", \"difficulty\": \"Easy\"}]"
+}

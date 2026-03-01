@@ -1,0 +1,51 @@
+{
+  "questionId": "4067",
+  "title": "Design Auction System",
+  "titleSlug": "design-auction-system",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Design",
+      "slug": "design"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "You are asked to design an auction system that manages bids from multiple users in real time.\n\nEach bid is associated with a userId, an itemId, and a bidAmount.\n\nImplement the AuctionSystem class:​​​​​​​\n\n• AuctionSystem(): Initializes the AuctionSystem object.\n\n• void addBid(int userId, int itemId, int bidAmount): Adds a new bid for itemId by userId with bidAmount. If the same userId already has a bid on itemId, replace it with the new bidAmount.\n\n• void updateBid(int userId, int itemId, int newAmount): Updates the existing bid of userId for itemId to newAmount. It is guaranteed that this bid exists.\n\n• void removeBid(int userId, int itemId): Removes the bid of userId for itemId. It is guaranteed that this bid exists.\n\n• int getHighestBidder(int itemId): Returns the userId of the highest bidder for itemId. If multiple users have the same highest bidAmount, return the user with the highest userId. If no bids exist for the item, return -1.\n\nExample 1:\n\nInput:\n\n[\"AuctionSystem\", \"addBid\", \"addBid\", \"getHighestBidder\", \"updateBid\", \"getHighestBidder\", \"removeBid\", \"getHighestBidder\", \"getHighestBidder\"]\n\n[[], [1, 7, 5], [2, 7, 6], [7], [1, 7, 8], [7], [2, 7], [7], [3]]\n\nOutput:\n\n[null, null, null, 2, null, 1, null, 1, -1]\n\nExplanation\n\nAuctionSystem auctionSystem = new AuctionSystem(); // Initialize the Auction system\n\nauctionSystem.addBid(1, 7, 5); // User 1 bids 5 on item 7\n\nauctionSystem.addBid(2, 7, 6); // User 2 bids 6 on item 7\n\nauctionSystem.getHighestBidder(7); // return 2 as User 2 has the highest bid\n\nauctionSystem.updateBid(1, 7, 8); // User 1 updates bid to 8 on item 7\n\nauctionSystem.getHighestBidder(7); // return 1 as User 1 now has the highest bid\n\nauctionSystem.removeBid(2, 7); // Remove User 2's bid on item 7\n\nauctionSystem.getHighestBidder(7); // return 1 as User 1 is the current highest bidder\n\nauctionSystem.getHighestBidder(3); // return -1 as no bids exist for item 3\n\nConstraints:\n\n• 1 <= userId, itemId <= 5 * 104\n\n• 1 <= bidAmount, newAmount <= 109\n\n• At most 5 * 104 total calls to addBid, updateBid, removeBid, and getHighestBidder.\n\n• The input is generated such that for updateBid and removeBid, the bid from the given userId for the given itemId will be valid.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class AuctionSystem(object):\n\n    def __init__(self):\n        \n\n    def addBid(self, userId, itemId, bidAmount):\n        \"\"\"\n        :type userId: int\n        :type itemId: int\n        :type bidAmount: int\n        :rtype: None\n        \"\"\"\n        \n\n    def updateBid(self, userId, itemId, newAmount):\n        \"\"\"\n        :type userId: int\n        :type itemId: int\n        :type newAmount: int\n        :rtype: None\n        \"\"\"\n        \n\n    def removeBid(self, userId, itemId):\n        \"\"\"\n        :type userId: int\n        :type itemId: int\n        :rtype: None\n        \"\"\"\n        \n\n    def getHighestBidder(self, itemId):\n        \"\"\"\n        :type itemId: int\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your AuctionSystem object will be instantiated and called as such:\n# obj = AuctionSystem()\n# obj.addBid(userId,itemId,bidAmount)\n# obj.updateBid(userId,itemId,newAmount)\n# obj.removeBid(userId,itemId)\n# param_4 = obj.getHighestBidder(itemId)"
+    }
+  ],
+  "hints": [
+    "Maintain a map from itemId to its active bids.",
+    "For each item, use a data structure ordered by (bidAmount, userId) to get the highest bidder efficiently.",
+    "On addBid or updateBid, remove the old entry (if any) and insert the new one.",
+    "On removeBid, delete the corresponding entry; return the top element for getHighestBidder."
+  ],
+  "testCases": [
+    [
+      "[\"AuctionSystem\",\"addBid\",\"addBid\",\"getHighestBidder\",\"updateBid\",\"getHighestBidder\",\"removeBid\",\"getHighestBidder\",\"getHighestBidder\"]"
+    ],
+    [
+      "[[],[1,7,5],[2,7,6],[7],[1,7,8],[7],[2,7],[7],[3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[null, null, null, 2, null, 1, null, 1, -1]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

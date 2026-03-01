@@ -1,0 +1,53 @@
+{
+  "questionId": "3398",
+  "title": "Make a Square with the Same Color",
+  "titleSlug": "make-a-square-with-the-same-color",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a 2D matrix grid of size 3 x 3 consisting only of characters 'B' and 'W'. Character 'W' represents the white color, and character 'B' represents the black color.\n\nYour task is to change the color of at most one cell so that the matrix has a 2 x 2 square where all cells are of the same color.\n\nReturn true if it is possible to create a 2 x 2 square of the same color, otherwise, return false.\n\n.grid-container {\n  display: grid;\n  grid-template-columns: 30px 30px 30px;\n  padding: 10px;\n}\n.grid-item {\n  background-color: black;\n  border: 1px solid gray;\n  height: 30px;\n  font-size: 30px;\n  text-align: center;\n}\n.grid-item-white {\n  background-color: white;\n}\n\nExample 1:\n\nInput: grid = [[\"B\",\"W\",\"B\"],[\"B\",\"W\",\"W\"],[\"B\",\"W\",\"B\"]]\n\nOutput: true\n\nExplanation: It can be done by changing the color of the grid[0][2].\n\nExample 2:\n\nInput: grid = [[\"B\",\"W\",\"B\"],[\"W\",\"B\",\"W\"],[\"B\",\"W\",\"B\"]]\n\nOutput: false\n\nExplanation: It cannot be done by changing at most one cell.\n\nExample 3:\n\nInput: grid = [[\"B\",\"W\",\"B\"],[\"B\",\"W\",\"W\"],[\"B\",\"W\",\"W\"]]\n\nOutput: true\n\nExplanation: The grid already contains a 2 x 2 square of the same color.\n\nConstraints:\n\n• grid.length == 3\n\n• grid[i].length == 3\n\n• grid[i][j] is either 'W' or 'B'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canMakeSquare(self, grid):\n        \"\"\"\n        :type grid: List[List[str]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It is impossible to create 2 x 2 square with the same color by changing the color of at most one cell when the number of ‘W' or 'B’ in all squares is 2."
+  ],
+  "testCases": [
+    [
+      "[[\"B\",\"W\",\"B\"],[\"B\",\"W\",\"W\"],[\"B\",\"W\",\"B\"]]"
+    ],
+    [
+      "[[\"B\",\"W\",\"B\"],[\"W\",\"B\",\"W\"],[\"B\",\"W\",\"B\"]]"
+    ],
+    [
+      "[[\"B\",\"W\",\"B\"],[\"B\",\"W\",\"W\"],[\"B\",\"W\",\"W\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canMakeSquare(self, grid):\n        for r in range(2):\n            for c in range(2):\n                sq = [grid[r][c], grid[r][c+1], grid[r+1][c], grid[r+1][c+1]]\n                if sq.count('B') >= 3 or sq.count('W') >= 3:\n                    return True\n        return False",
+    "explanation": "Check each of the four 2x2 sub-squares in the 3x3 grid; if any has ≥3 cells of the same colour it can become uniform with at most one change. O(1) time."
+  },
+  "similarQuestions": "[]"
+}

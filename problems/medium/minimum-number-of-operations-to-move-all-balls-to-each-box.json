@@ -1,0 +1,52 @@
+{
+  "questionId": "1895",
+  "title": "Minimum Number of Operations to Move All Balls to Each Box",
+  "titleSlug": "minimum-number-of-operations-to-move-all-balls-to-each-box",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You have n boxes. You are given a binary string boxes of length n, where boxes[i] is '0' if the ith box is empty, and '1' if it contains one ball.\n\nIn one operation, you can move one ball from a box to an adjacent box. Box i is adjacent to box j if abs(i - j) == 1. Note that after doing so, there may be more than one ball in some boxes.\n\nReturn an array answer of size n, where answer[i] is the minimum number of operations needed to move all the balls to the ith box.\n\nEach answer[i] is calculated considering the initial state of the boxes.\n\nExample 1:\n\nInput: boxes = \"110\"\nOutput: [1,1,3]\nExplanation: The answer for each box is as follows:\n    1) First box: you will have to move one ball from the second box to the first box in one operation.\n    2) Second box: you will have to move one ball from the first box to the second box in one operation.\n    3) Third box: you will have to move one ball from the first box to the third box in two operations, and move one ball from the second box to the third box in one operation.\n\nExample 2:\n\nInput: boxes = \"001011\"\nOutput: [11,8,5,4,3,4]\n\nConstraints:\n\n• n == boxes.length\n\n• 1 <= n <= 2000\n\n• boxes[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, boxes):\n        \"\"\"\n        :type boxes: str\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If you want to move a ball from box i to box j, you'll need abs(i-j) moves.",
+    "To move all balls to some box, you can move them one by one.",
+    "For each box i, iterate on each ball in a box j, and add abs(i-j) to answers[i]."
+  ],
+  "testCases": [
+    [
+      "\"110\""
+    ],
+    [
+      "\"001011\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,1,3]",
+    "[11,8,5,4,3,4]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minOperations(self, boxes):\n        \"\"\"\n        :type boxes: str\n        :rtype: List[int]\n        \"\"\"\n        n = len(boxes)\n        answer = [0] * n\n        \n        # Left pass: count balls and operations from left\n        left_ops = 0\n        left_count = 0\n        for i in range(n):\n            answer[i] += left_ops\n            left_count += int(boxes[i])\n            left_ops += left_count\n        \n        # Right pass: count balls and operations from right\n        right_ops = 0\n        right_count = 0\n        for i in range(n - 1, -1, -1):\n            answer[i] += right_ops\n            right_count += int(boxes[i])\n            right_ops += right_count\n        \n        return answer",
+    "explanation": "Two passes: left-to-right and right-to-left. Each pass tracks cumulative ball count and operations needed.",
+    "complexity": "Time: O(n). Space: O(n) for output."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cost to Move Chips to The Same Position\", \"titleSlug\": \"minimum-cost-to-move-chips-to-the-same-position\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Moves to Spread Stones Over Grid\", \"titleSlug\": \"minimum-moves-to-spread-stones-over-grid\", \"difficulty\": \"Medium\"}]"
+}

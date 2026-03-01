@@ -1,0 +1,55 @@
+{
+  "questionId": "224",
+  "title": "Basic Calculator",
+  "titleSlug": "basic-calculator",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Given a string s representing a valid expression, implement a basic calculator to evaluate it, and return the result of the evaluation.\n\nNote: You are not allowed to use any built-in function which evaluates strings as mathematical expressions, such as eval().\n\nExample 1:\n\nInput: s = \"1 + 1\"\nOutput: 2\n\nExample 2:\n\nInput: s = \" 2-1 + 2 \"\nOutput: 3\n\nExample 3:\n\nInput: s = \"(1+(4+5+2)-3)+(6+8)\"\nOutput: 23\n\nConstraints:\n\n• 1 <= s.length <= 3 * 105\n\n• s consists of digits, '+', '-', '(', ')', and ' '.\n\n• s represents a valid expression.\n\n• '+' is not used as a unary operation (i.e., \"+1\" and \"+(2 + 3)\" is invalid).\n\n• '-' could be used as a unary operation (i.e., \"-1\" and \"-(2 + 3)\" is valid).\n\n• There will be no two consecutive operators in the input.\n\n• Every number and running calculation will fit in a signed 32-bit integer.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def calculate(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"1 + 1\""
+    ],
+    [
+      "\" 2-1 + 2 \""
+    ],
+    [
+      "\"(1+(4+5+2)-3)+(6+8)\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "23"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def calculate(s: str) -> int:\n    result = 0\n    sign = 1\n    num = 0\n    st = []\n    for c in s:\n        if c.isdigit():\n            num = num * 10 + int(c)\n        else:\n            result += sign * num\n            num = 0\n            if c == '+':\n                sign = 1\n            elif c == '-':\n                sign = -1\n            elif c == '(':\n                st.append(result)\n                st.append(sign)\n                result = 0\n                sign = 1\n            elif c == ')':\n                prev_sign = st.pop()\n                prev_result = st.pop()\n                result = prev_result + prev_sign * result\n    result += sign * num\n    return result",
+    "explanation": "The algorithm first initializes variables `result`, `sign`, and `num` along with a stack `st`. It iterates through each character of the given string, `s`. If a digit is encountered, we update `num`, otherwise, if an operator, `(` or `)` is found, we perform the appropriate operation and update the variables accordingly. For example, we store the current result and sign onto the stack when we encounter a `(` and calculate the result when we encounter a `)` and use the stack to track the values of previous results and signs. Finally, we return the final result after the iteration is complete."
+  },
+  "similarQuestions": "[{\"title\": \"Evaluate Reverse Polish Notation\", \"titleSlug\": \"evaluate-reverse-polish-notation\", \"difficulty\": \"Medium\"}, {\"title\": \"Basic Calculator II\", \"titleSlug\": \"basic-calculator-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Different Ways to Add Parentheses\", \"titleSlug\": \"different-ways-to-add-parentheses\", \"difficulty\": \"Medium\"}, {\"title\": \"Expression Add Operators\", \"titleSlug\": \"expression-add-operators\", \"difficulty\": \"Hard\"}, {\"title\": \"Basic Calculator III\", \"titleSlug\": \"basic-calculator-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"The Score of Students Solving Math Expression\", \"titleSlug\": \"the-score-of-students-solving-math-expression\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimize Result by Adding Parentheses to Expression\", \"titleSlug\": \"minimize-result-by-adding-parentheses-to-expression\", \"difficulty\": \"Medium\"}]"
+}

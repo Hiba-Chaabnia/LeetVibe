@@ -1,0 +1,60 @@
+{
+  "questionId": "678",
+  "title": "Valid Parenthesis String",
+  "titleSlug": "valid-parenthesis-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given a string s containing only three types of characters: '(', ')' and '*', return true if s is valid.\n\nThe following rules define a valid string:\n\n• Any left parenthesis '(' must have a corresponding right parenthesis ')'.\n\n• Any right parenthesis ')' must have a corresponding left parenthesis '('.\n\n• Left parenthesis '(' must go before the corresponding right parenthesis ')'.\n\n• '*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string \"\".\n\nExample 1:\n\nInput: s = \"()\"\nOutput: true\nExample 2:\n\nInput: s = \"(*)\"\nOutput: true\nExample 3:\n\nInput: s = \"(*))\"\nOutput: true\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s[i] is '(', ')' or '*'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkValidString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use backtracking to explore all possible combinations of treating '*' as either '(', ')', or an empty string. If any combination leads to a valid string, return true.",
+    "DP[i][j] represents whether the substring s[i:j] is valid.",
+    "Keep track of the count of open parentheses encountered so far. If you encounter a close parenthesis, it should balance with an open parenthesis. Utilize a stack to handle this effectively.",
+    "How about using 2 stacks instead of 1? Think about it."
+  ],
+  "testCases": [
+    [
+      "\"()\""
+    ],
+    [
+      "\"(*)\""
+    ],
+    [
+      "\"(*))\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def checkValidString(s: str) -> bool:\n    left_balance, right_balance = 0, 0\n\n    for i in range(len(s)):\n        left_balance += 1 if s[i] == '(' or s[i] == '*' else -1\n        right_balance += 1 if s[len(s) - 1 - i] == ')' or s[len(s) - 1 - i] == '*' else -1\n\n        if left_balance < 0 or right_balance < 0:\n            return False\n\n    return True",
+    "explanation": "The algorithm uses the greedy approach by keeping count of the possible balance of left and right parentheses with two variables `left_balance` and `right_balance`. \n\nWe iterate through the string in both forward and reverse direction looking at balance of the parentheses. The '*' character is treated as a left parenthesis when iterating forward, and as a right parenthesis when iterating in reverse. If at any point either balance is negative, we return false, as it is not a valid string.\n\nIf we successfully finish the iteration without returning false, it means the string is valid, and we return true."
+  },
+  "similarQuestions": "[{\"title\": \"Special Binary String\", \"titleSlug\": \"special-binary-string\", \"difficulty\": \"Hard\"}, {\"title\": \"Check if a Parentheses String Can Be Valid\", \"titleSlug\": \"check-if-a-parentheses-string-can-be-valid\", \"difficulty\": \"Medium\"}]"
+}

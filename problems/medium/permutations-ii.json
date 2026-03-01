@@ -1,0 +1,43 @@
+{
+  "questionId": "47",
+  "title": "Permutations II",
+  "titleSlug": "permutations-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.\n\nExample 1:\n\nInput: nums = [1,1,2]\nOutput:\n    [[1,1,2],\n     [1,2,1],\n     [2,1,1]]\n\nExample 2:\n\nInput: nums = [1,2,3]\nOutput: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]\n\nConstraints:\n\n• 1 <= nums.length <= 8\n\n• -10 <= nums[i] <= 10",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def permuteUnique(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,1,2]"
+    ],
+    [
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,1,2],",
+    "[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Next Permutation\", \"titleSlug\": \"next-permutation\", \"difficulty\": \"Medium\"}, {\"title\": \"Permutations\", \"titleSlug\": \"permutations\", \"difficulty\": \"Medium\"}, {\"title\": \"Palindrome Permutation II\", \"titleSlug\": \"palindrome-permutation-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Squareful Arrays\", \"titleSlug\": \"number-of-squareful-arrays\", \"difficulty\": \"Hard\"}]"
+}

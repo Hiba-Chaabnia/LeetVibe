@@ -1,0 +1,57 @@
+{
+  "questionId": "3631",
+  "title": "Count K-Reducible Numbers Less Than N",
+  "titleSlug": "count-k-reducible-numbers-less-than-n",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given a binary string s representing a number n in its binary form.\n\nYou are also given an integer k.\n\nAn integer x is called k-reducible if performing the following operation at most k times reduces it to 1:\n\n• Replace x with the count of set bits in its binary representation.\n\nFor example, the binary representation of 6 is \"110\". Applying the operation once reduces it to 2 (since \"110\" has two set bits). Applying the operation again to 2 (binary \"10\") reduces it to 1 (since \"10\" has one set bit).\n\nReturn an integer denoting the number of positive integers less than n that are k-reducible.\n\nSince the answer may be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: s = \"111\", k = 1\n\nOutput: 3\n\nExplanation: n = 7. The 1-reducible integers less than 7 are 1, 2, and 4.\n\nExample 2:\n\nInput: s = \"1000\", k = 2\n\nOutput: 6\n\nExplanation: n = 8. The 2-reducible integers less than 8 are 1, 2, 3, 4, 5, and 6.\n\nExample 3:\n\nInput: s = \"1\", k = 3\n\nOutput: 0\n\nExplanation: There are no positive integers less than n = 1, so the answer is 0.\n\nConstraints:\n\n• 1 <= s.length <= 800\n\n• s has no leading zeros.\n\n• s consists only of the characters '0' and '1'.\n\n• 1 <= k <= 5",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countKReducibleNumbers(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You can precompute number of operations required to convert a number with x bits to 1.",
+    "Use digit dp."
+  ],
+  "testCases": [
+    [
+      "\"111\"",
+      "1"
+    ],
+    [
+      "\"1000\"",
+      "2"
+    ],
+    [
+      "\"1\"",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "6",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

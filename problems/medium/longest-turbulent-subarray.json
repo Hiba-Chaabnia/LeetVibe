@@ -1,0 +1,52 @@
+{
+  "questionId": "1020",
+  "title": "Longest Turbulent Subarray",
+  "titleSlug": "longest-turbulent-subarray",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given an integer array arr, return the length of a maximum size turbulent subarray of arr.\n\nA subarray is turbulent if the comparison sign flips between each adjacent pair of elements in the subarray.\n\nMore formally, a subarray [arr[i], arr[i + 1], ..., arr[j]] of arr is said to be turbulent if and only if:\n\n• For i <= k < j:\n\n• arr[k] > arr[k + 1] when k is odd, and\n\n• arr[k] < arr[k + 1] when k is even.\n\n• Or, for i <= k < j:\n\n• arr[k] > arr[k + 1] when k is even, and\n\n• arr[k] < arr[k + 1] when k is odd.\n\nExample 1:\n\nInput: arr = [9,4,2,10,7,8,8,1,9]\nOutput: 5\nExplanation: arr[1] > arr[2]  arr[4] Example 2:\n\nInput: arr = [4,8,12,16]\nOutput: 2\n\nExample 3:\n\nInput: arr = [100]\nOutput: 1\n\nConstraints:\n\n• 1 <= arr.length <= 4 * 104\n\n• 0 <= arr[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxTurbulenceSize(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[9,4,2,10,7,8,8,1,9]"
+    ],
+    [
+      "[4,8,12,16]"
+    ],
+    [
+      "[100]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxTurbulenceSize(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        if len(arr) <= 1:\n            return len(arr)\n        \n        max_len = 1\n        current_len = 1\n        \n        for i in range(1, len(arr)):\n            # Skip equal adjacent elements\n            if arr[i] == arr[i-1]:\n                current_len = 1\n                continue\n            \n            # Check if signs alternate\n            if i >= 2:\n                # (arr[i-1] - arr[i-2]) and (arr[i] - arr[i-1]) should have opposite signs\n                if (arr[i-1] - arr[i-2]) * (arr[i] - arr[i-1]) < 0:\n                    current_len += 1\n                else:\n                    current_len = 2\n            else:\n                current_len += 1\n            \n            max_len = max(max_len, current_len)\n        \n        return max_len",
+    "explanation": "Track current turbulent length. For each position, check if comparison sign flips. If it does, extend length. If not, reset to 2 (current pair).",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Subarray\", \"titleSlug\": \"maximum-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Alternating Subarray\", \"titleSlug\": \"longest-alternating-subarray\", \"difficulty\": \"Easy\"}]"
+}

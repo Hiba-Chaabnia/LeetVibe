@@ -1,0 +1,49 @@
+{
+  "questionId": "1408",
+  "title": "Find the Smallest Divisor Given a Threshold",
+  "titleSlug": "find-the-smallest-divisor-given-a-threshold",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given an array of integers nums and an integer threshold, we will choose a positive integer divisor, divide all the array by it, and sum the division's result. Find the smallest divisor such that the result mentioned above is less than or equal to threshold.\n\nEach result of the division is rounded to the nearest integer greater than or equal to that element. (For example: 7/3 = 3 and 10/2 = 5).\n\nThe test cases are generated so that there will be an answer.\n\nExample 1:\n\nInput: nums = [1,2,5,9], threshold = 6\nOutput: 5\nExplanation: We can get a sum to 17 (1+2+5+9) if the divisor is 1.\n    If the divisor is 4 we can get a sum of 7 (1+1+2+3) and if the divisor is 5 the sum will be 5 (1+1+1+2).\n\nExample 2:\n\nInput: nums = [44,22,33,11,1], threshold = 5\nOutput: 44\n\nConstraints:\n\n• 1 <= nums.length <= 5 * 104\n\n• 1 <= nums[i] <= 106\n\n• nums.length <= threshold <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestDivisor(self, nums, threshold):\n        \"\"\"\n        :type nums: List[int]\n        :type threshold: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Examine every possible number for solution. Choose the largest of them.",
+    "Use binary search to reduce the time complexity."
+  ],
+  "testCases": [
+    [
+      "[1,2,5,9]",
+      "6"
+    ],
+    [
+      "[44,22,33,11,1]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "44"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def smallestDivisor(self, nums, threshold):\n        \"\"\"\n        :type nums: List[int]\n        :type threshold: int\n        :rtype: int\n        \"\"\"\n        def sum_with_divisor(divisor):\n            return sum((num + divisor - 1) // divisor for num in nums)\n        \n        left, right = 1, max(nums)\n        \n        while left < right:\n            mid = (left + right) // 2\n            if sum_with_divisor(mid) <= threshold:\n                right = mid\n            else:\n                left = mid + 1\n        \n        return left",
+    "explanation": "Binary search on divisor value. For each divisor, compute sum of ceil divisions. Find smallest divisor giving sum <= threshold.",
+    "complexity": "Time: O(n * log(max(nums))). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimized Maximum of Products Distributed to Any Store\", \"titleSlug\": \"minimized-maximum-of-products-distributed-to-any-store\", \"difficulty\": \"Medium\"}]"
+}

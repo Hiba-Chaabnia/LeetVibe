@@ -1,0 +1,56 @@
+{
+  "questionId": "2905",
+  "title": "Count Paths That Can Form a Palindrome in a Tree",
+  "titleSlug": "count-paths-that-can-form-a-palindrome-in-a-tree",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given a tree (i.e. a connected, undirected graph that has no cycles) rooted at node 0 consisting of n nodes numbered from 0 to n - 1. The tree is represented by a 0-indexed array parent of size n, where parent[i] is the parent of node i. Since node 0 is the root, parent[0] == -1.\n\nYou are also given a string s of length n, where s[i] is the character assigned to the edge between i and parent[i]. s[0] can be ignored.\n\nReturn the number of pairs of nodes (u, v) such that u < v and the characters assigned to edges on the path from u to v can be rearranged to form a palindrome.\n\nA string is a palindrome when it reads the same backwards as forwards.\n\nExample 1:\n\nInput: parent = [-1,0,0,1,1,2], s = \"acaabc\"\nOutput: 8\nExplanation: The valid pairs are:\n    - All the pairs (0,1), (0,2), (1,3), (1,4) and (2,5) result in one character which is always a palindrome.\n    - The pair (2,3) result in the string \"aca\" which is a palindrome.\n    - The pair (1,5) result in the string \"cac\" which is a palindrome.\n    - The pair (3,5) result in the string \"acac\" which can be rearranged into the palindrome \"acca\".\n\nExample 2:\n\nInput: parent = [-1,0,0,0,0], s = \"aaaaa\"\nOutput: 10\nExplanation: Any pair of nodes (u,v) where u\n\nConstraints:\n\n• n == parent.length == s.length\n\n• 1 <= n <= 105\n\n• 0 <= parent[i] <= n - 1 for all i >= 1\n\n• parent[0] == -1\n\n• parent represents a valid tree.\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPalindromePaths(self, parent, s):\n        \"\"\"\n        :type parent: List[int]\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A string is a palindrome if the number of characters with an odd frequency is either 0 or 1.",
+    "Let mask[v] be a mask of 26 bits that represent the parity of each character in the alphabet on the path from node 0 to v. How can you use this array to solve the problem?"
+  ],
+  "testCases": [
+    [
+      "[-1,0,0,1,1,2]",
+      "\"acaabc\""
+    ],
+    [
+      "[-1,0,0,0,0]",
+      "\"aaaaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "10"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count Valid Paths in a Tree\", \"titleSlug\": \"count-valid-paths-in-a-tree\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,62 @@
+{
+  "questionId": "3289",
+  "title": "Earliest Second to Mark Indices II",
+  "titleSlug": "earliest-second-to-mark-indices-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given two 1-indexed integer arrays, nums and, changeIndices, having lengths n and m, respectively.\n\nInitially, all indices in nums are unmarked. Your task is to mark all indices in nums.\n\nIn each second, s, in order from 1 to m (inclusive), you can perform one of the following operations:\n\n• Choose an index i in the range [1, n] and decrement nums[i] by 1.\n\n• Set nums[changeIndices[s]] to any non-negative value.\n\n• Choose an index i in the range [1, n], where nums[i] is equal to 0, and mark index i.\n\n• Do nothing.\n\nReturn an integer denoting the earliest second in the range [1, m] when all indices in nums can be marked by choosing operations optimally, or -1 if it is impossible.\n\nExample 1:\n\nInput: nums = [3,2,3], changeIndices = [1,3,2,2,2,2,3]\nOutput: 6\nExplanation: In this example, we have 7 seconds. The following operations can be performed to mark all indices:\n    Second 1: Set nums[changeIndices[1]] to 0. nums becomes [0,2,3].\n    Second 2: Set nums[changeIndices[2]] to 0. nums becomes [0,2,0].\n    Second 3: Set nums[changeIndices[3]] to 0. nums becomes [0,0,0].\n    Second 4: Mark index 1, since nums[1] is equal to 0.\n    Second 5: Mark index 2, since nums[2] is equal to 0.\n    Second 6: Mark index 3, since nums[3] is equal to 0.\n    Now all indices have been marked.\n    It can be shown that it is not possible to mark all indices earlier than the 6th second.\n    Hence, the answer is 6.\n\nExample 2:\n\nInput: nums = [0,0,1,2], changeIndices = [1,2,1,2,1,2,1,2]\nOutput: 7\nExplanation: In this example, we have 8 seconds. The following operations can be performed to mark all indices:\n    Second 1: Mark index 1, since nums[1] is equal to 0.\n    Second 2: Mark index 2, since nums[2] is equal to 0.\n    Second 3: Decrement index 4 by one. nums becomes [0,0,1,1].\n    Second 4: Decrement index 4 by one. nums becomes [0,0,1,0].\n    Second 5: Decrement index 3 by one. nums becomes [0,0,0,0].\n    Second 6: Mark index 3, since nums[3] is equal to 0.\n    Second 7: Mark index 4, since nums[4] is equal to 0.\n    Now all indices have been marked.\n    It can be shown that it is not possible to mark all indices earlier than the 7th second.\n    Hence, the answer is 7.\n\nExample 3:\n\nInput: nums = [1,2,3], changeIndices = [1,2,3]\nOutput: -1\nExplanation: In this example, it can be shown that it is impossible to mark all indices, as we don't have enough seconds.\n    Hence, the answer is -1.\n\nConstraints:\n\n• 1 <= n == nums.length <= 5000\n\n• 0 <= nums[i] <= 109\n\n• 1 <= m == changeIndices.length <= 5000\n\n• 1 <= changeIndices[i] <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def earliestSecondToMarkIndices(self, nums, changeIndices):\n        \"\"\"\n        :type nums: List[int]\n        :type changeIndices: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We need at least n seconds, and at most sum(nums[i]) + n seconds.",
+    "We can binary search the earliest second where all indices can be marked.",
+    "If there is an operation where we change nums[changeIndices[i]] to a non-negative value, it is best for it to satisfy the following constraints:<ul>\r\n<li>nums[changeIndices[i]] should not be equal to 0.</li>\r\n<li>nums[changeIndices[i]] should be changed to 0.</li>\r\n<li>It should be the first position where changeIndices[i] occurs in changeIndices.</li>\r\n<li>There should be another second, j, where changeIndices[i] will be marked. j is in the range [i + 1, m].</li>\r\n</ul>",
+    "Let time_needed = sum(nums[i]) + n. To check if we can mark all indices at some second x, we need to make time_needed <= x, using non-negative change operations as described previously.",
+    "Using a non-negative change operation on some nums[changeIndices[i]] that satisfies the constraints described previously reduces time_needed by nums[changeIndices[i]] - 1. So, we need to maximize the sum of (nums[changeIndices[i]] - 1) while ensuring that the non-negative change operations still satisfy the constraints.",
+    "Maximizing the sum of (nums[changeIndices[i]] - 1) can be done greedily using a min-priority queue and going in reverse starting from second x to second 1, maximizing the sum of the values in the priority queue and ensuring that for every non-negative change operation on nums[changeIndices[i]] chosen, there is another second j in the range [i + 1, x] where changeIndices[i] can be marked.",
+    "The answer is the first value of x in the range [1, m] where it is possible to make time_needed <= x, or -1 if there is no such second."
+  ],
+  "testCases": [
+    [
+      "[3,2,3]",
+      "[1,3,2,2,2,2,3]"
+    ],
+    [
+      "[0,0,1,2]",
+      "[1,2,1,2,1,2,1,2]"
+    ],
+    [
+      "[1,2,3]",
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "7",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

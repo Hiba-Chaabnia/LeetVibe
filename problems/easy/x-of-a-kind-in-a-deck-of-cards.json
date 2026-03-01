@@ -1,0 +1,55 @@
+{
+  "questionId": "950",
+  "title": "X of a Kind in a Deck of Cards",
+  "titleSlug": "x-of-a-kind-in-a-deck-of-cards",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array deck where deck[i] represents the number written on the ith card.\n\nPartition the cards into one or more groups such that:\n\n• Each group has exactly x cards where x > 1, and\n\n• All the cards in one group have the same integer written on them.\n\nReturn true if such partition is possible, or false otherwise.\n\nExample 1:\n\nInput: deck = [1,2,3,4,4,3,2,1]\nOutput: true\nExplanation: Possible partition [1,1],[2,2],[3,3],[4,4].\n\nExample 2:\n\nInput: deck = [1,1,1,2,2,2,3,3]\nOutput: false\nExplanation: No possible partition.\n\nConstraints:\n\n• 1 <= deck.length <= 104\n\n• 0 <= deck[i] < 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def hasGroupsSizeX(self, deck):\n        \"\"\"\n        :type deck: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,4,3,2,1]"
+    ],
+    [
+      "[1,1,1,2,2,2,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def hasGroupsSizeX(self, deck):\n        from collections import Counter\n        from math import gcd\n        from functools import reduce\n        if len(deck) < 2:\n            return False\n        freq = Counter(deck)\n        return reduce(gcd, freq.values()) >= 2",
+    "explanation": "GCD of all frequencies must be >= 2 to split into equal groups.\nTime: O(n*log(max_freq))\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

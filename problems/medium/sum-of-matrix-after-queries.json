@@ -1,0 +1,49 @@
+{
+  "questionId": "2838",
+  "title": "Sum of Matrix After Queries",
+  "titleSlug": "sum-of-matrix-after-queries",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given an integer n and a 0-indexed 2D array queries where queries[i] = [typei, indexi, vali].\n\nInitially, there is a 0-indexed n x n matrix filled with 0's. For each query, you must apply one of the following changes:\n\n• if typei == 0, set the values in the row with indexi to vali, overwriting any previous values.\n\n• if typei == 1, set the values in the column with indexi to vali, overwriting any previous values.\n\nReturn the sum of integers in the matrix after all queries are applied.\n\nExample 1:\n\nInput: n = 3, queries = [[0,0,1],[1,2,2],[0,2,3],[1,0,4]]\nOutput: 23\nExplanation: The image above describes the matrix after each query. The sum of the matrix after all queries are applied is 23.\n\nExample 2:\n\nInput: n = 3, queries = [[0,0,4],[0,1,2],[1,0,1],[0,2,3],[1,2,1]]\nOutput: 17\nExplanation: The image above describes the matrix after each query. The sum of the matrix after all queries are applied is 17.\n\nConstraints:\n\n• 1 <= n <= 104\n\n• 1 <= queries.length <= 5 * 104\n\n• queries[i].length == 3\n\n• 0 <= typei <= 1\n\n• 0 <= indexi < n\n\n• 0 <= vali <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def matrixSumQueries(self, n, queries):\n        \"\"\"\n        :type n: int\n        :type queries: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Process queries in reversed order, as the latest queries represent the most recent changes in the matrix.",
+    "Once you encounter an operation on some row/column, no further operations will affect the values in this row/column. Keep track of seen rows and columns with a set.",
+    "When operating on an unseen row/column, the number of affected cells is the number of columns/rows you haven’t previously seen."
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[0,0,1],[1,2,2],[0,2,3],[1,0,4]]"
+    ],
+    [
+      "3",
+      "[[0,0,4],[0,1,2],[1,0,1],[0,2,3],[1,2,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "23",
+    "17"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def matrixSumQueries(self, n, queries):\n        seen_rows = set()\n        seen_cols = set()\n        total = 0\n\n        for t, idx, val in reversed(queries):\n            if t == 0:  # row query\n                if idx not in seen_rows:\n                    seen_rows.add(idx)\n                    # This row sets n cells, but cells in already-seen columns\n                    # will be overwritten by a later column query\n                    total += val * (n - len(seen_cols))\n            else:  # column query\n                if idx not in seen_cols:\n                    seen_cols.add(idx)\n                    total += val * (n - len(seen_rows))\n\n        return total",
+    "explanation": "Processing queries in reverse order (latest first) is the key insight. The last query to touch a row/column determines its final values.\n\nWhen we process a row query in reverse and this row hasn't been seen yet:\n- The row will eventually be filled with val for all columns not overridden by a later column query.\n- The number of 'free' columns (not yet seen in our reverse pass, meaning no later column query will override them) is n - len(seen_cols).\n- We add val * (n - len(seen_cols)) to the total.\n\nSimilarly for column queries. If a row/column has already been seen (processed in our reverse pass), we skip it since a later query already determined its final values.\n\nTime complexity: O(q). Space complexity: O(n) for the seen sets."
+  },
+  "similarQuestions": "[{\"title\": \"Range Sum Query 2D - Mutable\", \"titleSlug\": \"range-sum-query-2d-mutable\", \"difficulty\": \"Medium\"}, {\"title\": \"Range Addition II\", \"titleSlug\": \"range-addition-ii\", \"difficulty\": \"Easy\"}]"
+}

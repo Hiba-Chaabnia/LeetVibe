@@ -1,0 +1,59 @@
+{
+  "questionId": "2850",
+  "title": "Construct the Longest New String",
+  "titleSlug": "construct-the-longest-new-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    }
+  ],
+  "content": "You are given three integers x, y, and z.\n\nYou have x strings equal to \"AA\", y strings equal to \"BB\", and z strings equal to \"AB\". You want to choose some (possibly all or none) of these strings and concatenate them in some order to form a new string. This new string must not contain \"AAA\" or \"BBB\" as a substring.\n\nReturn the maximum possible length of the new string.\n\nA substring is a contiguous non-empty sequence of characters within a string.\n\nExample 1:\n\nInput: x = 2, y = 5, z = 1\nOutput: 12\nExplanation: We can concatenate the strings \"BB\", \"AA\", \"BB\", \"AA\", \"BB\", and \"AB\" in that order. Then, our new string is \"BBAABBAABBAB\".\n    That string has length 12, and we can show that it is impossible to construct a string of longer length.\n\nExample 2:\n\nInput: x = 3, y = 2, z = 2\nOutput: 14\nExplanation: We can concatenate the strings \"AB\", \"AB\", \"AA\", \"BB\", \"AA\", \"BB\", and \"AA\" in that order. Then, our new string is \"ABABAABBAABBAA\".\n    That string has length 14, and we can show that it is impossible to construct a string of longer length.\n\nConstraints:\n\n• 1 <= x, y, z <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestString(self, x, y, z):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :type z: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It can be proved that ALL “AB”s can be used in the optimal solution.\r\n(1) If the final string starts with 'A', we can put all unused “AB”s at the very beginning.\r\n(2) If the final string starts with 'B' (meaning) it starts with “BB”, we can put all unused “AB”s after the 2nd 'B'.",
+    "Using “AB” doesn’t increase the number of “AA”s or “BB”s we can use.\r\nIf we put an “AB” after “BB”, then we still need to append “AA” as before, so it doesn’t change the state.",
+    "We only need to consider strings “AA” and “BB”; we can either use the pattern “AABBAABB…” or the pattern “BBAABBAA…”, depending on which one of x and y is larger."
+  ],
+  "testCases": [
+    [
+      "2",
+      "5",
+      "1"
+    ],
+    [
+      "3",
+      "2",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "14"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def longestString(self, x, y, z):\n        pairs = min(x, y)\n        extra = 1 if x != y else 0\n        return (2 * pairs + extra + z) * 2",
+    "explanation": "Use min(x,y) interleaved AA/BB pairs, one extra if unequal, plus all z AB pairs."
+  },
+  "similarQuestions": "[]"
+}

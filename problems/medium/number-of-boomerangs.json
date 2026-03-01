@@ -1,0 +1,51 @@
+{
+  "questionId": "447",
+  "title": "Number of Boomerangs",
+  "titleSlug": "number-of-boomerangs",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given n points in the plane that are all distinct, where points[i] = [xi, yi]. A boomerang is a tuple of points (i, j, k) such that the distance between i and j equals the distance between i and k (the order of the tuple matters).\n\nReturn the number of boomerangs.\n\nExample 1:\n\nInput: points = [[0,0],[1,0],[2,0]]\nOutput: 2\nExplanation: The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]].\n\nExample 2:\n\nInput: points = [[1,1],[2,2],[3,3]]\nOutput: 2\n\nExample 3:\n\nInput: points = [[1,1]]\nOutput: 0\n\nConstraints:\n\n• n == points.length\n\n• 1 <= n <= 500\n\n• points[i].length == 2\n\n• -104 <= xi, yi <= 104\n\n• All the points are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfBoomerangs(self, points):\n        \"\"\"\n        :type points: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,0],[1,0],[2,0]]"
+    ],
+    [
+      "[[1,1],[2,2],[3,3]]"
+    ],
+    [
+      "[[1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numberOfBoomerangs(points):\n    count = 0\n\n    for i in points:\n        group_count = {}\n        for j in points:\n            dx, dy = i[0] - j[0], i[1] - j[1]\n            dist = dx * dx + dy * dy\n            group_count[dist] = group_count.get(dist, 0) + 1\n\n        for g in group_count.values():\n            count += g * (g - 1)\n\n    return count",
+    "explanation": "1. For every point `i` in the input, we create a hash map called `group_count` to store the count of points with the same distance from point `i`.\n2. For every point `j`, we calculate the squared distance from `i` to `j`. We use the squared distance to avoid using a square root function, as it's not necessary for this problem.\n3. Increment the count of the squared distance in `group_count`.\n4. To calculate the number of boomerangs, iterate through the values of `group_count`. For every count `g`, we have `g * (g - 1)` boomerangs because there are `g` choices for the second point and `g - 1` choices for the third point.\n5. Return the total number of boomerangs."
+  },
+  "similarQuestions": "[{\"title\": \"Line Reflection\", \"titleSlug\": \"line-reflection\", \"difficulty\": \"Medium\"}]"
+}

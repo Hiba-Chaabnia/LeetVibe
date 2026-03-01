@@ -1,0 +1,53 @@
+{
+  "questionId": "2076",
+  "title": "Sum of Digits of String After Convert",
+  "titleSlug": "sum-of-digits-of-string-after-convert",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters, and an integer k. Your task is to convert the string into an integer by a special process, and then transform it by summing its digits repeatedly k times. More specifically, perform the following steps:\n\n• Convert s into an integer by replacing each letter with its position in the alphabet (i.e. replace 'a' with 1, 'b' with 2, ..., 'z' with 26).\n\n• Transform the integer by replacing it with the sum of its digits.\n\n• Repeat the transform operation (step 2) k times in total.\n\nFor example, if s = \"zbax\" and k = 2, then the resulting integer would be 8 by the following operations:\n\n• Convert: \"zbax\" ➝ \"(26)(2)(1)(24)\" ➝ \"262124\" ➝ 262124\n\n• Transform #1: 262124 ➝ 2 + 6 + 2 + 1 + 2 + 4 ➝ 17\n\n• Transform #2: 17 ➝ 1 + 7 ➝ 8\n\nReturn the resulting integer after performing the operations described above.\n\nExample 1:\n\nInput: s = \"iiii\", k = 1\n\nOutput: 36\n\nExplanation: The operations are as follows:\n\n- Convert: \"iiii\" ➝ \"(9)(9)(9)(9)\" ➝ \"9999\" ➝ 9999\n\n- Transform #1: 9999 ➝ 9 + 9 + 9 + 9 ➝ 36\n\nThus the resulting integer is 36.\n\nExample 2:\n\nInput: s = \"leetcode\", k = 2\n\nOutput: 6\n\nExplanation: The operations are as follows:\n\n- Convert: \"leetcode\" ➝ \"(12)(5)(5)(20)(3)(15)(4)(5)\" ➝ \"12552031545\" ➝ 12552031545\n\n- Transform #1: 12552031545 ➝ 1 + 2 + 5 + 5 + 2 + 0 + 3 + 1 + 5 + 4 + 5 ➝ 33\n\n- Transform #2: 33 ➝ 3 + 3 ➝ 6\n\nThus the resulting integer is 6.\n\nExample 3:\n\nInput: s = \"zbax\", k = 2\n\nOutput: 8\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• 1 <= k <= 10\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getLucky(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "First, let's note that after the first transform the value will be at most 100 * 10 which is not much",
+    "After The first transform, we can just do the rest of the transforms by brute force"
+  ],
+  "testCases": [
+    [
+      "\"iiii\"",
+      "1"
+    ],
+    [
+      "\"leetcode\"",
+      "2"
+    ],
+    [
+      "\"zbax\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "36",
+    "6",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getLucky(self, s, k):\n        num_str = ''.join(str(ord(c) - ord('a') + 1) for c in s)\n        for _ in range(k):\n            num_str = str(sum(int(d) for d in num_str))\n        return int(num_str)",
+    "explanation": "Convert letters to numbers. Sum digits k times.\nTime: O(n + k*d)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Happy Number\", \"titleSlug\": \"happy-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Add Digits\", \"titleSlug\": \"add-digits\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Integers With Even Digit Sum\", \"titleSlug\": \"count-integers-with-even-digit-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Element After Replacement With Digit Sum\", \"titleSlug\": \"minimum-element-after-replacement-with-digit-sum\", \"difficulty\": \"Easy\"}]"
+}

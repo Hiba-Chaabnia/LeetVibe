@@ -1,0 +1,52 @@
+{
+  "questionId": "2165",
+  "title": "Plates Between Candles",
+  "titleSlug": "plates-between-candles",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "There is a long table with a line of plates and candles arranged on top of it. You are given a 0-indexed string s consisting of characters '*' and '|' only, where a '*' represents a plate and a '|' represents a candle.\n\nYou are also given a 0-indexed 2D integer array queries where queries[i] = [lefti, righti] denotes the substring s[lefti...righti] (inclusive). For each query, you need to find the number of plates between candles that are in the substring. A plate is considered between candles if there is at least one candle to its left and at least one candle to its right in the substring.\n\n• For example, s = \"||**||**|*\", and a query [3, 8] denotes the substring \"*||**|\". The number of plates between candles in this substring is 2, as each of the two plates has at least one candle in the substring to its left and right.\n\nReturn an integer array answer where answer[i] is the answer to the ith query.\n\nExample 1:\n\nInput: s = \"**|**|***|\", queries = [[2,5],[5,9]]\nOutput: [2,3]\nExplanation:\n    - queries[0] has two plates between candles.\n    - queries[1] has three plates between candles.\n\nExample 2:\n\nInput: s = \"***|**|*****|**||**|*\", queries = [[1,17],[4,5],[14,17],[5,11],[15,16]]\nOutput: [9,0,0,0,0]\nExplanation:\n    - queries[0] has nine plates between candles.\n    - The other queries have zero plates between candles.\n\nConstraints:\n\n• 3 <= s.length <= 105\n\n• s consists of '*' and '|' characters.\n\n• 1 <= queries.length <= 105\n\n• queries[i].length == 2\n\n• 0 <= lefti <= righti < s.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def platesBetweenCandles(self, s, queries):\n        \"\"\"\n        :type s: str\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can you find the indices of the most left and right candles for a given substring, perhaps by using binary search (or better) over an array of indices of all the bars?",
+    "Once the indices of the most left and right bars are determined, how can you efficiently count the number of plates within the range? Prefix sums?"
+  ],
+  "testCases": [
+    [
+      "\"**|**|***|\"",
+      "[[2,5],[5,9]]"
+    ],
+    [
+      "\"***|**|*****|**||**|*\"",
+      "[[1,17],[4,5],[14,17],[5,11],[15,16]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3]",
+    "[9,0,0,0,0]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find First and Last Position of Element in Sorted Array\", \"titleSlug\": \"find-first-and-last-position-of-element-in-sorted-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Can Make Palindrome from Substring\", \"titleSlug\": \"can-make-palindrome-from-substring\", \"difficulty\": \"Medium\"}]"
+}

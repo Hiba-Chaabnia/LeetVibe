@@ -1,0 +1,58 @@
+{
+  "questionId": "874",
+  "title": "Backspace String Compare",
+  "titleSlug": "backspace-string-compare",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.\n\nNote that after backspacing an empty text, the text will continue empty.\n\nExample 1:\n\nInput: s = \"ab#c\", t = \"ad#c\"\nOutput: true\nExplanation: Both s and t become \"ac\".\n\nExample 2:\n\nInput: s = \"ab##\", t = \"c#d#\"\nOutput: true\nExplanation: Both s and t become \"\".\n\nExample 3:\n\nInput: s = \"a#c\", t = \"b\"\nOutput: false\nExplanation: s becomes \"c\" while t becomes \"b\".\n\nConstraints:\n\n• 1 <= s.length, t.length <= 200\n\n• s and t only contain lowercase letters and '#' characters.\n\nFollow up: Can you solve it in O(n) time and O(1) space?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def backspaceCompare(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"ab#c\"",
+      "\"ad#c\""
+    ],
+    [
+      "\"ab##\"",
+      "\"c#d#\""
+    ],
+    [
+      "\"a#c\"",
+      "\"b\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def backspaceCompare(s: str, t: str) -> bool:\n    i, j = len(s) - 1, len(t) - 1\n    while True:\n        back = 0\n        while i >= 0 and (back > 0 or s[i] == '#'):\n            back = back + 1 if s[i] == '#' else back - 1\n            i -= 1\n        back = 0\n        while j >= 0 and (back > 0 or t[j] == '#'):\n            back = back + 1 if t[j] == '#' else back - 1\n            j -= 1\n        if i >= 0 and j >= 0 and s[i] == t[j]:\n            i, j = i -1, j - 1\n        else:\n            return i == -1 and j == -1",
+    "explanation": "The algorithm implements a two-pointer approach to compare the characters in the given strings `s` and `t`. We initialize two pointers `i` and `j` at the end of the respective strings. We use two nested loops to iterate through the characters from right to left, considering the backspace characters.\n\nIn both loops, we maintain a backspace counter. If we encounter a backspace character, we increment the counter. If we encounter a non-backspace character while the counter is greater than 0, we decrement the counter and continue. This effectively simulates the deletion of characters due to backspace.\n\nWe then compare the characters at positions `i` and `j`. If they are equal, we decrement both pointers. If they are not equal, we break the loop and check if both pointers are equal to -1, indicating that both strings are equal after considering backspaces. If both pointers are equal to -1, we return true; otherwise, we return false.\n\nThis algorithm has a time complexity of O(n), where n is the length of the input strings, and a space complexity of O(1) as we do not use any additional data structures."
+  },
+  "similarQuestions": "[{\"title\": \"Crawler Log Folder\", \"titleSlug\": \"crawler-log-folder\", \"difficulty\": \"Easy\"}, {\"title\": \"Removing Stars From a String\", \"titleSlug\": \"removing-stars-from-a-string\", \"difficulty\": \"Medium\"}]"
+}

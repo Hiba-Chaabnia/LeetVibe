@@ -1,0 +1,59 @@
+{
+  "questionId": "3592",
+  "title": "Find X-Sum of All K-Long Subarrays II",
+  "titleSlug": "find-x-sum-of-all-k-long-subarrays-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given an array nums of n integers and two integers k and x.\n\nThe x-sum of an array is calculated by the following procedure:\n\n• Count the occurrences of all elements in the array.\n\n• Keep only the occurrences of the top x most frequent elements. If two elements have the same number of occurrences, the element with the bigger value is considered more frequent.\n\n• Calculate the sum of the resulting array.\n\nNote that if an array has less than x distinct elements, its x-sum is the sum of the array.\n\nReturn an integer array answer of length n - k + 1 where answer[i] is the x-sum of the subarray nums[i..i + k - 1].\n\nExample 1:\n\nInput: nums = [1,1,2,2,3,4,2,3], k = 6, x = 2\n\nOutput: [6,10,12]\n\nExplanation:\n\n• For subarray [1, 1, 2, 2, 3, 4], only elements 1 and 2 will be kept in the resulting array. Hence, answer[0] = 1 + 1 + 2 + 2.\n\n• For subarray [1, 2, 2, 3, 4, 2], only elements 2 and 4 will be kept in the resulting array. Hence, answer[1] = 2 + 2 + 2 + 4. Note that 4 is kept in the array since it is bigger than 3 and 1 which occur the same number of times.\n\n• For subarray [2, 2, 3, 4, 2, 3], only elements 2 and 3 are kept in the resulting array. Hence, answer[2] = 2 + 2 + 2 + 3 + 3.\n\nExample 2:\n\nInput: nums = [3,8,7,8,7,5], k = 2, x = 2\n\nOutput: [11,15,15,15,12]\n\nExplanation: Since k == x, answer[i] is equal to the sum of the subarray nums[i..i + k - 1].\n\nConstraints:\n\n• nums.length == n\n\n• 1 <= n <= 105\n\n• 1 <= nums[i] <= 109\n\n• 1 <= x <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findXSum(self, nums, k, x):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type x: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use sliding window.",
+    "Use two sets ordered by frequency. One of the sets will only contain the top x frequent elements, and the second will contain all other elements.",
+    "Update the two sets whenever you slide the window, and maintain a sum of the elements in the set with x elements"
+  ],
+  "testCases": [
+    [
+      "[1,1,2,2,3,4,2,3]",
+      "6",
+      "2"
+    ],
+    [
+      "[3,8,7,8,7,5]",
+      "2",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[6,10,12]",
+    "[11,15,15,15,12]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findXSum(self, nums, k, x):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type x: int\n        :rtype: List[int]\n        \"\"\"\n        from collections import Counter\n        import heapq\n        \n        n = len(nums)\n        result = []\n        \n        for i in range(n - k + 1):\n            subarray = nums[i:i + k]\n            \n            # Count frequencies\n            freq = Counter(subarray)\n            \n            # Get top x elements by frequency (and value if tie)\n            # Sort by (-frequency, -value)\n            sorted_items = sorted(freq.items(), key=lambda x: (-x[1], -x[0]))\n            \n            # Sum top x\n            x_sum = 0\n            for j in range(min(x, len(sorted_items))):\n                value, count = sorted_items[j]\n                x_sum += value * count\n            \n            result.append(x_sum)\n        \n        return result",
+    "explanation": "This solution uses sliding window with frequency tracking:\n\n1. **Problem Understanding**:\n   - X-sum: sum of top x frequent elements (by frequency, then value)\n   - Find x-sum for each k-length subarray\n   - If < x distinct elements, sum all\n\n2. **Sliding Window Approach**:\n   - For each starting position i:\n   - Extract subarray nums[i:i+k]\n   - Count frequencies of all elements\n   - Find top x and sum their contributions\n\n3. **Sorting for Top X**:\n   - Sort items by:\n     - Primary: frequency descending\n     - Secondary: value descending (tiebreaker)\n   - Take first x items\n   - Sum: value * frequency for each\n\n4. **Frequency Counting**:\n   - Use Counter to get element frequencies\n   - Items with same frequency: prefer larger value\n   - This handles the tiebreaker rule\n\n5. **Edge Cases**:\n   - If < x distinct elements: sum all\n   - Using min(x, len(sorted_items))\n   - Automatically handles this\n\nTime Complexity: O(n * k log k) per subarray sorting\nSpace Complexity: O(k) for counter and sorting"
+  },
+  "similarQuestions": "[]"
+}

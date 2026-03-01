@@ -1,0 +1,52 @@
+{
+  "questionId": "3543",
+  "title": "Count Substrings That Satisfy K-Constraint I",
+  "titleSlug": "count-substrings-that-satisfy-k-constraint-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a binary string s and an integer k.\n\nA binary string satisfies the k-constraint if either of the following conditions holds:\n\n• The number of 0's in the string is at most k.\n\n• The number of 1's in the string is at most k.\n\nReturn an integer denoting the number of substrings of s that satisfy the k-constraint.\n\nExample 1:\n\nInput: s = \"10101\", k = 1\n\nOutput: 12\n\nExplanation: Every substring of s except the substrings \"1010\", \"10101\", and \"0101\" satisfies the k-constraint.\n\nExample 2:\n\nInput: s = \"1010101\", k = 2\n\nOutput: 25\n\nExplanation: Every substring of s except the substrings with a length greater than 5 satisfies the k-constraint.\n\nExample 3:\n\nInput: s = \"11111\", k = 1\n\nOutput: 15\n\nExplanation: All substrings of s satisfy the k-constraint.\n\nConstraints:\n\n• 1 <= s.length <= 50\n\n• 1 <= k <= s.length\n\n• s[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countKConstraintSubstrings(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Using a brute force approach, check each index until a substring satisfying the k-constraint is found, then increment."
+  ],
+  "testCases": [
+    [
+      "\"10101\"",
+      "1"
+    ],
+    [
+      "\"1010101\"",
+      "2"
+    ],
+    [
+      "\"11111\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "25",
+    "15"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countKConstraintSubstrings(self, s, k):\n        count = 0\n        n = len(s)\n        for i in range(n):\n            zeros = ones = 0\n            for j in range(i, n):\n                if s[j] == chr(48):\n                    zeros += 1\n                else:\n                    ones += 1\n                if zeros <= k or ones <= k:\n                    count += 1\n                else:\n                    break\n        return count",
+    "explanation": "For each start extend while k-constraint holds."
+  },
+  "similarQuestions": "[]"
+}

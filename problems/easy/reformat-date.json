@@ -1,0 +1,46 @@
+{
+  "questionId": "1283",
+  "title": "Reformat Date",
+  "titleSlug": "reformat-date",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a date string in the form Day Month Year, where:\n\n• Day is in the set {\"1st\", \"2nd\", \"3rd\", \"4th\", ..., \"30th\", \"31st\"}.\n\n• Month is in the set {\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"}.\n\n• Year is in the range [1900, 2100].\n\nConvert the date string to the format YYYY-MM-DD, where:\n\n• YYYY denotes the 4 digit year.\n\n• MM denotes the 2 digit month.\n\n• DD denotes the 2 digit day.\n\nExample 1:\n\nInput: date = \"20th Oct 2052\"\nOutput: \"2052-10-20\"\n\nExample 2:\n\nInput: date = \"6th Jun 1933\"\nOutput: \"1933-06-06\"\n\nExample 3:\n\nInput: date = \"26th May 1960\"\nOutput: \"1960-05-26\"\n\nConstraints:\n\n• The given dates are guaranteed to be valid, so no error handling is necessary.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reformatDate(self, date):\n        \"\"\"\n        :type date: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Handle the conversions of day, month and year separately.",
+    "Notice that days always have a two-word ending, so if you erase the last two characters of this days you'll get the number."
+  ],
+  "testCases": [
+    [
+      "\"20th Oct 2052\""
+    ],
+    [
+      "\"6th Jun 1933\""
+    ],
+    [
+      "\"26th May 1960\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"2052-10-20\"",
+    "\"1933-06-06\"",
+    "\"1960-05-26\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def reformatDate(self, date):\n        months = {\"Jan\":\"01\",\"Feb\":\"02\",\"Mar\":\"03\",\"Apr\":\"04\",\"May\":\"05\",\"Jun\":\"06\",\n                  \"Jul\":\"07\",\"Aug\":\"08\",\"Sep\":\"09\",\"Oct\":\"10\",\"Nov\":\"11\",\"Dec\":\"12\"}\n        parts = date.split()\n        day = parts[0][:-2].zfill(2)\n        month = months[parts[1]]\n        year = parts[2]\n        return f\"{year}-{month}-{day}\"",
+    "explanation": "Split date into parts. Extract day (remove suffix), map month name, keep year. Format as YYYY-MM-DD.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,49 @@
+{
+  "questionId": "1461",
+  "title": "Count All Valid Pickup and Delivery Options",
+  "titleSlug": "count-all-valid-pickup-and-delivery-options",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "Given n orders, each order consists of a pickup and a delivery service.\n\nCount all valid pickup/delivery possible sequences such that delivery(i) is always after of pickup(i).\n\nSince the answer may be too large, return it modulo 10^9 + 7.\n\nExample 1:\n\nInput: n = 1\nOutput: 1\nExplanation: Unique order (P1, D1), Delivery 1 always is after of Pickup 1.\n\nExample 2:\n\nInput: n = 2\nOutput: 6\nExplanation: All possible orders:\n    (P1,P2,D1,D2), (P1,P2,D2,D1), (P1,D1,P2,D2), (P2,P1,D1,D2), (P2,P1,D2,D1) and (P2,D2,P1,D1).\n    This is an invalid order (P1,D2,P2,D1) because Pickup 2 is after of Delivery 2.\n\nExample 3:\n\nInput: n = 3\nOutput: 90\n\nConstraints:\n\n• 1 <= n <= 500",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countOrders(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use the permutation and combination theory to add one (P, D) pair each time until n pairs."
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "2"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "6",
+    "90"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

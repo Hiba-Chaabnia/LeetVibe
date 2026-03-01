@@ -1,0 +1,62 @@
+{
+  "questionId": "2135",
+  "title": "Maximum Number of Ways to Partition an Array",
+  "titleSlug": "maximum-number-of-ways-to-partition-an-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums of length n. The number of ways to partition nums is the number of pivot indices that satisfy both conditions:\n\n• 1 <= pivot < n\n\n• nums[0] + nums[1] + ... + nums[pivot - 1] == nums[pivot] + nums[pivot + 1] + ... + nums[n - 1]\n\nYou are also given an integer k. You can choose to change the value of one element of nums to k, or to leave the array unchanged.\n\nReturn the maximum possible number of ways to partition nums to satisfy both conditions after changing at most one element.\n\nExample 1:\n\nInput: nums = [2,-1,2], k = 3\nOutput: 1\nExplanation: One optimal approach is to change nums[0] to k. The array becomes [3,-1,2].\n    There is one way to partition the array:\n    - For pivot = 2, we have the partition [3,-1 | 2]: 3 + -1 == 2.\n\nExample 2:\n\nInput: nums = [0,0,0], k = 1\nOutput: 2\nExplanation: The optimal approach is to leave the array unchanged.\n    There are two ways to partition the array:\n    - For pivot = 1, we have the partition [0 | 0,0]: 0 == 0 + 0.\n    - For pivot = 2, we have the partition [0,0 | 0]: 0 + 0 == 0.\n\nExample 3:\n\nInput: nums = [22,4,-25,-20,-15,15,-16,7,19,-10,0,-13,-14], k = -33\nOutput: 4\nExplanation: One optimal approach is to change nums[2] to k. The array becomes [22,4,-33,-20,-15,15,-16,7,19,-10,0,-13,-14].\n    There are four ways to partition the array.\n\nConstraints:\n\n• n == nums.length\n\n• 2 <= n <= 105\n\n• -105 <= k, nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def waysToPartition(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A pivot point splits the array into equal prefix and suffix. If no change is made to the array, the goal is to find the number of pivot p such that prefix[p-1] == suffix[p].",
+    "Consider how prefix and suffix will change when we change a number nums[i] to k.",
+    "When sweeping through each element, can you find the total number of pivots where the difference of prefix and suffix happens to equal to the changes of k-nums[i]."
+  ],
+  "testCases": [
+    [
+      "[2,-1,2]",
+      "3"
+    ],
+    [
+      "[0,0,0]",
+      "1"
+    ],
+    [
+      "[22,4,-25,-20,-15,15,-16,7,19,-10,0,-13,-14]",
+      "-33"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Partition Equal Subset Sum\", \"titleSlug\": \"partition-equal-subset-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Partition to K Equal Sum Subsets\", \"titleSlug\": \"partition-to-k-equal-sum-subsets\", \"difficulty\": \"Medium\"}]"
+}

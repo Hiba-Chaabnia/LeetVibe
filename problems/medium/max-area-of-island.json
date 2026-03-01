@@ -1,0 +1,55 @@
+{
+  "questionId": "695",
+  "title": "Max Area of Island",
+  "titleSlug": "max-area-of-island",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n binary matrix grid. An island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.\n\nThe area of an island is the number of cells with a value 1 in the island.\n\nReturn the maximum area of an island in grid. If there is no island, return 0.\n\nExample 1:\n\nInput: grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],[0,1,0,0,1,1,0,0,1,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0]]\nOutput: 6\nExplanation: The answer is not 11, because the island must be connected 4-directionally.\n\nExample 2:\n\nInput: grid = [[0,0,0,0,0,0,0,0]]\nOutput: 0\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 50\n\n• grid[i][j] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxAreaOfIsland(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],[0,1,0,0,1,1,0,0,1,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0]]"
+    ],
+    [
+      "[[0,0,0,0,0,0,0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxAreaOfIsland(grid):\n    def dfs(i, j):\n        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == 0:\n            return 0\n        grid[i][j] = 0\n        return 1 + dfs(i-1, j) + dfs(i+1, j) + dfs(i, j-1) + dfs(i, j+1)\n\n    max_area = 0\n    for i in range(len(grid)):\n        for j in range(len(grid[0])):\n            if grid[i][j]:\n                max_area = max(max_area, dfs(i, j))\n    return max_area",
+    "explanation": "The algorithm uses DFS (Depth-First Search) to iterate through each cell of the given matrix.\n1. Initialize a variable, max_area, to store the maximum area found.\n2. Define a DFS function, which receives coordinates (i, j) as arguments. \n   - If the cell at (i, j) is out of bounds or has a value of 0, return 0.\n   - Otherwise, mark the cell at (i, j) as visited by setting its value to 0.\n   - Recursively call the DFS function for the adjacent cells (above, below, left, and right) and sum their returned values. Add 1 (for the current cell) and return the result.\n3. Iterate through each cell in the matrix. If the cell contains a 1 (land), invoke the DFS function with the current coordinates.\n   - Update max_area with the maximum of its current value and the value returned by the DFS function.\n4. After the loop, return max_area as the maximum area of an island in the grid."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Islands\", \"titleSlug\": \"number-of-islands\", \"difficulty\": \"Medium\"}, {\"title\": \"Battleships in a Board\", \"titleSlug\": \"battleships-in-a-board\", \"difficulty\": \"Medium\"}, {\"title\": \"Island Perimeter\", \"titleSlug\": \"island-perimeter\", \"difficulty\": \"Easy\"}, {\"title\": \"Largest Submatrix With Rearrangements\", \"titleSlug\": \"largest-submatrix-with-rearrangements\", \"difficulty\": \"Medium\"}, {\"title\": \"Detonate the Maximum Bombs\", \"titleSlug\": \"detonate-the-maximum-bombs\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Fish in a Grid\", \"titleSlug\": \"maximum-number-of-fish-in-a-grid\", \"difficulty\": \"Medium\"}]"
+}

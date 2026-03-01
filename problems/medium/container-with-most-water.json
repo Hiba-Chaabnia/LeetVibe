@@ -1,0 +1,51 @@
+{
+  "questionId": "11",
+  "title": "Container With Most Water",
+  "titleSlug": "container-with-most-water",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).\n\nFind two lines that together with the x-axis form a container, such that the container contains the most water.\n\nReturn the maximum amount of water a container can store.\n\nNotice that you may not slant the container.\n\nExample 1:\n\nInput: height = [1,8,6,2,5,4,8,3,7]\nOutput: 49\nExplanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.\n\nExample 2:\n\nInput: height = [1,1]\nOutput: 1\n\nConstraints:\n\n• n == height.length\n\n• 2 <= n <= 105\n\n• 0 <= height[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxArea(self, height):\n        \"\"\"\n        :type height: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If you simulate the problem, it will be O(n^2) which is not efficient.",
+    "Try to use two-pointers. Set one pointer to the left and one to the right of the array. Always move the pointer that points to the lower line.",
+    "How can you calculate the amount of water at each step?"
+  ],
+  "testCases": [
+    [
+      "[1,8,6,2,5,4,8,3,7]"
+    ],
+    [
+      "[1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "49",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxArea(self, height):\n        lo, hi = 0, len(height) - 1\n        best = 0\n        while lo < hi:\n            best = max(best, min(height[lo], height[hi]) * (hi - lo))\n            if height[lo] < height[hi]:\n                lo += 1\n            else:\n                hi -= 1\n        return best",
+    "explanation": "Two pointers from ends; move shorter wall inward; track max area."
+  },
+  "similarQuestions": "[{\"title\": \"Trapping Rain Water\", \"titleSlug\": \"trapping-rain-water\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Tastiness of Candy Basket\", \"titleSlug\": \"maximum-tastiness-of-candy-basket\", \"difficulty\": \"Medium\"}, {\"title\": \"House Robber IV\", \"titleSlug\": \"house-robber-iv\", \"difficulty\": \"Medium\"}]"
+}

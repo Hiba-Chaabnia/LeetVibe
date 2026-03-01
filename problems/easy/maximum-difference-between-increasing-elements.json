@@ -1,0 +1,46 @@
+{
+  "questionId": "2144",
+  "title": "Maximum Difference Between Increasing Elements",
+  "titleSlug": "maximum-difference-between-increasing-elements",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given a 0-indexed integer array nums of size n, find the maximum difference between nums[i] and nums[j] (i.e., nums[j] - nums[i]), such that 0 <= i < j < n and nums[i] < nums[j].\n\nReturn the maximum difference. If no such i and j exists, return -1.\n\nExample 1:\n\nInput: nums = [7,1,5,4]\nOutput: 4\nExplanation:\n    The maximum difference occurs with i = 1 and j = 2, nums[j] - nums[i] = 5 - 1 = 4.\n    Note that with i = 1 and j = 0, the difference nums[j] - nums[i] = 7 - 1 = 6, but i > j, so it is not valid.\n\nExample 2:\n\nInput: nums = [9,4,3,2]\nOutput: -1\nExplanation:\n    There is no i and j such that i Example 3:\n\nInput: nums = [1,5,2,10]\nOutput: 9\nExplanation:\n    The maximum difference occurs with i = 0 and j = 3, nums[j] - nums[i] = 10 - 1 = 9.\n\nConstraints:\n\n• n == nums.length\n\n• 2 <= n <= 1000\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumDifference(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Could you keep track of the minimum element visited while traversing?",
+    "We have a potential candidate for the answer if the prefix min is less than nums[i]."
+  ],
+  "testCases": [
+    [
+      "[7,1,5,4]"
+    ],
+    [
+      "[9,4,3,2]"
+    ],
+    [
+      "[1,5,2,10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1",
+    "9"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumDifference(self, nums):\n        min_num = nums[0]\n        max_diff = -1\n        for num in nums[1:]:\n            if num > min_num:\n                max_diff = max(max_diff, num - min_num)\n            min_num = min(min_num, num)\n        return max_diff",
+    "explanation": "Track minimum. For each element, calculate diff with min. Update max_diff if valid.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Best Time to Buy and Sell Stock\", \"titleSlug\": \"best-time-to-buy-and-sell-stock\", \"difficulty\": \"Easy\"}, {\"title\": \"Two Furthest Houses With Different Colors\", \"titleSlug\": \"two-furthest-houses-with-different-colors\", \"difficulty\": \"Easy\"}]"
+}

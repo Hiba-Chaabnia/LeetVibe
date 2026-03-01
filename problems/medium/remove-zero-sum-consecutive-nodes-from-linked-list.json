@@ -1,0 +1,45 @@
+{
+  "questionId": "1267",
+  "title": "Remove Zero Sum Consecutive Nodes from Linked List",
+  "titleSlug": "remove-zero-sum-consecutive-nodes-from-linked-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    }
+  ],
+  "content": "Given the head of a linked list, we repeatedly delete consecutive sequences of nodes that sum to 0 until there are no such sequences.\n\nAfter doing so, return the head of the final linked list.  You may return any such answer.\n\n(Note that in the examples below, all sequences are serializations of ListNode objects.)\n\nExample 1:\n\nInput: head = [1,2,-3,3,1]\nOutput: [3,1]\n    Note: The answer [1,2,1] would also be accepted.\n\nExample 2:\n\nInput: head = [1,2,3,-3,4]\nOutput: [1,2,4]\n\nExample 3:\n\nInput: head = [1,2,3,-3,-2]\nOutput: [1]\n\nConstraints:\n\n• The given linked list will contain between 1 and 1000 nodes.\n\n• Each node in the linked list has -1000 <= node.val <= 1000.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def removeZeroSumSublists(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Convert the linked list into an array.",
+    "While you can find a non-empty subarray with sum = 0, erase it.",
+    "Convert the array into a linked list."
+  ],
+  "testCases": [
+    [
+      "[1,2,-3,3,1]",
+      "[1,2,3,-3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def removeZeroSumSublists(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        dummy = ListNode(0)\n        dummy.next = head\n        \n        while True:\n            # Convert to list\n            curr = dummy.next\n            removed = False\n            prefix_sum = 0\n            sum_to_node = {0: dummy}\n            \n            while curr:\n                prefix_sum += curr.val\n                \n                if prefix_sum in sum_to_node:\n                    # Found zero-sum subarray\n                    sum_to_node[prefix_sum].next = curr.next\n                    removed = True\n                    break\n                \n                sum_to_node[prefix_sum] = curr\n                curr = curr.next\n            \n            if not removed:\n                break\n        \n        return dummy.next",
+    "explanation": "Repeatedly find zero-sum subarrays using prefix sum map. Stop when none found.",
+    "complexity": "Time: O(n²). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Delete N Nodes After M Nodes of a Linked List\", \"titleSlug\": \"delete-n-nodes-after-m-nodes-of-a-linked-list\", \"difficulty\": \"Easy\"}]"
+}

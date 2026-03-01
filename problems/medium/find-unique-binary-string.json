@@ -1,0 +1,54 @@
+{
+  "questionId": "2107",
+  "title": "Find Unique Binary String",
+  "titleSlug": "find-unique-binary-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "Given an array of strings nums containing n unique binary strings each of length n, return a binary string of length n that does not appear in nums. If there are multiple answers, you may return any of them.\n\nExample 1:\n\nInput: nums = [\"01\",\"10\"]\nOutput: \"11\"\nExplanation: \"11\" does not appear in nums. \"00\" would also be correct.\n\nExample 2:\n\nInput: nums = [\"00\",\"01\"]\nOutput: \"11\"\nExplanation: \"11\" does not appear in nums. \"10\" would also be correct.\n\nExample 3:\n\nInput: nums = [\"111\",\"011\",\"001\"]\nOutput: \"101\"\nExplanation: \"101\" does not appear in nums. \"000\", \"010\", \"100\", and \"110\" would also be correct.\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 16\n\n• nums[i].length == n\n\n• nums[i] is either '0' or '1'.\n\n• All the strings of nums are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findDifferentBinaryString(self, nums):\n        \"\"\"\n        :type nums: List[str]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can convert the given strings into base 10 integers.",
+    "Can we use recursion to generate all possible strings?"
+  ],
+  "testCases": [
+    [
+      "[\"01\",\"10\"]"
+    ],
+    [
+      "[\"00\",\"01\"]"
+    ],
+    [
+      "[\"111\",\"011\",\"001\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"11\"",
+    "\"11\"",
+    "\"101\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Missing Number\", \"titleSlug\": \"missing-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Find All Numbers Disappeared in an Array\", \"titleSlug\": \"find-all-numbers-disappeared-in-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Random Pick with Blacklist\", \"titleSlug\": \"random-pick-with-blacklist\", \"difficulty\": \"Hard\"}]"
+}

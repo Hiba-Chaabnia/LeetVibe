@@ -1,0 +1,54 @@
+{
+  "questionId": "1685",
+  "title": "Stone Game V",
+  "titleSlug": "stone-game-v",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "There are several stones arranged in a row, and each stone has an associated value which is an integer given in the array stoneValue.\n\nIn each round of the game, Alice divides the row into two non-empty rows (i.e. left row and right row), then Bob calculates the value of each row which is the sum of the values of all the stones in this row. Bob throws away the row which has the maximum value, and Alice's score increases by the value of the remaining row. If the value of the two rows are equal, Bob lets Alice decide which row will be thrown away. The next round starts with the remaining row.\n\nThe game ends when there is only one stone remaining. Alice's score is initially zero.\n\nReturn the maximum score that Alice can obtain.\n\nExample 1:\n\nInput: stoneValue = [6,2,3,4,5,5]\nOutput: 18\nExplanation: In the first round, Alice divides the row to [6,2,3], [4,5,5]. The left row has the value 11 and the right row has value 14. Bob throws away the right row and Alice's score is now 11.\n    In the second round Alice divides the row to [6], [2,3]. This time Bob throws away the left row and Alice's score becomes 16 (11 + 5).\n    The last round Alice has only one choice to divide the row which is [2], [3]. Bob throws away the right row and Alice's score is now 18 (16 + 2). The game ends because only one stone is remaining in the row.\n\nExample 2:\n\nInput: stoneValue = [7,7,7,7,7,7,7]\nOutput: 28\n\nExample 3:\n\nInput: stoneValue = [4]\nOutput: 0\n\nConstraints:\n\n• 1 <= stoneValue.length <= 500\n\n• 1 <= stoneValue[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def stoneGameV(self, stoneValue):\n        \"\"\"\n        :type stoneValue: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We need to try all possible divisions for the current row to get the max score.",
+    "As calculating all possible divisions will lead us to calculate some sub-problems more than once, we need to think of dynamic programming."
+  ],
+  "testCases": [
+    [
+      "[6,2,3,4,5,5]"
+    ],
+    [
+      "[7,7,7,7,7,7,7]"
+    ],
+    [
+      "[4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "18",
+    "28",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Stone Game\", \"titleSlug\": \"stone-game\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game II\", \"titleSlug\": \"stone-game-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game III\", \"titleSlug\": \"stone-game-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IV\", \"titleSlug\": \"stone-game-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game VI\", \"titleSlug\": \"stone-game-vi\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VII\", \"titleSlug\": \"stone-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VIII\", \"titleSlug\": \"stone-game-viii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IX\", \"titleSlug\": \"stone-game-ix\", \"difficulty\": \"Medium\"}]"
+}

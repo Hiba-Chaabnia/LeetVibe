@@ -1,0 +1,61 @@
+{
+  "questionId": "1188",
+  "title": "Brace Expansion II",
+  "titleSlug": "brace-expansion-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Under the grammar given below, strings can represent a set of lowercase words. Let R(expr) denote the set of words the expression represents.\n\nThe grammar can best be understood through simple examples:\n\n• Single letters represent a singleton set containing that word.\n\n• R(\"a\") = {\"a\"}\n\n• R(\"w\") = {\"w\"}\n\n• When we take a comma-delimited list of two or more expressions, we take the union of possibilities.\n\n• R(\"{a,b,c}\") = {\"a\",\"b\",\"c\"}\n\n• R(\"{{a,b},{b,c}}\") = {\"a\",\"b\",\"c\"} (notice the final set only contains each word at most once)\n\n• When we concatenate two expressions, we take the set of possible concatenations between two words where the first word comes from the first expression and the second word comes from the second expression.\n\n• R(\"{a,b}{c,d}\") = {\"ac\",\"ad\",\"bc\",\"bd\"}\n\n• R(\"a{b,c}{d,e}f{g,h}\") = {\"abdfg\", \"abdfh\", \"abefg\", \"abefh\", \"acdfg\", \"acdfh\", \"acefg\", \"acefh\"}\n\nFormally, the three rules for our grammar:\n\n• For every lowercase letter x, we have R(x) = {x}.\n\n• For expressions e1, e2, ... , ek with k >= 2, we have R({e1, e2, ...}) = R(e1) ∪ R(e2) ∪ ...\n\n• For expressions e1 and e2, we have R(e1 + e2) = {a + b for (a, b) in R(e1) × R(e2)}, where + denotes concatenation, and × denotes the cartesian product.\n\nGiven an expression representing a set of words under the given grammar, return the sorted list of words that the expression represents.\n\nExample 1:\n\nInput: expression = \"{a,b}{c,{d,e}}\"\nOutput: [\"ac\",\"ad\",\"ae\",\"bc\",\"bd\",\"be\"]\n\nExample 2:\n\nInput: expression = \"{{a,z},a{b,c},{ab,z}}\"\nOutput: [\"a\",\"ab\",\"ac\",\"z\"]\nExplanation: Each distinct word is written only once in the final answer.\n\nConstraints:\n\n• 1 <= expression.length <= 60\n\n• expression[i] consists of '{', '}', ','or lowercase English letters.\n\n• The given expression represents a set of words based on the grammar given in the description.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def braceExpansionII(self, expression):\n        \"\"\"\n        :type expression: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You can write helper methods to parse the next \"chunk\" of the expression.  If you see eg. \"a\", the answer is just the set {a}.  If you see \"{\", you parse until you complete the \"}\" (the number of { and } seen are equal) and that becomes a chunk that you find where the appropriate commas are, and parse each individual expression between the commas."
+  ],
+  "testCases": [
+    [
+      "\"{a,b}{c,{d,e}}\""
+    ],
+    [
+      "\"{{a,z},a{b,c},{ab,z}}\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"ac\",\"ad\",\"ae\",\"bc\",\"bd\",\"be\"]",
+    "[\"a\",\"ab\",\"ac\",\"z\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def braceExpansionII(self, expression: str) -> List[str]:\n        def parse(expr: str, i: int) -> Set[str]:\n            result, current = set(), {\"\"}\n            while i < len(expr):\n                if expr[i] == '{':\n                    update = set()\n                    for postfix in parse(expr, i + 1):\n                        for prefix in current:\n                            update.add(prefix + postfix)\n                    current = update\n                    i = expr.index('}', i)\n                elif expr[i] == '}':\n                    break\n                elif expr[i] == ',':\n                    result |= current\n                    current = {\"\"}\n                else:\n                    current = {s + expr[i] for s in current}\n                i += 1\n            return result | current\n        \n        return sorted(parse(expression, 0))",
+    "explanation": "The core of the algorithm is a parse function that takes an expression and current index. The parse function returns a set of possible strings based on the grammar. Initially, we call parse with the input expression and index 0. The parse function uses a loop that iterates through the expression characters. During each iteration:\n\n1. If the current character is \"{\", we create a temporary set and generate all possible combinations of prefixes from the current set and postfixes from the inner parse call's result. We update the current set with this temporary set and update the index to the matching \"}\".\n\n2. If the current character is \"}\", we break the loop as we reached the end of the recursion level.\n\n3. If the current character is \",\", we merge the current set into the result set and reset the current set to just contain an empty string.\n\n4. Else, the character is a lowercase letter, so we create a new set by appending the character to each element of the current set and update the current set with this new set.\n\nWhen the loop ends, we merge the current set into the result set one more time and return it. In the main function, we convert the final result set into a sorted list or array.\n\nNotice that this algorithm respects the constraints given in the problem, and as such, it's guaranteed to work with the input expressions provided. The time complexity is O(N * M), where N is the expression length, and M is the maximum number of possible combinations that can be generated."
+  },
+  "similarQuestions": "[{\"title\": \"Brace Expansion\", \"titleSlug\": \"brace-expansion\", \"difficulty\": \"Medium\"}]"
+}

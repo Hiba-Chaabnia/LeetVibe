@@ -1,0 +1,46 @@
+{
+  "questionId": "3817",
+  "title": "Maximum Containers on a Ship",
+  "titleSlug": "maximum-containers-on-a-ship",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given a positive integer n representing an n x n cargo deck on a ship. Each cell on the deck can hold one container with a weight of exactly w.\n\nHowever, the total weight of all containers, if loaded onto the deck, must not exceed the ship's maximum weight capacity, maxWeight.\n\nReturn the maximum number of containers that can be loaded onto the ship.\n\nExample 1:\n\nInput: n = 2, w = 3, maxWeight = 15\n\nOutput: 4\n\nExplanation: The deck has 4 cells, and each container weighs 3. The total weight of loading all containers is 12, which does not exceed maxWeight.\n\nExample 2:\n\nInput: n = 3, w = 5, maxWeight = 20\n\nOutput: 4\n\nExplanation: The deck has 9 cells, and each container weighs 5. The maximum number of containers that can be loaded without exceeding maxWeight is 4.\n\nConstraints:\n\n• 1 <= n <= 1000\n\n• 1 <= w <= 1000\n\n• 1 <= maxWeight <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxContainers(self, n, w, maxWeight):\n        \"\"\"\n        :type n: int\n        :type w: int\n        :type maxWeight: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What are the limits on the number of containers?",
+    "We can load at most min(n * n, maxWeight / w) containers."
+  ],
+  "testCases": [
+    [
+      "2",
+      "3",
+      "15"
+    ],
+    [
+      "3",
+      "5",
+      "20"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxContainers(self, n, w, maxWeight):\n        return min(n * n, maxWeight // w)",
+    "explanation": "The ship holds n×n containers each weighing w; the limit is min(grid_capacity, weight_capacity // w). O(1) time."
+  },
+  "similarQuestions": "[]"
+}

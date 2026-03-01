@@ -1,0 +1,39 @@
+{
+  "questionId": "665",
+  "title": "Non-decreasing Array",
+  "titleSlug": "non-decreasing-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given an array nums with n integers, your task is to check if it could become non-decreasing by modifying at most one element.\n\nWe define an array is non-decreasing if nums[i] <= nums[i + 1] holds for every i (0-based) such that (0 <= i <= n - 2).\n\nExample 1:\n\nInput: nums = [4,2,3]\nOutput: true\nExplanation: You could modify the first 4 to 1 to get a non-decreasing array.\n\nExample 2:\n\nInput: nums = [4,2,1]\nOutput: false\nExplanation: You cannot get a non-decreasing array by modifying at most one element.\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 104\n\n• -105 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkPossibility(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,2,3]"
+    ],
+    [
+      "[4,2,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def checkPossibility(nums):\n    cnt = 0\n    for i in range(1, len(nums)):\n        if nums[i] < nums[i - 1]:\n            cnt += 1\n            if i == 1 or nums[i] >= nums[i - 2]:\n                nums[i-1] = nums[i]\n            else:\n                nums[i] = nums[i - 1]\n            if cnt > 1:\n                return False\n    return True",
+    "explanation": "We iterate through the given array and, if we find a decreasing pair, we increment a counter `cnt`. We then modify either the current element or the previous element to make the array non-decreasing, choosing the optimal modification based on a comparison with the element two positions before. If we find more than one decreasing pair, we return false, as it implies that we need to modify more than one element to make the array non-decreasing. If we reach the end of the iteration, we return true, as the array could be made non-decreasing by modifying at most one element."
+  },
+  "similarQuestions": "[{\"title\": \"Make Array Non-decreasing or Non-increasing\", \"titleSlug\": \"make-array-non-decreasing-or-non-increasing\", \"difficulty\": \"Hard\"}, {\"title\": \"Find Good Days to Rob the Bank\", \"titleSlug\": \"find-good-days-to-rob-the-bank\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Non-Decreasing Subarrays After K Operations\", \"titleSlug\": \"count-non-decreasing-subarrays-after-k-operations\", \"difficulty\": \"Hard\"}]"
+}

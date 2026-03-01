@@ -1,0 +1,53 @@
+{
+  "questionId": "1720",
+  "title": "Crawler Log Folder",
+  "titleSlug": "crawler-log-folder",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "The Leetcode file system keeps a log each time some user performs a change folder operation.\n\nThe operations are described below:\n\n• \"../\" : Move to the parent folder of the current folder. (If you are already in the main folder, remain in the same folder).\n\n• \"./\" : Remain in the same folder.\n\n• \"x/\" : Move to the child folder named x (This folder is guaranteed to always exist).\n\nYou are given a list of strings logs where logs[i] is the operation performed by the user at the ith step.\n\nThe file system starts in the main folder, then the operations in logs are performed.\n\nReturn the minimum number of operations needed to go back to the main folder after the change folder operations.\n\nExample 1:\n\nInput: logs = [\"d1/\",\"d2/\",\"../\",\"d21/\",\"./\"]\nOutput: 2\nExplanation: Use this change folder operation \"../\" 2 times and go back to the main folder.\n\nExample 2:\n\nInput: logs = [\"d1/\",\"d2/\",\"./\",\"d3/\",\"../\",\"d31/\"]\nOutput: 3\n\nExample 3:\n\nInput: logs = [\"d1/\",\"../\",\"../\",\"../\"]\nOutput: 0\n\nConstraints:\n\n• 1 <= logs.length <= 103\n\n• 2 <= logs[i].length <= 10\n\n• logs[i] contains lowercase English letters, digits, '.', and '/'.\n\n• logs[i] follows the format described in the statement.\n\n• Folder names consist of lowercase English letters and digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, logs):\n        \"\"\"\n        :type logs: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the process but don’t move the pointer beyond the main folder."
+  ],
+  "testCases": [
+    [
+      "[\"d1/\",\"d2/\",\"../\",\"d21/\",\"./\"]"
+    ],
+    [
+      "[\"d1/\",\"d2/\",\"./\",\"d3/\",\"../\",\"d31/\"]"
+    ],
+    [
+      "[\"d1/\",\"../\",\"../\",\"../\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minOperations(logs):\n    depth = 0\n    for log in logs:\n        if log == \"../\":\n            depth = max(0, depth - 1)\n        elif log != \"./\":\n            depth += 1\n    return depth",
+    "explanation": "The algorithm iterates through each log entry, incrementing the `depth` variable whenever it encounters a non-relative move (`\"x/\"`). If it encounters a move to the parent directory (`\"../\"`) it decreases the `depth` variable by 1, but only if the depth is greater than 0 to make sure we don't go beyond the main folder. It ignores relative moves (`\"./\"`). Finally, it returns the number of operations needed to go back to the main folder, which is the final value of `depth`."
+  },
+  "similarQuestions": "[{\"title\": \"Baseball Game\", \"titleSlug\": \"baseball-game\", \"difficulty\": \"Easy\"}, {\"title\": \"Backspace String Compare\", \"titleSlug\": \"backspace-string-compare\", \"difficulty\": \"Easy\"}]"
+}

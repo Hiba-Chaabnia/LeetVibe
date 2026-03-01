@@ -1,0 +1,55 @@
+{
+  "questionId": "2017",
+  "title": "Minimum Number of Flips to Make the Binary String Alternating",
+  "titleSlug": "minimum-number-of-flips-to-make-the-binary-string-alternating",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a binary string s. You are allowed to perform two types of operations on the string in any sequence:\n\n• Type-1: Remove the character at the start of the string s and append it to the end of the string.\n\n• Type-2: Pick any character in s and flip its value, i.e., if its value is '0' it becomes '1' and vice-versa.\n\nReturn the minimum number of type-2 operations you need to perform such that s becomes alternating.\n\nThe string is called alternating if no two adjacent characters are equal.\n\n• For example, the strings \"010\" and \"1010\" are alternating, while the string \"0100\" is not.\n\nExample 1:\n\nInput: s = \"111000\"\nOutput: 2\nExplanation: Use the first operation two times to make s = \"100011\".\n    Then, use the second operation on the third and sixth elements to make s = \"101010\".\n\nExample 2:\n\nInput: s = \"010\"\nOutput: 0\nExplanation: The string is already alternating.\n\nExample 3:\n\nInput: s = \"1110\"\nOutput: 1\nExplanation: Use the second operation on the second element to make s = \"1010\".\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minFlips(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note what actually matters is how many 0s and 1s are in odd and even positions",
+    "For every cyclic shift we need to count how many 0s and 1s are at each parity and convert the minimum between them for each parity"
+  ],
+  "testCases": [
+    [
+      "\"111000\""
+    ],
+    [
+      "\"010\""
+    ],
+    [
+      "\"1110\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minFlips(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        n = len(s)\n        min_flips = float('inf')\n        \n        # Try each rotation\n        for start in range(n):\n            flips = 0\n            for i in range(n):\n                # Two patterns: starting with 0 or 1\n                expected_0 = str(i % 2)\n                expected_1 = str(1 - (i % 2))\n                \n                char = s[(start + i) % n]\n                if char != expected_0:\n                    flips_0 = 1\n                else:\n                    flips_0 = 0\n                \n                if char != expected_1:\n                    flips_1 = 1\n                else:\n                    flips_1 = 0\n            \n            # This is inefficient, better approach below\n        \n        # Better: for each pattern, count mismatches\n        pattern_0 = flips_0 = flips_1 = 0\n        for i, c in enumerate(s):\n            expected_0 = str(i % 2)\n            expected_1 = str(1 - (i % 2))\n            if c != expected_0:\n                flips_0 += 1\n            if c != expected_1:\n                flips_1 += 1\n        \n        return min(flips_0, flips_1)",
+    "explanation": "For a string to be alternating, each position must follow either pattern '010...' or '101...'. Count flips needed for each pattern and return minimum.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Operations to Make the Array Alternating\", \"titleSlug\": \"minimum-operations-to-make-the-array-alternating\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,67 @@
+{
+  "questionId": "744",
+  "title": "Network Delay Time",
+  "titleSlug": "network-delay-time",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "You are given a network of n nodes, labeled from 1 to n. You are also given times, a list of travel times as directed edges times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and wi is the time it takes for a signal to travel from source to target.\n\nWe will send a signal from a given node k. Return the minimum time it takes for all the n nodes to receive the signal. If it is impossible for all the n nodes to receive the signal, return -1.\n\nExample 1:\n\nInput: times = [[2,1,1],[2,3,1],[3,4,1]], n = 4, k = 2\nOutput: 2\n\nExample 2:\n\nInput: times = [[1,2,1]], n = 2, k = 1\nOutput: 1\n\nExample 3:\n\nInput: times = [[1,2,1]], n = 2, k = 2\nOutput: -1\n\nConstraints:\n\n• 1 <= k <= n <= 100\n\n• 1 <= times.length <= 6000\n\n• times[i].length == 3\n\n• 1 <= ui, vi <= n\n\n• ui != vi\n\n• 0 <= wi <= 100\n\n• All the pairs (ui, vi) are unique. (i.e., no multiple edges.)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def networkDelayTime(self, times, n, k):\n        \"\"\"\n        :type times: List[List[int]]\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We visit each node at some time, and if that time is better than the fastest time we've reached this node, we travel along outgoing edges in sorted order.  Alternatively, we could use Dijkstra's algorithm."
+  ],
+  "testCases": [
+    [
+      "[[2,1,1],[2,3,1],[3,4,1]]",
+      "4",
+      "2"
+    ],
+    [
+      "[[1,2,1]]",
+      "2",
+      "1"
+    ],
+    [
+      "[[1,2,1]]",
+      "2",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\ndef networkDelayTime(times, n, k):\n    graph = {i: [] for i in range(1, n+1)}\n    for u, v, w in times:\n        graph[u].append((v, w))\n\n    dist = {u: float('inf') for u in range(1, n+1)}\n    dist[k] = 0\n\n    pq = [(0, k)]\n\n    while pq:\n        curr_dist, u = heapq.heappop(pq)\n\n        for v, weight in graph[u]:\n            new_dist = curr_dist + weight\n            if new_dist < dist[v]:\n                dist[v] = new_dist\n                heapq.heappush(pq, (new_dist, v))\n\n    max_time = max(dist.values())\n    return max_time if max_time < float('inf') else -1",
+    "explanation": "The algorithm we used to solve this problem is Dijkstra's algorithm. Dijkstra's algorithm is a greedy algorithm to find the shortest path from a source node to all other nodes in a weighted graph that has non-negative edge weights.\n\nFirst, we create the adjacency list from the input times, then initialize the distance array for each node to infinity, except for the source node (k), which has a distance of 0. Then, we use a priority queue to store nodes with their respective distances, starting with the source node.\n\nWhile the queue is not empty, we pop the node with the smallest distance, and for each neighbor of the current node, we check if going through the current node will give a shorter distance to the neighbor. If it does, we update the distance and push the neighbor to the priority queue.\n\nAfter visiting all nodes, we find the maximum distance in our dist array (ignoring the 0-th element). If this maximum distance is infinity, it means that some nodes were unreachable from the source node, so we return -1. Otherwise, we return the maximum distance.\n\nThe time complexity of the algorithm is O(E + V) with E being the number of edges and V being the number of vertices."
+  },
+  "similarQuestions": "[{\"title\": \"The Time When the Network Becomes Idle\", \"titleSlug\": \"the-time-when-the-network-becomes-idle\", \"difficulty\": \"Medium\"}, {\"title\": \"Second Minimum Time to Reach Destination\", \"titleSlug\": \"second-minimum-time-to-reach-destination\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,65 @@
+{
+  "questionId": "1786",
+  "title": "Count the Number of Consistent Strings",
+  "titleSlug": "count-the-number-of-consistent-strings",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string allowed consisting of distinct characters and an array of strings words. A string is consistent if all characters in the string appear in the string allowed.\n\nReturn the number of consistent strings in the array words.\n\nExample 1:\n\nInput: allowed = \"ab\", words = [\"ad\",\"bd\",\"aaab\",\"baa\",\"badab\"]\nOutput: 2\nExplanation: Strings \"aaab\" and \"baa\" are consistent since they only contain characters 'a' and 'b'.\n\nExample 2:\n\nInput: allowed = \"abc\", words = [\"a\",\"b\",\"c\",\"ab\",\"ac\",\"bc\",\"abc\"]\nOutput: 7\nExplanation: All strings are consistent.\n\nExample 3:\n\nInput: allowed = \"cad\", words = [\"cc\",\"acd\",\"b\",\"ba\",\"bac\",\"bad\",\"ac\",\"d\"]\nOutput: 4\nExplanation: Strings \"cc\", \"acd\", \"ac\", and \"d\" are consistent.\n\nConstraints:\n\n• 1 <= words.length <= 104\n\n• 1 <= allowed.length <= 26\n\n• 1 <= words[i].length <= 10\n\n• The characters in allowed are distinct.\n\n• words[i] and allowed contain only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countConsistentStrings(self, allowed, words):\n        \"\"\"\n        :type allowed: str\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A string is incorrect if it contains a character that is not allowed",
+    "Constraints are small enough for brute force"
+  ],
+  "testCases": [
+    [
+      "\"ab\"",
+      "[\"ad\",\"bd\",\"aaab\",\"baa\",\"badab\"]"
+    ],
+    [
+      "\"abc\"",
+      "[\"a\",\"b\",\"c\",\"ab\",\"ac\",\"bc\",\"abc\"]"
+    ],
+    [
+      "\"cad\"",
+      "[\"cc\",\"acd\",\"b\",\"ba\",\"bac\",\"bad\",\"ac\",\"d\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "7",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countConsistentStrings(self, allowed, words):\n        allowed_set = set(allowed)\n        count = 0\n        for word in words:\n            if all(char in allowed_set for char in word):\n                count += 1\n        return count",
+    "explanation": "Convert allowed to set. Count words whose all characters are in allowed_set.\nTime: O(n * m)\nSpace: O(26)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Pairs Of Similar Strings\", \"titleSlug\": \"count-pairs-of-similar-strings\", \"difficulty\": \"Easy\"}]"
+}

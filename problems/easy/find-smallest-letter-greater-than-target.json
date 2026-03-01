@@ -1,0 +1,52 @@
+{
+  "questionId": "745",
+  "title": "Find Smallest Letter Greater Than Target",
+  "titleSlug": "find-smallest-letter-greater-than-target",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You are given an array of characters letters that is sorted in non-decreasing order, and a character target. There are at least two different characters in letters.\n\nReturn the smallest character in letters that is lexicographically greater than target. If such a character does not exist, return the first character in letters.\n\nExample 1:\n\nInput: letters = [\"c\",\"f\",\"j\"], target = \"a\"\nOutput: \"c\"\nExplanation: The smallest character that is lexicographically greater than 'a' in letters is 'c'.\n\nExample 2:\n\nInput: letters = [\"c\",\"f\",\"j\"], target = \"c\"\nOutput: \"f\"\nExplanation: The smallest character that is lexicographically greater than 'c' in letters is 'f'.\n\nExample 3:\n\nInput: letters = [\"x\",\"x\",\"y\",\"y\"], target = \"z\"\nOutput: \"x\"\nExplanation: There are no characters in letters that is lexicographically greater than 'z' so we return letters[0].\n\nConstraints:\n\n• 2 <= letters.length <= 104\n\n• letters[i] is a lowercase English letter.\n\n• letters is sorted in non-decreasing order.\n\n• letters contains at least two different characters.\n\n• target is a lowercase English letter.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nextGreatestLetter(self, letters, target):\n        \"\"\"\n        :type letters: List[str]\n        :type target: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to find whether each of 26 next letters are in the given string array."
+  ],
+  "testCases": [
+    [
+      "[\"c\",\"f\",\"j\"]",
+      "\"a\""
+    ],
+    [
+      "[\"c\",\"f\",\"j\"]",
+      "\"c\""
+    ],
+    [
+      "[\"x\",\"x\",\"y\",\"y\"]",
+      "\"z\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"c\"",
+    "\"f\"",
+    "\"x\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def nextGreatestLetter(self, letters, target):\n        for letter in letters:\n            if letter > target:\n                return letter\n        return letters[0]",
+    "explanation": "Find first letter greater than target. Wrap around to first if none found.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Elements With Strictly Smaller and Greater Elements \", \"titleSlug\": \"count-elements-with-strictly-smaller-and-greater-elements\", \"difficulty\": \"Easy\"}]"
+}

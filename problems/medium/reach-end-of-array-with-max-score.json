@@ -1,0 +1,45 @@
+{
+  "questionId": "3528",
+  "title": "Reach End of Array With Max Score",
+  "titleSlug": "reach-end-of-array-with-max-score",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an integer array nums of length n.\n\nYour goal is to start at index 0 and reach index n - 1. You can only jump to indices greater than your current index.\n\nThe score for a jump from index i to index j is calculated as (j - i) * nums[i].\n\nReturn the maximum possible total score by the time you reach the last index.\n\nExample 1:\n\nInput: nums = [1,3,1,5]\n\nOutput: 7\n\nExplanation: First, jump to index 1 and then jump to the last index. The final score is 1 * 1 + 2 * 3 = 7.\n\nExample 2:\n\nInput: nums = [4,3,1,3,2]\n\nOutput: 16\n\nExplanation: Jump directly to the last index. The final score is 4 * 4 = 16.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMaximumScore(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It can be proven that from each index i, the optimal solution is to jump to the nearest index j > i such that nums[j] > nums[i]."
+  ],
+  "testCases": [
+    [
+      "[1,3,1,5]"
+    ],
+    [
+      "[4,3,1,3,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "16"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findMaximumScore(self, nums):\n        ans = 0\n        max_val = 0\n        for i in range(len(nums) - 1):\n            max_val = max(max_val, nums[i])\n            ans += max_val\n        return ans",
+    "explanation": "Key insight: the score from a jump from i to j is (j - i) * nums[i]. To maximize, we should stay at the highest-value index seen so far and 'charge' it for every step until we find something better.\n\nEquivalently: the total score equals the sum over each gap (i to i+1) of the maximum nums value seen in [0..i]. We accumulate the running maximum at each step.\n\nFormal proof: if we're at position i with value v = max(nums[0..i]), the optimal next stop is the first j where nums[j] > v. The contribution is v * (j - i). Breaking this into individual steps gives v * 1 for each step, which matches summing max_val at each position.\n\nTime complexity: O(n). Space complexity: O(1)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,49 @@
+{
+  "questionId": "28",
+  "title": "Find the Index of the First Occurrence in a String",
+  "titleSlug": "find-the-index-of-the-first-occurrence-in-a-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.\n\nExample 1:\n\nInput: haystack = \"sadbutsad\", needle = \"sad\"\nOutput: 0\nExplanation: \"sad\" occurs at index 0 and 6.\n    The first occurrence is at index 0, so we return 0.\n\nExample 2:\n\nInput: haystack = \"leetcode\", needle = \"leeto\"\nOutput: -1\nExplanation: \"leeto\" did not occur in \"leetcode\", so we return -1.\n\nConstraints:\n\n• 1 <= haystack.length, needle.length <= 104\n\n• haystack and needle consist of only lowercase English characters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def strStr(self, haystack, needle):\n        \"\"\"\n        :type haystack: str\n        :type needle: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"sadbutsad\"",
+      "\"sad\""
+    ],
+    [
+      "\"leetcode\"",
+      "\"leeto\""
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def strStr(haystack: str, needle: str) -> int:\n    if not needle:\n        return 0\n    try:\n        index = haystack.index(needle)\n        return index\n    except ValueError:\n        return -1",
+    "explanation": "The algorithm searches for the first occurrence of the `needle` string in the `haystack` string. First, it checks if the `needle` is empty, and if it is, it returns 0. Otherwise, it uses the built-in `find`, `indexOf` or `index` functions provided by the corresponding language's string data type. These functions return the index of the first occurrence of the specified substring. If the substring is not found, they return specific values like string::npos for C++, -1 for Java, and raise a ValueError exception for Python. Depending on the returned value, the algorithm either returns the index of the first occurrence or -1, indicating that `needle` is not part of `haystack`."
+  },
+  "similarQuestions": "[{\"title\": \"Shortest Palindrome\", \"titleSlug\": \"shortest-palindrome\", \"difficulty\": \"Hard\"}, {\"title\": \"Repeated Substring Pattern\", \"titleSlug\": \"repeated-substring-pattern\", \"difficulty\": \"Easy\"}]"
+}

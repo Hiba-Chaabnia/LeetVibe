@@ -1,0 +1,54 @@
+{
+  "questionId": "1845",
+  "title": "Largest Submatrix With Rearrangements",
+  "titleSlug": "largest-submatrix-with-rearrangements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a binary matrix matrix of size m x n, and you are allowed to rearrange the columns of the matrix in any order.\n\nReturn the area of the largest submatrix within matrix where every element of the submatrix is 1 after reordering the columns optimally.\n\nExample 1:\n\nInput: matrix = [[0,0,1],[1,1,1],[1,0,1]]\nOutput: 4\nExplanation: You can rearrange the columns as shown above.\n    The largest submatrix of 1s, in bold, has an area of 4.\n\nExample 2:\n\nInput: matrix = [[1,0,1,0,1]]\nOutput: 3\nExplanation: You can rearrange the columns as shown above.\n    The largest submatrix of 1s, in bold, has an area of 3.\n\nExample 3:\n\nInput: matrix = [[1,1,0],[1,0,1]]\nOutput: 2\nExplanation: Notice that you must rearrange entire columns, and there is no way to make a submatrix of 1s larger than an area of 2.\n\nConstraints:\n\n• m == matrix.length\n\n• n == matrix[i].length\n\n• 1 <= m * n <= 105\n\n• matrix[i][j] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestSubmatrix(self, matrix):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each column, find the number of consecutive ones ending at each position.",
+    "For each row, sort the cumulative ones in non-increasing order and \"fit\" the largest submatrix."
+  ],
+  "testCases": [
+    [
+      "[[0,0,1],[1,1,1],[1,0,1]]"
+    ],
+    [
+      "[[1,0,1,0,1]]"
+    ],
+    [
+      "[[1,1,0],[1,0,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "3",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Max Area of Island\", \"titleSlug\": \"max-area-of-island\", \"difficulty\": \"Medium\"}]"
+}

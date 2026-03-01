@@ -1,0 +1,51 @@
+{
+  "questionId": "404",
+  "title": "Sum of Left Leaves",
+  "titleSlug": "sum-of-left-leaves",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the sum of all left leaves.\n\nA leaf is a node with no children. A left leaf is a leaf that is the left child of another node.\n\nExample 1:\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: 24\nExplanation: There are two left leaves in the binary tree, with values 9 and 15 respectively.\n\nExample 2:\n\nInput: root = [1]\nOutput: 0\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 1000].\n\n• -1000 <= Node.val <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def sumOfLeftLeaves(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,9,20,null,null,15,7]"
+    ],
+    [
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "24",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumOfLeftLeaves(self, root):\n        def dfs(node, is_left):\n            if not node:\n                return 0\n            if not node.left and not node.right and is_left:\n                return node.val\n            return dfs(node.left, True) + dfs(node.right, False)\n        return dfs(root, False)",
+    "explanation": "DFS tracking if node is left child. Sum leaf values if left.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[]"
+}

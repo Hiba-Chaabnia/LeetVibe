@@ -1,0 +1,57 @@
+{
+  "questionId": "2411",
+  "title": "Spiral Matrix IV",
+  "titleSlug": "spiral-matrix-iv",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given two integers m and n, which represent the dimensions of a matrix.\n\nYou are also given the head of a linked list of integers.\n\nGenerate an m x n matrix that contains the integers in the linked list presented in spiral order (clockwise), starting from the top-left of the matrix. If there are remaining empty spaces, fill them with -1.\n\nReturn the generated matrix.\n\nExample 1:\n\nInput: m = 3, n = 5, head = [3,0,2,6,8,1,7,9,4,2,5,5,0]\nOutput: [[3,0,2,6,8],[5,0,-1,-1,1],[5,2,4,9,7]]\nExplanation: The diagram above shows how the values are printed in the matrix.\n    Note that the remaining spaces in the matrix are filled with -1.\n\nExample 2:\n\nInput: m = 1, n = 4, head = [0,1,2]\nOutput: [[0,1,2,-1]]\nExplanation: The diagram above shows how the values are printed from left to right in the matrix.\n    The last space in the matrix is set to -1.\n\nConstraints:\n\n• 1 <= m, n <= 105\n\n• 1 <= m * n <= 105\n\n• The number of nodes in the list is in the range [1, m * n].\n\n• 0 <= Node.val <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def spiralMatrix(self, m, n, head):\n        \"\"\"\n        :type m: int\n        :type n: int\n        :type head: Optional[ListNode]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "First, generate an m x n matrix filled with -1s.",
+    "Navigate within the matrix at (i, j) with the help of a direction vector ⟨di, dj⟩. At (i, j), you need to decide if you can keep going in the current direction.",
+    "If you cannot keep going, rotate the direction vector clockwise by 90 degrees."
+  ],
+  "testCases": [
+    [
+      "3",
+      "5"
+    ],
+    [
+      "[3,0,2,6,8,1,7,9,4,2,5,5,0]",
+      "1"
+    ],
+    [
+      "4",
+      "[0,1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[3,0,2,6,8],[5,0,-1,-1,1],[5,2,4,9,7]]",
+    "[[0,1,2,-1]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Spiral Matrix\", \"titleSlug\": \"spiral-matrix\", \"difficulty\": \"Medium\"}, {\"title\": \"Spiral Matrix II\", \"titleSlug\": \"spiral-matrix-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Spiral Matrix III\", \"titleSlug\": \"spiral-matrix-iii\", \"difficulty\": \"Medium\"}]"
+}

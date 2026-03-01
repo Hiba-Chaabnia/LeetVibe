@@ -1,0 +1,59 @@
+{
+  "questionId": "3233",
+  "title": "Maximize the Number of Partitions After Operations",
+  "titleSlug": "maximize-the-number-of-partitions-after-operations",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given a string s and an integer k.\n\nFirst, you are allowed to change at most one index in s to another lowercase English letter.\n\nAfter that, do the following partitioning operation until s is empty:\n\n• Choose the longest prefix of s containing at most k distinct characters.\n\n• Delete the prefix from s and increase the number of partitions by one. The remaining characters (if any) in s maintain their initial order.\n\nReturn an integer denoting the maximum number of resulting partitions after the operations by optimally choosing at most one index to change.\n\nExample 1:\n\nInput: s = \"accca\", k = 2\n\nOutput: 3\n\nExplanation: The optimal way is to change s[2] to something other than a and c, for example, b. then it becomes \"acbca\".\n\nThen we perform the operations:\n\n• The longest prefix containing at most 2 distinct characters is \"ac\", we remove it and s becomes \"bca\".\n\n• Now The longest prefix containing at most 2 distinct characters is \"bc\", so we remove it and s becomes \"a\".\n\n• Finally, we remove \"a\" and s becomes empty, so the procedure ends.\n\nDoing the operations, the string is divided into 3 partitions, so the answer is 3.\n\nExample 2:\n\nInput: s = \"aabaab\", k = 3\n\nOutput: 1\n\nExplanation: Initially s contains 2 distinct characters, so whichever character we change, it will contain at most 3 distinct characters, so the longest prefix with at most 3 distinct characters would always be all of it, therefore the answer is 1.\n\nExample 3:\n\nInput: s = \"xxyz\", k = 1\n\nOutput: 4\n\nExplanation: The optimal way is to change s[0] or s[1] to something other than characters in s, for example, to change s[0] to w.\n\nThen s becomes \"wxyz\", which consists of 4 distinct characters, so as k is 1, it will divide into 4 partitions.\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s consists only of lowercase English letters.\n\n• 1 <= k <= 26",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxPartitionsAfterOperations(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each position, try to brute-force the replacements.",
+    "To speed up the brute-force solution, we can precompute the following (without changing any index) using prefix sums and binary search:<ul>\r\n<li>pref[i]: The number of resulting partitions from the operations by performing the operations on s[0:i].</li>\r\n<li>suff[i]: The number of resulting partitions from the operations by performing the operations on s[i:n - 1], where n == s.length.</li>\r\n<li>partition_start[i]: The start index of the partition containing the i<sup>th</sup> index after performing the operations.</li>\r\n</ul>",
+    "Now, for a position i, we can try all possible 25 replacements:<br />\r\nFor a replacement, using prefix sums and binary search, we need to find the rightmost index, r, such that the number of distinct characters in the range [partition_start[i], r] is at most k.<br />\r\nThere are 2 cases:<ul>\r\n<li>r >= i: the number of resulting partitions in this case is 1 + pref[partition_start[i] - 1] + suff[r + 1].</li>\r\n<li>Otherwise, we need to find the rightmost index r<sub>2</sub> such that the number of distinct characters in the range [r:r<sub>2</sub>] is at most k. The answer in this case is 2 + pref[partition_start[i] - 1] + suff[r<sub>2</sub> + 1]</li>\r\n</ul>",
+    "The answer is the maximum among all replacements."
+  ],
+  "testCases": [
+    [
+      "\"accca\"",
+      "2"
+    ],
+    [
+      "\"aabaab\"",
+      "3"
+    ],
+    [
+      "\"xxyz\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Can Make Palindrome from Substring\", \"titleSlug\": \"can-make-palindrome-from-substring\", \"difficulty\": \"Medium\"}]"
+}

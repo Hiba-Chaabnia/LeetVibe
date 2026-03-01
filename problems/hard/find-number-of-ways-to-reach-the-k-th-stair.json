@@ -1,0 +1,59 @@
+{
+  "questionId": "3414",
+  "title": "Find Number of Ways to Reach the K-th Stair",
+  "titleSlug": "find-number-of-ways-to-reach-the-k-th-stair",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given a non-negative integer k. There exists a staircase with an infinite number of stairs, with the lowest stair numbered 0.\n\nAlice has an integer jump, with an initial value of 0. She starts on stair 1 and wants to reach stair k using any number of operations. If she is on stair i, in one operation she can:\n\n• Go down to stair i - 1. This operation cannot be used consecutively or on stair 0.\n\n• Go up to stair i + 2jump. And then, jump becomes jump + 1.\n\nReturn the total number of ways Alice can reach stair k.\n\nNote that it is possible that Alice reaches the stair k, and performs some operations to reach the stair k again.\n\nExample 1:\n\nInput: k = 0\n\nOutput: 2\n\nExplanation: The 2 possible ways of reaching stair 0 are:\n\n• Alice starts at stair 1.\n\n• Using an operation of the first type, she goes down 1 stair to reach stair 0.\n\n• Alice starts at stair 1.\n\n• Using an operation of the first type, she goes down 1 stair to reach stair 0.\n\n• Using an operation of the second type, she goes up 20 stairs to reach stair 1.\n\n• Using an operation of the first type, she goes down 1 stair to reach stair 0.\n\nExample 2:\n\nInput: k = 1\n\nOutput: 4\n\nExplanation: The 4 possible ways of reaching stair 1 are:\n\n• Alice starts at stair 1. Alice is at stair 1.\n\n• Alice starts at stair 1.\n\n• Using an operation of the first type, she goes down 1 stair to reach stair 0.\n\n• Using an operation of the second type, she goes up 20 stairs to reach stair 1.\n\n• Alice starts at stair 1.\n\n• Using an operation of the second type, she goes up 20 stairs to reach stair 2.\n\n• Using an operation of the first type, she goes down 1 stair to reach stair 1.\n\n• Alice starts at stair 1.\n\n• Using an operation of the first type, she goes down 1 stair to reach stair 0.\n\n• Using an operation of the second type, she goes up 20 stairs to reach stair 1.\n\n• Using an operation of the first type, she goes down 1 stair to reach stair 0.\n\n• Using an operation of the second type, she goes up 21 stairs to reach stair 2.\n\n• Using an operation of the first type, she goes down 1 stair to reach stair 1.\n\nConstraints:\n\n• 0 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def waysToReachStair(self, k):\n        \"\"\"\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "On using x operations of the second type and y operations of the first type, the stair 2<sup>x</sup> - y is reached.",
+    "Since first operations cannot be consecutive, there are exactly x + 1 positions (before and after each power of 2) to perform the second operation.",
+    "Using combinatorics, we have <sup>x + 1</sup>C<sub>y</sub> number of ways to select the positions of second operations."
+  ],
+  "testCases": [
+    [
+      "0"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def waysToReachStair(self, k):\n        \"\"\"\n        :type k: int\n        :rtype: int\n        \"\"\"\n        MOD = 10**9 + 7\n        \n        # Formula: reach stair 2^x - y\n        # x = number of up operations, y = number of down operations\n        # Constraint: y consecutive ups not allowed\n        # So y <= x + 1 (x ups create x+1 slots for downs)\n        \n        total = 0\n        x = 0\n        \n        while (1 << x) - x <= k + 1:  # 2^x - x could be relevant\n            # For this x, try all possible y (0 to x)\n            for y in range(x + 2):\n                stair = (1 << x) - y\n                if stair == k:\n                    # C(x+1, y) ways\n                    ways = comb(x + 1, y)\n                    total = (total + ways) % MOD\n            x += 1\n        \n        return total\n    \ndef comb(n, r):\n    if r > n or r < 0:\n        return 0\n    if r == 0 or r == n:\n        return 1\n    r = min(r, n - r)\n    result = 1\n    for i in range(r):\n        result = result * (n - i) // (i + 1)\n    return result",
+    "explanation": "Combinatorial path counting:\n\n1. **Movement Formula**: Reach stair = 2^x - y\n   - x = number of jump operations\n   - y = number of down operations\n   - Jump i: move 2^i stairs\n\n2. **Constraint**: Downs not consecutive\n   - x ups create x+1 slots (before, between, after)\n   - So y ≤ x+1\n   - C(x+1, y) ways to place y downs in x+1 slots\n\n3. **Enumeration**: Try all x values where 2^x - x ≤ k+1\n4. **Accumulate**: Sum C(x+1, y) for all valid (x,y)\n\nTime: O(x²) where x ≈ log k\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Climbing Stairs\", \"titleSlug\": \"climbing-stairs\", \"difficulty\": \"Easy\"}, {\"title\": \"Min Cost Climbing Stairs\", \"titleSlug\": \"min-cost-climbing-stairs\", \"difficulty\": \"Easy\"}]"
+}

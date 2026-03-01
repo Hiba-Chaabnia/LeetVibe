@@ -1,0 +1,43 @@
+{
+  "questionId": "591",
+  "title": "Tag Validator",
+  "titleSlug": "tag-validator",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "Given a string representing a code snippet, implement a tag validator to parse the code and return whether it is valid.\n\nA code snippet is valid if all the following rules hold:\n\n• The code must be wrapped in a valid closed tag. Otherwise, the code is invalid.\n\n• A closed tag (not necessarily valid) has exactly the following format : <TAG_NAME>TAG_CONTENT</TAG_NAME>. Among them, <TAG_NAME> is the start tag, and </TAG_NAME> is the end tag. The TAG_NAME in start and end tags should be the same. A closed tag is valid if and only if the TAG_NAME and TAG_CONTENT are valid.\n\n• A valid TAG_NAME only contain upper-case letters, and has length in range [1,9]. Otherwise, the TAG_NAME is invalid.\n\n• A valid TAG_CONTENT may contain other valid closed tags, cdata and any characters (see note1) EXCEPT unmatched <, unmatched start and end tag, and unmatched or closed tags with invalid TAG_NAME. Otherwise, the TAG_CONTENT is invalid.\n\n• A start tag is unmatched if no end tag exists with the same TAG_NAME, and vice versa. However, you also need to consider the issue of unbalanced when tags are nested.\n\n• A < is unmatched if you cannot find a subsequent >. And when you find a < or </, all the subsequent characters until the next > should be parsed as TAG_NAME (not necessarily valid).\n\n• The cdata has the following format : <![CDATA[CDATA_CONTENT]]>. The range of CDATA_CONTENT is defined as the characters between <![CDATA[ and the first subsequent ]]>.\n\n• CDATA_CONTENT may contain any characters. The function of cdata is to forbid the validator to parse CDATA_CONTENT, so even it has some characters that can be parsed as tag (no matter valid or invalid), you should treat it as regular characters.\n\nExample 1:\n\nInput: code = \"This is the first line ]]>\n\"\nOutput: true\nExplanation:\n    The code is wrapped in a closed tag :  and\n.\n    The TAG_NAME is valid, the TAG_CONTENT consists of some characters and cdata.\n    Although CDATA_CONTENT has an unmatched start tag with invalid TAG_NAME, it should be considered as plain text, not parsed as a tag.\n    So TAG_CONTENT is valid, and then the code is valid. Thus return true.\n\nExample 2:\n\nInput: code = \">>  ![cdata[]] ]>]]>]]>>]\n\"\nOutput: true\nExplanation:\n    We first separate the code into : start_tag|tag_content|end_tag.\n    start_tag -> \"\"\n    end_tag -> \"\n\"\n    tag_content could also be separated into : text1|cdata|text2.\n    text1 -> \">>  ![cdata[]] \"\n    cdata -> \"]>]]>\", where the CDATA_CONTENT is \"]>\"\n    text2 -> \"]]>>]\"\n    The reason why start_tag is NOT \">>\" is because of the rule 6.\n    The reason why cdata is NOT \"]>]]>]]>\" is because of the rule 7.\n\nExample 3:\n\nInput: code = \"      \"\nOutput: false\nExplanation: Unbalanced. If \"\" is closed, then \"\" must be unmatched, and vice versa.\n\nConstraints:\n\n• 1 <= code.length <= 500\n\n• code consists of English letters, digits, '<', '>', '/', '!', '[', ']', '.', and ' '.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isValid(self, code):\n        \"\"\"\n        :type code: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"<DIV>This is the first line <![CDATA[<div>]]>\""
+    ],
+    [
+      "\"<DIV>>>  ![cdata[]] <![CDATA[<div>]>]]>]]>>]\""
+    ],
+    [
+      "\"<A>  <B> </A>   </B>\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Add Bold Tag in String\", \"titleSlug\": \"add-bold-tag-in-string\", \"difficulty\": \"Medium\"}]"
+}

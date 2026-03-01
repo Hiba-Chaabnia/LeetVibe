@@ -1,0 +1,53 @@
+{
+  "questionId": "3860",
+  "title": "Resulting String After Adjacent Removals",
+  "titleSlug": "resulting-string-after-adjacent-removals",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters.\n\nYou must repeatedly perform the following operation while the string s has at least two consecutive characters:\n\n• Remove the leftmost pair of adjacent characters in the string that are consecutive in the alphabet, in either order (e.g., 'a' and 'b', or 'b' and 'a').\n\n• Shift the remaining characters to the left to fill the gap.\n\nReturn the resulting string after no more operations can be performed.\n\nNote: Consider the alphabet as circular, thus 'a' and 'z' are consecutive.\n\nExample 1:\n\nInput: s = \"abc\"\n\nOutput: \"c\"\n\nExplanation:\n\n• Remove \"ab\" from the string, leaving \"c\" as the remaining string.\n\n• No further operations are possible. Thus, the resulting string after all possible removals is \"c\".\n\nExample 2:\n\nInput: s = \"adcb\"\n\nOutput: \"\"\n\nExplanation:\n\n• Remove \"dc\" from the string, leaving \"ab\" as the remaining string.\n\n• Remove \"ab\" from the string, leaving \"\" as the remaining string.\n\n• No further operations are possible. Thus, the resulting string after all possible removals is \"\".\n\nExample 3:\n\nInput: s = \"zadb\"\n\nOutput: \"db\"\n\nExplanation:\n\n• Remove \"za\" from the string, leaving \"db\" as the remaining string.\n\n• No further operations are possible. Thus, the resulting string after all possible removals is \"db\".\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def resultingString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Traverse the string from left to right and use a stack to perform the removals."
+  ],
+  "testCases": [
+    [
+      "\"abc\""
+    ],
+    [
+      "\"adcb\""
+    ],
+    [
+      "\"zadb\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"c\"",
+    "\"\"",
+    "\"db\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def resultingString(self, s):\n        stack = []\n        for c in s:\n            if stack:\n                diff = abs(ord(c) - ord(stack[-1]))\n                if diff == 1 or diff == 25:  # consecutive or a-z wrap\n                    stack.pop()\n                    continue\n            stack.append(c)\n        return ''.join(stack)",
+    "explanation": "We use a stack to simulate the removals greedily. For each character c, if the top of the stack is consecutive with c in the alphabet (including the circular case where 'a' and 'z' differ by 25), we pop the top (remove the pair). Otherwise we push c.\n\nThis correctly handles cascading removals: after removing a pair, the characters that were previously separated might become adjacent and form a new removable pair.\n\nTime complexity: O(n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[]"
+}

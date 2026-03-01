@@ -1,0 +1,49 @@
+{
+  "questionId": "4087",
+  "title": "Maximum Substrings With Distinct Start",
+  "titleSlug": "maximum-substrings-with-distinct-start",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters.\n\nReturn an integer denoting the maximum number of substrings you can split s into such that each substring starts with a distinct character (i.e., no two substrings start with the same character).\n\nExample 1:\n\nInput: s = \"abab\"\n\nOutput: 2\n\nExplanation:\n\n• Split \"abab\" into \"a\" and \"bab\".\n\n• Each substring starts with a distinct character i.e 'a' and 'b'. Thus, the answer is 2.\n\nExample 2:\n\nInput: s = \"abcd\"\n\nOutput: 4\n\nExplanation:\n\n• Split \"abcd\" into \"a\", \"b\", \"c\", and \"d\".\n\n• Each substring starts with a distinct character. Thus, the answer is 4.\n\nExample 3:\n\nInput: s = \"aaaa\"\n\nOutput: 1\n\nExplanation:\n\n• All characters in \"aaaa\" are 'a'.\n\n• Only one substring can start with 'a'. Thus, the answer is 1.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxDistinct(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the number of distinct characters in s"
+  ],
+  "testCases": [
+    [
+      "\"abab\""
+    ],
+    [
+      "\"abcd\""
+    ],
+    [
+      "\"aaaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxDistinct(self, s):\n        return len(set(s))",
+    "explanation": "The maximum number of substrings with distinct starting characters equals the number of distinct characters in s. Assign each distinct character as the start of one substring; the rest goes into the last substring.\n\nTime: O(n). Space: O(26)."
+  },
+  "similarQuestions": "[]"
+}

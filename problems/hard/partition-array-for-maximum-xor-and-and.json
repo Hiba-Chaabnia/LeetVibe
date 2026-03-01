@@ -1,0 +1,66 @@
+{
+  "questionId": "3882",
+  "title": "Partition Array for Maximum XOR and AND",
+  "titleSlug": "partition-array-for-maximum-xor-and-and",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nPartition the array into three (possibly empty) subsequences A, B, and C such that every element of nums belongs to exactly one subsequence.\n\nYour goal is to maximize the value of: XOR(A) + AND(B) + XOR(C)\n\nwhere:\n\n• XOR(arr) denotes the bitwise XOR of all elements in arr. If arr is empty, its value is defined as 0.\n\n• AND(arr) denotes the bitwise AND of all elements in arr. If arr is empty, its value is defined as 0.\n\nReturn the maximum value achievable.\n\nNote: If multiple partitions result in the same maximum sum, you can consider any one of them.\n\nExample 1:\n\nInput: nums = [2,3]\n\nOutput: 5\n\nExplanation: One optimal partition is:\n\n• A = [3], XOR(A) = 3\n\n• B = [2], AND(B) = 2\n\n• C = [], XOR(C) = 0\n\nThe maximum value of: XOR(A) + AND(B) + XOR(C) = 3 + 2 + 0 = 5. Thus, the answer is 5.\n\nExample 2:\n\nInput: nums = [1,3,2]\n\nOutput: 6\n\nExplanation: One optimal partition is:\n\n• A = [1], XOR(A) = 1\n\n• B = [2], AND(B) = 2\n\n• C = [3], XOR(C) = 3\n\nThe maximum value of: XOR(A) + AND(B) + XOR(C) = 1 + 2 + 3 = 6. Thus, the answer is 6.\n\nExample 3:\n\nInput: nums = [2,3,6,7]\n\nOutput: 15\n\nExplanation: One optimal partition is:\n\n• A = [7], XOR(A) = 7\n\n• B = [2,3], AND(B) = 2\n\n• C = [6], XOR(C) = 6\n\nThe maximum value of: XOR(A) + AND(B) + XOR(C) = 7 + 2 + 6 = 15. Thus, the answer is 15.\n\nConstraints:\n\n• 1 <= nums.length <= 19\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximizeXorAndXor(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Brute-force all subsets for B.",
+    "Let s = XOR of all elements not in B.",
+    "We want to choose a value x (a subset‐XOR of the \"remaining\" elements) to maximize x + (s XOR x).",
+    "Observe that x + (s XOR x) = s + 2 * (x AND ~s).",
+    "To do this efficiently, build a linear XOR basis over the values nums[j] & ~s for each index j not in B.",
+    "Finally, greedily extract the maximum x from that basis."
+  ],
+  "testCases": [
+    [
+      "[2,3]"
+    ],
+    [
+      "[1,3,2]"
+    ],
+    [
+      "[2,3,6,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "6",
+    "15"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximizeXorAndXor(self, nums):\n        n = len(nums)\n        # Brute force all 3^n subsets for small n (n<=19)\n        # But hint says brute force over B (subsets for AND part)\n        # For each subset B: AND(B) is fixed\n        # Remaining elements: split into A and C to maximize XOR(A) + XOR(C)\n        # XOR(A) + XOR(C) = let s = XOR of all remaining; want to maximize x + (s XOR x)\n        # x + (s XOR x) = x + s XOR x\n        # Let's compute: for each bit b, if bit b of s is 0: both x and s^x have same bit b -> contributes 0 or 2*bit_b -> can't get both, max = 0\n        # If bit b of s is 1: x and s^x have different bit b -> always contributes bit_b\n        # So x + (s XOR x) = s + 2*(x AND ~s) maximized by maximizing x AND ~s over achievable x\n        # x can be any subset-XOR of remaining elements\n        # Maximum x AND ~s: use linear basis over (v & ~s) for remaining elements\n        from functools import reduce\n        from operator import xor\n        total_xor = reduce(xor, nums, 0)\n        best = 0\n        for mask in range(1 << n):  # mask = subset for B\n            and_b = (1 << 30) - 1\n            rem = []\n            for i in range(n):\n                if (mask >> i) & 1:\n                    and_b &= nums[i]\n                else:\n                    rem.append(nums[i])\n            if not mask:\n                and_b = 0\n            if not rem:\n                best = max(best, and_b)\n                continue\n            s = reduce(xor, rem, 0)\n            # Build linear basis over (v & ~s) for v in rem\n            basis = []\n            for v in rem:\n                cur = v & (~s)\n                for b in basis:\n                    cur = min(cur, cur ^ b)\n                if cur:\n                    basis.append(cur)\n                    basis.sort(reverse=True)\n            # Greedily maximize x AND ~s = x (since we're working with ~s masked)\n            x_max = 0\n            for b in basis:\n                x_max = max(x_max, x_max ^ b)\n            val = and_b + s + 2 * x_max\n            best = max(best, val)\n        return best",
+    "explanation": "Enumerate all 2^n subsets for B. For remaining elements: s = XOR of all, maximize XOR(A)+XOR(C) = s + 2*(max achievable x & ~s). Build linear XOR basis over (v & ~s) for remaining elements, greedily maximize x & ~s. n ≤ 19 so 2^19 = 524288 iterations.\n\nTime: O(2^n * n * 30). Space: O(30)."
+  },
+  "similarQuestions": "[]"
+}

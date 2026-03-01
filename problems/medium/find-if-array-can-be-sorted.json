@@ -1,0 +1,54 @@
+{
+  "questionId": "3291",
+  "title": "Find if Array Can Be Sorted",
+  "titleSlug": "find-if-array-can-be-sorted",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed array of positive integers nums.\n\nIn one operation, you can swap any two adjacent elements if they have the same number of set bits. You are allowed to do this operation any number of times (including zero).\n\nReturn true if you can sort the array in ascending order, else return false.\n\nExample 1:\n\nInput: nums = [8,4,2,30,15]\nOutput: true\nExplanation: Let's look at the binary representation of every element. The numbers 2, 4, and 8 have one set bit each with binary representation \"10\", \"100\", and \"1000\" respectively. The numbers 15 and 30 have four set bits each with binary representation \"1111\" and \"11110\".\n    We can sort the array using 4 operations:\n    - Swap nums[0] with nums[1]. This operation is valid because 8 and 4 have one set bit each. The array becomes [4,8,2,30,15].\n    - Swap nums[1] with nums[2]. This operation is valid because 8 and 2 have one set bit each. The array becomes [4,2,8,30,15].\n    - Swap nums[0] with nums[1]. This operation is valid because 4 and 2 have one set bit each. The array becomes [2,4,8,30,15].\n    - Swap nums[3] with nums[4]. This operation is valid because 30 and 15 have four set bits each. The array becomes [2,4,8,15,30].\n    The array has become sorted, hence we return true.\n    Note that there may be other sequences of operations which also sort the array.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5]\nOutput: true\nExplanation: The array is already sorted, hence we return true.\n\nExample 3:\n\nInput: nums = [3,16,8,4,2]\nOutput: false\nExplanation: It can be shown that it is not possible to sort the input array using any number of operations.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 28",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canSortArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Split the array into segments. Each segment contains consecutive elements with the same number of set bits.",
+    "From left to right, the previous segment’s largest element should be smaller than the current segment’s smallest element."
+  ],
+  "testCases": [
+    [
+      "[8,4,2,30,15]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[3,16,8,4,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canSortArray(self, nums):\n        # Within each segment of same popcount, elements can be freely reordered.\n        # Check: each segment's max < next segment's min.\n        prev_max = float('-inf')\n        i = 0\n        while i < len(nums):\n            j = i\n            bits = bin(nums[i]).count('1')\n            seg_min, seg_max = nums[i], nums[i]\n            while j < len(nums) and bin(nums[j]).count('1') == bits:\n                seg_min = min(seg_min, nums[j])\n                seg_max = max(seg_max, nums[j])\n                j += 1\n            if seg_min < prev_max:\n                return False\n            prev_max = seg_max\n            i = j\n        return True",
+    "explanation": "Group consecutive elements with the same popcount into segments (they can be freely reordered via swaps). Check that each segment's max < next segment's min.\n\nTime: O(n log max_val). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Sort Integers by The Number of 1 Bits\", \"titleSlug\": \"sort-integers-by-the-number-of-1-bits\", \"difficulty\": \"Easy\"}]"
+}

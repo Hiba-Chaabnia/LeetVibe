@@ -1,0 +1,50 @@
+{
+  "questionId": "1636",
+  "title": "Number of Substrings With Only 1s",
+  "titleSlug": "number-of-substrings-with-only-1s",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a binary string s, return the number of substrings with all characters 1's. Since the answer may be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: s = \"0110111\"\nOutput: 9\nExplanation: There are 9 substring in total with only 1's characters.\n    \"1\" -> 5 times.\n    \"11\" -> 3 times.\n    \"111\" -> 1 time.\n\nExample 2:\n\nInput: s = \"101\"\nOutput: 2\nExplanation: Substring \"1\" is shown 2 times in s.\n\nExample 3:\n\nInput: s = \"111111\"\nOutput: 21\nExplanation: Each substring contains only 1's characters.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSub(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count number of 1s in each consecutive-1 group. For a group with n consecutive 1s, the total contribution of it to the final answer is (n + 1) * n // 2."
+  ],
+  "testCases": [
+    [
+      "\"0110111\""
+    ],
+    [
+      "\"101\""
+    ],
+    [
+      "\"111111\""
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "2",
+    "21"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def numSub(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        MOD = 10**9 + 7\n        count = 0\n        consecutive_ones = 0\n        \n        for ch in s:\n            if ch == '1':\n                consecutive_ones += 1\n            else:\n                # Process group of consecutive 1s\n                # For n consecutive 1s: n*(n+1)/2 substrings\n                count = (count + consecutive_ones * (consecutive_ones + 1) // 2) % MOD\n                consecutive_ones = 0\n        \n        # Don't forget last group\n        count = (count + consecutive_ones * (consecutive_ones + 1) // 2) % MOD\n        \n        return count",
+    "explanation": "Count consecutive 1s. For each group of n ones, add n*(n+1)/2.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Count Number of Homogenous Substrings\", \"titleSlug\": \"count-number-of-homogenous-substrings\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Vowel Substrings of a String\", \"titleSlug\": \"count-vowel-substrings-of-a-string\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "1488",
+  "title": "Sort Integers by The Power Value",
+  "titleSlug": "sort-integers-by-the-power-value",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "The power of an integer x is defined as the number of steps needed to transform x into 1 using the following steps:\n\n• if x is even then x = x / 2\n\n• if x is odd then x = 3 * x + 1\n\nFor example, the power of x = 3 is 7 because 3 needs 7 steps to become 1 (3 --> 10 --> 5 --> 16 --> 8 --> 4 --> 2 --> 1).\n\nGiven three integers lo, hi and k. The task is to sort all integers in the interval [lo, hi] by the power value in ascending order, if two or more integers have the same power value sort them by ascending order.\n\nReturn the kth integer in the range [lo, hi] sorted by the power value.\n\nNotice that for any integer x (lo <= x <= hi) it is guaranteed that x will transform into 1 using these steps and that the power of x is will fit in a 32-bit signed integer.\n\nExample 1:\n\nInput: lo = 12, hi = 15, k = 2\nOutput: 13\nExplanation: The power of 12 is 9 (12 --> 6 --> 3 --> 10 --> 5 --> 16 --> 8 --> 4 --> 2 --> 1)\n    The power of 13 is 9\n    The power of 14 is 17\n    The power of 15 is 17\n    The interval sorted by the power value [12,13,14,15]. For k = 2 answer is the second element which is 13.\n    Notice that 12 and 13 have the same power value and we sorted them in ascending order. Same for 14 and 15.\n\nExample 2:\n\nInput: lo = 7, hi = 11, k = 4\nOutput: 7\nExplanation: The power array corresponding to the interval [7, 8, 9, 10, 11] is [16, 3, 19, 6, 14].\n    The interval sorted by power is [8, 10, 11, 7, 9].\n    The fourth number in the sorted array is 7.\n\nConstraints:\n\n• 1 <= lo <= hi <= 1000\n\n• 1 <= k <= hi - lo + 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getKth(self, lo, hi, k):\n        \"\"\"\n        :type lo: int\n        :type hi: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming to get the power of each integer of the intervals.",
+    "Sort all the integers of the interval by the power value and return the k-th in the sorted list."
+  ],
+  "testCases": [
+    [
+      "12",
+      "15",
+      "2"
+    ],
+    [
+      "7",
+      "11",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "7"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from functools import lru_cache\n\nclass Solution(object):\n    def getKth(self, lo, hi, k):\n        @lru_cache(maxsize=None)\n        def power(x):\n            if x == 1:\n                return 0\n            if x % 2 == 0:\n                return 1 + power(x // 2)\n            return 1 + power(3 * x + 1)\n\n        nums = list(range(lo, hi + 1))\n        nums.sort(key=lambda x: (power(x), x))\n        return nums[k - 1]",
+    "explanation": "We compute the Collatz sequence length (power) for each number using memoized recursion. The lru_cache ensures each subproblem is computed at most once, and intermediate values (beyond hi) are also cached.\n\nAfter computing powers for all numbers in [lo, hi], we sort by (power, value) — breaking ties by the number itself — and return the k-th element (1-indexed).\n\nTime complexity: O((hi - lo + 1) * log(hi)) amortized with memoization. Space complexity: O(hi) for the cache."
+  },
+  "similarQuestions": "[{\"title\": \"Find Score of an Array After Marking All Elements\", \"titleSlug\": \"find-score-of-an-array-after-marking-all-elements\", \"difficulty\": \"Medium\"}]"
+}

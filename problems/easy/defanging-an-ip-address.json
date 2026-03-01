@@ -1,0 +1,39 @@
+{
+  "questionId": "1205",
+  "title": "Defanging an IP Address",
+  "titleSlug": "defanging-an-ip-address",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a valid (IPv4) IP address, return a defanged version of that IP address.\n\nA defanged IP address replaces every period \".\" with \"[.]\".\n\nExample 1:\n\nInput: address = \"1.1.1.1\"\nOutput: \"1[.]1[.]1[.]1\"\nExample 2:\n\nInput: address = \"255.100.50.0\"\nOutput: \"255[.]100[.]50[.]0\"\n\nConstraints:\n\n• The given address is a valid IPv4 address.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def defangIPaddr(self, address):\n        \"\"\"\n        :type address: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"1.1.1.1\""
+    ],
+    [
+      "\"255.100.50.0\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"1[.]1[.]1[.]1\"",
+    "\"255[.]100[.]50[.]0\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def defangIPaddr(address: str) -> str:\n    return address.replace('.', '[.]')",
+    "explanation": "The function for each language takes an input address, which is a valid IPv4 address. It iterates through each character of the string, checking for a period ('.'). If a period is found, we replace it with \"[.]\" in the resulting string. For other characters, we just add them to the resulting string.\n\nIn C++, Java, and JavaScript, we iterate over each character using a for loop, appending the processed character to a string object or a StringBuilder object. Java uses a StringBuilder object for more efficient string concatenation.\n\nIn Python, we can directly use the string method `replace()` to replace all occurrences of the period with \"[.]\" in a more concise way.\n\nAt the end of the function, we return the defanged IP address as string."
+  },
+  "similarQuestions": "[]"
+}

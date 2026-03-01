@@ -1,0 +1,51 @@
+{
+  "questionId": "724",
+  "title": "Find Pivot Index",
+  "titleSlug": "find-pivot-index",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given an array of integers nums, calculate the pivot index of this array.\n\nThe pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.\n\nIf the index is on the left edge of the array, then the left sum is 0 because there are no elements to the left. This also applies to the right edge of the array.\n\nReturn the leftmost pivot index. If no such index exists, return -1.\n\nExample 1:\n\nInput: nums = [1,7,3,6,5,6]\nOutput: 3\nExplanation:\n    The pivot index is 3.\n    Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11\n    Right sum = nums[4] + nums[5] = 5 + 6 = 11\n\nExample 2:\n\nInput: nums = [1,2,3]\nOutput: -1\nExplanation:\n    There is no index that satisfies the conditions in the problem statement.\n\nExample 3:\n\nInput: nums = [2,1,-1]\nOutput: 0\nExplanation:\n    The pivot index is 0.\n    Left sum = 0 (no elements to the left of index 0)\n    Right sum = nums[1] + nums[2] = 1 + -1 = 0\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• -1000 <= nums[i] <= 1000\n\nNote: This question is the same as 1991: https://leetcode.com/problems/find-the-middle-index-in-array/",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def pivotIndex(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Create an array sumLeft where sumLeft[i] is the sum of all the numbers to the left of index i.",
+    "Create an array sumRight where sumRight[i] is the sum of all the numbers to the right of index i.",
+    "For each index i, check if sumLeft[i] equals sumRight[i]. If so, return i. If no such i is found, return -1."
+  ],
+  "testCases": [
+    [
+      "[1,7,3,6,5,6]"
+    ],
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[2,1,-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def pivotIndex(nums):\n    total_sum = sum(nums)\n    left_sum = 0\n    for i, num in enumerate(nums):\n        if left_sum == total_sum - left_sum - num:\n            return i\n        left_sum += num\n    return -1",
+    "explanation": "1. First, find the total sum of the array.\n2. Iterate through the array, maintaining a running sum of the elements to the left of the current index.\n3. For each index, check if the left sum is equal to the total sum minus the left sum and the value at the current index.\n4. If such equality is found, return the index as the pivot index. If not found, return -1."
+  },
+  "similarQuestions": "[{\"title\": \"Subarray Sum Equals K\", \"titleSlug\": \"subarray-sum-equals-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Middle Index in Array\", \"titleSlug\": \"find-the-middle-index-in-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Number of Ways to Split Array\", \"titleSlug\": \"number-of-ways-to-split-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Sum Score of Array\", \"titleSlug\": \"maximum-sum-score-of-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Left and Right Sum Differences\", \"titleSlug\": \"left-and-right-sum-differences\", \"difficulty\": \"Easy\"}]"
+}

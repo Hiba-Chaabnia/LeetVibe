@@ -1,0 +1,46 @@
+{
+  "questionId": "1999",
+  "title": "Longer Contiguous Segments of Ones than Zeros",
+  "titleSlug": "longer-contiguous-segments-of-ones-than-zeros",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a binary string s, return true if the longest contiguous segment of 1's is strictly longer than the longest contiguous segment of 0's in s, or return false otherwise.\n\n• For example, in s = \"110100010\" the longest continuous segment of 1s has length 2, and the longest continuous segment of 0s has length 3.\n\nNote that if there are no 0's, then the longest continuous segment of 0's is considered to have a length 0. The same applies if there is no 1's.\n\nExample 1:\n\nInput: s = \"1101\"\nOutput: true\nExplanation:\n    The longest contiguous segment of 1s has length 2: \"1101\"\n    The longest contiguous segment of 0s has length 1: \"1101\"\n    The segment of 1s is longer, so return true.\n\nExample 2:\n\nInput: s = \"111000\"\nOutput: false\nExplanation:\n    The longest contiguous segment of 1s has length 3: \"111000\"\n    The longest contiguous segment of 0s has length 3: \"111000\"\n    The segment of 1s is not longer, so return false.\n\nExample 3:\n\nInput: s = \"110100010\"\nOutput: false\nExplanation:\n    The longest contiguous segment of 1s has length 2: \"110100010\"\n    The longest contiguous segment of 0s has length 3: \"110100010\"\n    The segment of 1s is not longer, so return false.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkZeroOnes(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Check every possible segment of 0s and 1s.",
+    "Is there a way to iterate through the string to keep track of the current character and its count?"
+  ],
+  "testCases": [
+    [
+      "\"1101\""
+    ],
+    [
+      "\"111000\""
+    ],
+    [
+      "\"110100010\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def checkZeroOnes(s: str) -> bool:\n    max_ones, max_zeros, current_ones, current_zeros = 0, 0, 0, 0\n    for c in s:\n        if c == '1':\n            current_ones += 1\n            current_zeros = 0\n        else:\n            current_zeros += 1\n            current_ones = 0\n        max_ones = max(max_ones, current_ones)\n        max_zeros = max(max_zeros, current_zeros)\n    return max_ones > max_zeros",
+    "explanation": "We initialize 4 variables: `max_ones`, `max_zeros`, `current_ones`, and `current_zeros`. We then iterate through each character in the string. If we find `1`, we increment the `current_ones` counter and set the `current_zeros` count to 0, and if we find `0`, we increment the `current_zeros` counter and set the `current_ones` counter to 0. After each character, we update the maximum values of `max_ones` and `max_zeros` using the `max` function or `Math.max` function depending on the language. Finally, after iterating through the entire string, we compare the `max_ones` and `max_zeros` to determine if the longest continuous segment of `1`s is strictly longer than that of `0`s and return the result."
+  },
+  "similarQuestions": "[{\"title\": \"Max Consecutive Ones\", \"titleSlug\": \"max-consecutive-ones\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Subarrays With More Ones Than Zeros\", \"titleSlug\": \"count-subarrays-with-more-ones-than-zeros\", \"difficulty\": \"Medium\"}, {\"title\": \"Check if Binary String Has at Most One Segment of Ones\", \"titleSlug\": \"check-if-binary-string-has-at-most-one-segment-of-ones\", \"difficulty\": \"Easy\"}]"
+}

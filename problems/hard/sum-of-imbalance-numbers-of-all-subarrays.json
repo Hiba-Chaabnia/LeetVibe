@@ -1,0 +1,52 @@
+{
+  "questionId": "2849",
+  "title": "Sum of Imbalance Numbers of All Subarrays",
+  "titleSlug": "sum-of-imbalance-numbers-of-all-subarrays",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "The imbalance number of a 0-indexed integer array arr of length n is defined as the number of indices in sarr = sorted(arr) such that:\n\n• 0 <= i < n - 1, and\n\n• sarr[i+1] - sarr[i] > 1\n\nHere, sorted(arr) is the function that returns the sorted version of arr.\n\nGiven a 0-indexed integer array nums, return the sum of imbalance numbers of all its subarrays.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [2,3,1,4]\nOutput: 3\nExplanation: There are 3 subarrays with non-zero imbalance numbers:\n    - Subarray [3, 1] with an imbalance number of 1.\n    - Subarray [3, 1, 4] with an imbalance number of 1.\n    - Subarray [1, 4] with an imbalance number of 1.\n    The imbalance number of all other subarrays is 0. Hence, the sum of imbalance numbers of all the subarrays of nums is 3.\n\nExample 2:\n\nInput: nums = [1,3,3,3,5]\nOutput: 8\nExplanation: There are 7 subarrays with non-zero imbalance numbers:\n    - Subarray [1, 3] with an imbalance number of 1.\n    - Subarray [1, 3, 3] with an imbalance number of 1.\n    - Subarray [1, 3, 3, 3] with an imbalance number of 1.\n    - Subarray [1, 3, 3, 3, 5] with an imbalance number of 2.\n    - Subarray [3, 3, 3, 5] with an imbalance number of 1.\n    - Subarray [3, 3, 5] with an imbalance number of 1.\n    - Subarray [3, 5] with an imbalance number of 1.\n    The imbalance number of all other subarrays is 0. Hence, the sum of imbalance numbers of all the subarrays of nums is 8.\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= nums[i] <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumImbalanceNumbers(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate over all subarrays in a nested fashion. Namely, for each left endpoint, start from nums[left] and add elements nums[left + 1], nums[left + 2], etc.",
+    "To keep track of the imbalance value, maintain a set of added elements.",
+    "Increment the imbalance value whenever a new number is not adjacent (+/- 1) to other old numbers. For example, when you add 3 to [1, 5], or when you add 5 to [1, 3]. For a formal proof, consider three cases: new value is (i) largest, (ii) smallest, (iii) between two old numbers.",
+    "Decrement the imbalance value whenever a new number is adjacent (+/- 1) to two old numbers. For example, when you add 3 to [2, 4]. The imbalance value does not change in the case of one adjacent old number."
+  ],
+  "testCases": [
+    [
+      "[2,3,1,4]"
+    ],
+    [
+      "[1,3,3,3,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumImbalanceNumbers(self, nums):\n        n = len(nums)\n        ans = 0\n        for i in range(n):\n            seen = set()\n            imbalance = 0\n            seen.add(nums[i])\n            for j in range(i + 1, n):\n                v = nums[j]\n                if v not in seen:\n                    has_left = (v - 1) in seen\n                    has_right = (v + 1) in seen\n                    if not has_left and not has_right:\n                        imbalance += 1  # creates new gap on both sides\n                    elif has_left and has_right:\n                        imbalance -= 1  # bridges a gap\n                    # one neighbor: no change (fills one gap, creates none)\n                    seen.add(v)\n                ans += imbalance\n        return ans",
+    "explanation": "For each starting index i, expand right tracking imbalance. When adding value v (not already seen): if neither v-1 nor v+1 in set, +1 (new isolated element creates gap with both sides); if both present, -1 (bridges gap); else no change. O(n²) is fine for n ≤ 1000.\n\nTime: O(n²). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Count Subarrays With Median K\", \"titleSlug\": \"count-subarrays-with-median-k\", \"difficulty\": \"Hard\"}]"
+}

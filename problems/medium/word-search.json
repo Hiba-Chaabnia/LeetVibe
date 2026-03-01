@@ -1,0 +1,62 @@
+{
+  "questionId": "79",
+  "title": "Word Search",
+  "titleSlug": "word-search",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given an m x n grid of characters board and a string word, return true if word exists in the grid.\n\nThe word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.\n\nExample 1:\n\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCCED\"\nOutput: true\n\nExample 2:\n\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"SEE\"\nOutput: true\n\nExample 3:\n\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCB\"\nOutput: false\n\nConstraints:\n\n• m == board.length\n\n• n = board[i].length\n\n• 1 <= m, n <= 6\n\n• 1 <= word.length <= 15\n\n• board and word consists of only lowercase and uppercase English letters.\n\nFollow up: Could you use search pruning to make your solution faster with a larger board?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def exist(self, board, word):\n        \"\"\"\n        :type board: List[List[str]]\n        :type word: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]",
+      "\"ABCCED\""
+    ],
+    [
+      "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]",
+      "\"SEE\""
+    ],
+    [
+      "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]",
+      "\"ABCB\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def exist(board, word):\n    m, n = len(board), len(board[0])\n\n    def dfs(i, j, k):\n        if not 0 <= i < m or not 0 <= j < n or board[i][j] != word[k]:\n            return False\n        if k == len(word) - 1:\n            return True\n\n        tmp, board[i][j] = board[i][j], '/'\n        res = dfs(i + 1, j, k + 1) or dfs(i - 1, j, k + 1) or dfs(i, j + 1, k + 1) or dfs(i, j - 1, k + 1)\n        board[i][j] = tmp\n        return res\n\n    for i in range(m):\n        for j in range(n):\n            if dfs(i, j, 0):\n                return True\n    return False",
+    "explanation": "For each of the implementation above, we use a Depth-First Search (DFS) based algorithm to traverse the grid board. The DFS function takes the current cell index i and j and the index of the character in the input word that we are looking for (k).\n\nThe base cases are:\n- If the cell indexes i or j are out of boundaries, or the board[i][j] character does not match word[k], return false.\n- If k (current character index) is equal to word.length - 1, we find the word in the grid, so return true.\n\nFor each cell, we run the DFS function with the given input parameters. If DFS returns true (found the word), the whole function will return true."
+  },
+  "similarQuestions": "[{\"title\": \"Word Search II\", \"titleSlug\": \"word-search-ii\", \"difficulty\": \"Hard\"}]"
+}

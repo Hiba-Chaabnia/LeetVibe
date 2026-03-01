@@ -1,0 +1,58 @@
+{
+  "questionId": "1683",
+  "title": "Maximum Number of Coins You Can Get",
+  "titleSlug": "maximum-number-of-coins-you-can-get",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "There are 3n piles of coins of varying size, you and your friends will take piles of coins as follows:\n\n• In each step, you will choose any 3 piles of coins (not necessarily consecutive).\n\n• Of your choice, Alice will pick the pile with the maximum number of coins.\n\n• You will pick the next pile with the maximum number of coins.\n\n• Your friend Bob will pick the last pile.\n\n• Repeat until there are no more piles of coins.\n\nGiven an array of integers piles where piles[i] is the number of coins in the ith pile.\n\nReturn the maximum number of coins that you can have.\n\nExample 1:\n\nInput: piles = [2,4,1,2,7,8]\nOutput: 9\nExplanation: Choose the triplet (2, 7, 8), Alice Pick the pile with 8 coins, you the pile with 7 coins and Bob the last one.\n    Choose the triplet (1, 2, 4), Alice Pick the pile with 4 coins, you the pile with 2 coins and Bob the last one.\n    The maximum number of coins which you can have are: 7 + 2 = 9.\n    On the other hand if we choose this arrangement (1, 2, 8), (2, 4, 7) you only get 2 + 4 = 6 coins which is not optimal.\n\nExample 2:\n\nInput: piles = [2,4,5]\nOutput: 4\n\nExample 3:\n\nInput: piles = [9,8,7,6,5,1,2,3,4]\nOutput: 18\n\nConstraints:\n\n• 3 <= piles.length <= 105\n\n• piles.length % 3 == 0\n\n• 1 <= piles[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxCoins(self, piles):\n        \"\"\"\n        :type piles: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Which pile of coins will you never be able to pick up?",
+    "Bob is forced to take the last pile of coins, no matter what it is. Which pile should you give to him?"
+  ],
+  "testCases": [
+    [
+      "[2,4,1,2,7,8]"
+    ],
+    [
+      "[2,4,5]"
+    ],
+    [
+      "[9,8,7,6,5,1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "4",
+    "18"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

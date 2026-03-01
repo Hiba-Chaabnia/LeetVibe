@@ -1,0 +1,45 @@
+{
+  "questionId": "1331",
+  "title": "Path with Maximum Gold",
+  "titleSlug": "path-with-maximum-gold",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "In a gold mine grid of size m x n, each cell in this mine has an integer representing the amount of gold in that cell, 0 if it is empty.\n\nReturn the maximum amount of gold you can collect under the conditions:\n\n• Every time you are located in a cell you will collect all the gold in that cell.\n\n• From your position, you can walk one step to the left, right, up, or down.\n\n• You can't visit the same cell more than once.\n\n• Never visit a cell with 0 gold.\n\n• You can start and stop collecting gold from any position in the grid that has some gold.\n\nExample 1:\n\nInput: grid = [[0,6,0],[5,8,7],[0,9,0]]\nOutput: 24\nExplanation:\n    [[0,6,0],\n     [5,8,7],\n     [0,9,0]]\n    Path to get the maximum gold, 9 -> 8 -> 7.\n\nExample 2:\n\nInput: grid = [[1,0,7],[2,0,6],[3,4,5],[0,3,0],[9,0,20]]\nOutput: 28\nExplanation:\n    [[1,0,7],\n     [2,0,6],\n     [3,4,5],\n     [0,3,0],\n     [9,0,20]]\n    Path to get the maximum gold, 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 15\n\n• 0 <= grid[i][j] <= 100\n\n• There are at most 25 cells containing gold.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getMaximumGold(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use recursion to try all such paths and find the one with the maximum value."
+  ],
+  "testCases": [
+    [
+      "[[0,6,0],[5,8,7],[0,9,0]]"
+    ],
+    [
+      "[[1,0,7],[2,0,6],[3,4,5],[0,3,0],[9,0,20]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "24",
+    "28"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

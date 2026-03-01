@@ -1,0 +1,48 @@
+{
+  "questionId": "2529",
+  "title": "Range Product Queries of Powers",
+  "titleSlug": "range-product-queries-of-powers",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a positive integer n, there exists a 0-indexed array called powers, composed of the minimum number of powers of 2 that sum to n. The array is sorted in non-decreasing order, and there is only one way to form the array.\n\nYou are also given a 0-indexed 2D integer array queries, where queries[i] = [lefti, righti]. Each queries[i] represents a query where you have to find the product of all powers[j] with lefti <= j <= righti.\n\nReturn an array answers, equal in length to queries, where answers[i] is the answer to the ith query. Since the answer to the ith query may be too large, each answers[i] should be returned modulo 109 + 7.\n\nExample 1:\n\nInput: n = 15, queries = [[0,1],[2,2],[0,3]]\nOutput: [2,4,64]\nExplanation:\n    For n = 15, powers = [1,2,4,8]. It can be shown that powers cannot be a smaller size.\n    Answer to 1st query: powers[0] * powers[1] = 1 * 2 = 2.\n    Answer to 2nd query: powers[2] = 4.\n    Answer to 3rd query: powers[0] * powers[1] * powers[2] * powers[3] = 1 * 2 * 4 * 8 = 64.\n    Each answer modulo 109 + 7 yields the same answer, so [2,4,64] is returned.\n\nExample 2:\n\nInput: n = 2, queries = [[0,0]]\nOutput: [2]\nExplanation:\n    For n = 2, powers = [2].\n    The answer to the only query is powers[0] = 2. The answer modulo 109 + 7 is the same, so [2] is returned.\n\nConstraints:\n\n• 1 <= n <= 109\n\n• 1 <= queries.length <= 105\n\n• 0 <= starti <= endi < powers.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def productQueries(self, n, queries):\n        \"\"\"\n        :type n: int\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The powers array can be created using the binary representation of n.",
+    "Once powers is formed, the products can be taken using brute force."
+  ],
+  "testCases": [
+    [
+      "15",
+      "[[0,1],[2,2],[0,3]]"
+    ],
+    [
+      "2",
+      "[[0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,4,64]",
+    "[2]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "880",
+  "title": "Rectangle Area II",
+  "titleSlug": "rectangle-area-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Sweep Line",
+      "slug": "line-sweep"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "You are given a 2D array of axis-aligned rectangles. Each rectangle[i] = [xi1, yi1, xi2, yi2] denotes the ith rectangle where (xi1, yi1) are the coordinates of the bottom-left corner, and (xi2, yi2) are the coordinates of the top-right corner.\n\nCalculate the total area covered by all rectangles in the plane. Any area covered by two or more rectangles should only be counted once.\n\nReturn the total area. Since the answer may be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: rectangles = [[0,0,2,2],[1,0,2,3],[1,0,3,1]]\nOutput: 6\nExplanation: A total area of 6 is covered by all three rectangles, as illustrated in the picture.\n    From (1,1) to (2,2), the green and red rectangles overlap.\n    From (1,0) to (2,3), all three rectangles overlap.\n\nExample 2:\n\nInput: rectangles = [[0,0,1000000000,1000000000]]\nOutput: 49\nExplanation: The answer is 1018 modulo (109 + 7), which is 49.\n\nConstraints:\n\n• 1 <= rectangles.length <= 200\n\n• rectanges[i].length == 4\n\n• 0 <= xi1, yi1, xi2, yi2 <= 109\n\n• xi1 <= xi2\n\n• yi1 <= yi2\n\n• All rectangles have non zero area.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rectangleArea(self, rectangles):\n        \"\"\"\n        :type rectangles: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,0,2,2],[1,0,2,3],[1,0,3,1]]"
+    ],
+    [
+      "[[0,0,1000000000,1000000000]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "49"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def rectangleArea(rectangles):\n    mod = 10**9 + 7\n    n = len(rectangles)\n    X, Y = set(), set()\n    for rect in rectangles:\n        X.add(rect[0])\n        X.add(rect[2])\n        Y.add(rect[1])\n        Y.add(rect[3])\n    sorted_x = sorted(X)\n    sorted_y = sorted(Y)\n    cnt = [[0 for _ in range(len(Y) - 1)] for _ in range(len(X) - 1)]\n\n    for rect in rectangles:\n        x1_idx = sorted_x.index(rect[0])\n        x2_idx = sorted_x.index(rect[2]) - 1\n        y1_idx = sorted_y.index(rect[1])\n        y2_idx = sorted_y.index(rect[3]) - 1\n        for i in range(x1_idx, x2_idx + 1):\n            for j in range(y1_idx, y2_idx + 1):\n                cnt[i][j] = 1\n\n    total_area = 0\n    for i in range(len(X) - 1):\n        for j in range(len(Y) - 1):\n            if cnt[i][j]:\n                total_area += (sorted_x[i + 1] - sorted_x[i]) * (sorted_y[j + 1] - sorted_y[j])\n                total_area %= mod\n\n    return total_area",
+    "explanation": "For each rectangle, add its x-coordinates and y-coordinates (both left and right) into two separate sets X and Y.\n- Convert the sets X and Y to sorted lists (sortedX, sortedY).\n- Create an 2D array (matrix) cnt, which will represent the overlap of rectangles, i.e., cnt[i][j] == 1 if any rectangle covers that area.\n- Iterate through the rectangles and for each rectangle, find its left and right, top and bottom boundaries in the sortedX and sortedY lists.\n- Mark cnt[i][j] = 1 for each rectangle covering the area between indices i and j.\n- Initialize a variable total_area to 0. Iterate over the cnt matrix, and for each cell with value 1, increment total_area by the area of the cell (product of the difference in x and y-coordinates).\n- Return total_area modulo 10^9 + 7."
+  },
+  "similarQuestions": "[{\"title\": \"Separate Squares II\", \"titleSlug\": \"separate-squares-ii\", \"difficulty\": \"Hard\"}]"
+}

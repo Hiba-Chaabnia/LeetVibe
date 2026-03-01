@@ -1,0 +1,47 @@
+{
+  "questionId": "3800",
+  "title": "Longest Common Prefix Between Adjacent Strings After Removals",
+  "titleSlug": "longest-common-prefix-between-adjacent-strings-after-removals",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given an array of strings words. For each index i in the range [0, words.length - 1], perform the following steps:\n\n• Remove the element at index i from the words array.\n\n• Compute the length of the longest common prefix among all adjacent pairs in the modified array.\n\nReturn an array answer, where answer[i] is the length of the longest common prefix between the adjacent pairs after removing the element at index i. If no adjacent pairs remain or if none share a common prefix, then answer[i] should be 0.\n\nExample 1:\n\nInput: words = [\"jump\",\"run\",\"run\",\"jump\",\"run\"]\n\nOutput: [3,0,0,3,3]\n\nExplanation:\n\n• Removing index 0:\n\n• words becomes [\"run\", \"run\", \"jump\", \"run\"]\n\n• Longest adjacent pair is [\"run\", \"run\"] having a common prefix \"run\" (length 3)\n\n• Removing index 1:\n\n• words becomes [\"jump\", \"run\", \"jump\", \"run\"]\n\n• No adjacent pairs share a common prefix (length 0)\n\n• Removing index 2:\n\n• words becomes [\"jump\", \"run\", \"jump\", \"run\"]\n\n• No adjacent pairs share a common prefix (length 0)\n\n• Removing index 3:\n\n• words becomes [\"jump\", \"run\", \"run\", \"run\"]\n\n• Longest adjacent pair is [\"run\", \"run\"] having a common prefix \"run\" (length 3)\n\n• Removing index 4:\n\n• words becomes [\"jump\", \"run\", \"run\", \"jump\"]\n\n• Longest adjacent pair is [\"run\", \"run\"] having a common prefix \"run\" (length 3)\n\nExample 2:\n\nInput: words = [\"dog\",\"racer\",\"car\"]\n\nOutput: [0,0,0]\n\nExplanation:\n\n• Removing any index results in an answer of 0.\n\nConstraints:\n\n• 1 <= words.length <= 105\n\n• 1 <= words[i].length <= 104\n\n• words[i] consists of lowercase English letters.\n\n• The sum of words[i].length is smaller than or equal 105.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestCommonPrefix(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Precompute the longest common prefix length for adjacent prefixes and suffixes.",
+    "After deleting words[i], compute the longest common prefix for words[i - 1] and words[i + 1] (if they exist).",
+    "Use the result of the prefix computation up to i - 1 and the suffix computation from i + 1 onwards."
+  ],
+  "testCases": [
+    [
+      "[\"jump\",\"run\",\"run\",\"jump\",\"run\"]"
+    ],
+    [
+      "[\"dog\",\"racer\",\"car\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,0,0,3,3]",
+    "[0,0,0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def longestCommonPrefix(self, words):\n        n = len(words)\n\n        def lcp(a, b):\n            l = 0\n            while l < len(a) and l < len(b) and a[l] == b[l]:\n                l += 1\n            return l\n\n        # Precompute adj[i] = lcp(words[i], words[i+1]) for i in 0..n-2\n        adj = [lcp(words[i], words[i+1]) for i in range(n-1)]\n\n        # prefix_max[i] = max(adj[0..i])\n        prefix_max = [0] * (n - 1)\n        if n > 1:\n            prefix_max[0] = adj[0]\n            for i in range(1, n-1):\n                prefix_max[i] = max(prefix_max[i-1], adj[i])\n\n        # suffix_max[i] = max(adj[i..n-2])\n        suffix_max = [0] * (n - 1)\n        if n > 1:\n            suffix_max[n-2] = adj[n-2]\n            for i in range(n-3, -1, -1):\n                suffix_max[i] = max(suffix_max[i+1], adj[i])\n\n        result = []\n        for i in range(n):\n            # Remove words[i]; adjacent pairs change: (i-1,i) and (i,i+1) are removed,\n            # and new pair (i-1, i+1) is added.\n            # Max over: all adj except those involving i, plus new pair if valid.\n            parts = []\n            # Max of adj[0..i-2]\n            if i >= 2:\n                parts.append(prefix_max[i-2])\n            # Max of adj[i+1..n-2]\n            if i <= n - 3:\n                parts.append(suffix_max[i+1])\n            # New adjacent pair (i-1, i+1)\n            if i > 0 and i < n - 1:\n                parts.append(lcp(words[i-1], words[i+1]))\n            result.append(max(parts) if parts else 0)\n        return result",
+    "explanation": "Precompute adj[i] = lcp(words[i], words[i+1]), then prefix_max and suffix_max arrays. For each removal of index i: the answer is max of (prefix_max up to i-2, suffix_max from i+1, lcp(words[i-1], words[i+1])).\n\nTime: O(total_length + n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,52 @@
+{
+  "questionId": "2150",
+  "title": "Kth Smallest Product of Two Sorted Arrays",
+  "titleSlug": "kth-smallest-product-of-two-sorted-arrays",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given two sorted 0-indexed integer arrays nums1 and nums2 as well as an integer k, return the kth (1-based) smallest product of nums1[i] * nums2[j] where 0 <= i < nums1.length and 0 <= j < nums2.length.\n\nExample 1:\n\nInput: nums1 = [2,5], nums2 = [3,4], k = 2\nOutput: 8\nExplanation: The 2 smallest products are:\n    - nums1[0] * nums2[0] = 2 * 3 = 6\n    - nums1[0] * nums2[1] = 2 * 4 = 8\n    The 2nd smallest product is 8.\n\nExample 2:\n\nInput: nums1 = [-4,-2,0,3], nums2 = [2,4], k = 6\nOutput: 0\nExplanation: The 6 smallest products are:\n    - nums1[0] * nums2[1] = (-4) * 4 = -16\n    - nums1[0] * nums2[0] = (-4) * 2 = -8\n    - nums1[1] * nums2[1] = (-2) * 4 = -8\n    - nums1[1] * nums2[0] = (-2) * 2 = -4\n    - nums1[2] * nums2[0] = 0 * 2 = 0\n    - nums1[2] * nums2[1] = 0 * 4 = 0\n    The 6th smallest product is 0.\n\nExample 3:\n\nInput: nums1 = [-2,-1,0,1,2], nums2 = [-3,-1,2,4,5], k = 3\nOutput: -6\nExplanation: The 3 smallest products are:\n    - nums1[0] * nums2[4] = (-2) * 5 = -10\n    - nums1[0] * nums2[3] = (-2) * 4 = -8\n    - nums1[4] * nums2[0] = 2 * (-3) = -6\n    The 3rd smallest product is -6.\n\nConstraints:\n\n• 1 <= nums1.length, nums2.length <= 5 * 104\n\n• -105 <= nums1[i], nums2[j] <= 105\n\n• 1 <= k <= nums1.length * nums2.length\n\n• nums1 and nums2 are sorted.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kthSmallestProduct(self, nums1, nums2, k):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we split this problem into four cases depending on the sign of the numbers?",
+    "Can we binary search the value?"
+  ],
+  "testCases": [
+    [
+      "[2,5]",
+      "[3,4]",
+      "2"
+    ],
+    [
+      "[-4,-2,0,3]",
+      "[2,4]",
+      "6"
+    ],
+    [
+      "[-2,-1,0,1,2]",
+      "[-3,-1,2,4,5]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "0",
+    "-6"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find K Pairs with Smallest Sums\", \"titleSlug\": \"find-k-pairs-with-smallest-sums\", \"difficulty\": \"Medium\"}, {\"title\": \"K-diff Pairs in an Array\", \"titleSlug\": \"k-diff-pairs-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Robots Within Budget\", \"titleSlug\": \"maximum-number-of-robots-within-budget\", \"difficulty\": \"Hard\"}]"
+}

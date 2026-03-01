@@ -1,0 +1,59 @@
+{
+  "questionId": "3915",
+  "title": "Maximum Product of Two Integers With No Common Bits",
+  "titleSlug": "maximum-product-of-two-integers-with-no-common-bits",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nYour task is to find two distinct indices i and j such that the product nums[i] * nums[j] is maximized, and the binary representations of nums[i] and nums[j] do not share any common set bits.\n\nReturn the maximum possible product of such a pair. If no such pair exists, return 0.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5,6,7]\n\nOutput: 12\n\nExplanation: The best pair is 3 (011) and 4 (100). They share no set bits and 3 * 4 = 12.\n\nExample 2:\n\nInput: nums = [5,6,4]\n\nOutput: 0\n\nExplanation: Every pair of numbers has at least one common set bit. Hence, the answer is 0.\n\nExample 3:\n\nInput: nums = [64,8,32]\n\nOutput: 2048\n\nExplanation: No pair of numbers share a common bit, so the answer is the product of the two maximum elements, 64 and 32 (64 * 32 = 2048).\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxProduct(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think of each number as a mask: treat nums[i] as a bitmask.",
+    "Create an array dp of size 1 << B, where B is your bit‑width.",
+    "Initialize dp[mask] to the maximum nums[i] exactly equal to that mask, or 0 if none.",
+    "For each m, propagate to all its super‑masks M: dp[m] = max(dp[m], dp[M])",
+    "For a number x with mask mx, compute its \"complement mask\" as cm = ~mx & ((1 << B)-1).",
+    "The best disjoint partner is then dp[cm].",
+    "Loop over all x in nums, look up dp[cm], and track the maximum x * partner."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6,7]"
+    ],
+    [
+      "[5,6,4]"
+    ],
+    [
+      "[64,8,32]"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "0",
+    "2048"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxProduct(self, nums):\n        B = 20  # nums[i] <= 10^6 < 2^20\n        FULL = (1 << B) - 1\n        # dp[mask] = max value in nums that is a submask of mask\n        dp = [0] * (1 << B)\n        for v in nums:\n            dp[v] = max(dp[v], v)\n        # SOS (Sum over Subsets) DP to propagate max to supermasks\n        for bit in range(B):\n            for mask in range(1 << B):\n                if mask & (1 << bit):\n                    dp[mask] = max(dp[mask], dp[mask ^ (1 << bit)])\n\n        ans = 0\n        for v in nums:\n            complement = (~v) & FULL\n            partner = dp[complement]\n            ans = max(ans, v * partner)\n        return ans",
+    "explanation": "Build dp[mask] = maximum value in nums that is a submask of mask, using Sum over Subsets (SOS) DP. For each element v, its ideal partner has no overlapping bits: complement mask = ~v & FULL_MASK. Look up dp[complement] for the best partner.\n\nSOS DP: dp[mask] propagates max value from submasks by iterating over each bit.\n\nTime: O(B * 2^B + n) where B=20. Space: O(2^B)."
+  },
+  "similarQuestions": "[{\"title\": \"Partition to K Equal Sum Subsets\", \"titleSlug\": \"partition-to-k-equal-sum-subsets\", \"difficulty\": \"Medium\"}]"
+}
