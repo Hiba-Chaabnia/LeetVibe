@@ -9,12 +9,20 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, Label, Select, TextArea
 
 
-_FEEDBACK_TYPES = [
-    ("Bug report",       "bug_report"),
-    ("Feature request",  "feature_request"),
-    ("Content issue",    "content_issue"),
-    ("General feedback", "general"),
+# All types accepted by the feedback table CHECK constraint (001_initial_schema.sql)
+_FEEDBACK_TYPES: list[tuple[str, str]] = [
+    ("Bug report",           "bug"),
+    ("Wrong solution",       "wrong_solution"),
+    ("Wrong complexity",     "wrong_complexity"),
+    ("Poor explanation",     "poor_explanation"),
+    ("False test result",    "false_test_result"),
+    ("Feature request",      "feature_request"),
+    ("UI issue",             "ui_issue"),
+    ("General feedback",     "general"),
+    ("Praise / compliment",  "praise"),
 ]
+
+_DEFAULT_TYPE = "general"
 
 
 class FeedbackModal(ModalScreen[bool]):
@@ -26,7 +34,7 @@ class FeedbackModal(ModalScreen[bool]):
     }
 
     #feedback-dialog {
-        width: 70;
+        width: 72;
         height: auto;
         background: #1a1a1a;
         border: round #FF8205;
@@ -70,7 +78,8 @@ class FeedbackModal(ModalScreen[bool]):
 
     #feedback-error {
         color: #ff4444;
-        height: 1;
+        height: auto;
+        min-height: 1;
         width: 100%;
         text-align: center;
     }
@@ -124,7 +133,7 @@ class FeedbackModal(ModalScreen[bool]):
             yield Label("Type", id="feedback-type-label")
             yield Select(
                 _FEEDBACK_TYPES,
-                value="general",
+                value=_DEFAULT_TYPE,
                 allow_blank=False,
                 id="feedback-type",
             )
@@ -148,36 +157,55 @@ class FeedbackModal(ModalScreen[bool]):
         elif event.button.id == "btn-feedback-submit":
             self._submit()
 
+    def _get_feedback_type(self) -> str:
+        """Return the selected feedback type, falling back to the default."""
+        sel = self.query_one("#feedback-type", Select)
+        # Guard against Select.BLANK sentinel (returned when no selection made)
+        if sel.value is Select.BLANK:
+            return _DEFAULT_TYPE
+        return str(sel.value)
+
     def _submit(self) -> None:
         message = self.query_one("#feedback-text", TextArea).text.strip()
         if not message:
             self.query_one("#feedback-error", Label).update("Please enter a message.")
             return
-        feedback_type = str(self.query_one("#feedback-type", Select).value)
+        feedback_type = self._get_feedback_type()
         self.query_one("#btn-feedback-submit", Button).disabled = True
         self.query_one("#feedback-error", Label).update("Sending…")
         self._send_feedback(feedback_type, message)
 
     @work(thread=True)
-    def _send_feedback(self, feedback_type: str, message: str) -> None:
+    def _send_feedback(self, feedback_type: str, message: str) -> str | None:
         from ...cloud.db import submit_feedback
 
-        ok = submit_feedback(
+        return submit_feedback(
             type=feedback_type,
             message=message,
             problem_slug=self._problem_slug,
             session_id=self._session_id,
         )
-        self.app.call_from_thread(self._on_sent, ok)
 
-    def _on_sent(self, ok: bool) -> None:
-        if ok:
+    def on_worker_state_changed(self, event) -> None:
+        from textual.worker import WorkerState
+
+        if event.worker.name != "_send_feedback":
+            return
+        # on_worker_state_changed runs on the main thread — call directly
+        if event.state == WorkerState.SUCCESS:
+            self._on_sent(event.worker.result)
+        elif event.state == WorkerState.ERROR:
+            self._on_sent(f"Worker error: {event.worker.error}")
+
+    def _on_sent(self, error: str | None) -> None:
+        if error is None:
             self.dismiss(True)
         else:
             try:
                 self.query_one("#btn-feedback-submit", Button).disabled = False
+                # Show the actual error so it's debuggable
                 self.query_one("#feedback-error", Label).update(
-                    "Failed to send. Please try again."
+                    f"Error: {error}"
                 )
             except Exception:
                 pass

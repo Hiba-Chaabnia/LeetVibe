@@ -302,19 +302,19 @@ def submit_feedback(
     problem_slug: str | None = None,
     session_id: str | None = None,
     app_version: str = "0.1.0",
-) -> bool:
+) -> str | None:
     """Submit user feedback.
 
-    Works for both logged-in and anonymous users (user_id will be null for
-    anonymous submissions, which requires a public insert policy on the
-    feedback table in Supabase).
+    Returns None on success, or an error string describing the failure.
+    Works for both logged-in and anonymous users — anonymous inserts require
+    a permissive RLS insert policy on the feedback table in Supabase.
     """
     client = _authed_client()
     if client is None:
         from .auth import _client as base_client
         client = base_client()
     if client is None:
-        return False
+        return "Supabase client not configured."
 
     try:
         user_id: str | None = _current_user_id(client)
@@ -326,6 +326,6 @@ def submit_feedback(
             "session_id": session_id,
             "app_version": app_version,
         }).execute()
-        return True
-    except Exception:
-        return False
+        return None  # success
+    except Exception as exc:
+        return str(exc)
