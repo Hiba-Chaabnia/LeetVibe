@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeetVibe — Authentication</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .card {
+      background: #141414;
+      border: 1px solid #252525;
+      border-radius: 14px;
+      padding: 2.75rem 2.5rem;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(124, 58, 237, 0.08);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.75rem;
+    }
+    .logo .leet { color: #e0e0e0; }
+    .logo .vibe { color: #7c3aed; }
+
+    .icon  { font-size: 3.5rem; line-height: 1; margin-bottom: 1rem; }
+    h1     { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.6rem; }
+    p      { font-size: 0.95rem; color: #9ca3af; line-height: 1.65; }
+
+    .hint {
+      margin-top: 1.6rem;
+      padding: 0.75rem 1rem;
+      background: #0f0f0f;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.88rem;
+      color: #7c3aed;
+    }
+
+    .error-detail { margin-top: 0.75rem; font-size: 0.82rem; color: #6b7280; font-style: italic; }
+
+    .state-success h1 { color: #34d399; }
+    .state-error   h1 { color: #f87171; }
+    .state-pending h1 { color: #a78bfa; }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="logo"><span class="leet">Leet</span><span class="vibe">Vibe</span></div>
+    <div class="icon"  id="icon">⏳</div>
+    <h1 id="title">Processing…</h1>
+    <p   id="msg">Please wait while we complete authentication.</p>
+    <p   id="detail" class="error-detail"></p>
+    <div id="hint" class="hint" style="display:none"></div>
+  </div>
+
+  <script>
+    var hash  = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    var query = new URLSearchParams(window.location.search);
+
+    function get(key) { return hash.get(key) || query.get(key) || ''; }
+
+    var error     = get('error');
+    var errorCode = get('error_code');
+    var errorDesc = get('error_description').replace(/\+/g, ' ');
+    var token     = get('access_token');
+    var type      = get('type');
+
+    var card  = document.getElementById('card');
+    var icon  = document.getElementById('icon');
+    var title = document.getElementById('title');
+    var msg   = document.getElementById('msg');
+    var det   = document.getElementById('detail');
+    var hint  = document.getElementById('hint');
+
+    function show(state, ico, t, m, d, h) {
+      card.classList.add('state-' + state);
+      icon.textContent  = ico;
+      title.textContent = t;
+      msg.textContent   = m;
+      if (d) det.textContent = d;
+      if (h) { hint.textContent = h; hint.style.display = ''; }
+    }
+
+    if (error) {
+      if (errorCode === 'otp_expired') {
+        show('error', '⏱',
+          'Link Expired',
+          'Your confirmation link has expired (valid for 24 hours).',
+          errorDesc || '',
+          '→  Re-open LeetVibe and sign up again to receive a new link.'
+        );
+      } else if (errorCode === 'access_denied') {
+        show('error', '✗',
+          'Access Denied',
+          'Authentication was cancelled or the link was already used.',
+          errorDesc || '',
+          '→  Return to LeetVibe and try signing in again.'
+        );
+      } else {
+        show('error', '✗',
+          'Authentication Failed',
+          'Something went wrong. Please try again.',
+          errorDesc || error,
+          '→  Return to LeetVibe and try again.'
+        );
+      }
+    } else if (token) {
+      if (type === 'signup') {
+        show('success', '✓',
+          'Email Confirmed!',
+          'Your LeetVibe account is verified. You can close this tab.',
+          '',
+          '→  Return to your terminal and sign in with your email & password.'
+        );
+      } else if (type === 'recovery') {
+        show('success', '✓',
+          'Password Reset Ready',
+          'Use the LeetVibe CLI to set your new password.',
+          '',
+          '→  Return to your terminal and complete the password reset flow.'
+        );
+      } else {
+        show('success', '✓',
+          'All Done!',
+          'Authentication successful. You can close this tab.',
+          '',
+          '→  Return to your terminal to continue using LeetVibe.'
+        );
+      }
+    } else {
+      show('pending', '🎯',
+        'LeetVibe Authentication',
+        'This page handles auth redirects for the LeetVibe CLI. '
+        + 'You normally arrive here after clicking a confirmation email link.',
+        '', ''
+      );
+    }
+  </script>
+</body>
+</html>
