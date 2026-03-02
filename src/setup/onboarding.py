@@ -67,7 +67,7 @@ Screen {
 
 #api-description {
     color: #cccccc;
-    text-align: left;
+    text-align: center;
     width: 100%;
     margin-bottom: 2;
     height: auto;
@@ -152,11 +152,24 @@ Screen {
     color: #FF8205;
 }
 
+#btn-google {
+    background: transparent;
+}
+
+#btn-google:hover {
+    background: transparent;
+}
+
+#btn-google:focus, #btn-google.-active {
+    background: transparent;
+}
+
 #auth-note {
     width: 100%;
     height: auto;
     margin-top: 1;
     color: #888888;
+    text-align: center;
 }
 
 #auth-hint {

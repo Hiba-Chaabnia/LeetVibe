@@ -7,7 +7,6 @@ from pathlib import Path
 
 from dotenv import set_key
 from rich.text import Text
-from textual import work
 from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.widgets import Input, Label, Static
@@ -26,25 +25,6 @@ def _gradient_text(text: str) -> Text:
         rich.append(ch, style=f"bold {_GRADIENT[idx]}")
     return rich
 
-
-def _verify_elevenlabs_key(key: str) -> str | None:
-    """Return None if valid, or an error string if not.
-
-    Uses user.get() — a lightweight call that burns no credits.
-    """
-    try:
-        from elevenlabs.client import ElevenLabs
-        ElevenLabs(api_key=key).user.get()
-        return None
-    except Exception as exc:
-        msg = str(exc)
-        if "401" in msg or "unauthorized" in msg.lower() or "invalid_api_key" in msg.lower():
-            return "Invalid API key. Check it and try again."
-        if "403" in msg or "forbidden" in msg.lower():
-            return "API key does not have the required permissions."
-        if "network" in msg.lower() or "connection" in msg.lower():
-            return "Network error. Check your connection and try again."
-        return f"Could not verify key: {msg[:60]}"
 
 
 class ElevenLabsKeyScreen(Screen):
@@ -67,7 +47,6 @@ class ElevenLabsKeyScreen(Screen):
                 placeholder="Enter your ElevenLabs API Key",
                 id="api-key-input",
             )
-            yield Label("", id="error-label")
         yield Label(
             "[bold #FF8205]Enter[/bold #FF8205] to save  ·  "
             "[bold #FF8205]Tab[/bold #FF8205] to skip voice  ·  "
@@ -77,7 +56,7 @@ class ElevenLabsKeyScreen(Screen):
 
     def on_mount(self) -> None:
         self.query_one("#api-title", Static).update(
-            _gradient_text("🔊  ElevenLabs Voice  (optional)")
+            _gradient_text("ElevenLabs Voice  (optional)")
         )
         self.query_one("#api-key-input", Input).focus()
 
@@ -95,40 +74,13 @@ class ElevenLabsKeyScreen(Screen):
         if not key:
             self._skip()
             return
-        self._set_busy(True, "Verifying key…")
-        self._run_verify(key)
-
-    def _skip(self) -> None:
-        """Proceed without a key — voice narration will be silently disabled."""
-        from .auth_choice import AuthChoiceScreen
-        self.app.push_screen(AuthChoiceScreen())
-
-    def _set_busy(self, busy: bool, status: str = "") -> None:
-        inp = self.query_one("#api-key-input", Input)
-        inp.disabled = busy
-        self.query_one("#error-label", Label).update(
-            f"[dim]{status}[/dim]" if busy else status
-        )
-
-    @work(thread=True)
-    def _run_verify(self, key: str) -> None:
-        error = _verify_elevenlabs_key(key)
-        self.app.call_from_thread(self._on_verify_result, key, error)
-
-    def _on_verify_result(self, key: str, error: str | None) -> None:
-        if error:
-            self._set_busy(False)
-            self.query_one("#error-label", Label).update(f"[bold #E53935]{error}[/]")
-            self.query_one("#api-key-input", Input).focus()
-            return
-
-        # Key is valid — persist and proceed
         _LEETVIBE_HOME.mkdir(parents=True, exist_ok=True)
         set_key(str(_USER_ENV_PATH), "ELEVENLABS_API_KEY", key)
         os.environ["ELEVENLABS_API_KEY"] = key
+        from .auth_choice import AuthChoiceScreen
+        self.app.push_screen(AuthChoiceScreen())
 
-        self.query_one("#error-label", Label).update(
-            "[bold #4CAF50]✓ Voice enabled[/bold #4CAF50]"
-        )
+    def _skip(self) -> None:
+        """Proceed without a key — voice narration will be silently disabled."""
         from .auth_choice import AuthChoiceScreen
         self.app.push_screen(AuthChoiceScreen())
