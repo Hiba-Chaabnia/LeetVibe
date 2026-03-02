@@ -8,16 +8,13 @@ from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Container, Horizontal
-from textual.screen import Screen
 from textual.widgets import Button, Input, Static
 
-_FIRE = "#FF8205"
-_GREEN = "#00C44F"
-_RED = "#E53935"
-_DIM = "#888888"
+from ..theme import DIM, FIRE, GREEN, RED
+from .base import BaseScreen
 
 
-class LoginScreen(Screen):
+class LoginScreen(BaseScreen):
     """Sign in / sign up with email+password or Google OAuth."""
 
     BINDINGS = [
@@ -31,14 +28,14 @@ class LoginScreen(Screen):
     #login-container {{
         width: 58;
         height: auto;
-        border: round {_FIRE};
+        border: round {FIRE};
         background: #0e0e0e;
         padding: 1 2 2 2;
     }}
     #login-title {{
         width: 100%;
         content-align: center middle;
-        color: {_FIRE};
+        color: {FIRE};
         text-style: bold;
         margin: 0 0 1 0;
         height: 1;
@@ -52,26 +49,26 @@ class LoginScreen(Screen):
     #btn-signin-mode, #btn-signup-mode {{
         border: tall #444444;
         background: transparent;
-        color: {_DIM};
+        color: {DIM};
         padding: 0 2;
         min-width: 12;
         height: 3;
     }}
     #btn-signin-mode.active {{
         background: #3a2200;
-        color: {_FIRE};
+        color: {FIRE};
         text-style: bold;
-        border: tall {_FIRE};
+        border: tall {FIRE};
     }}
     #btn-signup-mode.active {{
         background: #3a2200;
-        color: {_FIRE};
+        color: {FIRE};
         text-style: bold;
-        border: tall {_FIRE};
+        border: tall {FIRE};
     }}
     #login-status {{
         width: 100%;
-        color: {_DIM};
+        color: {DIM};
         height: 1;
         text-align: center;
         margin: 0 0 1 0;
@@ -79,7 +76,7 @@ class LoginScreen(Screen):
     #btn-submit {{
         width: 100%;
         margin: 1 0 0 0;
-        background: {_FIRE};
+        background: {FIRE};
         color: #000000;
         text-style: bold;
         border: none;
@@ -90,7 +87,7 @@ class LoginScreen(Screen):
     #divider {{
         width: 100%;
         content-align: center middle;
-        color: {_DIM};
+        color: {DIM};
         margin: 1 0;
         height: 1;
     }}
@@ -105,7 +102,7 @@ class LoginScreen(Screen):
     #btn-google:disabled {{ color: #444444; border: tall #2a2a2a; }}
     #login-error {{
         width: 100%;
-        color: {_RED};
+        color: {RED};
         height: auto;
         min-height: 1;
         margin: 1 0 0 0;
@@ -113,7 +110,7 @@ class LoginScreen(Screen):
     }}
     #login-info {{
         width: 100%;
-        color: {_GREEN};
+        color: {GREEN};
         height: auto;
         min-height: 1;
         margin: 0;

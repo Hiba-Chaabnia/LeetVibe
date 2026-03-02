@@ -6,8 +6,8 @@ from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal
 from textual.reactive import reactive
-from textual.screen import Screen
-from textual.widgets import Button, DataTable, Input, Select
+from textual.events import Click
+from textual.widgets import DataTable, Input, Select, Static
 from textual import work
 from textual.worker import Worker, WorkerState
 
@@ -15,21 +15,19 @@ from ...challenge_loader import Challenge, load_all_challenges
 from ..widgets.challenge_table import ChallengeTable
 from ..widgets.status_bar import StatusBar
 from ..widgets.truncated_select import TruncatedSelect
+from .base import BaseScreen
 from .challenge_detail import ChallengeDetailScreen
 
-_TOGGLE_INACTIVE_LABEL = "Solution: All"
-_TOGGLE_ACTIVE_LABEL   = "✓  Has Solution"
+_SOLUTION_TOGGLE_LABEL = "Has Solution"
 
-# 3-state cycle for solved filter
-_SOLVED_LABELS = {
-    "all": "Solved: All",
-    "yes": "✓  Solved Only",
-    "no":  "✗  Unsolved",
-}
-_SOLVED_NEXT = {"all": "yes", "yes": "no", "no": "all"}
+_SOLVED_OPTIONS = [
+    ("All Problems", "all"),
+    ("Solved",       "yes"),
+    ("Unsolved",     "no"),
+]
 
 
-class ChallengeListScreen(Screen):
+class ChallengeListScreen(BaseScreen):
     BINDINGS = [
         Binding("escape", "pop_screen", "Back"),
         Binding("ctrl+q", "quit_app", "Quit"),
@@ -51,28 +49,33 @@ class ChallengeListScreen(Screen):
 
     def compose(self) -> ComposeResult:
         footer_hints = [
-            ("Ctrl+Q", "Exit LeetVibe", self.action_quit_app),
-            ("Esc",    "Home",          self.action_pop_screen),
             ("Enter",  "Open challenge", None),
+            ("Ctrl+R", "Reload challenges", None),
+            ("Esc",    "go home",        self.action_pop_screen),
+            ("Ctrl+Q", "Exit LeetVibe", self.action_quit_app),
         ]
 
         yield Horizontal(
             TruncatedSelect(
-                [("All difficulties", "all"), ("Easy", "easy"), ("Medium", "medium"),
-                 ("Hard", "hard"), ("Trading", "trading")],
+                [("All Difficulties", "all"), ("Easy", "easy"), ("Medium", "medium"), ("Hard", "hard")],
                 value="all",
                 id="difficulty-filter",
                 allow_blank=False,
             ),
             TruncatedSelect(
-                [("All topics", "all")],
+                [("All Topics", "all")],
                 value="all",
                 id="topic-filter",
                 allow_blank=False,
             ),
-            Button(_TOGGLE_INACTIVE_LABEL, id="btn-solution-toggle"),
-            Button(_SOLVED_LABELS["all"], id="btn-solved-toggle"),
-            Input(placeholder="Search title…", id="search-input"),
+            TruncatedSelect(
+                _SOLVED_OPTIONS,
+                value="all",
+                id="solved-filter",
+                allow_blank=False,
+            ),
+            Static(_SOLUTION_TOGGLE_LABEL, id="btn-solution-toggle"),
+            Input(placeholder="Search Problem…", id="search-input"),
             id="list-header",
         )
         yield ChallengeTable(id="challenge-table")
@@ -86,6 +89,9 @@ class ChallengeListScreen(Screen):
     def on_mount(self) -> None:
         self._load_challenges()
         self._load_solved_slugs()
+        from ...cloud.auth import is_logged_in
+        if not is_logged_in():
+            self.query_one("#solved-filter", TruncatedSelect).add_class("hidden")
 
     @work(thread=True)
     def _load_challenges(self) -> list[Challenge]:
@@ -101,6 +107,10 @@ class ChallengeListScreen(Screen):
             self._all_challenges = event.worker.result or []
             self._populate_topic_filter()
             self._repopulate()
+            table = self.query_one("#challenge-table", ChallengeTable)
+            table.focus()
+            if table.row_count > 0:
+                table.move_cursor(row=0)
         elif event.worker.name == "_load_solved_slugs" and event.state == WorkerState.SUCCESS:
             self._solved_slugs = event.worker.result or set()
             if self._all_challenges:
@@ -114,22 +124,26 @@ class ChallengeListScreen(Screen):
     def watch_filter_difficulty(self, value: str) -> None:
         if self._all_challenges:
             self._repopulate()
+        try:
+            sel = self.query_one("#difficulty-filter", TruncatedSelect)
+            sel.set_class(value != "all", "filter-active")
+        except Exception:
+            pass
 
     def watch_filter_topic(self, value: str) -> None:
         if self._all_challenges:
             self._repopulate()
+        try:
+            sel = self.query_one("#topic-filter", TruncatedSelect)
+            sel.set_class(value != "all", "filter-active")
+        except Exception:
+            pass
 
     def watch_filter_solution(self, value: str) -> None:
         if self._all_challenges:
             self._repopulate()
         try:
-            btn = self.query_one("#btn-solution-toggle", Button)
-            if value == "yes":
-                btn.label = _TOGGLE_ACTIVE_LABEL
-                btn.add_class("sol-active")
-            else:
-                btn.label = _TOGGLE_INACTIVE_LABEL
-                btn.remove_class("sol-active")
+            self.query_one("#btn-solution-toggle", Static).set_class(value == "yes", "sol-active")
         except Exception:
             pass
 
@@ -137,22 +151,19 @@ class ChallengeListScreen(Screen):
         if self._all_challenges:
             self._repopulate()
         try:
-            btn = self.query_one("#btn-solved-toggle", Button)
-            btn.label = _SOLVED_LABELS[value]
-            if value == "yes":
-                btn.add_class("sol-active")
-                btn.remove_class("solved-no")
-            elif value == "no":
-                btn.remove_class("sol-active")
-                btn.add_class("solved-no")
-            else:
-                btn.remove_class("sol-active", "solved-no")
+            sel = self.query_one("#solved-filter", TruncatedSelect)
+            sel.set_class(value != "all", "filter-active")
         except Exception:
             pass
 
     def watch_search_query(self, value: str) -> None:
         if self._all_challenges:
             self._repopulate()
+        try:
+            inp = self.query_one("#search-input", Input)
+            inp.set_class(bool(value), "filter-active")
+        except Exception:
+            pass
 
     def _repopulate(self) -> None:
         table = self.query_one("#challenge-table", ChallengeTable)
@@ -170,19 +181,17 @@ class ChallengeListScreen(Screen):
             self._filtered_count, len(self._all_challenges)
         )
 
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        if event.button.id == "btn-solution-toggle":
-            # 2-state toggle: all ↔ has-solution
+    def on_click(self, event: Click) -> None:
+        if getattr(event.widget, "id", None) == "btn-solution-toggle":
             self.filter_solution = "yes" if self.filter_solution == "all" else "all"
-        elif event.button.id == "btn-solved-toggle":
-            # 3-state cycle: all → yes → no → all
-            self.filter_solved = _SOLVED_NEXT[self.filter_solved]
 
     def on_select_changed(self, event: Select.Changed) -> None:
         if event.select.id == "difficulty-filter":
             self.filter_difficulty = str(event.value)
         elif event.select.id == "topic-filter":
             self.filter_topic = str(event.value)
+        elif event.select.id == "solved-filter":
+            self.filter_solved = str(event.value)
 
     def on_input_changed(self, event: Input.Changed) -> None:
         if event.input.id == "search-input":
@@ -194,16 +203,14 @@ class ChallengeListScreen(Screen):
             (c for c in self._all_challenges if c.id == challenge_id), None
         )
         if challenge:
-            index = self._all_challenges.index(challenge)
-            self.app.push_screen(
-                ChallengeDetailScreen(challenge, self._all_challenges, index, self._mode)
-            )
-
-    def action_pop_screen(self) -> None:
-        self.app.pop_screen()
-
-    def action_quit_app(self) -> None:
-        self.app.exit()
+            if self._mode == "interview":
+                from .agent_session import AgentSessionScreen
+                self.app.push_screen(AgentSessionScreen(challenge, mode="interview"))
+            else:
+                index = self._all_challenges.index(challenge)
+                self.app.push_screen(
+                    ChallengeDetailScreen(challenge, self._all_challenges, index, self._mode)
+                )
 
     def action_reload(self) -> None:
         self._all_challenges = []

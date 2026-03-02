@@ -149,16 +149,6 @@ async def test_stats_screen_library_card_has_content():
 
 
 @pytest.mark.anyio
-async def test_stats_screen_shows_wandb_card(monkeypatch):
-    monkeypatch.setenv("WANDB_API_KEY", "test-key-stats")
-    async with _stats_app().run_test(headless=True) as pilot:
-        await pilot.pause(0.2)
-        from textual.widgets import Static
-        rendered = str(pilot.app.screen.query_one("#wandb-card", Static).content)
-        assert any(kw in rendered for kw in ("Weights", "wandb", "configured", "W&B"))
-
-
-@pytest.mark.anyio
 async def test_stats_screen_shows_skills_card():
     async with _stats_app().run_test(headless=True) as pilot:
         await pilot.pause(0.2)

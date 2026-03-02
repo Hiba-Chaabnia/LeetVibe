@@ -7,6 +7,7 @@ from textual.app import App
 from .screens import (
     WelcomeScreen,
     ApiKeyScreen,
+    ElevenLabsKeyScreen,
     AuthChoiceScreen,
     LoginScreen,
     SignupScreen,
@@ -17,6 +18,7 @@ __all__ = [
     "run_onboarding",
     "WelcomeScreen",
     "ApiKeyScreen",
+    "ElevenLabsKeyScreen",
     "AuthChoiceScreen",
     "LoginScreen",
     "SignupScreen",
@@ -48,23 +50,34 @@ Screen {
 /* ── API key ── */
 
 #api-container {
-    width: 60;
+    width: 64;
     height: auto;
     padding: 2 4;
+    border: round #333333;
+    background: #0e0e0e;
 }
 
-#instruction {
-    color: #cccccc;
+#api-title {
+    color: #FF8205;
+    text-style: bold;
     text-align: center;
     width: 100%;
-    margin-bottom: 1;
+    margin-bottom: 2;
+}
+
+#api-description {
+    color: #cccccc;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 2;
+    height: auto;
 }
 
 #link-hint {
     color: #888888;
     text-align: center;
     width: 100%;
-    margin-bottom: 2;
+    margin-bottom: 1;
 }
 
 #api-key-input {
@@ -87,10 +100,11 @@ Screen {
 }
 
 #submit-hint {
-    color: #888888;
+    dock: bottom;
     text-align: center;
     width: 100%;
-    margin-top: 1;
+    padding: 1 0;
+    color: #888888;
 }
 
 /* ── Auth choice ── */
@@ -99,27 +113,58 @@ Screen {
     width: 64;
     height: auto;
     padding: 2 4;
+    border: round #333333;
+    background: #0e0e0e;
 }
 
-#auth-notice {
-    color: #cccccc;
+#auth-title {
     text-align: center;
     width: 100%;
     margin-bottom: 1;
 }
 
-#auth-detail {
+#auth-subtitle {
     color: #888888;
     text-align: center;
     width: 100%;
     margin-bottom: 2;
+    height: auto;
 }
 
-#auth-menu {
+.auth-btn {
+    width: 100%;
+    height: 3;
+    margin-bottom: 1;
+    border: round #444444;
+    background: #111111;
+    color: #cccccc;
+}
+
+.auth-btn:hover {
+    border: round #FF8205;
+    background: #1a1a1a;
+    color: #FF8205;
+}
+
+.auth-btn:focus {
+    border: round #FF8205;
+    background: #1a1a1a;
+    color: #FF8205;
+}
+
+#auth-note {
     width: 100%;
     height: auto;
-    border: tall #333333;
-    background: #111111;
+    margin-top: 1;
+    color: #888888;
+}
+
+#auth-hint {
+    dock: bottom;
+    text-align: center;
+    width: 100%;
+    padding: 1 0;
+    color: #888888;
 }
 
 /* ── Login / Signup ── */

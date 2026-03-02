@@ -5,16 +5,19 @@ from __future__ import annotations
 from rich.text import Text
 from textual.widgets import Static
 
-gradient = ["#FFD700", "#FFAF00", "#FF8205", "#FA500F", "#E92700"]
+from ..theme import GRADIENT
 
 # Block-character ASCII art for "LEETVIBE"  (5 rows × 8 chars per letter, 1-space gap)
-# ASCII art for LEETVIBE
-ascii_lines = [
+_ASCII_LINES = [
     "██      ███████ ███████ ████████ ██    ██ ██ ██████  ███████ ",
     "██      ██      ██         ██    ██    ██ ██ ██   ██ ██      ",
     "██      █████   █████      ██    ██    ██ ██ ██████  █████   ",
     "██      ██      ██         ██     ██  ██  ██ ██   ██ ██      ",
-    "███████ ███████ ███████    ██      ████   ██ ██████  ███████ "
+    "███████ ███████ ███████    ██      ████   ██ ██████  ███████ ",
+]
+
+_SUBTITLE_LINES = [
+    "Crack LeetCode with Mistral Vibe  ·  Mistral Global Hackathon 2026",
 ]
 
 
@@ -44,20 +47,18 @@ class Banner(Static):
 
     def _render_banner(self) -> Text:
         banner = Text(justify="center")
-        n = len(ascii_lines)
+        n = len(_ASCII_LINES)
 
-        # Distribute gradient evenly across all 5 lines (one solid color per line)
-        for i, line in enumerate(ascii_lines):
-            idx = int(i * (len(gradient) - 1) / max(1, n - 1))
-            banner.append(line + "\n", style=f"bold {gradient[idx]}")
+        # One solid gradient color per ASCII row
+        for i, line in enumerate(_ASCII_LINES):
+            idx = int(i * (len(GRADIENT) - 1) / max(1, n - 1))
+            banner.append(line + "\n", style=f"bold {GRADIENT[idx]}")
 
         banner.append("\n")
 
-        # Subtitle with character-level gradient
-        subtitle = _chargradient(
-            "⚡ AI Pair Programming for LeetCode  ·  Mistral AI Hackathon 2026 ⚡",
-            gradient,
-        )
-        banner.append_text(subtitle)
-        banner.append("\n")
+        # Two-line subtitle, each line gets its own character-level gradient
+        for line in _SUBTITLE_LINES:
+            banner.append_text(_chargradient(line, GRADIENT))
+            banner.append("\n")
+
         return banner

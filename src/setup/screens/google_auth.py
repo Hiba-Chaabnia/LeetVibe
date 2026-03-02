@@ -15,7 +15,10 @@ class GoogleAuthScreen(Screen):
         with Static(id="form-container"):
             yield Label("Sign in with Google", id="form-title")
             yield Label("", id="form-error")
-            yield Label("Esc to cancel", id="form-hint")
+            yield Label(
+                "[bold #FF8205]Esc[/bold #FF8205] to cancel",
+                id="form-hint",
+            )
 
     def on_mount(self) -> None:
         self._run_google_auth()

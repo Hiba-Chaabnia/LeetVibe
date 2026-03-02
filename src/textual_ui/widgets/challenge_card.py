@@ -66,14 +66,14 @@ class ChallengeCard(Widget):
         color: #888888;
         text-style: italic;
         padding: 1 0;
-        border-top: dashed #444444;
+        border-top: solid #333333;
         margin-top: 1;
     }
     ChallengeCard #hints-content {
         height: auto;
         color: #FFB300;
         padding: 1 0;
-        border-top: dashed #888888;
+        border-top: solid #333333;
         margin-top: 1;
     }
     ChallengeCard .hidden {

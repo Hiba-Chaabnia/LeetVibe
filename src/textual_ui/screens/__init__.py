@@ -1,5 +1,6 @@
 """LeetVibe TUI screens."""
 
+from .base import BaseScreen
 from .home import HomeScreen
 from .challenge_list import ChallengeListScreen
 from .challenge_detail import ChallengeDetailScreen
@@ -9,6 +10,7 @@ from .login import LoginScreen
 from .feedback import FeedbackModal
 
 __all__ = [
+    "BaseScreen",
     "HomeScreen",
     "ChallengeListScreen",
     "ChallengeDetailScreen",

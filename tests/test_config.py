@@ -74,12 +74,6 @@ def test_load_config_elevenlabs_voice_id_default():
     assert cfg.elevenlabs_voice_id == "EXAVITQu4vr4xnSDxMaL"
 
 
-def test_load_config_wandb_project():
-    from src.config import load_config
-    cfg = load_config()
-    assert cfg.wandb_project == "leetvibe"
-
-
 # ── Config dataclass ──────────────────────────────────────────────────────────
 
 
@@ -90,9 +84,6 @@ def test_config_equality(dummy_config):
         mistral_model="mistral-large-latest",
         elevenlabs_api_key="test-elevenlabs-key",
         elevenlabs_voice_id="EXAVITQu4vr4xnSDxMaL",
-        wandb_api_key="test-wandb-key",
-        wandb_project="leetvibe-test",
-        wandb_entity="test-entity",
     )
     assert dummy_config == cfg2
 
@@ -101,5 +92,3 @@ def test_config_fields(dummy_config):
     assert dummy_config.mistral_api_key == "test-mistral-key-abc123"
     assert dummy_config.mistral_model == "mistral-large-latest"
     assert dummy_config.elevenlabs_voice_id == "EXAVITQu4vr4xnSDxMaL"
-    assert dummy_config.wandb_project == "leetvibe-test"
-    assert dummy_config.wandb_entity == "test-entity"

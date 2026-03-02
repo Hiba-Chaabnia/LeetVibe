@@ -13,7 +13,9 @@ $brand: #FF8205;
 $easy: #00C44F;
 $medium: #FFB300;
 $hard: #E53935;
+$blue: #4A9EFF;
 $trading: #00BCD4;
+$amber: #FFB300;
 $muted: #888888;
 $text: #e0e0e0;
 
@@ -51,13 +53,14 @@ Screen {
 }
 
 #home-center {
+    width: auto;
     height: auto;
     align: center middle;
     padding: 1 4;
 }
 
 #main-menu {
-    width: 60;
+    width: auto;
     border: round $brand;
     background: transparent;
     padding: 1 2;
@@ -82,128 +85,118 @@ Screen {
     color: $muted;
 }
 
-#auth-label {
-    width: 60;
-    height: 1;
-    text-align: center;
-    color: $muted;
-    margin: 0 0 0 0;
-}
 
 
 /* ============================================================
    ChallengeListScreen
    ============================================================ */
 
+/* ── filters and search bar container ── */
 #list-header {
     height: auto;
     background: transparent;
     padding: 0 1;
-    border-bottom: solid $brand;
     align: left middle;
 }
 
-#list-title {
-    width: auto;
-    padding: 0 2;
-    color: $grad2;
-    text-style: bold;
-}
-
+/* ── difficulty-filter  (grad1 GOLD) ── */
 #difficulty-filter {
     width: 22;
     margin: 0 1;
-    border: none;
+    border: round $muted;
+    color: $muted;
 }
 
-#difficulty-filter > SelectCurrent {
-    overflow: hidden;
+#difficulty-filter:focus-within,
+#difficulty-filter.filter-active {
+    border: round $grad1;
+    color: $grad1;
 }
 
-#difficulty-filter > SelectCurrent > #label {
-    overflow: hidden;
-}
+#difficulty-filter > SelectCurrent { overflow: hidden; border: none; padding: 0 1; }
+#difficulty-filter > SelectCurrent > #label { overflow: hidden; }
 
+/* ── topic-filter  (grad2 HONEY) ── */
 #topic-filter {
     width: 26;
     margin: 0 1;
-    border: none;
+    border: round $muted;
+    color: $muted;
 }
 
-#topic-filter > SelectCurrent {
-    overflow: hidden;
+#topic-filter:focus-within,
+#topic-filter.filter-active {
+    border: round $grad2;
+    color: $grad2;
 }
 
-#topic-filter > SelectCurrent > #label {
-    overflow: hidden;
+#topic-filter > SelectCurrent { overflow: hidden; border: none; padding: 0 1; }
+#topic-filter > SelectCurrent > #label { overflow: hidden; }
+
+/* ── solved-filter  (grad3 FIRE) ── */
+#solved-filter {
+    width: 20;
+    margin: 0 1;
+    border: round $muted;
+    color: $muted;
 }
 
+#solved-filter:focus-within,
+#solved-filter.filter-active {
+    border: round $grad3;
+    color: $grad3;
+}
+
+#solved-filter > SelectCurrent { overflow: hidden; border: none; padding: 0 1; }
+#solved-filter > SelectCurrent > #label { overflow: hidden; }
+
+/* ── btn-solution-toggle  (grad4 EMBER) ── */
 #btn-solution-toggle {
     width: auto;
     min-width: 18;
     height: 3;
     margin: 0 1;
-    border: tall $muted;
+    border: round $muted;
     background: transparent;
-    color: $text;
+    color: $muted;
+    content-align: center middle;
 }
 
 #btn-solution-toggle:hover {
-    border: tall $brand;
-    color: $brand;
+    border: round $grad4;
+    color: $grad4;
 }
 
 #btn-solution-toggle.sol-active {
-    color: $easy;
-    border: tall $easy;
-    background: #0a2a0a;
+    color: $grad4;
+    border: round $grad4;
 }
 
-#btn-solved-toggle {
-    width: auto;
-    min-width: 16;
-    height: 3;
-    margin: 0 1;
-    border: tall $muted;
-    background: transparent;
-    color: $text;
-}
-
-#btn-solved-toggle:hover {
-    border: tall $brand;
-    color: $brand;
-}
-
-#btn-solved-toggle.sol-active {
-    color: $easy;
-    border: tall $easy;
-    background: #0a2a0a;
-}
-
-#btn-solved-toggle.solved-no {
-    color: $hard;
-    border: tall $hard;
-    background: #2a0a0a;
-}
-
+/* ── search-input  (grad5 LAVA) ── */
 #search-input {
     width: 1fr;
     margin: 0 1;
+    border: round $muted;
+    color: $text;
 }
 
-#search-input:focus {
-    border: tall $brand;
+#search-input:focus,
+#search-input.filter-active {
+    border: round $grad5;
+    color: $text;
 }
+
+/* ── Challenge Table── */
 
 ChallengeTable {
     height: 1fr;
     background: transparent;
+    border: round $muted;
+    overflow-x: auto;
 }
 
 ChallengeTable > .datatable--header {
-    background: transparent;
-    color: $grad2;
-    text-style: bold;
+    background: #1e1e1e;
 }
 
 ChallengeTable > .datatable--cursor {
@@ -231,10 +224,95 @@ ChallengeTable > .datatable--odd-row {
 
 /* ============================================================
    ChallengeDetailScreen
-   All screen-specific styles live in ChallengeDetailScreen.DEFAULT_CSS.
-   Only global utilities remain here.
    ============================================================ */
 
+/* ── Top bar ── */
+#top-bar {
+    height: 4;
+    background: transparent;
+    padding: 0 1;
+}
+
+#detail-status {
+    background: transparent;
+}
+
+#nav-section    { width: 1fr; align: left middle; }
+#action-section { width: 1fr; align: center middle; }
+#sol-section    { width: 1fr; align: right middle; }
+
+#btn-problem-list, #btn-prev, #btn-next,
+#btn-run, #btn-submit, #btn-feedback, #btn-solution {
+    background: transparent;
+    padding: 0 1;
+    min-width: 0;
+    height: 3;
+}
+
+#btn-problem-list:focus, #btn-prev:focus, #btn-next:focus,
+#btn-run:focus, #btn-submit:focus, #btn-feedback:focus, #btn-solution:focus,
+#btn-problem-list.-active, #btn-prev.-active, #btn-next.-active,
+#btn-run.-active, #btn-submit.-active, #btn-feedback.-active, #btn-solution.-active {
+    background: transparent;
+}
+
+#btn-problem-list, #btn-prev, #btn-next { color: $muted; border: round #444444; text-style: dim; }
+#btn-prev:disabled, #btn-next:disabled  { color: #444444; border: round #2a2a2a; }
+#btn-run                                { color: $easy;  border: round $easy; }
+#btn-submit                             { color: $blue;  border: round $blue; }
+#btn-feedback                           { color: $muted; border: round $muted; }
+#btn-solution                           { color: #FFD700; border: round #7A6500; text-style: dim; }
+
+#btn-submit:disabled { color: #444444; border: round #444444; }
+
+/* ── Main body ── */
+#detail-body {
+    height: 1fr;
+    padding: 0 1;
+    margin-bottom: 2;
+}
+
+/* ── Left panel ── */
+#left-panel {
+    width: 1fr;
+    border: round $brand;
+    margin: 0 1 0 0;
+}
+#left-scroll {
+    height: 1fr;
+    padding: 1 2;
+}
+
+/* ── Right panel ── */
+#right-panel {
+    width: 1fr;
+    margin: 0 0 0 1;
+}
+
+#editor-panel {
+    height: 4fr;
+    border: round $brand;
+    margin-bottom: 0;
+}
+#code-editor { height: 1fr; }
+
+/* ── Bottom tabs ── */
+#testcase-tabs              { height: 1fr; border: round $brand; }
+#testcase-table, #result-table { height: 1fr; }
+
+#solution-explanation {
+    height: auto;
+    color: $text;
+    padding: 1 2;
+    text-align: left;
+}
+#no-solution-msg {
+    padding: 1 2;
+    color: $muted;
+    text-style: italic;
+}
+
+/* ── Utilities ── */
 .hidden {
     display: none;
 }
@@ -257,10 +335,6 @@ Select {
     border: tall $muted;
     color: $text;
     width: 22;
-}
-
-Select:focus {
-    border: tall $brand;
 }
 
 Select > SelectCurrent {
@@ -295,6 +369,33 @@ Input {
 
 Input:focus {
     border: tall $brand;
+}
+
+/* ── Feedback modal select override ── */
+#feedback-type {
+    width: 100%;
+    border: round $muted;
+}
+
+#feedback-type:focus-within {
+    border: round $brand;
+}
+
+#feedback-type > SelectCurrent { border: none; padding: 0 1; }
+#feedback-type > SelectCurrent > #label { overflow: hidden; }
+
+/* ── Agent session chat input overrides ── */
+#chat-input {
+    background: #121212;
+    border: round #444444;
+}
+
+#chat-input:focus {
+    border: round #FF8205;
+}
+
+#chat-input:disabled {
+    border: round #2a2a2a;
 }
 
 

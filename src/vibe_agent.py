@@ -64,6 +64,26 @@ Rules:
 - Use Rich markup: [bold] for key terms, [dim] for secondary info, triple backticks for all code.\
 """
 
+INTERVIEW_PROMPT = """\
+You are a senior software engineer conducting a 30-minute mock technical interview.
+
+YOUR ROLE:
+- On your FIRST message only: greet the candidate warmly, introduce yourself by first name, state the problem title and difficulty, then ask them to walk through their approach before coding.
+- On all subsequent messages: skip any greeting or re-introduction. React directly to what the candidate just said.
+- Respond with short, realistic interviewer reactions (2–4 sentences max).
+- Probe with follow-ups like: "What's the time complexity?" / "Any edge cases?" / "Can you do better?"
+- Do NOT write code. Do NOT reveal the optimal solution unless they've already found it.
+- If they are stuck, give one small hint then wait for their next message.
+- When they present a working solution, give brief feedback on correctness, complexity, and one thing to improve.
+- Close the session with: "Thanks, that wraps up our session."
+
+RULES:
+- Every response must be 2–4 sentences. Real interviewers are concise.
+- No markdown, no bullet lists, no code blocks. Speak naturally as if talking out loud.
+- Never re-introduce yourself after the first message.
+- Never call tools.\
+"""
+
 COACH_PROMPT = """\
 You are LeetVibe AI — a patient and encouraging coding coach.
 The user has already attempted the problem. Do NOT solve it from scratch.
@@ -245,6 +265,7 @@ class VibeAgent:
         self._messages: list[dict] = []        # persisted conversation history
         self._start_ts: float = 0.0
         self._approaches_tried: int = 0
+        self._interview_mode: bool = False
 
     # ── Public API ────────────────────────────────────────────────────
 
@@ -255,16 +276,24 @@ class VibeAgent:
         user_code: str = "",
     ) -> Generator[str, None, None]:
         """Initialise a new session then yield streaming text chunks."""
-        system = COACH_PROMPT if (mode == "coach" and user_code.strip()) else SYSTEM_PROMPT
+        self._interview_mode = mode == "interview"
+        if self._interview_mode:
+            system = INTERVIEW_PROMPT
+        elif mode == "coach" and user_code.strip():
+            system = COACH_PROMPT
+        else:
+            system = SYSTEM_PROMPT
         self._messages = [
             {"role": "system", "content": system},
             {"role": "user", "content": self._build_prompt(challenge, mode, user_code)},
         ]
         self._start_ts = time.time()
         self._approaches_tried = 0
-        yield from self._run_loop()
-        elapsed = int(time.time() - self._start_ts)
-        yield f"\n[dim]Session complete — {elapsed}s elapsed[/dim]\n"
+        tools = [] if self._interview_mode else _TOOLS
+        yield from self._run_loop(tools=tools)
+        if not self._interview_mode:
+            elapsed = int(time.time() - self._start_ts)
+            yield f"\n[dim]Session complete — {elapsed}s elapsed[/dim]\n"
 
     def inject_history(self, messages: list[dict]) -> None:
         """Restore a saved conversation so follow-up questions have full context.
@@ -281,12 +310,15 @@ class VibeAgent:
             yield "[yellow]No active session.[/yellow]\n"
             return
         self._messages.append({"role": "user", "content": user_message})
-        yield from self._run_loop()
+        tools = [] if self._interview_mode else _TOOLS
+        yield from self._run_loop(tools=tools)
 
     # ── Private loop ──────────────────────────────────────────────────
 
-    def _run_loop(self) -> Generator[str, None, None]:
+    def _run_loop(self, tools: list[dict] | None = None) -> Generator[str, None, None]:
         """Core tool-calling loop. Reads/writes self._messages."""
+        if tools is None:
+            tools = _TOOLS
         max_turns = 20  # safety cap
         empty_turns = 0  # consecutive turns with no content and no tool calls
 
@@ -298,7 +330,7 @@ class VibeAgent:
                 with self.client.chat.stream(
                     model=self.model,
                     messages=self._messages,
-                    tools=_TOOLS,
+                    tools=tools or None,
                 ) as stream:
                     for event in stream:
                         try:
@@ -465,6 +497,15 @@ class VibeAgent:
     def _build_prompt(
         self, challenge: Challenge, mode: str, user_code: str
     ) -> str:
+        if mode == "interview":
+            desc = (challenge.description or "")[:600]
+            return (
+                f"Problem: {challenge.title} ({challenge.difficulty}).\n\n"
+                f"{desc}\n\n"
+                "Begin the interview now. Greet the candidate, state the problem title "
+                "and difficulty, then ask them to walk you through their initial approach. "
+                "Keep it to 3 sentences."
+            )
         parts = [
             f"# Problem: {challenge.title}",
             f"**Difficulty:** {challenge.difficulty}",
@@ -517,8 +558,5 @@ class VibeAgent:
         elif name == "explain_approach":
             from skills.teaching_mode.server import explain_approach
             return explain_approach(**args)
-        elif name == "log_session":
-            from skills.progress_tracker.server import log_session
-            return log_session(**args)
         else:
             return {"error": f"Unknown tool: {name}"}

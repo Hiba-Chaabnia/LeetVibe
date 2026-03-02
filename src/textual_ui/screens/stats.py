@@ -1,181 +1,219 @@
-"""StatsScreen — challenge library statistics and W&B session history."""
+"""StatsScreen — progress, sessions, account and library overview."""
 
 from __future__ import annotations
-
-from pathlib import Path
 
 from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
-from textual.containers import VerticalScroll
-from textual.screen import Screen
+from textual.containers import Horizontal, VerticalScroll
 from textual.widgets import Static
 
+from ..theme import AMBER, EMBER, FIRE, GOLD, GREEN, LAVA, RED
 from ..widgets.status_bar import StatusBar
-
-_FIRE = "#FF8205"
-_GREEN = "#00C44F"
-_AMBER = "#FFB300"
-_RED = "#E53935"
+from .base import BaseScreen
 
 
-class StatsScreen(Screen):
-    """Statistics: challenge library overview and W&B session history."""
+def _bar(count: int, total: int, width: int = 18) -> str:
+    """Unicode block progress bar."""
+    if total == 0:
+        return "░" * width
+    filled = round((count / total) * width)
+    return "█" * filled + "░" * (width - filled)
+
+
+def _pct(count: int, total: int) -> str:
+    return f"{count / total * 100:.0f}%" if total else "—"
+
+
+class StatsScreen(BaseScreen):
+    """Statistics: progress, sessions, account and library overview."""
 
     BINDINGS = [
         Binding("escape", "pop_screen", "← Back"),
-        Binding("q", "pop_screen", "Back", show=False),
+        Binding("ctrl+q", "quit_app",   "Exit LeetVibe"),
+        Binding("q",      "pop_screen", "Back", show=False),
     ]
 
     DEFAULT_CSS = f"""
     StatsScreen {{
         background: #121212;
     }}
-    #stats-header {{
-        height: 3;
-        background: #1a1a1a;
-        border-bottom: solid {_FIRE};
-        padding: 0 2;
-        content-align: left middle;
-        color: {_FIRE};
-        text-style: bold;
-    }}
     #stats-scroll {{
         height: 1fr;
         padding: 1 2;
     }}
     .stat-card {{
-        border: round {_FIRE};
         padding: 1 2;
-        margin: 0 0 1 0;
         height: auto;
         background: #0e0e0e;
+    }}
+    #progress-card {{
+        border: round {GOLD};
+        margin-bottom: 1;
+    }}
+    #mid-row {{
+        height: auto;
+        margin-bottom: 1;
+    }}
+    #sessions-card {{
+        border: round {FIRE};
+        width: 1fr;
+        margin-right: 1;
+    }}
+    #account-card {{
+        border: round {EMBER};
+        width: 1fr;
+    }}
+    #library-card {{
+        border: round {LAVA};
+        margin-top: 1;
+    }}
+    #stats-status {{
+        background: #121212;
     }}
     """
 
     def compose(self) -> ComposeResult:
-        yield Static("📊  LeetVibe Statistics", id="stats-header")
         with VerticalScroll(id="stats-scroll"):
+            yield Static(id="progress-card", classes="stat-card")
+            with Horizontal(id="mid-row"):
+                yield Static(id="sessions-card", classes="stat-card")
+                yield Static(id="account-card",  classes="stat-card")
             yield Static(id="library-card", classes="stat-card")
-            yield Static(id="cloud-card", classes="stat-card")
-            yield Static(id="wandb-card", classes="stat-card")
-            yield Static(id="skills-card", classes="stat-card")
-        yield StatusBar(hints=[("ESC", "Back", None)], id="stats-status")
+        yield StatusBar(
+            hints=[("Esc", "go back", None)],
+            id="stats-status",
+        )
 
     def on_mount(self) -> None:
-        # Load config to ensure env vars are populated
         try:
             from ...config import load_config
             load_config()
         except Exception:
             pass
-        self._render_library()
-        self._render_cloud_placeholder()
-        self._load_cloud_stats()
-        self._render_wandb()
-        self._render_skills()
+        self._render_placeholders()
+        self._load_stats()
 
-    def _render_library(self) -> None:
-        problems_dir = Path(__file__).parent.parent.parent.parent / "problems"
-        easy = medium = hard = 0
-        if problems_dir.exists():
-            for sub, attr in [("easy", "easy"), ("medium", "medium"), ("hard", "hard")]:
-                d = problems_dir / sub
-                if d.exists():
-                    if sub == "easy":
-                        easy = sum(1 for _ in d.glob("*.json"))
-                    elif sub == "medium":
-                        medium = sum(1 for _ in d.glob("*.json"))
-                    else:
-                        hard = sum(1 for _ in d.glob("*.json"))
-        total = easy + medium + hard
-        text = (
-            f"[bold {_FIRE}]Challenge Library[/bold {_FIRE}]\n\n"
-            f"  Total  [bold white]{total:,}[/bold white] problems\n\n"
-            f"  [{_GREEN}]●[/{_GREEN}] Easy    [{_GREEN}]{easy:,}[/{_GREEN}]\n"
-            f"  [{_AMBER}]◆[/{_AMBER}] Medium  [{_AMBER}]{medium:,}[/{_AMBER}]\n"
-            f"  [{_RED}]★[/{_RED}] Hard    [{_RED}]{hard:,}[/{_RED}]\n"
-        )
-        self.query_one("#library-card", Static).update(text)
+    # ── Placeholders ───────────────────────────────────────────────────
 
-    def _render_cloud_placeholder(self) -> None:
-        self.query_one("#cloud-card", Static).update(
-            f"[bold {_FIRE}]Cloud Sync[/bold {_FIRE}]\n\n  [dim]Loading…[/dim]"
+    def _render_placeholders(self) -> None:
+        self.query_one("#progress-card", Static).update(
+            f"[bold {GOLD}]Your Progress[/bold {GOLD}]\n\n  [dim]Loading…[/dim]"
         )
+        self.query_one("#sessions-card", Static).update(
+            f"[bold {FIRE}]Sessions[/bold {FIRE}]\n\n  [dim]Loading…[/dim]"
+        )
+        self.query_one("#account-card", Static).update(
+            f"[bold {EMBER}]Account[/bold {EMBER}]\n\n  [dim]Loading…[/dim]"
+        )
+        self.query_one("#library-card", Static).update(
+            f"[bold {LAVA}]Library[/bold {LAVA}]\n\n  [dim]Loading…[/dim]"
+        )
+
+    # ── Background loader ──────────────────────────────────────────────
 
     @work(thread=True)
-    def _load_cloud_stats(self) -> None:
+    def _load_stats(self) -> None:
+        from ...challenge_loader import load_all_challenges
         from ...cloud.auth import load_session
-        from ...cloud.db import get_session_stats
+        from ...cloud.db import get_session_stats, get_solved_slugs
+
+        challenges   = load_all_challenges()
+        easy_total   = sum(1 for c in challenges if c.difficulty == "easy")
+        medium_total = sum(1 for c in challenges if c.difficulty == "medium")
+        hard_total   = sum(1 for c in challenges if c.difficulty == "hard")
+        lib_total    = len(challenges)
+
+        solved        = get_solved_slugs()
+        easy_solved   = sum(1 for c in challenges if c.difficulty == "easy"   and c.id in solved)
+        medium_solved = sum(1 for c in challenges if c.difficulty == "medium" and c.id in solved)
+        hard_solved   = sum(1 for c in challenges if c.difficulty == "hard"   and c.id in solved)
+        total_solved  = len(solved)
+
         session = load_session()
-        stats = get_session_stats() if session else None
-        self.app.call_from_thread(self._render_cloud, session, stats)
+        stats   = get_session_stats() if session else None
 
-    def _render_cloud(self, session, stats) -> None:
+        self.app.call_from_thread(
+            self._render_all,
+            lib_total, easy_total, medium_total, hard_total,
+            total_solved, easy_solved, medium_solved, hard_solved,
+            session, stats,
+        )
+
+    # ── Renderers ──────────────────────────────────────────────────────
+
+    def _render_all(
+        self,
+        lib_total: int, easy_total: int, medium_total: int, hard_total: int,
+        total_solved: int, easy_solved: int, medium_solved: int, hard_solved: int,
+        session: dict | None, stats: dict | None,
+    ) -> None:
         try:
-            card = self.query_one("#cloud-card", Static)
+            self._render_progress(
+                lib_total, easy_total, medium_total, hard_total,
+                total_solved, easy_solved, medium_solved, hard_solved,
+            )
+            self._render_sessions(stats)
+            self._render_account(session, stats)
+            self._render_library(lib_total, easy_total, medium_total, hard_total)
         except Exception:
-            return  # screen already unmounted
+            pass  # screen may have been unmounted
 
+    def _render_progress(
+        self,
+        lib_total: int, easy_total: int, medium_total: int, hard_total: int,
+        total_solved: int, easy_solved: int, medium_solved: int, hard_solved: int,
+    ) -> None:
+        text = (
+            f"[bold {GOLD}]Your Progress[/bold {GOLD}]\n\n"
+            f"  Solved  [bold white]{total_solved:,}[/bold white] / [dim]{lib_total:,}[/dim]  problems\n\n"
+            f"  [{GREEN}]●[/{GREEN}] Easy    [{GREEN}]{_bar(easy_solved, easy_total)}  "
+            f"{easy_solved:>4} / {easy_total:<4}  {_pct(easy_solved, easy_total):>4}[/{GREEN}]\n"
+            f"  [{AMBER}]◆[/{AMBER}] Medium  [{AMBER}]{_bar(medium_solved, medium_total)}  "
+            f"{medium_solved:>4} / {medium_total:<4}  {_pct(medium_solved, medium_total):>4}[/{AMBER}]\n"
+            f"  [{RED}]★[/{RED}] Hard    [{RED}]{_bar(hard_solved, hard_total)}  "
+            f"{hard_solved:>4} / {hard_total:<4}  {_pct(hard_solved, hard_total):>4}[/{RED}]\n"
+        )
+        self.query_one("#progress-card", Static).update(text)
+
+    def _render_sessions(self, stats: dict | None) -> None:
+        count    = stats.get("session_count", 0) if stats else 0
+        last     = stats.get("last_updated")      if stats else None
+        last_str = last[:10] if last else "—"
+        text = (
+            f"[bold {FIRE}]Sessions[/bold {FIRE}]\n\n"
+            f"  Total   [bold white]{count}[/bold white]\n"
+            f"  Last    [bold white]{last_str}[/bold white]\n"
+        )
+        self.query_one("#sessions-card", Static).update(text)
+
+    def _render_account(self, session: dict | None, stats: dict | None) -> None:
         if not session:
             text = (
-                f"[bold {_FIRE}]Cloud Sync[/bold {_FIRE}]\n\n"
-                "  Status: [bold #888888]not signed in[/bold #888888]\n"
-                "  [dim]Sign in from the Home screen to sync sessions and chat history.[/dim]\n"
+                f"[bold {EMBER}]Account[/bold {EMBER}]\n\n"
+                f"  Status  [bold #888888]not signed in[/bold #888888]\n"
+                f"  [dim]Sign in from the Home screen.[/dim]\n"
             )
         else:
-            email = session.get("email", "")
-            count = stats.get("session_count", 0) if stats else 0
-            last = stats.get("last_updated") if stats else None
-            last_str = last[:10] if last else "—"
+            email    = session.get("email", "—")
+            last     = stats.get("last_updated") if stats else None
+            sync_str = last[:10] if last else "—"
             text = (
-                f"[bold {_FIRE}]Cloud Sync[/bold {_FIRE}]\n\n"
-                f"  Status  :  [bold {_GREEN}]signed in[/bold {_GREEN}]\n"
-                f"  Account :  [bold white]{email}[/bold white]\n"
-                f"  Sessions:  [bold white]{count}[/bold white]\n"
-                f"  Last sync: [bold white]{last_str}[/bold white]\n\n"
-                f"  [dim]Chat history and progress are synced automatically.[/dim]\n"
+                f"[bold {EMBER}]Account[/bold {EMBER}]\n\n"
+                f"  Status  [bold {GREEN}]signed in[/bold {GREEN}]\n"
+                f"  Email   [bold white]{email}[/bold white]\n"
+                f"  Sync    [bold white]{sync_str}[/bold white]\n"
             )
-        card.update(text)
+        self.query_one("#account-card", Static).update(text)
 
-    def _render_wandb(self) -> None:
-        import os
-        api_key = os.environ.get("WANDB_API_KEY", "")
-        project = os.environ.get("WANDB_PROJECT", "leetvibe")
-        entity = os.environ.get("WANDB_ENTITY", "")
-
-        if api_key:
-            text = (
-                f"[bold {_FIRE}]Weights & Biases[/bold {_FIRE}]\n\n"
-                f"  Status :  [bold {_GREEN}]configured[/bold {_GREEN}]\n"
-                f"  Project:  [bold white]{project}[/bold white]\n"
-                f"  Entity :  [bold white]{entity or '(default)'}[/bold white]\n\n"
-                f"  [dim]Sessions are logged automatically during AI pair-programming.[/dim]\n"
-                f"  [dim]Dashboard → wandb.ai/{entity}/{project}[/dim]\n"
-            )
-        else:
-            text = (
-                f"[bold {_FIRE}]Weights & Biases[/bold {_FIRE}]\n\n"
-                "  Status: [bold #888888]not configured[/bold #888888]\n"
-                "  [dim]Add WANDB_API_KEY to .env to enable session tracking.[/dim]\n"
-            )
-        self.query_one("#wandb-card", Static).update(text)
-
-    def _render_skills(self) -> None:
-        skills = [
-            ("test_runner", "Execute Python code against test cases"),
-            ("voice_narrator", "ElevenLabs TTS — Vibe speaks its reasoning"),
-            ("complexity_analyzer", "AST-based time/space complexity analysis"),
-            ("teaching_mode", "Structured step-by-step algorithm explanations"),
-            ("progress_tracker", "Log learning sessions to Weights & Biases"),
-        ]
-        lines = [f"[bold {_FIRE}]MCP Skill Servers[/bold {_FIRE}]\n"]
-        for name, desc in skills:
-            lines.append(f"  [bold white]{name}[/bold white]")
-            lines.append(f"  [dim]{desc}[/dim]")
-            lines.append("")
-        lines.append(f"  [dim]Config: .vibe/config.toml  —  run `vibe` in project root[/dim]")
-        self.query_one("#skills-card", Static).update("\n".join(lines))
-
-    def action_pop_screen(self) -> None:
-        self.app.pop_screen()
+    def _render_library(
+        self, total: int, easy: int, medium: int, hard: int
+    ) -> None:
+        text = (
+            f"[bold {LAVA}]Library[/bold {LAVA}]\n\n"
+            f"  Total [bold white]{total:,}[/bold white]"
+            f"   [{GREEN}]● Easy {easy:,}[/{GREEN}]"
+            f"   [{AMBER}]◆ Medium {medium:,}[/{AMBER}]"
+            f"   [{RED}]★ Hard {hard:,}[/{RED}]\n"
+        )
+        self.query_one("#library-card", Static).update(text)

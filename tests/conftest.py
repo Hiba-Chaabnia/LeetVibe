@@ -82,7 +82,4 @@ def dummy_config():
         mistral_model="mistral-large-latest",
         elevenlabs_api_key="test-elevenlabs-key",
         elevenlabs_voice_id="EXAVITQu4vr4xnSDxMaL",
-        wandb_api_key="test-wandb-key",
-        wandb_project="leetvibe-test",
-        wandb_entity="test-entity",
     )

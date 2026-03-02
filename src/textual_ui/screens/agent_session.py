@@ -2,26 +2,28 @@
 
 from __future__ import annotations
 
+import os
 import re
+import threading
 
 from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalGroup, VerticalScroll
-from textual.screen import Screen
 from textual.widgets import Button, Input, Static
 
 from ...challenge_loader import Challenge
+from ..theme import FIRE, GREEN, RED
+from ..widgets.challenge_card import ChallengeCard
 from ..widgets.status_bar import StatusBar
-
-_FIRE = "#FF8205"
-_GREEN = "#00C44F"
-_BLUE = "#4A9EFF"
-_RED = "#E53935"
+from .base import BaseScreen
 
 # Strip Rich markup tags like [bold], [/dim], [#FF0000] before regex matching
 _MARKUP_RE = re.compile(r"\[/?[^\]]*\]")
+# Strip markdown bold (**text**) and heading (### text) markers before matching
+_MD_DECORATION_RE = re.compile(r"^[*#\s]+|[*#\s]+$")
 # Matches "STEP N — Title", "STEP N - Title", "STEP N: Title" (case-insensitive)
+# Works whether or not the line is wrapped in **…** or ### …
 _STEP_RE = re.compile(r"^\s*STEP\s+(\d+)\s*[—–\-:]+\s*(.*)", re.IGNORECASE)
 
 # ── Chat widgets ───────────────────────────────────────────────────────────────
@@ -107,7 +109,7 @@ class BackgroundStep(Static):
 
     def _render_header(self) -> str:
         if self._done:
-            icon = f"[bold {_GREEN}]✓[/bold {_GREEN}]"
+            icon = f"[bold {GREEN}]✓[/bold {GREEN}]"
         else:
             icon = f"[dim]{self.SPINNER[self._spinner_idx % len(self.SPINNER)]}[/dim]"
         return f"{icon} [dim]Step {self._step_num} — {self._title}[/dim]"
@@ -174,7 +176,7 @@ class FinalAnswer(Static):
 
     def compose(self) -> ComposeResult:
         yield Static(
-            f"[bold {_FIRE}]━━  Step 7 — {self._title}  ━━[/bold {_FIRE}]",
+            f"[bold {FIRE}]━━  Step 7 — {self._title}  ━━[/bold {FIRE}]",
             markup=True,
             classes="final-sep",
         )
@@ -188,6 +190,48 @@ class FinalAnswer(Static):
                 self._content_widget.update("\n".join(self._lines))
             except Exception:
                 pass
+
+
+class MnemonicBlock(Static):
+    """Displays the algorithm pattern mnemonic after session completion."""
+
+    DEFAULT_CSS = """
+    MnemonicBlock {
+        width: 100%;
+        height: auto;
+        margin: 1 0 0 0;
+    }
+    MnemonicBlock .mnemonic-header {
+        width: 100%;
+        height: 1;
+        padding: 0 1;
+    }
+    MnemonicBlock .mnemonic-text {
+        width: 100%;
+        height: auto;
+        padding: 1 2;
+        color: #FFD700;
+        text-style: italic;
+        border-left: heavy #FFD700;
+    }
+    """
+
+    def __init__(self, mnemonic: str, pattern: str) -> None:
+        super().__init__()
+        self._mnemonic = mnemonic
+        self._pattern = pattern
+
+    def compose(self) -> ComposeResult:
+        yield Static(
+            f"[bold #FFD700]━━  💡 {self._pattern}  ━━[/bold #FFD700]",
+            markup=True,
+            classes="mnemonic-header",
+        )
+        yield Static(
+            self._mnemonic,
+            markup=False,
+            classes="mnemonic-text",
+        )
 
 
 class AssistantBlock(Static):
@@ -227,13 +271,15 @@ class AssistantBlock(Static):
 # ── Screen ─────────────────────────────────────────────────────────────────────
 
 
-class AgentSessionScreen(Screen):
+class AgentSessionScreen(BaseScreen):
     """Full-screen AI session with step-aware rendering and follow-up chat."""
 
     BINDINGS = [
-        Binding("escape", "pop_screen", "← Back"),
-        Binding("s", "stop_agent", "■ Stop", show=False),
-        Binding("ctrl+o", "toggle_history", "Prior Session", show=False),
+        Binding("escape",  "pop_screen",          "← Back"),
+        Binding("ctrl+s",  "stop_agent",          "■ Stop",        show=False),
+        Binding("ctrl+h",  "toggle_history",      "Prior Session", show=False),
+        Binding("ctrl+t",  "toggle_steps",        "Toggle Steps",  show=False),
+        Binding("ctrl+d",  "toggle_description",  "Problem",       show=False, priority=True),
     ]
 
     DEFAULT_CSS = f"""
@@ -243,35 +289,35 @@ class AgentSessionScreen(Screen):
 
     /* ── Top bar ─────────────────────────────────────────────────── */
     #session-bar {{
-        height: 3;
+        height: 5;
         background: #1a1a1a;
-        border-bottom: solid {_FIRE};
+        border-bottom: solid {FIRE};
         padding: 0 1;
         align: left middle;
     }}
     #session-title {{
         width: 1fr;
+        height: 3;
         content-align: center middle;
-        color: {_FIRE};
+        color: {FIRE};
         text-style: bold;
     }}
     #session-bar Button {{
-        border: none;
         background: transparent;
         padding: 0 1;
         min-width: 0;
-        height: 1;
-        color: #aaaaaa;
+        height: 3;
     }}
-    #btn-back:hover  {{ background: #2a2a2a; color: #e0e0e0; }}
-    #btn-stop        {{ color: {_RED}; }}
-    #btn-stop:hover  {{ background: #2a0000; }}
-    #btn-copy        {{ color: {_GREEN}; }}
-    #btn-copy:hover  {{ background: #0a2a0a; }}
-    #btn-copy:disabled {{ color: #333333; }}
-    #btn-reset       {{ color: #888888; }}
-    #btn-reset:hover {{ background: #2a2a2a; color: #e0e0e0; }}
-    #btn-reset:disabled {{ color: #333333; }}
+    #session-bar Button:focus,
+    #session-bar Button.-active {{
+        background: transparent;
+    }}
+    #btn-back        {{ color: #aaaaaa; border: round #444444; text-style: dim; }}
+    #btn-stop        {{ color: {RED};   border: round {RED}; }}
+    #btn-copy        {{ color: {GREEN}; border: round {GREEN}; }}
+    #btn-copy:disabled   {{ color: #333333; border: round #333333; }}
+    #btn-reset       {{ color: #888888; border: round #444444; text-style: dim; }}
+    #btn-reset:disabled  {{ color: #333333; border: round #333333; }}
 
     /* ── Prior history panel ─────────────────────────────────── */
     #prior-history {{
@@ -289,10 +335,24 @@ class AgentSessionScreen(Screen):
         margin-bottom: 1;
     }}
 
-    /* ── Chat scroll (fills remaining space) ─────────────────────── */
-    ChatScroll {{
+    /* ── Body: description panel + chat side by side ─────────────── */
+    #session-body {{
         height: 1fr;
         width: 100%;
+    }}
+    #description-panel {{
+        width: 45%;
+        height: 100%;
+        background: #0d0d0d;
+        border-right: solid #333333;
+        padding: 0 1 1 1;
+        display: none;
+    }}
+
+    /* ── Chat scroll (fills remaining space) ─────────────────────── */
+    ChatScroll {{
+        height: 100%;
+        width: 1fr;
         background: transparent;
     }}
     #messages {{
@@ -312,36 +372,30 @@ class AgentSessionScreen(Screen):
         width: 100%;
         background: transparent;
     }}
-    #prompt {{
-        width: auto;
-        color: {_FIRE};
-        text-style: bold;
-        padding: 0 1;
-        content-align: left middle;
-    }}
-    /* Let Input keep its natural height: 3 so the content row never collapses. */
     #chat-input {{
         width: 1fr;
         background: #121212;
         color: #e0e0e0;
-        border: tall #444444;
+        border: round #444444;
     }}
     #chat-input:focus {{
         background: #121212;
-        border: tall {_FIRE};
+        border: round {FIRE};
     }}
-    #chat-input:disabled {{ color: #555555; border: tall #2a2a2a; }}
+    #chat-input:disabled {{ color: #555555; border: round #2a2a2a; }}
     #btn-send {{
         width: auto;
-        border: none;
+        height: 3;
+        border: round {FIRE};
         background: transparent;
-        color: {_FIRE};
+        color: {FIRE};
         padding: 0 2;
-        min-width: 0;
+        min-width: 6;
         content-align: center middle;
     }}
-    #btn-send:hover    {{ background: #3a2200; }}
-    #btn-send:disabled {{ color: #444444; }}
+    #btn-send:focus, #btn-send.-active {{ background: transparent; }}
+    #btn-send:disabled {{ color: #444444; border: round #444444; }}
+    #session-status    {{ background: #121212; }}
     """
 
     def __init__(
@@ -370,19 +424,20 @@ class AgentSessionScreen(Screen):
         self._cloud_session_id: str | None = None  # set once by _run_agent
         self._prior_messages: list[dict] = []      # saved messages from last session
         self._history_visible = False              # Ctrl+O toggle state
+        self._step7_narrated = False               # guard: narrate step 7 once
 
     # ── Layout ────────────────────────────────────────────────────────
 
     def compose(self) -> ComposeResult:
         ch = self._challenge
-        diff_color = {"easy": _GREEN, "medium": "#FFB300", "hard": _RED}.get(
+        diff_color = {"easy": GREEN, "medium": "#FFB300", "hard": RED}.get(
             ch.difficulty.lower(), "#888888"
         )
 
         with Horizontal(id="session-bar"):
             yield Button("← Back", id="btn-back")
             yield Static(
-                f"LeetVibe AI  ●  [{diff_color}]{ch.title}[/{diff_color}]"
+                f"[{diff_color}]{ch.title}[/{diff_color}]"
                 f"  [dim]({ch.difficulty})[/dim]",
                 id="session-title",
             )
@@ -390,17 +445,19 @@ class AgentSessionScreen(Screen):
             yield Button("↺ Reset", id="btn-reset")
             yield Button("■ Stop", id="btn-stop")
 
-        with ChatScroll(id="chat-scroll"):
-            with VerticalGroup(id="prior-history"):
-                yield Static(
-                    "── Prior session ──────────────────────",
-                    id="prior-history-title",
-                )
-            yield VerticalGroup(id="messages")
+        with Horizontal(id="session-body"):
+            with VerticalScroll(id="description-panel"):
+                yield ChallengeCard(ch)
+            with ChatScroll(id="chat-scroll"):
+                with VerticalGroup(id="prior-history"):
+                    yield Static(
+                        "── Prior session ──────────────────────",
+                        id="prior-history-title",
+                    )
+                yield VerticalGroup(id="messages")
 
         with Vertical(id="chat-input-container"):
             with Horizontal(id="input-box"):
-                yield Static("›", id="prompt")
                 yield Input(
                     placeholder="Session in progress…",
                     id="chat-input",
@@ -410,9 +467,11 @@ class AgentSessionScreen(Screen):
 
         yield StatusBar(
             hints=[
-                ("Esc",    "Back",          self.action_pop_screen),
-                ("S",      "Stop",          self.action_stop_agent),
-                ("Ctrl+O", "Prior Session", self.action_toggle_history),
+                ("Ctrl+D", "see problem description",         self.action_toggle_description),  # 0 — interview only
+                ("Ctrl+S", "stop agent",      self.action_stop_agent),           # 1
+                ("Ctrl+T", "toggle steps",    self.action_toggle_steps),         # 2 — hidden in interview
+                ("Ctrl+H", "view history",    self.action_toggle_history),       # 3 — hidden until history exists
+                ("Esc",    "go back",         self.action_pop_screen),           # 4
             ],
             show_count=False,
             id="session-status",
@@ -422,18 +481,36 @@ class AgentSessionScreen(Screen):
 
     def on_mount(self) -> None:
         ch = self._challenge
-        diff_color = {"easy": _GREEN, "medium": "#FFB300", "hard": _RED}.get(
+        diff_color = {"easy": GREEN, "medium": "#FFB300", "hard": RED}.get(
             ch.difficulty.lower(), "#888888"
         )
-        label = (
-            f"[dim]Mode: {self._mode.title()}[/dim]  ·  "
-            f"[{diff_color}]{ch.title}[/{diff_color}]  "
-            f"[dim]({ch.difficulty})[/dim]"
-        )
-        self._mount_user_message(label)
+        from ..widgets.status_bar import StatusBar
+        status = self.query_one("#session-status", StatusBar)
+        # Ctrl+H (index 3) is hidden until prior history is confirmed
+        status.set_hint_visible(3, False)
+        if self._mode == "interview":
+            # No opening label — Alex's greeting is the first thing the user should see
+            # Hide learn-mode-only hints and irrelevant header buttons
+            status.set_hint_visible(0, True)   # Ctrl+D — problem
+            status.set_hint_visible(2, False)  # Ctrl+T — toggle steps
+            try:
+                self.query_one("#btn-copy", Button).display = False
+                self.query_one("#btn-reset", Button).display = False
+            except Exception:
+                pass
+        else:
+            # Non-interview: show opening label, hide Ctrl+D
+            label = (
+                f"[dim]Mode: {self._mode.title()}[/dim]  ·  "
+                f"[{diff_color}]{ch.title}[/{diff_color}]  "
+                f"[dim]({ch.difficulty})[/dim]"
+            )
+            self._mount_user_message(label)
+            status.set_hint_visible(0, False)  # Ctrl+D
         self._spinner_timer = self.set_interval(0.1, self._tick_spinner)
         self._running = True
-        self._step_mode = True
+        # Interview mode has no numbered steps — use plain AssistantBlock throughout
+        self._step_mode = self._mode != "interview"
         self._run_agent(self._challenge, self._mode, self._user_code)
 
     # ── Message mounting ───────────────────────────────────────────────
@@ -465,6 +542,10 @@ class AgentSessionScreen(Screen):
             self._current_step.mark_done()
             self._current_step = None
 
+        # Step 7 just finished — narrate it while step 8 runs in the background
+        if step_num > 7 and self._current_final is not None:
+            self._trigger_step7_narration()
+
         if step_num == 7:
             self._is_final = True
             final = FinalAnswer(title)
@@ -493,7 +574,7 @@ class AgentSessionScreen(Screen):
 
         try:
             from ...config import load_config
-            from ...vibe_agent import VibeAgent, COACH_PROMPT, SYSTEM_PROMPT
+            from ...vibe_agent import VibeAgent, COACH_PROMPT, SYSTEM_PROMPT, INTERVIEW_PROMPT
 
             self._agent = VibeAgent(load_config())
 
@@ -509,14 +590,17 @@ class AgentSessionScreen(Screen):
                 else []
             )
 
-            if prior_messages:
+            if prior_messages and mode != "interview":
                 # Resume: inject saved history so follow-ups have full context.
                 # Skip the full solve workflow — the AI already ran it last time.
-                system = (
-                    COACH_PROMPT
-                    if (mode == "coach" and user_code.strip())
-                    else SYSTEM_PROMPT
-                )
+                # Interview mode always starts fresh — no resuming.
+                if mode == "interview":
+                    system = INTERVIEW_PROMPT
+                    self._agent._interview_mode = True
+                elif mode == "coach" and user_code.strip():
+                    system = COACH_PROMPT
+                else:
+                    system = SYSTEM_PROMPT
                 self._agent.inject_history(
                     [{"role": "system", "content": system}, *prior_messages]
                 )
@@ -525,7 +609,7 @@ class AgentSessionScreen(Screen):
                 self.app.call_from_thread(
                     self._write_line,
                     "[dim]📎  Resumed from last session — "
-                    "press Ctrl+O to view prior conversation.[/dim]",
+                    "press Ctrl+H to view prior conversation.[/dim]",
                 )
             else:
                 # Fresh session: run the full solve workflow
@@ -552,6 +636,9 @@ class AgentSessionScreen(Screen):
 
     def _render_prior_history(self, messages: list[dict]) -> None:
         """Populate the #prior-history container with saved messages."""
+        from ..widgets.status_bar import StatusBar
+        if self._mode != "interview":
+            self.query_one("#session-status", StatusBar).set_hint_visible(3, True)
         container = self.query_one("#prior-history", VerticalGroup)
         for msg in messages:
             role = msg.get("role", "")
@@ -583,8 +670,9 @@ class AgentSessionScreen(Screen):
 
     def _write_line(self, line: str) -> None:
         if self._step_mode:
-            # Strip Rich markup before regex matching
+            # Strip Rich markup then markdown bold/heading decorators before matching
             clean = _MARKUP_RE.sub("", line).strip()
+            clean = _MD_DECORATION_RE.sub("", clean).strip()
             m = _STEP_RE.match(clean)
             if m:
                 self._start_new_step(int(m.group(1)), m.group(2).strip())
@@ -602,7 +690,10 @@ class AgentSessionScreen(Screen):
                 if self._current_block is not None:
                     self._current_block.write_line(line)
         else:
-            # Follow-up chat: plain AssistantBlock
+            # Non-step mode (interview / follow-up chat): plain AssistantBlock
+            # Auto-create a block if none exists (interview initial session)
+            if self._current_block is None:
+                self._mount_assistant_block()
             if self._current_block is not None:
                 self._current_block.write_line(line)
         self._scroll_to_bottom()
@@ -624,19 +715,342 @@ class AgentSessionScreen(Screen):
             self._current_step.mark_done()
             self._current_step = None
 
-        # Append session-complete separator
-        if self._current_final is not None:
-            self._current_final.write_line("")
-            self._current_final.write_line(f"[bold {_FIRE}]━━  Session complete  ━━[/bold {_FIRE}]")
-        elif self._current_block is not None:
-            self._current_block.write_line("")
-            self._current_block.write_line(f"[bold {_FIRE}]━━  Session complete  ━━[/bold {_FIRE}]")
+        if self._mode == "interview":
+            # Narrate the AI's initial greeting (the problem intro + question)
+            if self._current_block is not None:
+                lines = list(self._current_block._lines)
+                threading.Thread(
+                    target=self._narrate_interview_turn,
+                    args=(lines,),
+                    daemon=True,
+                ).start()
+        else:
+            # Narrate step 7 if it wasn't already triggered (e.g. no step 8 ran)
+            if self._current_final is not None:
+                self._trigger_step7_narration()
+            # Kick off the session recap podcast (runs after step-7 audio finishes)
+            self._trigger_post_session_audio()
+
+        # Append session-complete separator (not in interview — session stays open for chat)
+        if self._mode != "interview":
+            if self._current_final is not None:
+                self._current_final.write_line("")
+                self._current_final.write_line(f"[bold {FIRE}]━━  Session complete  ━━[/bold {FIRE}]")
+            elif self._current_block is not None:
+                self._current_block.write_line("")
+                self._current_block.write_line(f"[bold {FIRE}]━━  Session complete  ━━[/bold {FIRE}]")
 
         self.query_one("#btn-stop", Button).disabled = True
         self.query_one("#btn-copy", Button).disabled = False
         inp = self.query_one("#chat-input", Input)
         inp.placeholder = "Ask a follow-up question…"
         self._set_chat_busy(False)
+
+    # ── Step 7 narration ──────────────────────────────────────────────
+
+    def _trigger_step7_narration(self) -> None:
+        """Fire step-7 narration exactly once, in a daemon thread."""
+        if self._step7_narrated or self._current_final is None:
+            return
+        self._step7_narrated = True
+        text = self._extract_narration_text(self._current_final._lines)
+        if text:
+            self.notify("🔊 Narrating step 7…", timeout=2)
+            threading.Thread(
+                target=self._narrate_and_report,
+                args=(text, self),
+                daemon=True,
+            ).start()
+
+    @staticmethod
+    def _extract_narration_text(lines: list[str]) -> str:
+        """Clean step-7 lines into plain prose suitable for TTS."""
+        # Patterns to skip: tool-call spinner and result lines
+        _SKIP_RE = re.compile(r"^\s*[⚙→]|Calling \w+|⠋|⠙|⠹|⠸|⠼|⠴|⠦|⠧|⠇|⠏")
+        # Strip Rich markup tags like [bold #abc], [/dim], etc.
+        _MARKUP_RE = re.compile(r"\[/?[^\]]*\]")
+        _BACKTICK_RE = re.compile(r"`[^`]*`")
+
+        clean_lines = []
+        for line in lines:
+            plain = _MARKUP_RE.sub("", line).strip()
+            if not plain or _SKIP_RE.search(plain):
+                continue
+            plain = _BACKTICK_RE.sub("", plain).strip()
+            if plain:
+                clean_lines.append(plain)
+
+        text = " ".join(clean_lines)
+        # Keep to ~400 chars — end on a sentence boundary where possible
+        if len(text) > 400:
+            cut = text[:400]
+            last_dot = max(cut.rfind("."), cut.rfind("!"), cut.rfind("?"))
+            text = cut[: last_dot + 1] if last_dot > 200 else cut
+        return text.strip()
+
+    @staticmethod
+    def _narrate_and_report(text: str, screen: "AgentSessionScreen") -> None:
+        """Call voice_narrator and surface errors/skips as UI notifications."""
+        try:
+            from skills.voice_narrator.server import narrate
+            result = narrate(text, voice_type="mentor")
+            if result.startswith("skipped"):
+                pass  # user intentionally skipped ElevenLabs setup — stay silent
+            elif result.startswith("error"):
+                screen.app.call_from_thread(
+                    screen.notify,
+                    f"Voice error: {result}",
+                    severity="error",
+                    timeout=5,
+                )
+        except Exception as exc:
+            screen.app.call_from_thread(
+                screen.notify,
+                f"Voice error: {exc}",
+                severity="error",
+                timeout=5,
+            )
+
+    # ── Post-session audio (mnemonic → recap) ────────────────────────
+
+    def _mount_mnemonic_block(self, mnemonic: str, pattern: str) -> None:
+        """Mount the mnemonic widget into the messages area."""
+        block = MnemonicBlock(mnemonic, pattern)
+        self.query_one("#messages", VerticalGroup).mount(block)
+        self._scroll_to_bottom()
+
+    def _trigger_post_session_audio(self) -> None:
+        """Launch the post-session worker: mnemonic then recap in sequence."""
+        if self._agent is None:
+            return
+        threading.Thread(
+            target=self._post_session_worker,
+            args=(self, self._challenge, self._agent),
+            daemon=True,
+        ).start()
+
+    @staticmethod
+    def _post_session_worker(
+        screen: "AgentSessionScreen",
+        challenge: object,
+        agent: object,
+    ) -> None:
+        """Generate and narrate mnemonic then recap, strictly in order."""
+        try:
+            has_voice = bool(os.environ.get("ELEVENLABS_API_KEY"))
+
+            # ── Mnemonic ──────────────────────────────────────────────
+            pattern = AgentSessionScreen._extract_algorithm_pattern(agent)
+            if pattern:
+                mnemonic = AgentSessionScreen._get_or_generate_mnemonic(pattern)
+                if mnemonic:
+                    screen.app.call_from_thread(
+                        screen._mount_mnemonic_block, mnemonic, pattern
+                    )
+                    if has_voice:
+                        from skills.voice_narrator.server import narrate_blocking
+                        narrate_blocking(mnemonic, voice_type="mentor")
+
+            # ── Recap ─────────────────────────────────────────────────
+            if has_voice:
+                from skills.voice_narrator.server import narrate_blocking
+                log_data = AgentSessionScreen._extract_log_session_data(agent)
+                text = AgentSessionScreen._generate_recap_text(challenge, log_data)
+                if text:
+                    result = narrate_blocking(text, voice_type="excited")
+                    if result.startswith("error"):
+                        screen.app.call_from_thread(
+                            screen.notify, f"Recap error: {result}",
+                            severity="error", timeout=4,
+                        )
+        except Exception as exc:
+            screen.app.call_from_thread(
+                screen.notify, f"Post-session error: {exc}",
+                severity="error", timeout=4,
+            )
+
+    @staticmethod
+    def _extract_algorithm_pattern(agent: object) -> str:
+        """Find algorithm_pattern from the explain_approach tool call."""
+        import json
+        for msg in getattr(agent, "_messages", []):
+            if msg.get("role") == "assistant":
+                for tc in (msg.get("tool_calls") or []):
+                    fn = tc.get("function", {})
+                    if fn.get("name") == "explain_approach":
+                        try:
+                            args = json.loads(fn.get("arguments", "{}"))
+                            return args.get("algorithm_pattern", "")
+                        except Exception:
+                            pass
+        return ""
+
+    @staticmethod
+    def _get_or_generate_mnemonic(pattern: str) -> str:
+        """Return cached mnemonic for pattern, or generate and cache a new one."""
+        import json
+        from pathlib import Path
+        mnemonics_path = Path.home() / ".leetvibe" / "mnemonics.json"
+
+        cache: dict = {}
+        if mnemonics_path.exists():
+            try:
+                cache = json.loads(mnemonics_path.read_text(encoding="utf-8"))
+            except Exception:
+                pass
+
+        key = pattern.lower().strip()
+        if key in cache:
+            return cache[key]
+
+        mnemonic = AgentSessionScreen._generate_mnemonic(key)
+        if mnemonic:
+            cache[key] = mnemonic
+            try:
+                mnemonics_path.parent.mkdir(parents=True, exist_ok=True)
+                mnemonics_path.write_text(
+                    json.dumps(cache, indent=2), encoding="utf-8"
+                )
+            except Exception:
+                pass
+        return mnemonic
+
+    @staticmethod
+    def _generate_mnemonic(pattern: str) -> str:
+        """Call Mistral for a vivid 1-sentence analogy for the algorithm pattern."""
+        try:
+            from mistralai import Mistral
+            resp = Mistral(api_key=os.environ.get("MISTRAL_API_KEY", "")).chat.complete(
+                model="mistral-small-latest",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You write vivid 1-sentence memory tricks for algorithm patterns. "
+                            "Use a concrete, memorable analogy. 20 words max. "
+                            "No markdown, no quotes, no emojis."
+                        ),
+                    },
+                    {"role": "user", "content": f"Algorithm pattern: {pattern}"},
+                ],
+                max_tokens=50,
+            )
+            return resp.choices[0].message.content.strip().strip("\"'")
+        except Exception:
+            return ""
+
+
+    @staticmethod
+    def _extract_log_session_data(agent: object) -> dict:
+        """Pull log_session tool-call args from the conversation history."""
+        import json
+        for msg in getattr(agent, "_messages", []):
+            if msg.get("role") == "assistant":
+                for tc in msg.get("tool_calls") or []:
+                    if tc.get("function", {}).get("name") == "log_session":
+                        try:
+                            return json.loads(tc["function"].get("arguments", "{}"))
+                        except Exception:
+                            pass
+        return {}
+
+    @staticmethod
+    def _generate_recap_text(challenge: object, log_data: dict) -> str:
+        """Call Mistral to write a 2-sentence podcast recap; template on failure."""
+        title = log_data.get("problem_title") or getattr(challenge, "title", "the problem")
+        difficulty = (log_data.get("difficulty") or getattr(challenge, "difficulty", "")).capitalize()
+        time_s = int(log_data.get("time_seconds") or 0)
+        complexity = log_data.get("final_complexity", "")
+        solved = log_data.get("solved", True)
+        approaches = int(log_data.get("approaches_tried") or 1)
+
+        context = (
+            f"Problem: {title}. Difficulty: {difficulty}. "
+            f"Solved: {solved}. Time: {time_s}s. "
+            f"Final complexity: {complexity}. Attempts: {approaches}."
+        )
+
+        try:
+            from mistralai import Mistral
+            client = Mistral(api_key=os.environ.get("MISTRAL_API_KEY", ""))
+            resp = client.chat.complete(
+                model="mistral-small-latest",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are an energetic podcast host recapping a coding session. "
+                            "Write exactly 2 punchy sentences, 35 words max total. "
+                            "Be specific about the algorithm and the improvement. "
+                            "Sound like a sports highlight reel. No emojis. No markdown."
+                        ),
+                    },
+                    {"role": "user", "content": context},
+                ],
+                max_tokens=80,
+            )
+            return resp.choices[0].message.content.strip()
+        except Exception:
+            return AgentSessionScreen._template_recap(title, difficulty, time_s, complexity, solved, approaches)
+
+    @staticmethod
+    def _template_recap(
+        title: str, difficulty: str, time_s: int, complexity: str, solved: bool, approaches: int
+    ) -> str:
+        time_str = f"{time_s // 60}m {time_s % 60}s" if time_s >= 60 else f"{time_s}s"
+        outcome = "Solved" if solved else "Worked through"
+        first = f"{outcome} {title} — {difficulty} — in {time_str}."
+        second = f"Final complexity: {complexity}." if complexity else (
+            "First attempt, clean run." if approaches == 1 else f"{approaches} attempts to nail it."
+        )
+        return f"{first} {second}"
+
+    # ── Interview mode narration ──────────────────────────────────────
+
+    def _flush_and_narrate_interview(self) -> None:
+        """Flush buffer then queue narration of the AI's response (interview mode)."""
+        self._flush_buffer()
+        if self._current_block is None:
+            return
+        lines = list(self._current_block._lines)
+        threading.Thread(
+            target=self._narrate_interview_turn,
+            args=(lines,),
+            daemon=True,
+        ).start()
+
+    @staticmethod
+    def _narrate_interview_turn(lines: list[str]) -> None:
+        """Extract 1-2 sentences from the AI response and narrate with coach voice."""
+        text = AgentSessionScreen._extract_interview_snippet(lines)
+        if not text:
+            return
+        try:
+            from skills.voice_narrator.server import narrate
+            narrate(text, voice_type="coach")
+        except Exception:
+            pass
+
+    @staticmethod
+    def _extract_interview_snippet(lines: list[str]) -> str:
+        """Return first 1-2 sentences from interview AI response, clean of markup."""
+        _MARKUP_RE = re.compile(r"\[/?[^\]]*\]")
+        clean = []
+        for line in lines:
+            plain = _MARKUP_RE.sub("", line).strip()
+            if plain and not plain.startswith(("⚙", "→", "⠋", "⠙", "⠹")):
+                clean.append(plain)
+        text = " ".join(clean).strip()
+        if not text:
+            return ""
+        # Return up to 2 sentences (max 300 chars)
+        count = 0
+        for i, ch in enumerate(text):
+            if ch in ".!?":
+                count += 1
+                if count == 2:
+                    return text[: i + 1].strip()
+        return text[:300].strip()
 
     # ── Chat follow-up ────────────────────────────────────────────────
 
@@ -666,7 +1080,10 @@ class AgentSessionScreen(Screen):
         try:
             for chunk in self._agent.chat_streaming(user_message):
                 self.app.call_from_thread(self._buffer_chunk, chunk)
-            self.app.call_from_thread(self._flush_buffer)
+            if self._mode == "interview":
+                self.app.call_from_thread(self._flush_and_narrate_interview)
+            else:
+                self.app.call_from_thread(self._flush_buffer)
         except Exception as exc:
             safe = str(exc).replace("[", r"\[").replace("\n", " ")
             self.app.call_from_thread(
@@ -736,17 +1153,27 @@ class AgentSessionScreen(Screen):
 
     # ── Actions ───────────────────────────────────────────────────────
 
-    def action_pop_screen(self) -> None:
-        self.app.pop_screen()
-
     def action_stop_agent(self) -> None:
         self._running = False
         self._on_agent_done()
 
     def action_toggle_history(self) -> None:
-        """Ctrl+O — toggle visibility of the prior session conversation."""
+        """Ctrl+H — toggle visibility of the prior session conversation."""
         self._history_visible = not self._history_visible
         panel = self.query_one("#prior-history", VerticalGroup)
         panel.display = self._history_visible
         if self._history_visible:
             self._scroll_to_bottom()
+
+    def action_toggle_steps(self) -> None:
+        """Ctrl+T — toggle visibility of background step content."""
+        self._steps_visible = not self._steps_visible
+        for block in self.query(BackgroundStep):
+            block.toggle_content(self._steps_visible)
+
+    def action_toggle_description(self) -> None:
+        """Ctrl+D — toggle the problem description panel (interview mode only)."""
+        if self._mode != "interview":
+            return
+        panel = self.query_one("#description-panel")
+        panel.display = not panel.display

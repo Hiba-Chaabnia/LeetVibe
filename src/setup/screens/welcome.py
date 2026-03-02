@@ -13,7 +13,11 @@ class WelcomeScreen(Screen):
     def compose(self) -> ComposeResult:
         with Static(id="welcome-container"):
             yield Banner(id="welcome-banner")
-            yield Label("Press Enter to continue", id="hint")
+            yield Label(
+                "[bold #FF8205]Enter[/bold #FF8205] to continue  ·  "
+                "[bold #FF8205]Esc[/bold #FF8205] to quit",
+                id="hint",
+            )
 
     def on_key(self, event) -> None:
         if event.key == "enter":

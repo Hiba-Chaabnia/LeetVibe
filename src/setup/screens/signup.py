@@ -18,7 +18,12 @@ class SignupScreen(Screen):
             yield Input(placeholder="Password", password=True, id="password-input", classes="form-input")
             yield Input(placeholder="Confirm password", password=True, id="confirm-input", classes="form-input")
             yield Label("", id="form-error")
-            yield Label("Tab to switch fields  ·  Enter to create  ·  Esc to go back", id="form-hint")
+            yield Label(
+                "[bold #FF8205]Tab[/bold #FF8205] to switch fields  ·  "
+                "[bold #FF8205]Enter[/bold #FF8205] to create  ·  "
+                "[bold #FF8205]Esc[/bold #FF8205] to go back",
+                id="form-hint",
+            )
 
     def on_mount(self) -> None:
         self.query_one("#email-input", Input).focus()

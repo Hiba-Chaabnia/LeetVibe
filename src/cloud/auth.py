@@ -67,7 +67,7 @@ def sign_up(email: str, password: str) -> AuthResult:
         if res.session:
             _save_session(res)
             return AuthResult(ok=True, user_id=str(res.user.id), email=res.user.email)
-        # No session returned — sign in immediately to get one
+        # No session yet — sign in immediately to obtain one
         return sign_in(email, password)
     except Exception as exc:
         return AuthResult(ok=False, error=_friendly(exc))
@@ -96,6 +96,11 @@ def load_session() -> dict | None:
         return json.loads(_SESSION_PATH.read_text(encoding="utf-8"))
     except Exception:
         return None
+
+
+def is_logged_in() -> bool:
+    """Return True if a local session file exists (fast, no network call)."""
+    return bool(load_session())
 
 
 def clear_session() -> None:
@@ -253,7 +258,5 @@ def _friendly(exc: Exception) -> str:
         return "Network error. Check your connection and try again."
     if "email rate limit" in msg.lower():
         return "Too many sign-up attempts. Please wait a few minutes and try again."
-    if "email not confirmed" in msg.lower():
-        return "This account's email was never confirmed. Please delete it and sign up again."
     # Fall back to the raw message, capped at 80 chars
     return msg[:80]

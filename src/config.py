@@ -35,9 +35,6 @@ class Config:
     mistral_model: str
     elevenlabs_api_key: str
     elevenlabs_voice_id: str
-    wandb_api_key: str
-    wandb_project: str
-    wandb_entity: str
 
 
 def load_config() -> Config:
@@ -59,7 +56,4 @@ def load_config() -> Config:
         mistral_model=_get("mistral", "model", "mistral-large-latest"),
         elevenlabs_api_key=_get("elevenlabs", "api_key") or os.environ.get("ELEVENLABS_API_KEY", ""),
         elevenlabs_voice_id=_get("elevenlabs", "voice_id", "EXAVITQu4vr4xnSDxMaL"),
-        wandb_api_key=_get("wandb", "api_key") or os.environ.get("WANDB_API_KEY", ""),
-        wandb_project=_get("wandb", "project", "leetvibe"),
-        wandb_entity=_get("wandb", "entity") or os.environ.get("WANDB_ENTITY", ""),
     )

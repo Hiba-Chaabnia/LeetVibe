@@ -67,13 +67,13 @@ class FeedbackModal(ModalScreen[bool]):
     #feedback-text {
         width: 100%;
         height: 8;
-        border: tall #444444;
+        border: round #444444;
         background: #121212;
         margin-bottom: 1;
     }
 
     #feedback-text:focus {
-        border: tall #FF8205;
+        border: round #FF8205;
     }
 
     #feedback-error {
@@ -92,20 +92,27 @@ class FeedbackModal(ModalScreen[bool]):
     }
 
     #btn-feedback-cancel {
-        border: none;
+        border: round #555555;
         background: transparent;
         color: #888888;
+        height: 3;
+        text-style: dim;
         margin-right: 1;
     }
 
-    #btn-feedback-cancel:hover {
-        color: #e0e0e0;
+    #btn-feedback-cancel:focus, #btn-feedback-cancel.-active {
+        background: transparent;
     }
 
     #btn-feedback-submit {
-        border: tall #FF8205;
+        border: round #FF8205;
         background: transparent;
         color: #FF8205;
+        height: 3;
+    }
+
+    #btn-feedback-submit:focus, #btn-feedback-submit.-active {
+        background: transparent;
     }
 
     #btn-feedback-submit:hover {
@@ -114,7 +121,7 @@ class FeedbackModal(ModalScreen[bool]):
 
     #btn-feedback-submit:disabled {
         color: #444444;
-        border: tall #333333;
+        border: round #333333;
     }
     """
 

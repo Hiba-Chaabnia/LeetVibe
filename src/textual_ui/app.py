@@ -65,7 +65,7 @@ class LeetVibeApp(App):
             self.push_screen(_CompactPalette(id="--command-palette"))
 
     def get_system_commands(self, screen: Screen) -> Iterable[SystemCommand]:
-        """Palette commands: Keys + Maximize (right-panel only). No Theme/Quit/Screenshot."""
+        """Palette commands: Keys + Maximize (right-panel only) + Screenshot."""
         # Keys / help panel toggle
         if screen.query("HelpPanel"):
             yield SystemCommand(
@@ -95,3 +95,9 @@ class LeetVibeApp(App):
                 "Maximize the focused widget",
                 screen.action_maximize,
             )
+
+        yield SystemCommand(
+            "Screenshot",
+            "Save a screenshot of the terminal to SVG",
+            self.action_screenshot,
+        )

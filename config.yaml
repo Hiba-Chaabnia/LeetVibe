@@ -10,12 +10,6 @@ elevenlabs:
   voice_id: "EXAVITQu4vr4xnSDxMaL"
   enabled: true
 
-wandb:
-  api_key: ${WANDB_API_KEY}
-  project: "leetvibe"
-  entity: ${WANDB_ENTITY}
-  enabled: true
-
 whitecircle:
   api_key: ${WHITECIRCLE_API_KEY}
   enabled: false
