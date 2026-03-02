@@ -11,7 +11,7 @@ if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
 from mcp.server.fastmcp import FastMCP
-from src.code_runner import CaseResult, run_tests
+from leetvibe.code_runner import CaseResult, run_tests
 
 mcp = FastMCP("test_runner")
 

@@ -372,6 +372,11 @@ class AssistantBlock(Static):
         self._display = Static("", markup=True)
         yield self._display
 
+    def on_mount(self) -> None:
+        # Flush any lines that arrived before compose() ran
+        if self._lines and self._display is not None:
+            self._display.update("\n".join(self._lines))
+
     def write_line(self, line: str) -> None:
         self._lines.append(line)
         if self._display is not None:
@@ -402,7 +407,7 @@ class AgentSessionScreen(BaseScreen):
 
     /* ── Top bar ─────────────────────────────────────────────────── */
     #session-bar {{
-        height: 5;
+        height: 4;
         background: #1a1a1a;
         border-bottom: solid {FIRE};
         padding: 0 1;
@@ -461,6 +466,14 @@ class AgentSessionScreen(BaseScreen):
         padding: 0 1 1 1;
         display: none;
     }}
+    #interview-opening {{
+        width: 100%;
+        height: auto;
+        padding: 1 0 0 0;
+        border-top: solid #333333;
+        color: #cccccc;
+        margin-top: 1;
+    }}
 
     /* ── Chat scroll (fills remaining space) ─────────────────────── */
     ChatScroll {{
@@ -478,7 +491,7 @@ class AgentSessionScreen(BaseScreen):
     #chat-input-container {{
         height: auto;
         width: 100%;
-        padding: 0 1 1 1;
+        padding: 0 1 0 1;
     }}
     #input-box {{
         height: auto;
@@ -560,6 +573,7 @@ class AgentSessionScreen(BaseScreen):
         with Horizontal(id="session-body"):
             with VerticalScroll(id="description-panel"):
                 yield ChallengeCard(ch)
+                yield Static("", id="interview-opening", markup=True)
             with ChatScroll(id="chat-scroll"):
                 with VerticalGroup(id="prior-history"):
                     yield Static(
@@ -624,6 +638,14 @@ class AgentSessionScreen(BaseScreen):
         # Interview mode has no numbered steps — use plain AssistantBlock throughout
         self._step_mode = self._mode != "interview"
         self._run_agent(self._challenge, self._mode, self._user_code)
+
+    def on_unmount(self) -> None:
+        """Stop any in-progress audio when the screen is closed."""
+        try:
+            from skills.voice_narrator.server import stop_playback
+            stop_playback()
+        except Exception:
+            pass
 
     # ── Message mounting ───────────────────────────────────────────────
 
@@ -832,6 +854,16 @@ class AgentSessionScreen(BaseScreen):
                     args=(lines,),
                     daemon=True,
                 ).start()
+                # Populate the description panel with Alex's opening so the
+                # user can always reference it via Ctrl+D
+                opening_text = "\n".join(lines)
+                try:
+                    widget = self.query_one("#interview-opening", Static)
+                    widget.update(
+                        f"[dim]━━  Alex's opening  ━━[/dim]\n\n{opening_text}"
+                    )
+                except Exception:
+                    pass
         else:
             # Extract step 7 text now while _current_final is still in scope
             step7_text = ""

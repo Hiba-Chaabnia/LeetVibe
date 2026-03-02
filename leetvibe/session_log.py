@@ -5,7 +5,7 @@ Each entry contains: timestamp, challenge info, mode, full output text,
 duration, tool calls made, and any error.
 
 Usage (called automatically from AgentSessionScreen._run_agent):
-    from src.session_log import SessionLog
+    from leetvibe.session_log import SessionLog
     log = SessionLog(challenge, mode, user_code)
     log.record_chunk(chunk)       # call for each streamed chunk
     log.finish(error=None)        # call when session ends

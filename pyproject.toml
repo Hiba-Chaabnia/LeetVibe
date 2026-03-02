@@ -1,22 +1,30 @@
 [build-system]
-requires = ["setuptools>=68"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "leetvibe"
 version = "0.1.0"
-description = "AI Pair Programming CLI for LeetCode — Mistral Hackathon 2026"
+description = "AI Pair Programming CLI for LeetCode — powered by Mistral Vibe"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
 authors = [
     { name = "Hiba Chaabnia", email = "hiba.chaabnia.pro@gmail.com" },
 ]
-keywords = ["Data Structures and Algorithms (DSA)", "LeetCode", "AI", "CLI", "Mistral", "Mistral Vibe", "Pair Programming", "Competitive Programming"]
+keywords = [
+    "Data Structures and Algorithms",
+    "LeetCode",
+    "AI",
+    "CLI",
+    "Mistral",
+    "Pair Programming",
+    "Competitive Programming",
+]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
-    "Intended Audience :: Developers , Students",
+    "Intended Audience :: Developers",
     "Intended Audience :: Education",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
@@ -28,19 +36,19 @@ classifiers = [
 dependencies = [
     # Core CLI
     "textual>=0.89.0",
-    "click==8.1.7",
-    "rich==13.7.0",
-    "typer==0.9.0",
-    "pyfiglet==1.0.2",
+    "click>=8.1.7",
+    "rich>=13.7.0",
+    "typer>=0.9.0",
+    "pyfiglet>=1.0.2",
     # AI/ML
-    "mistralai==1.2.5",
-    "elevenlabs==1.11.0",
+    "mistralai>=1.2.5",
+    "elevenlabs>=1.11.0",
     # Data
-    "datasets==3.2.0",
-    "pandas==2.2.3",
+    "datasets>=3.2.0",
+    "pandas>=2.2.3",
     # Monitoring
     "wandb>=0.22.3",
-    "weave==0.52.28",
+    "weave>=0.52.28",
     # MCP
     "mcp>=1.0.0",
     # Audio playback
@@ -49,11 +57,11 @@ dependencies = [
     # Auth / Cloud
     "supabase>=2.0.0",
     # Utilities
-    "pydantic==2.10.6",
-    "python-dotenv==1.0.1",
-    "pyyaml==6.0.2",
-    "requests==2.32.3",
-    "aiohttp==3.11.11",
+    "pydantic>=2.10.6",
+    "python-dotenv>=1.0.1",
+    "pyyaml>=6.0.2",
+    "requests>=2.32.3",
+    "aiohttp>=3.11.11",
 ]
 
 [project.urls]
@@ -62,11 +70,20 @@ Repository = "https://github.com/hibachaabnia/leetvibe"
 "Bug Tracker" = "https://github.com/hibachaabnia/leetvibe/issues"
 
 [project.scripts]
-leetvibe = "src.cli:main"
+leetvibe = "leetvibe.cli:main"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["src*"]
+[tool.hatch.build.targets.wheel]
+include = ["leetvibe/", "skills/", "config.yaml"]
+
+[tool.uv]
+package = true
+required-version = ">=0.6.0"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.24.0",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

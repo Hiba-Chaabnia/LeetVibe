@@ -216,28 +216,6 @@
       letter-spacing: 2px;
     }
 
-    /* Preview controls */
-    .preview-controls {
-      position: fixed;
-      bottom: 20px;
-      z-index: 100;
-      display: flex;
-      gap: 8px;
-    }
-    .preview-btn {
-      background: #1a1a1a;
-      color: var(--dim);
-      border: 1px solid var(--border);
-      padding: 5px 12px;
-      cursor: pointer;
-      font-size: 10px;
-      font-family: inherit;
-      border-radius: 4px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: border-color 0.2s;
-    }
-    .preview-btn:hover { border-color: var(--brand); color: var(--brand); }
   </style>
 </head>
 <body>
@@ -349,24 +327,6 @@
       else   { badge.style.display = 'none'; }
     }
 
-    window.testState = function(type) {
-      if (type === 'success') show('success', CHECK_SVG,
-        'Signed in with Google',
-        'Authentication successful. You can close this tab and return to your terminal.',
-        '→  LeetVibe is ready'
-      );
-      if (type === 'error') show('error', ERROR_SVG,
-        'Sign-in Failed',
-        'Something went wrong during Google authentication. Return to LeetVibe and try again.',
-        'ERR_AUTH_DENIED'
-      );
-      if (type === 'pending') show('pending', BULB_SVG,
-        'Waiting for Google…',
-        'Complete sign-in in your browser. This page will update automatically.',
-        ''
-      );
-    };
-
     var auth  = query.get('auth');
     var port  = query.get('port');
     var error = get('error');
@@ -375,7 +335,11 @@
     var code  = get('code');
 
     if (auth === 'done') {
-      testState('success');
+      show('success', CHECK_SVG,
+        'Signed in with Google',
+        'Authentication successful. You can close this tab and return to your terminal.',
+        '→  LeetVibe is ready'
+      );
     } else if (auth === 'error' || error) {
       show('error', ERROR_SVG,
         'Sign-in Failed',
@@ -391,7 +355,11 @@
         window.location.replace('http://127.0.0.1:' + port + '/result?' + p.toString());
       }, 800);
     } else {
-      testState('pending');
+      show('pending', BULB_SVG,
+        'Waiting for Google…',
+        'Complete sign-in in your browser. This page will update automatically.',
+        ''
+      );
     }
   </script>
 </body>

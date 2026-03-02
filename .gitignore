@@ -39,9 +39,7 @@ drafts/
 .pytest_cache/
 .claude/
 logs/
-wandb/
 README.md
-tests/
 
 # Documentation
 documentations/

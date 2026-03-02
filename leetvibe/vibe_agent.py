@@ -385,8 +385,10 @@ class VibeAgent:
 
             empty_turns = 0  # reset on any non-empty turn
 
-            # No tool calls → agent is done
+            # No tool calls → agent is done; save the response to history
             if not tool_calls_acc:
+                if full_content:
+                    self._messages.append({"role": "assistant", "content": full_content})
                 break
 
             # Append assistant turn (with tool calls)
