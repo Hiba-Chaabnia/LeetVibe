@@ -10,7 +10,7 @@ Stop grinding alone. LeetVibe puts a senior engineer in your terminal who can te
 
 ### Full App Demo
 
-[![LeetVibe Demo](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
+[![LeetVibe Demo](assets/screenshot.png)](https://www.youtube.com/watch?v=eEAsmaeVm14)
 
 > Click the thumbnail to watch the full demo on YouTube.
 
