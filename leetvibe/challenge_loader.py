@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Optional
 
 
-CHALLENGES_DIR = Path(__file__).parent.parent / "problems"
+CHALLENGES_DIR = Path(__file__).parent / "problems"
 
 DIFFICULTY_ORDER = {"easy": 0, "medium": 1, "hard": 2, "trading": 3}
 DIFFICULTY_COLORS = {
