@@ -384,6 +384,19 @@ Input:focus {
 #feedback-type > SelectCurrent { border: none; padding: 0 1; }
 #feedback-type > SelectCurrent > #label { overflow: hidden; }
 
+/* ── Login screen input overrides ── */
+#login-container Input {
+    border: round #555555;
+}
+
+#login-container Input:focus {
+    border: round $brand;
+}
+
+#login-container Input:disabled {
+    border: round #333333;
+}
+
 /* ── Agent session chat input overrides ── */
 #chat-input {
     background: #121212;

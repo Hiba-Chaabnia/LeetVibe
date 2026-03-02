@@ -75,7 +75,7 @@ class ApiKeyScreen(Screen):
         )
 
     def on_mount(self) -> None:
-        self.query_one("#api-title", Static).update(_gradient_text("🔑  Mistral API Key"))
+        self.query_one("#api-title", Static).update(_gradient_text("Mistral API Key"))
         self.query_one("#api-key-input", Input).focus()
 
     def on_input_submitted(self, event: Input.Submitted) -> None:

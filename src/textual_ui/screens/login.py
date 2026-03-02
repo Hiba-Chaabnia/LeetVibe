@@ -47,7 +47,7 @@ class LoginScreen(BaseScreen):
         margin: 0 0 1 0;
     }}
     #btn-signin-mode, #btn-signup-mode {{
-        border: tall #444444;
+        border: round #444444;
         background: transparent;
         color: {DIM};
         padding: 0 2;
@@ -58,13 +58,21 @@ class LoginScreen(BaseScreen):
         background: #3a2200;
         color: {FIRE};
         text-style: bold;
-        border: tall {FIRE};
+        border: round {FIRE};
     }}
     #btn-signup-mode.active {{
         background: #3a2200;
         color: {FIRE};
         text-style: bold;
-        border: tall {FIRE};
+        border: round {FIRE};
+    }}
+    #btn-signin-mode:focus, #btn-signin-mode.-active,
+    #btn-signup-mode:focus, #btn-signup-mode.-active {{
+        background: transparent;
+    }}
+    #btn-signin-mode.active:focus, #btn-signin-mode.active.-active,
+    #btn-signup-mode.active:focus, #btn-signup-mode.active.-active {{
+        background: #3a2200;
     }}
     #login-status {{
         width: 100%;
@@ -72,6 +80,35 @@ class LoginScreen(BaseScreen):
         height: 1;
         text-align: center;
         margin: 0 0 1 0;
+    }}
+    #btn-google {{
+        width: 100%;
+        border: round #888888;
+        background: transparent;
+        color: #e0e0e0;
+        height: 3;
+    }}
+    #btn-google:hover {{ background: #1a1a1a; border: round #aaaaaa; }}
+    #btn-google:disabled {{ color: #444444; border: round #333333; }}
+    #btn-google:focus, #btn-google.-active {{ background: transparent; }}
+    #divider {{
+        width: 100%;
+        content-align: center middle;
+        color: {DIM};
+        margin: 1 0;
+        height: 1;
+    }}
+    #confirm-input {{
+        display: none;
+    }}
+    #google-note {{
+        width: 100%;
+        color: {DIM};
+        height: auto;
+        min-height: 1;
+        margin: 1 0 0 0;
+        text-align: center;
+        text-style: italic;
     }}
     #btn-submit {{
         width: 100%;
@@ -84,22 +121,6 @@ class LoginScreen(BaseScreen):
     }}
     #btn-submit:hover {{ background: #FFB300; }}
     #btn-submit:disabled {{ background: #3a2200; color: #555555; }}
-    #divider {{
-        width: 100%;
-        content-align: center middle;
-        color: {DIM};
-        margin: 1 0;
-        height: 1;
-    }}
-    #btn-google {{
-        width: 100%;
-        border: tall #444444;
-        background: transparent;
-        color: #e0e0e0;
-        height: 3;
-    }}
-    #btn-google:hover {{ background: #1a1a1a; border: tall #888888; }}
-    #btn-google:disabled {{ color: #444444; border: tall #2a2a2a; }}
     #login-error {{
         width: 100%;
         color: {RED};
@@ -125,16 +146,21 @@ class LoginScreen(BaseScreen):
 
     def compose(self) -> ComposeResult:
         with Container(id="login-container"):
-            yield Static("🔐  LeetVibe Account", id="login-title")
+            yield Static("LeetVibe Account", id="login-title")
             with Horizontal(id="mode-row"):
                 yield Button("Sign In", id="btn-signin-mode", classes="active")
                 yield Button("Sign Up", id="btn-signup-mode")
             yield Static("", id="login-status")
+            yield Button("Sign in with Google", id="btn-google")
+            yield Static("─────────── or ───────────", id="divider")
             yield Input(placeholder="Email", id="email-input")
             yield Input(placeholder="Password", password=True, id="password-input")
+            yield Input(placeholder="Confirm Password", password=True, id="confirm-input")
+            yield Static(
+                "💡 Signing in with Google is faster and more secure.",
+                id="google-note",
+            )
             yield Button("Sign In", id="btn-submit")
-            yield Static("─────────── or ───────────", id="divider")
-            yield Button("● Sign in with Google", id="btn-google")
             yield Static("", id="login-error")
             yield Static("", id="login-info")
 
@@ -149,12 +175,15 @@ class LoginScreen(BaseScreen):
         self.query_one("#btn-submit", Button).label = label
         sin = self.query_one("#btn-signin-mode", Button)
         sup = self.query_one("#btn-signup-mode", Button)
+        confirm = self.query_one("#confirm-input", Input)
         if mode == "signin":
             sin.add_class("active")
             sup.remove_class("active")
+            confirm.display = False
         else:
             sin.remove_class("active")
             sup.add_class("active")
+            confirm.display = True
         self._clear_messages()
 
     def _clear_messages(self) -> None:
@@ -169,6 +198,7 @@ class LoginScreen(BaseScreen):
         self.query_one("#btn-google", Button).disabled = busy
         self.query_one("#email-input", Input).disabled = busy
         self.query_one("#password-input", Input).disabled = busy
+        self.query_one("#confirm-input", Input).disabled = busy
         self.query_one("#login-status", Static).update(status)
 
     def _update_login_status(self, msg: str) -> None:
@@ -193,6 +223,11 @@ class LoginScreen(BaseScreen):
         if event.input.id == "email-input":
             self.query_one("#password-input", Input).focus()
         elif event.input.id == "password-input":
+            if self._mode == "signup":
+                self.query_one("#confirm-input", Input).focus()
+            else:
+                self._submit_email_auth()
+        elif event.input.id == "confirm-input":
             self._submit_email_auth()
 
     # ── Email auth ───────────────────────────────────────────────────
@@ -205,6 +240,11 @@ class LoginScreen(BaseScreen):
         if not email or not password:
             self.query_one("#login-error", Static).update("Enter your email and password.")
             return
+        if self._mode == "signup":
+            confirm = self.query_one("#confirm-input", Input).value
+            if password != confirm:
+                self.query_one("#login-error", Static).update("Passwords do not match.")
+                return
         status = "Signing in…" if self._mode == "signin" else "Creating account…"
         self._set_busy(True, status)
         self._run_email_auth(email, password, self._mode)

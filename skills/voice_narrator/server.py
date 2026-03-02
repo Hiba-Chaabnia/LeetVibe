@@ -109,5 +109,14 @@ def narrate_blocking(text: str, voice_type: str = "mentor") -> str:
         return f"error: {exc}"
 
 
+def stop_playback() -> None:
+    """Stop any currently playing audio immediately."""
+    try:
+        import sounddevice as sd
+        sd.stop()
+    except Exception:
+        pass
+
+
 if __name__ == "__main__":
     mcp.run(transport="stdio")

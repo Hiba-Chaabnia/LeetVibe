@@ -52,17 +52,19 @@ class StatsScreen(BaseScreen):
         margin-bottom: 1;
     }}
     #mid-row {{
-        height: auto;
+        height: 9;
         margin-bottom: 1;
     }}
     #sessions-card {{
         border: round {FIRE};
         width: 1fr;
+        height: 1fr;
         margin-right: 1;
     }}
     #account-card {{
         border: round {EMBER};
         width: 1fr;
+        height: 1fr;
     }}
     #library-card {{
         border: round {LAVA};

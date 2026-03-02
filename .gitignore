@@ -41,6 +41,7 @@ drafts/
 logs/
 wandb/
 README.md
+tests/
 
 # Documentation
 documentations/

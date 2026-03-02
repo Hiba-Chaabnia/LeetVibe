@@ -54,9 +54,6 @@ Compare: "We improved from O(?) → O(?) by eliminating …"
 [bold]STEP 7 — EXPLAIN APPROACH[/bold]
 Call explain_approach() with approach="optimal" to generate a structured walkthrough.
 
-[bold]STEP 8 — LOG[/bold]
-Call log_session() to record the session.
-
 Rules:
 - Think out loud before every code block. Never write code without explaining the reasoning first.
 - Never skip a step, even for trivial problems.
@@ -128,9 +125,6 @@ Side-by-side comparison of the user's approach vs the optimal:
 
 [bold]STEP 7 — EXPLAIN APPROACH[/bold]
 Call explain_approach() with approach="optimal" to generate a structured walkthrough.
-
-[bold]STEP 8 — LOG[/bold]
-Call log_session() to record the session.
 
 Rules:
 - Always be encouraging — frame issues as learning opportunities, not failures.
@@ -217,36 +211,6 @@ _TOOLS: list[dict] = [
                     },
                 },
                 "required": ["problem_title", "approach", "algorithm_pattern"],
-            },
-        },
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "log_session",
-            "description": "Log a completed learning session to Weights & Biases.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "problem_id": {"type": "string"},
-                    "problem_title": {"type": "string"},
-                    "difficulty": {"type": "string"},
-                    "solved": {"type": "boolean"},
-                    "time_seconds": {"type": "integer"},
-                    "approaches_tried": {"type": "integer"},
-                    "final_complexity": {"type": "string"},
-                    "hints_used": {"type": "boolean"},
-                },
-                "required": [
-                    "problem_id",
-                    "problem_title",
-                    "difficulty",
-                    "solved",
-                    "time_seconds",
-                    "approaches_tried",
-                    "final_complexity",
-                    "hints_used",
-                ],
             },
         },
     },

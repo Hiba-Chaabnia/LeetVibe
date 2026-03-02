@@ -192,6 +192,119 @@ class FinalAnswer(Static):
                 pass
 
 
+class NarrationPanel(Static):
+    """Post-session on-demand voice playback panel."""
+
+    DEFAULT_CSS = """
+    NarrationPanel {
+        width: 100%;
+        height: auto;
+        margin: 1 0 0 0;
+    }
+    NarrationPanel .narr-header {
+        width: 100%;
+        height: 1;
+        padding: 0 1;
+        color: #555555;
+    }
+    NarrationPanel .narr-row {
+        width: 100%;
+        height: 3;
+        padding: 0 1;
+        align: left middle;
+    }
+    NarrationPanel Button {
+        background: transparent;
+        border: round #444444;
+        color: #888888;
+        height: 3;
+        min-width: 0;
+        padding: 0 2;
+    }
+    NarrationPanel Button:hover {
+        border: round #FF8205;
+        color: #FF8205;
+    }
+    NarrationPanel Button:disabled {
+        color: #444444;
+        border: round #333333;
+    }
+    NarrationPanel #narr-stop {
+        color: #E53935;
+        border: round #E53935;
+    }
+    NarrationPanel #narr-stop:disabled {
+        color: #444444;
+        border: round #333333;
+    }
+    """
+
+    def __init__(self, items: list[tuple[str, str, str]]) -> None:
+        # items: list of (label, text_to_speak, voice_type)
+        super().__init__()
+        self._items = items
+        self._active_btn: Button | None = None
+        self._active_label: str = ""
+
+    def compose(self) -> ComposeResult:
+        yield Static(
+            "[dim]━━  🔊 Voice Playback  ━━[/dim]",
+            markup=True,
+            classes="narr-header",
+        )
+        for i, (label, _text, _voice) in enumerate(self._items):
+            with Horizontal(classes="narr-row"):
+                yield Button(f"▶  {label}", id=f"narr-btn-{i}")
+        with Horizontal(classes="narr-row"):
+            yield Button("■  Stop", id="narr-stop", disabled=True)
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        btn_id = event.button.id or ""
+
+        if btn_id == "narr-stop":
+            try:
+                from skills.voice_narrator.server import stop_playback
+                stop_playback()
+            except Exception:
+                pass
+            return
+
+        if not btn_id.startswith("narr-btn-"):
+            return
+        idx = int(btn_id.split("-")[-1])
+        if idx >= len(self._items):
+            return
+        label, text, voice_type = self._items[idx]
+        btn = event.button
+        btn.label = "⠋  Playing…"
+        btn.disabled = True
+        self._active_btn = btn
+        self._active_label = label
+        try:
+            self.query_one("#narr-stop", Button).disabled = False
+        except Exception:
+            pass
+
+        def _play_and_restore() -> None:
+            try:
+                from skills.voice_narrator.server import narrate_blocking
+                narrate_blocking(text, voice_type=voice_type)
+            except Exception:
+                pass
+            self.app.call_from_thread(self._restore_btn, btn, label)
+
+        threading.Thread(target=_play_and_restore, daemon=True).start()
+
+    def _restore_btn(self, btn: Button, label: str) -> None:
+        btn.label = f"✓  {label}"
+        btn.disabled = False
+        self._active_btn = None
+        try:
+            self.query_one("#narr-stop", Button).disabled = True
+        except Exception:
+            pass
+
+
 class MnemonicBlock(Static):
     """Displays the algorithm pattern mnemonic after session completion."""
 
@@ -424,7 +537,6 @@ class AgentSessionScreen(BaseScreen):
         self._cloud_session_id: str | None = None  # set once by _run_agent
         self._prior_messages: list[dict] = []      # saved messages from last session
         self._history_visible = False              # Ctrl+O toggle state
-        self._step7_narrated = False               # guard: narrate step 7 once
 
     # ── Layout ────────────────────────────────────────────────────────
 
@@ -541,10 +653,6 @@ class AgentSessionScreen(BaseScreen):
         if self._current_step is not None:
             self._current_step.mark_done()
             self._current_step = None
-
-        # Step 7 just finished — narrate it while step 8 runs in the background
-        if step_num > 7 and self._current_final is not None:
-            self._trigger_step7_narration()
 
         if step_num == 7:
             self._is_final = True
@@ -725,11 +833,11 @@ class AgentSessionScreen(BaseScreen):
                     daemon=True,
                 ).start()
         else:
-            # Narrate step 7 if it wasn't already triggered (e.g. no step 8 ran)
+            # Extract step 7 text now while _current_final is still in scope
+            step7_text = ""
             if self._current_final is not None:
-                self._trigger_step7_narration()
-            # Kick off the session recap podcast (runs after step-7 audio finishes)
-            self._trigger_post_session_audio()
+                step7_text = self._extract_narration_text(self._current_final._lines)
+            self._trigger_post_session_audio(step7_text)
 
         # Append session-complete separator (not in interview — session stays open for chat)
         if self._mode != "interview":
@@ -746,21 +854,7 @@ class AgentSessionScreen(BaseScreen):
         inp.placeholder = "Ask a follow-up question…"
         self._set_chat_busy(False)
 
-    # ── Step 7 narration ──────────────────────────────────────────────
-
-    def _trigger_step7_narration(self) -> None:
-        """Fire step-7 narration exactly once, in a daemon thread."""
-        if self._step7_narrated or self._current_final is None:
-            return
-        self._step7_narrated = True
-        text = self._extract_narration_text(self._current_final._lines)
-        if text:
-            self.notify("🔊 Narrating step 7…", timeout=2)
-            threading.Thread(
-                target=self._narrate_and_report,
-                args=(text, self),
-                daemon=True,
-            ).start()
+    # ── Step 7 text extraction ────────────────────────────────────────
 
     @staticmethod
     def _extract_narration_text(lines: list[str]) -> str:
@@ -780,38 +874,9 @@ class AgentSessionScreen(BaseScreen):
             if plain:
                 clean_lines.append(plain)
 
-        text = " ".join(clean_lines)
-        # Keep to ~400 chars — end on a sentence boundary where possible
-        if len(text) > 400:
-            cut = text[:400]
-            last_dot = max(cut.rfind("."), cut.rfind("!"), cut.rfind("?"))
-            text = cut[: last_dot + 1] if last_dot > 200 else cut
-        return text.strip()
+        return " ".join(clean_lines).strip()
 
-    @staticmethod
-    def _narrate_and_report(text: str, screen: "AgentSessionScreen") -> None:
-        """Call voice_narrator and surface errors/skips as UI notifications."""
-        try:
-            from skills.voice_narrator.server import narrate
-            result = narrate(text, voice_type="mentor")
-            if result.startswith("skipped"):
-                pass  # user intentionally skipped ElevenLabs setup — stay silent
-            elif result.startswith("error"):
-                screen.app.call_from_thread(
-                    screen.notify,
-                    f"Voice error: {result}",
-                    severity="error",
-                    timeout=5,
-                )
-        except Exception as exc:
-            screen.app.call_from_thread(
-                screen.notify,
-                f"Voice error: {exc}",
-                severity="error",
-                timeout=5,
-            )
-
-    # ── Post-session audio (mnemonic → recap) ────────────────────────
+    # ── Post-session audio (mnemonic + voice panel) ──────────────────
 
     def _mount_mnemonic_block(self, mnemonic: str, pattern: str) -> None:
         """Mount the mnemonic widget into the messages area."""
@@ -819,13 +884,19 @@ class AgentSessionScreen(BaseScreen):
         self.query_one("#messages", VerticalGroup).mount(block)
         self._scroll_to_bottom()
 
-    def _trigger_post_session_audio(self) -> None:
-        """Launch the post-session worker: mnemonic then recap in sequence."""
+    def _mount_narration_panel(self, items: list[tuple[str, str, str]]) -> None:
+        """Mount the on-demand voice playback panel."""
+        panel = NarrationPanel(items)
+        self.query_one("#messages", VerticalGroup).mount(panel)
+        self._scroll_to_bottom()
+
+    def _trigger_post_session_audio(self, step7_text: str = "") -> None:
+        """Launch the post-session worker to build the voice playback panel."""
         if self._agent is None:
             return
         threading.Thread(
             target=self._post_session_worker,
-            args=(self, self._challenge, self._agent),
+            args=(self, self._challenge, self._agent, step7_text),
             daemon=True,
         ).start()
 
@@ -834,10 +905,16 @@ class AgentSessionScreen(BaseScreen):
         screen: "AgentSessionScreen",
         challenge: object,
         agent: object,
+        step7_text: str,
     ) -> None:
-        """Generate and narrate mnemonic then recap, strictly in order."""
+        """Generate mnemonic + recap texts and mount the voice playback panel."""
         try:
             has_voice = bool(os.environ.get("ELEVENLABS_API_KEY"))
+            items: list[tuple[str, str, str]] = []
+
+            # ── Step 7 explanation ────────────────────────────────────
+            if step7_text:
+                items.append(("Step 7 Explanation", step7_text, "mentor"))
 
             # ── Mnemonic ──────────────────────────────────────────────
             pattern = AgentSessionScreen._extract_algorithm_pattern(agent)
@@ -847,22 +924,18 @@ class AgentSessionScreen(BaseScreen):
                     screen.app.call_from_thread(
                         screen._mount_mnemonic_block, mnemonic, pattern
                     )
-                    if has_voice:
-                        from skills.voice_narrator.server import narrate_blocking
-                        narrate_blocking(mnemonic, voice_type="mentor")
+                    items.append((f"Algorithm Mnemonic: {pattern}", mnemonic, "mentor"))
 
             # ── Recap ─────────────────────────────────────────────────
-            if has_voice:
-                from skills.voice_narrator.server import narrate_blocking
-                log_data = AgentSessionScreen._extract_log_session_data(agent)
-                text = AgentSessionScreen._generate_recap_text(challenge, log_data)
-                if text:
-                    result = narrate_blocking(text, voice_type="excited")
-                    if result.startswith("error"):
-                        screen.app.call_from_thread(
-                            screen.notify, f"Recap error: {result}",
-                            severity="error", timeout=4,
-                        )
+            log_data = AgentSessionScreen._extract_log_session_data(agent)
+            recap = AgentSessionScreen._generate_recap_text(challenge, log_data)
+            if recap:
+                items.append(("Session Recap", recap, "mentor"))
+
+            # ── Mount playback panel ───────────────────────────────────
+            if has_voice and items:
+                screen.app.call_from_thread(screen._mount_narration_panel, items)
+
         except Exception as exc:
             screen.app.call_from_thread(
                 screen.notify, f"Post-session error: {exc}",
@@ -926,14 +999,22 @@ class AgentSessionScreen(BaseScreen):
                     {
                         "role": "system",
                         "content": (
-                            "You write vivid 1-sentence memory tricks for algorithm patterns. "
-                            "Use a concrete, memorable analogy. 20 words max. "
-                            "No markdown, no quotes, no emojis."
+                            "You write 1-sentence memory tricks for algorithm patterns. "
+                            "The analogy MUST describe the algorithm's exact mechanical action "
+                            "(how it moves through data, what it tracks, how it decides). "
+                            "Be specific to this pattern — generic analogies are forbidden. "
+                            "25 words max. No markdown, no quotes, no emojis."
                         ),
                     },
-                    {"role": "user", "content": f"Algorithm pattern: {pattern}"},
+                    {
+                        "role": "user",
+                        "content": (
+                            f"Algorithm pattern: {pattern}\n"
+                            f"Write an analogy that captures exactly HOW this algorithm works mechanically."
+                        ),
+                    },
                 ],
-                max_tokens=50,
+                max_tokens=60,
             )
             return resp.choices[0].message.content.strip().strip("\"'")
         except Exception:
@@ -942,17 +1023,39 @@ class AgentSessionScreen(BaseScreen):
 
     @staticmethod
     def _extract_log_session_data(agent: object) -> dict:
-        """Pull log_session tool-call args from the conversation history."""
+        """Infer session stats from tool calls — run_code count, complexity result."""
         import json
-        for msg in getattr(agent, "_messages", []):
+        import time as _time
+        messages = getattr(agent, "_messages", [])
+        approaches = 0
+        complexity = ""
+
+        for msg in messages:
             if msg.get("role") == "assistant":
-                for tc in msg.get("tool_calls") or []:
-                    if tc.get("function", {}).get("name") == "log_session":
-                        try:
-                            return json.loads(tc["function"].get("arguments", "{}"))
-                        except Exception:
-                            pass
-        return {}
+                for tc in (msg.get("tool_calls") or []):
+                    if tc.get("function", {}).get("name") == "run_code":
+                        approaches += 1
+            elif msg.get("role") == "tool":
+                content = str(msg.get("content", ""))
+                if not complexity:
+                    try:
+                        data = json.loads(content)
+                        tc_val = data.get("time_complexity", "")
+                        sc_val = data.get("space_complexity", "")
+                        if tc_val and sc_val:
+                            complexity = f"{tc_val} time, {sc_val} space"
+                    except Exception:
+                        pass
+
+        start_ts = getattr(agent, "_start_ts", 0.0)
+        time_s = int(_time.time() - start_ts) if start_ts else 0
+
+        return {
+            "approaches_tried": max(approaches, 1),
+            "final_complexity": complexity,
+            "time_seconds": time_s,
+            "solved": True,
+        }
 
     @staticmethod
     def _generate_recap_text(challenge: object, log_data: dict) -> str:
@@ -979,10 +1082,9 @@ class AgentSessionScreen(BaseScreen):
                     {
                         "role": "system",
                         "content": (
-                            "You are an energetic podcast host recapping a coding session. "
-                            "Write exactly 2 punchy sentences, 35 words max total. "
-                            "Be specific about the algorithm and the improvement. "
-                            "Sound like a sports highlight reel. No emojis. No markdown."
+                            "You are a calm technical mentor summarizing a coding session. "
+                            "Write exactly 2 clear sentences: what was solved and the key algorithmic insight. "
+                            "Be precise and direct. No exclamation marks, no hype, no emojis, no markdown."
                         ),
                     },
                     {"role": "user", "content": context},
@@ -1033,24 +1135,14 @@ class AgentSessionScreen(BaseScreen):
 
     @staticmethod
     def _extract_interview_snippet(lines: list[str]) -> str:
-        """Return first 1-2 sentences from interview AI response, clean of markup."""
+        """Return the full AI interview response, clean of markup."""
         _MARKUP_RE = re.compile(r"\[/?[^\]]*\]")
         clean = []
         for line in lines:
             plain = _MARKUP_RE.sub("", line).strip()
             if plain and not plain.startswith(("⚙", "→", "⠋", "⠙", "⠹")):
                 clean.append(plain)
-        text = " ".join(clean).strip()
-        if not text:
-            return ""
-        # Return up to 2 sentences (max 300 chars)
-        count = 0
-        for i, ch in enumerate(text):
-            if ch in ".!?":
-                count += 1
-                if count == 2:
-                    return text[: i + 1].strip()
-        return text[:300].strip()
+        return " ".join(clean).strip()
 
     # ── Chat follow-up ────────────────────────────────────────────────
 
