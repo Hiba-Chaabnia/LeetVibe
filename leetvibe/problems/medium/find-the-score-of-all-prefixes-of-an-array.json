@@ -1,0 +1,47 @@
+{
+  "questionId": "2676",
+  "title": "Find the Score of All Prefixes of an Array",
+  "titleSlug": "find-the-score-of-all-prefixes-of-an-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "We define the conversion array conver of an array arr as follows:\n\n• conver[i] = arr[i] + max(arr[0..i]) where max(arr[0..i]) is the maximum value of arr[j] over 0 <= j <= i.\n\nWe also define the score of an array arr as the sum of the values of the conversion array of arr.\n\nGiven a 0-indexed integer array nums of length n, return an array ans of length n where ans[i] is the score of the prefix nums[0..i].\n\nExample 1:\n\nInput: nums = [2,3,7,5,10]\nOutput: [4,10,24,36,56]\nExplanation:\n    For the prefix [2], the conversion array is [4] hence the score is 4\n    For the prefix [2, 3], the conversion array is [4, 6] hence the score is 10\n    For the prefix [2, 3, 7], the conversion array is [4, 6, 14] hence the score is 24\n    For the prefix [2, 3, 7, 5], the conversion array is [4, 6, 14, 12] hence the score is 36\n    For the prefix [2, 3, 7, 5, 10], the conversion array is [4, 6, 14, 12, 20] hence the score is 56\n\nExample 2:\n\nInput: nums = [1,1,2,4,8,16]\nOutput: [2,4,8,16,32,64]\nExplanation:\n    For the prefix [1], the conversion array is [2] hence the score is 2\n    For the prefix [1, 1], the conversion array is [2, 2] hence the score is 4\n    For the prefix [1, 1, 2], the conversion array is [2, 2, 4] hence the score is 8\n    For the prefix [1, 1, 2, 4], the conversion array is [2, 2, 4, 8] hence the score is 16\n    For the prefix [1, 1, 2, 4, 8], the conversion array is [2, 2, 4, 8, 16] hence the score is 32\n    For the prefix [1, 1, 2, 4, 8, 16], the conversion array is [2, 2, 4, 8, 16, 32] hence the score is 64\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findPrefixScore(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep track of the prefix maximum of the array",
+    "Establish a relationship between ans[i] and ans[i-1]",
+    "for 0 < i < n, ans[i] = ans[i-1]+conver[i]. In other words, array ans is the prefix sum array of the conversion array"
+  ],
+  "testCases": [
+    [
+      "[2,3,7,5,10]"
+    ],
+    [
+      "[1,1,2,4,8,16]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[4,10,24,36,56]",
+    "[2,4,8,16,32,64]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findPrefixScore(self, nums):\n        n = len(nums)\n        result = []\n        running_sum = 0\n        prefix_max = 0\n        for v in nums:\n            prefix_max = max(prefix_max, v)\n            running_sum += v + prefix_max\n            result.append(running_sum)\n        return result",
+    "explanation": "Track running prefix max. For each element, conver[i] = nums[i] + prefix_max[i]. ans[i] = ans[i-1] + conver[i] = running sum of conver.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Most Beautiful Item for Each Query\", \"titleSlug\": \"most-beautiful-item-for-each-query\", \"difficulty\": \"Medium\"}]"
+}

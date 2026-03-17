@@ -1,0 +1,53 @@
+{
+  "questionId": "1682",
+  "title": "Most Visited Sector in  a Circular Track",
+  "titleSlug": "most-visited-sector-in-a-circular-track",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given an integer n and an integer array rounds. We have a circular track which consists of n sectors labeled from 1 to n. A marathon will be held on this track, the marathon consists of m rounds. The ith round starts at sector rounds[i - 1] and ends at sector rounds[i]. For example, round 1 starts at sector rounds[0] and ends at sector rounds[1]\n\nReturn an array of the most visited sectors sorted in ascending order.\n\nNotice that you circulate the track in ascending order of sector numbers in the counter-clockwise direction (See the first example).\n\nExample 1:\n\nInput: n = 4, rounds = [1,3,1,2]\nOutput: [1,2]\nExplanation: The marathon starts at sector 1. The order of the visited sectors is as follows:\n    1 --> 2 --> 3 (end of round 1) --> 4 --> 1 (end of round 2) --> 2 (end of round 3 and the marathon)\n    We can see that both sectors 1 and 2 are visited twice and they are the most visited sectors. Sectors 3 and 4 are visited only once.\n\nExample 2:\n\nInput: n = 2, rounds = [2,1,2,1,2,1,2,1,2]\nOutput: [2]\n\nExample 3:\n\nInput: n = 7, rounds = [1,3,5,7]\nOutput: [1,2,3,4,5,6,7]\n\nConstraints:\n\n• 2 <= n <= 100\n\n• 1 <= m <= 100\n\n• rounds.length == m + 1\n\n• 1 <= rounds[i] <= n\n\n• rounds[i] != rounds[i + 1] for 0 <= i < m",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mostVisited(self, n, rounds):\n        \"\"\"\n        :type n: int\n        :type rounds: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each round increment the visits of the sectors visited during the marathon with 1.",
+    "Determine the max number of visits, and return any sector visited the max number of visits."
+  ],
+  "testCases": [
+    [
+      "4",
+      "[1,3,1,2]"
+    ],
+    [
+      "2",
+      "[2,1,2,1,2,1,2,1,2]"
+    ],
+    [
+      "7",
+      "[1,3,5,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2]",
+    "[2]",
+    "[1,2,3,4,5,6,7]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def mostVisited(self, n, rounds):\n        start, end = rounds[0], rounds[-1]\n        if start <= end:\n            return list(range(start, end + 1))\n        else:\n            return list(range(1, end + 1)) + list(range(start, n + 1))",
+    "explanation": "Most visited sectors are always those between rounds[0] and rounds[-1] (wrapping if needed).\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

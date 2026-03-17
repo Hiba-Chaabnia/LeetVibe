@@ -1,0 +1,52 @@
+{
+  "questionId": "4049",
+  "title": "Count No-Zero Pairs That Sum to N",
+  "titleSlug": "count-no-zero-pairs-that-sum-to-n",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "A no-zero integer is a positive integer that does not contain the digit 0 in its decimal representation.\n\nGiven an integer n, count the number of pairs (a, b) where:\n\n• a and b are no-zero integers.\n\n• a + b = n\n\nReturn an integer denoting the number of such pairs.\n\nExample 1:\n\nInput: n = 2\n\nOutput: 1\n\nExplanation: The only pair is (1, 1).\n\nExample 2:\n\nInput: n = 3\n\nOutput: 2\n\nExplanation: The pairs are (1, 2) and (2, 1).\n\nExample 3:\n\nInput: n = 11\n\nOutput: 8\n\nExplanation: The pairs are (2, 9), (3, 8), (4, 7), (5, 6), (6, 5), (7, 4), (8, 3), and (9, 2). Note that (1, 10) and (10, 1) do not satisfy the conditions because 10 contains 0 in its decimal representation.\n\nConstraints:\n\n• 2 <= n <= 1015",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countNoZeroPairs(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use digit DP over the decimal representation of n.",
+    "At each digit, track whether a carry is present and whether a or b has used a zero so far.",
+    "Transition by choosing digits for a and b that add up (with carry) to the current digit of n.",
+    "Subtract the cases where either number ends up being zero-containing when n itself is no-zero."
+  ],
+  "testCases": [
+    [
+      "2"
+    ],
+    [
+      "3"
+    ],
+    [
+      "11"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countNoZeroPairs(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        def has_zero(num):\n            return '0' in str(num)\n        \n        count = 0\n        for a in range(1, n):\n            b = n - a\n            if not has_zero(a) and not has_zero(b):\n                count += 1\n        \n        return count",
+    "explanation": "No-zero pair enumeration:\n\n1. **Definition**: a + b = n, both have no '0' digit\n2. **Enumeration**: Try all a from 1 to n-1\n   - b = n - a\n   - Check both have no zeros\n\n3. **Optimization**: Can use digit DP for large n\n   - But direct enumeration works for moderate n\n\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

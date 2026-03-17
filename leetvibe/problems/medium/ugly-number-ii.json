@@ -1,0 +1,56 @@
+{
+  "questionId": "264",
+  "title": "Ugly Number II",
+  "titleSlug": "ugly-number-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.\n\nGiven an integer n, return the nth ugly number.\n\nExample 1:\n\nInput: n = 10\nOutput: 12\nExplanation: [1, 2, 3, 4, 5, 6, 8, 9, 10, 12] is the sequence of the first 10 ugly numbers.\n\nExample 2:\n\nInput: n = 1\nOutput: 1\nExplanation: 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.\n\nConstraints:\n\n• 1 <= n <= 1690",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nthUglyNumber(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The naive approach is to call isUgly for every number until you reach the n<sup>th</sup> one. Most numbers are <i>not</i> ugly. Try to focus your effort on generating only the ugly ones.",
+    "An ugly number must be multiplied by either 2, 3, or 5 from a smaller ugly number.",
+    "The key is how to maintain the order of the ugly numbers. Try a similar approach of merging from three sorted lists: L<sub>1</sub>, L<sub>2</sub>, and L<sub>3</sub>.",
+    "Assume you have U<sub>k</sub>, the k<sup>th</sup> ugly number. Then U<sub>k+1</sub> must be Min(L<sub>1</sub> * 2, L<sub>2</sub> * 3, L<sub>3</sub> * 5)."
+  ],
+  "testCases": [
+    [
+      "10"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def nthUglyNumber(n: int) -> int:\n    ugly_numbers = [0] * n\n    ugly_numbers[0] = 1\n    i2, i3, i5 = 0, 0, 0\n\n    for i in range(1, n):\n        ugly_numbers[i] = min(ugly_numbers[i2] * 2, ugly_numbers[i3] * 3, ugly_numbers[i5] * 5)\n        if ugly_numbers[i] == ugly_numbers[i2] * 2: i2 += 1\n        if ugly_numbers[i] == ugly_numbers[i3] * 3: i3 += 1\n        if ugly_numbers[i] == ugly_numbers[i5] * 5: i5 += 1\n\n    return ugly_numbers[n - 1]",
+    "explanation": "1. Initialize an array of size n and set the first element to 1 (the first ugly number).\n2. Create three variables (i2, i3, and i5) to keep track of the current index of ugly numbers multiplied by 2, 3, and 5.\n3. Iterate through the array from index 1 to n-1, calculating the next ugly number as the minimum of (uglyNumbers[i2] * 2, uglyNumbers[i3] * 3, and uglyNumbers[i5] * 5).\n4. Update the indices (i2, i3, and i5) based on which ugly number was used in the minimum calculation.\n5. The last element of the array is the nth ugly number."
+  },
+  "similarQuestions": "[{\"title\": \"Merge k Sorted Lists\", \"titleSlug\": \"merge-k-sorted-lists\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Primes\", \"titleSlug\": \"count-primes\", \"difficulty\": \"Medium\"}, {\"title\": \"Ugly Number\", \"titleSlug\": \"ugly-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Perfect Squares\", \"titleSlug\": \"perfect-squares\", \"difficulty\": \"Medium\"}, {\"title\": \"Super Ugly Number\", \"titleSlug\": \"super-ugly-number\", \"difficulty\": \"Medium\"}, {\"title\": \"Ugly Number III\", \"titleSlug\": \"ugly-number-iii\", \"difficulty\": \"Medium\"}]"
+}

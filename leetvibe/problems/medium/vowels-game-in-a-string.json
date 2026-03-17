@@ -1,0 +1,55 @@
+{
+  "questionId": "3462",
+  "title": "Vowels Game in a String",
+  "titleSlug": "vowels-game-in-a-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "Alice and Bob are playing a game on a string.\n\nYou are given a string s, Alice and Bob will take turns playing the following game where Alice starts first:\n\n• On Alice's turn, she has to remove any non-empty substring from s that contains an odd number of vowels.\n\n• On Bob's turn, he has to remove any non-empty substring from s that contains an even number of vowels.\n\nThe first player who cannot make a move on their turn loses the game. We assume that both Alice and Bob play optimally.\n\nReturn true if Alice wins the game, and false otherwise.\n\nThe English vowels are: a, e, i, o, and u.\n\nExample 1:\n\nInput: s = \"leetcoder\"\n\nOutput: true\n\nExplanation: Alice can win the game as follows:\n\n• Alice plays first, she can delete the underlined substring in s = \"leetcoder\" which contains 3 vowels. The resulting string is s = \"der\".\n\n• Bob plays second, he can delete the underlined substring in s = \"der\" which contains 0 vowels. The resulting string is s = \"er\".\n\n• Alice plays third, she can delete the whole string s = \"er\" which contains 1 vowel.\n\n• Bob plays fourth, since the string is empty, there is no valid play for Bob. So Alice wins the game.\n\nExample 2:\n\nInput: s = \"bbcd\"\n\nOutput: false\n\nExplanation: There is no valid play for Alice in her first turn, so Alice loses the game.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def doesAliceWin(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If there are no vowels in the initial string, then Bob wins.",
+    "If the number of vowels in the initial string is odd, then Alice can remove the whole string on her first turn and win.",
+    "What if the number of vowels in the initial string is even? What’s the optimal play for Alice’s first turn?"
+  ],
+  "testCases": [
+    [
+      "\"leetcoder\""
+    ],
+    [
+      "\"bbcd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def doesAliceWin(self, s):\n        vowels = set('aeiou')\n        count = sum(1 for c in s if c in vowels)\n        return count > 0",
+    "explanation": "Alice wins if and only if the string contains at least one vowel.\n\n- If count == 0: Alice cannot make any move (needs a substring with an odd number of vowels), so she loses immediately.\n- If count is odd: Alice removes the entire string (which has an odd number of vowels), leaving Bob with an empty string. Bob cannot move and loses.\n- If count is even and > 0: Alice removes any single vowel (a one-character substring with 1 vowel), leaving count-1 vowels (odd). Bob must remove an even number of vowels; taking 0 vowels (a consonant substring) leaves count-1 odd vowels for Alice who can again remove the whole remainder. Alice can always maintain this advantage and wins.\n\nThus the sole losing condition for Alice is having zero vowels.\n\nTime complexity: O(n). Space complexity: O(1)."
+  },
+  "similarQuestions": "[]"
+}

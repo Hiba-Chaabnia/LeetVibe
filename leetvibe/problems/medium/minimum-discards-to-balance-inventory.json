@@ -1,0 +1,64 @@
+{
+  "questionId": "3953",
+  "title": " Minimum Discards to Balance Inventory",
+  "titleSlug": "minimum-discards-to-balance-inventory",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given two integers w and m, and an integer array arrivals, where arrivals[i] is the type of item arriving on day i (days are 1-indexed).\n\nItems are managed according to the following rules:\n\n• Each arrival may be kept or discarded; an item may only be discarded on its arrival day.\n\n• For each day i, consider the window of days [max(1, i - w + 1), i] (the w most recent days up to day i):\n\n• For any such window, each item type may appear at most m times among kept arrivals whose arrival day lies in that window.\n\n• If keeping the arrival on day i would cause its type to appear more than m times in the window, that arrival must be discarded.\n\nReturn the minimum number of arrivals to be discarded so that every w-day window contains at most m occurrences of each type.\n\nExample 1:\n\nInput: arrivals = [1,2,1,3,1], w = 4, m = 2\n\nOutput: 0\n\nExplanation:\n\n• On day 1, Item 1 arrives; the window contains no more than m occurrences of this type, so we keep it.\n\n• On day 2, Item 2 arrives; the window of days 1 - 2 is fine.\n\n• On day 3, Item 1 arrives, window [1, 2, 1] has item 1 twice, within limit.\n\n• On day 4, Item 3 arrives, window [1, 2, 1, 3] has item 1 twice, allowed.\n\n• On day 5, Item 1 arrives, window [2, 1, 3, 1] has item 1 twice, still valid.\n\nThere are no discarded items, so return 0.\n\nExample 2:\n\nInput: arrivals = [1,2,3,3,3,4], w = 3, m = 2\n\nOutput: 1\n\nExplanation:\n\n• On day 1, Item 1 arrives. We keep it.\n\n• On day 2, Item 2 arrives, window [1, 2] is fine.\n\n• On day 3, Item 3 arrives, window [1, 2, 3] has item 3 once.\n\n• On day 4, Item 3 arrives, window [2, 3, 3] has item 3 twice, allowed.\n\n• On day 5, Item 3 arrives, window [3, 3, 3] has item 3 three times, exceeds limit, so the arrival must be discarded.\n\n• On day 6, Item 4 arrives, window [3, 4] is fine.\n\nItem 3 on day 5 is discarded, and this is the minimum number of arrivals to discard, so return 1.\n\nConstraints:\n\n• 1 <= arrivals.length <= 105\n\n• 1 <= arrivals[i] <= 105\n\n• 1 <= w <= arrivals.length\n\n• 1 <= m <= w",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minArrivalsToDiscard(self, arrivals, w, m):\n        \"\"\"\n        :type arrivals: List[int]\n        :type w: int\n        :type m: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a sliding window of up to w days with two pointers left and right to represent the current interval.",
+    "Maintain a hash map cnt from item type to its current count in the window. When you advance right to day i, do cnt[arrivals[i]]++.",
+    "If the window size exceeds w (i.e. right - left + 1 > w), shrink it by doing cnt[arrivals[left]]-- and then left++.",
+    "After each increment, check if cnt[arrivals[right]] > m. If so, we must discard the current arrival."
+  ],
+  "testCases": [
+    [
+      "[1,2,1,3,1]",
+      "4",
+      "2"
+    ],
+    [
+      "[1,2,3,3,3,4]",
+      "3",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\nfrom collections import deque\n\nclass Solution(object):\n    def minArrivalsToDiscard(self, arrivals, w, m):\n        cnt = defaultdict(int)\n        window = deque()  # tracks kept items in window\n        left = 0\n        discards = 0\n\n        for right in range(len(arrivals)):\n            item = arrivals[right]\n            # Slide window: remove items that are now outside [right-w+1, right]\n            while right - left + 1 > w:\n                old_item = arrivals[left]\n                cnt[old_item] -= 1\n                left += 1\n\n            # Check if keeping this item would exceed m\n            cnt[item] += 1\n            if cnt[item] > m:\n                # Must discard\n                cnt[item] -= 1\n                discards += 1\n\n        return discards",
+    "explanation": "Sliding window of size w. For each incoming item: first shrink the window if it would exceed size w (removing the leftmost kept item from the count). Then try to keep the new item; if its count would exceed m, discard it.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

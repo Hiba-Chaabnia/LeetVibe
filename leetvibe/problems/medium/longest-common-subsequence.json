@@ -1,0 +1,53 @@
+{
+  "questionId": "1250",
+  "title": "Longest Common Subsequence",
+  "titleSlug": "longest-common-subsequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0.\n\nA subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.\n\n• For example, \"ace\" is a subsequence of \"abcde\".\n\nA common subsequence of two strings is a subsequence that is common to both strings.\n\nExample 1:\n\nInput: text1 = \"abcde\", text2 = \"ace\"\nOutput: 3\nExplanation: The longest common subsequence is \"ace\" and its length is 3.\n\nExample 2:\n\nInput: text1 = \"abc\", text2 = \"abc\"\nOutput: 3\nExplanation: The longest common subsequence is \"abc\" and its length is 3.\n\nExample 3:\n\nInput: text1 = \"abc\", text2 = \"def\"\nOutput: 0\nExplanation: There is no such common subsequence, so the result is 0.\n\nConstraints:\n\n• 1 <= text1.length, text2.length <= 1000\n\n• text1 and text2 consist of only lowercase English characters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestCommonSubsequence(self, text1, text2):\n        \"\"\"\n        :type text1: str\n        :type text2: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try dynamic programming. \r\nDP[i][j] represents the longest common subsequence of text1[0 ... i] & text2[0 ... j].",
+    "DP[i][j] = DP[i - 1][j - 1] + 1 , if text1[i] == text2[j]\r\nDP[i][j] = max(DP[i - 1][j], DP[i][j - 1]) , otherwise"
+  ],
+  "testCases": [
+    [
+      "\"abcde\"",
+      "\"ace\""
+    ],
+    [
+      "\"abc\"",
+      "\"abc\""
+    ],
+    [
+      "\"abc\"",
+      "\"def\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def longestCommonSubsequence(text1: str, text2: str) -> int:\n    m, n = len(text1), len(text2)\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if text1[i - 1] == text2[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1] + 1\n            else:\n                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])\n    return dp[m][n]",
+    "explanation": "We will use dynamic programming to solve this problem. The idea is to create a 2D array `dp` with dimensions `text1.length + 1` and `text2.length + 1`. The indices `(i, j)` of the array will store the length of the longest common subsequence of the substrings `text1` and `text2` until index `i` and `j` respectively.\n\nWe loop through the two strings and compare their characters at positions `i - 1` and `j - 1` (since indices are 0-based). If the characters are the same, the value of `dp[i][j]` will be equal to the `dp[i - 1][j - 1]` + 1; otherwise, we set `dp[i][j]` equal to the maximum of `dp[i - 1][j]` and `dp[i][j - 1]`.\n\nAfter iterating through both strings, the result will be stored at `dp[m][n]` where `m` and `n` are the lengths of `text1` and `text2`."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Palindromic Subsequence\", \"titleSlug\": \"longest-palindromic-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Delete Operation for Two Strings\", \"titleSlug\": \"delete-operation-for-two-strings\", \"difficulty\": \"Medium\"}, {\"title\": \"Shortest Common Supersequence \", \"titleSlug\": \"shortest-common-supersequence\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximize Number of Subsequences in a String\", \"titleSlug\": \"maximize-number-of-subsequences-in-a-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Subsequence With the Minimum Score\", \"titleSlug\": \"subsequence-with-the-minimum-score\", \"difficulty\": \"Hard\"}]"
+}

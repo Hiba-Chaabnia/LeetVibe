@@ -1,0 +1,66 @@
+{
+  "questionId": "892",
+  "title": "Shortest Subarray with Sum at Least K",
+  "titleSlug": "shortest-subarray-with-sum-at-least-k",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    },
+    {
+      "name": "Monotonic Queue",
+      "slug": "monotonic-queue"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, return the length of the shortest non-empty subarray of nums with a sum of at least k. If there is no such subarray, return -1.\n\nA subarray is a contiguous part of an array.\n\nExample 1:\n\nInput: nums = [1], k = 1\nOutput: 1\nExample 2:\n\nInput: nums = [1,2], k = 4\nOutput: -1\nExample 3:\n\nInput: nums = [2,-1,2], k = 3\nOutput: 3\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -105 <= nums[i] <= 105\n\n• 1 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestSubarray(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1]",
+      "1"
+    ],
+    [
+      "[1,2]",
+      "4"
+    ],
+    [
+      "[2,-1,2]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "-1",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Shortest Subarray With OR at Least K II\", \"titleSlug\": \"shortest-subarray-with-or-at-least-k-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Shortest Subarray With OR at Least K I\", \"titleSlug\": \"shortest-subarray-with-or-at-least-k-i\", \"difficulty\": \"Easy\"}]"
+}

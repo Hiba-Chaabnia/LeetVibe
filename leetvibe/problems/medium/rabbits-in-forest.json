@@ -1,0 +1,51 @@
+{
+  "questionId": "797",
+  "title": "Rabbits in Forest",
+  "titleSlug": "rabbits-in-forest",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "There is a forest with an unknown number of rabbits. We asked n rabbits \"How many rabbits have the same color as you?\" and collected the answers in an integer array answers where answers[i] is the answer of the ith rabbit.\n\nGiven the array answers, return the minimum number of rabbits that could be in the forest.\n\nExample 1:\n\nInput: answers = [1,1,2]\nOutput: 5\nExplanation:\n    The two rabbits that answered \"1\" could both be the same color, say red.\n    The rabbit that answered \"2\" can't be red or the answers would be inconsistent.\n    Say the rabbit that answered \"2\" was blue.\n    Then there should be 2 other blue rabbits in the forest that didn't answer into the array.\n    The smallest possible number of rabbits in the forest is therefore 5: 3 that answered plus 2 that didn't.\n\nExample 2:\n\nInput: answers = [10,10,10]\nOutput: 11\n\nConstraints:\n\n• 1 <= answers.length <= 1000\n\n• 0 <= answers[i] < 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numRabbits(self, answers):\n        \"\"\"\n        :type answers: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,1,2]"
+    ],
+    [
+      "[10,10,10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "11"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\ndef numRabbits(answers):\n    count = Counter(answers)\n    rabbits = 0\n    for ans, cnt in count.items():\n        rabbits += (ans + cnt)//(ans + 1) * (ans + 1)\n    return rabbits",
+    "explanation": "The algorithm uses a hashmap (Counter in python) to count the frequency of each answer. For each answer, because rabbits of the same color give the same answer `k`, there can be `k+1` rabbits, i.e., if they all belong to the same group, there can be `k+1` rabbits of the same color. The algorithm calculates the total number of rabbits i.e. total_rabbits = required number of rabbits in each answer group * number of groups (calculated by dividing the count of the answer by k+1) * (k + 1)."
+  },
+  "similarQuestions": "[{\"title\": \"Group the People Given the Group Size They Belong To\", \"titleSlug\": \"group-the-people-given-the-group-size-they-belong-to\", \"difficulty\": \"Medium\"}]"
+}

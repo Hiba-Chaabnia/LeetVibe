@@ -1,0 +1,47 @@
+{
+  "questionId": "965",
+  "title": "Unique Email Addresses",
+  "titleSlug": "unique-email-addresses",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Every valid email consists of a local name and a domain name, separated by the '@' sign. Besides lowercase letters, the email may contain one or more '.' or '+'.\n\n• For example, in \"alice@leetcode.com\", \"alice\" is the local name, and \"leetcode.com\" is the domain name.\n\nIf you add periods '.' between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name. Note that this rule does not apply to domain names.\n\n• For example, \"alice.z@leetcode.com\" and \"alicez@leetcode.com\" forward to the same email address.\n\nIf you add a plus '+' in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered. Note that this rule does not apply to domain names.\n\n• For example, \"m.y+name@email.com\" will be forwarded to \"my@email.com\".\n\nIt is possible to use both of these rules at the same time.\n\nGiven an array of strings emails where we send one email to each emails[i], return the number of different addresses that actually receive mails.\n\nExample 1:\n\nInput: emails = [\"test.email+alex@leetcode.com\",\"test.e.mail+bob.cathy@leetcode.com\",\"testemail+david@lee.tcode.com\"]\nOutput: 2\nExplanation: \"testemail@leetcode.com\" and \"testemail@lee.tcode.com\" actually receive mails.\n\nExample 2:\n\nInput: emails = [\"a@leetcode.com\",\"b@leetcode.com\",\"c@leetcode.com\"]\nOutput: 3\n\nConstraints:\n\n• 1 <= emails.length <= 100\n\n• 1 <= emails[i].length <= 100\n\n• emails[i] consist of lowercase English letters, '+', '.' and '@'.\n\n• Each emails[i] contains exactly one '@' character.\n\n• All local and domain names are non-empty.\n\n• Local names do not start with a '+' character.\n\n• Domain names end with the \".com\" suffix.\n\n• Domain names must contain at least one character before \".com\" suffix.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numUniqueEmails(self, emails):\n        \"\"\"\n        :type emails: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"test.email+alex@leetcode.com\",\"test.e.mail+bob.cathy@leetcode.com\",\"testemail+david@lee.tcode.com\"]"
+    ],
+    [
+      "[\"a@leetcode.com\",\"b@leetcode.com\",\"c@leetcode.com\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numUniqueEmails(self, emails):\n        unique = set()\n        for email in emails:\n            local, domain = email.split('@')\n            local = local.split('+')[0].replace('.', '')\n            unique.add(f\"{local}@{domain}\")\n        return len(unique)",
+    "explanation": "For each email: remove dots, truncate at +, add to set. Count unique.\nTime: O(n*m)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

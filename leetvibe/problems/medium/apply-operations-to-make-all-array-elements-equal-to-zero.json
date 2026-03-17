@@ -1,0 +1,48 @@
+{
+  "questionId": "2878",
+  "title": "Apply Operations to Make All Array Elements Equal to Zero",
+  "titleSlug": "apply-operations-to-make-all-array-elements-equal-to-zero",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums and a positive integer k.\n\nYou can apply the following operation on the array any number of times:\n\n• Choose any subarray of size k from the array and decrease all its elements by 1.\n\nReturn true if you can make all the array elements equal to 0, or false otherwise.\n\nA subarray is a contiguous non-empty part of an array.\n\nExample 1:\n\nInput: nums = [2,2,3,1,1,0], k = 3\nOutput: true\nExplanation: We can do the following operations:\n    - Choose the subarray [2,2,3]. The resulting array will be nums = [1,1,2,1,1,0].\n    - Choose the subarray [2,1,1]. The resulting array will be nums = [1,1,1,0,0,0].\n    - Choose the subarray [1,1,1]. The resulting array will be nums = [0,0,0,0,0,0].\n\nExample 2:\n\nInput: nums = [1,3,1,1], k = 2\nOutput: false\nExplanation: It is not possible to make all the array elements equal to 0.\n\nConstraints:\n\n• 1 <= k <= nums.length <= 105\n\n• 0 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkArray(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "In case it is possible, then how can you do the operations? which subarrays do you choose and in what order?",
+    "The order of the chosen subarrays should be from the left to the right of the array"
+  ],
+  "testCases": [
+    [
+      "[2,2,3,1,1,0]",
+      "3"
+    ],
+    [
+      "[1,3,1,1]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkArray(self, nums, k):\n        n = len(nums)\n        delta = [0] * (n + 1)\n        current = 0\n        for i in range(n):\n            current += delta[i]\n            remaining = nums[i] - current\n            if remaining < 0:\n                return False\n            if remaining > 0:\n                if i + k > n:\n                    return False\n                current += remaining\n                delta[i + k] -= remaining\n        return True",
+    "explanation": "Greedy with difference array: at each position schedule the needed decrement over the next k elements. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Continuous Subarray Sum\", \"titleSlug\": \"continuous-subarray-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold\", \"titleSlug\": \"number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold\", \"difficulty\": \"Medium\"}]"
+}

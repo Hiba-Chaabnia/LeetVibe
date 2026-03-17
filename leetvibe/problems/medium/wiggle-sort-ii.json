@@ -1,0 +1,55 @@
+{
+  "questionId": "324",
+  "title": "Wiggle Sort II",
+  "titleSlug": "wiggle-sort-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Quickselect",
+      "slug": "quickselect"
+    }
+  ],
+  "content": "Given an integer array nums, reorder it such that nums[0] < nums[1] > nums[2] < nums[3]....\n\nYou may assume the input array always has a valid answer.\n\nExample 1:\n\nInput: nums = [1,5,1,1,6,4]\nOutput: [1,6,1,5,1,4]\nExplanation: [1,4,1,5,1,6] is also accepted.\n\nExample 2:\n\nInput: nums = [1,3,2,2,3,1]\nOutput: [2,3,1,3,1,2]\n\nConstraints:\n\n• 1 <= nums.length <= 5 * 104\n\n• 0 <= nums[i] <= 5000\n\n• It is guaranteed that there will be an answer for the given input nums.\n\nFollow Up: Can you do it in O(n) time and/or in-place with O(1) extra space?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def wiggleSort(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: None Do not return anything, modify nums in-place instead.\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,5,1,1,6,4]"
+    ],
+    [
+      "[1,3,2,2,3,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,6,1,5,1,4]",
+    "[2,3,1,3,1,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def wiggleSort(nums):\n    nums.sort()\n    for i in range(1, len(nums) - 1, 2):\n        nums[i], nums[i + 1] = nums[i + 1], nums[i]",
+    "explanation": "1. First, sort the array in ascending order. This step ensures that the smaller element is always before the larger element in the sorted array.\n2. Iterate through the sorted array, starting from the second element (index 1) and incrementing by 2 so that the iteration only impacts every other element.\n3. Swap the current element with the next element in the array during the iteration. This will make the current element greater than its neighbors, fulfilling the requirements of the wiggle sort."
+  },
+  "similarQuestions": "[{\"title\": \"Sort Colors\", \"titleSlug\": \"sort-colors\", \"difficulty\": \"Medium\"}, {\"title\": \"Kth Largest Element in an Array\", \"titleSlug\": \"kth-largest-element-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Wiggle Sort\", \"titleSlug\": \"wiggle-sort\", \"difficulty\": \"Medium\"}, {\"title\": \"Array With Elements Not Equal to Average of Neighbors\", \"titleSlug\": \"array-with-elements-not-equal-to-average-of-neighbors\", \"difficulty\": \"Medium\"}]"
+}

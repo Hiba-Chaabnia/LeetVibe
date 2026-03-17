@@ -1,0 +1,56 @@
+{
+  "questionId": "1691",
+  "title": "Minimum Number of Days to Disconnect Island",
+  "titleSlug": "minimum-number-of-days-to-disconnect-island",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Strongly Connected Component",
+      "slug": "strongly-connected-component"
+    }
+  ],
+  "content": "You are given an m x n binary grid grid where 1 represents land and 0 represents water. An island is a maximal 4-directionally (horizontal or vertical) connected group of 1's.\n\nThe grid is said to be connected if we have exactly one island, otherwise is said disconnected.\n\nIn one day, we are allowed to change any single land cell (1) into a water cell (0).\n\nReturn the minimum number of days to disconnect the grid.\n\nExample 1:\n\nInput: grid = [[0,1,1,0],[0,1,1,0],[0,0,0,0]]\n\nOutput: 2\nExplanation: We need at least 2 days to get a disconnected grid.\n    Change land grid[1][1] and grid[0][2] to water and get 2 disconnected island.\n\nExample 2:\n\nInput: grid = [[1,1]]\nOutput: 2\nExplanation: Grid of full water is also disconnected ([[1,1]] -> [[0,0]]), 0 islands.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 30\n\n• grid[i][j] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDays(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Return 0 if the grid is already disconnected.",
+    "Return 1 if changing a single land to water disconnect the island.",
+    "Otherwise return 2.",
+    "We can disconnect the grid within at most 2 days."
+  ],
+  "testCases": [
+    [
+      "[[0,1,1,0],[0,1,1,0],[0,0,0,0]]"
+    ],
+    [
+      "[[1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Disconnect Path in a Binary Matrix by at Most One Flip\", \"titleSlug\": \"disconnect-path-in-a-binary-matrix-by-at-most-one-flip\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Runes to Add to Cast Spell\", \"titleSlug\": \"minimum-runes-to-add-to-cast-spell\", \"difficulty\": \"Hard\"}]"
+}

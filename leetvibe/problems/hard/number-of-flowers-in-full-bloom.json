@@ -1,0 +1,62 @@
+{
+  "questionId": "2334",
+  "title": "Number of Flowers in Full Bloom",
+  "titleSlug": "number-of-flowers-in-full-bloom",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "You are given a 0-indexed 2D integer array flowers, where flowers[i] = [starti, endi] means the ith flower will be in full bloom from starti to endi (inclusive). You are also given a 0-indexed integer array people of size n, where people[i] is the time that the ith person will arrive to see the flowers.\n\nReturn an integer array answer of size n, where answer[i] is the number of flowers that are in full bloom when the ith person arrives.\n\nExample 1:\n\nInput: flowers = [[1,6],[3,7],[9,12],[4,13]], people = [2,3,7,11]\nOutput: [1,2,2,2]\nExplanation: The figure above shows the times when the flowers are in full bloom and when the people arrive.\n    For each person, we return the number of flowers in full bloom during their arrival.\n\nExample 2:\n\nInput: flowers = [[1,10],[3,3]], people = [3,3,2]\nOutput: [2,2,1]\nExplanation: The figure above shows the times when the flowers are in full bloom and when the people arrive.\n    For each person, we return the number of flowers in full bloom during their arrival.\n\nConstraints:\n\n• 1 <= flowers.length <= 5 * 104\n\n• flowers[i].length == 2\n\n• 1 <= starti <= endi <= 109\n\n• 1 <= people.length <= 5 * 104\n\n• 1 <= people[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def fullBloomFlowers(self, flowers, people):\n        \"\"\"\n        :type flowers: List[List[int]]\n        :type people: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that for any given time t, the number of flowers blooming at time t is equal to the number of flowers that have started blooming minus the number of flowers that have already stopped blooming.",
+    "We can obtain these values efficiently using binary search.",
+    "We can store the starting times in sorted order, which then allows us to binary search to find how many flowers have started blooming for a given time t.",
+    "We do the same for the ending times to find how many flowers have stopped blooming at time t."
+  ],
+  "testCases": [
+    [
+      "[[1,6],[3,7],[9,12],[4,13]]",
+      "[2,3,7,11]"
+    ],
+    [
+      "[[1,10],[3,3]]",
+      "[3,3,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,2,2]",
+    "[2,2,1]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Meeting Rooms II\", \"titleSlug\": \"meeting-rooms-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Interval to Include Each Query\", \"titleSlug\": \"minimum-interval-to-include-each-query\", \"difficulty\": \"Hard\"}]"
+}

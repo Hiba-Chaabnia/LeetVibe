@@ -1,0 +1,49 @@
+{
+  "questionId": "920",
+  "title": "Uncommon Words from Two Sentences",
+  "titleSlug": "uncommon-words-from-two-sentences",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "A sentence is a string of single-space separated words where each word consists only of lowercase letters.\n\nA word is uncommon if it appears exactly once in one of the sentences, and does not appear in the other sentence.\n\nGiven two sentences s1 and s2, return a list of all the uncommon words. You may return the answer in any order.\n\nExample 1:\n\nInput: s1 = \"this apple is sweet\", s2 = \"this apple is sour\"\n\nOutput: [\"sweet\",\"sour\"]\n\nExplanation: The word \"sweet\" appears only in s1, while the word \"sour\" appears only in s2.\n\nExample 2:\n\nInput: s1 = \"apple apple\", s2 = \"banana\"\n\nOutput: [\"banana\"]\n\nConstraints:\n\n• 1 <= s1.length, s2.length <= 200\n\n• s1 and s2 consist of lowercase English letters and spaces.\n\n• s1 and s2 do not have leading or trailing spaces.\n\n• All the words in s1 and s2 are separated by a single space.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def uncommonFromSentences(self, s1, s2):\n        \"\"\"\n        :type s1: str\n        :type s2: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"this apple is sweet\"",
+      "\"this apple is sour\""
+    ],
+    [
+      "\"apple apple\"",
+      "\"banana\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"sweet\",\"sour\"]",
+    "[\"banana\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def uncommonFromSentences(self, s1, s2):\n        from collections import Counter\n        words = (s1 + \" \" + s2).split()\n        freq = Counter(words)\n        return [word for word, count in freq.items() if count == 1]",
+    "explanation": "Count word frequencies across both sentences. Return words with count 1.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Common Words With One Occurrence\", \"titleSlug\": \"count-common-words-with-one-occurrence\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,53 @@
+{
+  "questionId": "1086",
+  "title": "Divisor Game",
+  "titleSlug": "divisor-game",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "Alice and Bob take turns playing a game, with Alice starting first.\n\nInitially, there is a number n on the chalkboard. On each player's turn, that player makes a move consisting of:\n\n• Choosing any integer x with 0 < x < n and n % x == 0.\n\n• Replacing the number n on the chalkboard with n - x.\n\nAlso, if a player cannot make a move, they lose the game.\n\nReturn true if and only if Alice wins the game, assuming both players play optimally.\n\nExample 1:\n\nInput: n = 2\nOutput: true\nExplanation: Alice chooses 1, and Bob has no more moves.\n\nExample 2:\n\nInput: n = 3\nOutput: false\nExplanation: Alice chooses 1, Bob chooses 1, and Alice has no more moves.\n\nConstraints:\n\n• 1 <= n <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def divisorGame(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If the current number is even, we can always subtract a 1 to make it odd.  If the current number is odd, we must subtract an odd number to make it even."
+  ],
+  "testCases": [
+    [
+      "2"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def divisorGame(self, n):\n        return n % 2 == 0",
+    "explanation": "Math insight: Alice wins iff n is even. Even player subtracts 1 → odd for opponent.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

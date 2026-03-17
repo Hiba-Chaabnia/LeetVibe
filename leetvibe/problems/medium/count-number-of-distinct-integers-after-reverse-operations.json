@@ -1,0 +1,54 @@
+{
+  "questionId": "2525",
+  "title": "Count Number of Distinct Integers After Reverse Operations",
+  "titleSlug": "count-number-of-distinct-integers-after-reverse-operations",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an array nums consisting of positive integers.\n\nYou have to take each integer in the array, reverse its digits, and add it to the end of the array. You should apply this operation to the original integers in nums.\n\nReturn the number of distinct integers in the final array.\n\nExample 1:\n\nInput: nums = [1,13,10,12,31]\nOutput: 6\nExplanation: After including the reverse of each number, the resulting array is [1,13,10,12,31,1,31,1,21,13].\n    The reversed integers that were added to the end of the array are underlined. Note that for the integer 10, after reversing it, it becomes 01 which is just 1.\n    The number of distinct integers in this array is 6 (The numbers 1, 10, 12, 13, 21, and 31).\n\nExample 2:\n\nInput: nums = [2,2,2]\nOutput: 1\nExplanation: After including the reverse of each number, the resulting array is [2,2,2,2,2,2].\n    The number of distinct integers in this array is 1 (The number 2).\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countDistinctIntegers(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What data structure allows us to insert numbers and find the number of distinct numbers in it?",
+    "Try using a set, insert all the numbers and their reverse into it, and return its size."
+  ],
+  "testCases": [
+    [
+      "[1,13,10,12,31]"
+    ],
+    [
+      "[2,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countDistinctIntegers(self, nums):\n        result = set(nums)\n        for num in nums:\n            rev = 0\n            n = num\n            while n > 0:\n                rev = rev * 10 + n % 10\n                n //= 10\n            result.add(rev)\n        return len(result)",
+    "explanation": "Add all numbers and their reverses to set. Return size.\nTime: O(n*log(max_num))\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Integer\", \"titleSlug\": \"reverse-integer\", \"difficulty\": \"Medium\"}]"
+}

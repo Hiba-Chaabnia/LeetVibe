@@ -1,0 +1,41 @@
+{
+  "questionId": "3685",
+  "title": "Count Subarrays of Length Three With a Condition",
+  "titleSlug": "count-subarrays-of-length-three-with-a-condition",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given an integer array nums, return the number of subarrays of length 3 such that the sum of the first and third numbers equals exactly half of the second number.\n\nExample 1:\n\nInput: nums = [1,2,1,4,1]\n\nOutput: 1\n\nExplanation: Only the subarray [1,4,1] contains exactly 3 elements where the sum of the first and third numbers equals half the middle number.\n\nExample 2:\n\nInput: nums = [1,1,1]\n\nOutput: 0\n\nExplanation: [1,1,1] is the only subarray of length 3. However, its first and third numbers do not add to half the middle number.\n\nConstraints:\n\n• 3 <= nums.length <= 100\n\n• -100 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSubarrays(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints are small. Consider checking every subarray."
+  ],
+  "testCases": [
+    [
+      "[1,2,1,4,1]"
+    ],
+    [
+      "[1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countSubarrays(self, nums):\n        count = 0\n        for i in range(len(nums) - 2):\n            if 2 * (nums[i] + nums[i + 2]) == nums[i + 1]:\n                count += 1\n        return count",
+    "explanation": "Check each window of 3: first+third equals half of middle."
+  },
+  "similarQuestions": "[]"
+}

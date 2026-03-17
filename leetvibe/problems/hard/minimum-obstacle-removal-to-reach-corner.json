@@ -1,0 +1,58 @@
+{
+  "questionId": "2375",
+  "title": "Minimum Obstacle Removal to Reach Corner",
+  "titleSlug": "minimum-obstacle-removal-to-reach-corner",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "You are given a 0-indexed 2D integer array grid of size m x n. Each cell has one of two values:\n\n• 0 represents an empty cell,\n\n• 1 represents an obstacle that may be removed.\n\nYou can move up, down, left, or right from and to an empty cell.\n\nReturn the minimum number of obstacles to remove so you can move from the upper left corner (0, 0) to the lower right corner (m - 1, n - 1).\n\nExample 1:\n\nInput: grid = [[0,1,1],[1,1,0],[1,1,0]]\nOutput: 2\nExplanation: We can remove the obstacles at (0, 1) and (0, 2) to create a path from (0, 0) to (2, 2).\n    It can be shown that we need to remove at least 2 obstacles, so we return 2.\n    Note that there may be other ways to remove 2 obstacles to create a path.\n\nExample 2:\n\nInput: grid = [[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0]]\nOutput: 0\nExplanation: We can move from (0, 0) to (2, 4) without removing any obstacles, so we return 0.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 105\n\n• 2 <= m * n <= 105\n\n• grid[i][j] is either 0 or 1.\n\n• grid[0][0] == grid[m - 1][n - 1] == 0",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumObstacles(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Model the grid as a graph where cells are nodes and edges are between adjacent cells. Edges to cells with obstacles have a cost of 1 and all other edges have a cost of 0.",
+    "Could you use 0-1 Breadth-First Search or Dijkstra’s algorithm?"
+  ],
+  "testCases": [
+    [
+      "[[0,1,1],[1,1,0],[1,1,0]]"
+    ],
+    [
+      "[[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Shortest Path in a Grid with Obstacles Elimination\", \"titleSlug\": \"shortest-path-in-a-grid-with-obstacles-elimination\", \"difficulty\": \"Hard\"}]"
+}

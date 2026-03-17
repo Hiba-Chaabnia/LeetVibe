@@ -1,0 +1,47 @@
+{
+  "questionId": "804",
+  "title": "Rotated Digits",
+  "titleSlug": "rotated-digits",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "An integer x is a good if after rotating each digit individually by 180 degrees, we get a valid number that is different from x. Each digit must be rotated - we cannot choose to leave it alone.\n\nA number is valid if each digit remains a digit after rotation. For example:\n\n• 0, 1, and 8 rotate to themselves,\n\n• 2 and 5 rotate to each other (in this case they are rotated in a different direction, in other words, 2 or 5 gets mirrored),\n\n• 6 and 9 rotate to each other, and\n\n• the rest of the numbers do not rotate to any other number and become invalid.\n\nGiven an integer n, return the number of good integers in the range [1, n].\n\nExample 1:\n\nInput: n = 10\nOutput: 4\nExplanation: There are four good numbers in the range [1, 10] : 2, 5, 6, 9.\n    Note that 1 and 10 are not good numbers, since they remain unchanged after rotating.\n\nExample 2:\n\nInput: n = 1\nOutput: 0\n\nExample 3:\n\nInput: n = 2\nOutput: 1\n\nConstraints:\n\n• 1 <= n <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rotatedDigits(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "10"
+    ],
+    [
+      "1"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def rotatedDigits(n: int) -> int:\n    count = 0\n    for i in range(1, n + 1):\n        if isGood(i):\n            count += 1\n    return count\n\ndef isGood(num: int) -> bool:\n    changed = False\n    while num:\n        digit = num % 10\n        if digit in (3, 4, 7):\n            return False\n        if digit in (2, 5, 6, 9):\n            changed = True\n        num //= 10\n    return changed",
+    "explanation": "The algorithm will use two main functions, one to check if a number is a good number (`isGood`) and the main one to count such numbers (`rotatedDigits`).\n\n1. Create a variable called `count` to store the count of good numbers.\n2. Iterate from 1 to the given number `n`.\n3. For each number, call the `isGood` function to check if it's a good number.\n4. If it is a good number, increment the `count`.\n5. The `isGood` function takes an integer as input and checks if it's a good number:\n    - Check each digit of the number while the number is greater than 0.\n    - If the digit is 3, 4 or 7, then the number is not a good number (return false).\n    - If the digit is 2, 5, 6 or 9, then the number is changed after rotation, set the `changed` flag as true.\n    - Remove the last digit of the number by dividing it by 10.\n    - If the `changed` flag is true, then the number is a good number (return true), otherwise return false.\n6. Return the `count`."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,53 @@
+{
+  "questionId": "1755",
+  "title": "Defuse the Bomb",
+  "titleSlug": "defuse-the-bomb",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You have a bomb to defuse, and your time is running out! Your informer will provide you with a circular array code of length of n and a key k.\n\nTo decrypt the code, you must replace every number. All the numbers are replaced simultaneously.\n\n• If k > 0, replace the ith number with the sum of the next k numbers.\n\n• If k < 0, replace the ith number with the sum of the previous k numbers.\n\n• If k == 0, replace the ith number with 0.\n\nAs code is circular, the next element of code[n-1] is code[0], and the previous element of code[0] is code[n-1].\n\nGiven the circular array code and an integer key k, return the decrypted code to defuse the bomb!\n\nExample 1:\n\nInput: code = [5,7,1,4], k = 3\nOutput: [12,10,16,13]\nExplanation: Each number is replaced by the sum of the next 3 numbers. The decrypted code is [7+1+4, 1+4+5, 4+5+7, 5+7+1]. Notice that the numbers wrap around.\n\nExample 2:\n\nInput: code = [1,2,3,4], k = 0\nOutput: [0,0,0,0]\nExplanation: When k is zero, the numbers are replaced by 0.\n\nExample 3:\n\nInput: code = [2,4,9,3], k = -2\nOutput: [12,5,6,13]\nExplanation: The decrypted code is [3+9, 2+3, 4+2, 9+4]. Notice that the numbers wrap around again. If k is negative, the sum is of the previous numbers.\n\nConstraints:\n\n• n == code.length\n\n• 1 <= n <= 100\n\n• 1 <= code[i] <= 100\n\n• -(n - 1) <= k <= n - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def decrypt(self, code, k):\n        \"\"\"\n        :type code: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "As the array is circular, use modulo to find the correct index.",
+    "The constraints are low enough for a brute-force solution."
+  ],
+  "testCases": [
+    [
+      "[5,7,1,4]",
+      "3"
+    ],
+    [
+      "[1,2,3,4]",
+      "0"
+    ],
+    [
+      "[2,4,9,3]",
+      "-2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[12,10,16,13]",
+    "[0,0,0,0]",
+    "[12,5,6,13]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def decrypt(self, code, k):\n        n = len(code)\n        result = [0] * n\n        if k == 0:\n            return result\n        for i in range(n):\n            if k > 0:\n                for j in range(1, k + 1):\n                    result[i] += code[(i + j) % n]\n            else:\n                for j in range(1, -k + 1):\n                    result[i] += code[(i - j) % n]\n        return result",
+    "explanation": "For each position, sum next k (if k>0) or previous k (if k<0) elements with wrapping.\nTime: O(n * |k|)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Circular Sentence\", \"titleSlug\": \"circular-sentence\", \"difficulty\": \"Easy\"}, {\"title\": \"Shortest Distance to Target String in a Circular Array\", \"titleSlug\": \"shortest-distance-to-target-string-in-a-circular-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Take K of Each Character From Left and Right\", \"titleSlug\": \"take-k-of-each-character-from-left-and-right\", \"difficulty\": \"Medium\"}]"
+}

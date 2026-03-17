@@ -1,0 +1,53 @@
+{
+  "questionId": "3897",
+  "title": "Count Number of Trapezoids II",
+  "titleSlug": "count-number-of-trapezoids-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "You are given a 2D integer array points where points[i] = [xi, yi] represents the coordinates of the ith point on the Cartesian plane.\n\nReturn the number of unique trapezoids that can be formed by choosing any four distinct points from points.\n\nA trapezoid is a convex quadrilateral with at least one pair of parallel sides. Two lines are parallel if and only if they have the same slope.\n\nExample 1:\n\nInput: points = [[-3,2],[3,0],[2,3],[3,2],[2,-3]]\n\nOutput: 2\n\nExplanation: There are two distinct ways to pick four points that form a trapezoid:\n\n• The points [-3,2], [2,3], [3,2], [2,-3] form one trapezoid.\n\n• The points [2,3], [3,2], [3,0], [2,-3] form another trapezoid.\n\nExample 2:\n\nInput: points = [[0,0],[1,0],[0,1],[2,1]]\n\nOutput: 1\n\nExplanation: There is only one trapezoid which can be formed.\n\nConstraints:\n\n• 4 <= points.length <= 500\n\n• –1000 <= xi, yi <= 1000\n\n• All points are pairwise distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countTrapezoids(self, points):\n        \"\"\"\n        :type points: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Hash every point-pair by its reduced slope (dy,dx) (normalize with GCD and fix signs).",
+    "In each slope-bucket of size k, there are C(k,2) ways to pick two segments as the trapezoid's parallel bases.",
+    "Skip any base-pair that shares an endpoint since it would not form a quadrilateral.",
+    "Subtract one count for each parallelogram. Each parallelogram was counted once for each of its two parallel-side pairs, so after subtracting once, every quadrilateral with at least one pair of parallel sides, including parallelograms, contributes exactly one to the final total.",
+    "Final answer = total valid base-pairs minus parallelogram overcounts."
+  ],
+  "testCases": [
+    [
+      "[[-3,2],[3,0],[2,3],[3,2],[2,-3]]"
+    ],
+    [
+      "[[0,0],[1,0],[0,1],[2,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

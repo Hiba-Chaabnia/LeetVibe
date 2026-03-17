@@ -1,0 +1,58 @@
+{
+  "questionId": "1471",
+  "title": "Maximum Students Taking Exam",
+  "titleSlug": "maximum-students-taking-exam",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "Given a m * n matrix seats  that represent seats distributions in a classroom. If a seat is broken, it is denoted by '#' character otherwise it is denoted by a '.' character.\n\nStudents can see the answers of those sitting next to the left, right, upper left and upper right, but he cannot see the answers of the student sitting directly in front or behind him. Return the maximum number of students that can take the exam together without any cheating being possible.\n\nStudents must be placed in seats in good condition.\n\nExample 1:\n\nInput: seats = [[\"#\",\".\",\"#\",\"#\",\".\",\"#\"],\n                    [\".\",\"#\",\"#\",\"#\",\"#\",\".\"],\n                    [\"#\",\".\",\"#\",\"#\",\".\",\"#\"]]\nOutput: 4\nExplanation: Teacher can place 4 students in available seats so they don't cheat on the exam.\n\nExample 2:\n\nInput: seats = [[\".\",\"#\"],\n                    [\"#\",\"#\"],\n                    [\"#\",\".\"],\n                    [\"#\",\"#\"],\n                    [\".\",\"#\"]]\nOutput: 3\nExplanation: Place all students in available seats.\n\nExample 3:\n\nInput: seats = [[\"#\",\".\",\".\",\".\",\"#\"],\n                    [\".\",\"#\",\".\",\"#\",\".\"],\n                    [\".\",\".\",\"#\",\".\",\".\"],\n                    [\".\",\"#\",\".\",\"#\",\".\"],\n                    [\"#\",\".\",\".\",\".\",\"#\"]]\nOutput: 10\nExplanation: Place students in available seats in column 1, 3 and 5.\n\nConstraints:\n\n• seats contains only characters '.' and'#'.\n\n• m == seats.length\n\n• n == seats[i].length\n\n• 1 <= m <= 8\n\n• 1 <= n <= 8",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxStudents(self, seats):\n        \"\"\"\n        :type seats: List[List[str]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Students in row i only can see exams in row i+1.",
+    "Use Dynamic programming to compute the result given a (current row, bitmask people seated in previous row)."
+  ],
+  "testCases": [
+    [
+      "[[\"#\",\".\",\"#\",\"#\",\".\",\"#\"],[\".\",\"#\",\"#\",\"#\",\"#\",\".\"],[\"#\",\".\",\"#\",\"#\",\".\",\"#\"]]"
+    ],
+    [
+      "[[\".\",\"#\"],[\"#\",\"#\"],[\"#\",\".\"],[\"#\",\"#\"],[\".\",\"#\"]]"
+    ],
+    [
+      "[[\"#\",\".\",\".\",\".\",\"#\"],[\".\",\"#\",\".\",\"#\",\".\"],[\".\",\".\",\"#\",\".\",\".\"],[\".\",\"#\",\".\",\"#\",\".\"],[\"#\",\".\",\".\",\".\",\"#\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "3",
+    "10"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

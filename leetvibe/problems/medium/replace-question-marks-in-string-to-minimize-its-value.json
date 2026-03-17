@@ -1,0 +1,64 @@
+{
+  "questionId": "3354",
+  "title": "Replace Question Marks in String to Minimize Its Value",
+  "titleSlug": "replace-question-marks-in-string-to-minimize-its-value",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s. s[i] is either a lowercase English letter or '?'.\n\nFor a string t having length m containing only lowercase English letters, we define the function cost(i) for an index i as the number of characters equal to t[i] that appeared before it, i.e. in the range [0, i - 1].\n\nThe value of t is the sum of cost(i) for all indices i.\n\nFor example, for the string t = \"aab\":\n\n• cost(0) = 0\n\n• cost(1) = 1\n\n• cost(2) = 0\n\n• Hence, the value of \"aab\" is 0 + 1 + 0 = 1.\n\nYour task is to replace all occurrences of '?' in s with any lowercase English letter so that the value of s is minimized.\n\nReturn a string denoting the modified string with replaced occurrences of '?'. If there are multiple strings resulting in the minimum value, return the lexicographically smallest one.\n\nExample 1:\n\nInput:   s = \"???\"\n\nOutput:   \"abc\"\n\nExplanation:  In this example, we can replace the occurrences of '?' to make s equal to \"abc\".\n\nFor \"abc\", cost(0) = 0, cost(1) = 0, and cost(2) = 0.\n\nThe value of \"abc\" is 0.\n\nSome other modifications of s that have a value of 0 are \"cba\", \"abz\", and, \"hey\".\n\nAmong all of them, we choose the lexicographically smallest.\n\nExample 2:\n\nInput:  s = \"a?a?\"\n\nOutput:  \"abac\"\n\nExplanation:  In this example, the occurrences of '?' can be replaced to make s equal to \"abac\".\n\nFor \"abac\", cost(0) = 0, cost(1) = 0, cost(2) = 1, and cost(3) = 0.\n\nThe value of \"abac\" is 1.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s[i] is either a lowercase English letter or '?'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimizeStringValue(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "<p>The cost does not depend on the order of characters. If a character c appears x times, the cost is exactly 0 + 1 + 2 + … + (x − 1) = x * (x − 1) / 2.</p>",
+    "<p>We know the total number of question marks; for each one, we should select the letter with the minimum frequency to replace it.</p>",
+    "<p>The letter selection can be achieved by a min-heap (or even by brute-forcing the 26 possibilities).</p>",
+    "<p>So, we know the extra letters we need to replace finally. However, we must put those letters in order from left to right so that the resulting string is the lexicographically smallest one.</p>"
+  ],
+  "testCases": [
+    [
+      "\"???\""
+    ],
+    [
+      "\"a?a?\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"abc\"",
+    "\"abac\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def minimizeStringValue(self, s):\n        # Count existing character frequencies\n        freq = [0] * 26\n        for c in s:\n            if c != '?':\n                freq[ord(c) - ord('a')] += 1\n\n        # Use min-heap to greedily pick the least frequent character for each '?'\n        heap = [(freq[i], i) for i in range(26)]\n        heapq.heapify(heap)\n\n        chosen = []  # characters chosen for '?' positions\n        q_count = s.count('?')\n        for _ in range(q_count):\n            cnt, idx = heapq.heappop(heap)\n            chosen.append(chr(ord('a') + idx))\n            heapq.heappush(heap, (cnt + 1, idx))\n\n        # Sort chosen letters for lexicographic minimality when placing at '?' positions\n        chosen.sort()\n\n        result = list(s)\n        ci = 0\n        for i in range(len(result)):\n            if result[i] == '?':\n                result[i] = chosen[ci]\n                ci += 1\n\n        return ''.join(result)",
+    "explanation": "The total value only depends on final character frequencies (x occurrences contribute x*(x-1)/2). To minimize the total value, each '?' should be assigned the character with the current minimum frequency — a greedy approach using a min-heap.\n\nWe greedily select one character per '?', always choosing the least frequent. This minimizes the sum of x*(x-1)/2 across all characters.\n\nTo make the result lexicographically smallest among all minimum-value strings, we sort the chosen characters and assign them to '?' positions left to right in sorted order.\n\nTime complexity: O(n log 26) = O(n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Lexicographically Smallest String After Substring Operation\", \"titleSlug\": \"lexicographically-smallest-string-after-substring-operation\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,43 @@
+{
+  "questionId": "793",
+  "title": "Swap Adjacent in LR String",
+  "titleSlug": "swap-adjacent-in-lr-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "In a string composed of 'L', 'R', and 'X' characters, like \"RXXLRXRXL\", a move consists of either replacing one occurrence of \"XL\" with \"LX\", or replacing one occurrence of \"RX\" with \"XR\". Given the starting string start and the ending string result, return True if and only if there exists a sequence of moves to transform start to result.\n\nExample 1:\n\nInput: start = \"RXXLRXRXL\", result = \"XRLXXRRLX\"\nOutput: true\nExplanation: We can transform start to result following these steps:\n    RXXLRXRXL ->\n    XRXLRXRXL ->\n    XRLXRXRXL ->\n    XRLXXRRXL ->\n    XRLXXRRLX\n\nExample 2:\n\nInput: start = \"X\", result = \"L\"\nOutput: false\n\nConstraints:\n\n• 1 <= start.length <= 104\n\n• start.length == result.length\n\n• Both start and result will only consist of characters in 'L', 'R', and 'X'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canTransform(self, start, result):\n        \"\"\"\n        :type start: str\n        :type result: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think of the L and R's as people on a horizontal line, where X is a space.  The people can't cross each other, and also you can't go from XRX to RXX."
+  ],
+  "testCases": [
+    [
+      "\"RXXLRXRXL\"",
+      "\"XRLXXRRLX\""
+    ],
+    [
+      "\"X\"",
+      "\"L\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Move Pieces to Obtain a String\", \"titleSlug\": \"move-pieces-to-obtain-a-string\", \"difficulty\": \"Medium\"}]"
+}

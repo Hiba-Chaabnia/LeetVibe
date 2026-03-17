@@ -1,0 +1,49 @@
+{
+  "questionId": "3786",
+  "title": "Longest Palindromic Subsequence After at Most K Operations",
+  "titleSlug": "longest-palindromic-subsequence-after-at-most-k-operations",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a string s and an integer k.\n\nIn one operation, you can replace the character at any position with the next or previous letter in the alphabet (wrapping around so that 'a' is after 'z'). For example, replacing 'a' with the next letter results in 'b', and replacing 'a' with the previous letter results in 'z'. Similarly, replacing 'z' with the next letter results in 'a', and replacing 'z' with the previous letter results in 'y'.\n\nReturn the length of the longest palindromic subsequence of s that can be obtained after performing at most k operations.\n\nExample 1:\n\nInput: s = \"abced\", k = 2\n\nOutput: 3\n\nExplanation:\n\n• Replace s[1] with the next letter, and s becomes \"acced\".\n\n• Replace s[4] with the previous letter, and s becomes \"accec\".\n\nThe subsequence \"ccc\" forms a palindrome of length 3, which is the maximum.\n\nExample 2:\n\nInput: s = \"aaazzz\", k = 4\n\nOutput: 6\n\nExplanation:\n\n• Replace s[0] with the previous letter, and s becomes \"zaazzz\".\n\n• Replace s[4] with the next letter, and s becomes \"zaazaz\".\n\n• Replace s[3] with the next letter, and s becomes \"zaaaaz\".\n\nThe entire string forms a palindrome of length 6.\n\nConstraints:\n\n• 1 <= s.length <= 200\n\n• 1 <= k <= 200\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestPalindromicSubsequence(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "dp[i][j][k] is the length of the longest palindromic subsequence in substring [i..j] with cost at most k.",
+    "dp[i][j][k] = max(dp[i + 1][j][k], dp[i][j - 1][k], dp[i + 1][j - 1][k - dist(s[i], s[j])] + 2), where dist(x, y) is the minimum cyclic distance between x and y."
+  ],
+  "testCases": [
+    [
+      "\"abced\"",
+      "2"
+    ],
+    [
+      "\"aaazzz\"",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def longestPalindromicSubsequence(self, s, k):\n        n = len(s)\n\n        def cyclic_dist(a, b):\n            d = abs(ord(a) - ord(b))\n            return min(d, 26 - d)\n\n        # dp[i][j][c] = longest palindromic subsequence in s[i..j] with cost <= c\n        # But k can be 200 and n=200, so dp is 200*200*201 ~ 8M entries.\n        from functools import lru_cache\n\n        @lru_cache(maxsize=None)\n        def dp(i, j, budget):\n            if i > j:\n                return 0\n            if i == j:\n                return 1\n            best = max(dp(i+1, j, budget), dp(i, j-1, budget))\n            cost = cyclic_dist(s[i], s[j])\n            if cost <= budget:\n                best = max(best, dp(i+1, j-1, budget - cost) + 2)\n            return best\n\n        return dp(0, n-1, k)",
+    "explanation": "Interval DP with budget: dp(i, j, budget) = longest palindromic subsequence of s[i..j] using at most `budget` operations. Base cases: empty = 0, single = 1. Try skipping left/right, or pairing s[i] and s[j] if cost ≤ budget.\n\nTime: O(n² * k). Space: O(n² * k)."
+  },
+  "similarQuestions": "[]"
+}

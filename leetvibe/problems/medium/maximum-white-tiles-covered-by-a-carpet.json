@@ -1,0 +1,60 @@
+{
+  "questionId": "2359",
+  "title": "Maximum White Tiles Covered by a Carpet",
+  "titleSlug": "maximum-white-tiles-covered-by-a-carpet",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 2D integer array tiles where tiles[i] = [li, ri] represents that every tile j in the range li <= j <= ri is colored white.\n\nYou are also given an integer carpetLen, the length of a single carpet that can be placed anywhere.\n\nReturn the maximum number of white tiles that can be covered by the carpet.\n\nExample 1:\n\nInput: tiles = [[1,5],[10,11],[12,18],[20,25],[30,32]], carpetLen = 10\nOutput: 9\nExplanation: Place the carpet starting on tile 10.\n    It covers 9 white tiles, so we return 9.\n    Note that there may be other places where the carpet covers 9 white tiles.\n    It can be shown that the carpet cannot cover more than 9 white tiles.\n\nExample 2:\n\nInput: tiles = [[10,11],[1,1]], carpetLen = 2\nOutput: 2\nExplanation: Place the carpet starting on tile 10.\n    It covers 2 white tiles, so we return 2.\n\nConstraints:\n\n• 1 <= tiles.length <= 5 * 104\n\n• tiles[i].length == 2\n\n• 1 <= li <= ri <= 109\n\n• 1 <= carpetLen <= 109\n\n• The tiles are non-overlapping.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumWhiteTiles(self, tiles, carpetLen):\n        \"\"\"\n        :type tiles: List[List[int]]\n        :type carpetLen: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think about the potential placements of the carpet in an optimal solution.",
+    "Can we use Prefix Sum and Binary Search to determine how many tiles are covered for a given placement?"
+  ],
+  "testCases": [
+    [
+      "[[1,5],[10,11],[12,18],[20,25],[30,32]]",
+      "10"
+    ],
+    [
+      "[[10,11],[1,1]]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Number of Vowels in a Substring of Given Length\", \"titleSlug\": \"maximum-number-of-vowels-in-a-substring-of-given-length\", \"difficulty\": \"Medium\"}]"
+}

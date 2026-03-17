@@ -1,0 +1,55 @@
+{
+  "questionId": "3886",
+  "title": "Count Number of Trapezoids I",
+  "titleSlug": "count-number-of-trapezoids-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "You are given a 2D integer array points, where points[i] = [xi, yi] represents the coordinates of the ith point on the Cartesian plane.\n\nA horizontal trapezoid is a convex quadrilateral with at least one pair of horizontal sides (i.e. parallel to the x-axis). Two lines are parallel if and only if they have the same slope.\n\nReturn the  number of unique horizontal trapezoids that can be formed by choosing any four distinct points from points.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: points = [[1,0],[2,0],[3,0],[2,2],[3,2]]\n\nOutput: 3\n\nExplanation: There are three distinct ways to pick four points that form a horizontal trapezoid:\n\n• Using points [1,0], [2,0], [3,2], and [2,2].\n\n• Using points [2,0], [3,0], [3,2], and [2,2].\n\n• Using points [1,0], [3,0], [3,2], and [2,2].\n\nExample 2:\n\nInput: points = [[0,0],[1,0],[0,1],[2,1]]\n\nOutput: 1\n\nExplanation: There is only one horizontal trapezoid that can be formed.\n\nConstraints:\n\n• 4 <= points.length <= 105\n\n• –108 <= xi, yi <= 108\n\n• All points are pairwise distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countTrapezoids(self, points):\n        \"\"\"\n        :type points: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For a line parallel to the x‑axis, all its points must share the same y‑coordinate.",
+    "Group the points by their y‑coordinate.",
+    "Choose two distinct groups (two horizontal lines), and from each group select two points to form a trapezoid."
+  ],
+  "testCases": [
+    [
+      "[[1,0],[2,0],[3,0],[2,2],[3,2]]"
+    ],
+    [
+      "[[0,0],[1,0],[0,1],[2,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def countTrapezoids(self, points):\n        MOD = 10**9 + 7\n        by_y = defaultdict(int)\n        for x, y in points:\n            by_y[y] += 1\n        # Trapezoid = 2 points from y1 + 2 from y2 (two distinct y-levels)\n        # Ways = sum over all pairs (y1, y2) of C(cnt1, 2) * C(cnt2, 2)\n        # = C(sum_of_pairs, 2) where pairs[y] = C(cnt[y], 2)\n        pairs = [(c * (c - 1) // 2) % MOD for c in by_y.values()]\n        S = sum(pairs) % MOD\n        S2 = sum(p * p % MOD for p in pairs) % MOD\n        # sum_{y1<y2} pairs[y1]*pairs[y2] = (S^2 - S2) / 2\n        ans = (S * S - S2) % MOD * pow(2, MOD - 2, MOD) % MOD\n        return ans",
+    "explanation": "Group points by y-coordinate. A trapezoid selects 2 points from each of 2 distinct y-levels. C(count, 2) pairs per level. Total = C(total_pairs, 2) computed as (S² - S²_of_pairs) / 2 using modular inverse.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

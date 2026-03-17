@@ -1,0 +1,65 @@
+{
+  "questionId": "3870",
+  "title": "Minimum Moves to Clean the Classroom",
+  "titleSlug": "minimum-moves-to-clean-the-classroom",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n grid classroom where a student volunteer is tasked with cleaning up litter scattered around the room. Each cell in the grid is one of the following:\n\n• 'S': Starting position of the student\n\n• 'L': Litter that must be collected (once collected, the cell becomes empty)\n\n• 'R': Reset area that restores the student's energy to full capacity, regardless of their current energy level (can be used multiple times)\n\n• 'X': Obstacle the student cannot pass through\n\n• '.': Empty space\n\nYou are also given an integer energy, representing the student's maximum energy capacity. The student starts with this energy from the starting position 'S'.\n\nEach move to an adjacent cell (up, down, left, or right) costs 1 unit of energy. If the energy reaches 0, the student can only continue if they are on a reset area 'R', which resets the energy to its maximum capacity energy.\n\nReturn the minimum number of moves required to collect all litter items, or -1 if it's impossible.\n\nExample 1:\n\nInput: classroom = [\"S.\", \"XL\"], energy = 2\n\nOutput: 2\n\nExplanation:\n\n• The student starts at cell (0, 0) with 2 units of energy.\n\n• Since cell (1, 0) contains an obstacle 'X', the student cannot move directly downward.\n\n• A valid sequence of moves to collect all litter is as follows:\n\n• Move 1: From (0, 0) → (0, 1) with 1 unit of energy and 1 unit remaining.\n\n• Move 2: From (0, 1) → (1, 1) to collect the litter 'L'.\n\n• The student collects all the litter using 2 moves. Thus, the output is 2.\n\nExample 2:\n\nInput: classroom = [\"LS\", \"RL\"], energy = 4\n\nOutput: 3\n\nExplanation:\n\n• The student starts at cell (0, 1) with 4 units of energy.\n\n• A valid sequence of moves to collect all litter is as follows:\n\n• Move 1: From (0, 1) → (0, 0) to collect the first litter 'L' with 1 unit of energy used and 3 units remaining.\n\n• Move 2: From (0, 0) → (1, 0) to 'R' to reset and restore energy back to 4.\n\n• Move 3: From (1, 0) → (1, 1) to collect the second litter 'L'.\n\n• The student collects all the litter using 3 moves. Thus, the output is 3.\n\nExample 3:\n\nInput: classroom = [\"L.S\", \"RXL\"], energy = 3\n\nOutput: -1\n\nExplanation: No valid path collects all 'L'.\n\nConstraints:\n\n• 1 <= m == classroom.length <= 20\n\n• 1 <= n == classroom[i].length <= 20\n\n• classroom[i][j] is one of 'S', 'L', 'R', 'X', or '.'\n\n• 1 <= energy <= 50\n\n• There is exactly one 'S' in the grid.\n\n• There are at most 10 'L' cells in the grid.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMoves(self, classroom, energy):\n        \"\"\"\n        :type classroom: List[str]\n        :type energy: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use BFS with states (x, y, mask, e, steps), initializing with (sx, sy, 0, energy, 0), and for each move update e (–1 per step), update mask on 'L', reset e=energy on 'R', and return steps when mask == fullMask.",
+    "Maintain a 3D array bestEnergy[x][y][mask] storing the maximum e seen for each (x,y,mask) and skip any new state with e <= bestEnergy[x][y][mask] to prune."
+  ],
+  "testCases": [
+    [
+      "[\"S.\", \"XL\"]",
+      "2"
+    ],
+    [
+      "[\"LS\", \"RL\"]",
+      "4"
+    ],
+    [
+      "[\"L.S\", \"RXL\"]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\nclass Solution(object):\n    def minMoves(self, classroom, energy):\n        m, n = len(classroom), len(classroom[0])\n\n        # Find start position and litter positions\n        sr, sc = 0, 0\n        litter_idx = {}\n        litter_count = 0\n        for r in range(m):\n            for c in range(n):\n                ch = classroom[r][c]\n                if ch == 'S':\n                    sr, sc = r, c\n                elif ch == 'L':\n                    litter_idx[(r, c)] = litter_count\n                    litter_count += 1\n\n        full_mask = (1 << litter_count) - 1\n\n        # BFS state: (row, col, mask, energy_left)\n        # bestEnergy[r][c][mask] = max energy seen at this state\n        best = [[[-1] * (1 << litter_count) for _ in range(n)] for _ in range(m)]\n\n        init_mask = 0\n        best[sr][sc][init_mask] = energy\n        q = deque([(sr, sc, init_mask, energy, 0)])\n\n        dirs = [(-1,0),(1,0),(0,-1),(0,1)]\n\n        while q:\n            r, c, mask, eng, steps = q.popleft()\n\n            if mask == full_mask:\n                return steps\n\n            if eng <= 0:\n                continue\n\n            for dr, dc in dirs:\n                nr, nc = r + dr, c + dc\n                if 0 <= nr < m and 0 <= nc < n and classroom[nr][nc] != 'X':\n                    new_eng = eng - 1\n                    new_mask = mask\n                    cell = classroom[nr][nc]\n                    if cell == 'L' and (nr, nc) in litter_idx:\n                        bit = litter_idx[(nr, nc)]\n                        new_mask = mask | (1 << bit)\n                    elif cell == 'R':\n                        new_eng = energy  # reset energy\n\n                    # Only enqueue if this state has better energy than seen\n                    if new_eng > best[nr][nc][new_mask]:\n                        best[nr][nc][new_mask] = new_eng\n                        q.append((nr, nc, new_mask, new_eng, steps + 1))\n\n        return -1",
+    "explanation": "BFS with state (row, col, litter_mask, energy). Since higher energy is always better, we prune states by keeping only the maximum energy seen for each (row, col, mask) combination.\n\nFor each state we try all 4 neighbors: subtract 1 energy (if cell is 'R', reset to max), update mask if stepping on 'L'. Only enqueue if the new state has strictly better energy than the best seen for that (r, c, mask).\n\nWith at most 10 litter items, 2^10 = 1024 mask values, 20×20 grid = 400 cells, state space ≤ 400 × 1024 = ~400K states.\n\nTime: O(m * n * 2^L * energy) amortized. Space: O(m * n * 2^L)."
+  },
+  "similarQuestions": "[]"
+}

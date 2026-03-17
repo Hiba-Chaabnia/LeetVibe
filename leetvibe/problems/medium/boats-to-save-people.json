@@ -1,0 +1,58 @@
+{
+  "questionId": "917",
+  "title": "Boats to Save People",
+  "titleSlug": "boats-to-save-people",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an array people where people[i] is the weight of the ith person, and an infinite number of boats where each boat can carry a maximum weight of limit. Each boat carries at most two people at the same time, provided the sum of the weight of those people is at most limit.\n\nReturn the minimum number of boats to carry every given person.\n\nExample 1:\n\nInput: people = [1,2], limit = 3\nOutput: 1\nExplanation: 1 boat (1, 2)\n\nExample 2:\n\nInput: people = [3,2,2,1], limit = 3\nOutput: 3\nExplanation: 3 boats (1, 2), (2) and (3)\n\nExample 3:\n\nInput: people = [3,5,3,4], limit = 5\nOutput: 4\nExplanation: 4 boats (3), (3), (4), (5)\n\nConstraints:\n\n• 1 <= people.length <= 5 * 104\n\n• 1 <= people[i] <= limit <= 3 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numRescueBoats(self, people, limit):\n        \"\"\"\n        :type people: List[int]\n        :type limit: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2]",
+      "3"
+    ],
+    [
+      "[3,2,2,1]",
+      "3"
+    ],
+    [
+      "[3,5,3,4]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numRescueBoats(self, people, limit):\n        people.sort()\n        left, right = 0, len(people) - 1\n        boats = 0\n        while left <= right:\n            if people[left] + people[right] <= limit:\n                left += 1\n            right -= 1\n            boats += 1\n        return boats",
+    "explanation": "Two pointers. Pair lightest with heaviest. Pair if fits, else just heaviest.\nTime: O(n*log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

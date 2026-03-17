@@ -1,0 +1,57 @@
+{
+  "questionId": "3610",
+  "title": "Find X-Sum of All K-Long Subarrays I",
+  "titleSlug": "find-x-sum-of-all-k-long-subarrays-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given an array nums of n integers and two integers k and x.\n\nThe x-sum of an array is calculated by the following procedure:\n\n• Count the occurrences of all elements in the array.\n\n• Keep only the occurrences of the top x most frequent elements. If two elements have the same number of occurrences, the element with the bigger value is considered more frequent.\n\n• Calculate the sum of the resulting array.\n\nNote that if an array has less than x distinct elements, its x-sum is the sum of the array.\n\nReturn an integer array answer of length n - k + 1 where answer[i] is the x-sum of the subarray nums[i..i + k - 1].\n\nExample 1:\n\nInput: nums = [1,1,2,2,3,4,2,3], k = 6, x = 2\n\nOutput: [6,10,12]\n\nExplanation:\n\n• For subarray [1, 1, 2, 2, 3, 4], only elements 1 and 2 will be kept in the resulting array. Hence, answer[0] = 1 + 1 + 2 + 2.\n\n• For subarray [1, 2, 2, 3, 4, 2], only elements 2 and 4 will be kept in the resulting array. Hence, answer[1] = 2 + 2 + 2 + 4. Note that 4 is kept in the array since it is bigger than 3 and 1 which occur the same number of times.\n\n• For subarray [2, 2, 3, 4, 2, 3], only elements 2 and 3 are kept in the resulting array. Hence, answer[2] = 2 + 2 + 2 + 3 + 3.\n\nExample 2:\n\nInput: nums = [3,8,7,8,7,5], k = 2, x = 2\n\nOutput: [11,15,15,15,12]\n\nExplanation: Since k == x, answer[i] is equal to the sum of the subarray nums[i..i + k - 1].\n\nConstraints:\n\n• 1 <= n == nums.length <= 50\n\n• 1 <= nums[i] <= 50\n\n• 1 <= x <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findXSum(self, nums, k, x):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type x: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Implement the x-sum function. Then, run x-sum on every subarray of nums of size k."
+  ],
+  "testCases": [
+    [
+      "[1,1,2,2,3,4,2,3]",
+      "6",
+      "2"
+    ],
+    [
+      "[3,8,7,8,7,5]",
+      "2",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[6,10,12]",
+    "[11,15,15,15,12]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findXSum(self, nums, k, x):\n        from collections import Counter\n        result = []\n        for i in range(len(nums) - k + 1):\n            sub = nums[i:i + k]\n            cnt = Counter(sub)\n            top = sorted(cnt.keys(), key=lambda v: (-cnt[v], -v))[:x]\n            result.append(sum(v * cnt[v] for v in top))\n        return result",
+    "explanation": "Slide a window of size k; sort elements by (frequency desc, value desc) to pick top-x, then sum freq*value. O(n*k*log k) time."
+  },
+  "similarQuestions": "[]"
+}

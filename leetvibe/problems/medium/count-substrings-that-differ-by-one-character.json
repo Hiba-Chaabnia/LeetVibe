@@ -1,0 +1,56 @@
+{
+  "questionId": "1743",
+  "title": "Count Substrings That Differ by One Character",
+  "titleSlug": "count-substrings-that-differ-by-one-character",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Given two strings s and t, find the number of ways you can choose a non-empty substring of s and replace a single character by a different character such that the resulting substring is a substring of t. In other words, find the number of substrings in s that differ from some substring in t by exactly one character.\n\nFor example, the underlined substrings in \"computer\" and \"computation\" only differ by the 'e'/'a', so this is a valid way.\n\nReturn the number of substrings that satisfy the condition above.\n\nA substring is a contiguous sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"aba\", t = \"baba\"\nOutput: 6\nExplanation: The following are the pairs of substrings from s and t that differ by exactly 1 character:\n    (\"aba\", \"baba\")\n    (\"aba\", \"baba\")\n    (\"aba\", \"baba\")\n    (\"aba\", \"baba\")\n    (\"aba\", \"baba\")\n    (\"aba\", \"baba\")\n    The underlined portions are the substrings that are chosen from s and t.\n\n​​Example 2:\n\nInput: s = \"ab\", t = \"bb\"\nOutput: 3\nExplanation: The following are the pairs of substrings from s and t that differ by 1 character:\n    (\"ab\", \"bb\")\n    (\"ab\", \"bb\")\n    (\"ab\", \"bb\")\n    ​​​​The underlined portions are the substrings that are chosen from s and t.\n\nConstraints:\n\n• 1 <= s.length, t.length <= 100\n\n• s and t consist of lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSubstrings(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Take every substring of s, change a character, and see how many substrings of t match that substring.",
+    "Use a Trie to store all substrings of t as a dictionary."
+  ],
+  "testCases": [
+    [
+      "\"aba\"",
+      "\"baba\""
+    ],
+    [
+      "\"ab\"",
+      "\"bb\""
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countSubstrings(self, s, t):\n        result = 0\n        s_set = set()\n        for i in range(len(s)):\n            for j in range(i, len(s)):\n                sub = s[i:j+1]\n                for k in range(len(t) - len(sub) + 1):\n                    t_sub = t[k:k+len(sub)]\n                    diff = sum(1 for a, b in zip(sub, t_sub) if a != b)\n                    if diff == 1:\n                        result += 1\n        return result",
+    "explanation": "For each substring of s, count matching substrings in t with 1 char difference.\nTime: O(|s|² * |t| * max(|s|))\nSpace: O(|s|²)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Words Obtained After Adding a Letter\", \"titleSlug\": \"count-words-obtained-after-adding-a-letter\", \"difficulty\": \"Medium\"}]"
+}

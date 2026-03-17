@@ -1,0 +1,53 @@
+{
+  "questionId": "2661",
+  "title": "Smallest Missing Non-negative Integer After Operations",
+  "titleSlug": "smallest-missing-non-negative-integer-after-operations",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums and an integer value.\n\nIn one operation, you can add or subtract value from any element of nums.\n\n• For example, if nums = [1,2,3] and value = 2, you can choose to subtract value from nums[0] to make nums = [-1,2,3].\n\nThe MEX (minimum excluded) of an array is the smallest missing non-negative integer in it.\n\n• For example, the MEX of [-1,2,3] is 0 while the MEX of [1,0,3] is 2.\n\nReturn the maximum MEX of nums after applying the mentioned operation any number of times.\n\nExample 1:\n\nInput: nums = [1,-10,7,13,6,8], value = 5\nOutput: 4\nExplanation: One can achieve this result by applying the following operations:\n    - Add value to nums[1] twice to make nums = [1,0,7,13,6,8]\n    - Subtract value from nums[2] once to make nums = [1,0,2,13,6,8]\n    - Subtract value from nums[3] twice to make nums = [1,0,2,3,6,8]\n    The MEX of nums is 4. It can be shown that 4 is the maximum MEX we can achieve.\n\nExample 2:\n\nInput: nums = [1,-10,7,13,6,8], value = 7\nOutput: 2\nExplanation: One can achieve this result by applying the following operation:\n    - subtract value from nums[2] once to make nums = [1,-10,0,13,6,8]\n    The MEX of nums is 2. It can be shown that 2 is the maximum MEX we can achieve.\n\nConstraints:\n\n• 1 <= nums.length, value <= 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findSmallestInteger(self, nums, value):\n        \"\"\"\n        :type nums: List[int]\n        :type value: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think about using modular arithmetic.",
+    "if x = nums[i] (mod value), then we can make nums[i] equal to x  after some number of operations",
+    "How does finding the frequency of (nums[i] mod value) help?"
+  ],
+  "testCases": [
+    [
+      "[1,-10,7,13,6,8]",
+      "5"
+    ],
+    [
+      "[1,-10,7,13,6,8]",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"First Missing Positive\", \"titleSlug\": \"first-missing-positive\", \"difficulty\": \"Hard\"}]"
+}

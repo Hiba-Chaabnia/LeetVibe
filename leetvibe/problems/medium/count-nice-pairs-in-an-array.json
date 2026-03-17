@@ -1,0 +1,55 @@
+{
+  "questionId": "1925",
+  "title": "Count Nice Pairs in an Array",
+  "titleSlug": "count-nice-pairs-in-an-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an array nums that consists of non-negative integers. Let us define rev(x) as the reverse of the non-negative integer x. For example, rev(123) = 321, and rev(120) = 21. A pair of indices (i, j) is nice if it satisfies all of the following conditions:\n\n• 0 <= i < j < nums.length\n\n• nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])\n\nReturn the number of nice pairs of indices. Since that number can be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: nums = [42,11,1,97]\nOutput: 2\nExplanation: The two pairs are:\n     - (0,3) : 42 + rev(97) = 42 + 79 = 121, 97 + rev(42) = 97 + 24 = 121.\n     - (1,2) : 11 + rev(1) = 11 + 1 = 12, 1 + rev(11) = 1 + 11 = 12.\n\nExample 2:\n\nInput: nums = [13,10,35,24,76]\nOutput: 4\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countNicePairs(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The condition can be rearranged to (nums[i] - rev(nums[i])) == (nums[j] - rev(nums[j])).",
+    "Transform each nums[i] into (nums[i] - rev(nums[i])). Then, count the number of (i, j) pairs that have equal values.",
+    "Keep a map storing the frequencies of values that you have seen so far. For each i, check if nums[i] is in the map. If it is, then add that count to the overall count. Then, increment the frequency of nums[i]."
+  ],
+  "testCases": [
+    [
+      "[42,11,1,97]"
+    ],
+    [
+      "[13,10,35,24,76]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countNicePairs(self, nums):\n        MOD = 10**9 + 7\n        def rev(n):\n            r = 0\n            while n > 0:\n                r = r * 10 + n % 10\n                n //= 10\n            return r\n        freq = {}\n        result = 0\n        for num in nums:\n            diff = num - rev(num)\n            result = (result + freq.get(diff, 0)) % MOD\n            freq[diff] = freq.get(diff, 0) + 1\n        return result",
+    "explanation": "Transform nums[i] to (nums[i] - rev(nums[i])). Count pairs with same value.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Pairs of Interchangeable Rectangles\", \"titleSlug\": \"number-of-pairs-of-interchangeable-rectangles\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Number of Bad Pairs\", \"titleSlug\": \"count-number-of-bad-pairs\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Pairs Satisfying Inequality\", \"titleSlug\": \"number-of-pairs-satisfying-inequality\", \"difficulty\": \"Hard\"}]"
+}

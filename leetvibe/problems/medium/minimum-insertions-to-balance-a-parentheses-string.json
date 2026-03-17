@@ -1,0 +1,50 @@
+{
+  "questionId": "1648",
+  "title": "Minimum Insertions to Balance a Parentheses String",
+  "titleSlug": "minimum-insertions-to-balance-a-parentheses-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given a parentheses string s containing only the characters '(' and ')'. A parentheses string is balanced if:\n\n• Any left parenthesis '(' must have a corresponding two consecutive right parenthesis '))'.\n\n• Left parenthesis '(' must go before the corresponding two consecutive right parenthesis '))'.\n\nIn other words, we treat '(' as an opening parenthesis and '))' as a closing parenthesis.\n\n• For example, \"())\", \"())(())))\" and \"(())())))\" are balanced, \")()\", \"()))\" and \"(()))\" are not balanced.\n\nYou can insert the characters '(' and ')' at any position of the string to balance it if needed.\n\nReturn the minimum number of insertions needed to make s balanced.\n\nExample 1:\n\nInput: s = \"(()))\"\nOutput: 1\nExplanation: The second '(' has two matching '))', but the first '(' has only ')' matching. We need to add one more ')' at the end of the string to be \"(())))\" which is balanced.\n\nExample 2:\n\nInput: s = \"())\"\nOutput: 0\nExplanation: The string is already balanced.\n\nExample 3:\n\nInput: s = \"))())(\"\nOutput: 3\nExplanation: Add '(' to match the first '))', Add '))' to match the last '('.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of '(' and ')' only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minInsertions(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a stack to keep opening brackets. If you face single closing ')' add 1 to the answer and consider it as '))'.",
+    "If you have '))' with empty stack, add 1 to the answer, If after finishing you have x opening remaining in the stack, add 2x to the answer."
+  ],
+  "testCases": [
+    [
+      "\"(()))\""
+    ],
+    [
+      "\"())\""
+    ],
+    [
+      "\"))())(\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Number of Swaps to Make the String Balanced\", \"titleSlug\": \"minimum-number-of-swaps-to-make-the-string-balanced\", \"difficulty\": \"Medium\"}]"
+}

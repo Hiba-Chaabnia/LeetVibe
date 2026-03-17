@@ -1,0 +1,41 @@
+{
+  "questionId": "1660",
+  "title": "Thousand Separator",
+  "titleSlug": "thousand-separator",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given an integer n, add a dot (\".\") as the thousands separator and return it in string format.\n\nExample 1:\n\nInput: n = 987\nOutput: \"987\"\n\nExample 2:\n\nInput: n = 1234\nOutput: \"1.234\"\n\nConstraints:\n\n• 0 <= n <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def thousandSeparator(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Scan from the back of the integer and use dots to connect blocks with length 3 except the last block."
+  ],
+  "testCases": [
+    [
+      "987"
+    ],
+    [
+      "1234"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"987\"",
+    "\"1.234\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def thousandSeparator(self, n):\n        s = str(n)\n        result = []\n        for i, c in enumerate(reversed(s)):\n            if i > 0 and i % 3 == 0:\n                result.append('.')\n            result.append(c)\n        return ''.join(reversed(result))",
+    "explanation": "Build from right. Add dot every 3 digits. Reverse.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

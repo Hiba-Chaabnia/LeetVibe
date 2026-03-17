@@ -1,0 +1,53 @@
+{
+  "questionId": "3937",
+  "title": "Number of Integers With Popcount-Depth Equal to K I",
+  "titleSlug": "number-of-integers-with-popcount-depth-equal-to-k-i",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given two integers n and k.\n\nFor any positive integer x, define the following sequence:\n\n• p0 = x\n\n• pi+1 = popcount(pi) for all i >= 0, where popcount(y) is the number of set bits (1's) in the binary representation of y.\n\nThis sequence will eventually reach the value 1.\n\nThe popcount-depth of x is defined as the smallest integer d >= 0 such that pd = 1.\n\nFor example, if x = 7 (binary representation \"111\"). Then, the sequence is: 7 → 3 → 2 → 1, so the popcount-depth of 7 is 3.\n\nYour task is to determine the number of integers in the range [1, n] whose popcount-depth is exactly equal to k.\n\nReturn the number of such integers.\n\nExample 1:\n\nInput: n = 4, k = 1\n\nOutput: 2\n\nExplanation: The following integers in the range [1, 4] have popcount-depth exactly equal to 1:\n\n\t\t\t\tx\n\t\t\t\tBinary\n\t\t\t\tSequence\n\n\t\t\t\t2\n\t\t\t\t\"10\"\n\t\t\t\t2 → 1\n\n\t\t\t\t4\n\t\t\t\t\"100\"\n\t\t\t\t4 → 1\n\nThus, the answer is 2.\n\nExample 2:\n\nInput: n = 7, k = 2\n\nOutput: 3\n\nExplanation: The following integers in the range [1, 7] have popcount-depth exactly equal to 2:\n\n\t\t\t\tx\n\t\t\t\tBinary\n\t\t\t\tSequence\n\n\t\t\t\t3\n\t\t\t\t\"11\"\n\t\t\t\t3 → 2 → 1\n\n\t\t\t\t5\n\t\t\t\t\"101\"\n\t\t\t\t5 → 2 → 1\n\n\t\t\t\t6\n\t\t\t\t\"110\"\n\t\t\t\t6 → 2 → 1\n\nThus, the answer is 3.\n\nConstraints:\n\n• 1 <= n <= 1015\n\n• 0 <= k <= 5",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def popcountDepth(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use digit dynamic programming on the binary representation of n: let dp[pos][ones][tight] = number of ways to choose bits from the most significant down to position pos with exactly ones ones so far, where tight indicates whether you're still matching the prefix of n.",
+    "Precompute depth[j] for all j from 0 to 64 by repeatedly applying popcount(j) until you reach 1.",
+    "After your DP, let dp_final[j] be the count of numbers <= n that have exactly j ones; the answer is the sum of all dp_final[j] for which depth[j] == k."
+  ],
+  "testCases": [
+    [
+      "4",
+      "1"
+    ],
+    [
+      "7",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find Pattern in Infinite Stream II\", \"titleSlug\": \"find-pattern-in-infinite-stream-ii\", \"difficulty\": \"Hard\"}]"
+}

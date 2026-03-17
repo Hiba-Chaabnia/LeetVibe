@@ -1,0 +1,56 @@
+{
+  "questionId": "3587",
+  "title": "Maximum Points Tourist Can Earn",
+  "titleSlug": "maximum-points-tourist-can-earn",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given two integers, n and k, along with two 2D integer arrays, stayScore and travelScore.\n\nA tourist is visiting a country with n cities, where each city is directly connected to every other city. The tourist's journey consists of exactly k 0-indexed days, and they can choose any city as their starting point.\n\nEach day, the tourist has two choices:\n\n• Stay in the current city: If the tourist stays in their current city curr during day i, they will earn stayScore[i][curr] points.\n\n• Move to another city: If the tourist moves from their current city curr to city dest, they will earn travelScore[curr][dest] points.\n\nReturn the maximum possible points the tourist can earn.\n\nExample 1:\n\nInput: n = 2, k = 1, stayScore = [[2,3]], travelScore = [[0,2],[1,0]]\n\nOutput: 3\n\nExplanation: The tourist earns the maximum number of points by starting in city 1 and staying in that city.\n\nExample 2:\n\nInput: n = 3, k = 2, stayScore = [[3,4,2],[2,1,2]], travelScore = [[0,2,1],[2,0,4],[3,2,0]]\n\nOutput: 8\n\nExplanation: The tourist earns the maximum number of points by starting in city 1, staying in that city on day 0, and traveling to city 2 on day 1.\n\nConstraints:\n\n• 1 <= n <= 200\n\n• 1 <= k <= 200\n\n• n == travelScore.length == travelScore[i].length == stayScore[i].length\n\n• k == stayScore.length\n\n• 1 <= stayScore[i][j] <= 100\n\n• 0 <= travelScore[i][j] <= 100\n\n• travelScore[i][i] == 0",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxScore(self, n, k, stayScore, travelScore):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :type stayScore: List[List[int]]\n        :type travelScore: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use DP.",
+    "dp[i][j] is the maximum score that you can achieve in your last i actions by starting from city j."
+  ],
+  "testCases": [
+    [
+      "2",
+      "1",
+      "[[2,3]]",
+      "[[0,2],[1,0]]"
+    ],
+    [
+      "3",
+      "2",
+      "[[3,4,2],[2,1,2]]",
+      "[[0,2,1],[2,0,4],[3,2,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxScore(self, n, k, stayScore, travelScore):\n        # dp[city] = max points after completing day i ending at city\n        INF = float('-inf')\n        dp = [0] * n  # Can start at any city\n\n        for day in range(k):\n            new_dp = [INF] * n\n            for dest in range(n):\n                # Stay at dest\n                new_dp[dest] = max(new_dp[dest], dp[dest] + stayScore[day][dest])\n                # Travel from any other city\n                for src in range(n):\n                    if src != dest:\n                        new_dp[dest] = max(new_dp[dest],\n                                          dp[src] + travelScore[src][dest])\n            dp = new_dp\n\n        return max(dp)",
+    "explanation": "DP where dp[city] = max points after completing the current day ending at city. Initialize dp[city] = 0 (can start anywhere before day 0). For each day, compute new_dp[dest] by either staying (dp[dest] + stayScore[day][dest]) or traveling from any src (dp[src] + travelScore[src][dest]).\n\nTime: O(k * n²). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

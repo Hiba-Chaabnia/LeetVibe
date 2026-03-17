@@ -1,0 +1,54 @@
+{
+  "questionId": "863",
+  "title": "Sum of Distances in Tree",
+  "titleSlug": "sum-of-distances-in-tree",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There is an undirected connected tree with n nodes labeled from 0 to n - 1 and n - 1 edges.\n\nYou are given the integer n and the array edges where edges[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the tree.\n\nReturn an array answer of length n where answer[i] is the sum of the distances between the ith node in the tree and all other nodes.\n\nExample 1:\n\nInput: n = 6, edges = [[0,1],[0,2],[2,3],[2,4],[2,5]]\nOutput: [8,12,6,10,10,10]\nExplanation: The tree is shown above.\n    We can see that dist(0,1) + dist(0,2) + dist(0,3) + dist(0,4) + dist(0,5)\n    equals 1 + 1 + 2 + 2 + 2 = 8.\n    Hence, answer[0] = 8, and so on.\n\nExample 2:\n\nInput: n = 1, edges = []\nOutput: [0]\n\nExample 3:\n\nInput: n = 2, edges = [[1,0]]\nOutput: [1,1]\n\nConstraints:\n\n• 1 <= n <= 3 * 104\n\n• edges.length == n - 1\n\n• edges[i].length == 2\n\n• 0 <= ai, bi < n\n\n• ai != bi\n\n• The given input represents a valid tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumOfDistancesInTree(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "6",
+      "[[0,1],[0,2],[2,3],[2,4],[2,5]]"
+    ],
+    [
+      "1",
+      "[]"
+    ],
+    [
+      "2",
+      "[[1,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[8,12,6,10,10,10]",
+    "[0]",
+    "[1,1]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Distribute Coins in Binary Tree\", \"titleSlug\": \"distribute-coins-in-binary-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Nodes With the Highest Score\", \"titleSlug\": \"count-nodes-with-the-highest-score\", \"difficulty\": \"Medium\"}, {\"title\": \"Collect Coins in a Tree\", \"titleSlug\": \"collect-coins-in-a-tree\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Score After Applying Operations on a Tree\", \"titleSlug\": \"maximum-score-after-applying-operations-on-a-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Pairs of Connectable Servers in a Weighted Tree Network\", \"titleSlug\": \"count-pairs-of-connectable-servers-in-a-weighted-tree-network\", \"difficulty\": \"Medium\"}, {\"title\": \"Time Taken to Mark All Nodes\", \"titleSlug\": \"time-taken-to-mark-all-nodes\", \"difficulty\": \"Hard\"}]"
+}

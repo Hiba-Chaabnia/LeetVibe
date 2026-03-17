@@ -1,0 +1,43 @@
+{
+  "questionId": "3801",
+  "title": "Count Beautiful Numbers",
+  "titleSlug": "count-beautiful-numbers",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given two positive integers, l and r. A positive integer is called beautiful if the product of its digits is divisible by the sum of its digits.\n\nReturn the count of beautiful numbers between l and r, inclusive.\n\nExample 1:\n\nInput: l = 10, r = 20\n\nOutput: 2\n\nExplanation: The beautiful numbers in the range are 10 and 20.\n\nExample 2:\n\nInput: l = 1, r = 15\n\nOutput: 10\n\nExplanation: The beautiful numbers in the range are 1, 2, 3, 4, 5, 6, 7, 8, 9, and 10.\n\nConstraints:\n\n• 1 <= l <= r < 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def beautifulNumbers(self, l, r):\n        \"\"\"\n        :type l: int\n        :type r: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use digit dynamic programming."
+  ],
+  "testCases": [
+    [
+      "10",
+      "20"
+    ],
+    [
+      "1",
+      "15"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def beautifulNumbers(self, l, r):\n        \"\"\"\n        :type l: int\n        :type r: int\n        :rtype: int\n        \"\"\"\n        def count_beautiful(num_str):\n            \"\"\"Count beautiful numbers <= num_str\"\"\"\n            memo = {}\n            \n            def dp(pos, product, digit_sum, tight):\n                if pos == len(num_str):\n                    if digit_sum == 0:\n                        return 0  # Avoid division by zero\n                    return 1 if product % digit_sum == 0 else 0\n                \n                if (pos, product, digit_sum, tight) in memo:\n                    return memo[(pos, product, digit_sum, tight)]\n                \n                limit = int(num_str[pos]) if tight else 9\n                result = 0\n                \n                for digit in range(0, limit + 1):\n                    new_product = product * digit if digit > 0 else product\n                    new_sum = digit_sum + digit\n                    new_tight = tight and (digit == limit)\n                    \n                    result += dp(pos + 1, new_product, new_sum, new_tight)\n                \n                memo[(pos, product, digit_sum, tight)] = result\n                return result\n            \n            return dp(0, 1, 0, True)\n        \n        return count_beautiful(str(r)) - count_beautiful(str(l - 1))",
+    "explanation": "Beautiful number counting with digit DP:\n\n1. **Digit DP State**:\n   - pos: current position\n   - product: product of digits so far\n   - digit_sum: sum of digits so far\n   - tight: bounded by original\n\n2. **Transition**:\n   - Try each digit 0-limit\n   - Update product (skip 0)\n   - Update sum\n\n3. **Check**: product % digit_sum == 0\n4. **Answer**: count(r) - count(l-1)\n\nTime: O(log(r) * 9 * product * sum)\nSpace: O(memo_size)"
+  },
+  "similarQuestions": "[]"
+}

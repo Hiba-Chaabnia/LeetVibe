@@ -1,0 +1,64 @@
+{
+  "questionId": "2233",
+  "title": "Number of Smooth Descent Periods of a Stock",
+  "titleSlug": "number-of-smooth-descent-periods-of-a-stock",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an integer array prices representing the daily price history of a stock, where prices[i] is the stock price on the ith day.\n\nA smooth descent period of a stock consists of one or more contiguous days such that the price on each day is lower than the price on the preceding day by exactly 1. The first day of the period is exempted from this rule.\n\nReturn the number of smooth descent periods.\n\nExample 1:\n\nInput: prices = [3,2,1,4]\nOutput: 7\nExplanation: There are 7 smooth descent periods:\n    [3], [2], [1], [4], [3,2], [2,1], and [3,2,1]\n    Note that a period with one day is a smooth descent period by the definition.\n\nExample 2:\n\nInput: prices = [8,6,7,7]\nOutput: 4\nExplanation: There are 4 smooth descent periods: [8], [6], [7], and [7]\n    Note that [8,6] is not a smooth descent period as 8 - 6 ≠ 1.\n\nExample 3:\n\nInput: prices = [1]\nOutput: 1\nExplanation: There is 1 smooth descent period: [1]\n\nConstraints:\n\n• 1 <= prices.length <= 105\n\n• 1 <= prices[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getDescentPeriods(self, prices):\n        \"\"\"\n        :type prices: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Any array is a series of adjacent longest possible smooth descent periods. For example, [5,3,2,1,7,6] is [5] + [3,2,1] + [7,6].",
+    "Think of a 2-pointer approach to traverse the array and find each longest possible period.",
+    "Suppose you found the longest possible period with a length of k. How many periods are within that period? How can you count them quickly? Think of the formula to calculate the sum of 1, 2, 3, ..., k."
+  ],
+  "testCases": [
+    [
+      "[3,2,1,4]"
+    ],
+    [
+      "[8,6,7,7]"
+    ],
+    [
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def getDescentPeriods(self, prices):\n        \"\"\"\n        :type prices: List[int]\n        :rtype: int\n        \"\"\"\n        periods = 0\n        length = 1  # Current consecutive descent length\n        \n        for i in range(1, len(prices)):\n            if prices[i] == prices[i-1] - 1:\n                # Continue descent\n                length += 1\n            else:\n                # Descent breaks\n                # Sum 1+2+...+length = length*(length+1)/2\n                periods += length * (length + 1) // 2\n                length = 1\n        \n        # Don't forget last period\n        periods += length * (length + 1) // 2\n        \n        return periods",
+    "explanation": "Track consecutive descents. For descent of length k, number of subperiods = k*(k+1)/2.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Subarray Product Less Than K\", \"titleSlug\": \"subarray-product-less-than-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Valid Subarrays\", \"titleSlug\": \"number-of-valid-subarrays\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Zero-Filled Subarrays\", \"titleSlug\": \"number-of-zero-filled-subarrays\", \"difficulty\": \"Medium\"}]"
+}

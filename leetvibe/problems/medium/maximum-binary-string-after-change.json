@@ -1,0 +1,41 @@
+{
+  "questionId": "1804",
+  "title": "Maximum Binary String After Change",
+  "titleSlug": "maximum-binary-string-after-change",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a binary string binary consisting of only 0's or 1's. You can apply each of the following operations any number of times:\n\n• Operation 1: If the number contains the substring \"00\", you can replace it with \"10\".\n\n• For example, \"00010\" -> \"10010\"\n\n• Operation 2: If the number contains the substring \"10\", you can replace it with \"01\".\n\n• For example, \"00010\" -> \"00001\"\n\nReturn the maximum binary string you can obtain after any number of operations. Binary string x is greater than binary string y if x's decimal representation is greater than y's decimal representation.\n\nExample 1:\n\nInput: binary = \"000110\"\nOutput: \"111011\"\nExplanation: A valid transformation sequence can be:\n    \"000110\" -> \"000101\"\n    \"000101\" -> \"100101\"\n    \"100101\" -> \"110101\"\n    \"110101\" -> \"110011\"\n    \"110011\" -> \"111011\"\n\nExample 2:\n\nInput: binary = \"01\"\nOutput: \"01\"\nExplanation: \"01\" cannot be transformed any further.\n\nConstraints:\n\n• 1 <= binary.length <= 105\n\n• binary consist of '0' and '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumBinaryString(self, binary):\n        \"\"\"\n        :type binary: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that with the operations, you can always make the string only contain at most 1 zero."
+  ],
+  "testCases": [
+    [
+      "\"000110\""
+    ],
+    [
+      "\"01\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"111011\"",
+    "\"01\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Binary Subsequence Less Than or Equal to K\", \"titleSlug\": \"longest-binary-subsequence-less-than-or-equal-to-k\", \"difficulty\": \"Medium\"}]"
+}

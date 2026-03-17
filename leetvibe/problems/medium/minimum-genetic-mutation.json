@@ -1,0 +1,51 @@
+{
+  "questionId": "433",
+  "title": "Minimum Genetic Mutation",
+  "titleSlug": "minimum-genetic-mutation",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "A gene string can be represented by an 8-character long string, with choices from 'A', 'C', 'G', and 'T'.\n\nSuppose we need to investigate a mutation from a gene string startGene to a gene string endGene where one mutation is defined as one single character changed in the gene string.\n\n• For example, \"AACCGGTT\" --> \"AACCGGTA\" is one mutation.\n\nThere is also a gene bank bank that records all the valid gene mutations. A gene must be in bank to make it a valid gene string.\n\nGiven the two gene strings startGene and endGene and the gene bank bank, return the minimum number of mutations needed to mutate from startGene to endGene. If there is no such a mutation, return -1.\n\nNote that the starting point is assumed to be valid, so it might not be included in the bank.\n\nExample 1:\n\nInput: startGene = \"AACCGGTT\", endGene = \"AACCGGTA\", bank = [\"AACCGGTA\"]\nOutput: 1\n\nExample 2:\n\nInput: startGene = \"AACCGGTT\", endGene = \"AAACGGTA\", bank = [\"AACCGGTA\",\"AACCGCTA\",\"AAACGGTA\"]\nOutput: 2\n\nConstraints:\n\n• 0 <= bank.length <= 10\n\n• startGene.length == endGene.length == bank[i].length == 8\n\n• startGene, endGene, and bank[i] consist of only the characters ['A', 'C', 'G', 'T'].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMutation(self, startGene, endGene, bank):\n        \"\"\"\n        :type startGene: str\n        :type endGene: str\n        :type bank: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"AACCGGTT\"",
+      "\"AACCGGTA\"",
+      "[\"AACCGGTA\"]"
+    ],
+    [
+      "\"AACCGGTT\"",
+      "\"AAACGGTA\"",
+      "[\"AACCGGTA\",\"AACCGCTA\",\"AAACGGTA\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\ndef minMutation(start, end, bank):\n    q = deque([start])\n    visited = set([start])\n    depth = 0\n\n    while q:\n        levelSize = len(q)\n        for _ in range(levelSize):\n            current = q.popleft()\n            if current == end:\n                return depth\n\n            for gene in bank:\n                if gene not in visited:\n                    diff = sum(1 for j in range(8) if current[j] != gene[j])\n                    if diff == 1:\n                        q.append(gene)\n                        visited.add(gene)\n        depth += 1\n    return -1",
+    "explanation": "1. Use a queue to perform Breadth-First Search.\n2. Push the starting gene onto the queue, and add it to the visited set.\n3. Iterate until the queue is empty.\n   - Iterate through each level (mutations with the same depth) to find valid gene mutations.\n   - For each gene in the bank, if it has not been visited:\n     - Calculate the difference between the current gene and other genes by iterating character by character.\n     - If the difference is only 1, push the new gene onto the queue and add it to the visited set.\n   - Increase the depth (mutation count) after each level has been fully considered.\n4. If the loop ends and the end gene has not been found, return -1, otherwise return the depth."
+  },
+  "similarQuestions": "[{\"title\": \"Word Ladder\", \"titleSlug\": \"word-ladder\", \"difficulty\": \"Hard\"}]"
+}

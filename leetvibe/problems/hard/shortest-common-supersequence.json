@@ -1,0 +1,44 @@
+{
+  "questionId": "1170",
+  "title": "Shortest Common Supersequence ",
+  "titleSlug": "shortest-common-supersequence",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given two strings str1 and str2, return the shortest string that has both str1 and str2 as subsequences. If there are multiple valid strings, return any of them.\n\nA string s is a subsequence of string t if deleting some number of characters from t (possibly 0) results in the string s.\n\nExample 1:\n\nInput: str1 = \"abac\", str2 = \"cab\"\nOutput: \"cabac\"\nExplanation:\n    str1 = \"abac\" is a subsequence of \"cabac\" because we can delete the first \"c\".\n    str2 = \"cab\" is a subsequence of \"cabac\" because we can delete the last \"ac\".\n    The answer provided is the shortest such string that satisfies these properties.\n\nExample 2:\n\nInput: str1 = \"aaaaaaaa\", str2 = \"aaaaaaaa\"\nOutput: \"aaaaaaaa\"\n\nConstraints:\n\n• 1 <= str1.length, str2.length <= 1000\n\n• str1 and str2 consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestCommonSupersequence(self, str1, str2):\n        \"\"\"\n        :type str1: str\n        :type str2: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can find the length of the longest common subsequence between str1[i:] and str2[j:] (for all (i, j)) by using dynamic programming.",
+    "We can use this information to recover the shortest common supersequence."
+  ],
+  "testCases": [
+    [
+      "\"abac\"",
+      "\"cab\""
+    ],
+    [
+      "\"aaaaaaaa\"",
+      "\"aaaaaaaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"cabac\"",
+    "\"aaaaaaaa\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Common Subsequence\", \"titleSlug\": \"longest-common-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Shortest String That Contains Three Strings\", \"titleSlug\": \"shortest-string-that-contains-three-strings\", \"difficulty\": \"Medium\"}]"
+}

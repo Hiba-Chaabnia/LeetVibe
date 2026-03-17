@@ -1,0 +1,53 @@
+{
+  "questionId": "2318",
+  "title": "Maximum Points in an Archery Competition",
+  "titleSlug": "maximum-points-in-an-archery-competition",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Alice and Bob are opponents in an archery competition. The competition has set the following rules:\n\n• Alice first shoots numArrows arrows and then Bob shoots numArrows arrows.\n\n• The points are then calculated as follows:\n\n• The target has integer scoring sections ranging from 0 to 11 inclusive.\n\n• For each section of the target with score k (in between 0 to 11), say Alice and Bob have shot ak and bk arrows on that section respectively. If ak >= bk, then Alice takes k points. If ak < bk, then Bob takes k points.\n\n• However, if ak == bk == 0, then nobody takes k points.\n\n•\n\tFor example, if Alice and Bob both shot 2 arrows on the section with score 11, then Alice takes 11 points. On the other hand, if Alice shot 0 arrows on the section with score 11 and Bob shot 2 arrows on that same section, then Bob takes 11 points.\n\nYou are given the integer numArrows and an integer array aliceArrows of size 12, which represents the number of arrows Alice shot on each scoring section from 0 to 11. Now, Bob wants to maximize the total number of points he can obtain.\n\nReturn the array bobArrows which represents the number of arrows Bob shot on each scoring section from 0 to 11. The sum of the values in bobArrows should equal numArrows.\n\nIf there are multiple ways for Bob to earn the maximum total points, return any one of them.\n\nExample 1:\n\nInput: numArrows = 9, aliceArrows = [1,1,0,1,0,0,2,1,0,1,2,0]\nOutput: [0,0,0,0,1,1,0,0,1,2,3,1]\nExplanation: The table above shows how the competition is scored.\n    Bob earns a total point of 4 + 5 + 8 + 9 + 10 + 11 = 47.\n    It can be shown that Bob cannot obtain a score higher than 47 points.\n\nExample 2:\n\nInput: numArrows = 3, aliceArrows = [0,0,1,0,0,0,0,0,0,0,0,2]\nOutput: [0,0,0,0,0,0,0,0,1,1,1,0]\nExplanation: The table above shows how the competition is scored.\n    Bob earns a total point of 8 + 9 + 10 = 27.\n    It can be shown that Bob cannot obtain a score higher than 27 points.\n\nConstraints:\n\n• 1 <= numArrows <= 105\n\n• aliceArrows.length == bobArrows.length == 12\n\n• 0 <= aliceArrows[i], bobArrows[i] <= numArrows\n\n• sum(aliceArrows[i]) == numArrows",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumBobPoints(self, numArrows, aliceArrows):\n        \"\"\"\n        :type numArrows: int\n        :type aliceArrows: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "To obtain points for some certain section x, what is the minimum number of arrows Bob must shoot?",
+    "Given the small number of sections, can we brute force which sections Bob wants to win?",
+    "For every set of sections Bob wants to win, check if we have the required amount of arrows. If we do, it is a valid selection."
+  ],
+  "testCases": [
+    [
+      "9",
+      "[1,1,0,1,0,0,2,1,0,1,2,0]"
+    ],
+    [
+      "3",
+      "[0,0,1,0,0,0,0,0,0,0,0,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,0,0,0,1,1,0,0,1,2,3,1]",
+    "[0,0,0,0,0,0,0,0,1,1,1,0]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Product of the Length of Two Palindromic Subsequences\", \"titleSlug\": \"maximum-product-of-the-length-of-two-palindromic-subsequences\", \"difficulty\": \"Medium\"}]"
+}

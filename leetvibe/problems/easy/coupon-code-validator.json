@@ -1,0 +1,60 @@
+{
+  "questionId": "3934",
+  "title": "Coupon Code Validator",
+  "titleSlug": "coupon-code-validator",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given three arrays of length n that describe the properties of n coupons: code, businessLine, and isActive. The ith coupon has:\n\n• code[i]: a string representing the coupon identifier.\n\n• businessLine[i]: a string denoting the business category of the coupon.\n\n• isActive[i]: a boolean indicating whether the coupon is currently active.\n\nA coupon is considered valid if all of the following conditions hold:\n\n• code[i] is non-empty and consists only of alphanumeric characters (a-z, A-Z, 0-9) and underscores (_).\n\n• businessLine[i] is one of the following four categories: \"electronics\", \"grocery\", \"pharmacy\", \"restaurant\".\n\n• isActive[i] is true.\n\nReturn an array of the codes of all valid coupons, sorted first by their businessLine in the order: \"electronics\", \"grocery\", \"pharmacy\", \"restaurant\", and then by code in lexicographical (ascending) order within each category.\n\nExample 1:\n\nInput: code = [\"SAVE20\",\"\",\"PHARMA5\",\"SAVE@20\"], businessLine = [\"restaurant\",\"grocery\",\"pharmacy\",\"restaurant\"], isActive = [true,true,true,true]\n\nOutput: [\"PHARMA5\",\"SAVE20\"]\n\nExplanation:\n\n• First coupon is valid.\n\n• Second coupon has empty code (invalid).\n\n• Third coupon is valid.\n\n• Fourth coupon has special character @ (invalid).\n\nExample 2:\n\nInput: code = [\"GROCERY15\",\"ELECTRONICS_50\",\"DISCOUNT10\"], businessLine = [\"grocery\",\"electronics\",\"invalid\"], isActive = [false,true,true]\n\nOutput: [\"ELECTRONICS_50\"]\n\nExplanation:\n\n• First coupon is inactive (invalid).\n\n• Second coupon is valid.\n\n• Third coupon has invalid business line (invalid).\n\nConstraints:\n\n• n == code.length == businessLine.length == isActive.length\n\n• 1 <= n <= 100\n\n• 0 <= code[i].length, businessLine[i].length <= 100\n\n• code[i] and businessLine[i] consist of printable ASCII characters.\n\n• isActive[i] is either true or false.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def validateCoupons(self, code, businessLine, isActive):\n        \"\"\"\n        :type code: List[str]\n        :type businessLine: List[str]\n        :type isActive: List[bool]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Filter out any coupon where isActive[i] is false, code[i] is empty or contains non‑alphanumeric/underscore chars, or businessLine[i] is not in the allowed set",
+    "Store each remaining coupon as a pair (businessLine[i], code[i])",
+    "Define a priority map, e.g. {\"electronics\":0, \"grocery\":1, \"pharmacy\":2, \"restaurant\":3}",
+    "Sort the list of pairs by (priority[businessLine], code) and return the code values in order"
+  ],
+  "testCases": [
+    [
+      "[\"SAVE20\",\"\",\"PHARMA5\",\"SAVE@20\"]",
+      "[\"restaurant\",\"grocery\",\"pharmacy\",\"restaurant\"]",
+      "[true,true,true,true]"
+    ],
+    [
+      "[\"GROCERY15\",\"ELECTRONICS_50\",\"DISCOUNT10\"]",
+      "[\"grocery\",\"electronics\",\"invalid\"]",
+      "[false,true,true]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"PHARMA5\",\"SAVE20\"]",
+    "[\"ELECTRONICS_50\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def validateCoupons(self, code, businessLine, isActive):\n        import re\n        valid_lines = {\"electronics\", \"grocery\", \"pharmacy\", \"restaurant\"}\n        result = []\n        for c, b, a in zip(code, businessLine, isActive):\n            if (a and c and re.fullmatch(r\"[A-Za-z0-9_]+\", c) and b in valid_lines):\n                result.append(c)\n        result.sort()\n        return result",
+    "explanation": "A coupon is valid if active, non-empty alphanumeric+underscore code, and recognized business line. Return sorted. O(n log n) time."
+  },
+  "similarQuestions": "[]"
+}

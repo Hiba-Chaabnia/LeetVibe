@@ -1,0 +1,58 @@
+{
+  "questionId": "572",
+  "title": "Subtree of Another Tree",
+  "titleSlug": "subtree-of-another-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.\n\nA subtree of a binary tree tree is a tree that consists of a node in tree and all of this node's descendants. The tree tree could also be considered as a subtree of itself.\n\nExample 1:\n\nInput: root = [3,4,5,1,2], subRoot = [4,1,2]\nOutput: true\n\nExample 2:\n\nInput: root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]\nOutput: false\n\nConstraints:\n\n• The number of nodes in the root tree is in the range [1, 2000].\n\n• The number of nodes in the subRoot tree is in the range [1, 1000].\n\n• -104 <= root.val <= 104\n\n• -104 <= subRoot.val <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isSubtree(self, root, subRoot):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type subRoot: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Which approach is better here- recursive or iterative?",
+    "If recursive approach is better, can you write recursive function with its parameters?",
+    "Two trees <b>s</b> and <b>t</b> are said to be identical if their root values are same and their left and right subtrees are identical. Can you write this in form of recursive formulae?",
+    "Recursive formulae can be: \r\nisIdentical(s,t)= s.val==t.val AND isIdentical(s.left,t.left) AND isIdentical(s.right,t.right)"
+  ],
+  "testCases": [
+    [
+      "[3,4,5,1,2]",
+      "[4,1,2]",
+      "[3,4,5,1,2,null,null,null,null,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isSubtree(self, root, subRoot):\n        def is_same(p, q):\n            if not p and not q:\n                return True\n            if not p or not q:\n                return False\n            return p.val == q.val and is_same(p.left, q.left) and is_same(p.right, q.right)\n        def dfs(node):\n            if not node:\n                return False\n            return is_same(node, subRoot) or dfs(node.left) or dfs(node.right)\n        return dfs(root)",
+    "explanation": "DFS on root. For each node, check if matches subRoot structure.\nTime: O(m*n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Univalue Subtrees\", \"titleSlug\": \"count-univalue-subtrees\", \"difficulty\": \"Medium\"}, {\"title\": \"Most Frequent Subtree Sum\", \"titleSlug\": \"most-frequent-subtree-sum\", \"difficulty\": \"Medium\"}]"
+}

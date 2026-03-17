@@ -1,0 +1,56 @@
+{
+  "questionId": "3381",
+  "title": "Shortest Subarray With OR at Least K I",
+  "titleSlug": "shortest-subarray-with-or-at-least-k-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an array nums of non-negative integers and an integer k.\n\nAn array is called special if the bitwise OR of all of its elements is at least k.\n\nReturn the length of the shortest special non-empty subarray of nums, or return -1 if no special subarray exists.\n\nExample 1:\n\nInput: nums = [1,2,3], k = 2\n\nOutput: 1\n\nExplanation: The subarray [3] has OR value of 3. Hence, we return 1.\n\nNote that [2] is also a special subarray.\n\nExample 2:\n\nInput: nums = [2,1,8], k = 10\n\nOutput: 3\n\nExplanation: The subarray [2,1,8] has OR value of 11. Hence, we return 3.\n\nExample 3:\n\nInput: nums = [1,2], k = 0\n\nOutput: 1\n\nExplanation: The subarray [1] has OR value of 1. Hence, we return 1.\n\nConstraints:\n\n• 1 <= nums.length <= 50\n\n• 0 <= nums[i] <= 50\n\n• 0 <= k < 64",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumSubarrayLength(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints are small. Brute force checking all the subarrays."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "2"
+    ],
+    [
+      "[2,1,8]",
+      "10"
+    ],
+    [
+      "[1,2]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumSubarrayLength(self, nums, k):\n        n = len(nums)\n        best = float('inf')\n        for i in range(n):\n            cur = 0\n            for j in range(i, n):\n                cur |= nums[j]\n                if cur >= k:\n                    best = min(best, j - i + 1)\n                    break\n        return best if best < float('inf') else -1",
+    "explanation": "Brute-force all starting positions; extend the OR until it reaches k; track the minimum length. O(n^2) time."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Size Subarray Sum\", \"titleSlug\": \"minimum-size-subarray-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Shortest Subarray with Sum at Least K\", \"titleSlug\": \"shortest-subarray-with-sum-at-least-k\", \"difficulty\": \"Hard\"}]"
+}

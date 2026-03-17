@@ -1,0 +1,49 @@
+{
+  "questionId": "768",
+  "title": "Partition Labels",
+  "titleSlug": "partition-labels",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a string s. We want to partition the string into as many parts as possible so that each letter appears in at most one part. For example, the string \"ababcc\" can be partitioned into [\"abab\", \"cc\"], but partitions such as [\"aba\", \"bcc\"] or [\"ab\", \"ab\", \"cc\"] are invalid.\n\nNote that the partition is done so that after concatenating all the parts in order, the resultant string should be s.\n\nReturn a list of integers representing the size of these parts.\n\nExample 1:\n\nInput: s = \"ababcbacadefegdehijhklij\"\nOutput: [9,7,8]\nExplanation:\n    The partition is \"ababcbaca\", \"defegde\", \"hijhklij\".\n    This is a partition so that each letter appears in at most one part.\n    A partition like \"ababcbacadefegde\", \"hijhklij\" is incorrect, because it splits s into less parts.\n\nExample 2:\n\nInput: s = \"eccbbbbdec\"\nOutput: [10]\n\nConstraints:\n\n• 1 <= s.length <= 500\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def partitionLabels(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to greedily choose the smallest partition that includes the first letter.  If you have something like \"abaccbdeffed\", then you might need to add b.  You can use an map like \"last['b'] = 5\" to help you expand the width of your partition."
+  ],
+  "testCases": [
+    [
+      "\"ababcbacadefegdehijhklij\""
+    ],
+    [
+      "\"eccbbbbdec\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[9,7,8]",
+    "[10]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Merge Intervals\", \"titleSlug\": \"merge-intervals\", \"difficulty\": \"Medium\"}, {\"title\": \"Optimal Partition of String\", \"titleSlug\": \"optimal-partition-of-string\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "3200",
+  "title": "Number of Strings Which Can Be Rearranged to Contain Substring",
+  "titleSlug": "number-of-strings-which-can-be-rearranged-to-contain-substring",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given an integer n.\n\nA string s is called good if it contains only lowercase English characters and it is possible to rearrange the characters of s such that the new string contains \"leet\" as a substring.\n\nFor example:\n\n• The string \"lteer\" is good because we can rearrange it to form \"leetr\" .\n\n• \"letl\" is not good because we cannot rearrange it to contain \"leet\" as a substring.\n\nReturn the total number of good strings of length n.\n\nSince the answer may be large, return it modulo 109 + 7.\n\nA substring is a contiguous sequence of characters within a string.\n\nExample 1:\n\nInput: n = 4\nOutput: 12\nExplanation: The 12 strings which can be rearranged to have \"leet\" as a substring are: \"eelt\", \"eetl\", \"elet\", \"elte\", \"etel\", \"etle\", \"leet\", \"lete\", \"ltee\", \"teel\", \"tele\", and \"tlee\".\n\nExample 2:\n\nInput: n = 10\nOutput: 83943898\nExplanation: The number of strings with length 10 which can be rearranged to have \"leet\" as a substring is 526083947580. Hence the answer is 526083947580 % (109 + 7) = 83943898.\n\nConstraints:\n\n• 1 <= n <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def stringCount(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A good string must contain at least one l, one t, and two e.",
+    "Divide the problem into subproblems and use Dynamic Programming."
+  ],
+  "testCases": [
+    [
+      "4"
+    ],
+    [
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "83943898"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def stringCount(self, n):\n        MOD = 10**9 + 7\n\n        # Total strings of length n: 26^n\n        # Bad = strings missing at least one required char (need >= 1 l, >= 1 t, >= 2 e)\n        # Use inclusion-exclusion on the four \"defects\":\n        # A = missing 'l'   (0 l's)\n        # B = missing 't'   (0 t's)\n        # C = missing 'e' entirely (0 e's)\n        # D = having exactly 1 'e'  (< 2 e's includes 0 and 1)\n        # We want |A union B union (C union D)|\n        # Actually: bad = strings with count(l)<1 OR count(t)<1 OR count(e)<2\n        # Let A: no l, B: no t, C: e < 2 (i.e., e=0 or e=1)\n        # |A| = 25^n, |B| = 25^n\n        # |C| = 25^n + n*25^(n-1)  (0 e's: 25^n, exactly 1 e: C(n,1)*25^(n-1))\n        # |A&B| = 24^n\n        # |A&C| = 24^n + n*24^(n-1)\n        # |B&C| = 24^n + n*24^(n-1)\n        # |A&B&C| = 23^n + n*23^(n-1)\n        # Answer = 26^n - |A union B union C|\n        # |A u B u C| = |A|+|B|+|C| - |A&B| - |A&C| - |B&C| + |A&B&C|\n\n        def pw(base, exp):\n            return pow(base, exp, MOD)\n\n        total = pw(26, n)\n\n        A = pw(25, n)\n        B = pw(25, n)\n        C = (pw(25, n) + n * pw(25, n - 1)) % MOD\n\n        AB = pw(24, n)\n        AC = (pw(24, n) + n * pw(24, n - 1)) % MOD\n        BC = (pw(24, n) + n * pw(24, n - 1)) % MOD\n\n        ABC = (pw(23, n) + n * pw(23, n - 1)) % MOD\n\n        bad = (A + B + C - AB - AC - BC + ABC) % MOD\n        return (total - bad) % MOD",
+    "explanation": "A string of length n is 'good' (can be rearranged to contain 'leet') iff it has at least 1 'l', at least 1 't', and at least 2 'e'.\n\nWe use inclusion-exclusion on the three defects:\n- A: no 'l' → 25^n strings\n- B: no 't' → 25^n strings  \n- C: fewer than 2 'e' (0 or 1 'e') → 25^n + n·25^(n-1) strings\n\nIntersections:\n- A∩B: no l, no t → 24^n\n- A∩C: no l, <2 e → 24^n + n·24^(n-1)\n- B∩C: no t, <2 e → 24^n + n·24^(n-1)\n- A∩B∩C: no l, no t, <2 e → 23^n + n·23^(n-1)\n\nAnswer = 26^n - |A∪B∪C| by inclusion-exclusion.\n\nTime complexity: O(log n) for modular exponentiation. Space complexity: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Count Vowels Permutation\", \"titleSlug\": \"count-vowels-permutation\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "396",
+  "title": "Rotate Function",
+  "titleSlug": "rotate-function",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums of length n.\n\nAssume arrk to be an array obtained by rotating nums by k positions clock-wise. We define the rotation function F on nums as follow:\n\n• F(k) = 0 * arrk[0] + 1 * arrk[1] + ... + (n - 1) * arrk[n - 1].\n\nReturn the maximum value of F(0), F(1), ..., F(n-1).\n\nThe test cases are generated so that the answer fits in a 32-bit integer.\n\nExample 1:\n\nInput: nums = [4,3,2,6]\nOutput: 26\nExplanation:\n    F(0) = (0 * 4) + (1 * 3) + (2 * 2) + (3 * 6) = 0 + 3 + 4 + 18 = 25\n    F(1) = (0 * 6) + (1 * 4) + (2 * 3) + (3 * 2) = 0 + 4 + 6 + 6 = 16\n    F(2) = (0 * 2) + (1 * 6) + (2 * 4) + (3 * 3) = 0 + 6 + 8 + 9 = 23\n    F(3) = (0 * 3) + (1 * 2) + (2 * 6) + (3 * 4) = 0 + 2 + 12 + 12 = 26\n    So the maximum value of F(0), F(1), F(2), F(3) is F(3) = 26.\n\nExample 2:\n\nInput: nums = [100]\nOutput: 0\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 105\n\n• -100 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxRotateFunction(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,3,2,6]"
+    ],
+    [
+      "[100]"
+    ]
+  ],
+  "expectedOutputs": [
+    "26",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxRotateFunction(nums):\n    n = len(nums)\n    total_sum = sum(nums)\n    f = sum(i * num for i, num in enumerate(nums))\n\n    max_f = f\n    for i in range(1, n):\n        f += total_sum - n * nums[-i]\n        max_f = max(max_f, f)\n\n    return max_f",
+    "explanation": "1. Calculate the total_sum of elements in the given array.\n2. Calculate the initial value of the rotation function F(0) and assign it to f.\n3. Initialize max_f with the value of f.\n4. Iterate through the array with index i from 1 to n-1.\n5. For each iteration, calculate the value of the rotation function F(i) by adding total_sum to the previous value of the rotation function and subtracting the product of n and nums[n - i]. Update f with the new value.\n6. Compare the new value of f with max_f and update max_f with the maximum value.\n7. Return max_f after finishing the loop."
+  },
+  "similarQuestions": "[]"
+}

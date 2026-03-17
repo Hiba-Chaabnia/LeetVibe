@@ -1,0 +1,68 @@
+{
+  "questionId": "3813",
+  "title": "Smallest Palindromic Rearrangement II",
+  "titleSlug": "smallest-palindromic-rearrangement-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a palindromic string s and an integer k.\n\nReturn the k-th lexicographically smallest palindromic permutation of s. If there are fewer than k distinct palindromic permutations, return an empty string.\n\nNote: Different rearrangements that yield the same palindromic string are considered identical and are counted once.\n\nExample 1:\n\nInput: s = \"abba\", k = 2\n\nOutput: \"baab\"\n\nExplanation:\n\n• The two distinct palindromic rearrangements of \"abba\" are \"abba\" and \"baab\".\n\n• Lexicographically, \"abba\" comes before \"baab\". Since k = 2, the output is \"baab\".\n\nExample 2:\n\nInput: s = \"aa\", k = 2\n\nOutput: \"\"\n\nExplanation:\n\n• There is only one palindromic rearrangement: \"aa\".\n\n• The output is an empty string since k = 2 exceeds the number of possible rearrangements.\n\nExample 3:\n\nInput: s = \"bacab\", k = 1\n\nOutput: \"abcba\"\n\nExplanation:\n\n• The two distinct palindromic rearrangements of \"bacab\" are \"abcba\" and \"bacab\".\n\n• Lexicographically, \"abcba\" comes before \"bacab\". Since k = 1, the output is \"abcba\".\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s consists of lowercase English letters.\n\n• s is guaranteed to be palindromic.\n\n• 1 <= k <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestPalindrome(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Only build floor(n / 2) characters (the rest are determined by symmetry).",
+    "Count character frequencies and use half the counts for construction.",
+    "Incrementally choose each character (from smallest to largest) and calculate how many valid arrangements result if that character is chosen at the current index.",
+    "If the count is at least k, fix that character; otherwise, subtract the count from k and try the next candidate.",
+    "Use combinatorics to compute the number of permutations at each step."
+  ],
+  "testCases": [
+    [
+      "\"abba\"",
+      "2"
+    ],
+    [
+      "\"aa\"",
+      "2"
+    ],
+    [
+      "\"bacab\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"baab\"",
+    "\"\"",
+    "\"abcba\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def smallestPalindrome(self, s, k):\n        freq = Counter(s)\n        n = len(s)\n        mid_char = ''\n        half_freq = {}\n        for c, cnt in sorted(freq.items()):\n            half_freq[c] = cnt // 2\n            if cnt % 2 == 1:\n                mid_char = c\n        half_len = n // 2\n        def count_perms(freq_dict, cap):\n            # Multinomial: total! / prod(fi!) capped at cap+1\n            total = sum(freq_dict.values())\n            if total == 0:\n                return 1\n            result = 1\n            fi = [f for f in freq_dict.values() if f > 0]\n            # Compute iteratively\n            for i in range(1, total + 1):\n                result *= i\n                if result > cap:\n                    return cap + 1\n            for f in fi:\n                for i in range(1, f + 1):\n                    result //= i\n            return result\n        # Check if total permutations >= k\n        total = count_perms(half_freq, k)\n        if total < k:\n            return \"\"\n        # Greedily build first half\n        first_half = []\n        remaining = dict(half_freq)\n        for pos in range(half_len):\n            for c in 'abcdefghijklmnopqrstuvwxyz':\n                if remaining.get(c, 0) > 0:\n                    remaining[c] -= 1\n                    cnt = count_perms({ch: f for ch, f in remaining.items() if f > 0}, k)\n                    if cnt >= k:\n                        first_half.append(c)\n                        break\n                    else:\n                        k -= cnt\n                        remaining[c] += 1\n        second_half = first_half[::-1]\n        return ''.join(first_half) + mid_char + ''.join(second_half)",
+    "explanation": "Palindromes are determined by their first half. Total distinct palindromes = half_len! / prod(freq_i//2 !). Greedily pick smallest available character at each position: count permutations with that prefix (capped at k+1 to prevent overflow); if ≥ k fix it, else subtract and try next char. Mirror the first half for the result.\n\nTime: O(n * 26 * n/2). Space: O(26)."
+  },
+  "similarQuestions": "[]"
+}

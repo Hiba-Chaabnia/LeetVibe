@@ -1,0 +1,50 @@
+{
+  "questionId": "3426",
+  "title": "Minimum Number of Chairs in a Waiting Room",
+  "titleSlug": "minimum-number-of-chairs-in-a-waiting-room",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string s. Simulate events at each second i:\n\n• If s[i] == 'E', a person enters the waiting room and takes one of the chairs in it.\n\n• If s[i] == 'L', a person leaves the waiting room, freeing up a chair.\n\nReturn the minimum number of chairs needed so that a chair is available for every person who enters the waiting room given that it is initially empty.\n\nExample 1:\n\nInput: s = \"EEEEEEE\"\n\nOutput: 7\n\nExplanation: After each second, a person enters the waiting room and no person leaves it. Therefore, a minimum of 7 chairs is needed.\n\nExample 2:\n\nInput: s = \"ELELEEL\"\n\nOutput: 2\n\nExplanation: Let's consider that there are 2 chairs in the waiting room. The table below shows the state of the waiting room at each second.\n\n\t\t\t\tSecond\n\t\t\t\tEvent\n\t\t\t\tPeople in the Waiting Room\n\t\t\t\tAvailable Chairs\n\n\t\t\t\t0\n\t\t\t\tEnter\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\tLeave\n\t\t\t\t0\n\t\t\t\t2\n\n\t\t\t\t2\n\t\t\t\tEnter\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t3\n\t\t\t\tLeave\n\t\t\t\t0\n\t\t\t\t2\n\n\t\t\t\t4\n\t\t\t\tEnter\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t5\n\t\t\t\tEnter\n\t\t\t\t2\n\t\t\t\t0\n\n\t\t\t\t6\n\t\t\t\tLeave\n\t\t\t\t1\n\t\t\t\t1\n\nExample 3:\n\nInput: s = \"ELEELEELLL\"\n\nOutput: 3\n\nExplanation: Let's consider that there are 3 chairs in the waiting room. The table below shows the state of the waiting room at each second.\n\n\t\t\t\tSecond\n\t\t\t\tEvent\n\t\t\t\tPeople in the Waiting Room\n\t\t\t\tAvailable Chairs\n\n\t\t\t\t0\n\t\t\t\tEnter\n\t\t\t\t1\n\t\t\t\t2\n\n\t\t\t\t1\n\t\t\t\tLeave\n\t\t\t\t0\n\t\t\t\t3\n\n\t\t\t\t2\n\t\t\t\tEnter\n\t\t\t\t1\n\t\t\t\t2\n\n\t\t\t\t3\n\t\t\t\tEnter\n\t\t\t\t2\n\t\t\t\t1\n\n\t\t\t\t4\n\t\t\t\tLeave\n\t\t\t\t1\n\t\t\t\t2\n\n\t\t\t\t5\n\t\t\t\tEnter\n\t\t\t\t2\n\t\t\t\t1\n\n\t\t\t\t6\n\t\t\t\tEnter\n\t\t\t\t3\n\t\t\t\t0\n\n\t\t\t\t7\n\t\t\t\tLeave\n\t\t\t\t2\n\t\t\t\t1\n\n\t\t\t\t8\n\t\t\t\tLeave\n\t\t\t\t1\n\t\t\t\t2\n\n\t\t\t\t9\n\t\t\t\tLeave\n\t\t\t\t0\n\t\t\t\t3\n\nConstraints:\n\n• 1 <= s.length <= 50\n\n• s consists only of the letters 'E' and 'L'.\n\n• s represents a valid sequence of entries and exits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumChairs(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate from left to right over the string and keep track of the number of people in the waiting room using a variable that you will increment on every occurrence of ‘E’ and decrement on every occurrence of ‘L’.",
+    "The answer is the maximum number of people in the waiting room at any instance."
+  ],
+  "testCases": [
+    [
+      "\"EEEEEEE\""
+    ],
+    [
+      "\"ELELEEL\""
+    ],
+    [
+      "\"ELEELEELLL\""
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumChairs(self, s):\n        cur = 0\n        best = 0\n        for c in s:\n            if c == 'E':\n                cur += 1\n                best = max(best, cur)\n            else:\n                cur -= 1\n        return best",
+    "explanation": "Track current occupancy; increment on Enter, decrement on Leave; return the peak occupancy. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Consecutive Characters\", \"titleSlug\": \"consecutive-characters\", \"difficulty\": \"Easy\"}]"
+}

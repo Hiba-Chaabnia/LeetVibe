@@ -1,0 +1,58 @@
+{
+  "questionId": "4130",
+  "title": "Maximum Score After Binary Swaps",
+  "titleSlug": "maximum-score-after-binary-swaps",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given an integer array nums of length n and a binary string s of the same length.\n\nInitially, your score is 0. Each index i where s[i] = '1' contributes nums[i] to the score.\n\nYou may perform any number of operations (including zero). In one operation, you may choose an index i such that 0 <= i < n - 1, where s[i] = '0', and s[i + 1] = '1', and swap these two characters.\n\nReturn an integer denoting the maximum possible score you can achieve.\n\nExample 1:\n\nInput: nums = [2,1,5,2,3], s = \"01010\"\n\nOutput: 7\n\nExplanation: We can perform the following swaps:\n\n• Swap at index i = 0: \"01010\" changes to \"10010\"\n\n• Swap at index i = 2: \"10010\" changes to \"10100\"\n\nPositions 0 and 2 contain '1', contributing nums[0] + nums[2] = 2 + 5 = 7. This is maximum score achievable.\n\nExample 2:\n\nInput: nums = [4,7,2,9], s = \"0000\"\n\nOutput: 0\n\nExplanation: There are no '1' characters in s, so no swaps can be performed. The score remains 0.\n\nConstraints:\n\n• n == nums.length == s.length\n\n• 1 <= n <= 105\n\n• 1 <= nums[i] <= 109\n\n• s[i] is either '0' or '1'",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumScore(self, nums, s):\n        \"\"\"\n        :type nums: List[int]\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The problem can be solved greedily",
+    "The operation only allows '1's to move backward",
+    "Going from left to right, maintain a priority queue (max heap)",
+    "When at a '1', pop the top of the priority queue if it is not empty"
+  ],
+  "testCases": [
+    [
+      "[2,1,5,2,3]",
+      "\"01010\""
+    ],
+    [
+      "[4,7,2,9]",
+      "\"0000\""
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def maximumScore(self, nums, s):\n        # '1's can only move left (swap '0' left, '1' right = move '1' left).\n        # Wait: operation swaps s[i]='0' and s[i+1]='1', so '1' moves left.\n        # Score = sum of nums[i] where s[i]='1'.\n        # Each '1' can move left past any '0'.\n        # Greedy: maintain a max-heap of nums values seen so far.\n        # When we encounter a '1', we want it at the position with the highest num value\n        # to its left (or itself).\n        # When at position i with s[i]='0': push nums[i] to heap.\n        # When at position i with s[i]='1': \n        #   pop max from heap (if heap is non-empty and max > nums[i], swap: use that position)\n        #   otherwise use nums[i] itself.\n        score = 0\n        heap = []  # max heap (negate for Python min-heap)\n\n        for i in range(len(nums)):\n            if s[i] == '1':\n                if heap and -heap[0] > nums[i]:\n                    score += -heapq.heappop(heap)\n                    heapq.heappush(heap, -nums[i])  # '1' moved here, '0' now there\n                else:\n                    score += nums[i]\n            else:\n                heapq.heappush(heap, -nums[i])\n\n        return score",
+    "explanation": "Operations allow '1's to move leftward (swap '0' right, '1' left). Score = sum of nums at positions of '1's. Greedy scan: maintain a max-heap of nums values at '0' positions seen so far. When a '1' is encountered, if the max in the heap exceeds nums[i], move the '1' to that better position (score that value instead), and put the current '0' value back in the heap.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

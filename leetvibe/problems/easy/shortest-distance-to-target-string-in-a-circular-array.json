@@ -1,0 +1,57 @@
+{
+  "questionId": "2598",
+  "title": "Shortest Distance to Target String in a Circular Array",
+  "titleSlug": "shortest-distance-to-target-string-in-a-circular-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a 0-indexed circular string array words and a string target. A circular array means that the array's end connects to the array's beginning.\n\n• Formally, the next element of words[i] is words[(i + 1) % n] and the previous element of words[i] is words[(i - 1 + n) % n], where n is the length of words.\n\nStarting from startIndex, you can move to either the next word or the previous word with 1 step at a time.\n\nReturn the shortest distance needed to reach the string target. If the string target does not exist in words, return -1.\n\nExample 1:\n\nInput: words = [\"hello\",\"i\",\"am\",\"leetcode\",\"hello\"], target = \"hello\", startIndex = 1\nOutput: 1\nExplanation: We start from index 1 and can reach \"hello\" by\n    - moving 3 units to the right to reach index 4.\n    - moving 2 units to the left to reach index 4.\n    - moving 4 units to the right to reach index 0.\n    - moving 1 unit to the left to reach index 0.\n    The shortest distance to reach \"hello\" is 1.\n\nExample 2:\n\nInput: words = [\"a\",\"b\",\"leetcode\"], target = \"leetcode\", startIndex = 0\nOutput: 1\nExplanation: We start from index 0 and can reach \"leetcode\" by\n    - moving 2 units to the right to reach index 3.\n    - moving 1 unit to the left to reach index 3.\n    The shortest distance to reach \"leetcode\" is 1.\n\nExample 3:\n\nInput: words = [\"i\",\"eat\",\"leetcode\"], target = \"ate\", startIndex = 0\nOutput: -1\nExplanation: Since \"ate\" does not exist in words, we return -1.\n\nConstraints:\n\n• 1 <= words.length <= 100\n\n• 1 <= words[i].length <= 100\n\n• words[i] and target consist of only lowercase English letters.\n\n• 0 <= startIndex < words.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def closestTarget(self, words, target, startIndex):\n        \"\"\"\n        :type words: List[str]\n        :type target: str\n        :type startIndex: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You have two options, either move straight to the left or move straight to the right.",
+    "Find the first target word and record the distance.",
+    "Choose the one with the minimum distance."
+  ],
+  "testCases": [
+    [
+      "[\"hello\",\"i\",\"am\",\"leetcode\",\"hello\"]",
+      "\"hello\"",
+      "1"
+    ],
+    [
+      "[\"a\",\"b\",\"leetcode\"]",
+      "\"leetcode\"",
+      "0"
+    ],
+    [
+      "[\"i\",\"eat\",\"leetcode\"]",
+      "\"ate\"",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "1",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def closestTarget(self, words, target, startIndex):\n        n = len(words)\n        min_dist = n\n        for i in range(n):\n            if words[i] == target:\n                forward = (i - startIndex) % n\n                backward = (startIndex - i) % n\n                min_dist = min(min_dist, forward, backward)\n        return min_dist if min_dist != n else -1",
+    "explanation": "For each target occurrence, compute circular distance forward and backward.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Defuse the Bomb\", \"titleSlug\": \"defuse-the-bomb\", \"difficulty\": \"Easy\"}]"
+}

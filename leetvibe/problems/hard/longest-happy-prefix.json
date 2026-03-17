@@ -1,0 +1,53 @@
+{
+  "questionId": "1508",
+  "title": "Longest Happy Prefix",
+  "titleSlug": "longest-happy-prefix",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "A string is called a happy prefix if is a non-empty prefix which is also a suffix (excluding itself).\n\nGiven a string s, return the longest happy prefix of s. Return an empty string \"\" if no such prefix exists.\n\nExample 1:\n\nInput: s = \"level\"\nOutput: \"l\"\nExplanation: s contains 4 prefix excluding itself (\"l\", \"le\", \"lev\", \"leve\"), and suffix (\"l\", \"el\", \"vel\", \"evel\"). The largest prefix which is also suffix is given by \"l\".\n\nExample 2:\n\nInput: s = \"ababab\"\nOutput: \"abab\"\nExplanation: \"abab\" is the largest prefix which is also suffix. They can overlap in the original string.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestPrefix(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use Longest Prefix Suffix (KMP-table) or String Hashing."
+  ],
+  "testCases": [
+    [
+      "\"level\""
+    ],
+    [
+      "\"ababab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"l\"",
+    "\"abab\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def longestPrefix(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        n = len(s)\n        \n        # Build KMP failure function (LPS array)\n        lps = [0] * n\n        j = 0\n        \n        for i in range(1, n):\n            while j > 0 and s[i] != s[j]:\n                j = lps[j - 1]\n            \n            if s[i] == s[j]:\n                j += 1\n                lps[i] = j\n        \n        # LPS[n-1] is length of longest happy prefix\n        happy_len = lps[n - 1]\n        return s[:happy_len]",
+    "explanation": "This solution uses KMP (Knuth-Morris-Pratt) algorithm:\n\n1. **Problem Understanding**:\n   - Happy prefix: non-empty prefix that's also a suffix\n   - Find longest happy prefix\n   - Example: \"level\" → \"l\", \"ababab\" → \"abab\"\n\n2. **KMP Algorithm**:\n   - Originally for pattern matching\n   - LPS (Longest Proper Prefix which is also Suffix) array\n   - For string matching, find borders of string\n\n3. **LPS Array Building**:\n   - lps[i] = length of longest proper prefix of s[0..i] that's also suffix\n   - Proper means not the entire string\n   - Build using two pointers:\n     - j: current length of matching prefix\n     - i: current position in string\n\n4. **Algorithm Details**:\n   - Compare s[i] with s[j]\n   - If match: increment j, set lps[i] = j\n   - If no match:\n     - Fall back using previous LPS value\n     - lps[j-1] tells where to try next\n     - Repeat until match or j becomes 0\n\n5. **Answer**:\n   - lps[n-1] = longest proper prefix of entire string that's also suffix\n   - This is exactly the \"happy prefix\"\n   - Return s[:lps[n-1]]\n\n6. **Why KMP Works**:\n   - KMP is designed exactly for this: finding overlapping patterns\n   - The failure function captures prefix-suffix matches\n   - Last entry gives the answer directly\n\nTime Complexity: O(n)\nSpace Complexity: O(n) for LPS array"
+  },
+  "similarQuestions": "[{\"title\": \"Sum of Scores of Built Strings\", \"titleSlug\": \"sum-of-scores-of-built-strings\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Deletions on a String\", \"titleSlug\": \"maximum-deletions-on-a-string\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Time to Revert Word to Initial State II\", \"titleSlug\": \"minimum-time-to-revert-word-to-initial-state-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Time to Revert Word to Initial State I\", \"titleSlug\": \"minimum-time-to-revert-word-to-initial-state-i\", \"difficulty\": \"Medium\"}]"
+}

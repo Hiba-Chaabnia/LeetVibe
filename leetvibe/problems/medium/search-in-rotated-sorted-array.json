@@ -1,0 +1,50 @@
+{
+  "questionId": "33",
+  "title": "Search in Rotated Sorted Array",
+  "titleSlug": "search-in-rotated-sorted-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "There is an integer array nums sorted in ascending order (with distinct values).\n\nPrior to being passed to your function, nums is possibly left rotated at an unknown index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be left rotated by 3 indices and become [4,5,6,7,0,1,2].\n\nGiven the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.\n\nYou must write an algorithm with O(log n) runtime complexity.\n\nExample 1:\n\nInput: nums = [4,5,6,7,0,1,2], target = 0\nOutput: 4\nExample 2:\n\nInput: nums = [4,5,6,7,0,1,2], target = 3\nOutput: -1\nExample 3:\n\nInput: nums = [1], target = 0\nOutput: -1\n\nConstraints:\n\n• 1 <= nums.length <= 5000\n\n• -104 <= nums[i] <= 104\n\n• All values of nums are unique.\n\n• nums is an ascending array that is possibly rotated.\n\n• -104 <= target <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def search(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,5,6,7,0,1,2]",
+      "0"
+    ],
+    [
+      "[4,5,6,7,0,1,2]",
+      "3"
+    ],
+    [
+      "[1]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def search(nums, target):\n    left, right = 0, len(nums) - 1\n    while left <= right:\n        mid = left + (right - left) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[mid] >= nums[left]:\n            if target >= nums[left] and target < nums[mid]:\n                right = mid - 1\n            else:\n                left = mid + 1\n        else:\n            if target > nums[mid] and target <= nums[right]:\n                left = mid + 1\n            else:\n                right = mid - 1\n    return -1",
+    "explanation": "The algorithm is a variation of binary search. The main idea is to decide whether the target is in the left or the right half of the current subarray. If nums[mid] >= nums[left], the left half is sorted. If target is in the range [nums[left], nums[mid]), set right = mid - 1. Otherwise, set left = mid + 1. If nums[mid] < nums[left], the right half must be sorted. If target is in the range (nums[mid], nums[right]], set left = mid + 1. Otherwise, set right = mid - 1. Continue the process until the target is found or the subarray is empty, in which case return -1. This algorithm has a runtime complexity of O(log n) because it eliminates half of the remaining elements at each step, similar to a binary search."
+  },
+  "similarQuestions": "[{\"title\": \"Search in Rotated Sorted Array II\", \"titleSlug\": \"search-in-rotated-sorted-array-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Minimum in Rotated Sorted Array\", \"titleSlug\": \"find-minimum-in-rotated-sorted-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Pour Water Between Buckets to Make Water Levels Equal\", \"titleSlug\": \"pour-water-between-buckets-to-make-water-levels-equal\", \"difficulty\": \"Medium\"}]"
+}

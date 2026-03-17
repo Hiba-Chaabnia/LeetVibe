@@ -1,0 +1,57 @@
+{
+  "questionId": "1844",
+  "title": "Maximum Number of Balls in a Box",
+  "titleSlug": "maximum-number-of-balls-in-a-box",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are working in a ball factory where you have n balls numbered from lowLimit up to highLimit inclusive (i.e., n == highLimit - lowLimit + 1), and an infinite number of boxes numbered from 1 to infinity.\n\nYour job at this factory is to put each ball in the box with a number equal to the sum of digits of the ball's number. For example, the ball number 321 will be put in the box number 3 + 2 + 1 = 6 and the ball number 10 will be put in the box number 1 + 0 = 1.\n\nGiven two integers lowLimit and highLimit, return the number of balls in the box with the most balls.\n\nExample 1:\n\nInput: lowLimit = 1, highLimit = 10\nOutput: 2\nExplanation:\n    Box Number:  1 2 3 4 5 6 7 8 9 10 11 ...\n    Ball Count:  2 1 1 1 1 1 1 1 1 0  0  ...\n    Box 1 has the most number of balls with 2 balls.\n\nExample 2:\n\nInput: lowLimit = 5, highLimit = 15\nOutput: 2\nExplanation:\n    Box Number:  1 2 3 4 5 6 7 8 9 10 11 ...\n    Ball Count:  1 1 1 1 2 2 1 1 1 0  0  ...\n    Boxes 5 and 6 have the most number of balls with 2 balls in each.\n\nExample 3:\n\nInput: lowLimit = 19, highLimit = 28\nOutput: 2\nExplanation:\n    Box Number:  1 2 3 4 5 6 7 8 9 10 11 12 ...\n    Ball Count:  0 1 1 1 1 1 1 1 1 2  0  0  ...\n    Box 10 has the most number of balls with 2 balls.\n\nConstraints:\n\n• 1 <= lowLimit <= highLimit <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countBalls(self, lowLimit, highLimit):\n        \"\"\"\n        :type lowLimit: int\n        :type highLimit: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that both lowLimit and highLimit are of small constraints so you can iterate on all number between them",
+    "You can simulate the boxes by counting for each box the number of balls with digit sum equal to that box number"
+  ],
+  "testCases": [
+    [
+      "1",
+      "10"
+    ],
+    [
+      "5",
+      "15"
+    ],
+    [
+      "19",
+      "28"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countBalls(self, lowLimit, highLimit):\n        from collections import defaultdict\n        boxes = defaultdict(int)\n        for i in range(lowLimit, highLimit + 1):\n            digit_sum = sum(int(d) for d in str(i))\n            boxes[digit_sum] += 1\n        return max(boxes.values())",
+    "explanation": "For each number, calculate digit sum. Count balls per box. Return max.\nTime: O((h-l)*log(h))\nSpace: O(h-l)"
+  },
+  "similarQuestions": "[{\"title\": \"Find the Number of Distinct Colors Among the Balls\", \"titleSlug\": \"find-the-number-of-distinct-colors-among-the-balls\", \"difficulty\": \"Medium\"}]"
+}

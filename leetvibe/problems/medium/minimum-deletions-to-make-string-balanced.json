@@ -1,0 +1,46 @@
+{
+  "questionId": "1756",
+  "title": "Minimum Deletions to Make String Balanced",
+  "titleSlug": "minimum-deletions-to-make-string-balanced",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "You are given a string s consisting only of characters 'a' and 'b'​​​​.\n\nYou can delete any number of characters in s to make s balanced. s is balanced if there is no pair of indices (i,j) such that i < j and s[i] = 'b' and s[j]= 'a'.\n\nReturn the minimum number of deletions needed to make s balanced.\n\nExample 1:\n\nInput: s = \"aababbab\"\nOutput: 2\nExplanation: You can either:\n    Delete the characters at 0-indexed positions 2 and 6 (\"aababbab\" -> \"aaabbb\"), or\n    Delete the characters at 0-indexed positions 3 and 6 (\"aababbab\" -> \"aabbbb\").\n\nExample 2:\n\nInput: s = \"bbaaaaabb\"\nOutput: 2\nExplanation: The only solution is to delete the first two characters.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s[i] is 'a' or 'b'​​.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumDeletions(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You need to find for every index the number of Bs before it and the number of A's after it",
+    "You can speed up the finding of A's and B's in suffix and prefix using preprocessing"
+  ],
+  "testCases": [
+    [
+      "\"aababbab\""
+    ],
+    [
+      "\"bbaaaaabb\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Check if All A's Appears Before All B's\", \"titleSlug\": \"check-if-all-as-appears-before-all-bs\", \"difficulty\": \"Easy\"}]"
+}

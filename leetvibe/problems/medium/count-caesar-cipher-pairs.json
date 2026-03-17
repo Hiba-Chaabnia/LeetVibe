@@ -1,0 +1,59 @@
+{
+  "questionId": "4183",
+  "title": "Count Caesar Cipher Pairs",
+  "titleSlug": "count-caesar-cipher-pairs",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an array words of n strings. Each string has length m and contains only lowercase English letters.\n\nTwo strings s and t are similar if we can apply the following operation any number of times (possibly zero times) so that s and t become equal.\n\n• Choose either s or t.\n\n• Replace every letter in the chosen string with the next letter in the alphabet cyclically. The next letter after 'z' is 'a'.\n\nCount the number of pairs of indices (i, j) such that:\n\n• i < j\n\n• words[i] and words[j] are similar.\n\nReturn an integer denoting the number of such pairs.\n\nExample 1:\n\nInput: words = [\"fusion\",\"layout\"]\n\nOutput: 1\n\nExplanation: words[0] = \"fusion\" and words[1] = \"layout\" are similar because we can apply the operation to \"fusion\" 6 times. The string \"fusion\" changes as follows.\n\n• \"fusion\"\n\n• \"gvtjpo\"\n\n• \"hwukqp\"\n\n• \"ixvlrq\"\n\n• \"jywmsr\"\n\n• \"kzxnts\"\n\n• \"layout\"\n\nExample 2:\n\nInput: words = [\"ab\",\"aa\",\"za\",\"aa\"]\n\nOutput: 2\n\nExplanation: words[0] = \"ab\" and words[2] = \"za\" are similar. words[1] = \"aa\" and words[3] = \"aa\" are similar.\n\nConstraints:\n\n• 1 <= n == words.length <= 105\n\n• 1 <= m == words[i].length <= 105\n\n• 1 <= n * m <= 105\n\n• words[i] consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPairs(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Two strings are similar if the differences between consecutive characters (mod 26) are the same; normalize each string by shifting its first character to 'a'.",
+    "Compute a hashable key for each normalized string representing its relative character differences.",
+    "Use a map to count how many strings share the same normalized key."
+  ],
+  "testCases": [
+    [
+      "[\"fusion\",\"layout\"]"
+    ],
+    [
+      "[\"ab\",\"aa\",\"za\",\"aa\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def countPairs(self, words):\n        freq = defaultdict(int)\n        ans = 0\n        for w in words:\n            shift = ord(w[0]) - ord('a')\n            key = tuple((ord(c) - ord('a') - shift) % 26 for c in w)\n            ans += freq[key]\n            freq[key] += 1\n        return ans",
+    "explanation": "Normalize each word by shifting so the first character becomes 'a'. Two words are similar iff their normalized forms match (same relative character differences). Count pairs using a frequency map.\n\nTime: O(n*m). Space: O(n*m)."
+  },
+  "similarQuestions": "[]"
+}

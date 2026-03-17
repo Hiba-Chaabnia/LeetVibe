@@ -1,0 +1,62 @@
+{
+  "questionId": "1251",
+  "title": "Longest Chunked Palindrome Decomposition",
+  "titleSlug": "longest-chunked-palindrome-decomposition",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are given a string text. You should split it to k substrings (subtext1, subtext2, ..., subtextk) such that:\n\n• subtexti is a non-empty string.\n\n• The concatenation of all the substrings is equal to text (i.e., subtext1 + subtext2 + ... + subtextk == text).\n\n• subtexti == subtextk - i + 1 for all valid values of i (i.e., 1 <= i <= k).\n\nReturn the largest possible value of k.\n\nExample 1:\n\nInput: text = \"ghiabcdefhelloadamhelloabcdefghi\"\nOutput: 7\nExplanation: We can split the string on \"(ghi)(abcdef)(hello)(adam)(hello)(abcdef)(ghi)\".\n\nExample 2:\n\nInput: text = \"merchant\"\nOutput: 1\nExplanation: We can split the string on \"(merchant)\".\n\nExample 3:\n\nInput: text = \"antaprezatepzapreanta\"\nOutput: 11\nExplanation: We can split the string on \"(a)(nt)(a)(pre)(za)(tep)(za)(pre)(a)(nt)(a)\".\n\nConstraints:\n\n• 1 <= text.length <= 1000\n\n• text consists only of lowercase English characters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestDecomposition(self, text):\n        \"\"\"\n        :type text: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Using a rolling hash, we can quickly check whether two strings are equal.",
+    "Use that as the basis of a dp."
+  ],
+  "testCases": [
+    [
+      "\"ghiabcdefhelloadamhelloabcdefghi\""
+    ],
+    [
+      "\"merchant\""
+    ],
+    [
+      "\"antaprezatepzapreanta\""
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "1",
+    "11"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Palindrome Rearrangement Queries\", \"titleSlug\": \"palindrome-rearrangement-queries\", \"difficulty\": \"Hard\"}]"
+}

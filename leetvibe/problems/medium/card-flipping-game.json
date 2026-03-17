@@ -1,0 +1,41 @@
+{
+  "questionId": "842",
+  "title": "Card Flipping Game",
+  "titleSlug": "card-flipping-game",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given two 0-indexed integer arrays fronts and backs of length n, where the ith card has the positive integer fronts[i] printed on the front and backs[i] printed on the back. Initially, each card is placed on a table such that the front number is facing up and the other is facing down. You may flip over any number of cards (possibly zero).\n\nAfter flipping the cards, an integer is considered good if it is facing down on some card and not facing up on any card.\n\nReturn the minimum possible good integer after flipping the cards. If there are no good integers, return 0.\n\nExample 1:\n\nInput: fronts = [1,2,4,4,7], backs = [1,3,4,1,3]\nOutput: 2\nExplanation:\n    If we flip the second card, the face up numbers are [1,3,4,4,7] and the face down are [1,2,4,1,3].\n    2 is the minimum good integer as it appears facing down but not facing up.\n    It can be shown that 2 is the minimum possible good integer obtainable after flipping some cards.\n\nExample 2:\n\nInput: fronts = [1], backs = [1]\nOutput: 0\nExplanation:\n    There are no good integers no matter how we flip the cards, so we return 0.\n\nConstraints:\n\n• n == fronts.length == backs.length\n\n• 1 <= n <= 1000\n\n• 1 <= fronts[i], backs[i] <= 2000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def flipgame(self, fronts, backs):\n        \"\"\"\n        :type fronts: List[int]\n        :type backs: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,4,4,7]",
+      "[1,3,4,1,3]"
+    ],
+    [
+      "[1]",
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

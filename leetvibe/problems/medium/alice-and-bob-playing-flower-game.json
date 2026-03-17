@@ -1,0 +1,43 @@
+{
+  "questionId": "3279",
+  "title": "Alice and Bob Playing Flower Game",
+  "titleSlug": "alice-and-bob-playing-flower-game",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Alice and Bob are playing a turn-based game on a field, with two lanes of flowers between them. There are x flowers in the first lane between Alice and Bob, and y flowers in the second lane between them.\n\nThe game proceeds as follows:\n\n• Alice takes the first turn.\n\n• In each turn, a player must choose either one of the lane and pick one flower from that side.\n\n• At the end of the turn, if there are no flowers left at all in either lane, the current player captures their opponent and wins the game.\n\nGiven two integers, n and m, the task is to compute the number of possible pairs (x, y) that satisfy the conditions:\n\n• Alice must win the game according to the described rules.\n\n• The number of flowers x in the first lane must be in the range [1,n].\n\n• The number of flowers y in the second lane must be in the range [1,m].\n\nReturn the number of possible pairs (x, y) that satisfy the conditions mentioned in the statement.\n\nExample 1:\n\nInput: n = 3, m = 2\nOutput: 3\nExplanation: The following pairs satisfy conditions described in the statement: (1,2), (3,2), (2,1).\n\nExample 2:\n\nInput: n = 1, m = 1\nOutput: 0\nExplanation: No pairs satisfy the conditions described in the statement.\n\nConstraints:\n\n• 1 <= n, m <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def flowerGame(self, n, m):\n        \"\"\"\n        :type n: int\n        :type m: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "(x, y) is valid if and only if they have different parities."
+  ],
+  "testCases": [
+    [
+      "3",
+      "2"
+    ],
+    [
+      "1",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def flowerGame(self, n, m):\n        odd_n = (n + 1) // 2\n        even_n = n // 2\n        odd_m = (m + 1) // 2\n        even_m = m // 2\n        return odd_n * even_m + even_n * odd_m",
+    "explanation": "Alice wins when x+y is odd (she picks first so gets the extra flower); count pairs where exactly one of x,y is odd. O(1) time."
+  },
+  "similarQuestions": "[]"
+}

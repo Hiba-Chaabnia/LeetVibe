@@ -1,0 +1,51 @@
+{
+  "questionId": "1008",
+  "title": "Binary Tree Cameras",
+  "titleSlug": "binary-tree-cameras",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary tree. We install cameras on the tree nodes where each camera at a node can monitor its parent, itself, and its immediate children.\n\nReturn the minimum number of cameras needed to monitor all nodes of the tree.\n\nExample 1:\n\nInput: root = [0,0,null,0,0]\nOutput: 1\nExplanation: One camera is enough to monitor all nodes if placed as shown.\n\nExample 2:\n\nInput: root = [0,0,null,0,null,0,null,null,0]\nOutput: 2\nExplanation: At least two cameras are needed to monitor all nodes of the tree. The above image shows one of the valid configurations of camera placement.\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 1000].\n\n• Node.val == 0",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def minCameraCover(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[0,0,null,0,0]"
+    ],
+    [
+      "[0,0,null,0,null,0,null,null,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def minCameraCover(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        self.cameras = 0\n        \n        # Return states: 0 = not covered, 1 = covered (no camera), 2 = camera placed\n        def dfs(node):\n            if not node:\n                return 1  # null nodes are considered covered\n            \n            left = dfs(node.left)\n            right = dfs(node.right)\n            \n            # If any child is not covered, place camera at current node\n            if left == 0 or right == 0:\n                self.cameras += 1\n                return 2\n            \n            # If any child has camera, current node is covered\n            if left == 2 or right == 2:\n                return 1\n            \n            # Both children are covered, current node not covered\n            return 0\n        \n        # If root is not covered after DFS, place camera there\n        if dfs(root) == 0:\n            self.cameras += 1\n        \n        return self.cameras",
+    "explanation": "Greedy post-order DFS with 3 states: 0=uncovered, 1=covered without camera, 2=has camera. If child is uncovered, place camera at parent (covers parent, child, and sibling). If child has camera, parent is covered. Use greedy approach: place cameras as low as possible. Time complexity: O(n), Space complexity: O(h)."
+  },
+  "similarQuestions": "[{\"title\": \"Distribute Coins in Binary Tree\", \"titleSlug\": \"distribute-coins-in-binary-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Choose Edges to Maximize Score in a Tree\", \"titleSlug\": \"choose-edges-to-maximize-score-in-a-tree\", \"difficulty\": \"Medium\"}]"
+}

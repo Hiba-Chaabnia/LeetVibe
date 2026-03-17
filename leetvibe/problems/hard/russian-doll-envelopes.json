@@ -1,0 +1,47 @@
+{
+  "questionId": "354",
+  "title": "Russian Doll Envelopes",
+  "titleSlug": "russian-doll-envelopes",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 2D array of integers envelopes where envelopes[i] = [wi, hi] represents the width and the height of an envelope.\n\nOne envelope can fit into another if and only if both the width and height of one envelope are greater than the other envelope's width and height.\n\nReturn the maximum number of envelopes you can Russian doll (i.e., put one inside the other).\n\nNote: You cannot rotate an envelope.\n\nExample 1:\n\nInput: envelopes = [[5,4],[6,4],[6,7],[2,3]]\nOutput: 3\nExplanation: The maximum number of envelopes you can Russian doll is 3 ([2,3] => [5,4] => [6,7]).\n\nExample 2:\n\nInput: envelopes = [[1,1],[1,1],[1,1]]\nOutput: 1\n\nConstraints:\n\n• 1 <= envelopes.length <= 105\n\n• envelopes[i].length == 2\n\n• 1 <= wi, hi <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxEnvelopes(self, envelopes):\n        \"\"\"\n        :type envelopes: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[5,4],[6,4],[6,7],[2,3]]"
+    ],
+    [
+      "[[1,1],[1,1],[1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Increasing Subsequence\", \"titleSlug\": \"longest-increasing-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"The Number of Weak Characters in the Game\", \"titleSlug\": \"the-number-of-weak-characters-in-the-game\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Non-decreasing Subarray From Two Arrays\", \"titleSlug\": \"longest-non-decreasing-subarray-from-two-arrays\", \"difficulty\": \"Medium\"}]"
+}

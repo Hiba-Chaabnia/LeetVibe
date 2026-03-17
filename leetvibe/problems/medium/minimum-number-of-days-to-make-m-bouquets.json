@@ -1,0 +1,57 @@
+{
+  "questionId": "1605",
+  "title": "Minimum Number of Days to Make m Bouquets",
+  "titleSlug": "minimum-number-of-days-to-make-m-bouquets",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You are given an integer array bloomDay, an integer m and an integer k.\n\nYou want to make m bouquets. To make a bouquet, you need to use k adjacent flowers from the garden.\n\nThe garden consists of n flowers, the ith flower will bloom in the bloomDay[i] and then can be used in exactly one bouquet.\n\nReturn the minimum number of days you need to wait to be able to make m bouquets from the garden. If it is impossible to make m bouquets return -1.\n\nExample 1:\n\nInput: bloomDay = [1,10,3,10,2], m = 3, k = 1\nOutput: 3\nExplanation: Let us see what happened in the first three days. x means flower bloomed and _ means flower did not bloom in the garden.\n    We need 3 bouquets each should contain 1 flower.\n    After day 1: [x, _, _, _, _]   // we can only make one bouquet.\n    After day 2: [x, _, _, _, x]   // we can only make two bouquets.\n    After day 3: [x, _, x, _, x]   // we can make 3 bouquets. The answer is 3.\n\nExample 2:\n\nInput: bloomDay = [1,10,3,10,2], m = 3, k = 2\nOutput: -1\nExplanation: We need 3 bouquets each has 2 flowers, that means we need 6 flowers. We only have 5 flowers so it is impossible to get the needed bouquets and we return -1.\n\nExample 3:\n\nInput: bloomDay = [7,7,7,7,12,7,7], m = 2, k = 3\nOutput: 12\nExplanation: We need 2 bouquets each should have 3 flowers.\n    Here is the garden after the 7 and 12 days:\n    After day 7: [x, x, x, x, _, x, x]\n    We can make one bouquet of the first three flowers that bloomed. We cannot make another bouquet from the last three flowers that bloomed because they are not adjacent.\n    After day 12: [x, x, x, x, x, x, x]\n    It is obvious that we can make two bouquets in different ways.\n\nConstraints:\n\n• bloomDay.length == n\n\n• 1 <= n <= 105\n\n• 1 <= bloomDay[i] <= 109\n\n• 1 <= m <= 106\n\n• 1 <= k <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDays(self, bloomDay, m, k):\n        \"\"\"\n        :type bloomDay: List[int]\n        :type m: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If we can make m or more bouquets at day x, then we can still make m or more bouquets at any day y > x.",
+    "We can check easily if we can make enough bouquets at day x if we can get group adjacent flowers at day x."
+  ],
+  "testCases": [
+    [
+      "[1,10,3,10,2]",
+      "3",
+      "1"
+    ],
+    [
+      "[1,10,3,10,2]",
+      "3",
+      "2"
+    ],
+    [
+      "[7,7,7,7,12,7,7]",
+      "2",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minDays(self, bloomDay, m, k):\n        \"\"\"\n        :type bloomDay: List[int]\n        :type m: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        if len(bloomDay) < m * k:\n            return -1\n        \n        def canMakeBouquets(days):\n            bouquets = 0\n            consecutive = 0\n            for bloom in bloomDay:\n                if bloom <= days:\n                    consecutive += 1\n                    if consecutive == k:\n                        bouquets += 1\n                        consecutive = 0\n                else:\n                    consecutive = 0\n            return bouquets >= m\n        \n        left, right = min(bloomDay), max(bloomDay)\n        result = right\n        \n        while left <= right:\n            mid = (left + right) // 2\n            if canMakeBouquets(mid):\n                result = mid\n                right = mid - 1\n            else:\n                left = mid + 1\n        \n        return result",
+    "explanation": "Binary search on days. For each candidate day, check if we can make m bouquets with k consecutive flowers.",
+    "complexity": "Time: O(n log(max(bloomDay))). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximize the Confusion of an Exam\", \"titleSlug\": \"maximize-the-confusion-of-an-exam\", \"difficulty\": \"Medium\"}, {\"title\": \"Earliest Possible Day of Full Bloom\", \"titleSlug\": \"earliest-possible-day-of-full-bloom\", \"difficulty\": \"Hard\"}]"
+}

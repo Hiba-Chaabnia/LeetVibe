@@ -1,0 +1,51 @@
+{
+  "questionId": "3722",
+  "title": "Sum of K Subarrays With Length at Least M",
+  "titleSlug": "sum-of-k-subarrays-with-length-at-least-m",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums and two integers, k and m.\n\nReturn the maximum sum of k non-overlapping subarrays of nums, where each subarray has a length of at least m.\n\nExample 1:\n\nInput: nums = [1,2,-1,3,3,4], k = 2, m = 2\n\nOutput: 13\n\nExplanation: The optimal choice is:\n\n• Subarray nums[3..5] with sum 3 + 3 + 4 = 10 (length is 3 >= m).\n\n• Subarray nums[0..1] with sum 1 + 2 = 3 (length is 2 >= m).\n\nThe total sum is 10 + 3 = 13.\n\nExample 2:\n\nInput: nums = [-10,3,-1,-2], k = 4, m = 1\n\nOutput: -10\n\nExplanation: The optimal choice is choosing each element as a subarray. The output is (-10) + 3 + (-1) + (-2) = -10.\n\nConstraints:\n\n• 1 <= nums.length <= 2000\n\n• -104 <= nums[i] <= 104\n\n• 1 <= k <= floor(nums.length / m)\n\n• 1 <= m <= 3",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSum(self, nums, k, m):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type m: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Dynamic Programming",
+    "Prefix Sum",
+    "Let dp[i][j] be the maximum sum with i subarrays for the first j elements"
+  ],
+  "testCases": [
+    [
+      "[1,2,-1,3,3,4]",
+      "2",
+      "2"
+    ],
+    [
+      "[-10,3,-1,-2]",
+      "4",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "-10"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "3550",
+  "title": "Maximum Value Sum by Placing Three Rooks I",
+  "titleSlug": "maximum-value-sum-by-placing-three-rooks-i",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a m x n 2D array board representing a chessboard, where board[i][j] represents the value of the cell (i, j).\n\nRooks in the same row or column attack each other. You need to place three rooks on the chessboard such that the rooks do not attack each other.\n\nReturn the maximum sum of the cell values on which the rooks are placed.\n\nExample 1:\n\nInput: board = [[-3,1,1,1],[-3,1,-3,1],[-3,2,1,1]]\n\nOutput: 4\n\nExplanation: We can place the rooks in the cells (0, 2), (1, 3), and (2, 1) for a sum of 1 + 1 + 2 = 4.\n\nExample 2:\n\nInput: board = [[1,2,3],[4,5,6],[7,8,9]]\n\nOutput: 15\n\nExplanation: We can place the rooks in the cells (0, 0), (1, 1), and (2, 2) for a sum of 1 + 5 + 9 = 15.\n\nExample 3:\n\nInput: board = [[1,1,1],[1,1,1],[1,1,1]]\n\nOutput: 3\n\nExplanation: We can place the rooks in the cells (0, 2), (1, 1), and (2, 0) for a sum of 1 + 1 + 1 = 3.\n\nConstraints:\n\n• 3 <= m == board.length <= 100\n\n• 3 <= n == board[i].length <= 100\n\n• -109 <= board[i][j] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumValueSum(self, board):\n        \"\"\"\n        :type board: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Store the largest 3 values for each row.",
+    "Select any 3 rows and brute force all combinations."
+  ],
+  "testCases": [
+    [
+      "[[-3,1,1,1],[-3,1,-3,1],[-3,2,1,1]]"
+    ],
+    [
+      "[[1,2,3],[4,5,6],[7,8,9]]"
+    ],
+    [
+      "[[1,1,1],[1,1,1],[1,1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "15",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumValueSum(self, board):\n        \"\"\"\n        :type board: List[List[int]]\n        :rtype: int\n        \"\"\"\n        m, n = len(board), len(board[0])\n        \n        # Find top 3 values in each row\n        row_tops = []\n        for i in range(m):\n            tops = sorted(enumerate(board[i]), key=lambda x: -x[1])[:3]\n            row_tops.append(tops)\n        \n        max_sum = float('-inf')\n        \n        # Try all combinations of 3 different rows\n        for i in range(m):\n            for j in range(i + 1, m):\n                for k in range(j + 1, m):\n                    # Try all combinations of columns from top 3 of each row\n                    for col_i, val_i in row_tops[i]:\n                        for col_j, val_j in row_tops[j]:\n                            for col_k, val_k in row_tops[k]:\n                                # Check if columns are different\n                                if col_i != col_j and col_j != col_k and col_i != col_k:\n                                    max_sum = max(max_sum, val_i + val_j + val_k)\n        \n        return max_sum",
+    "explanation": "This solution uses brute force with optimization:\n\n1. **Problem Understanding**:\n   - Place 3 rooks on chessboard\n   - Rooks don't attack each other (different rows AND columns)\n   - Maximize sum of cell values\n\n2. **Key Optimization**:\n   - Extract top 3 values from each row\n   - Only consider best candidates per row\n   - Reduces search space significantly\n\n3. **Algorithm**:\n   - For each combination of 3 different rows (O(m³)):\n     - Try combinations of top 3 values per row (O(27) = O(1))\n     - Verify columns are distinct\n     - Track maximum sum\n\n4. **Column Validation**:\n   - Must ensure all three rooks are in different columns\n   - Since we pick from top 3 per row, there are at most C(3,3) = 1 way\n   - Typically much fewer due to column constraint\n\n5. **Why Top 3 is Sufficient**:\n   - In any 3 rows, at least one optimal solution uses top values\n   - If a row's best column conflicts with another, its next-best is considered\n\nTime Complexity: O(m³) for row combinations, O(27) for value combinations = O(m³)\nSpace Complexity: O(m * 3) = O(m) for storing top 3 per row"
+  },
+  "similarQuestions": "[{\"title\": \"Available Captures for Rook\", \"titleSlug\": \"available-captures-for-rook\", \"difficulty\": \"Easy\"}]"
+}

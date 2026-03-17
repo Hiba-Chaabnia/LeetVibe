@@ -1,0 +1,46 @@
+{
+  "questionId": "2503",
+  "title": "Longest Subarray With Maximum Bitwise AND",
+  "titleSlug": "longest-subarray-with-maximum-bitwise-and",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    }
+  ],
+  "content": "You are given an integer array nums of size n.\n\nConsider a non-empty subarray from nums that has the maximum possible bitwise AND.\n\n• In other words, let k be the maximum value of the bitwise AND of any subarray of nums. Then, only subarrays with a bitwise AND equal to k should be considered.\n\nReturn the length of the longest such subarray.\n\nThe bitwise AND of an array is the bitwise AND of all the numbers in it.\n\nA subarray is a contiguous sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [1,2,3,3,2,2]\nOutput: 2\nExplanation:\n    The maximum possible bitwise AND of a subarray is 3.\n    The longest subarray with that value is [3,3], so we return 2.\n\nExample 2:\n\nInput: nums = [1,2,3,4]\nOutput: 1\nExplanation:\n    The maximum possible bitwise AND of a subarray is 4.\n    The longest subarray with that value is [4], so we return 1.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestSubarray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that the bitwise AND of two different numbers will always be strictly less than the maximum of those two numbers.",
+    "What does that tell us about the nature of the subarray that we should choose?"
+  ],
+  "testCases": [
+    [
+      "[1,2,3,3,2,2]"
+    ],
+    [
+      "[1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Number of Different Integers in a String\", \"titleSlug\": \"number-of-different-integers-in-a-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Remove Colored Pieces if Both Neighbors are the Same Color\", \"titleSlug\": \"remove-colored-pieces-if-both-neighbors-are-the-same-color\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Number of Maximum Bitwise-OR Subsets\", \"titleSlug\": \"count-number-of-maximum-bitwise-or-subsets\", \"difficulty\": \"Medium\"}, {\"title\": \"Smallest Subarrays With Maximum Bitwise OR\", \"titleSlug\": \"smallest-subarrays-with-maximum-bitwise-or\", \"difficulty\": \"Medium\"}]"
+}

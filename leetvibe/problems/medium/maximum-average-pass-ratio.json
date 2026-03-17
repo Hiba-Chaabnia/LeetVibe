@@ -1,0 +1,55 @@
+{
+  "questionId": "1917",
+  "title": "Maximum Average Pass Ratio",
+  "titleSlug": "maximum-average-pass-ratio",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "There is a school that has classes of students and each class will be having a final exam. You are given a 2D integer array classes, where classes[i] = [passi, totali]. You know beforehand that in the ith class, there are totali total students, but only passi number of students will pass the exam.\n\nYou are also given an integer extraStudents. There are another extraStudents brilliant students that are guaranteed to pass the exam of any class they are assigned to. You want to assign each of the extraStudents students to a class in a way that maximizes the average pass ratio across all the classes.\n\nThe pass ratio of a class is equal to the number of students of the class that will pass the exam divided by the total number of students of the class. The average pass ratio is the sum of pass ratios of all the classes divided by the number of the classes.\n\nReturn the maximum possible average pass ratio after assigning the extraStudents students. Answers within 10-5 of the actual answer will be accepted.\n\nExample 1:\n\nInput: classes = [[1,2],[3,5],[2,2]], extraStudents = 2\nOutput: 0.78333\nExplanation: You can assign the two extra students to the first class. The average pass ratio will be equal to (3/4 + 3/5 + 2/2) / 3 = 0.78333.\n\nExample 2:\n\nInput: classes = [[2,4],[3,9],[4,5],[2,10]], extraStudents = 4\nOutput: 0.53485\n\nConstraints:\n\n• 1 <= classes.length <= 105\n\n• classes[i].length == 2\n\n• 1 <= passi <= totali <= 105\n\n• 1 <= extraStudents <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxAverageRatio(self, classes, extraStudents):\n        \"\"\"\n        :type classes: List[List[int]]\n        :type extraStudents: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Pay attention to how much the pass ratio changes when you add a student to the class. If you keep adding students, what happens to the change in pass ratio? The more students you add to a class, the smaller the change in pass ratio becomes.",
+    "Since the change in the pass ratio is always decreasing with the more students you add, then the very first student you add to each class is the one that makes the biggest change in the pass ratio.",
+    "Because each class's pass ratio is weighted equally, it's always optimal to put the student in the class that makes the biggest change among all the other classes.",
+    "Keep a max heap of the current class sizes and order them by the change in pass ratio. For each extra student, take the top of the heap, update the class size, and put it back in the heap."
+  ],
+  "testCases": [
+    [
+      "[[1,2],[3,5],[2,2]]",
+      "2"
+    ],
+    [
+      "[[2,4],[3,9],[4,5],[2,10]]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "0.78333",
+    "0.53485"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxAverageRatio(self, classes, extraStudents):\n        \"\"\"\n        :type classes: List[List[int]]\n        :type extraStudents: int\n        :rtype: float\n        \"\"\"\n        import heapq\n        \n        def gain(pass_count, total_count):\n            # Gain from adding one student\n            return (pass_count + 1) / (total_count + 1) - pass_count / total_count\n        \n        # Max heap by gain (negate)\n        heap = []\n        for pass_count, total_count in classes:\n            g = gain(pass_count, total_count)\n            heapq.heappush(heap, (-g, pass_count, total_count))\n        \n        for _ in range(extraStudents):\n            # Add student to class with max gain\n            neg_gain, pass_count, total_count = heapq.heappop(heap)\n            pass_count += 1\n            total_count += 1\n            \n            # Recalculate gain and push back\n            g = gain(pass_count, total_count)\n            heapq.heappush(heap, (-g, pass_count, total_count))\n        \n        # Calculate average pass ratio\n        total_ratio = sum(pass_count / total_count for _, pass_count, total_count in heap)\n        return total_ratio / len(classes)",
+    "explanation": "Use max heap to always add student to class with max gain. Gain decreases as more students added.",
+    "complexity": "Time: O(k log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

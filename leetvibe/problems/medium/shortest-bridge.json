@@ -1,0 +1,51 @@
+{
+  "questionId": "971",
+  "title": "Shortest Bridge",
+  "titleSlug": "shortest-bridge",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an n x n binary matrix grid where 1 represents land and 0 represents water.\n\nAn island is a 4-directionally connected group of 1's not connected to any other 1's. There are exactly two islands in grid.\n\nYou may change 0's to 1's to connect the two islands to form one island.\n\nReturn the smallest number of 0's you must flip to connect the two islands.\n\nExample 1:\n\nInput: grid = [[0,1],[1,0]]\nOutput: 1\n\nExample 2:\n\nInput: grid = [[0,1,0],[0,0,0],[0,0,1]]\nOutput: 2\n\nExample 3:\n\nInput: grid = [[1,1,1,1,1],[1,0,0,0,1],[1,0,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]\nOutput: 1\n\nConstraints:\n\n• n == grid.length == grid[i].length\n\n• 2 <= n <= 100\n\n• grid[i][j] is either 0 or 1.\n\n• There are exactly two islands in grid.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestBridge(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,1],[1,0]]"
+    ],
+    [
+      "[[0,1,0],[0,0,0],[0,0,1]]"
+    ],
+    [
+      "[[1,1,1,1,1],[1,0,0,0,1],[1,0,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Number of Operations to Make X and Y Equal\", \"titleSlug\": \"minimum-number-of-operations-to-make-x-and-y-equal\", \"difficulty\": \"Medium\"}]"
+}

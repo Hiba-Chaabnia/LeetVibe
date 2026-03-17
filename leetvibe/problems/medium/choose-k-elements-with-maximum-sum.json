@@ -1,0 +1,54 @@
+{
+  "questionId": "3759",
+  "title": "Choose K Elements With Maximum Sum",
+  "titleSlug": "choose-k-elements-with-maximum-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given two integer arrays, nums1 and nums2, both of length n, along with a positive integer k.\n\nFor each index i from 0 to n - 1, perform the following:\n\n• Find all indices j where nums1[j] is less than nums1[i].\n\n• Choose at most k values of nums2[j] at these indices to maximize the total sum.\n\nReturn an array answer of size n, where answer[i] represents the result for the corresponding index i.\n\nExample 1:\n\nInput: nums1 = [4,2,1,5,3], nums2 = [10,20,30,40,50], k = 2\n\nOutput: [80,30,0,80,50]\n\nExplanation:\n\n• For i = 0: Select the 2 largest values from nums2 at indices [1, 2, 4] where nums1[j] < nums1[0], resulting in 50 + 30 = 80.\n\n• For i = 1: Select the 2 largest values from nums2 at index [2] where nums1[j] < nums1[1], resulting in 30.\n\n• For i = 2: No indices satisfy nums1[j] < nums1[2], resulting in 0.\n\n• For i = 3: Select the 2 largest values from nums2 at indices [0, 1, 2, 4] where nums1[j] < nums1[3], resulting in 50 + 30 = 80.\n\n• For i = 4: Select the 2 largest values from nums2 at indices [1, 2] where nums1[j] < nums1[4], resulting in 30 + 20 = 50.\n\nExample 2:\n\nInput: nums1 = [2,2,2,2], nums2 = [3,1,2,3], k = 1\n\nOutput: [0,0,0,0]\n\nExplanation: Since all elements in nums1 are equal, no indices satisfy the condition nums1[j] < nums1[i] for any i, resulting in 0 for all positions.\n\nConstraints:\n\n• n == nums1.length == nums2.length\n\n• 1 <= n <= 105\n\n• 1 <= nums1[i], nums2[i] <= 106\n\n• 1 <= k <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMaxSum(self, nums1, nums2, k):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort nums1 and its corresponding nums2 values together based on nums1.",
+    "Use a max heap to track the top k values of nums2 as you process each element in the sorted order."
+  ],
+  "testCases": [
+    [
+      "[4,2,1,5,3]",
+      "[10,20,30,40,50]",
+      "2"
+    ],
+    [
+      "[2,2,2,2]",
+      "[3,1,2,3]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[80,30,0,80,50]",
+    "[0,0,0,0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\nclass Solution(object):\n    def findMaxSum(self, nums1, nums2, k):\n        n = len(nums1)\n        order = sorted(range(n), key=lambda i: nums1[i])\n        ans = [0] * n\n        heap = []\n        heap_sum = 0\n        j = 0\n        i = 0\n        while i < n:\n            cur_val = nums1[order[i]]\n            while j < n and nums1[order[j]] < cur_val:\n                heapq.heappush(heap, nums2[order[j]])\n                heap_sum += nums2[order[j]]\n                if len(heap) > k:\n                    heap_sum -= heapq.heappop(heap)\n                j += 1\n            end = i\n            while end < n and nums1[order[end]] == cur_val:\n                end += 1\n            val = heap_sum if heap else 0\n            for t in range(i, end):\n                ans[order[t]] = val\n            i = end\n        return ans",
+    "explanation": "Sort by nums1; maintain min-heap of top-k nums2 values with strictly-smaller nums1."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,49 @@
+{
+  "questionId": "3349",
+  "title": "Maximum Length Substring With Two Occurrences",
+  "titleSlug": "maximum-length-substring-with-two-occurrences",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given a string s, return the maximum length of a substring such that it contains at most two occurrences of each character.\n\nExample 1:\n\nInput: s = \"bcbbbcba\"\n\nOutput: 4\n\nExplanation: The following substring has a length of 4 and contains at most two occurrences of each character: \"bcbbbcba\".\n\nExample 2:\n\nInput: s = \"aaaa\"\n\nOutput: 2\n\nExplanation: The following substring has a length of 2 and contains at most two occurrences of each character: \"aaaa\".\n\nConstraints:\n\n• 2 <= s.length <= 100\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumLengthSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can try all substrings by brute-force since the constraints are very small."
+  ],
+  "testCases": [
+    [
+      "\"bcbbbcba\""
+    ],
+    [
+      "\"aaaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumLengthSubstring(self, s):\n        from collections import defaultdict\n        cnt = defaultdict(int)\n        left = 0\n        best = 0\n        for right, c in enumerate(s):\n            cnt[c] += 1\n            while cnt[c] > 2:\n                cnt[s[left]] -= 1\n                left += 1\n            best = max(best, right - left + 1)\n        return best",
+    "explanation": "Sliding window: expand right, shrink left whenever any character exceeds 2 occurrences; track the maximum window size. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

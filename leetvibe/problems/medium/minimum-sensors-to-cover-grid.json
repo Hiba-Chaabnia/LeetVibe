@@ -1,0 +1,46 @@
+{
+  "questionId": "3945",
+  "title": "Minimum Sensors to Cover Grid",
+  "titleSlug": "minimum-sensors-to-cover-grid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given n × m grid and an integer k.\n\nA sensor placed on cell (r, c) covers all cells whose Chebyshev distance from (r, c) is at most k.\n\nThe Chebyshev distance between two cells (r1, c1) and (r2, c2) is max(|r1 − r2|,|c1 − c2|).\n\nYour task is to return the minimum number of sensors required to cover every cell of the grid.\n\nExample 1:\n\nInput: n = 5, m = 5, k = 1\n\nOutput: 4\n\nExplanation: Placing sensors at positions (0, 3), (1, 0), (3, 3), and (4, 1) ensures every cell in the grid is covered. Thus, the answer is 4.\n\nExample 2:\n\nInput: n = 2, m = 2, k = 2\n\nOutput: 1\n\nExplanation: With k = 2, a single sensor can cover the entire 2 * 2 grid regardless of its position. Thus, the answer is 1.\n\nConstraints:\n\n• 1 <= n <= 103\n\n• 1 <= m <= 103\n\n• 0 <= k <= 103",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSensors(self, n, m, k):\n        \"\"\"\n        :type n: int\n        :type m: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let s = 2*k + 1, the side length each sensor covers.",
+    "The minimum number is ceil(n / s) * ceil(m / s)."
+  ],
+  "testCases": [
+    [
+      "5",
+      "5",
+      "1"
+    ],
+    [
+      "2",
+      "2",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import math\n\nclass Solution(object):\n    def minSensors(self, n, m, k):\n        s = 2 * k + 1\n        return math.ceil(n / s) * math.ceil(m / s)",
+    "explanation": "A sensor covers a (2k+1) x (2k+1) square (Chebyshev distance <= k). To cover the entire n x m grid with minimum non-overlapping squares: ceil(n/(2k+1)) along rows and ceil(m/(2k+1)) along columns. Total = product of these two values.\n\nTime: O(1). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

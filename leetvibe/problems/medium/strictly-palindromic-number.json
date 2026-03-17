@@ -1,0 +1,51 @@
+{
+  "questionId": "2481",
+  "title": "Strictly Palindromic Number",
+  "titleSlug": "strictly-palindromic-number",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    }
+  ],
+  "content": "An integer n is strictly palindromic if, for every base b between 2 and n - 2 (inclusive), the string representation of the integer n in base b is palindromic.\n\nGiven an integer n, return true if n is strictly palindromic and false otherwise.\n\nA string is palindromic if it reads the same forward and backward.\n\nExample 1:\n\nInput: n = 9\nOutput: false\nExplanation: In base 2: 9 = 1001 (base 2), which is palindromic.\n    In base 3: 9 = 100 (base 3), which is not palindromic.\n    Therefore, 9 is not strictly palindromic so we return false.\n    Note that in bases 4, 5, 6, and 7, n = 9 is also not palindromic.\n\nExample 2:\n\nInput: n = 4\nOutput: false\nExplanation: We only consider base 2: 4 = 100 (base 2), which is not palindromic.\n    Therefore, we return false.\n\nConstraints:\n\n• 4 <= n <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isStrictlyPalindromic(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider the representation of the given number in the base n - 2.",
+    "The number n in base (n - 2) is always 12, which is not palindromic."
+  ],
+  "testCases": [
+    [
+      "9"
+    ],
+    [
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def isStrictlyPalindromic(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        # n in base (n-2) is always 12, which is not palindromic\n        return False",
+    "explanation": "In base n-2, n = 1*(n-2) + 2 = 12 (not palindrome). Always false.",
+    "complexity": "Time: O(1). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Palindrome Number\", \"titleSlug\": \"palindrome-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Stone Game\", \"titleSlug\": \"stone-game\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,60 @@
+{
+  "questionId": "1493",
+  "title": "Frog Position After T Seconds",
+  "titleSlug": "frog-position-after-t-seconds",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "Given an undirected tree consisting of n vertices numbered from 1 to n. A frog starts jumping from vertex 1. In one second, the frog jumps from its current vertex to another unvisited vertex if they are directly connected. The frog can not jump back to a visited vertex. In case the frog can jump to several vertices, it jumps randomly to one of them with the same probability. Otherwise, when the frog can not jump to any unvisited vertex, it jumps forever on the same vertex.\n\nThe edges of the undirected tree are given in the array edges, where edges[i] = [ai, bi] means that exists an edge connecting the vertices ai and bi.\n\nReturn the probability that after t seconds the frog is on the vertex target. Answers within 10-5 of the actual answer will be accepted.\n\nExample 1:\n\nInput: n = 7, edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]], t = 2, target = 4\nOutput: 0.16666666666666666\nExplanation: The figure above shows the given graph. The frog starts at vertex 1, jumping with 1/3 probability to the vertex 2 after second 1 and then jumping with 1/2 probability to vertex 4 after second 2. Thus the probability for the frog is on the vertex 4 after 2 seconds is 1/3 * 1/2 = 1/6 = 0.16666666666666666.\n\nExample 2:\n\nInput: n = 7, edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]], t = 1, target = 7\nOutput: 0.3333333333333333\nExplanation: The figure above shows the given graph. The frog starts at vertex 1, jumping with 1/3 = 0.3333333333333333 probability to the vertex 7 after second 1.\n\nConstraints:\n\n• 1 <= n <= 100\n\n• edges.length == n - 1\n\n• edges[i].length == 2\n\n• 1 <= ai, bi <= n\n\n• 1 <= t <= 50\n\n• 1 <= target <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def frogPosition(self, n, edges, t, target):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type t: int\n        :type target: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a variation of DFS with parameters 'curent_vertex' and 'current_time'.",
+    "Update the probability considering to jump to one of the children vertices."
+  ],
+  "testCases": [
+    [
+      "7",
+      "[[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]]",
+      "2",
+      "4"
+    ],
+    [
+      "7",
+      "[[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]]",
+      "1",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "0.16666666666666666",
+    "0.3333333333333333"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\ndef dfs(node, parent, t, target, graph, prob, ans):\n    if t == 0:\n        if node == target:\n            ans[0] += prob\n        return\n\n    has_child = False\n    for neighbor in graph[node]:\n        if neighbor != parent:\n            has_child = True\n            dfs(neighbor, node, t - 1, target, graph, prob / (len(graph[node]) - (1 if node != 1 else 0)), ans)\n\n    if not has_child and node == target:\n        ans[0] += prob\n\ndef frogPosition(n, edges, t, target):\n    graph = defaultdict(list)\n    for a, b in edges:\n        graph[a].append(b)\n        graph[b].append(a)\n\n    ans = [0.0]\n    dfs(1, -1, t, target, graph, 1.0, ans)\n    return ans[0]",
+    "explanation": "The problem can be solved using Depth First Search (DFS). The basic idea is to traverse the tree using DFS starting from the vertex 1 with a probability of 1.0. During the traversal, at each visited vertex we calculate the probability that the frog reaches the current vertex. To do this, we maintain the probability of the current subtree traversal, and at each step we update this probability by dividing it by the number of unvisited neighbor vertices (excluding the parent vertex of the current vertex).\n\nWe continue the traversal for t seconds. At each step, if the traversal time (t) is zero or the frog reaches the target vertex, we store the probability of reaching the target vertex into the answer.\n\nUpon completion of the DFS traversal, we return the final answer, which is the probability of the frog being on the vertex target after t seconds."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Special Path\", \"titleSlug\": \"longest-special-path\", \"difficulty\": \"Hard\"}]"
+}

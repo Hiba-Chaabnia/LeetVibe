@@ -1,0 +1,49 @@
+{
+  "questionId": "994",
+  "title": "Prison Cells After N Days",
+  "titleSlug": "prison-cells-after-n-days",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "There are 8 prison cells in a row and each cell is either occupied or vacant.\n\nEach day, whether the cell is occupied or vacant changes according to the following rules:\n\n• If a cell has two adjacent neighbors that are both occupied or both vacant, then the cell becomes occupied.\n\n• Otherwise, it becomes vacant.\n\nNote that because the prison is a row, the first and the last cells in the row can't have two adjacent neighbors.\n\nYou are given an integer array cells where cells[i] == 1 if the ith cell is occupied and cells[i] == 0 if the ith cell is vacant, and you are given an integer n.\n\nReturn the state of the prison after n days (i.e., n such changes described above).\n\nExample 1:\n\nInput: cells = [0,1,0,1,1,0,0,1], n = 7\nOutput: [0,0,1,1,0,0,0,0]\nExplanation: The following table summarizes the state of the prison on each day:\n    Day 0: [0, 1, 0, 1, 1, 0, 0, 1]\n    Day 1: [0, 1, 1, 0, 0, 0, 0, 0]\n    Day 2: [0, 0, 0, 0, 1, 1, 1, 0]\n    Day 3: [0, 1, 1, 0, 0, 1, 0, 0]\n    Day 4: [0, 0, 0, 0, 0, 1, 0, 0]\n    Day 5: [0, 1, 1, 1, 0, 1, 0, 0]\n    Day 6: [0, 0, 1, 0, 1, 1, 0, 0]\n    Day 7: [0, 0, 1, 1, 0, 0, 0, 0]\n\nExample 2:\n\nInput: cells = [1,0,0,1,0,0,1,0], n = 1000000000\nOutput: [0,0,1,1,1,1,1,0]\n\nConstraints:\n\n• cells.length == 8\n\n• cells[i] is either 0 or 1.\n\n• 1 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def prisonAfterNDays(self, cells, n):\n        \"\"\"\n        :type cells: List[int]\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[0,1,0,1,1,0,0,1]",
+      "7"
+    ],
+    [
+      "[1,0,0,1,0,0,1,0]",
+      "1000000000"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,0,1,1,0,0,0,0]",
+    "[0,0,1,1,1,1,1,0]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

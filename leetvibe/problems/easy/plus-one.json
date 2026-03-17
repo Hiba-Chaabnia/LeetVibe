@@ -1,0 +1,47 @@
+{
+  "questionId": "66",
+  "title": "Plus One",
+  "titleSlug": "plus-one",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.\n\nIncrement the large integer by one and return the resulting array of digits.\n\nExample 1:\n\nInput: digits = [1,2,3]\nOutput: [1,2,4]\nExplanation: The array represents the integer 123.\n    Incrementing by one gives 123 + 1 = 124.\n    Thus, the result should be [1,2,4].\n\nExample 2:\n\nInput: digits = [4,3,2,1]\nOutput: [4,3,2,2]\nExplanation: The array represents the integer 4321.\n    Incrementing by one gives 4321 + 1 = 4322.\n    Thus, the result should be [4,3,2,2].\n\nExample 3:\n\nInput: digits = [9]\nOutput: [1,0]\nExplanation: The array represents the integer 9.\n    Incrementing by one gives 9 + 1 = 10.\n    Thus, the result should be [1,0].\n\nConstraints:\n\n• 1 <= digits.length <= 100\n\n• 0 <= digits[i] <= 9\n\n• digits does not contain any leading 0's.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def plusOne(self, digits):\n        \"\"\"\n        :type digits: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[4,3,2,1]"
+    ],
+    [
+      "[9]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,4]",
+    "[4,3,2,2]",
+    "[1,0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def plusOne(digits: List[int]) -> List[int]:\n    n = len(digits)\n\n    for i in range(n - 1, -1, -1):\n        if digits[i] < 9:\n            digits[i] += 1\n            return digits\n        digits[i] = 0\n\n    digits.insert(0, 1)\n    return digits",
+    "explanation": "We start by iterating through the array from the least significant digit (rightmost) to the most significant digit (leftmost). In each iteration, we check whether the digit is less than 9. If the digit is less than 9, increment it and return the incremented array. If the digit is 9, we set it to 0 and continue the loop to the next most significant digit.\n\nAfter the loop, if we haven't found any digit less than 9, that means we have a number like 9999...9 which needs to be incremented to 10000...0. So we add a 1 at the beginning of the array (the most significant digit). Finally, we return the incremented array."
+  },
+  "similarQuestions": "[{\"title\": \"Multiply Strings\", \"titleSlug\": \"multiply-strings\", \"difficulty\": \"Medium\"}, {\"title\": \"Add Binary\", \"titleSlug\": \"add-binary\", \"difficulty\": \"Easy\"}, {\"title\": \"Plus One Linked List\", \"titleSlug\": \"plus-one-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Add to Array-Form of Integer\", \"titleSlug\": \"add-to-array-form-of-integer\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Operations to Reduce an Integer to 0\", \"titleSlug\": \"minimum-operations-to-reduce-an-integer-to-0\", \"difficulty\": \"Medium\"}]"
+}

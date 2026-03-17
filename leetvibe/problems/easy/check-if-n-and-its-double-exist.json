@@ -1,0 +1,59 @@
+{
+  "questionId": "1468",
+  "title": "Check If N and Its Double Exist",
+  "titleSlug": "check-if-n-and-its-double-exist",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array arr of integers, check if there exist two indices i and j such that :\n\n• i != j\n\n• 0 <= i, j < arr.length\n\n• arr[i] == 2 * arr[j]\n\nExample 1:\n\nInput: arr = [10,2,5,3]\nOutput: true\nExplanation: For i = 0 and j = 2, arr[i] == 10 == 2 * 5 == 2 * arr[j]\n\nExample 2:\n\nInput: arr = [3,1,7,11]\nOutput: false\nExplanation: There is no i and j that satisfy the conditions.\n\nConstraints:\n\n• 2 <= arr.length <= 500\n\n• -103 <= arr[i] <= 103",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkIfExist(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Loop from i = 0 to arr.length, maintaining in a hashTable the array elements from [0, i - 1].",
+    "On each step of the loop check if we have seen the element 2 * arr[i] so far.",
+    "Also check if we have seen arr[i] / 2 in case arr[i] % 2 == 0."
+  ],
+  "testCases": [
+    [
+      "[10,2,5,3]"
+    ],
+    [
+      "[3,1,7,11]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkIfExist(self, arr):\n        seen = set()\n        for num in arr:\n            if num * 2 in seen or num / 2 in seen:\n                return True\n            seen.add(num)\n        return False",
+    "explanation": "Track seen numbers. For each, check if 2*num or num/2 already seen."
+  },
+  "similarQuestions": "[{\"title\": \"Keep Multiplying Found Values by Two\", \"titleSlug\": \"keep-multiplying-found-values-by-two\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "2394",
+  "title": "Count Subarrays With Score Less Than K",
+  "titleSlug": "count-subarrays-with-score-less-than-k",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "The score of an array is defined as the product of its sum and its length.\n\n• For example, the score of [1, 2, 3, 4, 5] is (1 + 2 + 3 + 4 + 5) * 5 = 75.\n\nGiven a positive integer array nums and an integer k, return the number of non-empty subarrays of nums whose score is strictly less than k.\n\nA subarray is a contiguous sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [2,1,4,3,5], k = 10\nOutput: 6\nExplanation:\n    The 6 subarrays having scores less than 10 are:\n    - [2] with score 2 * 1 = 2.\n    - [1] with score 1 * 1 = 1.\n    - [4] with score 4 * 1 = 4.\n    - [3] with score 3 * 1 = 3.\n    - [5] with score 5 * 1 = 5.\n    - [2,1] with score (2 + 1) * 2 = 6.\n    Note that subarrays such as [1,4] and [4,3,5] are not considered because their scores are 10 and 36 respectively, while we need scores strictly less than 10.\n\nExample 2:\n\nInput: nums = [1,1,1], k = 5\nOutput: 5\nExplanation:\n    Every subarray except [1,1,1] has a score less than 5.\n    [1,1,1] has a score (1 + 1 + 1) * 3 = 9, which is greater than 5.\n    Thus, there are 5 subarrays having scores less than 5.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105\n\n• 1 <= k <= 1015",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSubarrays(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If we add an element to a list of elements, how will the score change?",
+    "How can we use this to determine the number of subarrays with score less than k in a given range?",
+    "How can we use “Two Pointers” to generalize the solution, and thus count all possible subarrays?"
+  ],
+  "testCases": [
+    [
+      "[2,1,4,3,5]",
+      "10"
+    ],
+    [
+      "[1,1,1]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def countSubarrays(nums: List[int], k: int) -> int:\n    n = len(nums)\n    left, right = 0, 0\n    sum_, count = 0, 0\n\n    while right < n:\n        sum_ += nums[right]\n        while sum_ * (right - left + 1) >= k:\n            sum_ -= nums[left]\n            left += 1\n        count += right - left + 1\n        right += 1\n\n    return count",
+    "explanation": "We use the sliding window technique to solve this problem as it ensures that we only check relevant subarrays. \n\n1. Initialize two pointers `left` and `right` to 0 and variables `sum` and `count` to 0.\n\n2. Iterate through the array using the `right` pointer.\n\n3. Inside the loop, add the current value of `nums[right]` to the current sum.\n\n4. Inside the loop, use the inner `while` loop to check if the score `sum * (right - left + 1)` is equal to or greater than `k`. If true, subtract the value at `nums[left]` from the sum and increment `left`.\n\n5. Add the number of subarrays calculated at this step to the count: `count += right - left + 1`.\n\n6. Increment the right pointer.\n\n7. Continue iterating until the entire array is traversed.\n\n8. Return the count of subarrays with scores less than `k`."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Subarray\", \"titleSlug\": \"maximum-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Subarray Product Less Than K\", \"titleSlug\": \"subarray-product-less-than-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Binary Subarrays With Sum\", \"titleSlug\": \"binary-subarrays-with-sum\", \"difficulty\": \"Medium\"}]"
+}

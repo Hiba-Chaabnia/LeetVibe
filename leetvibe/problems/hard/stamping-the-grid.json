@@ -1,0 +1,53 @@
+{
+  "questionId": "2200",
+  "title": "Stamping the Grid",
+  "titleSlug": "stamping-the-grid",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an m x n binary matrix grid where each cell is either 0 (empty) or 1 (occupied).\n\nYou are then given stamps of size stampHeight x stampWidth. We want to fit the stamps such that they follow the given restrictions and requirements:\n\n• Cover all the empty cells.\n\n• Do not cover any of the occupied cells.\n\n• We can put as many stamps as we want.\n\n• Stamps can overlap with each other.\n\n• Stamps are not allowed to be rotated.\n\n• Stamps must stay completely inside the grid.\n\nReturn true if it is possible to fit the stamps while following the given restrictions and requirements. Otherwise, return false.\n\nExample 1:\n\nInput: grid = [[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,0,0,0]], stampHeight = 4, stampWidth = 3\nOutput: true\nExplanation: We have two overlapping stamps (labeled 1 and 2 in the image) that are able to cover all the empty cells.\n\nExample 2:\n\nInput: grid = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]], stampHeight = 2, stampWidth = 2\nOutput: false\nExplanation: There is no way to fit the stamps onto all the empty cells without the stamps going outside the grid.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[r].length\n\n• 1 <= m, n <= 105\n\n• 1 <= m * n <= 2 * 105\n\n• grid[r][c] is either 0 or 1.\n\n• 1 <= stampHeight, stampWidth <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def possibleToStamp(self, grid, stampHeight, stampWidth):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type stampHeight: int\n        :type stampWidth: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we use prefix sums here?"
+  ],
+  "testCases": [
+    [
+      "[[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,0,0,0]]",
+      "4",
+      "3"
+    ],
+    [
+      "[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]",
+      "2",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximal Square\", \"titleSlug\": \"maximal-square\", \"difficulty\": \"Medium\"}, {\"title\": \"Bomb Enemy\", \"titleSlug\": \"bomb-enemy\", \"difficulty\": \"Medium\"}, {\"title\": \"Matrix Block Sum\", \"titleSlug\": \"matrix-block-sum\", \"difficulty\": \"Medium\"}]"
+}

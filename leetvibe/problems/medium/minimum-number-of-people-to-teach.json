@@ -1,0 +1,55 @@
+{
+  "questionId": "1834",
+  "title": "Minimum Number of People to Teach",
+  "titleSlug": "minimum-number-of-people-to-teach",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "On a social network consisting of m users and some friendships between users, two users can communicate with each other if they know a common language.\n\nYou are given an integer n, an array languages, and an array friendships where:\n\n• There are n languages numbered 1 through n,\n\n• languages[i] is the set of languages the i​​​​​​th​​​​ user knows, and\n\n• friendships[i] = [u​​​​​​i​​​, v​​​​​​i] denotes a friendship between the users u​​​​​​​​​​​i​​​​​ and vi.\n\nYou can choose one language and teach it to some users so that all friends can communicate with each other. Return the minimum number of users you need to teach.\n\nNote that friendships are not transitive, meaning if x is a friend of y and y is a friend of z, this doesn't guarantee that x is a friend of z.\n\nExample 1:\n\nInput: n = 2, languages = [[1],[2],[1,2]], friendships = [[1,2],[1,3],[2,3]]\nOutput: 1\nExplanation: You can either teach user 1 the second language or user 2 the first language.\n\nExample 2:\n\nInput: n = 3, languages = [[2],[1,3],[1,2],[3]], friendships = [[1,4],[1,2],[3,4],[2,3]]\nOutput: 2\nExplanation: Teach the third language to users 1 and 3, yielding two users to teach.\n\nConstraints:\n\n• 2 <= n <= 500\n\n• languages.length == m\n\n• 1 <= m <= 500\n\n• 1 <= languages[i].length <= n\n\n• 1 <= languages[i][j] <= n\n\n• 1 <= u​​​​​​i < v​​​​​​i <= languages.length\n\n• 1 <= friendships.length <= 500\n\n• All tuples (u​​​​​i, v​​​​​​i) are unique\n\n• languages[i] contains only unique values",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumTeachings(self, n, languages, friendships):\n        \"\"\"\n        :type n: int\n        :type languages: List[List[int]]\n        :type friendships: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You can just use brute force and find out for each language the number of users you need to teach",
+    "Note that a user can appear in multiple friendships but you need to teach that user only once"
+  ],
+  "testCases": [
+    [
+      "2",
+      "[[1],[2],[1,2]]",
+      "[[1,2],[1,3],[2,3]]"
+    ],
+    [
+      "3",
+      "[[2],[1,3],[1,2],[3]]",
+      "[[1,4],[1,2],[3,4],[2,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minimumTeachings(self, n, languages, friendships):\n        \"\"\"\n        :type n: int\n        :type languages: List[List[int]]\n        :type friendships: List[List[int]]\n        :rtype: int\n        \"\"\"\n        # Find pairs that can't communicate\n        bad_pairs = []\n        for u, v in friendships:\n            u_langs = set(languages[u - 1])\n            v_langs = set(languages[v - 1])\n            if not u_langs & v_langs:  # No common language\n                bad_pairs.append((u, v))\n        \n        if not bad_pairs:\n            return 0\n        \n        # Try teaching each language\n        min_teach = len(languages)\n        \n        for lang in range(1, n + 1):\n            # Find users who need to learn this language\n            need_teach = set()\n            for u, v in bad_pairs:\n                u_langs = set(languages[u - 1])\n                v_langs = set(languages[v - 1])\n                if lang not in u_langs:\n                    need_teach.add(u)\n                if lang not in v_langs:\n                    need_teach.add(v)\n            \n            min_teach = min(min_teach, len(need_teach))\n        \n        return min_teach",
+    "explanation": "Find pairs that can't communicate. For each language, count how many users need to learn it to fix all bad pairs.",
+    "complexity": "Time: O(n * |friendships|). Space: O(|friendships|)."
+  },
+  "similarQuestions": "[]"
+}

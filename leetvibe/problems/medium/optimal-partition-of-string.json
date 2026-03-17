@@ -1,0 +1,46 @@
+{
+  "questionId": "2487",
+  "title": "Optimal Partition of String",
+  "titleSlug": "optimal-partition-of-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given a string s, partition the string into one or more substrings such that the characters in each substring are unique. That is, no letter appears in a single substring more than once.\n\nReturn the minimum number of substrings in such a partition.\n\nNote that each character should belong to exactly one substring in a partition.\n\nExample 1:\n\nInput: s = \"abacaba\"\nOutput: 4\nExplanation:\n    Two possible partitions are (\"a\",\"ba\",\"cab\",\"a\") and (\"ab\",\"a\",\"ca\",\"ba\").\n    It can be shown that 4 is the minimum number of substrings needed.\n\nExample 2:\n\nInput: s = \"ssssss\"\nOutput: 6\nExplanation:\n    The only valid partition is (\"s\",\"s\",\"s\",\"s\",\"s\",\"s\").\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of only English lowercase letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def partitionString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to come up with a greedy approach.",
+    "From left to right, extend every substring in the partition as much as possible."
+  ],
+  "testCases": [
+    [
+      "\"abacaba\""
+    ],
+    [
+      "\"ssssss\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "6"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Substring Without Repeating Characters\", \"titleSlug\": \"longest-substring-without-repeating-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Substring with At Least K Repeating Characters\", \"titleSlug\": \"longest-substring-with-at-least-k-repeating-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Partition Labels\", \"titleSlug\": \"partition-labels\", \"difficulty\": \"Medium\"}, {\"title\": \"Partition Array into Disjoint Intervals\", \"titleSlug\": \"partition-array-into-disjoint-intervals\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Sum of Distinct Subarrays With Length K\", \"titleSlug\": \"maximum-sum-of-distinct-subarrays-with-length-k\", \"difficulty\": \"Medium\"}]"
+}

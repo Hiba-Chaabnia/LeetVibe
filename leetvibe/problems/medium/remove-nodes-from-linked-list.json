@@ -1,0 +1,52 @@
+{
+  "questionId": "2573",
+  "title": "Remove Nodes From Linked List",
+  "titleSlug": "remove-nodes-from-linked-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given the head of a linked list.\n\nRemove every node which has a node with a greater value anywhere to the right side of it.\n\nReturn the head of the modified linked list.\n\nExample 1:\n\nInput: head = [5,2,13,3,8]\nOutput: [13,8]\nExplanation: The nodes that should be removed are 5, 2 and 3.\n    - Node 13 is to the right of node 5.\n    - Node 13 is to the right of node 2.\n    - Node 8 is to the right of node 3.\n\nExample 2:\n\nInput: head = [1,1,1,1]\nOutput: [1,1,1,1]\nExplanation: Every node has value 1, so no nodes are removed.\n\nConstraints:\n\n• The number of the nodes in the given list is in the range [1, 105].\n\n• 1 <= Node.val <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def removeNodes(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate on nodes in reversed order.",
+    "When iterating in reversed order, save the maximum value that was passed before."
+  ],
+  "testCases": [
+    [
+      "[5,2,13,3,8]",
+      "[1,1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[13,8]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def removeNodes(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        # Reverse list\n        prev = None\n        curr = head\n        while curr:\n            next_tmp = curr.next\n            curr.next = prev\n            prev = curr\n            curr = next_tmp\n        \n        # Track max and remove nodes with smaller values\n        max_val = 0\n        curr = prev\n        prev = None\n        \n        while curr:\n            next_tmp = curr.next\n            if curr.val >= max_val:\n                max_val = curr.val\n                curr.next = prev\n                prev = curr\n            curr = next_tmp\n        \n        return prev",
+    "explanation": "Reverse list, keep max while iterating. Reverse back.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Linked List\", \"titleSlug\": \"reverse-linked-list\", \"difficulty\": \"Easy\"}, {\"title\": \"Delete Node in a Linked List\", \"titleSlug\": \"delete-node-in-a-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Next Greater Element I\", \"titleSlug\": \"next-greater-element-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Delete Nodes From Linked List Present in Array\", \"titleSlug\": \"delete-nodes-from-linked-list-present-in-array\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,62 @@
+{
+  "questionId": "4180",
+  "title": "Pythagorean Distance Nodes in a Tree",
+  "titleSlug": "pythagorean-distance-nodes-in-a-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "You are given an integer n and an undirected tree with n nodes numbered from 0 to n - 1. The tree is represented by a 2D array edges of length n - 1, where edges[i] = [ui, vi] indicates an undirected edge between ui and vi.\n\nYou are also given three distinct target nodes x, y, and z.\n\nFor any node u in the tree:\n\n• Let dx be the distance from u to node x\n\n• Let dy be the distance from u to node y\n\n• Let dz be the distance from u to node z\n\nThe node u is called special if the three distances form a Pythagorean Triplet.\n\nReturn an integer denoting the number of special nodes in the tree.\n\nA Pythagorean triplet consists of three integers a, b, and c which, when sorted in ascending order, satisfy a2 + b2 = c2.\n\nThe distance between two nodes in a tree is the number of edges on the unique path between them.\n\nExample 1:\n\nInput: n = 4, edges = [[0,1],[0,2],[0,3]], x = 1, y = 2, z = 3\n\nOutput: 3\n\nExplanation: For each node, we compute its distances to nodes x = 1, y = 2, and z = 3.\n\n• Node 0 has distances 1, 1, and 1. After sorting, the distances are 1, 1, and 1, which do not satisfy the Pythagorean condition.\n\n• Node 1 has distances 0, 2, and 2. After sorting, the distances are 0, 2, and 2. Since 02 + 22 = 22, node 1 is special.\n\n• Node 2 has distances 2, 0, and 2. After sorting, the distances are 0, 2, and 2. Since 02 + 22 = 22, node 2 is special.\n\n• Node 3 has distances 2, 2, and 0. After sorting, the distances are 0, 2, and 2. This also satisfies the Pythagorean condition.\n\nTherefore, nodes 1, 2, and 3 are special, and the answer is 3.\n\nExample 2:\n\nInput: n = 4, edges = [[0,1],[1,2],[2,3]], x = 0, y = 3, z = 2\n\nOutput: 0\n\nExplanation: For each node, we compute its distances to nodes x = 0, y = 3, and z = 2.\n\n• Node 0 has distances 0, 3, and 2. After sorting, the distances are 0, 2, and 3, which do not satisfy the Pythagorean condition.\n\n• Node 1 has distances 1, 2, and 1. After sorting, the distances are 1, 1, and 2, which do not satisfy the Pythagorean condition.\n\n• Node 2 has distances 2, 1, and 0. After sorting, the distances are 0, 1, and 2, which do not satisfy the Pythagorean condition.\n\n• Node 3 has distances 3, 0, and 1. After sorting, the distances are 0, 1, and 3, which do not satisfy the Pythagorean condition.\n\nNo node satisfies the Pythagorean condition. Therefore, the answer is 0.\n\nExample 3:\n\nInput: n = 4, edges = [[0,1],[1,2],[1,3]], x = 1, y = 3, z = 0\n\nOutput: 1\n\nExplanation: For each node, we compute its distances to nodes x = 1, y = 3, and z = 0.\n\n• Node 0 has distances 1, 2, and 0. After sorting, the distances are 0, 1, and 2, which do not satisfy the Pythagorean condition.\n\n• Node 1 has distances 0, 1, and 1. After sorting, the distances are 0, 1, and 1. Since 02 + 12 = 12, node 1 is special.\n\n• Node 2 has distances 1, 2, and 2. After sorting, the distances are 1, 2, and 2, which do not satisfy the Pythagorean condition.\n\n• Node 3 has distances 1, 0, and 2. After sorting, the distances are 0, 1, and 2, which do not satisfy the Pythagorean condition.\n\nTherefore, the answer is 1.\n\nConstraints:\n\n• 4 <= n <= 105\n\n• edges.length == n - 1\n\n• edges[i] = [ui, vi]\n\n• 0 <= ui, vi, x, y, z <= n - 1\n\n• x, y, and z are pairwise distinct.\n\n• The input is generated such that edges represent a valid tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def specialNodes(self, n, edges, x, y, z):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type x: int\n        :type y: int\n        :type z: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Run a breadth-first search independently from x, y, and z. This gives you three distance arrays with full coverage.",
+    "For each node, collect its three distances, sort them, and evaluate the Pythagorean condition on the sorted value."
+  ],
+  "testCases": [
+    [
+      "4",
+      "[[0,1],[0,2],[0,3]]",
+      "1",
+      "2",
+      "3"
+    ],
+    [
+      "4",
+      "[[0,1],[1,2],[2,3]]",
+      "0",
+      "3",
+      "2"
+    ],
+    [
+      "4",
+      "[[0,1],[1,2],[1,3]]",
+      "1",
+      "3",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque, defaultdict\n\nclass Solution(object):\n    def specialNodes(self, n, edges, x, y, z):\n        adj = defaultdict(list)\n        for u, v in edges:\n            adj[u].append(v)\n            adj[v].append(u)\n\n        def bfs(src):\n            dist = [-1] * n\n            dist[src] = 0\n            q = deque([src])\n            while q:\n                node = q.popleft()\n                for nb in adj[node]:\n                    if dist[nb] == -1:\n                        dist[nb] = dist[node] + 1\n                        q.append(nb)\n            return dist\n\n        dx = bfs(x)\n        dy = bfs(y)\n        dz = bfs(z)\n\n        count = 0\n        for u in range(n):\n            a, b, c = sorted([dx[u], dy[u], dz[u]])\n            if a * a + b * b == c * c:\n                count += 1\n        return count",
+    "explanation": "We run three independent BFS traversals from nodes x, y, and z to compute the distances from each source to every other node in the tree.\n\nFor each node u, we have three distances (dx[u], dy[u], dz[u]). We sort them as a <= b <= c and check if a^2 + b^2 == c^2 (Pythagorean condition). Note: if a = 0, this becomes 0 + b^2 = c^2, which holds only if b == c.\n\nTime complexity: O(n) for three BFS traversals + O(n) for checking all nodes = O(n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[]"
+}

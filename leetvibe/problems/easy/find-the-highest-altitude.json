@@ -1,0 +1,46 @@
+{
+  "questionId": "1833",
+  "title": "Find the Highest Altitude",
+  "titleSlug": "find-the-highest-altitude",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "There is a biker going on a road trip. The road trip consists of n + 1 points at different altitudes. The biker starts his trip on point 0 with altitude equal 0.\n\nYou are given an integer array gain of length n where gain[i] is the net gain in altitude between points i​​​​​​ and i + 1 for all (0 <= i < n). Return the highest altitude of a point.\n\nExample 1:\n\nInput: gain = [-5,1,5,0,-7]\nOutput: 1\nExplanation: The altitudes are [0,-5,-4,1,1,-6]. The highest is 1.\n\nExample 2:\n\nInput: gain = [-4,-3,-2,-1,4,3,2]\nOutput: 0\nExplanation: The altitudes are [0,-4,-7,-9,-10,-6,-3,-1]. The highest is 0.\n\nConstraints:\n\n• n == gain.length\n\n• 1 <= n <= 100\n\n• -100 <= gain[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestAltitude(self, gain):\n        \"\"\"\n        :type gain: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let's note that the altitude of an element is the sum of gains of all the elements behind it",
+    "Getting the altitudes can be done by getting the prefix sum array of the given array"
+  ],
+  "testCases": [
+    [
+      "[-5,1,5,0,-7]"
+    ],
+    [
+      "[-4,-3,-2,-1,4,3,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def largestAltitude(self, gain):\n        altitude = 0\n        max_altitude = 0\n        for g in gain:\n            altitude += g\n            max_altitude = max(max_altitude, altitude)\n        return max_altitude",
+    "explanation": "Prefix sum (cumulative gain) tracks altitude. Return max.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

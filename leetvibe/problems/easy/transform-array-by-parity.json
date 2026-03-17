@@ -1,0 +1,49 @@
+{
+  "questionId": "3778",
+  "title": "Transform Array by Parity",
+  "titleSlug": "transform-array-by-parity",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an integer array nums. Transform nums by performing the following operations in the exact order specified:\n\n• Replace each even number with 0.\n\n• Replace each odd numbers with 1.\n\n• Sort the modified array in non-decreasing order.\n\nReturn the resulting array after performing these operations.\n\nExample 1:\n\nInput: nums = [4,3,2,1]\n\nOutput: [0,0,1,1]\n\nExplanation:\n\n• Replace the even numbers (4 and 2) with 0 and the odd numbers (3 and 1) with 1. Now, nums = [0, 1, 0, 1].\n\n• After sorting nums in non-descending order, nums = [0, 0, 1, 1].\n\nExample 2:\n\nInput: nums = [1,5,1,4,2]\n\nOutput: [0,0,1,1,1]\n\nExplanation:\n\n• Replace the even numbers (4 and 2) with 0 and the odd numbers (1, 5 and 1) with 1. Now, nums = [1, 1, 1, 0, 0].\n\n• After sorting nums in non-descending order, nums = [0, 0, 1, 1, 1].\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def transformArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let x be the number of even numbers, and y be the number of odd numbers. Output 0 x times, followed by 1 y times."
+  ],
+  "testCases": [
+    [
+      "[4,3,2,1]"
+    ],
+    [
+      "[1,5,1,4,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,0,1,1]",
+    "[0,0,1,1,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def transformArray(self, nums):\n        evens = sum(1 for x in nums if x % 2 == 0)\n        return [0] * evens + [1] * (len(nums) - evens)",
+    "explanation": "Count even elements; output that many 0s followed by the remaining count of 1s. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Odd Even Linked List\", \"titleSlug\": \"odd-even-linked-list\", \"difficulty\": \"Medium\"}]"
+}

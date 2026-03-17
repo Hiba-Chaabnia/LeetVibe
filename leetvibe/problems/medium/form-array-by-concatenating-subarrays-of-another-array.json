@@ -1,0 +1,62 @@
+{
+  "questionId": "1874",
+  "title": "Form Array by Concatenating Subarrays of Another Array",
+  "titleSlug": "form-array-by-concatenating-subarrays-of-another-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "You are given a 2D integer array groups of length n. You are also given an integer array nums.\n\nYou are asked if you can choose n disjoint subarrays from the array nums such that the ith subarray is equal to groups[i] (0-indexed), and if i > 0, the (i-1)th subarray appears before the ith subarray in nums (i.e. the subarrays must be in the same order as groups).\n\nReturn true if you can do this task, and false otherwise.\n\nNote that the subarrays are disjoint if and only if there is no index k such that nums[k] belongs to more than one subarray. A subarray is a contiguous sequence of elements within an array.\n\nExample 1:\n\nInput: groups = [[1,-1,-1],[3,-2,0]], nums = [1,-1,0,1,-1,-1,3,-2,0]\nOutput: true\nExplanation: You can choose the 0th subarray as [1,-1,0,1,-1,-1,3,-2,0] and the 1st one as [1,-1,0,1,-1,-1,3,-2,0].\n    These subarrays are disjoint as they share no common nums[k] element.\n\nExample 2:\n\nInput: groups = [[10,-2],[1,2,3,4]], nums = [1,2,3,4,10,-2]\nOutput: false\nExplanation: Note that choosing the subarrays [1,2,3,4,10,-2] and [1,2,3,4,10,-2] is incorrect because they are not in the same order as in groups.\n    [10,-2] must come before [1,2,3,4].\n\nExample 3:\n\nInput: groups = [[1,2,3],[3,4]], nums = [7,7,1,2,3,4,7,7]\nOutput: false\nExplanation: Note that choosing the subarrays [7,7,1,2,3,4,7,7] and [7,7,1,2,3,4,7,7] is invalid because they are not disjoint.\n    They share a common elements nums[4] (0-indexed).\n\nConstraints:\n\n• groups.length == n\n\n• 1 <= n <= 103\n\n• 1 <= groups[i].length, sum(groups[i].length) <= 103\n\n• 1 <= nums.length <= 103\n\n• -107 <= groups[i][j], nums[k] <= 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canChoose(self, groups, nums):\n        \"\"\"\n        :type groups: List[List[int]]\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "When we use a subarray, the room for the next subarrays will be the suffix after the used subarray.",
+    "If we can match a group with multiple subarrays, we should choose the first one, as this will just leave the largest room for the next subarrays."
+  ],
+  "testCases": [
+    [
+      "[[1,-1,-1],[3,-2,0]]",
+      "[1,-1,0,1,-1,-1,3,-2,0]"
+    ],
+    [
+      "[[10,-2],[1,2,3,4]]",
+      "[1,2,3,4,10,-2]"
+    ],
+    [
+      "[[1,2,3],[3,4]]",
+      "[7,7,1,2,3,4,7,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def canChoose(self, groups, nums):\n        \"\"\"\n        :type groups: List[List[int]]\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        i = 0  # Index in nums\n        \n        for group in groups:\n            found = False\n            while i <= len(nums) - len(group):\n                if nums[i:i+len(group)] == group:\n                    i += len(group)\n                    found = True\n                    break\n                i += 1\n            \n            if not found:\n                return False\n        \n        return True",
+    "explanation": "For each group, find it in remaining nums array. If found, advance index past it. Repeat for all groups.",
+    "complexity": "Time: O(n*m*g) worst case. Space: O(g) for group comparisons."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,41 @@
+{
+  "questionId": "3952",
+  "title": "Trionic Array I",
+  "titleSlug": "trionic-array-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "You are given an integer array nums of length n.\n\nAn array is trionic if there exist indices 0 < p < q < n − 1 such that:\n\n• nums[0...p] is strictly increasing,\n\n• nums[p...q] is strictly decreasing,\n\n• nums[q...n − 1] is strictly increasing.\n\nReturn true if nums is trionic, otherwise return false.\n\nExample 1:\n\nInput: nums = [1,3,5,4,2,6]\n\nOutput: true\n\nExplanation: Pick p = 2, q = 4:\n\n• nums[0...2] = [1, 3, 5] is strictly increasing (1 < 3 < 5).\n\n• nums[2...4] = [5, 4, 2] is strictly decreasing (5 > 4 > 2).\n\n• nums[4...5] = [2, 6] is strictly increasing (2 < 6).\n\nExample 2:\n\nInput: nums = [2,1,3]\n\nOutput: false\n\nExplanation: There is no way to pick p and q to form the required three segments.\n\nConstraints:\n\n• 3 <= n <= 100\n\n• -1000 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isTrionic(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use brute force"
+  ],
+  "testCases": [
+    [
+      "[1,3,5,4,2,6]"
+    ],
+    [
+      "[2,1,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isTrionic(self, nums):\n        n = len(nums)\n        for p in range(1, n - 1):\n            for q in range(p + 1, n - 1):\n                inc1 = all(nums[i] < nums[i + 1] for i in range(p))\n                dec = all(nums[i] > nums[i + 1] for i in range(p, q))\n                inc2 = all(nums[i] < nums[i + 1] for i in range(q, n - 1))\n                if inc1 and dec and inc2:\n                    return True\n        return False",
+    "explanation": "Brute-force all pairs (p,q) with 0<p<q<n-1; check three segments are strictly increasing, decreasing, increasing. O(n^4) time."
+  },
+  "similarQuestions": "[]"
+}

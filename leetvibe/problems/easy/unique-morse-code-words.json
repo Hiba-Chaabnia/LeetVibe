@@ -1,0 +1,47 @@
+{
+  "questionId": "822",
+  "title": "Unique Morse Code Words",
+  "titleSlug": "unique-morse-code-words",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows:\n\n• 'a' maps to \".-\",\n\n• 'b' maps to \"-...\",\n\n• 'c' maps to \"-.-.\", and so on.\n\nFor convenience, the full table for the 26 letters of the English alphabet is given below:\n\n    [\".-\",\"-...\",\"-.-.\",\"-..\",\".\",\"..-.\",\"--.\",\"....\",\"..\",\".---\",\"-.-\",\".-..\",\"--\",\"-.\",\"---\",\".--.\",\"--.-\",\".-.\",\"...\",\"-\",\"..-\",\"...-\",\".--\",\"-..-\",\"-.--\",\"--..\"]\n\nGiven an array of strings words where each word can be written as a concatenation of the Morse code of each letter.\n\n• For example, \"cab\" can be written as \"-.-..--...\", which is the concatenation of \"-.-.\", \".-\", and \"-...\". We will call such a concatenation the transformation of a word.\n\nReturn the number of different transformations among all words we have.\n\nExample 1:\n\nInput: words = [\"gin\",\"zen\",\"gig\",\"msg\"]\nOutput: 2\nExplanation: The transformation of each word is:\n    \"gin\" -> \"--...-.\"\n    \"zen\" -> \"--...-.\"\n    \"gig\" -> \"--...--.\"\n    \"msg\" -> \"--...--.\"\n    There are 2 different transformations: \"--...-.\" and \"--...--.\".\n\nExample 2:\n\nInput: words = [\"a\"]\nOutput: 1\n\nConstraints:\n\n• 1 <= words.length <= 100\n\n• 1 <= words[i].length <= 12\n\n• words[i] consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def uniqueMorseRepresentations(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"gin\",\"zen\",\"gig\",\"msg\"]"
+    ],
+    [
+      "[\"a\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def uniqueMorseRepresentations(self, words):\n        morse = [\".-\",\"-...\",\"-.-.\",\"-..\",\".\",\"..-.\",\"--.\",\"....\",\"..\",\".---\",\"-.-\",\".-..\",\"--\",\"-.\",\"---\",\".--.\",\"--.-\",\".-.\",\"...\",\"-\",\"..-\",\"...-\",\".--\",\"-..-\",\"-.--\",\"--..\"]\n        morse_set = set()\n        for word in words:\n            morse_word = ''.join(morse[ord(c) - ord('a')] for c in word)\n            morse_set.add(morse_word)\n        return len(morse_set)",
+    "explanation": "Convert each word to Morse code. Count unique codes.\nTime: O(n*m)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

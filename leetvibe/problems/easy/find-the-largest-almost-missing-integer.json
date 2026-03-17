@@ -1,0 +1,55 @@
+{
+  "questionId": "3705",
+  "title": "Find the Largest Almost Missing Integer",
+  "titleSlug": "find-the-largest-almost-missing-integer",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nAn integer x is almost missing from nums if x appears in exactly one subarray of size k within nums.\n\nReturn the largest almost missing integer from nums. If no such integer exists, return -1.\n\nA subarray is a contiguous sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [3,9,2,1,7], k = 3\n\nOutput: 7\n\nExplanation:\n\n• 1 appears in 2 subarrays of size 3: [9, 2, 1] and [2, 1, 7].\n\n• 2 appears in 3 subarrays of size 3: [3, 9, 2], [9, 2, 1], [2, 1, 7].\n\n• 3 appears in 1 subarray of size 3: [3, 9, 2].\n\n• 7 appears in 1 subarray of size 3: [2, 1, 7].\n\n• 9 appears in 2 subarrays of size 3: [3, 9, 2], and [9, 2, 1].\n\nWe return 7 since it is the largest integer that appears in exactly one subarray of size k.\n\nExample 2:\n\nInput: nums = [3,9,7,2,1,7], k = 4\n\nOutput: 3\n\nExplanation:\n\n• 1 appears in 2 subarrays of size 4: [9, 7, 2, 1], [7, 2, 1, 7].\n\n• 2 appears in 3 subarrays of size 4: [3, 9, 7, 2], [9, 7, 2, 1], [7, 2, 1, 7].\n\n• 3 appears in 1 subarray of size 4: [3, 9, 7, 2].\n\n• 7 appears in 3 subarrays of size 4: [3, 9, 7, 2], [9, 7, 2, 1], [7, 2, 1, 7].\n\n• 9 appears in 2 subarrays of size 4: [3, 9, 7, 2], [9, 7, 2, 1].\n\nWe return 3 since it is the largest and only integer that appears in exactly one subarray of size k.\n\nExample 3:\n\nInput: nums = [0,0], k = 1\n\nOutput: -1\n\nExplanation: There is no integer that appears in only one subarray of size 1.\n\nConstraints:\n\n• 1 <= nums.length <= 50\n\n• 0 <= nums[i] <= 50\n\n• 1 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestInteger(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Solve the problem for three different cases: k = 1, k = n, and 1 < k < n",
+    "If k = 1, return the largest element that occurs exactly once in nums",
+    "If k = n, return the largest element in nums",
+    "If 1 < k < n, all elements different from nums[0] and nums[n - 1] will occur in more than one subarray of size k. Hence, the answer is the largest of nums[0] and nums[n - 1] if they both occur exactly once in the array. If one of them occurs more than once, return the other. If both of them occur more than once, return -1."
+  ],
+  "testCases": [
+    [
+      "[3,9,2,1,7]",
+      "3"
+    ],
+    [
+      "[3,9,7,2,1,7]",
+      "4"
+    ],
+    [
+      "[0,0]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "3",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def largestInteger(self, nums, k):\n        n = len(nums)\n        from collections import defaultdict\n        cnt = defaultdict(int)\n        for l in range(n - k + 1):\n            for v in set(nums[l:l + k]):\n                cnt[v] += 1\n        result = -1\n        for v, c in cnt.items():\n            if c == 1:\n                result = max(result, v)\n        return result",
+    "explanation": "Count how many subarrays of size k each value appears in; return the largest with count == 1. O(n*k) time."
+  },
+  "similarQuestions": "[{\"title\": \"Missing Number\", \"titleSlug\": \"missing-number\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "2650",
+  "title": "Split With Minimum Sum",
+  "titleSlug": "split-with-minimum-sum",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given a positive integer num, split it into two non-negative integers num1 and num2 such that:\n\n• The concatenation of num1 and num2 is a permutation of num.\n\n• In other words, the sum of the number of occurrences of each digit in num1 and num2 is equal to the number of occurrences of that digit in num.\n\n• num1 and num2 can contain leading zeros.\n\nReturn the minimum possible sum of num1 and num2.\n\nNotes:\n\n• It is guaranteed that num does not contain any leading zeros.\n\n• The order of occurrence of the digits in num1 and num2 may differ from the order of occurrence of num.\n\nExample 1:\n\nInput: num = 4325\nOutput: 59\nExplanation: We can split 4325 so that num1 is 24 and num2 is 35, giving a sum of 59. We can prove that 59 is indeed the minimal possible sum.\n\nExample 2:\n\nInput: num = 687\nOutput: 75\nExplanation: We can split 687 so that num1 is 68 and num2 is 7, which would give an optimal sum of 75.\n\nConstraints:\n\n• 10 <= num <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def splitNum(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the digits of num in non decreasing order.",
+    "Assign digits to num1 and num2 alternatively."
+  ],
+  "testCases": [
+    [
+      "4325"
+    ],
+    [
+      "687"
+    ]
+  ],
+  "expectedOutputs": [
+    "59",
+    "75"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def splitNum(self, num):\n        digits = sorted(str(num))\n        num1, num2 = 0, 0\n        for i in range(len(digits)):\n            if i % 2 == 0:\n                num1 = num1 * 10 + int(digits[i])\n            else:\n                num2 = num2 * 10 + int(digits[i])\n        return num1 + num2",
+    "explanation": "Sort digits. Alternate digits between num1 and num2 to minimize sum.\nTime: O(log n)\nSpace: O(log n)"
+  },
+  "similarQuestions": "[{\"title\": \"Partition Equal Subset Sum\", \"titleSlug\": \"partition-equal-subset-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Cost to Move Chips to The Same Position\", \"titleSlug\": \"minimum-cost-to-move-chips-to-the-same-position\", \"difficulty\": \"Easy\"}, {\"title\": \"Partition Array Into Two Arrays to Minimize Sum Difference\", \"titleSlug\": \"partition-array-into-two-arrays-to-minimize-sum-difference\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Sum of Values by Dividing Array\", \"titleSlug\": \"minimum-sum-of-values-by-dividing-array\", \"difficulty\": \"Hard\"}]"
+}

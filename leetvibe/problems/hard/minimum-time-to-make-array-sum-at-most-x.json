@@ -1,0 +1,56 @@
+{
+  "questionId": "2952",
+  "title": "Minimum Time to Make Array Sum At Most x",
+  "titleSlug": "minimum-time-to-make-array-sum-at-most-x",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given two 0-indexed integer arrays nums1 and nums2 of equal length. Every second, for all indices 0 <= i < nums1.length, value of nums1[i] is incremented by nums2[i]. After this is done, you can do the following operation:\n\n• Choose an index 0 <= i < nums1.length and make nums1[i] = 0.\n\nYou are also given an integer x.\n\nReturn the minimum time in which you can make the sum of all elements of nums1 to be less than or equal to x, or -1 if this is not possible.\n\nExample 1:\n\nInput: nums1 = [1,2,3], nums2 = [1,2,3], x = 4\nOutput: 3\nExplanation:\n    For the 1st second, we apply the operation on i = 0. Therefore nums1 = [0,2+2,3+3] = [0,4,6].\n    For the 2nd second, we apply the operation on i = 1. Therefore nums1 = [0+1,0,6+3] = [1,0,9].\n    For the 3rd second, we apply the operation on i = 2. Therefore nums1 = [1+1,0+2,0] = [2,2,0].\n    Now sum of nums1 = 4. It can be shown that these operations are optimal, so we return 3.\n\nExample 2:\n\nInput: nums1 = [1,2,3], nums2 = [3,3,3], x = 4\nOutput: -1\nExplanation: It can be shown that the sum of nums1 will always be greater than x, no matter which operations are performed.\n\nConstraints:\n\n• 1 <= nums1.length <= 103\n\n• 1 <= nums1[i] <= 103\n\n• 0 <= nums2[i] <= 103\n\n• nums1.length == nums2.length\n\n• 0 <= x <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumTime(self, nums1, nums2, x):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type x: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It can be proven that in the optimal solution, for each index i, we only need to set nums1[i] to 0 at most once. (If we have to set it twice, we can simply remove the earlier set and all the operations “shift left” by 1.)",
+    "It can also be proven that if we select several indexes i<sub>1</sub>, i<sub>2</sub>, ..., i<sub>k</sub> and set nums1[i<sub>1</sub>], nums1[i<sub>2</sub>], ..., nums1[i<sub>k</sub>] to 0, it’s always optimal to set them in the order of nums2[i<sub>1</sub>] <= nums2[i<sub>2</sub>] <= ... <= nums2[i<sub>k</sub>] (the larger the increase is, the later we should set it to 0).",
+    "Let’s sort all the values by nums2 (in non-decreasing order). Let dp[i][j] represent the maximum total value that can be reduced if we do j operations on the first i elements. Then we have dp[i][0] = 0 (for all i = 0, 1, ..., n) and dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - 1] + nums2[i - 1] * j + nums1[i - 1]) (for 1 <= i <= n and 1 <= j <= i).",
+    "The answer is the minimum value of t, such that 0 <= t <= n and sum(nums1) + sum(nums2) * t - dp[n][t] <= x, or -1 if it doesn’t exist."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "[1,2,3]",
+      "4"
+    ],
+    [
+      "[1,2,3]",
+      "[3,3,3]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumTime(self, nums1, nums2, x):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type x: int\n        :rtype: int\n        \"\"\"\n        n = len(nums1)\n        \n        # Check if just waiting is enough\n        total = sum(nums1)\n        if total <= x:\n            return 0\n        \n        # Create pairs and sort by nums2\n        pairs = sorted(zip(nums2, nums1))\n        \n        # dp[i][j] = maximum reduction in sum if we operate on j elements from first i\n        # We track the reduction, not the actual sum\n        INF = float('inf')\n        dp = [[0] * (n + 1) for _ in range(n + 1)]\n        \n        for i in range(1, n + 1):\n            inc2, val1 = pairs[i-1]\n            for j in range(i + 1):\n                # Option 1: Don't operate on element i\n                dp[i][j] = dp[i-1][j]\n                \n                # Option 2: Operate on element i as the j-th operation\n                if j > 0:\n                    # At time j, reduction = val1 + inc2 * j (we set this element to 0 at time j)\n                    reduction = val1 + inc2 * j\n                    dp[i][j] = max(dp[i][j], dp[i-1][j-1] + reduction)\n        \n        # Find minimum time\n        initial_sum = sum(nums1)\n        increase_rate = sum(nums2)\n        \n        for t in range(n + 1):\n            max_reduction = dp[n][t]\n            final_sum = initial_sum + increase_rate * t - max_reduction\n            if final_sum <= x:\n                return t\n        \n        return -1",
+    "explanation": "This solution uses dynamic programming with a mathematical approach:\n\n1. **Problem Analysis**:\n   - At time t, array sum = initial_sum + sum(nums2) * t\n   - If we operate on index i at time t, it becomes 0, saving nums1[i] + nums2[i] * t\n   - We want to find minimum t where final sum ≤ x\n\n2. **Key Insight**: Sort by nums2 (increase rates). If we decide to operate on j elements, we should choose the j with highest nums2 values first (greedy), and operate on them as late as possible.\n\n3. **DP Definition**: dp[i][j] = maximum total reduction in sum if we select j operations from the first i elements (when sorted by nums2).\n\n4. **DP Transitions**:\n   - Skip element i: dp[i][j] = dp[i-1][j]\n   - Include element i as the j-th operation: dp[i][j] = dp[i-1][j-1] + (nums1[i] + nums2[i] * j)\n\n5. **Why Operate Late**: The benefit of operating on an element with high nums2 increases over time, so we should operate on elements with high nums2 later.\n\n6. **Binary Search on Time**: Try each time t from 0 to n, computing the maximum reduction possible and checking if target is achieved.\n\nTime Complexity: O(N²)\nSpace Complexity: O(N²)"
+  },
+  "similarQuestions": "[]"
+}

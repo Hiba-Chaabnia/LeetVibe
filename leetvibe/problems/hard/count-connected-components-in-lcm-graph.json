@@ -1,0 +1,56 @@
+{
+  "questionId": "3680",
+  "title": "Count Connected Components in LCM Graph",
+  "titleSlug": "count-connected-components-in-lcm-graph",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an array of integers nums of size n and a positive integer threshold.\n\nThere is a graph consisting of n nodes with the ith node having a value of nums[i]. Two nodes i and j in the graph are connected via an undirected edge if lcm(nums[i], nums[j]) <= threshold.\n\nReturn the number of connected components in this graph.\n\nA connected component is a subgraph of a graph in which there exists a path between any two vertices, and no vertex of the subgraph shares an edge with a vertex outside of the subgraph.\n\nThe term lcm(a, b) denotes the least common multiple of a and b.\n\nExample 1:\n\nInput: nums = [2,4,8,3,9], threshold = 5\n\nOutput: 4\n\nExplanation: The four connected components are (2, 4), (3), (8), (9).\n\nExample 2:\n\nInput: nums = [2,4,8,3,9,12], threshold = 10\n\nOutput: 2\n\nExplanation: The two connected components are (2, 3, 4, 8, 9), and (12).\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• All elements of nums are unique.\n\n• 1 <= threshold <= 2 * 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countComponents(self, nums, threshold):\n        \"\"\"\n        :type nums: List[int]\n        :type threshold: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use DSU",
+    "Connect a number to all its multiples less than threshold"
+  ],
+  "testCases": [
+    [
+      "[2,4,8,3,9]",
+      "5"
+    ],
+    [
+      "[2,4,8,3,9,12]",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "3998",
+  "title": "Minimum Operations to Equalize Array",
+  "titleSlug": "minimum-operations-to-equalize-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    }
+  ],
+  "content": "You are given an integer array nums of length n.\n\nIn one operation, choose any subarray nums[l...r] (0 <= l <= r < n) and replace each element in that subarray with the bitwise AND of all elements.\n\nReturn the minimum number of operations required to make all elements of nums equal.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [1,2]\n\nOutput: 1\n\nExplanation: Choose nums[0...1]: (1 AND 2) = 0, so the array becomes [0, 0] and all elements are equal in 1 operation.\n\nExample 2:\n\nInput: nums = [5,5,5]\n\nOutput: 0\n\nExplanation: nums is [5, 5, 5] which already has all elements equal, so 0 operations are required.\n\nConstraints:\n\n• 1 <= n == nums.length <= 100\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If all elements of nums are already equal, how many operations are needed?",
+    "The answer is either 0 or 1.",
+    "The answer is 0 if all values in the array are initially equal, and 1 otherwise, since you can apply the AND operation on the whole array in one step."
+  ],
+  "testCases": [
+    [
+      "[1,2]"
+    ],
+    [
+      "[5,5,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, nums):\n        return sum(nums) - len(nums) * min(nums)",
+    "explanation": "Each operation can increment all but one element (equivalent to decrementing one); total decrements needed = sum - n*min. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

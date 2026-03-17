@@ -1,0 +1,55 @@
+{
+  "questionId": "1244",
+  "title": "Distinct Echo Substrings",
+  "titleSlug": "distinct-echo-substrings",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "Return the number of distinct non-empty substrings of text that can be written as the concatenation of some string with itself (i.e. it can be written as a + a where a is some string).\n\nExample 1:\n\nInput: text = \"abcabcabc\"\nOutput: 3\nExplanation: The 3 substrings are \"abcabc\", \"bcabca\" and \"cabcab\".\n\nExample 2:\n\nInput: text = \"leetcodeleetcode\"\nOutput: 2\nExplanation: The 2 substrings are \"ee\" and \"leetcodeleetcode\".\n\nConstraints:\n\n• 1 <= text.length <= 2000\n\n• text has only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def distinctEchoSubstrings(self, text):\n        \"\"\"\n        :type text: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Given a substring of the text, how to check if it can be written as the concatenation of a string with itself ?",
+    "We can do that in linear time, a faster way is to use hashing.",
+    "Try all substrings and use hashing to check them."
+  ],
+  "testCases": [
+    [
+      "\"abcabcabc\""
+    ],
+    [
+      "\"leetcodeleetcode\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def distinctEchoSubstrings(self, text):\n        \"\"\"\n        :type text: str\n        :rtype: int\n        \"\"\"\n        n = len(text)\n        seen = set()\n        \n        # Try all possible even-length substrings\n        for i in range(n):\n            for length in range(1, (n - i) // 2 + 1):\n                # Substring [i, i+2*length-1]\n                first_half = text[i:i+length]\n                second_half = text[i+length:i+2*length]\n                \n                if first_half == second_half:\n                    seen.add(first_half + second_half)\n        \n        return len(seen)",
+    "explanation": "Substring echo detection:\n\n1. **Echo Definition**: Substring = a + a where a is some string\n2. **Brute Force**:\n   - For each starting position i\n   - For each possible half-length\n   - Check if first half == second half\n   - If match, add to set\n\n3. **Optimization**:\n   - Use hash for faster comparison\n   - Set automatically deduplicates\n\nTime: O(n² * average_substring_length)\nSpace: O(distinct_echoes)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Substring With Given Hash Value\", \"titleSlug\": \"find-substring-with-given-hash-value\", \"difficulty\": \"Hard\"}]"
+}

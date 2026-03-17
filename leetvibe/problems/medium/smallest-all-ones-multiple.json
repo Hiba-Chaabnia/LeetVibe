@@ -1,0 +1,51 @@
+{
+  "questionId": "4175",
+  "title": "Smallest All-Ones Multiple",
+  "titleSlug": "smallest-all-ones-multiple",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given a positive integer k.\n\nFind the smallest integer n divisible by k that consists of only the digit 1 in its decimal representation (e.g., 1, 11, 111, ...).\n\nReturn an integer denoting the number of digits in the decimal representation of n. If no such n exists, return -1.\n\nExample 1:\n\nInput: k = 3\n\nOutput: 3\n\nExplanation: n = 111 because 111 is divisible by 3, but 1 and 11 are not. The length of n = 111 is 3.\n\nExample 2:\n\nInput: k = 7\n\nOutput: 6\n\nExplanation: n = 111111. The length of n = 111111 is 6.\n\nExample 3:\n\nInput: k = 2\n\nOutput: -1\n\nExplanation: There does not exist a valid n that is a multiple of 2.\n\nConstraints:\n\n• 2 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minAllOneMultiple(self, k):\n        \"\"\"\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that n % k should be 0.",
+    "Build the number digit-by-digit using only modulo k. Start with remainder rem = 1 % k. Repeatedly update rem = (rem * 10 + 1) % k while counting how many 1s have been appended.",
+    "Continue until rem == 0 or a remainder repeats (which indicates a cycle and that no such n exists)."
+  ],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "7"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "6",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minAllOneMultiple(self, k):\n        # If k shares a factor with 10 (i.e., divisible by 2 or 5),\n        # no repunit can be divisible by k\n        if k % 2 == 0 or k % 5 == 0:\n            return -1\n        remainder = 0\n        for length in range(1, k + 1):\n            remainder = (remainder * 10 + 1) % k\n            if remainder == 0:\n                return length\n        return -1",
+    "explanation": "A repunit R(n) = (10^n - 1) / 9. For R(n) to be divisible by k, we need 10^n ≡ 1 (mod 9k) when gcd(k,10)=1. If k is divisible by 2 or 5, no repunit works (since repunits are always odd and not divisible by 5).\n\nOtherwise, we build the repunit mod k digit by digit: remainder = (remainder * 10 + 1) % k. By pigeonhole, if a solution exists it occurs within the first k steps (since remainders cycle with period dividing k).\n\nTime complexity: O(k). Space complexity: O(1)."
+  },
+  "similarQuestions": "[]"
+}

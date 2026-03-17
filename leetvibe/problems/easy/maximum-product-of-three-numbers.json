@@ -1,0 +1,51 @@
+{
+  "questionId": "628",
+  "title": "Maximum Product of Three Numbers",
+  "titleSlug": "maximum-product-of-three-numbers",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array nums, find three numbers whose product is maximum and return the maximum product.\n\nExample 1:\n\nInput: nums = [1,2,3]\nOutput: 6\nExample 2:\n\nInput: nums = [1,2,3,4]\nOutput: 24\nExample 3:\n\nInput: nums = [-1,-2,-3]\nOutput: -6\n\nConstraints:\n\n• 3 <= nums.length <= 104\n\n• -1000 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumProduct(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[1,2,3,4]"
+    ],
+    [
+      "[-1,-2,-3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "24",
+    "-6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maximumProduct(nums):\n    nums.sort()\n    n = len(nums)\n    return max(nums[0] * nums[1] * nums[-1], nums[-1] * nums[-2] * nums[-3])",
+    "explanation": "First, we sort the input array in non-decreasing order. After sorting, we can determine the maximum product using two possible scenarios.\n\n1. The maximum product is formed by the product of the three highest numbers in the array. We can get this by multiplying the last three elements of the sorted array.\n\n2. The maximum product is formed by the product of the two lowest (most negative) numbers and the highest number in the array. We can get this by multiplying the first two elements and the last element of the sorted array.\n\nWe take the maximum of these two results to get the final answer."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Product Subarray\", \"titleSlug\": \"maximum-product-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Product of Three Elements After One Replacement\", \"titleSlug\": \"maximum-product-of-three-elements-after-one-replacement\", \"difficulty\": \"Medium\"}]"
+}

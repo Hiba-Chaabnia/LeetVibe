@@ -1,0 +1,36 @@
+{
+  "questionId": "83",
+  "title": "Remove Duplicates from Sorted List",
+  "titleSlug": "remove-duplicates-from-sorted-list",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    }
+  ],
+  "content": "Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.\n\nExample 1:\n\nInput: head = [1,1,2]\nOutput: [1,2]\n\nExample 2:\n\nInput: head = [1,1,2,3,3]\nOutput: [1,2,3]\n\nConstraints:\n\n• The number of nodes in the list is in the range [0, 300].\n\n• -100 <= Node.val <= 100\n\n• The list is guaranteed to be sorted in ascending order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def deleteDuplicates(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,1,2]",
+      "[1,1,2,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def deleteDuplicates(self, head):\n        current = head\n        while current and current.next:\n            if current.val == current.next.val:\n                current.next = current.next.next\n            else:\n                current = current.next\n        return head",
+    "explanation": "Traverse list. If current equals next, skip next. Otherwise move to next.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Remove Duplicates from Sorted List II\", \"titleSlug\": \"remove-duplicates-from-sorted-list-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Remove Duplicates From an Unsorted Linked List\", \"titleSlug\": \"remove-duplicates-from-an-unsorted-linked-list\", \"difficulty\": \"Medium\"}]"
+}

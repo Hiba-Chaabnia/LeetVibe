@@ -1,0 +1,62 @@
+{
+  "questionId": "2488",
+  "title": "Divide Intervals Into Minimum Number of Groups",
+  "titleSlug": "divide-intervals-into-minimum-number-of-groups",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 2D integer array intervals where intervals[i] = [lefti, righti] represents the inclusive interval [lefti, righti].\n\nYou have to divide the intervals into one or more groups such that each interval is in exactly one group, and no two intervals that are in the same group intersect each other.\n\nReturn the minimum number of groups you need to make.\n\nTwo intervals intersect if there is at least one common number between them. For example, the intervals [1, 5] and [5, 8] intersect.\n\nExample 1:\n\nInput: intervals = [[5,10],[6,8],[1,5],[2,3],[1,10]]\nOutput: 3\nExplanation: We can divide the intervals into the following groups:\n    - Group 1: [1, 5], [6, 8].\n    - Group 2: [2, 3], [5, 10].\n    - Group 3: [1, 10].\n    It can be proven that it is not possible to divide the intervals into fewer than 3 groups.\n\nExample 2:\n\nInput: intervals = [[1,3],[5,6],[8,10],[11,13]]\nOutput: 1\nExplanation: None of the intervals overlap, so we can put all of them in one group.\n\nConstraints:\n\n• 1 <= intervals.length <= 105\n\n• intervals[i].length == 2\n\n• 1 <= lefti <= righti <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minGroups(self, intervals):\n        \"\"\"\n        :type intervals: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can you find a different way to describe the question?",
+    "The minimum number of groups we need is equivalent to the maximum number of intervals that overlap at some point. How can you find that?"
+  ],
+  "testCases": [
+    [
+      "[[5,10],[6,8],[1,5],[2,3],[1,10]]"
+    ],
+    [
+      "[[1,3],[5,6],[8,10],[11,13]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minGroups(self, intervals):\n        events = []\n        for left, right in intervals:\n            events.append((left, 1))\n            events.append((right + 1, -1))\n        events.sort()\n        max_groups = 0\n        current = 0\n        for _, delta in events:\n            current += delta\n            max_groups = max(max_groups, current)\n        return max_groups",
+    "explanation": "Sweep line algorithm. Count concurrent intervals at each point.\nTime: O(n*log n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Merge Intervals\", \"titleSlug\": \"merge-intervals\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Frogs Croaking\", \"titleSlug\": \"minimum-number-of-frogs-croaking\", \"difficulty\": \"Medium\"}, {\"title\": \"Average Height of Buildings in Each Segment\", \"titleSlug\": \"average-height-of-buildings-in-each-segment\", \"difficulty\": \"Medium\"}]"
+}

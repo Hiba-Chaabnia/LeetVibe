@@ -1,0 +1,54 @@
+{
+  "questionId": "1367",
+  "title": "Maximum Height by Stacking Cuboids ",
+  "titleSlug": "maximum-height-by-stacking-cuboids",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given n cuboids where the dimensions of the ith cuboid is cuboids[i] = [widthi, lengthi, heighti] (0-indexed). Choose a subset of cuboids and place them on each other.\n\nYou can place cuboid i on cuboid j if widthi <= widthj and lengthi <= lengthj and heighti <= heightj. You can rearrange any cuboid's dimensions by rotating it to put it on another cuboid.\n\nReturn the maximum height of the stacked cuboids.\n\nExample 1:\n\nInput: cuboids = [[50,45,20],[95,37,53],[45,23,12]]\nOutput: 190\nExplanation:\n    Cuboid 1 is placed on the bottom with the 53x37 side facing down with height 95.\n    Cuboid 0 is placed next with the 45x20 side facing down with height 50.\n    Cuboid 2 is placed next with the 23x12 side facing down with height 45.\n    The total height is 95 + 50 + 45 = 190.\n\nExample 2:\n\nInput: cuboids = [[38,25,45],[76,35,3]]\nOutput: 76\nExplanation:\n    You can't place any of the cuboids on the other.\n    We choose cuboid 1 and rotate it so that the 35x3 side is facing down and its height is 76.\n\nExample 3:\n\nInput: cuboids = [[7,11,17],[7,17,11],[11,7,17],[11,17,7],[17,7,11],[17,11,7]]\nOutput: 102\nExplanation:\n    After rearranging the cuboids, you can see that all cuboids have the same dimension.\n    You can place the 11x7 side down on all cuboids so their heights are 17.\n    The maximum height of stacked cuboids is 6 * 17 = 102.\n\nConstraints:\n\n• n == cuboids.length\n\n• 1 <= n <= 100\n\n• 1 <= widthi, lengthi, heighti <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxHeight(self, cuboids):\n        \"\"\"\n        :type cuboids: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Does the dynamic programming sound like the right algorithm after sorting?",
+    "Let's say box1 can be placed on top of box2. No matter what orientation box2 is in, we can rotate box1 so that it can be placed on top. Why don't we orient everything such that height is the biggest?"
+  ],
+  "testCases": [
+    [
+      "[[50,45,20],[95,37,53],[45,23,12]]"
+    ],
+    [
+      "[[38,25,45],[76,35,3]]"
+    ],
+    [
+      "[[7,11,17],[7,17,11],[11,7,17],[11,17,7],[17,7,11],[17,11,7]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "190",
+    "76",
+    "102"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxHeight(self, cuboids):\n        \"\"\"\n        :type cuboids: List[List[int]]\n        :rtype: int\n        \"\"\"\n        # Sort each cuboid's dimensions\n        for c in cuboids:\n            c.sort()\n        \n        # Sort cuboids by (width, length, height)\n        cuboids.sort()\n        \n        n = len(cuboids)\n        # dp[i] = maximum height with cuboid i on top\n        dp = [c[2] for c in cuboids]\n        \n        # For each cuboid, check all previous cuboids\n        for i in range(n):\n            for j in range(i):\n                # Can stack cuboids[j] below cuboids[i]?\n                # Need: width[j] <= width[i] and length[j] <= length[i] and height[j] <= height[i]\n                if (cuboids[j][0] <= cuboids[i][0] and \n                    cuboids[j][1] <= cuboids[i][1] and \n                    cuboids[j][2] <= cuboids[i][2]):\n                    # Can stack, update dp[i]\n                    dp[i] = max(dp[i], dp[j] + cuboids[i][2])\n        \n        return max(dp)",
+    "explanation": "This solution uses DP with sorting optimization:\n\n1. **Problem Understanding**:\n   - Stack cuboids with dimension constraints\n   - Can rotate each cuboid to any orientation\n   - Maximize total height\n\n2. **Key Insight - Sorting Strategy**:\n   - For each cuboid, sort dimensions so largest is height\n   - Sort cuboids by (width, length, height)\n   - This ensures: if cuboid i comes after j in sorted order and satisfies width/length constraints, height constraint is automatic\n\n3. **Why Sorting Height as Largest**:\n   - We want to maximize height contribution\n   - Placing larger dimensions as base (width/length) allows more cuboids above\n\n4. **DP Definition**:\n   - dp[i] = maximum height achievable with cuboid i at the top\n   - Base: dp[i] = height[i] (just this cuboid)\n   - Transition: If cuboid j can support i, dp[i] = max(dp[i], dp[j] + height[i])\n\n5. **Stacking Condition**:\n   - After sorting dimensions, cuboid j can support i if:\n   - All three dimensions of j <= corresponding dimensions of i\n   - Sorted order ensures we only check valid predecessors\n\nTime Complexity: O(n² + n log n) for DP and sorting\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"The Number of Weak Characters in the Game\", \"titleSlug\": \"the-number-of-weak-characters-in-the-game\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Groups Entering a Competition\", \"titleSlug\": \"maximum-number-of-groups-entering-a-competition\", \"difficulty\": \"Medium\"}]"
+}

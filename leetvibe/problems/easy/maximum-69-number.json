@@ -1,0 +1,50 @@
+{
+  "questionId": "1448",
+  "title": "Maximum 69 Number",
+  "titleSlug": "maximum-69-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a positive integer num consisting only of digits 6 and 9.\n\nReturn the maximum number you can get by changing at most one digit (6 becomes 9, and 9 becomes 6).\n\nExample 1:\n\nInput: num = 9669\nOutput: 9969\nExplanation:\n    Changing the first digit results in 6669.\n    Changing the second digit results in 9969.\n    Changing the third digit results in 9699.\n    Changing the fourth digit results in 9666.\n    The maximum number is 9969.\n\nExample 2:\n\nInput: num = 9996\nOutput: 9999\nExplanation: Changing the last digit 6 to 9 results in the maximum number.\n\nExample 3:\n\nInput: num = 9999\nOutput: 9999\nExplanation: It is better not to apply any change.\n\nConstraints:\n\n• 1 <= num <= 104\n\n• num consists of only 6 and 9 digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximum69Number (self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Convert the number in an array of its digits.",
+    "Brute force on every digit to get the maximum number."
+  ],
+  "testCases": [
+    [
+      "9669"
+    ],
+    [
+      "9996"
+    ],
+    [
+      "9999"
+    ]
+  ],
+  "expectedOutputs": [
+    "9969",
+    "9999",
+    "9999"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maximum69Number(num: int) -> int:\n    num_str = list(str(num))\n    for i in range(len(num_str)):\n        if num_str[i] == '6':\n            num_str[i] = '9'\n            break\n    return int(''.join(num_str))",
+    "explanation": "The algorithm to solve this problem is simple:\n\n1. Convert the integer `num` to a string, so that we can easily manipulate individual digits.\n2. Iterate through the string, looking for the first occurrence of the digit '6'.\n3. When the digit '6' is found, change it to '9' and exit the loop.\n4. Convert the modified string back to an integer and return it.\n\nThis algorithm guarantees that only one digit will be modified at most, and the result will be the maximum value possible under the given constraints."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,41 @@
+{
+  "questionId": "1007",
+  "title": "Numbers With Same Consecutive Differences",
+  "titleSlug": "numbers-with-same-consecutive-differences",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "Given two integers n and k, return an array of all the integers of length n where the difference between every two consecutive digits is k. You may return the answer in any order.\n\nNote that the integers should not have leading zeros. Integers as 02 and 043 are not allowed.\n\nExample 1:\n\nInput: n = 3, k = 7\nOutput: [181,292,707,818,929]\nExplanation: Note that 070 is not a valid number, because it has leading zeroes.\n\nExample 2:\n\nInput: n = 2, k = 1\nOutput: [10,12,21,23,32,34,43,45,54,56,65,67,76,78,87,89,98]\n\nConstraints:\n\n• 2 <= n <= 9\n\n• 0 <= k <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numsSameConsecDiff(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3",
+      "7"
+    ],
+    [
+      "2",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[181,292,707,818,929]",
+    "[10,12,21,23,32,34,43,45,54,56,65,67,76,78,87,89,98]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

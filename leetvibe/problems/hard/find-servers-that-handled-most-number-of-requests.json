@@ -1,0 +1,64 @@
+{
+  "questionId": "1710",
+  "title": "Find Servers That Handled Most Number of Requests",
+  "titleSlug": "find-servers-that-handled-most-number-of-requests",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "You have k servers numbered from 0 to k-1 that are being used to handle multiple requests simultaneously. Each server has infinite computational capacity but cannot handle more than one request at a time. The requests are assigned to servers according to a specific algorithm:\n\n• The ith (0-indexed) request arrives.\n\n• If all servers are busy, the request is dropped (not handled at all).\n\n• If the (i % k)th server is available, assign the request to that server.\n\n• Otherwise, assign the request to the next available server (wrapping around the list of servers and starting from 0 if necessary). For example, if the ith server is busy, try to assign the request to the (i+1)th server, then the (i+2)th server, and so on.\n\nYou are given a strictly increasing array arrival of positive integers, where arrival[i] represents the arrival time of the ith request, and another array load, where load[i] represents the load of the ith request (the time it takes to complete). Your goal is to find the busiest server(s). A server is considered busiest if it handled the most number of requests successfully among all the servers.\n\nReturn a list containing the IDs (0-indexed) of the busiest server(s). You may return the IDs in any order.\n\nExample 1:\n\nInput: k = 3, arrival = [1,2,3,4,5], load = [5,2,3,3,3]\nOutput: [1]\nExplanation:\n    All of the servers start out available.\n    The first 3 requests are handled by the first 3 servers in order.\n    Request 3 comes in. Server 0 is busy, so it's assigned to the next available server, which is 1.\n    Request 4 comes in. It cannot be handled since all servers are busy, so it is dropped.\n    Servers 0 and 2 handled one request each, while server 1 handled two requests. Hence server 1 is the busiest server.\n\nExample 2:\n\nInput: k = 3, arrival = [1,2,3,4], load = [1,2,1,2]\nOutput: [0]\nExplanation:\n    The first 3 requests are handled by first 3 servers.\n    Request 3 comes in. It is handled by server 0 since the server is available.\n    Server 0 handled two requests, while servers 1 and 2 handled one request each. Hence server 0 is the busiest server.\n\nExample 3:\n\nInput: k = 3, arrival = [1,2,3], load = [10,12,11]\nOutput: [0,1,2]\nExplanation: Each server handles a single request, so they are all considered the busiest.\n\nConstraints:\n\n• 1 <= k <= 105\n\n• 1 <= arrival.length, load.length <= 105\n\n• arrival.length == load.length\n\n• 1 <= arrival[i], load[i] <= 109\n\n• arrival is strictly increasing.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def busiestServers(self, k, arrival, load):\n        \"\"\"\n        :type k: int\n        :type arrival: List[int]\n        :type load: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "To speed up the next available server search, keep track of the available servers in a sorted structure such as an ordered set.",
+    "To determine if a server is available, keep track of the end times for each task in a heap and add the server to the available set once the soonest task ending time is less than or equal to the next task to add."
+  ],
+  "testCases": [
+    [
+      "3",
+      "[1,2,3,4,5]",
+      "[5,2,3,3,3]"
+    ],
+    [
+      "3",
+      "[1,2,3,4]",
+      "[1,2,1,2]"
+    ],
+    [
+      "3",
+      "[1,2,3]",
+      "[10,12,11]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1]",
+    "[0]",
+    "[0,1,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def busiestServers(k, arrival, load):\n    server_status = [-1] * k\n    server_request_count = [0] * k\n\n    for i in range(len(arrival)):\n        index = i % k\n        for _ in range(k):\n            if server_status[index] <= arrival[i]:\n                server_status[index] = arrival[i] + load[i]\n                server_request_count[index] += 1\n                break\n            index = (index + 1) % k\n\n    max_requests = max(server_request_count)\n    return [i for i in range(k) if server_request_count[i] == max_requests]",
+    "explanation": "The algorithm works as follows:\n\n1. Initialize two arrays: `server_status` and `server_request_count` with lengths `k`. The `server_status` array will store the end time for the committed requests, initially set to -1 (available). The `server_request_count` array will store the number of requests processed by each server, initially set to 0.\n\n2. For each request `i`, calculate the index `index = i % k` and check all servers `k` times (in circular manner) to find an available server.\n\n3. If a server with an end time less than or equal to the current arrival time is found, update the server's end time with the request's end time (`arrival[i] + load[i]`) and increment the server's request count.\n\n4. Once all requests have been processed, find the busiest server(s) by finding the maximum value in the `server_request_count` array and creating a list of indices (server IDs) that match the maximum value.\n\n5. Return the list of busiest server IDs.\n\n*Note: The algorithm's time complexity is O(n * k) where n is the number of requests and k is the number of servers.*"
+  },
+  "similarQuestions": "[{\"title\": \"Meeting Rooms III\", \"titleSlug\": \"meeting-rooms-iii\", \"difficulty\": \"Hard\"}]"
+}

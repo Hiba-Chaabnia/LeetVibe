@@ -1,0 +1,59 @@
+{
+  "questionId": "20",
+  "title": "Valid Parentheses",
+  "titleSlug": "valid-parentheses",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.\n\nAn input string is valid if:\n\n• Open brackets must be closed by the same type of brackets.\n\n• Open brackets must be closed in the correct order.\n\n• Every close bracket has a corresponding open bracket of the same type.\n\nExample 1:\n\nInput: s = \"()\"\n\nOutput: true\n\nExample 2:\n\nInput: s = \"()[]{}\"\n\nOutput: true\n\nExample 3:\n\nInput: s = \"(]\"\n\nOutput: false\n\nExample 4:\n\nInput: s = \"([])\"\n\nOutput: true\n\nExample 5:\n\nInput: s = \"([)]\"\n\nOutput: false\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s consists of parentheses only '()[]{}'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isValid(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a stack of characters.",
+    "When you encounter an opening bracket, push it to the top of the stack.",
+    "When you encounter a closing bracket, check if the top of the stack was the opening for it. If yes, pop it from the stack. Otherwise, return false."
+  ],
+  "testCases": [
+    [
+      "\"()\""
+    ],
+    [
+      "\"()[]{}\""
+    ],
+    [
+      "\"(]\""
+    ],
+    [
+      "\"([])\""
+    ],
+    [
+      "\"([)]\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isValid(self, s):\n        stack = []\n        pairs = {'(': ')', '{': '}', '[': ']'}\n        for char in s:\n            if char in pairs:\n                stack.append(char)\n            else:\n                if not stack or pairs[stack[-1]] != char:\n                    return False\n                stack.pop()\n        return len(stack) == 0",
+    "explanation": "Stack for opening brackets. Match closing brackets. Empty at end.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Generate Parentheses\", \"titleSlug\": \"generate-parentheses\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Valid Parentheses\", \"titleSlug\": \"longest-valid-parentheses\", \"difficulty\": \"Hard\"}, {\"title\": \"Remove Invalid Parentheses\", \"titleSlug\": \"remove-invalid-parentheses\", \"difficulty\": \"Hard\"}, {\"title\": \"Check If Word Is Valid After Substitutions\", \"titleSlug\": \"check-if-word-is-valid-after-substitutions\", \"difficulty\": \"Medium\"}, {\"title\": \"Check if a Parentheses String Can Be Valid\", \"titleSlug\": \"check-if-a-parentheses-string-can-be-valid\", \"difficulty\": \"Medium\"}, {\"title\": \"Move Pieces to Obtain a String\", \"titleSlug\": \"move-pieces-to-obtain-a-string\", \"difficulty\": \"Medium\"}]"
+}

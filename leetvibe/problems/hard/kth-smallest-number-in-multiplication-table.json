@@ -1,0 +1,47 @@
+{
+  "questionId": "668",
+  "title": "Kth Smallest Number in Multiplication Table",
+  "titleSlug": "kth-smallest-number-in-multiplication-table",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Nearly everyone has used the Multiplication Table. The multiplication table of size m x n is an integer matrix mat where mat[i][j] == i * j (1-indexed).\n\nGiven three integers m, n, and k, return the kth smallest element in the m x n multiplication table.\n\nExample 1:\n\nInput: m = 3, n = 3, k = 5\nOutput: 3\nExplanation: The 5th smallest number is 3.\n\nExample 2:\n\nInput: m = 2, n = 3, k = 6\nOutput: 6\nExplanation: The 6th smallest number is 6.\n\nConstraints:\n\n• 1 <= m, n <= 3 * 104\n\n• 1 <= k <= m * n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findKthNumber(self, m, n, k):\n        \"\"\"\n        :type m: int\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3",
+      "3",
+      "5"
+    ],
+    [
+      "2",
+      "3",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findKthNumber(m, n, k):\n    low, high = 1, m * n\n    while low < high:\n        mid = low + (high - low) // 2\n        count = 0\n        for i in range(1, m+1):\n            count += min(mid // i, n)\n        if count < k:\n            low = mid + 1\n        else:\n            high = mid\n    return low",
+    "explanation": "We need to find the kth smallest element in an m x n multiplication table. The table is naturally sorted, so we can use binary search to find the desired element. We start with `low` as 1 and `high` as m * n. Our search space is between these values.\n\nIn each iteration, we look for the middle value `mid`. For each row `i`, we count the number of elements that are less than or equal to `mid`. The count is the sum of either `mid // i` or `n`, whichever is smaller. Then we check if the count is less than or equal to `k`. If it is, we move `low` to `mid + 1`; otherwise, we move `high` to `mid`. Once the search space narrowed down to a single value, we return that value as the kth smallest element in the m x n multiplication table."
+  },
+  "similarQuestions": "[{\"title\": \"Kth Smallest Element in a Sorted Matrix\", \"titleSlug\": \"kth-smallest-element-in-a-sorted-matrix\", \"difficulty\": \"Medium\"}, {\"title\": \"Find K-th Smallest Pair Distance\", \"titleSlug\": \"find-k-th-smallest-pair-distance\", \"difficulty\": \"Hard\"}, {\"title\": \"K-th Smallest Prime Fraction\", \"titleSlug\": \"k-th-smallest-prime-fraction\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Time to Eat All Grains\", \"titleSlug\": \"minimum-time-to-eat-all-grains\", \"difficulty\": \"Hard\"}, {\"title\": \"Kth Smallest Amount With Single Denomination Combination\", \"titleSlug\": \"kth-smallest-amount-with-single-denomination-combination\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,48 @@
+{
+  "questionId": "3413",
+  "title": "Find The First Player to win K Games in a Row",
+  "titleSlug": "find-the-first-player-to-win-k-games-in-a-row",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "A competition consists of n players numbered from 0 to n - 1.\n\nYou are given an integer array skills of size n and a positive integer k, where skills[i] is the skill level of player i. All integers in skills are unique.\n\nAll players are standing in a queue in order from player 0 to player n - 1.\n\nThe competition process is as follows:\n\n• The first two players in the queue play a game, and the player with the higher skill level wins.\n\n• After the game, the winner stays at the beginning of the queue, and the loser goes to the end of it.\n\nThe winner of the competition is the first player who wins k games in a row.\n\nReturn the initial index of the winning player.\n\nExample 1:\n\nInput: skills = [4,2,6,3,9], k = 2\n\nOutput: 2\n\nExplanation: Initially, the queue of players is [0,1,2,3,4]. The following process happens:\n\n• Players 0 and 1 play a game, since the skill of player 0 is higher than that of player 1, player 0 wins. The resulting queue is [0,2,3,4,1].\n\n• Players 0 and 2 play a game, since the skill of player 2 is higher than that of player 0, player 2 wins. The resulting queue is [2,3,4,1,0].\n\n• Players 2 and 3 play a game, since the skill of player 2 is higher than that of player 3, player 2 wins. The resulting queue is [2,4,1,0,3].\n\nPlayer 2 won k = 2 games in a row, so the winner is player 2.\n\nExample 2:\n\nInput: skills = [2,5,4], k = 3\n\nOutput: 1\n\nExplanation: Initially, the queue of players is [0,1,2]. The following process happens:\n\n• Players 0 and 1 play a game, since the skill of player 1 is higher than that of player 0, player 1 wins. The resulting queue is [1,2,0].\n\n• Players 1 and 2 play a game, since the skill of player 1 is higher than that of player 2, player 1 wins. The resulting queue is [1,0,2].\n\n• Players 1 and 0 play a game, since the skill of player 1 is higher than that of player 0, player 1 wins. The resulting queue is [1,2,0].\n\nPlayer 1 won k = 3 games in a row, so the winner is player 1.\n\nConstraints:\n\n• n == skills.length\n\n• 2 <= n <= 105\n\n• 1 <= k <= 109\n\n• 1 <= skills[i] <= 106\n\n• All integers in skills are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findWinningPlayer(self, skills, k):\n        \"\"\"\n        :type skills: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Suppose that k ≥ n, there is exactly one player who can win k games in a row. Who is it?",
+    "In case k < n, you can simulate the competition process described."
+  ],
+  "testCases": [
+    [
+      "[4,2,6,3,9]",
+      "2"
+    ],
+    [
+      "[2,5,4]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findWinningPlayer(self, skills, k):\n        n = len(skills)\n        # If k >= n-1, the max skill player always wins eventually\n        if k >= n:\n            return skills.index(max(skills))\n        # Simulate: current winner at front, consecutive win count\n        from collections import deque\n        q = deque(range(n))\n        cur = q.popleft()\n        wins = 0\n        while wins < k:\n            challenger = q.popleft()\n            if skills[cur] > skills[challenger]:\n                wins += 1\n                q.append(challenger)\n            else:\n                q.append(cur)\n                cur = challenger\n                wins = 1\n        return cur",
+    "explanation": "Simulate using a deque. Current winner plays challenger; loser goes to end. Track consecutive wins. If k ≥ n, the overall max skill player must win (they beat everyone).\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

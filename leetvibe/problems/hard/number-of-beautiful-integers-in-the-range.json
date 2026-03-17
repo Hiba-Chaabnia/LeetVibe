@@ -1,0 +1,56 @@
+{
+  "questionId": "3017",
+  "title": "Number of Beautiful Integers in the Range",
+  "titleSlug": "number-of-beautiful-integers-in-the-range",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given positive integers low, high, and k.\n\nA number is beautiful if it meets both of the following conditions:\n\n• The count of even digits in the number is equal to the count of odd digits.\n\n• The number is divisible by k.\n\nReturn the number of beautiful integers in the range [low, high].\n\nExample 1:\n\nInput: low = 10, high = 20, k = 3\nOutput: 2\nExplanation: There are 2 beautiful integers in the given range: [12,18].\n    - 12 is beautiful because it contains 1 odd digit and 1 even digit, and is divisible by k = 3.\n    - 18 is beautiful because it contains 1 odd digit and 1 even digit, and is divisible by k = 3.\n    Additionally we can see that:\n    - 16 is not beautiful because it is not divisible by k = 3.\n    - 15 is not beautiful because it does not contain equal counts even and odd digits.\n    It can be shown that there are only 2 beautiful integers in the given range.\n\nExample 2:\n\nInput: low = 1, high = 10, k = 1\nOutput: 1\nExplanation: There is 1 beautiful integer in the given range: [10].\n    - 10 is beautiful because it contains 1 odd digit and 1 even digit, and is divisible by k = 1.\n    It can be shown that there is only 1 beautiful integer in the given range.\n\nExample 3:\n\nInput: low = 5, high = 5, k = 2\nOutput: 0\nExplanation: There are 0 beautiful integers in the given range.\n    - 5 is not beautiful because it is not divisible by k = 2 and it does not contain equal even and odd digits.\n\nConstraints:\n\n• 0 < low <= high <= 109\n\n• 0 < k <= 20",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfBeautifulIntegers(self, low, high, k):\n        \"\"\"\n        :type low: int\n        :type high: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The intended solution uses Dynamic Programming.",
+    "Let  f(n)  denote number of beautiful integers in the range  [1…n] , then the answer is  f(r) - f(l-1) ."
+  ],
+  "testCases": [
+    [
+      "10",
+      "20",
+      "3"
+    ],
+    [
+      "1",
+      "10",
+      "1"
+    ],
+    [
+      "5",
+      "5",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfBeautifulIntegers(self, low, high, k):\n        \"\"\"\n        :type low: int\n        :type high: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        def count_up_to(num, k):\n            s = str(num)\n            n = len(s)\n            memo = {}\n            \n            def dp(pos, even_count, odd_count, mod_val, tight, started):\n                # pos = current position\n                # even_count = count of even digits\n                # odd_count = count of odd digits\n                # mod_val = current number mod k\n                # tight = bounded by num\n                # started = placed non-zero digit\n                \n                if pos == n:\n                    # Valid if: even_count == odd_count, mod_val == 0, at least 2 digits\n                    valid = (even_count == odd_count and mod_val == 0 and \n                            (even_count + odd_count >= 2))\n                    return 1 if valid else 0\n                \n                state = (pos, even_count, odd_count, mod_val, tight, started)\n                if state in memo:\n                    return memo[state]\n                \n                limit = int(s[pos]) if tight else 9\n                result = 0\n                \n                for digit in range(0, limit + 1):\n                    new_tight = tight and (digit == limit)\n                    new_started = started or (digit > 0)\n                    \n                    # Update counts and mod only if we've started\n                    if new_started:\n                        new_even_count = even_count + (1 if digit % 2 == 0 else 0)\n                        new_odd_count = odd_count + (1 if digit % 2 == 1 else 0)\n                        new_mod = (mod_val * 10 + digit) % k\n                    else:\n                        new_even_count = even_count\n                        new_odd_count = odd_count\n                        new_mod = mod_val\n                    \n                    result += dp(pos + 1, new_even_count, new_odd_count, new_mod, \n                                new_tight, new_started)\n                \n                memo[state] = result\n                return result\n            \n            return dp(0, 0, 0, 0, True, False)\n        \n        return count_up_to(high, k) - count_up_to(low - 1, k)",
+    "explanation": "This solution uses digit dynamic programming:\n\n1. **Problem Definition**: Beautiful integer must have:\n   - Count of even digits = Count of odd digits\n   - Number is divisible by k\n\n2. **DP State**:\n   - pos: current digit position\n   - even_count: count of even digits so far\n   - odd_count: count of odd digits so far\n   - mod_val: current number mod k\n   - tight: whether bounded by the number\n   - started: whether we've placed a non-zero digit (handles leading zeros)\n\n3. **Transitions**:\n   - For each digit 0-9 (or 0-limit if tight):\n     - If not started and digit = 0: skip (leading zero), don't update counts\n     - If started or digit > 0:\n       - Update even_count if digit is even\n       - Update odd_count if digit is odd\n       - Update mod_val: new_mod = (mod_val * 10 + digit) % k\n       - Update tight flag\n\n4. **Base Case** (pos = n):\n   - Check if even_count == odd_count\n   - Check if mod_val == 0 (divisible by k)\n   - Check if at least 2 digits (even_count + odd_count >= 2)\n   - Return 1 if all valid, 0 otherwise\n\n5. **Key Insight - Leading Zeros**:\n   - Use started flag to track if we've placed a non-zero digit\n   - Leading zeros don't count toward digit counts\n   - Once started, all subsequent digits count\n\n6. **Answer**:\n   - count_up_to(high, k) - count_up_to(low - 1, k)\n\nTime Complexity: O(D * D * D * K * 2 * 2 * 10) = O(D³ * K) where D = number of digits\nSpace Complexity: O(D³ * K)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Numbers with Non-Decreasing Digits \", \"titleSlug\": \"count-numbers-with-non-decreasing-digits\", \"difficulty\": \"Hard\"}]"
+}

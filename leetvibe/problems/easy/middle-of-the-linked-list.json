@@ -1,0 +1,40 @@
+{
+  "questionId": "908",
+  "title": "Middle of the Linked List",
+  "titleSlug": "middle-of-the-linked-list",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "Given the head of a singly linked list, return the middle node of the linked list.\n\nIf there are two middle nodes, return the second middle node.\n\nExample 1:\n\nInput: head = [1,2,3,4,5]\nOutput: [3,4,5]\nExplanation: The middle node of the list is node 3.\n\nExample 2:\n\nInput: head = [1,2,3,4,5,6]\nOutput: [4,5,6]\nExplanation: Since the list has two middle nodes with values 3 and 4, we return the second one.\n\nConstraints:\n\n• The number of nodes in the list is in the range [1, 100].\n\n• 1 <= Node.val <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def middleNode(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5]",
+      "[1,2,3,4,5,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,4,5]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def middleNode(self, head):\n        slow = fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        return slow",
+    "explanation": "Slow and fast pointers. Fast moves 2 steps, slow moves 1. Return slow.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Delete the Middle Node of a Linked List\", \"titleSlug\": \"delete-the-middle-node-of-a-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Twin Sum of a Linked List\", \"titleSlug\": \"maximum-twin-sum-of-a-linked-list\", \"difficulty\": \"Medium\"}]"
+}

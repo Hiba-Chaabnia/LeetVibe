@@ -1,0 +1,47 @@
+{
+  "questionId": "260",
+  "title": "Single Number III",
+  "titleSlug": "single-number-iii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.\n\nYou must write an algorithm that runs in linear runtime complexity and uses only constant extra space.\n\nExample 1:\n\nInput: nums = [1,2,1,3,2,5]\nOutput: [3,5]\nExplanation:  [5, 3] is also a valid answer.\n\nExample 2:\n\nInput: nums = [-1,0]\nOutput: [-1,0]\n\nExample 3:\n\nInput: nums = [0,1]\nOutput: [1,0]\n\nConstraints:\n\n• 2 <= nums.length <= 3 * 104\n\n• -231 <= nums[i] <= 231 - 1\n\n• Each integer in nums will appear twice, only two integers will appear once.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,1,3,2,5]"
+    ],
+    [
+      "[-1,0]"
+    ],
+    [
+      "[0,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,5]",
+    "[-1,0]",
+    "[1,0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def singleNumber(nums):\n    xor_all = 0\n    for num in nums:\n        xor_all ^= num\n\n    bit = xor_all & -xor_all\n    n1 = 0\n    n2 = 0\n    for num in nums:\n        if num & bit:\n            n1 ^= num\n        else:\n            n2 ^= num\n\n    return n1, n2",
+    "explanation": "The algorithm uses XOR operation to find the two unique numbers. First, we XOR all numbers in the array (which cancels out the repeating numbers), and the result of this XOR operation is actually the XOR of the two unique numbers. Then, we find the rightmost bit that is set to 1 in this XOR result. This bit will be different for the two unique numbers.\n\nNext, we split the numbers into two groups: one group has that bit set, and the other group doesn't. XOR all numbers in both groups separately, and the result of the XOR operation for each group will be one of the unique numbers. This is because, within each group, the equal numbers will cancel themselves out, leaving the unique numbers as the result.\n\nThis algorithm has a linear runtime complexity (O(n)) and uses constant extra space, as required."
+  },
+  "similarQuestions": "[{\"title\": \"Single Number\", \"titleSlug\": \"single-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Single Number II\", \"titleSlug\": \"single-number-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Find The Original Array of Prefix Xor\", \"titleSlug\": \"find-the-original-array-of-prefix-xor\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the XOR of Numbers Which Appear Twice\", \"titleSlug\": \"find-the-xor-of-numbers-which-appear-twice\", \"difficulty\": \"Easy\"}]"
+}

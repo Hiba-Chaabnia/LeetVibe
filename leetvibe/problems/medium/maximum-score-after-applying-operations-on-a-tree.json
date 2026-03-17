@@ -1,0 +1,54 @@
+{
+  "questionId": "3191",
+  "title": "Maximum Score After Applying Operations on a Tree",
+  "titleSlug": "maximum-score-after-applying-operations-on-a-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    }
+  ],
+  "content": "There is an undirected tree with n nodes labeled from 0 to n - 1, and rooted at node 0. You are given a 2D integer array edges of length n - 1, where edges[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the tree.\n\nYou are also given a 0-indexed integer array values of length n, where values[i] is the value associated with the ith node.\n\nYou start with a score of 0. In one operation, you can:\n\n• Pick any node i.\n\n• Add values[i] to your score.\n\n• Set values[i] to 0.\n\nA tree is healthy if the sum of values on the path from the root to any leaf node is different than zero.\n\nReturn the maximum score you can obtain after performing these operations on the tree any number of times so that it remains healthy.\n\nExample 1:\n\nInput: edges = [[0,1],[0,2],[0,3],[2,4],[4,5]], values = [5,2,5,2,1,1]\nOutput: 11\nExplanation: We can choose nodes 1, 2, 3, 4, and 5. The value of the root is non-zero. Hence, the sum of values on the path from the root to any leaf is different than zero. Therefore, the tree is healthy and the score is values[1] + values[2] + values[3] + values[4] + values[5] = 11.\n    It can be shown that 11 is the maximum score obtainable after any number of operations on the tree.\n\nExample 2:\n\nInput: edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]], values = [20,10,9,7,4,3,5]\nOutput: 40\nExplanation: We can choose nodes 0, 2, 3, and 4.\n    - The sum of values on the path from 0 to 4 is equal to 10.\n    - The sum of values on the path from 0 to 3 is equal to 10.\n    - The sum of values on the path from 0 to 5 is equal to 3.\n    - The sum of values on the path from 0 to 6 is equal to 5.\n    Therefore, the tree is healthy and the score is values[0] + values[2] + values[3] + values[4] = 40.\n    It can be shown that 40 is the maximum score obtainable after any number of operations on the tree.\n\nConstraints:\n\n• 2 <= n <= 2 * 104\n\n• edges.length == n - 1\n\n• edges[i].length == 2\n\n• 0 <= ai, bi < n\n\n• values.length == n\n\n• 1 <= values[i] <= 109\n\n• The input is generated such that edges represents a valid tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumScoreAfterOperations(self, edges, values):\n        \"\"\"\n        :type edges: List[List[int]]\n        :type values: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let dp[i] be the maximum score we can get on the subtree rooted at i and sum[i] be the sum of all the values of the subtree rooted at i.",
+    "If we don’t take value[i] into the final score, we can take all the nodes of the subtrees rooted at i’s children.",
+    "If we take value[i] into the score, then each subtree rooted at its children should satisfy the constraints.",
+    "dp[x] = max(value[x] + sigma(dp[y]), sigma(sum[y])), where y is a direct child of x."
+  ],
+  "testCases": [
+    [
+      "[[0,1],[0,2],[0,3],[2,4],[4,5]]",
+      "[5,2,5,2,1,1]"
+    ],
+    [
+      "[[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]",
+      "[20,10,9,7,4,3,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "11",
+    "40"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\nimport sys\nsys.setrecursionlimit(30000)\n\nclass Solution(object):\n    def maximumScoreAfterOperations(self, edges, values):\n        n = len(values)\n        adj = defaultdict(list)\n        for a, b in edges:\n            adj[a].append(b)\n            adj[b].append(a)\n\n        # dp[node] = (max_score, subtree_sum)\n        # max_score: max score achievable in this subtree while keeping tree healthy\n        # subtree_sum: sum of all values in subtree\n        def dfs(node, parent):\n            children = [c for c in adj[node] if c != parent]\n            if not children:  # leaf node\n                # Must keep at least some value on path; for leaf, can't take its value\n                # (it would zero out the only path segment)\n                return (0, values[node])\n\n            child_results = [dfs(c, node) for c in children]\n            child_scores = [r[0] for r in child_results]\n            child_sums = [r[1] for r in child_results]\n\n            total_child_sum = sum(child_sums)\n\n            # Option 1: Don't take values[node]\n            # Then each subtree is independent and can be fully scored\n            opt1 = values[node] + sum(child_sums)  # take node + all children subtrees\n            # Wait: if we take values[node], the path through node has node's contribution zeroed.\n            # The tree is healthy if every root-to-leaf path has nonzero sum.\n            # If we take node's value (set to 0), then for health, each child subtree\n            # must maintain nonzero sum on paths through them.\n            # dp formula: dp[x] = max(values[x] + sum(dp[y]), sum(sum[y]))\n            # where y are children. sum[y] = total subtree sum.\n\n            # Option A: take values[node] -> each child must remain healthy -> sum of dp[child]\n            opt_take = values[node] + sum(child_scores)\n\n            # Option B: don't take values[node] -> can take all children's full subtrees\n            opt_skip = total_child_sum  # take everything in all children subtrees\n\n            return (max(opt_take, opt_skip), values[node] + total_child_sum)\n\n        score, _ = dfs(0, -1)\n        return score",
+    "explanation": "Post-order DFS. For each node x, dp[x] = max score in subtree of x while keeping all root-to-leaf paths healthy. Two choices:\n- Take values[x]: sets x to 0. Each child subtree must remain healthy → gains values[x] + sum(dp[child])\n- Don't take values[x]: x stays nonzero, covering all paths. All children can be fully collected → gains sum(subtree_sum[child])\n\nLeaf nodes: cannot take their value (would zero the only path), so dp = 0.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Sum of Distances in Tree\", \"titleSlug\": \"sum-of-distances-in-tree\", \"difficulty\": \"Hard\"}, {\"title\": \"Collect Coins in a Tree\", \"titleSlug\": \"collect-coins-in-a-tree\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Maximum Sum of Node Values\", \"titleSlug\": \"find-the-maximum-sum-of-node-values\", \"difficulty\": \"Hard\"}]"
+}

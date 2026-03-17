@@ -1,0 +1,52 @@
+{
+  "questionId": "2766",
+  "title": "Find the Prefix Common Array of Two Arrays",
+  "titleSlug": "find-the-prefix-common-array-of-two-arrays",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given two 0-indexed integer permutations A and B of length n.\n\nA prefix common array of A and B is an array C such that C[i] is equal to the count of numbers that are present at or before the index i in both A and B.\n\nReturn the prefix common array of A and B.\n\nA sequence of n integers is called a permutation if it contains all integers from 1 to n exactly once.\n\nExample 1:\n\nInput: A = [1,3,2,4], B = [3,1,2,4]\nOutput: [0,2,3,4]\nExplanation: At i = 0: no number is common, so C[0] = 0.\n    At i = 1: 1 and 3 are common in A and B, so C[1] = 2.\n    At i = 2: 1, 2, and 3 are common in A and B, so C[2] = 3.\n    At i = 3: 1, 2, 3, and 4 are common in A and B, so C[3] = 4.\n\nExample 2:\n\nInput: A = [2,3,1], B = [3,1,2]\nOutput: [0,1,3]\nExplanation: At i = 0: no number is common, so C[0] = 0.\n    At i = 1: only 3 is common in A and B, so C[1] = 1.\n    At i = 2: 1, 2, and 3 are common in A and B, so C[2] = 3.\n\nConstraints:\n\n• 1 <= A.length == B.length == n <= 50\n\n• 1 <= A[i], B[i] <= n\n\n• It is guaranteed that A and B are both a permutation of n integers.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findThePrefixCommonArray(self, A, B):\n        \"\"\"\n        :type A: List[int]\n        :type B: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider keeping a frequency array that stores the count of occurrences of each number till index i.",
+    "If a number occurred two times, it means it occurred in both A and B since they’re both permutations so add one to the answer."
+  ],
+  "testCases": [
+    [
+      "[1,3,2,4]",
+      "[3,1,2,4]"
+    ],
+    [
+      "[2,3,1]",
+      "[3,1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,2,3,4]",
+    "[0,1,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findThePrefixCommonArray(self, A, B):\n        result = []\n        seen_a = set()\n        seen_b = set()\n        count = 0\n        for a, b in zip(A, B):\n            seen_a.add(a)\n            seen_b.add(b)\n            if a in seen_b:\n                count += 1\n            if b in seen_a and a != b:\n                count += 1\n            result.append(count)\n        return result",
+    "explanation": "Track common elements as we go. Update count incrementally.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

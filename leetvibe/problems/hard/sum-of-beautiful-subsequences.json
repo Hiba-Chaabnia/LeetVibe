@@ -1,0 +1,57 @@
+{
+  "questionId": "3989",
+  "title": "Sum of Beautiful Subsequences",
+  "titleSlug": "sum-of-beautiful-subsequences",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array nums of length n.\n\nFor every positive integer g, we define the beauty of g as the product of g and the number of strictly increasing subsequences of nums whose greatest common divisor (GCD) is exactly g.\n\nReturn the sum of beauty values for all positive integers g.\n\nSince the answer could be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: nums = [1,2,3]\n\nOutput: 10\n\nExplanation: All strictly increasing subsequences and their GCDs are:\n\n\t\t\t\tSubsequence\n\t\t\t\tGCD\n\n\t\t\t\t[1]\n\t\t\t\t1\n\n\t\t\t\t[2]\n\t\t\t\t2\n\n\t\t\t\t[3]\n\t\t\t\t3\n\n\t\t\t\t[1,2]\n\t\t\t\t1\n\n\t\t\t\t[1,3]\n\t\t\t\t1\n\n\t\t\t\t[2,3]\n\t\t\t\t1\n\n\t\t\t\t[1,2,3]\n\t\t\t\t1\n\nCalculating beauty for each GCD:\n\n\t\t\t\tGCD\n\t\t\t\tCount of subsequences\n\t\t\t\tBeauty (GCD × Count)\n\n\t\t\t\t1\n\t\t\t\t5\n\t\t\t\t1 × 5 = 5\n\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\t2 × 1 = 2\n\n\t\t\t\t3\n\t\t\t\t1\n\t\t\t\t3 × 1 = 3\n\nTotal beauty is 5 + 2 + 3 = 10.\n\nExample 2:\n\nInput: nums = [4,6]\n\nOutput: 12\n\nExplanation: All strictly increasing subsequences and their GCDs are:\n\n\t\t\t\tSubsequence\n\t\t\t\tGCD\n\n\t\t\t\t[4]\n\t\t\t\t4\n\n\t\t\t\t[6]\n\t\t\t\t6\n\n\t\t\t\t[4,6]\n\t\t\t\t2\n\nCalculating beauty for each GCD:\n\n\t\t\t\tGCD\n\t\t\t\tCount of subsequences\n\t\t\t\tBeauty (GCD × Count)\n\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\t2 × 1 = 2\n\n\t\t\t\t4\n\t\t\t\t1\n\t\t\t\t4 × 1 = 4\n\n\t\t\t\t6\n\t\t\t\t1\n\t\t\t\t6 × 1 = 6\n\nTotal beauty is 2 + 4 + 6 = 12.\n\nConstraints:\n\n• 1 <= n == nums.length <= 104\n\n• 1 <= nums[i] <= 7 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def totalBeauty(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Fix a candidate GCD g and keep, in the original order, only those array elements divisible by g; scale them down to x / g so any increasing subsequence here corresponds to a subsequence whose elements are all multiples of g.",
+    "Count strictly increasing subsequences of that scaled list by assigning ranks (coordinate compression) and maintaining prefix sums of ways for smaller ranks (you may use a Fenwick tree).",
+    "The count you get, call it cnt_g, includes subsequences whose GCD is g or any multiple of g; it is therefore an overcount for \"exactly g\".",
+    "To get the number with GCD exactly g, process g from max(nums) down to 1 and subtract counts already assigned to multiples: F[g] = cnt_g - sum{k=2g,3g,...}*F[k] (do arithmetic mod MOD); descending order ensures multiples are known.",
+    "The final answer is the sum of contributions g * F[g] for all g."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[4,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "10",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def totalBeauty(self, nums):\n        MOD = 10**9 + 7\n        MAX = max(nums) + 1\n        # For each g, count strictly increasing subsequences with GCD exactly g\n        # cnt[g] = count with GCD divisible by g (all elements multiples of g)\n        # F[g] = cnt[g] - sum(F[kg] for k>=2) (Mobius inversion)\n        cnt = [0] * MAX\n        for g in range(1, MAX):\n            # Elements divisible by g, scaled by g\n            scaled = sorted(x // g for x in nums if x % g == 0)\n            if not scaled:\n                continue\n            # Count strictly increasing subsequences using Fenwick tree\n            coord = sorted(set(scaled))\n            rank = {v: i+1 for i, v in enumerate(coord)}\n            sz = len(coord)\n            bit = [0] * (sz + 2)\n            def bit_update(i, v):\n                while i <= sz:\n                    bit[i] = (bit[i] + v) % MOD\n                    i += i & (-i)\n            def bit_query(i):\n                s = 0\n                while i > 0:\n                    s = (s + bit[i]) % MOD\n                    i -= i & (-i)\n                return s\n            total = 0\n            for x in scaled:\n                r = rank[x]\n                ways = (bit_query(r - 1) + 1) % MOD\n                bit_update(r, ways)\n                total = (total + ways) % MOD\n            cnt[g] = total\n            # Reset BIT\n            for x in scaled:\n                r = rank[x]\n                bit_update(r, MOD - (1 if False else 0))  # just reset\n            bit[:] = [0] * (sz + 2)\n        # Mobius inversion\n        F = [0] * MAX\n        for g in range(MAX - 1, 0, -1):\n            F[g] = cnt[g]\n            for m in range(2 * g, MAX, g):\n                F[g] = (F[g] - F[m]) % MOD\n        ans = 0\n        for g in range(1, MAX):\n            ans = (ans + g * F[g]) % MOD\n        return ans",
+    "explanation": "For each g: filter elements divisible by g, scale to x//g, count strictly increasing subsequences via Fenwick tree (each element contributes 1 + count of previous smaller elements). Mobius inversion top-down: F[g] = cnt[g] - sum(F[kg]). Answer = sum(g * F[g]).\n\nTime: O(MAX * log(MAX) * log(n)). Space: O(MAX + n)."
+  },
+  "similarQuestions": "[]"
+}

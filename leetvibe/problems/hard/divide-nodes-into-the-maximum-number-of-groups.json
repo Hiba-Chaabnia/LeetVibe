@@ -1,0 +1,53 @@
+{
+  "questionId": "2583",
+  "title": "Divide Nodes Into the Maximum Number of Groups",
+  "titleSlug": "divide-nodes-into-the-maximum-number-of-groups",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "You are given a positive integer n representing the number of nodes in an undirected graph. The nodes are labeled from 1 to n.\n\nYou are also given a 2D integer array edges, where edges[i] = [ai, bi] indicates that there is a bidirectional edge between nodes ai and bi. Notice that the given graph may be disconnected.\n\nDivide the nodes of the graph into m groups (1-indexed) such that:\n\n• Each node in the graph belongs to exactly one group.\n\n• For every pair of nodes in the graph that are connected by an edge [ai, bi], if ai belongs to the group with index x, and bi belongs to the group with index y, then |y - x| = 1.\n\nReturn the maximum number of groups (i.e., maximum m) into which you can divide the nodes. Return -1 if it is impossible to group the nodes with the given conditions.\n\nExample 1:\n\nInput: n = 6, edges = [[1,2],[1,4],[1,5],[2,6],[2,3],[4,6]]\nOutput: 4\nExplanation: As shown in the image we:\n    - Add node 5 to the first group.\n    - Add node 1 to the second group.\n    - Add nodes 2 and 4 to the third group.\n    - Add nodes 3 and 6 to the fourth group.\n    We can see that every edge is satisfied.\n    It can be shown that that if we create a fifth group and move any node from the third or fourth group to it, at least on of the edges will not be satisfied.\n\nExample 2:\n\nInput: n = 3, edges = [[1,2],[2,3],[3,1]]\nOutput: -1\nExplanation: If we add node 1 to the first group, node 2 to the second group, and node 3 to the third group to satisfy the first two edges, we can see that the third edge will not be satisfied.\n    It can be shown that no grouping is possible.\n\nConstraints:\n\n• 1 <= n <= 500\n\n• 1 <= edges.length <= 104\n\n• edges[i].length == 2\n\n• 1 <= ai, bi <= n\n\n• ai != bi\n\n• There is at most one edge between any pair of vertices.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def magnificentSets(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If the graph is not bipartite, it is not possible to group the nodes.",
+    "Notice that we can solve the problem for each connected component independently, and the final answer will be just the sum of the maximum number of groups in each component.",
+    "Finally, to solve the problem for each connected component, we can notice that if for some node v we fix its position to be in the leftmost group, then we can also evaluate the position of every other node. That position is the depth of the node in a bfs tree after rooting at node v."
+  ],
+  "testCases": [
+    [
+      "6",
+      "[[1,2],[1,4],[1,5],[2,6],[2,3],[4,6]]"
+    ],
+    [
+      "3",
+      "[[1,2],[2,3],[3,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Binary Tree Level Order Traversal\", \"titleSlug\": \"binary-tree-level-order-traversal\", \"difficulty\": \"Medium\"}, {\"title\": \"Is Graph Bipartite?\", \"titleSlug\": \"is-graph-bipartite\", \"difficulty\": \"Medium\"}, {\"title\": \"Shortest Cycle in a Graph\", \"titleSlug\": \"shortest-cycle-in-a-graph\", \"difficulty\": \"Hard\"}]"
+}

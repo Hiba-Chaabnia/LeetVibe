@@ -1,0 +1,49 @@
+{
+  "questionId": "1559",
+  "title": "Cherry Pickup II",
+  "titleSlug": "cherry-pickup-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a rows x cols matrix grid representing a field of cherries where grid[i][j] represents the number of cherries that you can collect from the (i, j) cell.\n\nYou have two robots that can collect cherries for you:\n\n• Robot #1 is located at the top-left corner (0, 0), and\n\n• Robot #2 is located at the top-right corner (0, cols - 1).\n\nReturn the maximum number of cherries collection using both robots by following the rules below:\n\n• From a cell (i, j), robots can move to cell (i + 1, j - 1), (i + 1, j), or (i + 1, j + 1).\n\n• When any robot passes through a cell, It picks up all cherries, and the cell becomes an empty cell.\n\n• When both robots stay in the same cell, only one takes the cherries.\n\n• Both robots cannot move outside of the grid at any moment.\n\n• Both robots should reach the bottom row in grid.\n\nExample 1:\n\nInput: grid = [[3,1,1],[2,5,1],[1,5,5],[2,1,1]]\nOutput: 24\nExplanation: Path of robot #1 and #2 are described in color green and blue respectively.\n    Cherries taken by Robot #1, (3 + 2 + 5 + 2) = 12.\n    Cherries taken by Robot #2, (1 + 5 + 5 + 1) = 12.\n    Total of cherries: 12 + 12 = 24.\n\nExample 2:\n\nInput: grid = [[1,0,0,0,0,0,1],[2,0,0,0,0,3,0],[2,0,9,0,0,0,0],[0,3,0,5,4,0,0],[1,0,2,3,0,0,6]]\nOutput: 28\nExplanation: Path of robot #1 and #2 are described in color green and blue respectively.\n    Cherries taken by Robot #1, (1 + 9 + 5 + 2) = 17.\n    Cherries taken by Robot #2, (1 + 3 + 4 + 3) = 11.\n    Total of cherries: 17 + 11 = 28.\n\nConstraints:\n\n• rows == grid.length\n\n• cols == grid[i].length\n\n• 2 <= rows, cols <= 70\n\n• 0 <= grid[i][j] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def cherryPickup(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming, define DP[i][j][k]: The maximum cherries that both robots can take  starting on the ith row, and column j and k of Robot 1 and 2 respectively."
+  ],
+  "testCases": [
+    [
+      "[[3,1,1],[2,5,1],[1,5,5],[2,1,1]]"
+    ],
+    [
+      "[[1,0,0,0,0,0,1],[2,0,0,0,0,3,0],[2,0,9,0,0,0,0],[0,3,0,5,4,0,0],[1,0,2,3,0,0,6]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "24",
+    "28"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def cherryPickup(self, grid):\n        m, n = len(grid), len(grid[0])\n        memo = {}\n        \n        def dp(r, c1, c2):\n            if r == m or c1 < 0 or c1 >= n or c2 < 0 or c2 >= n:\n                return 0\n            if (r, c1, c2) in memo:\n                return memo[(r, c1, c2)]\n            \n            result = 0\n            for dc1 in [-1, 0, 1]:\n                for dc2 in [-1, 0, 1]:\n                    result = max(result, dp(r+1, c1+dc1, c2+dc2))\n            \n            cherries = grid[r][c1]\n            if c1 != c2:\n                cherries += grid[r][c2]\n            \n            result += cherries\n            memo[(r, c1, c2)] = result\n            return result\n        \n        return dp(0, 0, n-1)",
+    "explanation": "3D DP tracking both pickers. Time: O(m*n²), Space: O(m*n²)"
+  },
+  "similarQuestions": "[]"
+}

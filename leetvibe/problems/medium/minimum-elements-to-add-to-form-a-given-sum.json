@@ -1,0 +1,52 @@
+{
+  "questionId": "1911",
+  "title": "Minimum Elements to Add to Form a Given Sum",
+  "titleSlug": "minimum-elements-to-add-to-form-a-given-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an integer array nums and two integers limit and goal. The array nums has an interesting property that abs(nums[i]) <= limit.\n\nReturn the minimum number of elements you need to add to make the sum of the array equal to goal. The array must maintain its property that abs(nums[i]) <= limit.\n\nNote that abs(x) equals x if x >= 0, and -x otherwise.\n\nExample 1:\n\nInput: nums = [1,-1,1], limit = 3, goal = -4\nOutput: 2\nExplanation: You can add -2 and -3, then the sum of the array will be 1 - 1 + 1 - 2 - 3 = -4.\n\nExample 2:\n\nInput: nums = [1,-10,9,1], limit = 100, goal = 0\nOutput: 1\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= limit <= 106\n\n• -limit <= nums[i] <= limit\n\n• -109 <= goal <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minElements(self, nums, limit, goal):\n        \"\"\"\n        :type nums: List[int]\n        :type limit: int\n        :type goal: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try thinking about the problem as if the array is empty. Then you only need to form goal using elements whose absolute value is <= limit.",
+    "You can greedily set all of the elements except one to limit or -limit, so the number of elements you need is ceil(abs(goal)/ limit).",
+    "You can \"normalize\" goal by offsetting it by the sum of the array. For example, if the goal is 5 and the sum is -3, then it's exactly the same as if the goal is 8 and the array is empty.",
+    "The answer is ceil(abs(goal-sum)/limit) = (abs(goal-sum)+limit-1) / limit."
+  ],
+  "testCases": [
+    [
+      "[1,-1,1]",
+      "3",
+      "-4"
+    ],
+    [
+      "[1,-10,9,1]",
+      "100",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minElements(nums, limit, goal):\n    sum_nums = sum(nums)\n    diff = abs(goal - sum_nums)\n    \n    return (diff + limit - 1) // limit",
+    "explanation": "1. Calculate the sum of the elements in the input array `nums`. \n2. Calculate the absolute difference between the `goal` and the sum of `nums`. \n3. Divide the absolute difference by the `limit`, rounding up to the nearest integer. This gives the minimum number of elements needed to add to make the sum of the array `nums` equal to `goal` while maintaining the property that `abs(nums[i]) <= limit`."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,45 @@
+{
+  "questionId": "81",
+  "title": "Search in Rotated Sorted Array II",
+  "titleSlug": "search-in-rotated-sorted-array-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "There is an integer array nums sorted in non-decreasing order (not necessarily with distinct values).\n\nBefore being passed to your function, nums is rotated at an unknown pivot index k (0 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,4,4,5,6,6,7] might be rotated at pivot index 5 and become [4,5,6,6,7,0,1,2,4,4].\n\nGiven the array nums after the rotation and an integer target, return true if target is in nums, or false if it is not in nums.\n\nYou must decrease the overall operation steps as much as possible.\n\nExample 1:\n\nInput: nums = [2,5,6,0,0,1,2], target = 0\nOutput: true\nExample 2:\n\nInput: nums = [2,5,6,0,0,1,2], target = 3\nOutput: false\n\nConstraints:\n\n• 1 <= nums.length <= 5000\n\n• -104 <= nums[i] <= 104\n\n• nums is guaranteed to be rotated at some pivot.\n\n• -104 <= target <= 104\n\nFollow up: This problem is similar to Search in Rotated Sorted Array, but nums may contain duplicates. Would this affect the runtime complexity? How and why?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def search(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,5,6,0,0,1,2]",
+      "0"
+    ],
+    [
+      "[2,5,6,0,0,1,2]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def search(nums, target):\n    left, right = 0, len(nums) - 1\n    while left <= right:\n        mid = left + (right - left) // 2\n        if nums[mid] == target:\n            return True\n\n        if nums[mid] == nums[left]:\n            left += 1\n        elif nums[mid] > nums[left]:\n            if nums[left] <= target < nums[mid]:\n                right = mid - 1\n            else:\n                left = mid + 1\n        else:\n            if nums[mid] < target <= nums[right]:\n                left = mid + 1\n            else:\n                right = mid - 1\n    return False",
+    "explanation": "The algorithm is based on a modified binary search. We start by setting two pointers named `left` and `right` at the first and last element of the array, respectively. We then enter a loop, which continues until the `left` pointer is less than or equal to the `right` pointer.\n\nInside the loop, we first calculate the middle index `mid` using the `left` and `right` pointers. If the middle element of the array is equal to the target, we return true, indicating that the target is found.\n\nIf the middle element is equal to the left element, we increment the `left` pointer. If the middle element is greater than the left element, we check if the target is within the left and middle elements. If it is, we set the `right` pointer to the middle index minus one. Otherwise, we set the `left` pointer to the middle index plus one.\n\nIf the middle element is still smaller than the left element, we then check if the target is within the middle and right elements. If it is, we set the `left` pointer to the middle index plus one. Otherwise, we set the `right` pointer to the middle index minus one.\n\nAfter the loop, we return false if the target is not found in the array."
+  },
+  "similarQuestions": "[{\"title\": \"Search in Rotated Sorted Array\", \"titleSlug\": \"search-in-rotated-sorted-array\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "735",
+  "title": "Asteroid Collision",
+  "titleSlug": "asteroid-collision",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "We are given an array asteroids of integers representing asteroids in a row. The indices of the asteroid in the array represent their relative position in space.\n\nFor each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.\n\nFind out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.\n\nExample 1:\n\nInput: asteroids = [5,10,-5]\nOutput: [5,10]\nExplanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.\n\nExample 2:\n\nInput: asteroids = [8,-8]\nOutput: []\nExplanation: The 8 and -8 collide exploding each other.\n\nExample 3:\n\nInput: asteroids = [10,2,-5]\nOutput: [10]\nExplanation: The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.\n\nExample 4:\n\nInput: asteroids = [3,5,-6,2,-1,4]​​​​​​​\nOutput: [-6,2,4]\nExplanation: The asteroid -6 makes the asteroid 3 and 5 explode, and then continues going left. On the other side, the asteroid 2 makes the asteroid -1 explode and then continues going right, without reaching asteroid 4.\n\nConstraints:\n\n• 2 <= asteroids.length <= 104\n\n• -1000 <= asteroids[i] <= 1000\n\n• asteroids[i] != 0",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def asteroidCollision(self, asteroids):\n        \"\"\"\n        :type asteroids: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Say a row of asteroids is stable.  What happens when a new asteroid is added on the right?"
+  ],
+  "testCases": [
+    [
+      "[5,10,-5]"
+    ],
+    [
+      "[8,-8]"
+    ],
+    [
+      "[10,2,-5]"
+    ],
+    [
+      "[3,5,-6,2,-1,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[5,10]",
+    "[]",
+    "[10]",
+    "[-6,2,4]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def asteroidCollision(self, asteroids):\n        stack = []\n        for a in asteroids:\n            alive = True\n            while alive and a < 0 and stack and stack[-1] > 0:\n                right = stack.pop()\n                if right + a == 0:\n                    alive = False\n                elif right + a > 0:\n                    stack.append(right)\n                    alive = False\n            if alive:\n                stack.append(a)\n        return stack",
+    "explanation": "Stack-based simulation. Left-moving collides with right-moving. Keep survivors.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Can Place Flowers\", \"titleSlug\": \"can-place-flowers\", \"difficulty\": \"Easy\"}, {\"title\": \"Destroying Asteroids\", \"titleSlug\": \"destroying-asteroids\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Collisions on a Road\", \"titleSlug\": \"count-collisions-on-a-road\", \"difficulty\": \"Medium\"}, {\"title\": \"Robot Collisions\", \"titleSlug\": \"robot-collisions\", \"difficulty\": \"Hard\"}]"
+}

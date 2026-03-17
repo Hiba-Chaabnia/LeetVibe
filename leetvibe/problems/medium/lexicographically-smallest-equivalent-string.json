@@ -1,0 +1,53 @@
+{
+  "questionId": "1058",
+  "title": "Lexicographically Smallest Equivalent String",
+  "titleSlug": "lexicographically-smallest-equivalent-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    }
+  ],
+  "content": "You are given two strings of the same length s1 and s2 and a string baseStr.\n\nWe say s1[i] and s2[i] are equivalent characters.\n\n• For example, if s1 = \"abc\" and s2 = \"cde\", then we have 'a' == 'c', 'b' == 'd', and 'c' == 'e'.\n\nEquivalent characters follow the usual rules of any equivalence relation:\n\n• Reflexivity: 'a' == 'a'.\n\n• Symmetry: 'a' == 'b' implies 'b' == 'a'.\n\n• Transitivity: 'a' == 'b' and 'b' == 'c' implies 'a' == 'c'.\n\nFor example, given the equivalency information from s1 = \"abc\" and s2 = \"cde\", \"acd\" and \"aab\" are equivalent strings of baseStr = \"eed\", and \"aab\" is the lexicographically smallest equivalent string of baseStr.\n\nReturn the lexicographically smallest equivalent string of baseStr by using the equivalency information from s1 and s2.\n\nExample 1:\n\nInput: s1 = \"parker\", s2 = \"morris\", baseStr = \"parser\"\nOutput: \"makkek\"\nExplanation: Based on the equivalency information in s1 and s2, we can group their characters as [m,p], [a,o], [k,r,s], [e,i].\n    The characters in each group are equivalent and sorted in lexicographical order.\n    So the answer is \"makkek\".\n\nExample 2:\n\nInput: s1 = \"hello\", s2 = \"world\", baseStr = \"hold\"\nOutput: \"hdld\"\nExplanation: Based on the equivalency information in s1 and s2, we can group their characters as [h,w], [d,e,o], [l,r].\n    So only the second letter 'o' in baseStr is changed to 'd', the answer is \"hdld\".\n\nExample 3:\n\nInput: s1 = \"leetcode\", s2 = \"programs\", baseStr = \"sourcecode\"\nOutput: \"aauaaaaada\"\nExplanation: We group the equivalent characters in s1 and s2 as [a,o,e,r,s,c], [l,p], [g,t] and [d,m], thus all letters in baseStr except 'u' and 'd' are transformed to 'a', the answer is \"aauaaaaada\".\n\nConstraints:\n\n• 1 <= s1.length, s2.length, baseStr <= 1000\n\n• s1.length == s2.length\n\n• s1, s2, and baseStr consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestEquivalentString(self, s1, s2, baseStr):\n        \"\"\"\n        :type s1: str\n        :type s2: str\n        :type baseStr: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Model these equalities as edges of a graph.",
+    "Group each connected component of the graph and assign each node of this component to the node with the lowest lexicographically character.",
+    "Finally convert the string with the precalculated information."
+  ],
+  "testCases": [
+    [
+      "\"parker\"",
+      "\"morris\"",
+      "\"parser\""
+    ],
+    [
+      "\"hello\"",
+      "\"world\"",
+      "\"hold\""
+    ],
+    [
+      "\"leetcode\"",
+      "\"programs\"",
+      "\"sourcecode\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"makkek\"",
+    "\"hdld\"",
+    "\"aauaaaaada\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Lexicographically Smallest Generated String\", \"titleSlug\": \"lexicographically-smallest-generated-string\", \"difficulty\": \"Hard\"}]"
+}

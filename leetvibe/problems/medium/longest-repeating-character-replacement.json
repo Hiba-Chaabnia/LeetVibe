@@ -1,0 +1,49 @@
+{
+  "questionId": "424",
+  "title": "Longest Repeating Character Replacement",
+  "titleSlug": "longest-repeating-character-replacement",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.\n\nReturn the length of the longest substring containing the same letter you can get after performing the above operations.\n\nExample 1:\n\nInput: s = \"ABAB\", k = 2\nOutput: 4\nExplanation: Replace the two 'A's with two 'B's or vice versa.\n\nExample 2:\n\nInput: s = \"AABABBA\", k = 1\nOutput: 4\nExplanation: Replace the one 'A' in the middle with 'B' and form \"AABBBBA\".\n    The substring \"BBBB\" has the longest repeating letters, which is 4.\n    There may exists other ways to achieve this answer too.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of only uppercase English letters.\n\n• 0 <= k <= s.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def characterReplacement(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"ABAB\"",
+      "2"
+    ],
+    [
+      "\"AABABBA\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def characterReplacement(s:str, k:int) -> int:\n    n = len(s)\n    left = 0\n    right = 0\n    maxFreq = 0\n    result = 0\n    freq = [0] * 26\n\n    for right in range(n):\n        freq[ord(s[right]) - ord('A')] += 1\n        maxFreq = max(maxFreq, freq[ord(s[right]) - ord('A')])\n\n        if right - left + 1 - maxFreq > k:\n            freq[ord(s[left]) - ord('A')] -= 1\n            left += 1\n\n        result = max(result, right - left + 1)\n\n    return result",
+    "explanation": "1. Keep two pointers, left and right, to define the current substring we are evaluating.\n2. For each character, increment its count in the frequency array and update the current maximum frequency.\n3. If the length of the current substring minus the maximum frequency (i.e., the number of changes needed to make all characters the same) is greater than k, move the left pointer and update the frequency array.\n4. Keep track of the longest substring updating result and return it after iterating through the string."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Substring with At Most K Distinct Characters\", \"titleSlug\": \"longest-substring-with-at-most-k-distinct-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Max Consecutive Ones III\", \"titleSlug\": \"max-consecutive-ones-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Operations to Make Array Continuous\", \"titleSlug\": \"minimum-number-of-operations-to-make-array-continuous\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximize the Confusion of an Exam\", \"titleSlug\": \"maximize-the-confusion-of-an-exam\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Substring of One Repeating Character\", \"titleSlug\": \"longest-substring-of-one-repeating-character\", \"difficulty\": \"Hard\"}]"
+}

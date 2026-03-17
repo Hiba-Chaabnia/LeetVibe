@@ -1,0 +1,51 @@
+{
+  "questionId": "2558",
+  "title": "Minimum Number of Operations to Sort a Binary Tree by Level",
+  "titleSlug": "minimum-number-of-operations-to-sort-a-binary-tree-by-level",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary tree with unique values.\n\nIn one operation, you can choose any two nodes at the same level and swap their values.\n\nReturn the minimum number of operations needed to make the values at each level sorted in a strictly increasing order.\n\nThe level of a node is the number of edges along the path between it and the root node.\n\nExample 1:\n\nInput: root = [1,4,3,7,6,8,5,null,null,null,null,9,null,10]\nOutput: 3\nExplanation:\n    - Swap 4 and 3. The 2nd level becomes [3,4].\n    - Swap 7 and 5. The 3rd level becomes [5,6,8,7].\n    - Swap 8 and 7. The 3rd level becomes [5,6,7,8].\n    We used 3 operations so return 3.\n    It can be proven that 3 is the minimum number of operations needed.\n\nExample 2:\n\nInput: root = [1,3,2,7,6,5,4]\nOutput: 3\nExplanation:\n    - Swap 3 and 2. The 2nd level becomes [2,3].\n    - Swap 7 and 4. The 3rd level becomes [4,6,5,7].\n    - Swap 6 and 5. The 3rd level becomes [4,5,6,7].\n    We used 3 operations so return 3.\n    It can be proven that 3 is the minimum number of operations needed.\n\nExample 3:\n\nInput: root = [1,2,3,4,5,6]\nOutput: 0\nExplanation: Each level is already sorted in increasing order so return 0.\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 105].\n\n• 1 <= Node.val <= 105\n\n• All the values of the tree are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def minimumOperations(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can group the values level by level and solve each group independently.",
+    "Do BFS to group the value level by level.",
+    "Find the minimum number of swaps to sort the array of each level.",
+    "While iterating over the array, check the current element, and if not in the correct index, replace that element with the index of the element which should have come."
+  ],
+  "testCases": [
+    [
+      "[1,4,3,7,6,8,5,null,null,null,null,9,null,10]",
+      "[1,3,2,7,6,5,4]",
+      "[1,2,3,4,5,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minimumOperations(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        def countSwaps(arr):\n            # Count minimum swaps to sort array\n            indexed = [(val, i) for i, val in enumerate(arr)]\n            indexed.sort()\n            \n            swaps = 0\n            visited = [False] * len(arr)\n            \n            for i in range(len(arr)):\n                if visited[i] or indexed[i][1] == i:\n                    continue\n                \n                cycle_size = 0\n                j = i\n                while not visited[j]:\n                    visited[j] = True\n                    j = indexed[j][1]\n                    cycle_size += 1\n                \n                swaps += cycle_size - 1\n            \n            return swaps\n        \n        queue = deque([root])\n        total_swaps = 0\n        \n        while queue:\n            level_size = len(queue)\n            level_vals = []\n            \n            for _ in range(level_size):\n                node = queue.popleft()\n                level_vals.append(node.val)\n                \n                if node.left:\n                    queue.append(node.left)\n                if node.right:\n                    queue.append(node.right)\n            \n            total_swaps += countSwaps(level_vals)\n        \n        return total_swaps",
+    "explanation": "BFS to extract values at each level. For each level, count minimum swaps to sort using cycle detection.",
+    "complexity": "Time: O(n log n) for sorting each level. Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Binary Tree Level Order Traversal\", \"titleSlug\": \"binary-tree-level-order-traversal\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Cycle in a Graph\", \"titleSlug\": \"longest-cycle-in-a-graph\", \"difficulty\": \"Hard\"}]"
+}

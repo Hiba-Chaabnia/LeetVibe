@@ -1,0 +1,58 @@
+{
+  "questionId": "3231",
+  "title": "Minimum Number of Coins to be Added",
+  "titleSlug": "minimum-number-of-coins-to-be-added",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array coins, representing the values of the coins available, and an integer target.\n\nAn integer x is obtainable if there exists a subsequence of coins that sums to x.\n\nReturn the minimum number of coins of any value that need to be added to the array so that every integer in the range [1, target] is obtainable.\n\nA subsequence of an array is a new non-empty array that is formed from the original array by deleting some (possibly none) of the elements without disturbing the relative positions of the remaining elements.\n\nExample 1:\n\nInput: coins = [1,4,10], target = 19\nOutput: 2\nExplanation: We need to add coins 2 and 8. The resulting array will be [1,2,4,8,10].\n    It can be shown that all integers from 1 to 19 are obtainable from the resulting array, and that 2 is the minimum number of coins that need to be added to the array.\n\nExample 2:\n\nInput: coins = [1,4,10,5,7,19], target = 19\nOutput: 1\nExplanation: We only need to add the coin 2. The resulting array will be [1,2,4,5,7,10,19].\n    It can be shown that all integers from 1 to 19 are obtainable from the resulting array, and that 1 is the minimum number of coins that need to be added to the array.\n\nExample 3:\n\nInput: coins = [1,1,1], target = 20\nOutput: 3\nExplanation: We need to add coins 4, 8, and 16. The resulting array will be [1,1,1,4,8,16].\n    It can be shown that all integers from 1 to 20 are obtainable from the resulting array, and that 3 is the minimum number of coins that need to be added to the array.\n\nConstraints:\n\n• 1 <= target <= 105\n\n• 1 <= coins.length <= 105\n\n• 1 <= coins[i] <= target",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumAddedCoins(self, coins, target):\n        \"\"\"\n        :type coins: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the coins array and maintain the smallest sum that is unobtainable by induction.",
+    "If we don’t use any coins, the smallest integer that we cannot obtain by sum is 1. Suppose currently, for a fixed set of the first several coins the smallest integer that we cannot obtain is x + 1, namely we can form all integers in the range [1, x] but not x + 1.",
+    "If the next unused coin’s value is NOT x + 1 (note the array is sorted), we have to add x + 1 to the array. After this addition, we can form all values from x + 1 to 2 * x + 1 by adding x + 1 in [1, x]'s formations. So now we can form all the numbers of [1, 2 * x + 1]. After this iteration the new value of x becomes 2 * x + 1."
+  ],
+  "testCases": [
+    [
+      "[1,4,10]",
+      "19"
+    ],
+    [
+      "[1,4,10,5,7,19]",
+      "19"
+    ],
+    [
+      "[1,1,1]",
+      "20"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumAddedCoins(self, coins, target):\n        coins.sort()\n        reach = 0  # can form all values in [1, reach]\n        added = 0\n        i = 0\n        while reach < target:\n            if i < len(coins) and coins[i] <= reach + 1:\n                reach += coins[i]\n                i += 1\n            else:\n                # Must add coin of value reach+1\n                reach += reach + 1\n                added += 1\n        return added",
+    "explanation": "Greedy: maintain the invariant that we can form all integers in [1, reach]. Sort coins. At each step:\n- If the next coin <= reach+1: include it, extending reach to reach+coins[i].\n- Otherwise: the value reach+1 is not obtainable. Add a coin of value reach+1 (optimal choice), which extends reach to 2*reach+1.\n\nRepeat until reach >= target.\n\nTime: O(n log n + log(target)). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Coin Change\", \"titleSlug\": \"coin-change\", \"difficulty\": \"Medium\"}, {\"title\": \"Most Expensive Item That Can Not Be Bought\", \"titleSlug\": \"most-expensive-item-that-can-not-be-bought\", \"difficulty\": \"Medium\"}]"
+}

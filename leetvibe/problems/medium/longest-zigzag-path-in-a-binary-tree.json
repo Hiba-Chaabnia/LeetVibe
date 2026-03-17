@@ -1,0 +1,52 @@
+{
+  "questionId": "1474",
+  "title": "Longest ZigZag Path in a Binary Tree",
+  "titleSlug": "longest-zigzag-path-in-a-binary-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary tree.\n\nA ZigZag path for a binary tree is defined as follow:\n\n• Choose any node in the binary tree and a direction (right or left).\n\n• If the current direction is right, move to the right child of the current node; otherwise, move to the left child.\n\n• Change the direction from right to left or from left to right.\n\n• Repeat the second and third steps until you can't move in the tree.\n\nZigzag length is defined as the number of nodes visited - 1. (A single node has a length of 0).\n\nReturn the longest ZigZag path contained in that tree.\n\nExample 1:\n\nInput: root = [1,null,1,1,1,null,null,1,1,null,1,null,null,null,1]\nOutput: 3\nExplanation: Longest ZigZag path in blue nodes (right -> left -> right).\n\nExample 2:\n\nInput: root = [1,1,1,null,1,null,null,1,1,null,1]\nOutput: 4\nExplanation: Longest ZigZag path in blue nodes (left -> right -> left -> right).\n\nExample 3:\n\nInput: root = [1]\nOutput: 0\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 5 * 104].\n\n• 1 <= Node.val <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def longestZigZag(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Create this function maxZigZag(node, direction) maximum zigzag given a node and direction (right or left)."
+  ],
+  "testCases": [
+    [
+      "[1,null,1,1,1,null,null,1,1,null,1,null,null,null,1]",
+      "[1,1,1,null,1,null,null,1,1,null,1]",
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def longestZigZag(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        self.max_length = 0\n        \n        def dfs(node, is_left, length):\n            if not node:\n                return\n            \n            self.max_length = max(self.max_length, length)\n            \n            # If we went left, try to go right\n            if is_left:\n                dfs(node.right, False, length + 1)\n                dfs(node.left, True, 1)  # Can start new zigzag\n            else:\n                # If we went right, try to go left\n                dfs(node.left, True, length + 1)\n                dfs(node.right, False, 1)  # Can start new zigzag\n        \n        dfs(root.left, True, 1)\n        dfs(root.right, False, 1)\n        \n        return self.max_length",
+    "explanation": "DFS with direction tracking. For each node, track if last move was left or right. Continue zigzag in opposite direction or start new one.",
+    "complexity": "Time: O(n). Space: O(h)."
+  },
+  "similarQuestions": "[{\"title\": \"Zigzag Grid Traversal With Skip\", \"titleSlug\": \"zigzag-grid-traversal-with-skip\", \"difficulty\": \"Easy\"}]"
+}

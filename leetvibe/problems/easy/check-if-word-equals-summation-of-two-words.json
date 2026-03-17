@@ -1,0 +1,52 @@
+{
+  "questionId": "2010",
+  "title": "Check if Word Equals Summation of Two Words",
+  "titleSlug": "check-if-word-equals-summation-of-two-words",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "The letter value of a letter is its position in the alphabet starting from 0 (i.e. 'a' -> 0, 'b' -> 1, 'c' -> 2, etc.).\n\nThe numerical value of some string of lowercase English letters s is the concatenation of the letter values of each letter in s, which is then converted into an integer.\n\n• For example, if s = \"acb\", we concatenate each letter's letter value, resulting in \"021\". After converting it, we get 21.\n\nYou are given three strings firstWord, secondWord, and targetWord, each consisting of lowercase English letters 'a' through 'j' inclusive.\n\nReturn true if the summation of the numerical values of firstWord and secondWord equals the numerical value of targetWord, or false otherwise.\n\nExample 1:\n\nInput: firstWord = \"acb\", secondWord = \"cba\", targetWord = \"cdb\"\nOutput: true\nExplanation:\n    The numerical value of firstWord is \"acb\" -> \"021\" -> 21.\n    The numerical value of secondWord is \"cba\" -> \"210\" -> 210.\n    The numerical value of targetWord is \"cdb\" -> \"231\" -> 231.\n    We return true because 21 + 210 == 231.\n\nExample 2:\n\nInput: firstWord = \"aaa\", secondWord = \"a\", targetWord = \"aab\"\nOutput: false\nExplanation:\n    The numerical value of firstWord is \"aaa\" -> \"000\" -> 0.\n    The numerical value of secondWord is \"a\" -> \"0\" -> 0.\n    The numerical value of targetWord is \"aab\" -> \"001\" -> 1.\n    We return false because 0 + 0 != 1.\n\nExample 3:\n\nInput: firstWord = \"aaa\", secondWord = \"a\", targetWord = \"aaaa\"\nOutput: true\nExplanation:\n    The numerical value of firstWord is \"aaa\" -> \"000\" -> 0.\n    The numerical value of secondWord is \"a\" -> \"0\" -> 0.\n    The numerical value of targetWord is \"aaaa\" -> \"0000\" -> 0.\n    We return true because 0 + 0 == 0.\n\nConstraints:\n\n• 1 <= firstWord.length, secondWord.length, targetWord.length <= 8\n\n• firstWord, secondWord, and targetWord consist of lowercase English letters from 'a' to 'j' inclusive.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isSumEqual(self, firstWord, secondWord, targetWord):\n        \"\"\"\n        :type firstWord: str\n        :type secondWord: str\n        :type targetWord: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Convert each character of each word to its numerical value.",
+    "Check if the numerical values satisfies the condition."
+  ],
+  "testCases": [
+    [
+      "\"acb\"",
+      "\"cba\"",
+      "\"cdb\""
+    ],
+    [
+      "\"aaa\"",
+      "\"a\"",
+      "\"aab\""
+    ],
+    [
+      "\"aaa\"",
+      "\"a\"",
+      "\"aaaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isSumEqual(self, firstWord, secondWord, targetWord):\n        def wordToNum(word):\n            result = 0\n            for char in word:\n                result = result * 10 + (ord(char) - ord('a'))\n            return result\n        return wordToNum(firstWord) + wordToNum(secondWord) == wordToNum(targetWord)",
+    "explanation": "Convert each word: char -> digit (a=0, b=1, ..., j=9). Sum and compare."
+  },
+  "similarQuestions": "[]"
+}

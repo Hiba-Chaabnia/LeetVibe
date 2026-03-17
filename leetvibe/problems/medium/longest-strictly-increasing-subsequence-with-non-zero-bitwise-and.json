@@ -1,0 +1,60 @@
+{
+  "questionId": "4032",
+  "title": "Longest Strictly Increasing Subsequence With Non-Zero Bitwise AND",
+  "titleSlug": "longest-strictly-increasing-subsequence-with-non-zero-bitwise-and",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nReturn the length of the longest strictly increasing subsequence in nums whose bitwise AND is non-zero. If no such subsequence exists, return 0.\n\nExample 1:\n\nInput: nums = [5,4,7]\n\nOutput: 2\n\nExplanation: One longest strictly increasing subsequence is [5, 7]. The bitwise AND is 5 AND 7 = 5, which is non-zero.\n\nExample 2:\n\nInput: nums = [2,3,6]\n\nOutput: 3\n\nExplanation: The longest strictly increasing subsequence is [2, 3, 6]. The bitwise AND is 2 AND 3 AND 6 = 2, which is non-zero.\n\nExample 3:\n\nInput: nums = [0,1]\n\nOutput: 1\n\nExplanation: One longest strictly increasing subsequence is [1]. The bitwise AND is 1, which is non-zero.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 109​​​​​​​",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestSubsequence(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Solve bit-by-bit for each b in 0..30.",
+    "Filter: take elements with bit b set, preserving order.",
+    "On that filtered sequence compute the longest increasing subsequence (LIS).",
+    "Return the maximum LIS over all bits; if no candidates return 0."
+  ],
+  "testCases": [
+    [
+      "[5,4,7]"
+    ],
+    [
+      "[2,3,6]"
+    ],
+    [
+      "[0,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import bisect\n\nclass Solution(object):\n    def longestSubsequence(self, nums):\n        best = 0\n        for bit in range(30):\n            # Filter elements with this bit set\n            filtered = [x for x in nums if x & (1 << bit)]\n            if not filtered:\n                continue\n            # LIS on filtered\n            tails = []\n            for v in filtered:\n                pos = bisect.bisect_left(tails, v)\n                if pos == len(tails):\n                    tails.append(v)\n                else:\n                    tails[pos] = v\n            best = max(best, len(tails))\n        return best",
+    "explanation": "For each bit b, all elements with bit b set have non-zero AND. Find the LIS of the subsequence of elements with bit b set (preserving original order). Use patience sorting (binary search) for O(n log n) LIS. Return maximum over all bits.\n\nTime: O(30 * n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

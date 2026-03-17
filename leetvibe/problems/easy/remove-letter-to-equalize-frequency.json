@@ -1,0 +1,50 @@
+{
+  "questionId": "2532",
+  "title": "Remove Letter To Equalize Frequency",
+  "titleSlug": "remove-letter-to-equalize-frequency",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a 0-indexed string word, consisting of lowercase English letters. You need to select one index and remove the letter at that index from word so that the frequency of every letter present in word is equal.\n\nReturn true if it is possible to remove one letter so that the frequency of all letters in word are equal, and false otherwise.\n\nNote:\n\n• The frequency of a letter x is the number of times it occurs in the string.\n\n• You must remove exactly one letter and cannot choose to do nothing.\n\nExample 1:\n\nInput: word = \"abcc\"\nOutput: true\nExplanation: Select index 3 and delete it: word becomes \"abc\" and each character has a frequency of 1.\n\nExample 2:\n\nInput: word = \"aazz\"\nOutput: false\nExplanation: We must delete a character, so either the frequency of \"a\" is 1 and the frequency of \"z\" is 2, or vice versa. It is impossible to make all present letters have equal frequency.\n\nConstraints:\n\n• 2 <= word.length <= 100\n\n• word consists of lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def equalFrequency(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Brute force all letters that could be removed.",
+    "Use a frequency array of size 26."
+  ],
+  "testCases": [
+    [
+      "\"abcc\""
+    ],
+    [
+      "\"aazz\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def equalFrequency(self, word):\n        from collections import Counter\n        char_count = Counter(word)\n        for char in word:\n            char_count[char] -= 1\n            if char_count[char] == 0:\n                del char_count[char]\n            freq_count = Counter(char_count.values())\n            if len(freq_count) == 1:\n                freq = list(freq_count.keys())[0]\n                if freq * len(char_count) == len(word) - 1:\n                    return True\n            char_count[char] += 1\n        return False",
+    "explanation": "Try removing each character. Check if remaining frequencies are equal.\nTime: O(n²)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Equal Frequency\", \"titleSlug\": \"maximum-equal-frequency\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Deletions to Make Character Frequencies Unique\", \"titleSlug\": \"minimum-deletions-to-make-character-frequencies-unique\", \"difficulty\": \"Medium\"}]"
+}

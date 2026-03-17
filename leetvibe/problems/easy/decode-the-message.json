@@ -1,0 +1,49 @@
+{
+  "questionId": "2406",
+  "title": "Decode the Message",
+  "titleSlug": "decode-the-message",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given the strings key and message, which represent a cipher key and a secret message, respectively. The steps to decode message are as follows:\n\n• Use the first appearance of all 26 lowercase English letters in key as the order of the substitution table.\n\n• Align the substitution table with the regular English alphabet.\n\n• Each letter in message is then substituted using the table.\n\n• Spaces ' ' are transformed to themselves.\n\n• For example, given key = \"happy boy\" (actual key would have at least one instance of each letter in the alphabet), we have the partial substitution table of ('h' -> 'a', 'a' -> 'b', 'p' -> 'c', 'y' -> 'd', 'b' -> 'e', 'o' -> 'f').\n\nReturn the decoded message.\n\nExample 1:\n\nInput: key = \"the quick brown fox jumps over the lazy dog\", message = \"vkbs bs t suepuv\"\nOutput: \"this is a secret\"\nExplanation: The diagram above shows the substitution table.\n    It is obtained by taking the first appearance of each letter in \"the quick brown fox jumps over the lazy dog\".\n\nExample 2:\n\nInput: key = \"eljuxhpwnyrdgtqkviszcfmabo\", message = \"zwx hnfx lqantp mnoeius ycgk vcnjrdb\"\nOutput: \"the five boxing wizards jump quickly\"\nExplanation: The diagram above shows the substitution table.\n    It is obtained by taking the first appearance of each letter in \"eljuxhpwnyrdgtqkviszcfmabo\".\n\nConstraints:\n\n• 26 <= key.length <= 2000\n\n• key consists of lowercase English letters and ' '.\n\n• key contains every letter in the English alphabet ('a' to 'z') at least once.\n\n• 1 <= message.length <= 2000\n\n• message consists of lowercase English letters and ' '.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def decodeMessage(self, key, message):\n        \"\"\"\n        :type key: str\n        :type message: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate through the characters in the key to construct a mapping to the English alphabet.",
+    "Make sure to check that the current character is not already in the mapping (only the first appearance is considered).",
+    "Map the characters in the message according to the constructed mapping."
+  ],
+  "testCases": [
+    [
+      "\"the quick brown fox jumps over the lazy dog\"",
+      "\"vkbs bs t suepuv\""
+    ],
+    [
+      "\"eljuxhpwnyrdgtqkviszcfmabo\"",
+      "\"zwx hnfx lqantp mnoeius ycgk vcnjrdb\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"this is a secret\"",
+    "\"the five boxing wizards jump quickly\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def decodeMessage(self, key, message):\n        mapping = {}\n        alphabet_index = 0\n        for char in key:\n            if char != ' ' and char not in mapping:\n                mapping[char] = chr(ord('a') + alphabet_index)\n                alphabet_index += 1\n        result = ''\n        for char in message:\n            if char == ' ':\n                result += ' '\n            else:\n                result += mapping[char]\n        return result",
+    "explanation": "Build mapping from first occurrence of each letter in key to 'a'-'z'. Apply to message.\nTime: O(len(key) + len(message))\nSpace: O(26)"
+  },
+  "similarQuestions": "[]"
+}

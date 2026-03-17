@@ -1,0 +1,45 @@
+{
+  "questionId": "740",
+  "title": "Delete and Earn",
+  "titleSlug": "delete-and-earn",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums. You want to maximize the number of points you get by performing the following operation any number of times:\n\n• Pick any nums[i] and delete it to earn nums[i] points. Afterwards, you must delete every element equal to nums[i] - 1 and every element equal to nums[i] + 1.\n\nReturn the maximum number of points you can earn by applying the above operation some number of times.\n\nExample 1:\n\nInput: nums = [3,4,2]\nOutput: 6\nExplanation: You can perform the following operations:\n    - Delete 4 to earn 4 points. Consequently, 3 is also deleted. nums = [2].\n    - Delete 2 to earn 2 points. nums = [].\n    You earn a total of 6 points.\n\nExample 2:\n\nInput: nums = [2,2,3,3,3,4]\nOutput: 9\nExplanation: You can perform the following operations:\n    - Delete a 3 to earn 3 points. All 2's and 4's are also deleted. nums = [3,3].\n    - Delete a 3 again to earn 3 points. nums = [3].\n    - Delete a 3 once more to earn 3 points. nums = [].\n    You earn a total of 9 points.\n\nConstraints:\n\n• 1 <= nums.length <= 2 * 104\n\n• 1 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def deleteAndEarn(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If you take a number, you might as well take them all.  Keep track of what the value is of the subset of the input with maximum M when you either take or don't take M."
+  ],
+  "testCases": [
+    [
+      "[3,4,2]"
+    ],
+    [
+      "[2,2,3,3,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "9"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"House Robber\", \"titleSlug\": \"house-robber\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "3633",
+  "title": "Maximize the Number of Target Nodes After Connecting Trees I",
+  "titleSlug": "maximize-the-number-of-target-nodes-after-connecting-trees-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "There exist two undirected trees with n and m nodes, with distinct labels in ranges [0, n - 1] and [0, m - 1], respectively.\n\nYou are given two 2D integer arrays edges1 and edges2 of lengths n - 1 and m - 1, respectively, where edges1[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the first tree and edges2[i] = [ui, vi] indicates that there is an edge between nodes ui and vi in the second tree. You are also given an integer k.\n\nNode u is target to node v if the number of edges on the path from u to v is less than or equal to k. Note that a node is always target to itself.\n\nReturn an array of n integers answer, where answer[i] is the maximum possible number of nodes target to node i of the first tree if you have to connect one node from the first tree to another node in the second tree.\n\nNote that queries are independent from each other. That is, for every query you will remove the added edge before proceeding to the next query.\n\nExample 1:\n\nInput: edges1 = [[0,1],[0,2],[2,3],[2,4]], edges2 = [[0,1],[0,2],[0,3],[2,7],[1,4],[4,5],[4,6]], k = 2\n\nOutput: [9,7,9,8,8]\n\nExplanation:\n\n• For i = 0, connect node 0 from the first tree to node 0 from the second tree.\n\n• For i = 1, connect node 1 from the first tree to node 0 from the second tree.\n\n• For i = 2, connect node 2 from the first tree to node 4 from the second tree.\n\n• For i = 3, connect node 3 from the first tree to node 4 from the second tree.\n\n• For i = 4, connect node 4 from the first tree to node 4 from the second tree.\n\nExample 2:\n\nInput: edges1 = [[0,1],[0,2],[0,3],[0,4]], edges2 = [[0,1],[1,2],[2,3]], k = 1\n\nOutput: [6,3,3,3,3]\n\nExplanation: For every i, connect node i of the first tree with any node of the second tree.\n\nConstraints:\n\n• 2 <= n, m <= 1000\n\n• edges1.length == n - 1\n\n• edges2.length == m - 1\n\n• edges1[i].length == edges2[i].length == 2\n\n• edges1[i] = [ai, bi]\n\n• 0 <= ai, bi < n\n\n• edges2[i] = [ui, vi]\n\n• 0 <= ui, vi < m\n\n• The input is generated such that edges1 and edges2 represent valid trees.\n\n• 0 <= k <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxTargetNodes(self, edges1, edges2, k):\n        \"\"\"\n        :type edges1: List[List[int]]\n        :type edges2: List[List[int]]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each node u in the first tree, find the number of nodes at a distance of at most k from node u.",
+    "For each node v in the second tree, find the number of nodes at a distance of at most k - 1 from node v."
+  ],
+  "testCases": [
+    [
+      "[[0,1],[0,2],[2,3],[2,4]]",
+      "[[0,1],[0,2],[0,3],[2,7],[1,4],[4,5],[4,6]]",
+      "2"
+    ],
+    [
+      "[[0,1],[0,2],[0,3],[0,4]]",
+      "[[0,1],[1,2],[2,3]]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[9,7,9,8,8]",
+    "[6,3,3,3,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict, deque\n\nclass Solution(object):\n    def maxTargetNodes(self, edges1, edges2, k):\n        def build_adj(edges, sz):\n            adj = defaultdict(list)\n            for a, b in edges:\n                adj[a].append(b)\n                adj[b].append(a)\n            return adj\n\n        def count_within_k(adj, start, k):\n            if k < 0:\n                return 0\n            visited = {start}\n            queue = deque([(start, 0)])\n            count = 1\n            while queue:\n                node, dist = queue.popleft()\n                if dist < k:\n                    for nb in adj[node]:\n                        if nb not in visited:\n                            visited.add(nb)\n                            count += 1\n                            queue.append((nb, dist + 1))\n            return count\n\n        n = len(edges1) + 1\n        m = len(edges2) + 1\n        adj1 = build_adj(edges1, n)\n        adj2 = build_adj(edges2, m)\n\n        # For tree2: best count within k-1 steps from any node\n        best2 = max(count_within_k(adj2, v, k - 1) for v in range(m)) if k > 0 else 0\n\n        result = []\n        for u in range(n):\n            cnt1 = count_within_k(adj1, u, k)\n            result.append(cnt1 + best2)\n        return result",
+    "explanation": "For each node u in tree1: count nodes within k steps in tree1. When connecting u to any node v in tree2, we can reach v's k-1 neighborhood in tree2. Precompute the maximum count_within(k-1) over all nodes in tree2. Answer[u] = count1(u, k) + best2.\n\nTime: O(n² + m²). Space: O(n + m)."
+  },
+  "similarQuestions": "[{\"title\": \"Find Minimum Diameter After Merging Two Trees\", \"titleSlug\": \"find-minimum-diameter-after-merging-two-trees\", \"difficulty\": \"Hard\"}]"
+}

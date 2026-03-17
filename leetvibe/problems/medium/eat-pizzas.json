@@ -1,0 +1,52 @@
+{
+  "questionId": "3779",
+  "title": "Eat Pizzas!",
+  "titleSlug": "eat-pizzas",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer array pizzas of size n, where pizzas[i] represents the weight of the ith pizza. Every day, you eat exactly 4 pizzas. Due to your incredible metabolism, when you eat pizzas of weights W, X, Y, and Z, where W <= X <= Y <= Z, you gain the weight of only 1 pizza!\n\n• On odd-numbered days (1-indexed), you gain a weight of Z.\n\n• On even-numbered days, you gain a weight of Y.\n\nFind the maximum total weight you can gain by eating all pizzas optimally.\n\nNote: It is guaranteed that n is a multiple of 4, and each pizza can be eaten only once.\n\nExample 1:\n\nInput: pizzas = [1,2,3,4,5,6,7,8]\n\nOutput: 14\n\nExplanation:\n\n• On day 1, you eat pizzas at indices [1, 2, 4, 7] = [2, 3, 5, 8]. You gain a weight of 8.\n\n• On day 2, you eat pizzas at indices [0, 3, 5, 6] = [1, 4, 6, 7]. You gain a weight of 6.\n\nThe total weight gained after eating all the pizzas is 8 + 6 = 14.\n\nExample 2:\n\nInput: pizzas = [2,1,1,1,1,1,1,1]\n\nOutput: 3\n\nExplanation:\n\n• On day 1, you eat pizzas at indices [4, 5, 6, 0] = [1, 1, 1, 2]. You gain a weight of 2.\n\n• On day 2, you eat pizzas at indices [1, 2, 3, 7] = [1, 1, 1, 1]. You gain a weight of 1.\n\nThe total weight gained after eating all the pizzas is 2 + 1 = 3.\n\nConstraints:\n\n• 4 <= n == pizzas.length <= 2 * 105\n\n• 1 <= pizzas[i] <= 105\n\n• n is a multiple of 4.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxWeight(self, pizzas):\n        \"\"\"\n        :type pizzas: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "On odd-numbered days, it is optimal to pair the smallest three and the largest one.",
+    "On even-numbered days, it is optimal to pair the smallest two and the largest two.",
+    "There will be ceil((n / 4) / 2) odd-numbered days. Select pizzas for all odd-numbered days first.",
+    "Select the remaining pizzas for the even-numbered days."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6,7,8]"
+    ],
+    [
+      "[2,1,1,1,1,1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "14",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import math\n\nclass Solution(object):\n    def maxWeight(self, pizzas):\n        pizzas.sort()\n        n = len(pizzas)\n        days = n // 4\n        odd_days = math.ceil(days / 2)  # ceil(days/2)\n        even_days = days - odd_days\n        # On odd days: take the largest available (Z)\n        # On even days: take the 2nd largest available (Y)\n        # Greedy: assign odd days to top odd_days largest, even days to next\n        # Sort descending, pick greedily\n        total = 0\n        # Odd days: pick largest pizza each time (index from the end)\n        # Even days: pick 2nd largest among remaining\n        # After sorting ascending: odd days get pizzas[-1], pizzas[-3], pizzas[-5]...\n        # Even days get pizzas[-2], pizzas[-4], ...\n        # But the 3 'filler' pizzas per day are from the small end.\n        # Key insight: on odd days gain Z (max of group of 4), on even days gain Y (2nd max).\n        # Optimal: odd days pick top 1 from end (every 2 picks), even days pick 2nd from top.\n        ptr = len(pizzas) - 1\n        for i in range(odd_days):\n            total += pizzas[ptr]\n            ptr -= 1\n        for i in range(even_days):\n            # Skip one (that would be Z), take Y\n            ptr -= 1  # skip Z\n            total += pizzas[ptr]\n            ptr -= 1\n        return total",
+    "explanation": "Sort pizzas ascending. There are days = n/4 total days: ceil(days/2) odd days (gain max Z) and floor(days/2) even days (gain 2nd max Y). Greedily: odd days take the top 1 pizza each (from end), even days skip the top and take 2nd. The 3 filler pizzas come from the small end implicitly.\n\nTime: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

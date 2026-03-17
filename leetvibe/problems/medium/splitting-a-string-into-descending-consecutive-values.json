@@ -1,0 +1,50 @@
+{
+  "questionId": "1976",
+  "title": "Splitting a String Into Descending Consecutive Values",
+  "titleSlug": "splitting-a-string-into-descending-consecutive-values",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a string s that consists of only digits.\n\nCheck if we can split s into two or more non-empty substrings such that the numerical values of the substrings are in descending order and the difference between numerical values of every two adjacent substrings is equal to 1.\n\n• For example, the string s = \"0090089\" can be split into [\"0090\", \"089\"] with numerical values [90,89]. The values are in descending order and adjacent values differ by 1, so this way is valid.\n\n• Another example, the string s = \"001\" can be split into [\"0\", \"01\"], [\"00\", \"1\"], or [\"0\", \"0\", \"1\"]. However all the ways are invalid because they have numerical values [0,1], [0,1], and [0,0,1] respectively, all of which are not in descending order.\n\nReturn true if it is possible to split s​​​​​​ as described above, or false otherwise.\n\nA substring is a contiguous sequence of characters in a string.\n\nExample 1:\n\nInput: s = \"1234\"\nOutput: false\nExplanation: There is no valid way to split s.\n\nExample 2:\n\nInput: s = \"050043\"\nOutput: true\nExplanation: s can be split into [\"05\", \"004\", \"3\"] with numerical values [5,4,3].\n    The values are in descending order with adjacent values differing by 1.\n\nExample 3:\n\nInput: s = \"9080701\"\nOutput: false\nExplanation: There is no valid way to split s.\n\nConstraints:\n\n• 1 <= s.length <= 20\n\n• s only consists of digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def splitString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "One solution is to try all possible splits using backtrack",
+    "Look out for trailing zeros in string"
+  ],
+  "testCases": [
+    [
+      "\"1234\""
+    ],
+    [
+      "\"050043\""
+    ],
+    [
+      "\"9080701\""
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

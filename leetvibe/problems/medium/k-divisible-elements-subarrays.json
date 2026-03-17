@@ -1,0 +1,67 @@
+{
+  "questionId": "2339",
+  "title": "K Divisible Elements Subarrays",
+  "titleSlug": "k-divisible-elements-subarrays",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Given an integer array nums and two integers k and p, return the number of distinct subarrays, which have at most k elements that are divisible by p.\n\nTwo arrays nums1 and nums2 are said to be distinct if:\n\n• They are of different lengths, or\n\n• There exists at least one index i where nums1[i] != nums2[i].\n\nA subarray is defined as a non-empty contiguous sequence of elements in an array.\n\nExample 1:\n\nInput: nums = [2,3,3,2,2], k = 2, p = 2\nOutput: 11\nExplanation:\n    The elements at indices 0, 3, and 4 are divisible by p = 2.\n    The 11 distinct subarrays which have at most k = 2 elements divisible by 2 are:\n    [2], [2,3], [2,3,3], [2,3,3,2], [3], [3,3], [3,3,2], [3,3,2,2], [3,2], [3,2,2], and [2,2].\n    Note that the subarrays [2] and [3] occur more than once in nums, but they should each be counted only once.\n    The subarray [2,3,3,2,2] should not be counted because it has 3 elements that are divisible by 2.\n\nExample 2:\n\nInput: nums = [1,2,3,4], k = 4, p = 1\nOutput: 10\nExplanation:\n    All element of nums are divisible by p = 1.\n    Also, every subarray of nums will have at most 4 elements that are divisible by 1.\n    Since all subarrays are distinct, the total number of subarrays satisfying all the constraints is 10.\n\nConstraints:\n\n• 1 <= nums.length <= 200\n\n• 1 <= nums[i], p <= 200\n\n• 1 <= k <= nums.length\n\nFollow up:\n\nCan you solve this problem in O(n2) time complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countDistinct(self, nums, k, p):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type p: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Enumerate all subarrays and find the ones that satisfy all the conditions.",
+    "Use any suitable method to hash the subarrays to avoid duplicates."
+  ],
+  "testCases": [
+    [
+      "[2,3,3,2,2]",
+      "2",
+      "2"
+    ],
+    [
+      "[1,2,3,4]",
+      "4",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "11",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def countDistinct(self, nums, k, p):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type p: int\n        :rtype: int\n        \"\"\"\n        seen = set()\n        n = len(nums)\n        \n        for i in range(n):\n            divisible_count = 0\n            for j in range(i, n):\n                # Count elements divisible by p\n                if nums[j] % p == 0:\n                    divisible_count += 1\n                \n                # If too many divisible elements, stop\n                if divisible_count > k:\n                    break\n                \n                # Add subarray as tuple\n                subarray = tuple(nums[i:j+1])\n                seen.add(subarray)\n        \n        return len(seen)",
+    "explanation": "Generate all subarrays with at most k elements divisible by p. Use set to track unique subarrays.",
+    "complexity": "Time: O(n²). Space: O(n²)."
+  },
+  "similarQuestions": "[{\"title\": \"Subarrays with K Different Integers\", \"titleSlug\": \"subarrays-with-k-different-integers\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Number of Nice Subarrays\", \"titleSlug\": \"count-number-of-nice-subarrays\", \"difficulty\": \"Medium\"}, {\"title\": \"Subarray With Elements Greater Than Varying Threshold\", \"titleSlug\": \"subarray-with-elements-greater-than-varying-threshold\", \"difficulty\": \"Hard\"}]"
+}

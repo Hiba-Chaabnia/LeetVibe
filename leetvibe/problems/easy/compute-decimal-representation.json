@@ -1,0 +1,51 @@
+{
+  "questionId": "4039",
+  "title": "Compute Decimal Representation",
+  "titleSlug": "compute-decimal-representation",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given a positive integer n.\n\nA positive integer is a base-10 component if it is the product of a single digit from 1 to 9 and a non-negative power of 10. For example, 500, 30, and 7 are base-10 components, while 537, 102, and 11 are not.\n\nExpress n as a sum of only base-10 components, using the fewest base-10 components possible.\n\nReturn an array containing these base-10 components in descending order.\n\nExample 1:\n\nInput: n = 537\n\nOutput: [500,30,7]\n\nExplanation: We can express 537 as 500 + 30 + 7. It is impossible to express 537 as a sum using fewer than 3 base-10 components.\n\nExample 2:\n\nInput: n = 102\n\nOutput: [100,2]\n\nExplanation: We can express 102 as 100 + 2. 102 is not a base-10 component, which means 2 base-10 components are needed.\n\nExample 3:\n\nInput: n = 6\n\nOutput: [6]\n\nExplanation: 6 is a base-10 component.\n\nConstraints:\n\n• 1 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def decimalRepresentation(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Break the number down digit by digit starting from the ones place.",
+    "Each nonzero digit contributes a base-10 component.",
+    "Collect all components and return them in descending order."
+  ],
+  "testCases": [
+    [
+      "537"
+    ],
+    [
+      "102"
+    ],
+    [
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "[500,30,7]",
+    "[100,2]",
+    "[6]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def decimalRepresentation(self, n):\n        result = []\n        s = str(n)\n        for i, d in enumerate(s):\n            if d != str(0):\n                result.append(int(d) * (10 ** (len(s) - 1 - i)))\n        return result if result else [0]",
+    "explanation": "Extract each non-zero digit multiplied by its place value."
+  },
+  "similarQuestions": "[]"
+}

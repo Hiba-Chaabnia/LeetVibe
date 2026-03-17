@@ -1,0 +1,49 @@
+{
+  "questionId": "3515",
+  "title": "Find if Digit Game Can Be Won",
+  "titleSlug": "find-if-digit-game-can-be-won",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given an array of positive integers nums.\n\nAlice and Bob are playing a game. In the game, Alice can choose either all single-digit numbers or all double-digit numbers from nums, and the rest of the numbers are given to Bob. Alice wins if the sum of her numbers is strictly greater than the sum of Bob's numbers.\n\nReturn true if Alice can win this game, otherwise, return false.\n\nExample 1:\n\nInput: nums = [1,2,3,4,10]\n\nOutput: false\n\nExplanation: Alice cannot win by choosing either single-digit or double-digit numbers.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5,14]\n\nOutput: true\n\nExplanation: Alice can win by choosing single-digit numbers which have a sum equal to 15.\n\nExample 3:\n\nInput: nums = [5,5,5,25]\n\nOutput: true\n\nExplanation: Alice can win by choosing double-digit numbers which have a sum equal to 25.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 99",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canAliceWin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Alice wins if the sum of all single-digit numbers and the sum of all double-digit numbers are different."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,10]"
+    ],
+    [
+      "[1,2,3,4,5,14]"
+    ],
+    [
+      "[5,5,5,25]"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canAliceWin(self, nums):\n        single = sum(x for x in nums if x < 10)\n        double = sum(x for x in nums if x >= 10)\n        return single != double",
+    "explanation": "Alice wins by picking whichever group has a strictly larger sum; she wins iff the two sums differ. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Find Numbers with Even Number of Digits\", \"titleSlug\": \"find-numbers-with-even-number-of-digits\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Integers With Even Digit Sum\", \"titleSlug\": \"count-integers-with-even-digit-sum\", \"difficulty\": \"Easy\"}]"
+}

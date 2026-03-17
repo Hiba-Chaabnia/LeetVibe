@@ -1,0 +1,43 @@
+{
+  "questionId": "890",
+  "title": "Lemonade Change",
+  "titleSlug": "lemonade-change",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "At a lemonade stand, each lemonade costs $5. Customers are standing in a queue to buy from you and order one at a time (in the order specified by bills). Each customer will only buy one lemonade and pay with either a $5, $10, or $20 bill. You must provide the correct change to each customer so that the net transaction is that the customer pays $5.\n\nNote that you do not have any change in hand at first.\n\nGiven an integer array bills where bills[i] is the bill the ith customer pays, return true if you can provide every customer with the correct change, or false otherwise.\n\nExample 1:\n\nInput: bills = [5,5,5,10,20]\nOutput: true\nExplanation:\n    From the first 3 customers, we collect three $5 bills in order.\n    From the fourth customer, we collect a $10 bill and give back a $5.\n    From the fifth customer, we give a $10 bill and a $5 bill.\n    Since all customers got correct change, we output true.\n\nExample 2:\n\nInput: bills = [5,5,10,10,20]\nOutput: false\nExplanation:\n    From the first two customers in order, we collect two $5 bills.\n    For the next two customers in order, we collect a $10 bill and give back a $5 bill.\n    For the last customer, we can not give the change of $15 back because we only have two $10 bills.\n    Since not every customer received the correct change, the answer is false.\n\nConstraints:\n\n• 1 <= bills.length <= 105\n\n• bills[i] is either 5, 10, or 20.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lemonadeChange(self, bills):\n        \"\"\"\n        :type bills: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[5,5,5,10,20]"
+    ],
+    [
+      "[5,5,10,10,20]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def lemonadeChange(self, bills):\n        five_count = ten_count = 0\n        for bill in bills:\n            if bill == 5:\n                five_count += 1\n            elif bill == 10:\n                ten_count += 1\n                five_count -= 1\n            else:  # bill == 20\n                if ten_count > 0:\n                    ten_count -= 1\n                    five_count -= 1\n                else:\n                    five_count -= 3\n            if five_count < 0:\n                return False\n        return True",
+    "explanation": "Track $5 and $10 bills. For $10: need one $5. For $20: prefer one $10+one $5, else three $5s.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

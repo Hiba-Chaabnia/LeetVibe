@@ -1,0 +1,47 @@
+{
+  "questionId": "2619",
+  "title": "Categorize Box According to Criteria",
+  "titleSlug": "categorize-box-according-to-criteria",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given four integers length, width, height, and mass, representing the dimensions and mass of a box, respectively, return a string representing the category of the box.\n\n• The box is \"Bulky\" if:\n\n• Any of the dimensions of the box is greater or equal to 104.\n\n• Or, the volume of the box is greater or equal to 109.\n\n• If the mass of the box is greater or equal to 100, it is \"Heavy\".\n\n• If the box is both \"Bulky\" and \"Heavy\", then its category is \"Both\".\n\n• If the box is neither \"Bulky\" nor \"Heavy\", then its category is \"Neither\".\n\n• If the box is \"Bulky\" but not \"Heavy\", then its category is \"Bulky\".\n\n• If the box is \"Heavy\" but not \"Bulky\", then its category is \"Heavy\".\n\nNote that the volume of the box is the product of its length, width and height.\n\nExample 1:\n\nInput: length = 1000, width = 35, height = 700, mass = 300\nOutput: \"Heavy\"\nExplanation:\n    None of the dimensions of the box is greater or equal to 104.\n    Its volume = 24500000 = 100, so the box is \"Heavy\".\n    Since the box is not \"Bulky\" but \"Heavy\", we return \"Heavy\".\n\nExample 2:\n\nInput: length = 200, width = 50, height = 800, mass = 50\nOutput: \"Neither\"\nExplanation:\n    None of the dimensions of the box is greater or equal to 104.\n    Its volume = 8 * 106\n\nConstraints:\n\n• 1 <= length, width, height <= 105\n\n• 1 <= mass <= 103",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def categorizeBox(self, length, width, height, mass):\n        \"\"\"\n        :type length: int\n        :type width: int\n        :type height: int\n        :type mass: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use conditional statements to find the right category of the box."
+  ],
+  "testCases": [
+    [
+      "1000",
+      "35",
+      "700",
+      "300"
+    ],
+    [
+      "200",
+      "50",
+      "800",
+      "50"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Heavy\"",
+    "\"Neither\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def categorizeBox(self, length, width, height, mass):\n        bulky = (length >= 10**4 or width >= 10**4 or height >= 10**4 or \n                 length * width * height >= 10**9)\n        heavy = mass >= 100\n        if bulky and heavy:\n            return 'Both'\n        elif bulky:\n            return 'Bulky'\n        elif heavy:\n            return 'Heavy'\n        else:\n            return 'Neither'",
+    "explanation": "Check bulky (dimension or volume). Check heavy (mass). Return combined state."
+  },
+  "similarQuestions": "[{\"title\": \"Fizz Buzz\", \"titleSlug\": \"fizz-buzz\", \"difficulty\": \"Easy\"}, {\"title\": \"Find Winner on a Tic Tac Toe Game\", \"titleSlug\": \"find-winner-on-a-tic-tac-toe-game\", \"difficulty\": \"Easy\"}, {\"title\": \"Best Poker Hand\", \"titleSlug\": \"best-poker-hand\", \"difficulty\": \"Easy\"}]"
+}

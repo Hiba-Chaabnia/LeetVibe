@@ -1,0 +1,72 @@
+{
+  "questionId": "3689",
+  "title": "Maximum Area Rectangle With Point Constraints II",
+  "titleSlug": "maximum-area-rectangle-with-point-constraints-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "There are n points on an infinite plane. You are given two integer arrays xCoord and yCoord where (xCoord[i], yCoord[i]) represents the coordinates of the ith point.\n\nYour task is to find the maximum area of a rectangle that:\n\n• Can be formed using four of these points as its corners.\n\n• Does not contain any other point inside or on its border.\n\n• Has its edges parallel to the axes.\n\nReturn the maximum area that you can obtain or -1 if no such rectangle is possible.\n\nExample 1:\n\nInput: xCoord = [1,1,3,3], yCoord = [1,3,1,3]\n\nOutput: 4\n\nExplanation: We can make a rectangle with these 4 points as corners and there is no other point that lies inside or on the border. Hence, the maximum possible area would be 4.\n\nExample 2:\n\nInput: xCoord = [1,1,3,3,2], yCoord = [1,3,1,3,2]\n\nOutput: -1\n\nExplanation: There is only one rectangle possible is with points [1,1], [1,3], [3,1] and [3,3] but [2,2] will always lie inside it. Hence, returning -1.\n\nExample 3:\n\nInput: xCoord = [1,1,3,3,1,3], yCoord = [1,3,1,3,2,2]\n\nOutput: 2\n\nExplanation: The maximum area rectangle is formed by the points [1,3], [1,2], [3,2], [3,3], which has an area of 2. Additionally, the points [1,1], [1,2], [3,1], [3,2] also form a valid rectangle with the same area.\n\nConstraints:\n\n• 1 <= xCoord.length == yCoord.length <= 2 * 105\n\n• 0 <= xCoord[i], yCoord[i] <= 8 * 107\n\n• All the given points are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxRectangleArea(self, xCoord, yCoord):\n        \"\"\"\n        :type xCoord: List[int]\n        :type yCoord: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Process the points by sorting them based on their x-coordinates.",
+    "For each x-coordinate, sort the corresponding points by y and select two consecutive points y1 and y2 (y1 < y2).",
+    "Identify the closest x-coordinate (greater than the current x) where some y-coordinates lie in [y1, y2].",
+    "Use a segment tree to efficiently locate the nearest x-coordinate.",
+    "Check if the points form a valid rectangle. How?"
+  ],
+  "testCases": [
+    [
+      "[1,1,3,3]",
+      "[1,3,1,3]"
+    ],
+    [
+      "[1,1,3,3,2]",
+      "[1,3,1,3,2]"
+    ],
+    [
+      "[1,1,3,3,1,3]",
+      "[1,3,1,3,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxRectangleArea(self, xCoord, yCoord):\n        \"\"\"\n        :type xCoord: List[int]\n        :type yCoord: List[int]\n        :rtype: int\n        \"\"\"\n        points = sorted(set(zip(xCoord, yCoord)))\n        n = len(points)\n        \n        if n < 4:\n            return -1\n        \n        max_area = -1\n        \n        # Try all pairs of x-coordinates\n        xs = sorted(set(xCoord))\n        \n        for i in range(len(xs)):\n            for j in range(i + 1, len(xs)):\n                x1, x2 = xs[i], xs[j]\n                \n                # Get all points on lines x = x1 and x = x2\n                pts_x1 = sorted([p for p in points if p[0] == x1], key=lambda p: p[1])\n                pts_x2 = sorted([p for p in points if p[0] == x2], key=lambda p: p[1])\n                \n                if not pts_x1 or not pts_x2:\n                    continue\n                \n                # Try all consecutive y-pairs on left edge\n                for k1 in range(len(pts_x1) - 1):\n                    y1_a, y1_b = pts_x1[k1][1], pts_x1[k1+1][1]\n                    \n                    # Find closest y on right edge that covers [y1_a, y1_b]\n                    candidates = [(p[1], idx) for idx, p in enumerate(pts_x2)]\n                    \n                    # Need y-coordinates at x2 to cover [y1_a, y1_b]\n                    y_on_right = [p[1] for p in pts_x2]\n                    \n                    # Check all y-pairs on right edge\n                    for k2 in range(len(pts_x2) - 1):\n                        y2_a, y2_b = pts_x2[k2][1], pts_x2[k2+1][1]\n                        \n                        # Check if rectangle [x1,x2] x [max(y1_a,y2_a), min(y1_b,y2_b)] is valid\n                        y_min = max(y1_a, y2_a)\n                        y_max = min(y1_b, y2_b)\n                        \n                        if y_min >= y_max:\n                            continue\n                        \n                        # Check if any other point lies inside or on boundary\n                        valid = True\n                        for p in points:\n                            px, py = p\n                            # Check if point is inside or on rectangle boundary\n                            if x1 < px < x2 and y_min <= py <= y_max:\n                                valid = False\n                                break\n                            if px == x1 and y_min < py < y_max:\n                                valid = False\n                                break\n                            if px == x2 and y_min < py < y_max:\n                                valid = False\n                                break\n                        \n                        if valid:\n                            area = (x2 - x1) * (y_max - y_min)\n                            max_area = max(max_area, area)\n        \n        return max_area",
+    "explanation": "This solution uses geometric enumeration with point filtering:\n\n1. **Problem Understanding**:\n   - Find rectangle with 4 corners from given points\n   - No other points inside or on boundary\n   - Maximize area\n   - Edges parallel to axes\n\n2. **Observation**:\n   - Rectangle corners: (x1,y1), (x1,y2), (x2,y1), (x2,y2)\n   - All 4 must be in point set\n   - For existence: need 2 y-values at x1 and 2 y-values at x2\n\n3. **Algorithm**:\n   - Try all pairs of x-coordinates (x1, x2)\n   - For each x1: get all y-coordinates where point exists\n   - For each x2: get all y-coordinates where point exists\n   - Try consecutive y-pairs:\n     - Left edge: y-pair at x1\n     - Right edge: y-pair at x2\n     - Rectangle bounds: [x1,x2] × [y_min, y_max]\n\n4. **Validity Check**:\n   - All 4 corners must exist in point set\n   - No point strictly inside rectangle\n   - No point on interior of edges\n   - Points can be at corners or outside\n\n5. **Complexity**:\n   - Try all x-pairs: O(|xs|²)\n   - For each, try y-pairs: O(|ys|²)\n   - Validity check: O(n)\n   - Total: O(n²) for reasonable point distributions\n\nTime Complexity: O(n⁴) worst case, O(n²) typical\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Area Rectangle\", \"titleSlug\": \"minimum-area-rectangle\", \"difficulty\": \"Medium\"}]"
+}

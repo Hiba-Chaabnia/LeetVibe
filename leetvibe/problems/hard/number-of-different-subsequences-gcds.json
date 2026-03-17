@@ -1,0 +1,52 @@
+{
+  "questionId": "1947",
+  "title": "Number of Different Subsequences GCDs",
+  "titleSlug": "number-of-different-subsequences-gcds",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an array nums that consists of positive integers.\n\nThe GCD of a sequence of numbers is defined as the greatest integer that divides all the numbers in the sequence evenly.\n\n• For example, the GCD of the sequence [4,6,16] is 2.\n\nA subsequence of an array is a sequence that can be formed by removing some elements (possibly none) of the array.\n\n• For example, [2,5,10] is a subsequence of [1,2,1,2,4,1,5,10].\n\nReturn the number of different GCDs among all non-empty subsequences of nums.\n\nExample 1:\n\nInput: nums = [6,10,3]\nOutput: 5\nExplanation: The figure shows all the non-empty subsequences and their GCDs.\n    The different GCDs are 6, 10, 3, 2, and 1.\n\nExample 2:\n\nInput: nums = [5,15,40,5,6]\nOutput: 7\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 2 * 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countDifferentSubsequenceGCDs(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think of how to check if a number x is a gcd of a subsequence.",
+    "If there is such subsequence, then all of it will be divisible by x. Moreover, if you divide each number in the subsequence by x , then the gcd of the resulting numbers will be 1.",
+    "Adding a number to a subsequence cannot increase its gcd. So, if there is a valid subsequence for x , then the subsequence that contains all multiples of x is a valid one too.",
+    "Iterate on all possiblex from 1 to 10^5, and check if there is a valid subsequence for x."
+  ],
+  "testCases": [
+    [
+      "[6,10,3]"
+    ],
+    [
+      "[5,15,40,5,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "7"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find Greatest Common Divisor of Array\", \"titleSlug\": \"find-greatest-common-divisor-of-array\", \"difficulty\": \"Easy\"}]"
+}

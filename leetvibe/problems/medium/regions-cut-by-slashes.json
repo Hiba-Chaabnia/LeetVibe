@@ -1,0 +1,64 @@
+{
+  "questionId": "999",
+  "title": "Regions Cut By Slashes",
+  "titleSlug": "regions-cut-by-slashes",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "An n x n grid is composed of 1 x 1 squares where each 1 x 1 square consists of a '/', '\\', or blank space ' '. These characters divide the square into contiguous regions.\n\nGiven the grid grid represented as a string array, return the number of regions.\n\nNote that backslash characters are escaped, so a '\\' is represented as '\\\\'.\n\nExample 1:\n\nInput: grid = [\" /\",\"/ \"]\nOutput: 2\n\nExample 2:\n\nInput: grid = [\" /\",\"  \"]\nOutput: 1\n\nExample 3:\n\nInput: grid = [\"/\\\\\",\"\\\\/\"]\nOutput: 5\nExplanation: Recall that because \\ characters are escaped, \"\\\\/\" refers to \\/, and \"/\\\\\" refers to /\\.\n\nConstraints:\n\n• n == grid.length == grid[i].length\n\n• 1 <= n <= 30\n\n• grid[i][j] is either '/', '\\', or ' '.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def regionsBySlashes(self, grid):\n        \"\"\"\n        :type grid: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\" /\",\"/ \"]"
+    ],
+    [
+      "[\" /\",\"  \"]"
+    ],
+    [
+      "[\"/\\\\\",\"\\\\/\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def regionsBySlashes(self, grid):\n        \"\"\"\n        :type grid: List[str]\n        :rtype: int\n        \"\"\"\n        n = len(grid)\n        # Each cell expands to 3x3\n        expanded = [[0] * (3*n) for _ in range(3*n)]\n        \n        for i in range(n):\n            for j in range(n):\n                if grid[i][j] == '/':\n                    expanded[3*i][3*j+2] = 1\n                    expanded[3*i+1][3*j+1] = 1\n                    expanded[3*i+2][3*j] = 1\n                elif grid[i][j] == '\\\\':\n                    expanded[3*i][3*j] = 1\n                    expanded[3*i+1][3*j+1] = 1\n                    expanded[3*i+2][3*j+2] = 1\n        \n        # Count regions using BFS/DFS\n        visited = [[False] * (3*n) for _ in range(3*n)]\n        regions = 0\n        \n        for i in range(3*n):\n            for j in range(3*n):\n                if not visited[i][j] and expanded[i][j] == 0:\n                    regions += 1\n                    stack = [(i, j)]\n                    while stack:\n                        r, c = stack.pop()\n                        if r < 0 or r >= 3*n or c < 0 or c >= 3*n:\n                            continue\n                        if visited[r][c] or expanded[r][c] == 1:\n                            continue\n                        visited[r][c] = True\n                        for dr, dc in [(0,1), (0,-1), (1,0), (-1,0)]:\n                            stack.append((r+dr, c+dc))\n        \n        return regions",
+    "explanation": "Expand each cell to 3x3, mark slashes as walls, count connected components.",
+    "complexity": "Time: O(n²). Space: O(n²)."
+  },
+  "similarQuestions": "[]"
+}

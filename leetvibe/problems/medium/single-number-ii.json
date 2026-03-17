@@ -1,0 +1,43 @@
+{
+  "questionId": "137",
+  "title": "Single Number II",
+  "titleSlug": "single-number-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given an integer array nums where every element appears three times except for one, which appears exactly once. Find the single element and return it.\n\nYou must implement a solution with a linear runtime complexity and use only constant extra space.\n\nExample 1:\n\nInput: nums = [2,2,3,2]\nOutput: 3\nExample 2:\n\nInput: nums = [0,1,0,1,0,1,99]\nOutput: 99\n\nConstraints:\n\n• 1 <= nums.length <= 3 * 104\n\n• -231 <= nums[i] <= 231 - 1\n\n• Each element in nums appears exactly three times except for one element which appears once.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,2,3,2]"
+    ],
+    [
+      "[0,1,0,1,0,1,99]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "99"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def singleNumber(nums):\n    ones, twos = 0, 0\n    for n in nums:\n        ones = (ones ^ n) & ~twos\n        twos = (twos ^ n) & ~ones\n    return ones",
+    "explanation": "In this problem, we use two variables, ones and twos, to represent the number of occurrences of each bit in the array's elements.\n\nInitially, both ones and twos are set to 0. We use XOR (^) to count the occurrences of each bit in the array. The reason we use XOR is that it cancels out the same bits, so if a bit occurs twice, it will be 0.\n\nWe then loop through each element of the array and use XOR to count the bit occurrences. If a bit occurs for the first time, it's XORed into ones; if it occurs for the second time, it's XORed into twos. If it appears for the third time, it should be removed from both ones and twos. To achieve this, we use the bitwise AND (&) along with the bitwise NOT (~) to clear the bits that appear in twos from ones and vice versa.\n\nFinally, after looping through all the elements of the array, the variable ones will only contain the bits that occurred once in the array, and that is our result. So we return the ones variable."
+  },
+  "similarQuestions": "[{\"title\": \"Single Number\", \"titleSlug\": \"single-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Single Number III\", \"titleSlug\": \"single-number-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the XOR of Numbers Which Appear Twice\", \"titleSlug\": \"find-the-xor-of-numbers-which-appear-twice\", \"difficulty\": \"Easy\"}]"
+}

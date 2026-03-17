@@ -1,0 +1,39 @@
+{
+  "questionId": "858",
+  "title": "Masking Personal Information",
+  "titleSlug": "masking-personal-information",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a personal information string s, representing either an email address or a phone number. Return the masked personal information using the below rules.\n\nEmail address:\n\nAn email address is:\n\n• A name consisting of uppercase and lowercase English letters, followed by\n\n• The '@' symbol, followed by\n\n• The domain consisting of uppercase and lowercase English letters with a dot '.' somewhere in the middle (not the first or last character).\n\nTo mask an email:\n\n• The uppercase letters in the name and domain must be converted to lowercase letters.\n\n• The middle letters of the name (i.e., all but the first and last letters) must be replaced by 5 asterisks \"*****\".\n\nPhone number:\n\nA phone number is formatted as follows:\n\n• The phone number contains 10-13 digits.\n\n• The last 10 digits make up the local number.\n\n• The remaining 0-3 digits, in the beginning, make up the country code.\n\n• Separation characters from the set {'+', '-', '(', ')', ' '} separate the above digits in some way.\n\nTo mask a phone number:\n\n• Remove all separation characters.\n\n• The masked phone number should have the form:\n\n• \"***-***-XXXX\" if the country code has 0 digits.\n\n• \"+*-***-***-XXXX\" if the country code has 1 digit.\n\n• \"+**-***-***-XXXX\" if the country code has 2 digits.\n\n• \"+***-***-***-XXXX\" if the country code has 3 digits.\n\n• \"XXXX\" is the last 4 digits of the local number.\n\nExample 1:\n\nInput: s = \"LeetCode@LeetCode.com\"\nOutput: \"l*****e@leetcode.com\"\nExplanation: s is an email address.\n    The name and domain are converted to lowercase, and the middle of the name is replaced by 5 asterisks.\n\nExample 2:\n\nInput: s = \"AB@qq.com\"\nOutput: \"a*****b@qq.com\"\nExplanation: s is an email address.\n    The name and domain are converted to lowercase, and the middle of the name is replaced by 5 asterisks.\n    Note that even though \"ab\" is 2 characters, it still must have 5 asterisks in the middle.\n\nExample 3:\n\nInput: s = \"1(234)567-890\"\nOutput: \"***-***-7890\"\nExplanation: s is a phone number.\n    There are 10 digits, so the local number is 10 digits and the country code is 0 digits.\n    Thus, the resulting masked number is \"***-***-7890\".\n\nConstraints:\n\n• s is either a valid email or a phone number.\n\n• If s is an email:\n\n• 8 <= s.length <= 40\n\n• s consists of uppercase and lowercase English letters and exactly one '@' symbol and '.' symbol.\n\n• If s is a phone number:\n\n• 10 <= s.length <= 20\n\n• s consists of digits, spaces, and the symbols '(', ')', '-', and '+'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maskPII(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"LeetCode@LeetCode.com\""
+    ],
+    [
+      "\"AB@qq.com\""
+    ],
+    [
+      "\"1(234)567-890\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"l*****e@leetcode.com\"",
+    "\"a*****b@qq.com\"",
+    "\"***-***-7890\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

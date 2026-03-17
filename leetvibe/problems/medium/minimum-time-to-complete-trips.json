@@ -1,0 +1,44 @@
+{
+  "questionId": "2294",
+  "title": "Minimum Time to Complete Trips",
+  "titleSlug": "minimum-time-to-complete-trips",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You are given an array time where time[i] denotes the time taken by the ith bus to complete one trip.\n\nEach bus can make multiple trips successively; that is, the next trip can start immediately after completing the current trip. Also, each bus operates independently; that is, the trips of one bus do not influence the trips of any other bus.\n\nYou are also given an integer totalTrips, which denotes the number of trips all buses should make in total. Return the minimum time required for all buses to complete at least totalTrips trips.\n\nExample 1:\n\nInput: time = [1,2,3], totalTrips = 5\nOutput: 3\nExplanation:\n    - At time t = 1, the number of trips completed by each bus are [1,0,0].\n      The total number of trips completed is 1 + 0 + 0 = 1.\n    - At time t = 2, the number of trips completed by each bus are [2,1,0].\n      The total number of trips completed is 2 + 1 + 0 = 3.\n    - At time t = 3, the number of trips completed by each bus are [3,1,1].\n      The total number of trips completed is 3 + 1 + 1 = 5.\n    So the minimum time needed for all buses to complete at least 5 trips is 3.\n\nExample 2:\n\nInput: time = [2], totalTrips = 1\nOutput: 2\nExplanation:\n    There is only one bus, and it will complete its first trip at t = 2.\n    So the minimum time needed to complete 1 trip is 2.\n\nConstraints:\n\n• 1 <= time.length <= 105\n\n• 1 <= time[i], totalTrips <= 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumTime(self, time, totalTrips):\n        \"\"\"\n        :type time: List[int]\n        :type totalTrips: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For a given amount of time, how can we count the total number of trips completed by all buses within that time?",
+    "Consider using binary search."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "5"
+    ],
+    [
+      "[2]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Candies Allocated to K Children\", \"titleSlug\": \"maximum-candies-allocated-to-k-children\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Speed to Arrive on Time\", \"titleSlug\": \"minimum-speed-to-arrive-on-time\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimized Maximum of Products Distributed to Any Store\", \"titleSlug\": \"minimized-maximum-of-products-distributed-to-any-store\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Running Time of N Computers\", \"titleSlug\": \"maximum-running-time-of-n-computers\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Number of Robots Within Budget\", \"titleSlug\": \"maximum-number-of-robots-within-budget\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimize Maximum of Array\", \"titleSlug\": \"minimize-maximum-of-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Amount of Damage Dealt to Bob\", \"titleSlug\": \"minimum-amount-of-damage-dealt-to-bob\", \"difficulty\": \"Hard\"}]"
+}

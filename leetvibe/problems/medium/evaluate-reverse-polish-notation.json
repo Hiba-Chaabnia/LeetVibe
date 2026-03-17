@@ -1,0 +1,51 @@
+{
+  "questionId": "150",
+  "title": "Evaluate Reverse Polish Notation",
+  "titleSlug": "evaluate-reverse-polish-notation",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.\n\nEvaluate the expression. Return an integer that represents the value of the expression.\n\nNote that:\n\n• The valid operators are '+', '-', '*', and '/'.\n\n• Each operand may be an integer or another expression.\n\n• The division between two integers always truncates toward zero.\n\n• There will not be any division by zero.\n\n• The input represents a valid arithmetic expression in a reverse polish notation.\n\n• The answer and all the intermediate calculations can be represented in a 32-bit integer.\n\nExample 1:\n\nInput: tokens = [\"2\",\"1\",\"+\",\"3\",\"*\"]\nOutput: 9\nExplanation: ((2 + 1) * 3) = 9\n\nExample 2:\n\nInput: tokens = [\"4\",\"13\",\"5\",\"/\",\"+\"]\nOutput: 6\nExplanation: (4 + (13 / 5)) = 6\n\nExample 3:\n\nInput: tokens = [\"10\",\"6\",\"9\",\"3\",\"+\",\"-11\",\"*\",\"/\",\"*\",\"17\",\"+\",\"5\",\"+\"]\nOutput: 22\nExplanation: ((10 * (6 / ((9 + 3) * -11))) + 17) + 5\n    = ((10 * (6 / (12 * -11))) + 17) + 5\n    = ((10 * (6 / -132)) + 17) + 5\n    = ((10 * 0) + 17) + 5\n    = (0 + 17) + 5\n    = 17 + 5\n    = 22\n\nConstraints:\n\n• 1 <= tokens.length <= 104\n\n• tokens[i] is either an operator: \"+\", \"-\", \"*\", or \"/\", or an integer in the range [-200, 200].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def evalRPN(self, tokens):\n        \"\"\"\n        :type tokens: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"2\",\"1\",\"+\",\"3\",\"*\"]"
+    ],
+    [
+      "[\"4\",\"13\",\"5\",\"/\",\"+\"]"
+    ],
+    [
+      "[\"10\",\"6\",\"9\",\"3\",\"+\",\"-11\",\"*\",\"/\",\"*\",\"17\",\"+\",\"5\",\"+\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "6",
+    "22"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def evalRPN(tokens):\n    stack = []\n    for token in tokens:\n        if token in {\"+\", \"-\", \"*\", \"/\"}:\n            b = stack.pop()\n            a = stack.pop()\n            if token == \"+\":\n                stack.append(a + b)\n            elif token == \"-\":\n                stack.append(a - b)\n            elif token == \"*\":\n                stack.append(a * b)\n            else:\n                stack.append(int(a / b))\n        else:\n            stack.append(int(token))\n    return stack[-1]",
+    "explanation": "The algorithm for evaluating the Reverse Polish Notation (RPN) expression is based on the stack data structure. Iterate through the given tokens array, and for each token:\n\n1. If the token is an operator (+, -, *, /), pop the top two elements from the stack, apply the operation, and push the result back onto the stack.\n2. If the token is a number, push it onto the stack.\n\nAfter the loop, the top element on the stack is the final result of the evaluated RPN expression.\n\nNote that in Python and JavaScript, we need to make sure the division result is truncated toward zero using `int(a / b)` and `Math.trunc(a / b)` respectively."
+  },
+  "similarQuestions": "[{\"title\": \"Basic Calculator\", \"titleSlug\": \"basic-calculator\", \"difficulty\": \"Hard\"}, {\"title\": \"Expression Add Operators\", \"titleSlug\": \"expression-add-operators\", \"difficulty\": \"Hard\"}]"
+}

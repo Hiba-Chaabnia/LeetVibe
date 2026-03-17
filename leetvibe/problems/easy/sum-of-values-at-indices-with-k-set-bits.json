@@ -1,0 +1,47 @@
+{
+  "questionId": "3093",
+  "title": "Sum of Values at Indices With K Set Bits",
+  "titleSlug": "sum-of-values-at-indices-with-k-set-bits",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums and an integer k.\n\nReturn an integer that denotes the sum of elements in nums whose corresponding indices have exactly k set bits in their binary representation.\n\nThe set bits in an integer are the 1's present when it is written in binary.\n\n• For example, the binary representation of 21 is 10101, which has 3 set bits.\n\nExample 1:\n\nInput: nums = [5,10,1,5,2], k = 1\nOutput: 13\nExplanation: The binary representation of the indices are:\n    0 = 0002\n    1 = 0012\n    2 = 0102\n    3 = 0112\n    4 = 1002\n    Indices 1, 2, and 4 have k = 1 set bits in their binary representation.\n    Hence, the answer is nums[1] + nums[2] + nums[4] = 13.\n\nExample 2:\n\nInput: nums = [4,3,2,1], k = 2\nOutput: 1\nExplanation: The binary representation of the indices are:\n    0 = 002\n    1 = 012\n    2 = 102\n    3 = 112\n    Only index 3 has k = 2 set bits in its binary representation.\n    Hence, the answer is nums[3] = 1.\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 105\n\n• 0 <= k <= 10",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumIndicesWithKSetBits(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate through the indices i in the range [0, n - 1], for each index i count the number of bits in its binary representation. If it is k, add nums[i] to the result."
+  ],
+  "testCases": [
+    [
+      "[5,10,1,5,2]",
+      "1"
+    ],
+    [
+      "[4,3,2,1]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumIndicesWithKSetBits(self, nums, k):\n        return sum(nums[i] for i in range(len(nums)) if bin(i).count('1') == k)",
+    "explanation": "Sum elements whose 0-indexed position has exactly k set bits in binary. O(n log n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Counting Bits\", \"titleSlug\": \"counting-bits\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the K-or of an Array\", \"titleSlug\": \"find-the-k-or-of-an-array\", \"difficulty\": \"Easy\"}]"
+}

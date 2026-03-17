@@ -1,0 +1,51 @@
+{
+  "questionId": "394",
+  "title": "Decode String",
+  "titleSlug": "decode-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Given an encoded string, return its decoded string.\n\nThe encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated exactly k times. Note that k is guaranteed to be a positive integer.\n\nYou may assume that the input string is always valid; there are no extra white spaces, square brackets are well-formed, etc. Furthermore, you may assume that the original data does not contain any digits and that digits are only for those repeat numbers, k. For example, there will not be input like 3a or 2[4].\n\nThe test cases are generated so that the length of the output will never exceed 105.\n\nExample 1:\n\nInput: s = \"3[a]2[bc]\"\nOutput: \"aaabcbc\"\n\nExample 2:\n\nInput: s = \"3[a2[c]]\"\nOutput: \"accaccacc\"\n\nExample 3:\n\nInput: s = \"2[abc]3[cd]ef\"\nOutput: \"abcabccdcdcdef\"\n\nConstraints:\n\n• 1 <= s.length <= 30\n\n• s consists of lowercase English letters, digits, and square brackets '[]'.\n\n• s is guaranteed to be a valid input.\n\n• All the integers in s are in the range [1, 300].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def decodeString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"3[a]2[bc]\""
+    ],
+    [
+      "\"3[a2[c]]\""
+    ],
+    [
+      "\"2[abc]3[cd]ef\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"aaabcbc\"",
+    "\"accaccacc\"",
+    "\"abcabccdcdcdef\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def decodeString(s):\n    counts = []\n    results = []\n    current = \"\"\n    ptr = 0\n\n    while ptr < len(s):\n        if s[ptr].isdigit():\n            count = 0\n            while s[ptr].isdigit():\n                count = count * 10 + int(s[ptr])\n                ptr += 1\n            counts.append(count)\n        elif s[ptr] == '[':\n            results.append(current)\n            current = \"\"\n            ptr += 1\n        elif s[ptr] == ']':\n            prev = results.pop()\n            count = counts.pop()\n            current = prev + current * count\n            ptr += 1\n        else:\n            current += s[ptr]\n            ptr += 1\n\n    return current",
+    "explanation": "1. Initialize two stacks `counts` and `results`, a pointer `ptr`, and a `current` string.\n2. Loop through the input string `s`.\n3. If the current character is a digit, calculate the number and push it onto the `counts` stack.\n4. If the current character is an opening bracket `[`, push the `current` string into the `results` stack and reset the `current` string.\n5. If the current character is a closing bracket `]`, pop the top strings from the `results` stack and multiply the `current` string with the top count from the `counts` stack. Update the `current` string.\n6. If the current character is a letter, add it to the `current` string.\n7. After looping through `s`, return the `current` string, which is now the decoded version of the input string."
+  },
+  "similarQuestions": "[{\"title\": \"Encode String with Shortest Length\", \"titleSlug\": \"encode-string-with-shortest-length\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Atoms\", \"titleSlug\": \"number-of-atoms\", \"difficulty\": \"Hard\"}, {\"title\": \"Brace Expansion\", \"titleSlug\": \"brace-expansion\", \"difficulty\": \"Medium\"}]"
+}

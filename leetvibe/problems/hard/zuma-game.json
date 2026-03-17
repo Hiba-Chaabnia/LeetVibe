@@ -1,0 +1,58 @@
+{
+  "questionId": "488",
+  "title": "Zuma Game",
+  "titleSlug": "zuma-game",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "You are playing a variation of the game Zuma.\n\nIn this variation of Zuma, there is a single row of colored balls on a board, where each ball can be colored red 'R', yellow 'Y', blue 'B', green 'G', or white 'W'. You also have several colored balls in your hand.\n\nYour goal is to clear all of the balls from the board. On each turn:\n\n• Pick any ball from your hand and insert it in between two balls in the row or on either end of the row.\n\n• If there is a group of three or more consecutive balls of the same color, remove the group of balls from the board.\n\n• If this removal causes more groups of three or more of the same color to form, then continue removing each group until there are none left.\n\n• If there are no more balls on the board, then you win the game.\n\n• Repeat this process until you either win or do not have any more balls in your hand.\n\nGiven a string board, representing the row of balls on the board, and a string hand, representing the balls in your hand, return the minimum number of balls you have to insert to clear all the balls from the board. If you cannot clear all the balls from the board using the balls in your hand, return -1.\n\nExample 1:\n\nInput: board = \"WRRBBW\", hand = \"RB\"\nOutput: -1\nExplanation: It is impossible to clear all the balls. The best you can do is:\n    - Insert 'R' so the board becomes WRRRBBW. WRRRBBW -> WBBW.\n    - Insert 'B' so the board becomes WBBBW. WBBBW -> WW.\n    There are still balls remaining on the board, and you are out of balls to insert.\n\nExample 2:\n\nInput: board = \"WWRRBBWW\", hand = \"WRBRW\"\nOutput: 2\nExplanation: To make the board empty:\n    - Insert 'R' so the board becomes WWRRRBBWW. WWRRRBBWW -> WWBBWW.\n    - Insert 'B' so the board becomes WWBBBWW. WWBBBWW -> WWWW -> empty.\n    2 balls from your hand were needed to clear the board.\n\nExample 3:\n\nInput: board = \"G\", hand = \"GGGGG\"\nOutput: 2\nExplanation: To make the board empty:\n    - Insert 'G' so the board becomes GG.\n    - Insert 'G' so the board becomes GGG. GGG -> empty.\n    2 balls from your hand were needed to clear the board.\n\nConstraints:\n\n• 1 <= board.length <= 16\n\n• 1 <= hand.length <= 5\n\n• board and hand consist of the characters 'R', 'Y', 'B', 'G', and 'W'.\n\n• The initial row of balls on the board will not have any groups of three or more consecutive balls of the same color.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMinStep(self, board, hand):\n        \"\"\"\n        :type board: str\n        :type hand: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"WRRBBW\"",
+      "\"RB\""
+    ],
+    [
+      "\"WWRRBBWW\"",
+      "\"WRBRW\""
+    ],
+    [
+      "\"G\"",
+      "\"GGGGG\""
+    ]
+  ],
+  "expectedOutputs": [
+    "-1",
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

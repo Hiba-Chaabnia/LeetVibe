@@ -1,0 +1,54 @@
+{
+  "questionId": "4187",
+  "title": "Best Reachable Tower",
+  "titleSlug": "best-reachable-tower",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "You are given a 2D integer array towers, where towers[i] = [xi, yi, qi] represents the coordinates (xi, yi) and quality factor qi of the ith tower.\n\nYou are also given an integer array center = [cx, cy​​​​​​​] representing your location, and an integer radius.\n\nA tower is reachable if its Manhattan distance from center is less than or equal to radius.\n\nAmong all reachable towers:\n\n• Return the coordinates of the tower with the maximum quality factor.\n\n• If there is a tie, return the tower with the lexicographically smallest coordinate. If no tower is reachable, return [-1, -1].\n\nThe Manhattan Distance between two cells (xi, yi) and (xj, yj) is |xi - xj| + |yi - yj|.\n\nA coordinate [xi, yi] is lexicographically smaller than [xj, yj] if xi < xj, or xi == xj and yi < yj.\n\n|x| denotes the absolute value of x.\n\nExample 1:\n\nInput: towers = [[1,2,5], [2,1,7], [3,1,9]], center = [1,1], radius = 2\n\nOutput: [3,1]\n\nExplanation:\n\n• Tower [1, 2, 5]: Manhattan distance = |1 - 1| + |2 - 1| = 1, reachable.\n\n• Tower [2, 1, 7]: Manhattan distance = |2 - 1| + |1 - 1| = 1, reachable.\n\n• Tower [3, 1, 9]: Manhattan distance = |3 - 1| + |1 - 1| = 2, reachable.\n\nAll towers are reachable. The maximum quality factor is 9, which corresponds to tower [3, 1].\n\nExample 2:\n\nInput: towers = [[1,3,4], [2,2,4], [4,4,7]], center = [0,0], radius = 5\n\nOutput: [1,3]\n\nExplanation:\n\n• Tower [1, 3, 4]: Manhattan distance = |1 - 0| + |3 - 0| = 4, reachable.\n\n• Tower [2, 2, 4]: Manhattan distance = |2 - 0| + |2 - 0| = 4, reachable.\n\n• Tower [4, 4, 7]: Manhattan distance = |4 - 0| + |4 - 0| = 8, not reachable.\n\nAmong the reachable towers, the maximum quality factor is 4. Both [1, 3] and [2, 2] have the same quality, so the lexicographically smaller coordinate is [1, 3].\n\nExample 3:\n\nInput: towers = [[5,6,8], [0,3,5]], center = [1,2], radius = 1\n\nOutput: [-1,-1]\n\nExplanation:\n\n• Tower [5, 6, 8]: Manhattan distance = |5 - 1| + |6 - 2| = 8, not reachable.\n\n• Tower [0, 3, 5]: Manhattan distance = |0 - 1| + |3 - 2| = 2, not reachable.\n\nNo tower is reachable within the given radius, so [-1, -1] is returned.\n\nConstraints:\n\n• 1 <= towers.length <= 105\n\n• towers[i] = [xi, yi, qi]\n\n• center = [cx, cy]\n\n• 0 <= xi, yi, qi, cx, cy <= 105​​​​​​​\n\n• 0 <= radius <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def bestTower(self, towers, center, radius):\n        \"\"\"\n        :type towers: List[List[int]]\n        :type center: List[int]\n        :type radius: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate through all towers and compute the Manhattan distance abs(xi - cx) + abs(yi - cy).",
+    "Consider only towers with distance less than or equal to radius.",
+    "Track the reachable tower with the highest qi; break ties using lexicographical order on [xi, yi].",
+    "If no tower is reachable, return [-1, -1]."
+  ],
+  "testCases": [
+    [
+      "[[1,2,5],[2,1,7],[3,1,9]]",
+      "[1,1]",
+      "2"
+    ],
+    [
+      "[[1,3,4],[2,2,4],[4,4,7]]",
+      "[0,0]",
+      "5"
+    ],
+    [
+      "[[5,6,8],[0,3,5]]",
+      "[1,2]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,1]",
+    "[1,3]",
+    "[-1,-1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def bestTower(self, towers, center, radius):\n        cx, cy = center\n        best_q = -1\n        best_pos = [-1, -1]\n        for x, y, q in towers:\n            if abs(x - cx) + abs(y - cy) <= radius:\n                if q > best_q or (q == best_q and [x, y] < best_pos):\n                    best_q = q\n                    best_pos = [x, y]\n        return best_pos",
+    "explanation": "Filter towers by Manhattan distance <= radius; pick max quality, break ties lexicographically. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,60 @@
+{
+  "questionId": "3576",
+  "title": "Find Subtree Sizes After Changes",
+  "titleSlug": "find-subtree-sizes-after-changes",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    }
+  ],
+  "content": "You are given a tree rooted at node 0 that consists of n nodes numbered from 0 to n - 1. The tree is represented by an array parent of size n, where parent[i] is the parent of node i. Since node 0 is the root, parent[0] == -1.\n\nYou are also given a string s of length n, where s[i] is the character assigned to node i.\n\nWe make the following changes on the tree one time simultaneously for all nodes x from 1 to n - 1:\n\n• Find the closest node y to node x such that y is an ancestor of x, and s[x] == s[y].\n\n• If node y does not exist, do nothing.\n\n• Otherwise, remove the edge between x and its current parent and make node y the new parent of x by adding an edge between them.\n\nReturn an array answer of size n where answer[i] is the size of the subtree rooted at node i in the final tree.\n\nExample 1:\n\nInput: parent = [-1,0,0,1,1,1], s = \"abaabc\"\n\nOutput: [6,3,1,1,1,1]\n\nExplanation: The parent of node 3 will change from node 1 to node 0.\n\nExample 2:\n\nInput: parent = [-1,0,4,0,1], s = \"abbba\"\n\nOutput: [5,2,1,1,1]\n\nExplanation: The following changes will happen at the same time:\n\n• The parent of node 4 will change from node 1 to node 0.\n\n• The parent of node 2 will change from node 4 to node 1.\n\nConstraints:\n\n• n == parent.length == s.length\n\n• 1 <= n <= 105\n\n• 0 <= parent[i] <= n - 1 for all i >= 1.\n\n• parent[0] == -1\n\n• parent represents a valid tree.\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findSubtreeSizes(self, parent, s):\n        \"\"\"\n        :type parent: List[int]\n        :type s: str\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Perform a depth-first search on the tree, starting from the root.",
+    "During the DFS, keep track of the most recent node where each character from 'a' to 'z' has been seen."
+  ],
+  "testCases": [
+    [
+      "[-1,0,0,1,1,1]",
+      "\"abaabc\""
+    ],
+    [
+      "[-1,0,4,0,1]",
+      "\"abbba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[6,3,1,1,1,1]",
+    "[5,2,1,1,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def findSubtreeSizes(self, parent, s):\n        n = len(parent)\n        children = defaultdict(list)\n        for i in range(1, n):\n            children[parent[i]].append(i)\n\n        ans = [1] * n\n        new_parent = list(parent)\n        char_stack = {}  # char -> stack of ancestor nodes with that char\n\n        def dfs(u):\n            c = s[u]\n            # Find closest ancestor with same char\n            if c in char_stack and char_stack[c]:\n                new_parent[u] = char_stack[c][-1]\n            # Push u onto char stack\n            if c not in char_stack:\n                char_stack[c] = []\n            char_stack[c].append(u)\n            for v in children[u]:\n                dfs(v)\n            char_stack[c].pop()\n\n        dfs(0)\n\n        # Rebuild subtree sizes using new_parent\n        size = [1] * n\n        # Process in reverse BFS order (topological order from leaves)\n        # Use original tree order: process children before parents\n        # Since new_parent might change edges, we need to recompute sizes.\n        # Build new adjacency from new_parent\n        new_children = defaultdict(list)\n        for i in range(1, n):\n            new_children[new_parent[i]].append(i)\n\n        size = [1] * n\n        # DFS to compute sizes\n        def compute_size(u):\n            for v in new_children[u]:\n                compute_size(v)\n                size[u] += size[v]\n\n        compute_size(0)\n        return size",
+    "explanation": "DFS on original tree, maintaining a stack per character of ancestor nodes. When visiting node u with character c, the new parent is char_stack[c][-1] (if non-empty). After DFS, rebuild the new tree and compute subtree sizes.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

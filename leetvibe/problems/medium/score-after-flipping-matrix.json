@@ -1,0 +1,47 @@
+{
+  "questionId": "891",
+  "title": "Score After Flipping Matrix",
+  "titleSlug": "score-after-flipping-matrix",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n binary matrix grid.\n\nA move consists of choosing any row or column and toggling each value in that row or column (i.e., changing all 0's to 1's, and all 1's to 0's).\n\nEvery row of the matrix is interpreted as a binary number, and the score of the matrix is the sum of these numbers.\n\nReturn the highest possible score after making any number of moves (including zero moves).\n\nExample 1:\n\nInput: grid = [[0,0,1,1],[1,0,1,0],[1,1,0,0]]\nOutput: 39\nExplanation: 0b1111 + 0b1001 + 0b1111 = 15 + 9 + 15 = 39\n\nExample 2:\n\nInput: grid = [[0]]\nOutput: 1\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 20\n\n• grid[i][j] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def matrixScore(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,0,1,1],[1,0,1,0],[1,1,0,0]]"
+    ],
+    [
+      "[[0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "39",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Remove All Ones With Row and Column Flips\", \"titleSlug\": \"remove-all-ones-with-row-and-column-flips\", \"difficulty\": \"Medium\"}]"
+}

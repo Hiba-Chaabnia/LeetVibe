@@ -1,0 +1,51 @@
+{
+  "questionId": "3683",
+  "title": "Find the Lexicographically Largest String From the Box I",
+  "titleSlug": "find-the-lexicographically-largest-string-from-the-box-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a string word, and an integer numFriends.\n\nAlice is organizing a game for her numFriends friends. There are multiple rounds in the game, where in each round:\n\n• word is split into numFriends non-empty strings, such that no previous round has had the exact same split.\n\n• All the split words are put into a box.\n\nFind the lexicographically largest string from the box after all the rounds are finished.\n\nExample 1:\n\nInput: word = \"dbca\", numFriends = 2\n\nOutput: \"dbc\"\n\nExplanation: All possible splits are:\n\n• \"d\" and \"bca\".\n\n• \"db\" and \"ca\".\n\n• \"dbc\" and \"a\".\n\nExample 2:\n\nInput: word = \"gggg\", numFriends = 4\n\nOutput: \"g\"\n\nExplanation: The only possible split is: \"g\", \"g\", \"g\", and \"g\".\n\nConstraints:\n\n• 1 <= word.length <= 5 * 103\n\n• word consists only of lowercase English letters.\n\n• 1 <= numFriends <= word.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def answerString(self, word, numFriends):\n        \"\"\"\n        :type word: str\n        :type numFriends: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find lexicographically largest substring of size n - numFriends + 1 or less starting at every index."
+  ],
+  "testCases": [
+    [
+      "\"dbca\"",
+      "2"
+    ],
+    [
+      "\"gggg\"",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"dbc\"",
+    "\"g\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def answerString(self, word, numFriends):\n        if numFriends == 1:\n            return word\n        n = len(word)\n        # Max substring length is n - numFriends + 1\n        max_len = n - numFriends + 1\n        best = \"\"\n        for i in range(n):\n            candidate = word[i:i + max_len]\n            if candidate > best:\n                best = candidate\n        return best",
+    "explanation": "When splitting word into numFriends parts, one part can be at most n - numFriends + 1 characters long. The lexicographically largest piece is the largest substring of that max length starting at any index.\n\nTime: O(n²) naive, O(n) with suffix array. Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Last Substring in Lexicographical Order\", \"titleSlug\": \"last-substring-in-lexicographical-order\", \"difficulty\": \"Hard\"}, {\"title\": \"Construct the Lexicographically Largest Valid Sequence\", \"titleSlug\": \"construct-the-lexicographically-largest-valid-sequence\", \"difficulty\": \"Medium\"}]"
+}

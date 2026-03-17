@@ -1,0 +1,56 @@
+{
+  "questionId": "301",
+  "title": "Remove Invalid Parentheses",
+  "titleSlug": "remove-invalid-parentheses",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "Given a string s that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid.\n\nReturn a list of unique strings that are valid with the minimum number of removals. You may return the answer in any order.\n\nExample 1:\n\nInput: s = \"()())()\"\nOutput: [\"(())()\",\"()()()\"]\n\nExample 2:\n\nInput: s = \"(a)())()\"\nOutput: [\"(a())()\",\"(a)()()\"]\n\nExample 3:\n\nInput: s = \")(\"\nOutput: [\"\"]\n\nConstraints:\n\n• 1 <= s.length <= 25\n\n• s consists of lowercase English letters and parentheses '(' and ')'.\n\n• There will be at most 20 parentheses in s.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeInvalidParentheses(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since we do not know which brackets can be removed, we try all the options! We can use recursion.",
+    "In the recursion, for each bracket, we can either use it or remove it.",
+    "Recursion will generate all the valid parentheses strings but we want the ones with the least number of parentheses deleted.",
+    "We can count the number of invalid brackets to be deleted and only generate the valid strings in the recusrion."
+  ],
+  "testCases": [
+    [
+      "\"()())()\""
+    ],
+    [
+      "\"(a)())()\""
+    ],
+    [
+      "\")(\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"(())()\",\"()()()\"]",
+    "[\"(a())()\",\"(a)()()\"]",
+    "[\"\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\nclass Solution:\n    def removeInvalidParentheses(self, s: str):\n        visited = set()\n        queue = deque([s])\n        result = []\n        found = False\n\n        while queue:\n            cur = queue.popleft()\n\n            if self.is_valid(cur):\n                found = True\n                result.append(cur)\n\n            if found: continue\n\n            for i in range(len(cur)):\n                if cur[i] == '(' or cur[i] == ')':\n                    next_str = cur[:i] + cur[i+1:]\n                    if next_str not in visited:\n                        visited.add(next_str)\n                        queue.append(next_str)\n\n        return result\n\n    def is_valid(self, s: str) -> bool:\n        count = 0\n        for c in s:\n            if c == '(': count += 1\n            if c == ')':\n                count -= 1\n                if count < 0: return False\n        return count == 0",
+    "explanation": "The algorithm uses a Breadth-First Search to find potential valid substrings. It first checks whether the current string is valid. If it finds a valid string, it continues to process any remaining strings in the queue, but it does not generate any more subsequences. If it has not found a valid string, it creates new substrings by removing one parentheses from the current string, adds them to the queue, and marks them as visited to avoid duplicity. This process repeats until the queue is empty or a valid string has been found. A count of open parentheses is maintained to check for string validity. The answer is returned as a list of valid strings."
+  },
+  "similarQuestions": "[{\"title\": \"Valid Parentheses\", \"titleSlug\": \"valid-parentheses\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Number of Swaps to Make the String Balanced\", \"titleSlug\": \"minimum-number-of-swaps-to-make-the-string-balanced\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,53 @@
+{
+  "questionId": "1538",
+  "title": "Maximum Points You Can Obtain from Cards",
+  "titleSlug": "maximum-points-you-can-obtain-from-cards",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "There are several cards arranged in a row, and each card has an associated number of points. The points are given in the integer array cardPoints.\n\nIn one step, you can take one card from the beginning or from the end of the row. You have to take exactly k cards.\n\nYour score is the sum of the points of the cards you have taken.\n\nGiven the integer array cardPoints and the integer k, return the maximum score you can obtain.\n\nExample 1:\n\nInput: cardPoints = [1,2,3,4,5,6,1], k = 3\nOutput: 12\nExplanation: After the first step, your score will always be 1. However, choosing the rightmost card first will maximize your total score. The optimal strategy is to take the three cards on the right, giving a final score of 1 + 6 + 5 = 12.\n\nExample 2:\n\nInput: cardPoints = [2,2,2], k = 2\nOutput: 4\nExplanation: Regardless of which two cards you take, your score will always be 4.\n\nExample 3:\n\nInput: cardPoints = [9,7,7,9,7,7,9], k = 7\nOutput: 55\nExplanation: You have to take all the cards. Your score is the sum of points of all cards.\n\nConstraints:\n\n• 1 <= cardPoints.length <= 105\n\n• 1 <= cardPoints[i] <= 104\n\n• 1 <= k <= cardPoints.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxScore(self, cardPoints, k):\n        \"\"\"\n        :type cardPoints: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let the sum of all points be total_pts. You need to remove a sub-array from cardPoints with length n - k.",
+    "Keep a window of size n - k over the array. The answer is max(answer, total_pts - sumOfCurrentWindow)"
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6,1]",
+      "3"
+    ],
+    [
+      "[2,2,2]",
+      "2"
+    ],
+    [
+      "[9,7,7,9,7,7,9]",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "4",
+    "55"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Score from Performing Multiplication Operations\", \"titleSlug\": \"maximum-score-from-performing-multiplication-operations\", \"difficulty\": \"Hard\"}, {\"title\": \"Removing Minimum and Maximum From Array\", \"titleSlug\": \"removing-minimum-and-maximum-from-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Recolors to Get K Consecutive Black Blocks\", \"titleSlug\": \"minimum-recolors-to-get-k-consecutive-black-blocks\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Spending After Buying Items\", \"titleSlug\": \"maximum-spending-after-buying-items\", \"difficulty\": \"Hard\"}]"
+}

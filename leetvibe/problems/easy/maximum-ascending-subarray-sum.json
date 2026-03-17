@@ -1,0 +1,46 @@
+{
+  "questionId": "1927",
+  "title": "Maximum Ascending Subarray Sum",
+  "titleSlug": "maximum-ascending-subarray-sum",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given an array of positive integers nums, return the maximum possible sum of an strictly increasing subarray in nums.\n\nA subarray is defined as a contiguous sequence of numbers in an array.\n\nExample 1:\n\nInput: nums = [10,20,30,5,10,50]\nOutput: 65\nExplanation: [5,10,50] is the ascending subarray with the maximum sum of 65.\n\nExample 2:\n\nInput: nums = [10,20,30,40,50]\nOutput: 150\nExplanation: [10,20,30,40,50] is the ascending subarray with the maximum sum of 150.\n\nExample 3:\n\nInput: nums = [12,17,15,13,10,11,12]\nOutput: 33\nExplanation: [10,11,12] is the ascending subarray with the maximum sum of 33.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxAscendingSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It is fast enough to check all possible subarrays",
+    "The end of each ascending subarray will be the start of the next"
+  ],
+  "testCases": [
+    [
+      "[10,20,30,5,10,50]"
+    ],
+    [
+      "[10,20,30,40,50]"
+    ],
+    [
+      "[12,17,15,13,10,11,12]"
+    ]
+  ],
+  "expectedOutputs": [
+    "65",
+    "150",
+    "33"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxAscendingSum(self, nums):\n        max_sum = current_sum = nums[0]\n        for i in range(1, len(nums)):\n            if nums[i] > nums[i-1]:\n                current_sum += nums[i]\n            else:\n                current_sum = nums[i]\n            max_sum = max(max_sum, current_sum)\n        return max_sum",
+    "explanation": "Track current ascending sum. Reset when order breaks. Keep max.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Good Days to Rob the Bank\", \"titleSlug\": \"find-good-days-to-rob-the-bank\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Books You Can Take\", \"titleSlug\": \"maximum-number-of-books-you-can-take\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Strictly Increasing Subarrays\", \"titleSlug\": \"count-strictly-increasing-subarrays\", \"difficulty\": \"Medium\"}]"
+}

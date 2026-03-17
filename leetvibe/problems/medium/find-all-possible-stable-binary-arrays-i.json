@@ -1,0 +1,56 @@
+{
+  "questionId": "3406",
+  "title": "Find All Possible Stable Binary Arrays I",
+  "titleSlug": "find-all-possible-stable-binary-arrays-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given 3 positive integers zero, one, and limit.\n\nA binary array arr is called stable if:\n\n• The number of occurrences of 0 in arr is exactly zero.\n\n• The number of occurrences of 1 in arr is exactly one.\n\n• Each subarray of arr with a size greater than limit must contain both 0 and 1.\n\nReturn the total number of stable binary arrays.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: zero = 1, one = 1, limit = 2\n\nOutput: 2\n\nExplanation: The two possible stable binary arrays are [1,0] and [0,1], as both arrays have a single 0 and a single 1, and no subarray has a length greater than 2.\n\nExample 2:\n\nInput: zero = 1, one = 2, limit = 1\n\nOutput: 1\n\nExplanation: The only possible stable binary array is [1,0,1].\n\nNote that the binary arrays [1,1,0] and [0,1,1] have subarrays of length 2 with identical elements, hence, they are not stable.\n\nExample 3:\n\nInput: zero = 3, one = 3, limit = 2\n\nOutput: 14\n\nExplanation: All the possible stable binary arrays are [0,0,1,0,1,1], [0,0,1,1,0,1], [0,1,0,0,1,1], [0,1,0,1,0,1], [0,1,0,1,1,0], [0,1,1,0,0,1], [0,1,1,0,1,0], [1,0,0,1,0,1], [1,0,0,1,1,0], [1,0,1,0,0,1], [1,0,1,0,1,0], [1,0,1,1,0,0], [1,1,0,0,1,0], and [1,1,0,1,0,0].\n\nConstraints:\n\n• 1 <= zero, one, limit <= 200",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfStableArrays(self, zero, one, limit):\n        \"\"\"\n        :type zero: int\n        :type one: int\n        :type limit: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let dp[a][b][c = 0/1][d] be the number of stable arrays with exactly a 0s, b 1s and consecutive d value of c’s at the end.",
+    "Try each case by appending a 0/1 at last to get the inductions."
+  ],
+  "testCases": [
+    [
+      "1",
+      "1",
+      "2"
+    ],
+    [
+      "1",
+      "2",
+      "1"
+    ],
+    [
+      "3",
+      "3",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "14"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfStableArrays(self, zero, one, limit):\n        MOD = 10**9 + 7\n        # dp[i][j][c] = # stable arrays with i zeros, j ones, last element = c\n        # c=0 means last is 0, c=1 means last is 1\n        from functools import lru_cache\n        @lru_cache(maxsize=None)\n        def dp(z, o, last):\n            if z == 0 and o == 0:\n                return 1\n            res = 0\n            if last != 0:  # append 0\n                if z > 0:\n                    res = (res + dp(z-1, o, 0)) % MOD\n            if last != 1:  # append 1\n                if o > 0:\n                    res = (res + dp(z, o-1, 1)) % MOD\n            return res\n        # This doesn't handle the 'limit' constraint properly. Use proper DP.\n        # dp[z][o][c] = # of stable arrays using z zeros, o ones, ending with c\n        # Transition: from dp[z'][o'][c'] where last run of c' doesn't exceed limit\n        # Better: dp[z][o][c] directly with inclusion-exclusion\n        # dp[z][o][0] = sum over run length r=1..limit: dp[z-r][o][1]\n        # dp[z][o][1] = sum over run length r=1..limit: dp[z][o-r][0]\n        # Base: dp[0][0][*] = 0, dp[r][0][0] = 1 if r<=limit else 0, etc.\n        from functools import lru_cache\n        @lru_cache(maxsize=None)\n        def f(z, o, last):\n            # arrays with exactly z zeros and o ones, last element = last\n            if z < 0 or o < 0:\n                return 0\n            if z == 0 and o == 0:\n                return 1\n            if last == 0:\n                # Last run is zeros, length r. Previous must end with 1 (or start).\n                res = 0\n                for r in range(1, min(z, limit) + 1):\n                    if z - r == 0 and o == 0:\n                        if r <= limit:\n                            res = (res + 1) % MOD\n                    else:\n                        res = (res + f(z - r, o, 1)) % MOD\n                return res\n            else:\n                res = 0\n                for r in range(1, min(o, limit) + 1):\n                    if o - r == 0 and z == 0:\n                        if r <= limit:\n                            res = (res + 1) % MOD\n                    else:\n                        res = (res + f(z, o - r, 0)) % MOD\n                return res\n        return (f(zero, one, 0) + f(zero, one, 1)) % MOD",
+    "explanation": "Memoized DP: f(z, o, last) = number of stable arrays with z zeros, o ones, ending with character 'last'. For last=0: try all run lengths r=1..min(z,limit) of trailing zeros, then recursively count arrays ending with 1 (or empty). Symmetric for last=1.\n\nTime: O(zero * one * limit). Space: O(zero * one)."
+  },
+  "similarQuestions": "[{\"title\": \"Contiguous Array\", \"titleSlug\": \"contiguous-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Binary Subarrays With Sum\", \"titleSlug\": \"binary-subarrays-with-sum\", \"difficulty\": \"Medium\"}]"
+}

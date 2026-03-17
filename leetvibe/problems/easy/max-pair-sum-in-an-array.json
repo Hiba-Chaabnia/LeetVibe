@@ -1,0 +1,49 @@
+{
+  "questionId": "2902",
+  "title": "Max Pair Sum in an Array",
+  "titleSlug": "max-pair-sum-in-an-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given an integer array nums. You have to find the maximum sum of a pair of numbers from nums such that the largest digit in both numbers is equal.\n\nFor example, 2373 is made up of three distinct digits: 2, 3, and 7, where 7 is the largest among them.\n\nReturn the maximum sum or -1 if no such pair exists.\n\nExample 1:\n\nInput: nums = [112,131,411]\n\nOutput: -1\n\nExplanation: Each numbers largest digit in order is [2,3,4].\n\nExample 2:\n\nInput: nums = [2536,1613,3366,162]\n\nOutput: 5902\n\nExplanation: All the numbers have 6 as their largest digit, so the answer is 2536 + 3366 = 5902.\n\nExample 3:\n\nInput: nums = [51,71,17,24,42]\n\nOutput: 88\n\nExplanation: Each number's largest digit in order is [5,7,7,4,4].\n\nSo we have only two possible pairs, 71 + 17 = 88 and 24 + 42 = 66.\n\nConstraints:\n\n• 2 <= nums.length <= 100\n\n• 1 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the largest and second largest element with maximum digits equal to x where 1<=x<=9."
+  ],
+  "testCases": [
+    [
+      "[112,131,411]"
+    ],
+    [
+      "[2536,1613,3366,162]"
+    ],
+    [
+      "[51,71,17,24,42]"
+    ]
+  ],
+  "expectedOutputs": [
+    "-1",
+    "5902",
+    "88"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxSum(self, nums):\n        from collections import defaultdict\n        groups = defaultdict(list)\n        for x in nums:\n            groups[max(int(d) for d in str(x))].append(x)\n        best = -1\n        for g in groups.values():\n            if len(g) >= 2:\n                g.sort(reverse=True)\n                best = max(best, g[0] + g[1])\n        return best",
+    "explanation": "Group numbers by their maximum digit; for each group with at least two numbers return the maximum pair sum. O(n*d) time."
+  },
+  "similarQuestions": "[]"
+}

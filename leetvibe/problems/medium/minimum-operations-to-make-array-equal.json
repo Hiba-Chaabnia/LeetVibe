@@ -1,0 +1,43 @@
+{
+  "questionId": "1674",
+  "title": "Minimum Operations to Make Array Equal",
+  "titleSlug": "minimum-operations-to-make-array-equal",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You have an array arr of length n where arr[i] = (2 * i) + 1 for all valid values of i (i.e., 0 <= i < n).\n\nIn one operation, you can select two indices x and y where 0 <= x, y < n and subtract 1 from arr[x] and add 1 to arr[y] (i.e., perform arr[x] -=1 and arr[y] += 1). The goal is to make all the elements of the array equal. It is guaranteed that all the elements of the array can be made equal using some operations.\n\nGiven an integer n, the length of the array, return the minimum number of operations needed to make all the elements of arr equal.\n\nExample 1:\n\nInput: n = 3\nOutput: 2\nExplanation: arr = [1, 3, 5]\n    First operation choose x = 2 and y = 0, this leads arr to be [2, 3, 4]\n    In the second operation choose x = 2 and y = 0 again, thus arr = [3, 3, 3].\n\nExample 2:\n\nInput: n = 6\nOutput: 9\n\nConstraints:\n\n• 1 <= n <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Build the array arr using the given formula, define target = sum(arr) / n",
+    "What is the number of operations needed to convert arr so that all elements equal target ?"
+  ],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "9"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minOperations(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        # Array: [1, 3, 5, 7, ..., 2n-1]\n        # Target: middle element = n\n        # Only need to fix first half\n        \n        total = 0\n        for i in range(n // 2):\n            # Element at i is 2*i + 1\n            element = 2 * i + 1\n            diff = n - element\n            total += diff\n        \n        return total",
+    "explanation": "Array is [1, 3, 5, ..., 2n-1]. Only need to move first half to target (middle value n).",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Number of Operations to Make Arrays Similar\", \"titleSlug\": \"minimum-number-of-operations-to-make-arrays-similar\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Operations to Make Array Equal II\", \"titleSlug\": \"minimum-operations-to-make-array-equal-ii\", \"difficulty\": \"Medium\"}]"
+}

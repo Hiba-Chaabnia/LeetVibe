@@ -1,0 +1,62 @@
+{
+  "questionId": "3630",
+  "title": "Total Characters in String After Transformations II",
+  "titleSlug": "total-characters-in-string-after-transformations-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters, an integer t representing the number of transformations to perform, and an array nums of size 26. In one transformation, every character in s is replaced according to the following rules:\n\n• Replace s[i] with the next nums[s[i] - 'a'] consecutive characters in the alphabet. For example, if s[i] = 'a' and nums[0] = 3, the character 'a' transforms into the next 3 consecutive characters ahead of it, which results in \"bcd\".\n\n• The transformation wraps around the alphabet if it exceeds 'z'. For example, if s[i] = 'y' and nums[24] = 3, the character 'y' transforms into the next 3 consecutive characters ahead of it, which results in \"zab\".\n\nReturn the length of the resulting string after exactly t transformations.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: s = \"abcyy\", t = 2, nums = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2]\n\nOutput: 7\n\nExplanation:\n\n•\n\tFirst Transformation (t = 1):\n\n• 'a' becomes 'b' as nums[0] == 1\n\n• 'b' becomes 'c' as nums[1] == 1\n\n• 'c' becomes 'd' as nums[2] == 1\n\n• 'y' becomes 'z' as nums[24] == 1\n\n• 'y' becomes 'z' as nums[24] == 1\n\n• String after the first transformation: \"bcdzz\"\n\n•\n\tSecond Transformation (t = 2):\n\n• 'b' becomes 'c' as nums[1] == 1\n\n• 'c' becomes 'd' as nums[2] == 1\n\n• 'd' becomes 'e' as nums[3] == 1\n\n• 'z' becomes 'ab' as nums[25] == 2\n\n• 'z' becomes 'ab' as nums[25] == 2\n\n• String after the second transformation: \"cdeabab\"\n\n•\n\tFinal Length of the string: The string is \"cdeabab\", which has 7 characters.\n\nExample 2:\n\nInput: s = \"azbk\", t = 1, nums = [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]\n\nOutput: 8\n\nExplanation:\n\n•\n\tFirst Transformation (t = 1):\n\n• 'a' becomes 'bc' as nums[0] == 2\n\n• 'z' becomes 'ab' as nums[25] == 2\n\n• 'b' becomes 'cd' as nums[1] == 2\n\n• 'k' becomes 'lm' as nums[10] == 2\n\n• String after the first transformation: \"bcabcdlm\"\n\n•\n\tFinal Length of the string: The string is \"bcabcdlm\", which has 8 characters.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists only of lowercase English letters.\n\n• 1 <= t <= 109\n\n• nums.length == 26\n\n• 1 <= nums[i] <= 25",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lengthAfterTransformations(self, s, t, nums):\n        \"\"\"\n        :type s: str\n        :type t: int\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Model the problem as a matrix multiplication problem.",
+    "Use exponentiation to quickly multiply matrices."
+  ],
+  "testCases": [
+    [
+      "\"abcyy\"",
+      "2",
+      "[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2]"
+    ],
+    [
+      "\"azbk\"",
+      "1",
+      "[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def lengthAfterTransformations(self, s, t, nums):\n        MOD = 10**9 + 7\n        # Build 26x26 transformation matrix\n        # M[j][i] = number of times char i produces char j in one step\n        # char i produces chars (i+1) % 26, ..., (i+nums[i]) % 26\n        M = [[0]*26 for _ in range(26)]\n        for i in range(26):\n            for k in range(1, nums[i] + 1):\n                j = (i + k) % 26\n                M[j][i] = (M[j][i] + 1) % MOD\n        def mat_mul(A, B):\n            C = [[0]*26 for _ in range(26)]\n            for i in range(26):\n                for k in range(26):\n                    if A[i][k] == 0:\n                        continue\n                    for j in range(26):\n                        C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % MOD\n            return C\n        def mat_pow(M, p):\n            result = [[1 if i==j else 0 for j in range(26)] for i in range(26)]\n            while p:\n                if p & 1:\n                    result = mat_mul(result, M)\n                M = mat_mul(M, M)\n                p >>= 1\n            return result\n        Mt = mat_pow(M, t)\n        count = [0] * 26\n        for c in s:\n            count[ord(c) - ord('a')] += 1\n        total = 0\n        for i in range(26):\n            for j in range(26):\n                total = (total + Mt[i][j] * count[j]) % MOD\n        return total",
+    "explanation": "Model as 26x26 matrix: M[j][i] = how many chars j does char i produce in one step. Raise M to t-th power via fast exponentiation. Multiply by initial character count vector and sum.\n\nTime: O(26³ log t + |s|). Space: O(26²)."
+  },
+  "similarQuestions": "[]"
+}

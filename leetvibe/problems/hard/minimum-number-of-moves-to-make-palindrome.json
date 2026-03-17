@@ -1,0 +1,51 @@
+{
+  "questionId": "1356",
+  "title": "Minimum Number of Moves to Make Palindrome",
+  "titleSlug": "minimum-number-of-moves-to-make-palindrome",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    }
+  ],
+  "content": "You are given a string s consisting only of lowercase English letters.\n\nIn one move, you can select any two adjacent characters of s and swap them.\n\nReturn the minimum number of moves needed to make s a palindrome.\n\nNote that the input will be generated such that s can always be converted to a palindrome.\n\nExample 1:\n\nInput: s = \"aabb\"\nOutput: 2\nExplanation:\n    We can obtain two palindromes from s, \"abba\" and \"baab\".\n    - We can obtain \"abba\" from s in 2 moves: \"aabb\" -> \"abab\" -> \"abba\".\n    - We can obtain \"baab\" from s in 2 moves: \"aabb\" -> \"abab\" -> \"baab\".\n    Thus, the minimum number of moves needed to make s a palindrome is 2.\n\nExample 2:\n\nInput: s = \"letelt\"\nOutput: 2\nExplanation:\n    One of the palindromes we can obtain from s in 2 moves is \"lettel\".\n    One of the ways we can obtain it is \"letelt\" -> \"letetl\" -> \"lettel\".\n    Other palindromes such as \"tleelt\" can also be obtained in 2 moves.\n    It can be shown that it is not possible to obtain a palindrome in less than 2 moves.\n\nConstraints:\n\n• 1 <= s.length <= 2000\n\n• s consists only of lowercase English letters.\n\n• s can be converted to a palindrome using a finite number of moves.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMovesToMakePalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider a greedy strategy.",
+    "Let’s start by making the leftmost and rightmost characters match with some number of swaps.",
+    "If we figure out how to do that using the minimum number of swaps, then we can delete the leftmost and rightmost characters and solve the problem recursively."
+  ],
+  "testCases": [
+    [
+      "\"aabb\""
+    ],
+    [
+      "\"letelt\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Insertion Steps to Make a String Palindrome\", \"titleSlug\": \"minimum-insertion-steps-to-make-a-string-palindrome\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Number of Flips to Make Binary Grid Palindromic I\", \"titleSlug\": \"minimum-number-of-flips-to-make-binary-grid-palindromic-i\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "45",
+  "title": "Jump Game II",
+  "titleSlug": "jump-game-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed array of integers nums of length n. You are initially positioned at index 0.\n\nEach element nums[i] represents the maximum length of a forward jump from index i. In other words, if you are at index i, you can jump to any index (i + j) where:\n\n• 0 <= j <= nums[i] and\n\n• i + j < n\n\nReturn the minimum number of jumps to reach index n - 1. The test cases are generated such that you can reach index n - 1.\n\nExample 1:\n\nInput: nums = [2,3,1,1,4]\nOutput: 2\nExplanation: The minimum number of jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.\n\nExample 2:\n\nInput: nums = [2,3,0,1,4]\nOutput: 2\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• 0 <= nums[i] <= 1000\n\n• It's guaranteed that you can reach nums[n - 1].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def jump(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,3,1,1,4]"
+    ],
+    [
+      "[2,3,0,1,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def jump(nums):\n    jumps = 0\n    current_end = 0\n    current_farthest = 0\n\n    for i in range(len(nums) - 1):\n        current_farthest = max(current_farthest, i + nums[i])\n        if i == current_end:\n            jumps += 1\n            current_end = current_farthest\n\n    return jumps",
+    "explanation": "We initialize jumps to count the number of jumps, current_end to keep track of the farthest index we can reach with the current number of jumps, and current_farthest to keep track of the farthest index that can be reached from the current position.\n\nWe loop through the array up to the second last element. For each index, we calculate and store the farthest index that can be reached from the current index. If the current index equals the current end, we increment the jumps, as we need one more jump to reach or go beyond the current end, and update the current_end with the current_farthest value.\n\nFinally, we return the number of jumps which represents the minimum number of jumps needed to reach the last index."
+  },
+  "similarQuestions": "[{\"title\": \"Jump Game\", \"titleSlug\": \"jump-game\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game III\", \"titleSlug\": \"jump-game-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game VII\", \"titleSlug\": \"jump-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game VIII\", \"titleSlug\": \"jump-game-viii\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Visited Cells in a Grid\", \"titleSlug\": \"minimum-number-of-visited-cells-in-a-grid\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Number of Jumps to Reach the Last Index\", \"titleSlug\": \"maximum-number-of-jumps-to-reach-the-last-index\", \"difficulty\": \"Medium\"}, {\"title\": \"Visit Array Positions to Maximize Score\", \"titleSlug\": \"visit-array-positions-to-maximize-score\", \"difficulty\": \"Medium\"}]"
+}

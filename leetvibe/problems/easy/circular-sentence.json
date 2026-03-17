@@ -1,0 +1,46 @@
+{
+  "questionId": "2580",
+  "title": "Circular Sentence",
+  "titleSlug": "circular-sentence",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A sentence is a list of words that are separated by a single space with no leading or trailing spaces.\n\n• For example, \"Hello World\", \"HELLO\", \"hello world hello world\" are all sentences.\n\nWords consist of only uppercase and lowercase English letters. Uppercase and lowercase English letters are considered different.\n\nA sentence is circular if:\n\n• The last character of each word in the sentence is equal to the first character of its next word.\n\n• The last character of the last word is equal to the first character of the first word.\n\nFor example, \"leetcode exercises sound delightful\", \"eetcode\", \"leetcode eats soul\" are all circular sentences. However, \"Leetcode is cool\", \"happy Leetcode\", \"Leetcode\" and \"I like Leetcode\" are not circular sentences.\n\nGiven a string sentence, return true if it is circular. Otherwise, return false.\n\nExample 1:\n\nInput: sentence = \"leetcode exercises sound delightful\"\nOutput: true\nExplanation: The words in sentence are [\"leetcode\", \"exercises\", \"sound\", \"delightful\"].\n    - leetcode's last character is equal to exercises's first character.\n    - exercises's last character is equal to sound's first character.\n    - sound's last character is equal to delightful's first character.\n    - delightful's last character is equal to leetcode's first character.\n    The sentence is circular.\n\nExample 2:\n\nInput: sentence = \"eetcode\"\nOutput: true\nExplanation: The words in sentence are [\"eetcode\"].\n    - eetcode's last character is equal to eetcode's first character.\n    The sentence is circular.\n\nExample 3:\n\nInput: sentence = \"Leetcode is cool\"\nOutput: false\nExplanation: The words in sentence are [\"Leetcode\", \"is\", \"cool\"].\n    - Leetcode's last character is not equal to is's first character.\n    The sentence is not circular.\n\nConstraints:\n\n• 1 <= sentence.length <= 500\n\n• sentence consist of only lowercase and uppercase English letters and spaces.\n\n• The words in sentence are separated by a single space.\n\n• There are no leading or trailing spaces.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isCircularSentence(self, sentence):\n        \"\"\"\n        :type sentence: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Check the character before the empty space and the character after the empty space.",
+    "Check the first character and the last character of the sentence."
+  ],
+  "testCases": [
+    [
+      "\"leetcode exercises sound delightful\""
+    ],
+    [
+      "\"eetcode\""
+    ],
+    [
+      "\"Leetcode is cool\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isCircularSentence(self, sentence):\n        words = sentence.split()\n        n = len(words)\n        for i in range(n):\n            if words[i][-1] != words[(i + 1) % n][0]:\n                return False\n        return True",
+    "explanation": "Check if circular: last char of each word equals first char of next word (wrapping around).\nTime: O(n) where n is sentence length\nSpace: O(n) for word list"
+  },
+  "similarQuestions": "[{\"title\": \"Defuse the Bomb\", \"titleSlug\": \"defuse-the-bomb\", \"difficulty\": \"Easy\"}]"
+}

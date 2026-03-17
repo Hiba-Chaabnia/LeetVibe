@@ -1,0 +1,56 @@
+{
+  "questionId": "3843",
+  "title": "Partition Array into Two Equal Product Subsets",
+  "titleSlug": "partition-array-into-two-equal-product-subsets",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an integer array nums containing distinct positive integers and an integer target.\n\nDetermine if you can partition nums into two non-empty disjoint subsets, with each element belonging to exactly one subset, such that the product of the elements in each subset is equal to target.\n\nReturn true if such a partition exists and false otherwise.\n\nA subset of an array is a selection of elements of the array.\n\nExample 1:\n\nInput: nums = [3,1,6,8,4], target = 24\n\nOutput: true\n\nExplanation: The subsets [3, 8] and [1, 6, 4] each have a product of 24. Hence, the output is true.\n\nExample 2:\n\nInput: nums = [2,5,3,7], target = 15\n\nOutput: false\n\nExplanation: There is no way to partition nums into two non-empty disjoint subsets such that both subsets have a product of 15. Hence, the output is false.\n\nConstraints:\n\n• 3 <= nums.length <= 12\n\n• 1 <= target <= 1015\n\n• 1 <= nums[i] <= 100\n\n• All elements of nums are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkEqualPartitions(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try iterating over all subsets",
+    "Use bitmasks"
+  ],
+  "testCases": [
+    [
+      "[3,1,6,8,4]",
+      "24"
+    ],
+    [
+      "[2,5,3,7]",
+      "15"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkEqualPartitions(self, nums, target):\n        n = len(nums)\n        for mask in range(1, (1 << n) - 1):  # non-empty, not all\n            prod_a = 1\n            prod_b = 1\n            for i in range(n):\n                if mask >> i & 1:\n                    prod_a *= nums[i]\n                    if prod_a > target:\n                        break\n                else:\n                    prod_b *= nums[i]\n                    if prod_b > target:\n                        break\n            if prod_a == target and prod_b == target:\n                return True\n        return False",
+    "explanation": "With n <= 12, there are at most 2^12 = 4096 subsets. We iterate over all non-empty proper subsets (bitmasks from 1 to 2^n - 2). For each mask, we compute the product of elements in the subset (mask) and the complement. If both equal target, we return true.\n\nEarly termination when either product exceeds target avoids unnecessary multiplications.\n\nNote: the total product must equal target^2 for any valid partition to exist, which can be used as a quick pre-check.\n\nTime complexity: O(2^n * n). Space complexity: O(1)."
+  },
+  "similarQuestions": "[]"
+}

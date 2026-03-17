@@ -1,0 +1,58 @@
+{
+  "questionId": "1455",
+  "title": "Filter Restaurants by Vegan-Friendly, Price and Distance",
+  "titleSlug": "filter-restaurants-by-vegan-friendly-price-and-distance",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given the array restaurants where  restaurants[i] = [idi, ratingi, veganFriendlyi, pricei, distancei]. You have to filter the restaurants using three filters.\n\nThe veganFriendly filter will be either true (meaning you should only include restaurants with veganFriendlyi set to true) or false (meaning you can include any restaurant). In addition, you have the filters maxPrice and maxDistance which are the maximum value for price and distance of restaurants you should consider respectively.\n\nReturn the array of restaurant IDs after filtering, ordered by rating from highest to lowest. For restaurants with the same rating, order them by id from highest to lowest. For simplicity veganFriendlyi and veganFriendly take value 1 when it is true, and 0 when it is false.\n\nExample 1:\n\nInput: restaurants = [[1,4,1,40,10],[2,8,0,50,5],[3,8,1,30,4],[4,10,0,10,3],[5,1,1,15,1]], veganFriendly = 1, maxPrice = 50, maxDistance = 10\nOutput: [3,1,5]\nExplanation:\n    The restaurants are:\n    Restaurant 1 [id=1, rating=4, veganFriendly=1, price=40, distance=10]\n    Restaurant 2 [id=2, rating=8, veganFriendly=0, price=50, distance=5]\n    Restaurant 3 [id=3, rating=8, veganFriendly=1, price=30, distance=4]\n    Restaurant 4 [id=4, rating=10, veganFriendly=0, price=10, distance=3]\n    Restaurant 5 [id=5, rating=1, veganFriendly=1, price=15, distance=1]\n    After filter restaurants with veganFriendly = 1, maxPrice = 50 and maxDistance = 10 we have restaurant 3, restaurant 1 and restaurant 5 (ordered by rating from highest to lowest).\n\nExample 2:\n\nInput: restaurants = [[1,4,1,40,10],[2,8,0,50,5],[3,8,1,30,4],[4,10,0,10,3],[5,1,1,15,1]], veganFriendly = 0, maxPrice = 50, maxDistance = 10\nOutput: [4,3,2,1,5]\nExplanation: The restaurants are the same as in example 1, but in this case the filter veganFriendly = 0, therefore all restaurants are considered.\n\nExample 3:\n\nInput: restaurants = [[1,4,1,40,10],[2,8,0,50,5],[3,8,1,30,4],[4,10,0,10,3],[5,1,1,15,1]], veganFriendly = 0, maxPrice = 30, maxDistance = 3\nOutput: [4,5]\n\nConstraints:\n\n• 1 <= restaurants.length <= 10^4\n\n• restaurants[i].length == 5\n\n• 1 <= idi, ratingi, pricei, distancei <= 10^5\n\n• 1 <= maxPrice, maxDistance <= 10^5\n\n• veganFriendlyi and veganFriendly are 0 or 1.\n\n• All idi are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def filterRestaurants(self, restaurants, veganFriendly, maxPrice, maxDistance):\n        \"\"\"\n        :type restaurants: List[List[int]]\n        :type veganFriendly: int\n        :type maxPrice: int\n        :type maxDistance: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Do the filtering and sort as said. Note that the id may not be the index in the array."
+  ],
+  "testCases": [
+    [
+      "[[1,4,1,40,10],[2,8,0,50,5],[3,8,1,30,4],[4,10,0,10,3],[5,1,1,15,1]]",
+      "1",
+      "50",
+      "10"
+    ],
+    [
+      "[[1,4,1,40,10],[2,8,0,50,5],[3,8,1,30,4],[4,10,0,10,3],[5,1,1,15,1]]",
+      "0",
+      "50",
+      "10"
+    ],
+    [
+      "[[1,4,1,40,10],[2,8,0,50,5],[3,8,1,30,4],[4,10,0,10,3],[5,1,1,15,1]]",
+      "0",
+      "30",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,1,5]",
+    "[4,3,2,1,5]",
+    "[4,5]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def filterRestaurants(self, restaurants, veganFriendly, maxPrice, maxDistance):\n        filtered = [r for r in restaurants if r[2] >= veganFriendly and r[3] <= maxPrice and r[4] <= maxDistance]\n        filtered.sort(key=lambda x: (-x[1], -x[0]))\n        return [r[0] for r in filtered]",
+    "explanation": "Filter by conditions. Sort by rating (desc), then id (desc).\nTime: O(n*log n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

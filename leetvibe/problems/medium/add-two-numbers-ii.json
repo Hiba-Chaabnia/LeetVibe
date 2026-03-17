@@ -1,0 +1,54 @@
+{
+  "questionId": "445",
+  "title": "Add Two Numbers II",
+  "titleSlug": "add-two-numbers-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "You are given two non-empty linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.\n\nYou may assume the two numbers do not contain any leading zero, except the number 0 itself.\n\nExample 1:\n\nInput: l1 = [7,2,4,3], l2 = [5,6,4]\nOutput: [7,8,0,7]\n\nExample 2:\n\nInput: l1 = [2,4,3], l2 = [5,6,4]\nOutput: [8,0,7]\n\nExample 3:\n\nInput: l1 = [0], l2 = [0]\nOutput: [0]\n\nConstraints:\n\n• The number of nodes in each linked list is in the range [1, 100].\n\n• 0 <= Node.val <= 9\n\n• It is guaranteed that the list represents a number that does not have leading zeros.\n\nFollow up: Could you solve it without reversing the input lists?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def addTwoNumbers(self, l1, l2):\n        \"\"\"\n        :type l1: Optional[ListNode]\n        :type l2: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[7,2,4,3]",
+      "[5,6,4]"
+    ],
+    [
+      "[2,4,3]",
+      "[5,6,4]"
+    ],
+    [
+      "[0]",
+      "[0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[7,8,0,7]",
+    "[8,0,7]",
+    "[0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def addTwoNumbers(self, l1, l2):\n        def get_list(node):\n            res = []\n            while node:\n                res.append(node.val)\n                node = node.next\n            return res\n        nums1 = get_list(l1)\n        nums2 = get_list(l2)\n        stack = []\n        carry = 0\n        i, j = len(nums1) - 1, len(nums2) - 1\n        while i >= 0 or j >= 0 or carry:\n            val1 = nums1[i] if i >= 0 else 0\n            val2 = nums2[j] if j >= 0 else 0\n            total = val1 + val2 + carry\n            stack.append(total % 10)\n            carry = total // 10\n            i -= 1\n            j -= 1\n        head = ListNode(0)\n        current = head\n        while stack:\n            current.next = ListNode(stack.pop())\n            current = current.next\n        return head.next",
+    "explanation": "Convert to lists. Add from right to left with carry. Build result in reverse.\nTime: O(m+n)\nSpace: O(m+n)"
+  },
+  "similarQuestions": "[{\"title\": \"Add Two Numbers\", \"titleSlug\": \"add-two-numbers\", \"difficulty\": \"Medium\"}, {\"title\": \"Add Two Polynomials Represented as Linked Lists\", \"titleSlug\": \"add-two-polynomials-represented-as-linked-lists\", \"difficulty\": \"Medium\"}]"
+}

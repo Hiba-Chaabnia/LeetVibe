@@ -1,0 +1,51 @@
+{
+  "questionId": "164",
+  "title": "Maximum Gap",
+  "titleSlug": "maximum-gap",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Bucket Sort",
+      "slug": "bucket-sort"
+    },
+    {
+      "name": "Radix Sort",
+      "slug": "radix-sort"
+    }
+  ],
+  "content": "Given an integer array nums, return the maximum difference between two successive elements in its sorted form. If the array contains less than two elements, return 0.\n\nYou must write an algorithm that runs in linear time and uses linear extra space.\n\nExample 1:\n\nInput: nums = [3,6,9,1]\nOutput: 3\nExplanation: The sorted form of the array is [1,3,6,9], either (3,6) or (6,9) has the maximum difference 3.\n\nExample 2:\n\nInput: nums = [10]\nOutput: 0\nExplanation: The array contains less than 2 elements, therefore return 0.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumGap(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,6,9,1]"
+    ],
+    [
+      "[10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumGap(self, nums):\n        n = len(nums)\n        if n < 2:\n            return 0\n        # Radix sort for O(n) linear time\n        def radix_sort(arr):\n            max_val = max(arr)\n            exp = 1\n            while max_val // exp > 0:\n                count = [0] * 10\n                for x in arr:\n                    count[(x // exp) % 10] += 1\n                for i in range(1, 10):\n                    count[i] += count[i-1]\n                output = [0] * len(arr)\n                for i in range(len(arr)-1, -1, -1):\n                    digit = (arr[i] // exp) % 10\n                    count[digit] -= 1\n                    output[count[digit]] = arr[i]\n                arr = output\n                exp *= 10\n            return arr\n\n        nums = radix_sort(nums)\n        ans = 0\n        for i in range(1, n):\n            ans = max(ans, nums[i] - nums[i-1])\n        return ans",
+    "explanation": "Radix sort in O(n) time (O(n * digits) = O(n) since values ≤ 10^9, so at most 10 passes). After sorting, scan consecutive elements for maximum difference.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Widest Vertical Area Between Two Points Containing No Points\", \"titleSlug\": \"widest-vertical-area-between-two-points-containing-no-points\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Consecutive Floors Without Special Floors\", \"titleSlug\": \"maximum-consecutive-floors-without-special-floors\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "131",
+  "title": "Palindrome Partitioning",
+  "titleSlug": "palindrome-partitioning",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.\n\nExample 1:\n\nInput: s = \"aab\"\nOutput: [[\"a\",\"a\",\"b\"],[\"aa\",\"b\"]]\nExample 2:\n\nInput: s = \"a\"\nOutput: [[\"a\"]]\n\nConstraints:\n\n• 1 <= s.length <= 16\n\n• s contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def partition(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[List[str]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"aab\""
+    ],
+    [
+      "\"a\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[[\"a\",\"a\",\"b\"],[\"aa\",\"b\"]]",
+    "[[\"a\"]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def isPalindrome(s, start, end):\n    while start < end:\n        if s[start] != s[end]:\n            return False\n        start += 1\n        end -= 1\n    return True\n\ndef dfs(s, start, results, current):\n    if start == len(s):\n        results.append(current[:])\n        return\n    \n    for end in range(start, len(s)):\n        if isPalindrome(s, start, end):\n            current.append(s[start:end+1])\n            dfs(s, end + 1, results, current)\n            current.pop()\n\ndef partition(s):\n    results = []\n    dfs(s, 0, results, [])\n    return results",
+    "explanation": "The algorithm is based on depth-first search (DFS). It starts by iterating over substrings at each position and checks if the substring is a palindrome. If it is a palindrome, it adds the substring to the current list and does a depth-first search at the next position. When the search reaches the end of the string, it adds the current list to the results list. After searching at a given position, it backtracks to the previous position and continues to search for palindromes. The overall time complexity is O(N * 2^N) where N is the length of the string."
+  },
+  "similarQuestions": "[{\"title\": \"Palindrome Partitioning II\", \"titleSlug\": \"palindrome-partitioning-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Palindrome Partitioning IV\", \"titleSlug\": \"palindrome-partitioning-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Number of Non-overlapping Palindrome Substrings\", \"titleSlug\": \"maximum-number-of-non-overlapping-palindrome-substrings\", \"difficulty\": \"Hard\"}]"
+}

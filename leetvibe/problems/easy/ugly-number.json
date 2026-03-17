@@ -1,0 +1,43 @@
+{
+  "questionId": "263",
+  "title": "Ugly Number",
+  "titleSlug": "ugly-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "An ugly number is a positive integer which does not have a prime factor other than 2, 3, and 5.\n\nGiven an integer n, return true if n is an ugly number.\n\nExample 1:\n\nInput: n = 6\nOutput: true\nExplanation: 6 = 2 × 3\n\nExample 2:\n\nInput: n = 1\nOutput: true\nExplanation: 1 has no prime factors.\n\nExample 3:\n\nInput: n = 14\nOutput: false\nExplanation: 14 is not ugly since it includes the prime factor 7.\n\nConstraints:\n\n• -231 <= n <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isUgly(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "6"
+    ],
+    [
+      "1"
+    ],
+    [
+      "14"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isUgly(self, n):\n        if n <= 0:\n            return False\n        for factor in [2, 3, 5]:\n            while n % factor == 0:\n                n //= factor\n        return n == 1",
+    "explanation": "Divide by 2, 3, 5 while possible. If result is 1, it's ugly.\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Happy Number\", \"titleSlug\": \"happy-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Primes\", \"titleSlug\": \"count-primes\", \"difficulty\": \"Medium\"}, {\"title\": \"Ugly Number II\", \"titleSlug\": \"ugly-number-ii\", \"difficulty\": \"Medium\"}]"
+}

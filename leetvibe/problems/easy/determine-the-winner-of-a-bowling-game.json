@@ -1,0 +1,58 @@
+{
+  "questionId": "2684",
+  "title": "Determine the Winner of a Bowling Game",
+  "titleSlug": "determine-the-winner-of-a-bowling-game",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given two 0-indexed integer arrays player1 and player2, representing the number of pins that player 1 and player 2 hit in a bowling game, respectively.\n\nThe bowling game consists of n turns, and the number of pins in each turn is exactly 10.\n\nAssume a player hits xi pins in the ith turn. The value of the ith turn for the player is:\n\n• 2xi if the player hits 10 pins in either (i - 1)th or (i - 2)th turn.\n\n• Otherwise, it is xi.\n\nThe score of the player is the sum of the values of their n turns.\n\nReturn\n\n• 1 if the score of player 1 is more than the score of player 2,\n\n• 2 if the score of player 2 is more than the score of player 1, and\n\n• 0 in case of a draw.\n\nExample 1:\n\nInput: player1 = [5,10,3,2], player2 = [6,5,7,3]\n\nOutput: 1\n\nExplanation: The score of player 1 is 5 + 10 + 2*3 + 2*2 = 25.\n\nThe score of player 2 is 6 + 5 + 7 + 3 = 21.\n\nExample 2:\n\nInput: player1 = [3,5,7,6], player2 = [8,10,10,2]\n\nOutput: 2\n\nExplanation: The score of player 1 is 3 + 5 + 7 + 6 = 21.\n\nThe score of player 2 is 8 + 10 + 2*10 + 2*2 = 42.\n\nExample 3:\n\nInput: player1 = [2,3], player2 = [4,1]\n\nOutput: 0\n\nExplanation: The score of player1 is 2 + 3 = 5.\n\nThe score of player2 is 4 + 1 = 5.\n\nExample 4:\n\nInput: player1 = [1,1,1,10,10,10,10], player2 = [10,10,10,10,1,1,1]\n\nOutput: 2\n\nExplanation: The score of player1 is 1 + 1 + 1 + 10 + 2*10 + 2*10 + 2*10 = 73.\n\nThe score of player2 is 10 + 2*10 + 2*10 + 2*10 + 2*1 + 2*1 + 1 = 75.\n\nConstraints:\n\n• n == player1.length == player2.length\n\n• 1 <= n <= 1000\n\n• 0 <= player1[i], player2[i] <= 10",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isWinner(self, player1, player2):\n        \"\"\"\n        :type player1: List[int]\n        :type player2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think about simulating the process to calculate the answer.",
+    "Iterate over each element and check the previous two elements. See if one of them is 10 and can affect the score."
+  ],
+  "testCases": [
+    [
+      "[5,10,3,2]",
+      "[6,5,7,3]"
+    ],
+    [
+      "[3,5,7,6]",
+      "[8,10,10,2]"
+    ],
+    [
+      "[2,3]",
+      "[4,1]"
+    ],
+    [
+      "[1,1,1,10,10,10,10]",
+      "[10,10,10,10,1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isWinner(self, player1, player2):\n        def score(pins):\n            total = 0\n            for i, p in enumerate(pins):\n                if (i >= 1 and pins[i - 1] == 10) or (i >= 2 and pins[i - 2] == 10):\n                    total += p * 2\n                else:\n                    total += p\n            return total\n        s1, s2 = score(player1), score(player2)\n        if s1 > s2:\n            return 1\n        if s2 > s1:\n            return 2\n        return 0",
+    "explanation": "Simulate: each pin is worth double if either of the two previous turns was a 10. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"High Five\", \"titleSlug\": \"high-five\", \"difficulty\": \"Easy\"}]"
+}

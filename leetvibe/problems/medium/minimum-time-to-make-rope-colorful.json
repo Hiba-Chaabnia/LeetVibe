@@ -1,0 +1,56 @@
+{
+  "questionId": "1700",
+  "title": "Minimum Time to Make Rope Colorful",
+  "titleSlug": "minimum-time-to-make-rope-colorful",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Alice has n balloons arranged on a rope. You are given a 0-indexed string colors where colors[i] is the color of the ith balloon.\n\nAlice wants the rope to be colorful. She does not want two consecutive balloons to be of the same color, so she asks Bob for help. Bob can remove some balloons from the rope to make it colorful. You are given a 0-indexed integer array neededTime where neededTime[i] is the time (in seconds) that Bob needs to remove the ith balloon from the rope.\n\nReturn the minimum time Bob needs to make the rope colorful.\n\nExample 1:\n\nInput: colors = \"abaac\", neededTime = [1,2,3,4,5]\nOutput: 3\nExplanation: In the above image, 'a' is blue, 'b' is red, and 'c' is green.\n    Bob can remove the blue balloon at index 2. This takes 3 seconds.\n    There are no longer two consecutive balloons of the same color. Total time = 3.\n\nExample 2:\n\nInput: colors = \"abc\", neededTime = [1,2,3]\nOutput: 0\nExplanation: The rope is already colorful. Bob does not need to remove any balloons from the rope.\n\nExample 3:\n\nInput: colors = \"aabaa\", neededTime = [1,2,3,4,1]\nOutput: 2\nExplanation: Bob will remove the balloons at indices 0 and 4. Each balloons takes 1 second to remove.\n    There are no longer two consecutive balloons of the same color. Total time = 1 + 1 = 2.\n\nConstraints:\n\n• n == colors.length == neededTime.length\n\n• 1 <= n <= 105\n\n• 1 <= neededTime[i] <= 104\n\n• colors contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCost(self, colors, neededTime):\n        \"\"\"\n        :type colors: str\n        :type neededTime: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Maintain the running sum and max value for repeated letters."
+  ],
+  "testCases": [
+    [
+      "\"abaac\"",
+      "[1,2,3,4,5]"
+    ],
+    [
+      "\"abc\"",
+      "[1,2,3]"
+    ],
+    [
+      "\"aabaa\"",
+      "[1,2,3,4,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

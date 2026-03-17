@@ -1,0 +1,51 @@
+{
+  "questionId": "680",
+  "title": "Valid Palindrome II",
+  "titleSlug": "valid-palindrome-ii",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given a string s, return true if the s can be palindrome after deleting at most one character from it.\n\nExample 1:\n\nInput: s = \"aba\"\nOutput: true\n\nExample 2:\n\nInput: s = \"abca\"\nOutput: true\nExplanation: You could delete the character 'c'.\n\nExample 3:\n\nInput: s = \"abc\"\nOutput: false\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def validPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"aba\""
+    ],
+    [
+      "\"abca\""
+    ],
+    [
+      "\"abc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def validPalindrome(s: str) -> bool:\n    i, j = 0, len(s) - 1\n    while i < j:\n        if s[i] != s[j]:\n            temp1, temp2 = i + 1, j\n            while temp1 < temp2 and s[temp1] == s[temp2]:\n                temp1 += 1\n                temp2 -= 1\n            if temp1 >= temp2:\n                return True\n\n            temp1, temp2 = i, j - 1\n            while temp1 < temp2 and s[temp1] == s[temp2]:\n                temp1 += 1\n                temp2 -= 1\n            if temp1 >= temp2:\n                return True\n\n            return False\n        i += 1\n        j -= 1\n    return True",
+    "explanation": "The algorithm works as follows:\n1. Initialize two pointers, `i` at the start and `j` at the end of the input string `s`.\n2. Check if characters at positions `i` and `j` are equal. If they are not,\n   1. Check if the resulting substring `s[i+1, j]` is a palindrome.\n   2. If it is not, check if the resulting substring `s[i, j-1]` is a palindrome.\n   3. If neither of the substrings is a palindrome, return false.\n3. Move both pointers towards each other and repeat step 2.\n4. If the pointers crossed each other or met, the entire string `s` can be a palindrome after deleting at most one character, so return true. \n\nThe functions for all four languages follow the same logic as explained above."
+  },
+  "similarQuestions": "[{\"title\": \"Valid Palindrome\", \"titleSlug\": \"valid-palindrome\", \"difficulty\": \"Easy\"}, {\"title\": \"Valid Palindrome III\", \"titleSlug\": \"valid-palindrome-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Valid Palindrome IV\", \"titleSlug\": \"valid-palindrome-iv\", \"difficulty\": \"Medium\"}]"
+}

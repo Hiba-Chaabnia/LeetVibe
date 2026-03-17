@@ -1,0 +1,61 @@
+{
+  "questionId": "239",
+  "title": "Sliding Window Maximum",
+  "titleSlug": "sliding-window-maximum",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Monotonic Queue",
+      "slug": "monotonic-queue"
+    }
+  ],
+  "content": "You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.\n\nReturn the max sliding window.\n\nExample 1:\n\nInput: nums = [1,3,-1,-3,5,3,6,7], k = 3\nOutput: [3,3,5,5,6,7]\nExplanation:\n    Window position                Max\n    ---------------               -----\n    [1  3  -1] -3  5  3  6  7       3\n     1 [3  -1  -3] 5  3  6  7       3\n     1  3 [-1  -3  5] 3  6  7       5\n     1  3  -1 [-3  5  3] 6  7       5\n     1  3  -1  -3 [5  3  6] 7       6\n     1  3  -1  -3  5 [3  6  7]      7\n\nExample 2:\n\nInput: nums = [1], k = 1\nOutput: [1]\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -104 <= nums[i] <= 104\n\n• 1 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSlidingWindow(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How about using a data structure such as deque (double-ended queue)?",
+    "The queue size need not be the same as the window’s size.",
+    "Remove redundant elements and the queue should store only elements that need to be considered."
+  ],
+  "testCases": [
+    [
+      "[1,3,-1,-3,5,3,6,7]",
+      "3"
+    ],
+    [
+      "[1]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,3,5,5,6,7]",
+    "[1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\ndef maxSlidingWindow(nums, k):\n    dq = deque()\n    result = []\n\n    for i in range(len(nums)):\n        while dq and dq[0] < i - k + 1:\n            dq.popleft()\n\n        while dq and nums[dq[-1]] < nums[i]:\n            dq.pop()\n\n        dq.append(i)\n\n        if i >= k - 1:\n            result.append(nums[dq[0]])\n\n    return result",
+    "explanation": "1. Create an empty deque (double-ended queue) and an empty results list.\n2. Iterate through the given array.\n3. Remove the elements that are out of the current window from the front of the deque.\n4. Remove the elements that are smaller than the current element from the back of the deque.\n5. Push the current index into the deque.\n6. If the current index is greater than or equal to k-1 (window size), add the front element of deque into the results list.\n7. Return the results list after iterating through the entire array. \n\nThe deque will keep track of the indices of the maximum elements in the current window. At each step, the first element in the deque will be the index of the maximum element in the current window."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Window Substring\", \"titleSlug\": \"minimum-window-substring\", \"difficulty\": \"Hard\"}, {\"title\": \"Min Stack\", \"titleSlug\": \"min-stack\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Substring with At Most Two Distinct Characters\", \"titleSlug\": \"longest-substring-with-at-most-two-distinct-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Paint House II\", \"titleSlug\": \"paint-house-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Jump Game VI\", \"titleSlug\": \"jump-game-vi\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Robots Within Budget\", \"titleSlug\": \"maximum-number-of-robots-within-budget\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Tastiness of Candy Basket\", \"titleSlug\": \"maximum-tastiness-of-candy-basket\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximal Score After Applying K Operations\", \"titleSlug\": \"maximal-score-after-applying-k-operations\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,63 @@
+{
+  "questionId": "3389",
+  "title": "Minimum Time to Visit Disappearing Nodes",
+  "titleSlug": "minimum-time-to-visit-disappearing-nodes",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "There is an undirected graph of n nodes. You are given a 2D array edges, where edges[i] = [ui, vi, lengthi] describes an edge between node ui and node vi with a traversal time of lengthi units.\n\nAdditionally, you are given an array disappear, where disappear[i] denotes the time when the node i disappears from the graph and you won't be able to visit it.\n\nNote that the graph might be disconnected and might contain multiple edges.\n\nReturn the array answer, with answer[i] denoting the minimum units of time required to reach node i from node 0. If node i is unreachable from node 0 then answer[i] is -1.\n\nExample 1:\n\nInput: n = 3, edges = [[0,1,2],[1,2,1],[0,2,4]], disappear = [1,1,5]\n\nOutput: [0,-1,4]\n\nExplanation: We are starting our journey from node 0, and our goal is to find the minimum time required to reach each node before it disappears.\n\n• For node 0, we don't need any time as it is our starting point.\n\n• For node 1, we need at least 2 units of time to traverse edges[0]. Unfortunately, it disappears at that moment, so we won't be able to visit it.\n\n• For node 2, we need at least 4 units of time to traverse edges[2].\n\nExample 2:\n\nInput: n = 3, edges = [[0,1,2],[1,2,1],[0,2,4]], disappear = [1,3,5]\n\nOutput: [0,2,3]\n\nExplanation: We are starting our journey from node 0, and our goal is to find the minimum time required to reach each node before it disappears.\n\n• For node 0, we don't need any time as it is the starting point.\n\n• For node 1, we need at least 2 units of time to traverse edges[0].\n\n• For node 2, we need at least 3 units of time to traverse edges[0] and edges[1].\n\nExample 3:\n\nInput: n = 2, edges = [[0,1,1]], disappear = [1,1]\n\nOutput: [0,-1]\n\nExplanation: Exactly when we reach node 1, it disappears.\n\nConstraints:\n\n• 1 <= n <= 5 * 104\n\n• 0 <= edges.length <= 105\n\n• edges[i] == [ui, vi, lengthi]\n\n• 0 <= ui, vi <= n - 1\n\n• 1 <= lengthi <= 105\n\n• disappear.length == n\n\n• 1 <= disappear[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumTime(self, n, edges, disappear):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type disappear: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use Dijkstra’s algorithm, but only visit nodes if you can reach them before disappearance."
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[0,1,2],[1,2,1],[0,2,4]]",
+      "[1,1,5]"
+    ],
+    [
+      "3",
+      "[[0,1,2],[1,2,1],[0,2,4]]",
+      "[1,3,5]"
+    ],
+    [
+      "2",
+      "[[0,1,1]]",
+      "[1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,-1,4]",
+    "[0,2,3]",
+    "[0,-1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\nfrom collections import defaultdict\n\nclass Solution(object):\n    def minimumTime(self, n, edges, disappear):\n        adj = defaultdict(list)\n        for u, v, w in edges:\n            adj[u].append((v, w))\n            adj[v].append((u, w))\n\n        dist = [float('inf')] * n\n        dist[0] = 0\n        heap = [(0, 0)]  # (time, node)\n\n        while heap:\n            t, u = heapq.heappop(heap)\n            if t > dist[u]:\n                continue\n            for v, w in adj[u]:\n                new_t = t + w\n                if new_t < dist[v] and new_t < disappear[v]:\n                    dist[v] = new_t\n                    heapq.heappush(heap, (new_t, v))\n\n        return [d if d != float('inf') else -1 for d in dist]",
+    "explanation": "Standard Dijkstra from node 0, with one modification: we only relax an edge to node v if the arrival time is strictly less than disappear[v] (the node must still exist when we arrive).\n\nNode 0's distance is 0 (we start there at time 0, and disappear[0] > 0 is guaranteed). For every other node, if we can't reach it before it disappears, its distance remains infinity → output -1.\n\nTime complexity: O((n + E) log n). Space complexity: O(n + E)."
+  },
+  "similarQuestions": "[{\"title\": \"Find the Last Marked Nodes in Tree\", \"titleSlug\": \"find-the-last-marked-nodes-in-tree\", \"difficulty\": \"Hard\"}]"
+}

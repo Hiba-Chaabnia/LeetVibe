@@ -1,0 +1,56 @@
+{
+  "questionId": "397",
+  "title": "Integer Replacement",
+  "titleSlug": "integer-replacement",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "Given a positive integer n, you can apply one of the following operations:\n\n• If n is even, replace n with n / 2.\n\n• If n is odd, replace n with either n + 1 or n - 1.\n\nReturn the minimum number of operations needed for n to become 1.\n\nExample 1:\n\nInput: n = 8\nOutput: 3\nExplanation: 8 -> 4 -> 2 -> 1\n\nExample 2:\n\nInput: n = 7\nOutput: 4\nExplanation: 7 -> 8 -> 4 -> 2 -> 1\n    or 7 -> 6 -> 3 -> 2 -> 1\n\nExample 3:\n\nInput: n = 4\nOutput: 2\n\nConstraints:\n\n• 1 <= n <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def integerReplacement(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "8"
+    ],
+    [
+      "7"
+    ],
+    [
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def integerReplacement(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        steps = 0\n        \n        while n != 1:\n            if n % 2 == 0:\n                n //= 2\n            else:\n                # For odd, choose +1 or -1 strategically\n                # +1 is better if n%4==1 (except n=3)\n                if n == 3 or n % 4 == 3:\n                    n += 1\n                else:\n                    n -= 1\n            steps += 1\n        \n        return steps",
+    "explanation": "BFS-like approach with greedy choice for odd numbers based on modulo 4.",
+    "complexity": "Time: O(log n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

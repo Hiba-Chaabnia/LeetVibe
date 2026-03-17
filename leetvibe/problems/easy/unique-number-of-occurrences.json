@@ -1,0 +1,50 @@
+{
+  "questionId": "1319",
+  "title": "Unique Number of Occurrences",
+  "titleSlug": "unique-number-of-occurrences",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "Given an array of integers arr, return true if the number of occurrences of each value in the array is unique or false otherwise.\n\nExample 1:\n\nInput: arr = [1,2,2,1,1,3]\nOutput: true\nExplanation: The value 1 has 3 occurrences, 2 has 2 and 3 has 1. No two values have the same number of occurrences.\n\nExample 2:\n\nInput: arr = [1,2]\nOutput: false\n\nExample 3:\n\nInput: arr = [-3,0,1,-3,1,1,1,-3,10,0]\nOutput: true\n\nConstraints:\n\n• 1 <= arr.length <= 1000\n\n• -1000 <= arr[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def uniqueOccurrences(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the number of occurrences of each element in the array using a hash map.",
+    "Iterate through the hash map and check if there is a repeated value."
+  ],
+  "testCases": [
+    [
+      "[1,2,2,1,1,3]"
+    ],
+    [
+      "[1,2]"
+    ],
+    [
+      "[-3,0,1,-3,1,1,1,-3,10,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def uniqueOccurrences(self, arr):\n        from collections import Counter\n        freq = Counter(arr)\n        return len(freq.values()) == len(set(freq.values()))",
+    "explanation": "Count frequencies. Check if all frequencies are unique.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

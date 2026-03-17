@@ -1,0 +1,54 @@
+{
+  "questionId": "2047",
+  "title": "Find a Peak Element II",
+  "titleSlug": "find-a-peak-element-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "A peak element in a 2D grid is an element that is strictly greater than all of its adjacent neighbors to the left, right, top, and bottom.\n\nGiven a 0-indexed m x n matrix mat where no two adjacent cells are equal, find any peak element mat[i][j] and return the length 2 array [i,j].\n\nYou may assume that the entire matrix is surrounded by an outer perimeter with the value -1 in each cell.\n\nYou must write an algorithm that runs in O(m log(n)) or O(n log(m)) time.\n\nExample 1:\n\nInput: mat = [[1,4],[3,2]]\nOutput: [0,1]\nExplanation: Both 3 and 4 are peak elements so [1,0] and [0,1] are both acceptable answers.\n\nExample 2:\n\nInput: mat = [[10,20,15],[21,30,14],[7,16,32]]\nOutput: [1,1]\nExplanation: Both 30 and 32 are peak elements so [1,1] and [2,2] are both acceptable answers.\n\nConstraints:\n\n• m == mat.length\n\n• n == mat[i].length\n\n• 1 <= m, n <= 500\n\n• 1 <= mat[i][j] <= 105\n\n• No two adjacent cells are equal.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findPeakGrid(self, mat):\n        \"\"\"\n        :type mat: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let's assume that the width of the array is bigger than the height, otherwise, we will split in another direction.",
+    "Split the array into three parts: central column left side and right side.",
+    "Go through the central column and two neighbor columns and look for maximum.",
+    "If it's in the central column - this is our peak.",
+    "If it's on the left side, run this algorithm on subarray left_side + central_column.",
+    "If it's on the right side, run this algorithm on subarray right_side + central_column"
+  ],
+  "testCases": [
+    [
+      "[[1,4],[3,2]]"
+    ],
+    [
+      "[[10,20,15],[21,30,14],[7,16,32]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,1]",
+    "[1,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findPeakGrid(self, mat):\n        def find_peak_col(col):\n            max_row = 0\n            for i in range(len(mat)):\n                if mat[i][col] > mat[max_row][col]:\n                    max_row = i\n            return max_row\n        left, right = 0, len(mat[0]) - 1\n        while left < right:\n            mid = (left + right) // 2\n            peak_row = find_peak_col(mid)\n            if mat[peak_row][mid] < mat[peak_row][mid + 1]:\n                left = mid + 1\n            else:\n                right = mid\n        peak_row = find_peak_col(left)\n        return [peak_row, left]",
+    "explanation": "Binary search on columns. Find max in middle col, compare with neighbors.\nTime: O(m*log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Peak Element\", \"titleSlug\": \"find-peak-element\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Peaks\", \"titleSlug\": \"find-the-peaks\", \"difficulty\": \"Easy\"}]"
+}

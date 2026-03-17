@@ -1,0 +1,41 @@
+{
+  "questionId": "3918",
+  "title": "Check Divisibility by Digit Sum and Product",
+  "titleSlug": "check-divisibility-by-digit-sum-and-product",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given a positive integer n. Determine whether n is divisible by the sum of the following two values:\n\n• The digit sum of n (the sum of its digits).\n\n• The digit product of n (the product of its digits).\n\nReturn true if n is divisible by this sum; otherwise, return false.\n\nExample 1:\n\nInput: n = 99\n\nOutput: true\n\nExplanation: Since 99 is divisible by the sum (9 + 9 = 18) plus product (9 * 9 = 81) of its digits (total 99), the output is true.\n\nExample 2:\n\nInput: n = 23\n\nOutput: false\n\nExplanation: Since 23 is not divisible by the sum (2 + 3 = 5) plus product (2 * 3 = 6) of its digits (total 11), the output is false.\n\nConstraints:\n\n• 1 <= n <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkDivisibility(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Compute the digits' sum and product, then check if n % (sum + product) == 0."
+  ],
+  "testCases": [
+    [
+      "99"
+    ],
+    [
+      "23"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkDivisibility(self, n):\n        digits = [int(d) for d in str(n)]\n        s = sum(digits)\n        p = 1\n        for d in digits:\n            p *= d\n        return n % (s + p) == 0",
+    "explanation": "Check n divisible by (digit sum + digit product)."
+  },
+  "similarQuestions": "[]"
+}

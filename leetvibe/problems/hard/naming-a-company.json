@@ -1,0 +1,56 @@
+{
+  "questionId": "2390",
+  "title": "Naming a Company",
+  "titleSlug": "naming-a-company",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an array of strings ideas that represents a list of names to be used in the process of naming a company. The process of naming a company is as follows:\n\n• Choose 2 distinct names from ideas, call them ideaA and ideaB.\n\n• Swap the first letters of ideaA and ideaB with each other.\n\n• If both of the new names are not found in the original ideas, then the name ideaA ideaB (the concatenation of ideaA and ideaB, separated by a space) is a valid company name.\n\n• Otherwise, it is not a valid name.\n\nReturn the number of distinct valid names for the company.\n\nExample 1:\n\nInput: ideas = [\"coffee\",\"donuts\",\"time\",\"toffee\"]\nOutput: 6\nExplanation: The following selections are valid:\n    - (\"coffee\", \"donuts\"): The company name created is \"doffee conuts\".\n    - (\"donuts\", \"coffee\"): The company name created is \"conuts doffee\".\n    - (\"donuts\", \"time\"): The company name created is \"tonuts dime\".\n    - (\"donuts\", \"toffee\"): The company name created is \"tonuts doffee\".\n    - (\"time\", \"donuts\"): The company name created is \"dime tonuts\".\n    - (\"toffee\", \"donuts\"): The company name created is \"doffee tonuts\".\n    Therefore, there are a total of 6 distinct company names.\n\n    The following are some examples of invalid selections:\n    - (\"coffee\", \"time\"): The name \"toffee\" formed after swapping already exists in the original array.\n    - (\"time\", \"toffee\"): Both names are still the same after swapping and exist in the original array.\n    - (\"coffee\", \"toffee\"): Both names formed after swapping already exist in the original array.\n\nExample 2:\n\nInput: ideas = [\"lack\",\"back\"]\nOutput: 0\nExplanation: There are no valid selections. Therefore, 0 is returned.\n\nConstraints:\n\n• 2 <= ideas.length <= 5 * 104\n\n• 1 <= ideas[i].length <= 10\n\n• ideas[i] consists of lowercase English letters.\n\n• All the strings in ideas are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def distinctNames(self, ideas):\n        \"\"\"\n        :type ideas: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can we divide the ideas into groups to make it easier to find valid pairs?",
+    "Group ideas that share the same suffix (all characters except the first) together and notice that a pair of ideas from the same group is invalid. What about pairs of ideas from different groups?",
+    "The first letter of the idea in the first group must not be the first letter of an idea in the second group and vice versa.",
+    "We can efficiently count the valid pairings for an idea if we already know how many ideas starting with a letter x are within a group that does not contain any ideas with starting letter y for all letters x and y."
+  ],
+  "testCases": [
+    [
+      "[\"coffee\",\"donuts\",\"time\",\"toffee\"]"
+    ],
+    [
+      "[\"lack\",\"back\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

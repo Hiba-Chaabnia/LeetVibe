@@ -1,0 +1,56 @@
+{
+  "questionId": "2461",
+  "title": "Amount of Time for Binary Tree to Be Infected",
+  "titleSlug": "amount-of-time-for-binary-tree-to-be-infected",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary tree with unique values, and an integer start. At minute 0, an infection starts from the node with value start.\n\nEach minute, a node becomes infected if:\n\n• The node is currently uninfected.\n\n• The node is adjacent to an infected node.\n\nReturn the number of minutes needed for the entire tree to be infected.\n\nExample 1:\n\nInput: root = [1,5,3,null,4,10,6,9,2], start = 3\nOutput: 4\nExplanation: The following nodes are infected during:\n    - Minute 0: Node 3\n    - Minute 1: Nodes 1, 10 and 6\n    - Minute 2: Node 5\n    - Minute 3: Node 4\n    - Minute 4: Nodes 9 and 2\n    It takes 4 minutes for the whole tree to be infected so we return 4.\n\nExample 2:\n\nInput: root = [1], start = 1\nOutput: 0\nExplanation: At minute 0, the only node in the tree is infected so we return 0.\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 105].\n\n• 1 <= Node.val <= 105\n\n• Each node has a unique value.\n\n• A node with a value of start exists in the tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def amountOfTime(self, root, start):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type start: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Convert the tree to an undirected graph to make it easier to handle.",
+    "Use BFS starting at the start node to find the distance between each node and the start node. The answer is the maximum distance."
+  ],
+  "testCases": [
+    [
+      "[1,5,3,null,4,10,6,9,2]",
+      "3",
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def amountOfTime(self, root, start):\n        from collections import defaultdict, deque\n        graph = defaultdict(list)\n        def build_graph(node, parent=None):\n            if not node:\n                return\n            if parent:\n                graph[node.val].append(parent.val)\n                graph[parent.val].append(node.val)\n            build_graph(node.left, node)\n            build_graph(node.right, node)\n        build_graph(root)\n        queue = deque([(start, 0)])\n        visited = {start}\n        max_time = 0\n        while queue:\n            node, time = queue.popleft()\n            max_time = max(max_time, time)\n            for neighbor in graph[node]:\n                if neighbor not in visited:\n                    visited.add(neighbor)\n                    queue.append((neighbor, time + 1))\n        return max_time",
+    "explanation": "Build undirected graph from tree. BFS from start node. Return max distance.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Depth of Binary Tree\", \"titleSlug\": \"maximum-depth-of-binary-tree\", \"difficulty\": \"Easy\"}, {\"title\": \"Shortest Path to Get Food\", \"titleSlug\": \"shortest-path-to-get-food\", \"difficulty\": \"Medium\"}, {\"title\": \"All Nodes Distance K in Binary Tree\", \"titleSlug\": \"all-nodes-distance-k-in-binary-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Count the Number of Infection Sequences\", \"titleSlug\": \"count-the-number-of-infection-sequences\", \"difficulty\": \"Hard\"}]"
+}

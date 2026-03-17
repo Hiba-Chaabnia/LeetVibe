@@ -1,0 +1,57 @@
+{
+  "questionId": "2403",
+  "title": "Count Unreachable Pairs of Nodes in an Undirected Graph",
+  "titleSlug": "count-unreachable-pairs-of-nodes-in-an-undirected-graph",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "You are given an integer n. There is an undirected graph with n nodes, numbered from 0 to n - 1. You are given a 2D integer array edges where edges[i] = [ai, bi] denotes that there exists an undirected edge connecting nodes ai and bi.\n\nReturn the number of pairs of different nodes that are unreachable from each other.\n\nExample 1:\n\nInput: n = 3, edges = [[0,1],[0,2],[1,2]]\nOutput: 0\nExplanation: There are no pairs of nodes that are unreachable from each other. Therefore, we return 0.\n\nExample 2:\n\nInput: n = 7, edges = [[0,2],[0,5],[2,4],[1,6],[5,4]]\nOutput: 14\nExplanation: There are 14 pairs of nodes that are unreachable from each other:\n    [[0,1],[0,3],[0,6],[1,2],[1,3],[1,4],[1,5],[2,3],[2,6],[3,4],[3,5],[3,6],[4,6],[5,6]].\n    Therefore, we return 14.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• 0 <= edges.length <= 2 * 105\n\n• edges[i].length == 2\n\n• 0 <= ai, bi < n\n\n• ai != bi\n\n• There are no repeated edges.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPairs(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the connected components of the graph. To find connected components, you can use Union Find (Disjoint Sets), BFS, or DFS.",
+    "For a node u, the number of nodes that are unreachable from u is the number of nodes that are not in the same connected component as u.",
+    "The number of unreachable nodes from node u will be the same for the number of nodes that are unreachable from node v if nodes u and v belong to the same connected component."
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[0,1],[0,2],[1,2]]"
+    ],
+    [
+      "7",
+      "[[0,2],[0,5],[2,4],[1,6],[5,4]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "14"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countPairs(self, n, edges):\n        from collections import defaultdict\n        graph = defaultdict(list)\n        for u, v in edges:\n            graph[u].append(v)\n            graph[v].append(u)\n        visited = set()\n        def dfs(node):\n            visited.add(node)\n            size = 1\n            for neighbor in graph[node]:\n                if neighbor not in visited:\n                    size += dfs(neighbor)\n            return size\n        components = []\n        for i in range(n):\n            if i not in visited:\n                size = dfs(i)\n                components.append(size)\n        result = 0\n        for i in range(len(components)):\n            for j in range(i + 1, len(components)):\n                result += components[i] * components[j]\n        return result",
+    "explanation": "Find connected components. Unreachable pairs = product of component sizes.\nTime: O(n+e)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Islands\", \"titleSlug\": \"number-of-islands\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "3831",
+  "title": "Find X Value of Array I",
+  "titleSlug": "find-x-value-of-array-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an array of positive integers nums, and a positive integer k.\n\nYou are allowed to perform an operation once on nums, where in each operation you can remove any non-overlapping prefix and suffix from nums such that nums remains non-empty.\n\nYou need to find the x-value of nums, which is the number of ways to perform this operation so that the product of the remaining elements leaves a remainder of x when divided by k.\n\nReturn an array result of size k where result[x] is the x-value of nums for 0 <= x <= k - 1.\n\nA prefix of an array is a subarray that starts from the beginning of the array and extends to any point within it.\n\nA suffix of an array is a subarray that starts at any point within the array and extends to the end of the array.\n\nNote that the prefix and suffix to be chosen for the operation can be empty.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5], k = 3\n\nOutput: [9,2,4]\n\nExplanation:\n\n• For x = 0, the possible operations include all possible ways to remove non-overlapping prefix/suffix that do not remove nums[2] == 3.\n\n• For x = 1, the possible operations are:\n\n• Remove the empty prefix and the suffix [2, 3, 4, 5]. nums becomes [1].\n\n• Remove the prefix [1, 2, 3] and the suffix [5]. nums becomes [4].\n\n• For x = 2, the possible operations are:\n\n• Remove the empty prefix and the suffix [3, 4, 5]. nums becomes [1, 2].\n\n• Remove the prefix [1] and the suffix [3, 4, 5]. nums becomes [2].\n\n• Remove the prefix [1, 2, 3] and the empty suffix. nums becomes [4, 5].\n\n• Remove the prefix [1, 2, 3, 4] and the empty suffix. nums becomes [5].\n\nExample 2:\n\nInput: nums = [1,2,4,8,16,32], k = 4\n\nOutput: [18,1,2,0]\n\nExplanation:\n\n• For x = 0, the only operations that do not result in x = 0 are:\n\n• Remove the empty prefix and the suffix [4, 8, 16, 32]. nums becomes [1, 2].\n\n• Remove the empty prefix and the suffix [2, 4, 8, 16, 32]. nums becomes [1].\n\n• Remove the prefix [1] and the suffix [4, 8, 16, 32]. nums becomes [2].\n\n• For x = 1, the only possible operation is:\n\n• Remove the empty prefix and the suffix [2, 4, 8, 16, 32]. nums becomes [1].\n\n• For x = 2, the possible operations are:\n\n• Remove the empty prefix and the suffix [4, 8, 16, 32]. nums becomes [1, 2].\n\n• Remove the prefix [1] and the suffix [4, 8, 16, 32]. nums becomes [2].\n\n• For x = 3, there is no possible way to perform the operation.\n\nExample 3:\n\nInput: nums = [1,1,2,1,1], k = 2\n\nOutput: [9,6]\n\nConstraints:\n\n• 1 <= nums[i] <= 109\n\n• 1 <= nums.length <= 105\n\n• 1 <= k <= 5",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def resultArray(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "Define dp[i][r] as the count of subarrays ending at index i whose product modulo k equals r.",
+    "Compute dp[i][r] for each index i in nums and sum over all indices to get the final counts for each remainder."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5]",
+      "3"
+    ],
+    [
+      "[1,2,4,8,16,32]",
+      "4"
+    ],
+    [
+      "[1,1,2,1,1]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[9,2,4]",
+    "[18,1,2,0]",
+    "[9,6]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def resultArray(self, nums, k):\n        n = len(nums)\n        result = [0] * k\n        # dp[r] = number of subarrays ending at current index with product % k == r\n        dp = [0] * k\n        for v in nums:\n            new_dp = [0] * k\n            vk = v % k\n            # Extend existing subarrays\n            for r in range(k):\n                if dp[r] > 0:\n                    new_dp[(r * vk) % k] += dp[r]\n            # Start new subarray at current index\n            new_dp[vk] += 1\n            dp = new_dp\n            for r in range(k):\n                result[r] += dp[r]\n        return result",
+    "explanation": "DP: dp[r] = number of subarrays ending at current index with product ≡ r (mod k). For each new element v: extend each existing subarray (multiply by v mod k), start new subarray (just v mod k). Accumulate counts into result.\n\nTime: O(n*k). Space: O(k)."
+  },
+  "similarQuestions": "[]"
+}

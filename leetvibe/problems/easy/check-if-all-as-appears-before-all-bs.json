@@ -1,0 +1,46 @@
+{
+  "questionId": "2243",
+  "title": "Check if All A's Appears Before All B's",
+  "titleSlug": "check-if-all-as-appears-before-all-bs",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s consisting of only the characters 'a' and 'b', return true if every 'a' appears before every 'b' in the string. Otherwise, return false.\n\nExample 1:\n\nInput: s = \"aaabbb\"\nOutput: true\nExplanation:\n    The 'a's are at indices 0, 1, and 2, while the 'b's are at indices 3, 4, and 5.\n    Hence, every 'a' appears before every 'b' and we return true.\n\nExample 2:\n\nInput: s = \"abab\"\nOutput: false\nExplanation:\n    There is an 'a' at index 2 and a 'b' at index 1.\n    Hence, not every 'a' appears before every 'b' and we return false.\n\nExample 3:\n\nInput: s = \"bbb\"\nOutput: true\nExplanation:\n    There are no 'a's, hence, every 'a' appears before every 'b' and we return true.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s[i] is either 'a' or 'b'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You can check the opposite: check if there is a ‘b’ before an ‘a’. Then, negate and return that answer.",
+    "s should not have any occurrences of “ba” as a substring."
+  ],
+  "testCases": [
+    [
+      "\"aaabbb\""
+    ],
+    [
+      "\"abab\""
+    ],
+    [
+      "\"bbb\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def checkString(self, s):\n        return 'ba' not in s",
+    "explanation": "Simple check: if 'ba' substring exists, some b comes before an a."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Deletions to Make String Balanced\", \"titleSlug\": \"minimum-deletions-to-make-string-balanced\", \"difficulty\": \"Medium\"}, {\"title\": \"Check if Array Is Sorted and Rotated\", \"titleSlug\": \"check-if-array-is-sorted-and-rotated\", \"difficulty\": \"Easy\"}, {\"title\": \"Check if Numbers Are Ascending in a Sentence\", \"titleSlug\": \"check-if-numbers-are-ascending-in-a-sentence\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "2521",
+  "title": "Paths in Matrix Whose Sum Is Divisible by K",
+  "titleSlug": "paths-in-matrix-whose-sum-is-divisible-by-k",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a 0-indexed m x n integer matrix grid and an integer k. You are currently at position (0, 0) and you want to reach position (m - 1, n - 1) moving only down or right.\n\nReturn the number of paths where the sum of the elements on the path is divisible by k. Since the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: grid = [[5,2,4],[3,0,5],[0,7,2]], k = 3\nOutput: 2\nExplanation: There are two paths where the sum of the elements on the path is divisible by k.\n    The first path highlighted in red has a sum of 5 + 2 + 4 + 5 + 2 = 18 which is divisible by 3.\n    The second path highlighted in blue has a sum of 5 + 3 + 0 + 5 + 2 = 15 which is divisible by 3.\n\nExample 2:\n\nInput: grid = [[0,0]], k = 5\nOutput: 1\nExplanation: The path highlighted in red has a sum of 0 + 0 = 0 which is divisible by 5.\n\nExample 3:\n\nInput: grid = [[7,3,4,9],[2,3,6,2],[2,3,7,0]], k = 1\nOutput: 10\nExplanation: Every integer is divisible by 1 so the sum of the elements on every possible path is divisible by k.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 5 * 104\n\n• 1 <= m * n <= 5 * 104\n\n• 0 <= grid[i][j] <= 100\n\n• 1 <= k <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfPaths(self, grid, k):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The actual numbers in grid do not matter. What matters are the remainders you get when you divide the numbers by k.",
+    "We can use dynamic programming to solve this problem. What can we use as states?",
+    "Let dp[i][j][value] represent the number of paths where the sum of the elements on the path has a remainder of value when divided by k."
+  ],
+  "testCases": [
+    [
+      "[[5,2,4],[3,0,5],[0,7,2]]",
+      "3"
+    ],
+    [
+      "[[0,0]]",
+      "5"
+    ],
+    [
+      "[[7,3,4,9],[2,3,6,2],[2,3,7,0]]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "10"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Unique Paths\", \"titleSlug\": \"unique-paths\", \"difficulty\": \"Medium\"}, {\"title\": \"Unique Paths II\", \"titleSlug\": \"unique-paths-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Path Sum\", \"titleSlug\": \"minimum-path-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Dungeon Game\", \"titleSlug\": \"dungeon-game\", \"difficulty\": \"Hard\"}, {\"title\": \"Cherry Pickup\", \"titleSlug\": \"cherry-pickup\", \"difficulty\": \"Hard\"}, {\"title\": \"Shortest Path in Binary Matrix\", \"titleSlug\": \"shortest-path-in-binary-matrix\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Cost Homecoming of a Robot in a Grid\", \"titleSlug\": \"minimum-cost-homecoming-of-a-robot-in-a-grid\", \"difficulty\": \"Medium\"}, {\"title\": \"Check if There is a Path With Equal Number of 0's And 1's\", \"titleSlug\": \"check-if-there-is-a-path-with-equal-number-of-0s-and-1s\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,45 @@
+{
+  "questionId": "904",
+  "title": "Leaf-Similar Trees",
+  "titleSlug": "leaf-similar-trees",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Consider all the leaves of a binary tree, from left to right order, the values of those leaves form a leaf value sequence.\n\nFor example, in the given tree above, the leaf value sequence is (6, 7, 4, 9, 8).\n\nTwo binary trees are considered leaf-similar if their leaf value sequence is the same.\n\nReturn true if and only if the two given trees with head nodes root1 and root2 are leaf-similar.\n\nExample 1:\n\nInput: root1 = [3,5,1,6,2,9,8,null,null,7,4], root2 = [3,5,1,6,7,4,2,null,null,null,null,null,null,9,8]\nOutput: true\n\nExample 2:\n\nInput: root1 = [1,2,3], root2 = [1,3,2]\nOutput: false\n\nConstraints:\n\n• The number of nodes in each tree will be in the range [1, 200].\n\n• Both of the given trees will have values in the range [0, 200].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def leafSimilar(self, root1, root2):\n        \"\"\"\n        :type root1: Optional[TreeNode]\n        :type root2: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,5,1,6,2,9,8,null,null,7,4]",
+      "[3,5,1,6,7,4,2,null,null,null,null,null,null,9,8]",
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def leafSimilar(self, root1, root2):\n        def get_leaves(node):\n            if not node:\n                return []\n            if not node.left and not node.right:\n                return [node.val]\n            return get_leaves(node.left) + get_leaves(node.right)\n        return get_leaves(root1) == get_leaves(root2)",
+    "explanation": "Extract leaf sequences from both trees. Compare.\nTime: O(n + m)\nSpace: O(h1 + h2)"
+  },
+  "similarQuestions": "[]"
+}

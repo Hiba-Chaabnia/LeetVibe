@@ -1,0 +1,56 @@
+{
+  "questionId": "3653",
+  "title": "Maximum Subarray Sum With Length Divisible by K",
+  "titleSlug": "maximum-subarray-sum-with-length-divisible-by-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an array of integers nums and an integer k.\n\nReturn the maximum sum of a subarray of nums, such that the size of the subarray is divisible by k.\n\nExample 1:\n\nInput: nums = [1,2], k = 1\n\nOutput: 3\n\nExplanation: The subarray [1, 2] with sum 3 has length equal to 2 which is divisible by 1.\n\nExample 2:\n\nInput: nums = [-1,-2,-3,-4,-5], k = 4\n\nOutput: -10\n\nExplanation: The maximum sum subarray is [-1, -2, -3, -4] which has length equal to 4 which is divisible by 4.\n\nExample 3:\n\nInput: nums = [-5,1,2,-3,4], k = 2\n\nOutput: 4\n\nExplanation: The maximum sum subarray is [1, 2, -3, 4] which has length equal to 4 which is divisible by 2.\n\nConstraints:\n\n• 1 <= k <= nums.length <= 2 * 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSubarraySum(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Maintain minimum prefix sum ending at every possible index%k."
+  ],
+  "testCases": [
+    [
+      "[1,2]",
+      "1"
+    ],
+    [
+      "[-1,-2,-3,-4,-5]",
+      "4"
+    ],
+    [
+      "[-5,1,2,-3,4]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-10",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxSubarraySum(self, nums, k):\n        # Subarray [i+1..j] has length divisible by k iff j%k == i%k.\n        # We want max(prefix[j] - prefix[i]) where j%k == i%k and j - i >= k.\n        # For each remainder r, track minimum prefix sum seen at indices with that remainder.\n        # But we need j >= i + k, so when processing index j, look at indices <= j - k.\n        # Use a min prefix sum updated with a lag of k.\n        n = len(nums)\n        INF = float('inf')\n        prefix = [0] * (n + 1)\n        for i in range(n):\n            prefix[i+1] = prefix[i] + nums[i]\n\n        # min_prefix[r] = min prefix[i] for all i processed so far with i % k == r\n        min_prefix = [INF] * k\n        ans = -INF\n\n        for j in range(k, n + 1):  # j is the end index (1-indexed prefix)\n            # Add prefix[j - k] to the eligible set (ensures length >= k)\n            eligible_i = j - k\n            r = eligible_i % k\n            min_prefix[r] = min(min_prefix[r], prefix[eligible_i])\n\n            r_j = j % k\n            if min_prefix[r_j] < INF:\n                ans = max(ans, prefix[j] - min_prefix[r_j])\n\n        return ans",
+    "explanation": "For a subarray [i+1..j] to have length divisible by k, we need (j - i) % k == 0, i.e., j % k == i % k. We want to maximize prefix[j] - prefix[i] over all such valid (i,j) pairs where j - i >= k.\n\nSweep j from k to n. At each j, the eligible left endpoints are indices <= j-k. Add prefix[j-k] to the min_prefix table grouped by its remainder mod k. Then ans = max(ans, prefix[j] - min_prefix[j%k]).\n\nTime: O(n). Space: O(n + k)."
+  },
+  "similarQuestions": "[{\"title\": \"Subarray Sums Divisible by K\", \"titleSlug\": \"subarray-sums-divisible-by-k\", \"difficulty\": \"Medium\"}]"
+}

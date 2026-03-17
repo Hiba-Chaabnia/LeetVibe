@@ -1,0 +1,56 @@
+{
+  "questionId": "1918",
+  "title": "Maximum Score of a Good Subarray",
+  "titleSlug": "maximum-score-of-a-good-subarray",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given an array of integers nums (0-indexed) and an integer k.\n\nThe score of a subarray (i, j) is defined as min(nums[i], nums[i+1], ..., nums[j]) * (j - i + 1). A good subarray is a subarray where i <= k <= j.\n\nReturn the maximum possible score of a good subarray.\n\nExample 1:\n\nInput: nums = [1,4,3,7,4,5], k = 3\nOutput: 15\nExplanation: The optimal subarray is (1, 5) with a score of min(4,3,7,4,5) * (5-1+1) = 3 * 5 = 15.\n\nExample 2:\n\nInput: nums = [5,5,4,5,4,1,1,1], k = 0\nOutput: 20\nExplanation: The optimal subarray is (0, 4) with a score of min(5,5,4,5,4) * (4-0+1) = 4 * 5 = 20.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 2 * 104\n\n• 0 <= k < nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumScore(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try thinking about the prefix before index k and the suffix after index k as two separate arrays.",
+    "Using two pointers or binary search, we can find the maximum prefix of each array where the numbers are less than or equal to a certain value"
+  ],
+  "testCases": [
+    [
+      "[1,4,3,7,4,5]",
+      "3"
+    ],
+    [
+      "[5,5,4,5,4,1,1,1]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "15",
+    "20"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Largest Rectangle in Histogram\", \"titleSlug\": \"largest-rectangle-in-histogram\", \"difficulty\": \"Hard\"}]"
+}

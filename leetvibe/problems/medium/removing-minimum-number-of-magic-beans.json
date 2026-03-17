@@ -1,0 +1,61 @@
+{
+  "questionId": "2290",
+  "title": "Removing Minimum Number of Magic Beans",
+  "titleSlug": "removing-minimum-number-of-magic-beans",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an array of positive integers beans, where each integer represents the number of magic beans found in a particular magic bag.\n\nRemove any number of beans (possibly none) from each bag such that the number of beans in each remaining non-empty bag (still containing at least one bean) is equal. Once a bean has been removed from a bag, you are not allowed to return it to any of the bags.\n\nReturn the minimum number of magic beans that you have to remove.\n\nExample 1:\n\nInput: beans = [4,1,6,5]\nOutput: 4\nExplanation:\n    - We remove 1 bean from the bag with only 1 bean.\n      This results in the remaining bags: [4,0,6,5]\n    - Then we remove 2 beans from the bag with 6 beans.\n      This results in the remaining bags: [4,0,4,5]\n    - Then we remove 1 bean from the bag with 5 beans.\n      This results in the remaining bags: [4,0,4,4]\n    We removed a total of 1 + 2 + 1 = 4 beans to make the remaining non-empty bags have an equal number of beans.\n    There are no other solutions that remove 4 beans or fewer.\n\nExample 2:\n\nInput: beans = [2,10,3,2]\nOutput: 7\nExplanation:\n    - We remove 2 beans from one of the bags with 2 beans.\n      This results in the remaining bags: [0,10,3,2]\n    - Then we remove 2 beans from the other bag with 2 beans.\n      This results in the remaining bags: [0,10,3,0]\n    - Then we remove 3 beans from the bag with 3 beans.\n      This results in the remaining bags: [0,10,0,0]\n    We removed a total of 2 + 2 + 3 = 7 beans to make the remaining non-empty bags have an equal number of beans.\n    There are no other solutions that removes 7 beans or fewer.\n\nConstraints:\n\n• 1 <= beans.length <= 105\n\n• 1 <= beans[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumRemoval(self, beans):\n        \"\"\"\n        :type beans: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that if we choose to make x bags of beans empty, we should choose the x bags with the least amount of beans.",
+    "Notice that if the minimum number of beans in a non-empty bag is m, then the best way to make all bags have an equal amount of beans is to reduce all the bags to have m beans.",
+    "Can we iterate over how many bags we should remove and choose the one that minimizes the total amount of beans to remove?",
+    "Sort the bags of beans first."
+  ],
+  "testCases": [
+    [
+      "[4,1,6,5]"
+    ],
+    [
+      "[2,10,3,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "7"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minimumRemoval(self, beans):\n        \"\"\"\n        :type beans: List[int]\n        :rtype: int\n        \"\"\"\n        beans.sort()\n        n = len(beans)\n        total = sum(beans)\n        \n        min_removal = total\n        \n        # Try keeping each possible value as minimum for all bags\n        for i in range(n):\n            # Keep beans[i] as minimum for bags i..n-1\n            # Bags 0..i-1 are empty (cost: sum of beans[0..i-1])\n            # Bags i..n-1 reduced to beans[i] (cost: sum - beans[i]*count)\n            count = n - i\n            removal = total - beans[i] * count\n            min_removal = min(min_removal, removal)\n        \n        return min_removal",
+    "explanation": "Sort. Try each value as final amount for non-empty bags.",
+    "complexity": "Time: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Moves to Equal Array Elements II\", \"titleSlug\": \"minimum-moves-to-equal-array-elements-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Reduce X to Zero\", \"titleSlug\": \"minimum-operations-to-reduce-x-to-zero\", \"difficulty\": \"Medium\"}]"
+}

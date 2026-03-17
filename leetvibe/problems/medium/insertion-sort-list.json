@@ -1,0 +1,41 @@
+{
+  "questionId": "147",
+  "title": "Insertion Sort List",
+  "titleSlug": "insertion-sort-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given the head of a singly linked list, sort the list using insertion sort, and return the sorted list's head.\n\nThe steps of the insertion sort algorithm:\n\n• Insertion sort iterates, consuming one input element each repetition and growing a sorted output list.\n\n• At each iteration, insertion sort removes one element from the input data, finds the location it belongs within the sorted list and inserts it there.\n\n• It repeats until no input elements remain.\n\nThe following is a graphical example of the insertion sort algorithm. The partially sorted list (black) initially contains only the first element in the list. One element (red) is removed from the input data and inserted in-place into the sorted list with each iteration.\n\nExample 1:\n\nInput: head = [4,2,1,3]\nOutput: [1,2,3,4]\n\nExample 2:\n\nInput: head = [-1,5,3,4,0]\nOutput: [-1,0,3,4,5]\n\nConstraints:\n\n• The number of nodes in the list is in the range [1, 5000].\n\n• -5000 <= Node.val <= 5000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def insertionSortList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,2,1,3]",
+      "[-1,5,3,4,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,3,4]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def insertionSortList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        if not head or not head.next:\n            return head\n        \n        dummy = ListNode(0)\n        dummy.next = head\n        curr = head.next\n        prev = head\n        \n        while curr:\n            if curr.val >= prev.val:\n                # In order\n                prev = curr\n                curr = curr.next\n            else:\n                # Find position to insert\n                p = dummy\n                while p.next.val < curr.val:\n                    p = p.next\n                \n                # Insert\n                prev.next = curr.next\n                curr.next = p.next\n                p.next = curr\n                curr = prev.next\n        \n        return dummy.next",
+    "explanation": "Insertion sort on linked list. For each element, find correct position and insert.",
+    "complexity": "Time: O(n²). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Sort List\", \"titleSlug\": \"sort-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Insert into a Sorted Circular Linked List\", \"titleSlug\": \"insert-into-a-sorted-circular-linked-list\", \"difficulty\": \"Medium\"}]"
+}

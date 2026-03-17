@@ -1,0 +1,51 @@
+{
+  "questionId": "500",
+  "title": "Keyboard Row",
+  "titleSlug": "keyboard-row",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.\n\nNote that the strings are case-insensitive, both lowercased and uppercased of the same letter are treated as if they are at the same row.\n\nIn the American keyboard:\n\n• the first row consists of the characters \"qwertyuiop\",\n\n• the second row consists of the characters \"asdfghjkl\", and\n\n• the third row consists of the characters \"zxcvbnm\".\n\nExample 1:\n\nInput: words = [\"Hello\",\"Alaska\",\"Dad\",\"Peace\"]\n\nOutput: [\"Alaska\",\"Dad\"]\n\nExplanation: Both \"a\" and \"A\" are in the 2nd row of the American keyboard due to case insensitivity.\n\nExample 2:\n\nInput: words = [\"omk\"]\n\nOutput: []\n\nExample 3:\n\nInput: words = [\"adsdf\",\"sfd\"]\n\nOutput: [\"adsdf\",\"sfd\"]\n\nConstraints:\n\n• 1 <= words.length <= 20\n\n• 1 <= words[i].length <= 100\n\n• words[i] consists of English letters (both lowercase and uppercase).",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findWords(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"Hello\",\"Alaska\",\"Dad\",\"Peace\"]"
+    ],
+    [
+      "[\"omk\"]"
+    ],
+    [
+      "[\"adsdf\",\"sfd\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"Alaska\",\"Dad\"]",
+    "[]",
+    "[\"adsdf\",\"sfd\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findWords(self, words):\n        rows = [set('qwertyuiop'), set('asdfghjkl'), set('zxcvbnm')]\n        result = []\n        for word in words:\n            word_lower = word.lower()\n            for row in rows:\n                if all(c in row for c in word_lower):\n                    result.append(word)\n                    break\n        return result",
+    "explanation": "Check if all characters of each word are in one row.\nTime: O(n*m)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Find the Sequence of Strings Appeared on the Screen\", \"titleSlug\": \"find-the-sequence-of-strings-appeared-on-the-screen\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Original Typed String I\", \"titleSlug\": \"find-the-original-typed-string-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Original Typed String II\", \"titleSlug\": \"find-the-original-typed-string-ii\", \"difficulty\": \"Hard\"}]"
+}

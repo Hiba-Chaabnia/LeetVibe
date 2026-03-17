@@ -1,0 +1,67 @@
+{
+  "questionId": "3826",
+  "title": "Maximum Profit from Valid Topological Order in DAG",
+  "titleSlug": "maximum-profit-from-valid-topological-order-in-dag",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Topological Sort",
+      "slug": "topological-sort"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given a Directed Acyclic Graph (DAG) with n nodes labeled from 0 to n - 1, represented by a 2D array edges, where edges[i] = [ui, vi] indicates a directed edge from node ui to vi. Each node has an associated score given in an array score, where score[i] represents the score of node i.\n\nYou must process the nodes in a valid topological order. Each node is assigned a 1-based position in the processing order.\n\nThe profit is calculated by summing up the product of each node's score and its position in the ordering.\n\nReturn the maximum possible profit achievable with an optimal topological order.\n\nA topological order of a DAG is a linear ordering of its nodes such that for every directed edge u → v, node u comes before v in the ordering.\n\nExample 1:\n\nInput: n = 2, edges = [[0,1]], score = [2,3]\n\nOutput: 8\n\nExplanation: Node 1 depends on node 0, so a valid order is [0, 1].\n\n\t\t\t\tNode\n\t\t\t\tProcessing Order\n\t\t\t\tScore\n\t\t\t\tMultiplier\n\t\t\t\tProfit Calculation\n\n\t\t\t\t0\n\t\t\t\t1st\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\t2 × 1 = 2\n\n\t\t\t\t1\n\t\t\t\t2nd\n\t\t\t\t3\n\t\t\t\t2\n\t\t\t\t3 × 2 = 6\n\nThe maximum total profit achievable over all valid topological orders is 2 + 6 = 8.\n\nExample 2:\n\nInput: n = 3, edges = [[0,1],[0,2]], score = [1,6,3]\n\nOutput: 25\n\nExplanation: Nodes 1 and 2 depend on node 0, so the most optimal valid order is [0, 2, 1].\n\n\t\t\t\tNode\n\t\t\t\tProcessing Order\n\t\t\t\tScore\n\t\t\t\tMultiplier\n\t\t\t\tProfit Calculation\n\n\t\t\t\t0\n\t\t\t\t1st\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t1 × 1 = 1\n\n\t\t\t\t2\n\t\t\t\t2nd\n\t\t\t\t3\n\t\t\t\t2\n\t\t\t\t3 × 2 = 6\n\n\t\t\t\t1\n\t\t\t\t3rd\n\t\t\t\t6\n\t\t\t\t3\n\t\t\t\t6 × 3 = 18\n\nThe maximum total profit achievable over all valid topological orders is 1 + 6 + 18 = 25.\n\nConstraints:\n\n• 1 <= n == score.length <= 22\n\n• 1 <= score[i] <= 105\n\n• 0 <= edges.length <= n * (n - 1) / 2\n\n• edges[i] == [ui, vi] denotes a directed edge from ui to vi.\n\n• 0 <= ui, vi < n\n\n• ui != vi\n\n• The input graph is guaranteed to be a DAG.\n\n• There are no duplicate edges.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxProfit(self, n, edges, score):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type score: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use bitmask dynamic programming.",
+    "States are mask = (bits such that if a bit is set, it means the corresponding node is removed).",
+    "Try maintaining the degrees across function calls."
+  ],
+  "testCases": [
+    [
+      "2",
+      "[[0,1]]",
+      "[2,3]"
+    ],
+    [
+      "3",
+      "[[0,1],[0,2]]",
+      "[1,6,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "25"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxProfit(self, n, edges, score):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type score: List[int]\n        :rtype: int\n        \"\"\"\n        from collections import defaultdict\n        \n        # Build adjacency list\n        graph = defaultdict(list)\n        in_degree = [0] * n\n        \n        for u, v in edges:\n            graph[u].append(v)\n            in_degree[v] += 1\n        \n        # DP with bitmask: dp[mask] = max profit when nodes in mask are processed\n        # mask: bitmask where bit i = 1 means node i has been processed\n        memo = {}\n        \n        def dfs(mask, degrees):\n            \"\"\"Return max profit when nodes in mask have been processed\n            degrees: current in-degree array (for remaining nodes)\n            \"\"\"\n            if mask == (1 << n) - 1:\n                # All nodes processed\n                return 0\n            \n            # Convert degrees to tuple for hashing\n            degrees_tuple = tuple(degrees)\n            state = (mask, degrees_tuple)\n            if state in memo:\n                return memo[state]\n            \n            result = 0\n            position = bin(mask).count('1') + 1  # 1-indexed position\n            \n            # Try processing each node that has in-degree 0\n            for node in range(n):\n                if not (mask & (1 << node)) and degrees[node] == 0:\n                    # Can process this node\n                    profit = score[node] * position\n                    \n                    # Update degrees\n                    new_degrees = list(degrees)\n                    for neighbor in graph[node]:\n                        if not (mask & (1 << neighbor)):\n                            new_degrees[neighbor] -= 1\n                    \n                    # Recurse\n                    future_profit = dfs(mask | (1 << node), new_degrees)\n                    result = max(result, profit + future_profit)\n            \n            memo[state] = result\n            return result\n        \n        return dfs(0, in_degree[:])",
+    "explanation": "This solution uses bitmask DP for topological ordering:\n\n1. **Problem Understanding**:\n   - Profit = sum(score[node] * position[node]) for valid topological order\n   - Topological order: if u→v in DAG, u comes before v\n   - Find maximum profit\n\n2. **Key Insight**:\n   - In topological order, can only process nodes with in-degree 0\n   - Current position = number of nodes already processed + 1\n   - Profit contribution of node = score[node] * position\n\n3. **DP State**:\n   - mask: bitmask of processed nodes\n   - degrees: current in-degree for unprocessed nodes\n   - Returns: max profit from processing remaining nodes\n\n4. **Transitions**:\n   - At each step, position = popcount(mask) + 1\n   - Try all nodes with in-degree 0:\n     - Process that node: gain score[node] * position\n     - Update in-degrees of neighbors\n     - Recurse on remaining graph\n   - Take maximum over all choices\n\n5. **Complexity Analysis**:\n   - States: O(2^n) for mask\n   - Degrees: O(n) unique configurations (but not all reachable)\n   - Per state: O(n) to try all nodes\n   - Total: O(2^n * n)\n   - With n <= 22, feasible but tight\n\nTime Complexity: O(2^n * n)\nSpace Complexity: O(2^n)"
+  },
+  "similarQuestions": "[]"
+}

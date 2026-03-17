@@ -1,0 +1,61 @@
+{
+  "questionId": "2469",
+  "title": "Longest Subsequence With Limited Sum",
+  "titleSlug": "longest-subsequence-with-limited-sum",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums of length n, and an integer array queries of length m.\n\nReturn an array answer of length m where answer[i] is the maximum size of a subsequence that you can take from nums such that the sum of its elements is less than or equal to queries[i].\n\nA subsequence is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.\n\nExample 1:\n\nInput: nums = [4,5,2,1], queries = [3,10,21]\nOutput: [2,3,4]\nExplanation: We answer the queries as follows:\n    - The subsequence [2,1] has a sum less than or equal to 3. It can be proven that 2 is the maximum size of such a subsequence, so answer[0] = 2.\n    - The subsequence [4,5,1] has a sum less than or equal to 10. It can be proven that 3 is the maximum size of such a subsequence, so answer[1] = 3.\n    - The subsequence [4,5,2,1] has a sum less than or equal to 21. It can be proven that 4 is the maximum size of such a subsequence, so answer[2] = 4.\n\nExample 2:\n\nInput: nums = [2,3,4,5], queries = [1]\nOutput: [0]\nExplanation: The empty subsequence is the only subsequence that has a sum less than or equal to 1, so answer[0] = 0.\n\nConstraints:\n\n• n == nums.length\n\n• m == queries.length\n\n• 1 <= n, m <= 1000\n\n• 1 <= nums[i], queries[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def answerQueries(self, nums, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type queries: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Solve each query independently.",
+    "When solving a query, which elements of nums should you choose to make the subsequence as long as possible?",
+    "Choose the smallest elements in nums that add up to a sum less than the query."
+  ],
+  "testCases": [
+    [
+      "[4,5,2,1]",
+      "[3,10,21]"
+    ],
+    [
+      "[2,3,4,5]",
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3,4]",
+    "[0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def answerQueries(self, nums, queries):\n        nums.sort()\n        prefix_sum = [0]\n        for num in nums:\n            prefix_sum.append(prefix_sum[-1] + num)\n        result = []\n        for q in queries:\n            for i in range(len(prefix_sum)):\n                if prefix_sum[i] > q:\n                    result.append(i - 1)\n                    break\n            else:\n                result.append(len(nums))\n        return result",
+    "explanation": "Sort nums. For each query, find max elements summing ≤ query.\nTime: O(n*log(n) + m*n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"How Many Numbers Are Smaller Than the Current Number\", \"titleSlug\": \"how-many-numbers-are-smaller-than-the-current-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Successful Pairs of Spells and Potions\", \"titleSlug\": \"successful-pairs-of-spells-and-potions\", \"difficulty\": \"Medium\"}]"
+}

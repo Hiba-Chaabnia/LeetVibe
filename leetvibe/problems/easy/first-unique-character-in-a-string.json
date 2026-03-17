@@ -1,0 +1,55 @@
+{
+  "questionId": "387",
+  "title": "First Unique Character in a String",
+  "titleSlug": "first-unique-character-in-a-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.\n\nExample 1:\n\nInput: s = \"leetcode\"\n\nOutput: 0\n\nExplanation: The character 'l' at index 0 is the first character that does not occur at any other index.\n\nExample 2:\n\nInput: s = \"loveleetcode\"\n\nOutput: 2\n\nExample 3:\n\nInput: s = \"aabb\"\n\nOutput: -1\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def firstUniqChar(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"leetcode\""
+    ],
+    [
+      "\"loveleetcode\""
+    ],
+    [
+      "\"aabb\""
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def firstUniqChar(s):\n    char_count = {}\n    for c in s:\n        char_count[c] = char_count.get(c, 0) + 1\n    for i in range(len(s)):\n        if char_count[s[i]] == 1:\n            return i\n    return -1",
+    "explanation": "The algorithm first creates a dictionary to store the count of each character in the input string 's'. Then, it iterates through the string, counting the occurrences of each character and updating the dictionary accordingly. \n\nAfter that, the algorithm iterates through the input string 's' again, and it checks if the count of the current character in the dictionary is 1. If it is, the algorithm returns the index of the current character as the answer. If no such character is found, the algorithm returns -1 as the answer.\n\nThe time complexity of this algorithm is O(n), where n is the length of the input string 's'."
+  },
+  "similarQuestions": "[{\"title\": \"Sort Characters By Frequency\", \"titleSlug\": \"sort-characters-by-frequency\", \"difficulty\": \"Medium\"}, {\"title\": \"First Letter to Appear Twice\", \"titleSlug\": \"first-letter-to-appear-twice\", \"difficulty\": \"Easy\"}]"
+}

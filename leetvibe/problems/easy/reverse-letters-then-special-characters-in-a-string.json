@@ -1,0 +1,54 @@
+{
+  "questionId": "4200",
+  "title": "Reverse Letters Then Special Characters in a String",
+  "titleSlug": "reverse-letters-then-special-characters-in-a-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters and special characters.\n\nYour task is to perform these in order:\n\n• Reverse the lowercase letters and place them back into the positions originally occupied by letters.\n\n• Reverse the special characters and place them back into the positions originally occupied by special characters.\n\nReturn the resulting string after performing the reversals.\n\nExample 1:\n\nInput: s = \")ebc#da@f(\"\n\nOutput: \"(fad@cb#e)\"\n\nExplanation:\n\n• The letters in the string are ['e', 'b', 'c', 'd', 'a', 'f']:\n\n• Reversing them gives ['f', 'a', 'd', 'c', 'b', 'e']\n\n• s becomes \")fad#cb@e(\"\n\n• ​​​​​​​The special characters in the string are [')', '#', '@', '(']:\n\n• Reversing them gives ['(', '@', '#', ')']\n\n• s becomes \"(fad@cb#e)\"\n\nExample 2:\n\nInput: s = \"z\"\n\nOutput: \"z\"\n\nExplanation: The string contains only one letter, and reversing it does not change the string. There are no special characters.\n\nExample 3:\n\nInput: s = \"!@#$%^&*()\"\n\nOutput: \")(*&^%$#@!\"\n\nExplanation: The string contains no letters. The string contains all special characters, so reversing the special characters reverses the whole string.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists only of lowercase English letters and the special characters in \"!@#$%^&*()\".",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reverseByType(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use two pointers from ends, skipping non-letters.",
+    "Use two pointers from ends, skipping letters."
+  ],
+  "testCases": [
+    [
+      "\")ebc#da@f(\""
+    ],
+    [
+      "\"z\""
+    ],
+    [
+      "\"!@#$%^&*()\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"(fad@cb#e)\"",
+    "\"z\"",
+    "\")(*&^%$#@!\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def reverseByType(self, s):\n        letters = [c for c in s if c.isalpha()][::-1]\n        specials = [c for c in s if not c.isalpha()][::-1]\n        li = si = 0\n        result = []\n        for c in s:\n            if c.isalpha():\n                result.append(letters[li])\n                li += 1\n            else:\n                result.append(specials[si])\n                si += 1\n        return ''.join(result)",
+    "explanation": "Reverse letters and special characters separately, then interleave them back maintaining each type's positions. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Only Letters\", \"titleSlug\": \"reverse-only-letters\", \"difficulty\": \"Easy\"}]"
+}

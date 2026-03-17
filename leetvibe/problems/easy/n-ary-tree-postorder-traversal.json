@@ -1,0 +1,47 @@
+{
+  "questionId": "776",
+  "title": "N-ary Tree Postorder Traversal",
+  "titleSlug": "n-ary-tree-postorder-traversal",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    }
+  ],
+  "content": "Given the root of an n-ary tree, return the postorder traversal of its nodes' values.\n\nNary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)\n\nExample 1:\n\nInput: root = [1,null,3,2,4,null,5,6]\nOutput: [5,6,3,2,4,1]\n\nExample 2:\n\nInput: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]\nOutput: [2,6,14,11,7,3,12,8,4,13,9,10,5,1]\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 104].\n\n• 0 <= Node.val <= 104\n\n• The height of the n-ary tree is less than or equal to 1000.\n\nFollow up: Recursive solution is trivial, could you do it iteratively?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "\"\"\"\n# Definition for a Node.\nclass Node(object):\n\tdef __init__(self, val: Optional[int] = None, children: Optional[List['Node']] = None):\n        self.val = val\n        self.children = children\n\"\"\"\n\nclass Solution(object):\n    def postorder(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,null,3,2,4,null,5,6]"
+    ],
+    [
+      "[1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[5,6,3,2,4,1]",
+    "[2,6,14,11,7,3,12,8,4,13,9,10,5,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def postorder(self, root):\n        if not root:\n            return []\n        result = []\n        def dfs(node):\n            if not node:\n                return\n            for child in node.children:\n                dfs(child)\n            result.append(node.val)\n        dfs(root)\n        return result",
+    "explanation": "DFS: visit children first, then add node value (postorder).\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[{\"title\": \"Binary Tree Postorder Traversal\", \"titleSlug\": \"binary-tree-postorder-traversal\", \"difficulty\": \"Easy\"}, {\"title\": \"N-ary Tree Level Order Traversal\", \"titleSlug\": \"n-ary-tree-level-order-traversal\", \"difficulty\": \"Medium\"}, {\"title\": \"N-ary Tree Preorder Traversal\", \"titleSlug\": \"n-ary-tree-preorder-traversal\", \"difficulty\": \"Easy\"}]"
+}

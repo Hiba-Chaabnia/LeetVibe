@@ -1,0 +1,57 @@
+{
+  "questionId": "3225",
+  "title": "Length of Longest Subarray With at Most K Frequency",
+  "titleSlug": "length-of-longest-subarray-with-at-most-k-frequency",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nThe frequency of an element x is the number of times it occurs in an array.\n\nAn array is called good if the frequency of each element in this array is less than or equal to k.\n\nReturn the length of the longest good subarray of nums.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [1,2,3,1,2,3,1,2], k = 2\nOutput: 6\nExplanation: The longest possible good subarray is [1,2,3,1,2,3] since the values 1, 2, and 3 occur at most twice in this subarray. Note that the subarrays [2,3,1,2,3,1] and [3,1,2,3,1,2] are also good.\n    It can be shown that there are no good subarrays with length more than 6.\n\nExample 2:\n\nInput: nums = [1,2,1,2,1,2,1,2], k = 1\nOutput: 2\nExplanation: The longest possible good subarray is [1,2] since the values 1 and 2 occur at most once in this subarray. Note that the subarray [2,1] is also good.\n    It can be shown that there are no good subarrays with length more than 2.\n\nExample 3:\n\nInput: nums = [5,5,5,5,5,5,5], k = 4\nOutput: 4\nExplanation: The longest possible good subarray is [5,5,5,5] since the value 5 occurs 4 times in this subarray.\n    It can be shown that there are no good subarrays with length more than 4.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 1 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSubarrayLength(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each index i, find the rightmost index j >= i such that the frequency of each element in the subarray [i, j] is at most k.",
+    "We can use 2 pointers / sliding window to achieve it."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,1,2,3,1,2]",
+      "2"
+    ],
+    [
+      "[1,2,1,2,1,2,1,2]",
+      "1"
+    ],
+    [
+      "[5,5,5,5,5,5,5]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "2",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def maxSubarrayLength(self, nums, k):\n        freq = defaultdict(int)\n        left = 0\n        ans = 0\n        for right in range(len(nums)):\n            freq[nums[right]] += 1\n            while freq[nums[right]] > k:\n                freq[nums[left]] -= 1\n                left += 1\n            ans = max(ans, right - left + 1)\n        return ans",
+    "explanation": "Sliding window: expand right, shrink left when any element's frequency exceeds k. Track maximum window size.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Substring with At Least K Repeating Characters\", \"titleSlug\": \"longest-substring-with-at-least-k-repeating-characters\", \"difficulty\": \"Medium\"}]"
+}

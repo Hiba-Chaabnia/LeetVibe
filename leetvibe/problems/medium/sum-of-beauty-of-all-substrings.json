@@ -1,0 +1,46 @@
+{
+  "questionId": "1890",
+  "title": "Sum of Beauty of All Substrings",
+  "titleSlug": "sum-of-beauty-of-all-substrings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "The beauty of a string is the difference in frequencies between the most frequent and least frequent characters.\n\n• For example, the beauty of \"abaacc\" is 3 - 1 = 2.\n\nGiven a string s, return the sum of beauty of all of its substrings.\n\nExample 1:\n\nInput: s = \"aabcb\"\nOutput: 5\nExplanation: The substrings with non-zero beauty are [\"aab\",\"aabc\",\"aabcb\",\"abcb\",\"bcb\"], each with beauty equal to 1.\n\nExample 2:\n\nInput: s = \"aabcbaa\"\nOutput: 17\n\nConstraints:\n\n• 1 <= s.length <= 500\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def beautySum(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Maintain a prefix sum for the frequencies of characters.",
+    "You can iterate over all substring then iterate over the alphabet and find which character appears most and which appears least using the prefix sum array"
+  ],
+  "testCases": [
+    [
+      "\"aabcb\""
+    ],
+    [
+      "\"aabcbaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "17"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Substrings That Begin and End With the Same Letter\", \"titleSlug\": \"substrings-that-begin-and-end-with-the-same-letter\", \"difficulty\": \"Medium\"}]"
+}

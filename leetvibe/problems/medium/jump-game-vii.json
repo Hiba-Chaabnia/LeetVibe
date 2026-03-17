@@ -1,0 +1,54 @@
+{
+  "questionId": "2001",
+  "title": "Jump Game VII",
+  "titleSlug": "jump-game-vii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed binary string s and two integers minJump and maxJump. In the beginning, you are standing at index 0, which is equal to '0'. You can move from index i to index j if the following conditions are fulfilled:\n\n• i + minJump <= j <= min(i + maxJump, s.length - 1), and\n\n• s[j] == '0'.\n\nReturn true if you can reach index s.length - 1 in s, or false otherwise.\n\nExample 1:\n\nInput: s = \"011010\", minJump = 2, maxJump = 3\nOutput: true\nExplanation:\n    In the first step, move from index 0 to index 3.\n    In the second step, move from index 3 to index 5.\n\nExample 2:\n\nInput: s = \"01101110\", minJump = 2, maxJump = 3\nOutput: false\n\nConstraints:\n\n• 2 <= s.length <= 105\n\n• s[i] is either '0' or '1'.\n\n• s[0] == '0'\n\n• 1 <= minJump <= maxJump < s.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canReach(self, s, minJump, maxJump):\n        \"\"\"\n        :type s: str\n        :type minJump: int\n        :type maxJump: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider for each reachable index i the interval [i + a, i + b].",
+    "Use partial sums to mark the intervals as reachable."
+  ],
+  "testCases": [
+    [
+      "\"011010\"",
+      "2",
+      "3"
+    ],
+    [
+      "\"01101110\"",
+      "2",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Jump Game II\", \"titleSlug\": \"jump-game-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game\", \"titleSlug\": \"jump-game\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game III\", \"titleSlug\": \"jump-game-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game IV\", \"titleSlug\": \"jump-game-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Jump Game V\", \"titleSlug\": \"jump-game-v\", \"difficulty\": \"Hard\"}, {\"title\": \"Jump Game VI\", \"titleSlug\": \"jump-game-vi\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game VII\", \"titleSlug\": \"jump-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game VIII\", \"titleSlug\": \"jump-game-viii\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Vowel Strings in Ranges\", \"titleSlug\": \"count-vowel-strings-in-ranges\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Jumps to Reach the Last Index\", \"titleSlug\": \"maximum-number-of-jumps-to-reach-the-last-index\", \"difficulty\": \"Medium\"}]"
+}

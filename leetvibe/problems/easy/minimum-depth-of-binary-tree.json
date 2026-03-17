@@ -1,0 +1,51 @@
+{
+  "questionId": "111",
+  "title": "Minimum Depth of Binary Tree",
+  "titleSlug": "minimum-depth-of-binary-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given a binary tree, find its minimum depth.\n\nThe minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.\n\nNote: A leaf is a node with no children.\n\nExample 1:\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: 2\n\nExample 2:\n\nInput: root = [2,null,3,null,4,null,5,null,6]\nOutput: 5\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 105].\n\n• -1000 <= Node.val <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def minDepth(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,9,20,null,null,15,7]"
+    ],
+    [
+      "[2,null,3,null,4,null,5,null,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minDepth(self, root):\n        if not root:\n            return 0\n        if not root.left:\n            return 1 + self.minDepth(root.right)\n        if not root.right:\n            return 1 + self.minDepth(root.left)\n        return 1 + min(self.minDepth(root.left), self.minDepth(root.right))",
+    "explanation": "Find shortest path to leaf. Handle one-child nodes specially.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[{\"title\": \"Binary Tree Level Order Traversal\", \"titleSlug\": \"binary-tree-level-order-traversal\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Depth of Binary Tree\", \"titleSlug\": \"maximum-depth-of-binary-tree\", \"difficulty\": \"Easy\"}]"
+}

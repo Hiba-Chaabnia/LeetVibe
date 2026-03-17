@@ -1,0 +1,49 @@
+{
+  "questionId": "881",
+  "title": "Loud and Rich",
+  "titleSlug": "loud-and-rich",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Topological Sort",
+      "slug": "topological-sort"
+    }
+  ],
+  "content": "There is a group of n people labeled from 0 to n - 1 where each person has a different amount of money and a different level of quietness.\n\nYou are given an array richer where richer[i] = [ai, bi] indicates that ai has more money than bi and an integer array quiet where quiet[i] is the quietness of the ith person. All the given data in richer are logically correct (i.e., the data will not lead you to a situation where x is richer than y and y is richer than x at the same time).\n\nReturn an integer array answer where answer[x] = y if y is the least quiet person (that is, the person y with the smallest value of quiet[y]) among all people who definitely have equal to or more money than the person x.\n\nExample 1:\n\nInput: richer = [[1,0],[2,1],[3,1],[3,7],[4,3],[5,3],[6,3]], quiet = [3,2,5,4,6,1,7,0]\nOutput: [5,5,2,5,4,5,6,7]\nExplanation:\n    answer[0] = 5.\n    Person 5 has more money than 3, which has more money than 1, which has more money than 0.\n    The only person who is quieter (has lower quiet[x]) is person 7, but it is not clear if they have more money than person 0.\n    answer[7] = 7.\n    Among all people that definitely have equal to or more money than person 7 (which could be persons 3, 4, 5, 6, or 7), the person who is the quietest (has lower quiet[x]) is person 7.\n    The other answers can be filled out with similar reasoning.\n\nExample 2:\n\nInput: richer = [], quiet = [0]\nOutput: [0]\n\nConstraints:\n\n• n == quiet.length\n\n• 1 <= n <= 500\n\n• 0 <= quiet[i] < n\n\n• All the values of quiet are unique.\n\n• 0 <= richer.length <= n * (n - 1) / 2\n\n• 0 <= ai, bi < n\n\n• ai != bi\n\n• All the pairs of richer are unique.\n\n• The observations in richer are all logically consistent.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def loudAndRich(self, richer, quiet):\n        \"\"\"\n        :type richer: List[List[int]]\n        :type quiet: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,0],[2,1],[3,1],[3,7],[4,3],[5,3],[6,3]]",
+      "[3,2,5,4,6,1,7,0]"
+    ],
+    [
+      "[]",
+      "[0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[5,5,2,5,4,5,6,7]",
+    "[0]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Build a Matrix With Conditions\", \"titleSlug\": \"build-a-matrix-with-conditions\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,41 @@
+{
+  "questionId": "2556",
+  "title": "Convert the Temperature",
+  "titleSlug": "convert-the-temperature",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given a non-negative floating point number rounded to two decimal places celsius, that denotes the temperature in Celsius.\n\nYou should convert Celsius into Kelvin and Fahrenheit and return it as an array ans = [kelvin, fahrenheit].\n\nReturn the array ans. Answers within 10-5 of the actual answer will be accepted.\n\nNote that:\n\n• Kelvin = Celsius + 273.15\n\n• Fahrenheit = Celsius * 1.80 + 32.00\n\nExample 1:\n\nInput: celsius = 36.50\nOutput: [309.65000,97.70000]\nExplanation: Temperature at 36.50 Celsius converted in Kelvin is 309.65 and converted in Fahrenheit is 97.70.\n\nExample 2:\n\nInput: celsius = 122.11\nOutput: [395.26000,251.79800]\nExplanation: Temperature at 122.11 Celsius converted in Kelvin is 395.26 and converted in Fahrenheit is 251.798.\n\nConstraints:\n\n• 0 <= celsius <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def convertTemperature(self, celsius):\n        \"\"\"\n        :type celsius: float\n        :rtype: List[float]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Implement formulas that are given in the statement."
+  ],
+  "testCases": [
+    [
+      "36.50"
+    ],
+    [
+      "122.11"
+    ]
+  ],
+  "expectedOutputs": [
+    "[309.65000,97.70000]",
+    "[395.26000,251.79800]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def convertTemperature(self, celsius):\n        kelvin = celsius + 273.15\n        fahrenheit = celsius * 1.80 + 32.00\n        return [kelvin, fahrenheit]",
+    "explanation": "Direct formula application: Kelvin = C + 273.15, Fahrenheit = C * 1.8 + 32.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Smallest Even Multiple\", \"titleSlug\": \"smallest-even-multiple\", \"difficulty\": \"Easy\"}]"
+}

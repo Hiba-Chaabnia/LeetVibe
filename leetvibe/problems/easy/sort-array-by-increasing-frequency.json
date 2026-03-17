@@ -1,0 +1,54 @@
+{
+  "questionId": "1741",
+  "title": "Sort Array by Increasing Frequency",
+  "titleSlug": "sort-array-by-increasing-frequency",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array of integers nums, sort the array in increasing order based on the frequency of the values. If multiple values have the same frequency, sort them in decreasing order.\n\nReturn the sorted array.\n\nExample 1:\n\nInput: nums = [1,1,2,2,2,3]\nOutput: [3,1,1,2,2,2]\nExplanation: '3' has a frequency of 1, '1' has a frequency of 2, and '2' has a frequency of 3.\n\nExample 2:\n\nInput: nums = [2,3,1,3,2]\nOutput: [1,3,3,2,2]\nExplanation: '2' and '3' both have a frequency of 2, so they are sorted in decreasing order.\n\nExample 3:\n\nInput: nums = [-1,1,-6,4,5,-6,1,4,1]\nOutput: [5,-1,4,4,-6,-6,1,1,1]\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• -100 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def frequencySort(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the frequency of each value.",
+    "Use a custom comparator to compare values by their frequency. If two values have the same frequency, compare their values."
+  ],
+  "testCases": [
+    [
+      "[1,1,2,2,2,3]"
+    ],
+    [
+      "[2,3,1,3,2]"
+    ],
+    [
+      "[-1,1,-6,4,5,-6,1,4,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,1,1,2,2,2]",
+    "[1,3,3,2,2]",
+    "[5,-1,4,4,-6,-6,1,1,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def frequencySort(self, nums):\n        from collections import Counter\n        freq = Counter(nums)\n        return sorted(nums, key=lambda x: (freq[x], -x))",
+    "explanation": "Sort by frequency ascending, then by value descending.\nTime: O(n*log(n))\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Sort Characters By Frequency\", \"titleSlug\": \"sort-characters-by-frequency\", \"difficulty\": \"Medium\"}, {\"title\": \"Divide Array Into Equal Pairs\", \"titleSlug\": \"divide-array-into-equal-pairs\", \"difficulty\": \"Easy\"}, {\"title\": \"Most Frequent Number Following Key In an Array\", \"titleSlug\": \"most-frequent-number-following-key-in-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Number of Pairs in Array\", \"titleSlug\": \"maximum-number-of-pairs-in-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Node With Highest Edge Score\", \"titleSlug\": \"node-with-highest-edge-score\", \"difficulty\": \"Medium\"}, {\"title\": \"Sort the People\", \"titleSlug\": \"sort-the-people\", \"difficulty\": \"Easy\"}]"
+}

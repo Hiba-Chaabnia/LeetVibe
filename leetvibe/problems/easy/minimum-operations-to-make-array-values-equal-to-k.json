@@ -1,0 +1,55 @@
+{
+  "questionId": "3621",
+  "title": "Minimum Operations to Make Array Values Equal to K",
+  "titleSlug": "minimum-operations-to-make-array-values-equal-to-k",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nAn integer h is called valid if all values in the array that are strictly greater than h are identical.\n\nFor example, if nums = [10, 8, 10, 8], a valid integer is h = 9 because all nums[i] > 9 are equal to 10, but 5 is not a valid integer.\n\nYou are allowed to perform the following operation on nums:\n\n• Select an integer h that is valid for the current values in nums.\n\n• For each index i where nums[i] > h, set nums[i] to h.\n\nReturn the minimum number of operations required to make every element in nums equal to k. If it is impossible to make all elements equal to k, return -1.\n\nExample 1:\n\nInput: nums = [5,2,5,4,5], k = 2\n\nOutput: 2\n\nExplanation: The operations can be performed in order using valid integers 4 and then 2.\n\nExample 2:\n\nInput: nums = [2,1,2], k = 2\n\nOutput: -1\n\nExplanation: It is impossible to make all the values equal to 2.\n\nExample 3:\n\nInput: nums = [9,7,5,3], k = 1\n\nOutput: 4\n\nExplanation: The operations can be performed using valid integers in the order 7, 5, 3, and 1.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 100\n\n• 1 <= k <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Handle the case when the array contains an integer less than k",
+    "Start by performing operations on the highest integer",
+    "You can perform an operation on the highest integer using the second-highest, an operation on the second-highest using the third-highest, and so forth.",
+    "The answer is the number of distinct integers in the array that are larger than k."
+  ],
+  "testCases": [
+    [
+      "[5,2,5,4,5]",
+      "2"
+    ],
+    [
+      "[2,1,2]",
+      "2"
+    ],
+    [
+      "[9,7,5,3]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "-1",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, nums, k):\n        if min(nums) < k:\n            return -1\n        return len(set(x for x in nums if x > k))",
+    "explanation": "If any element is below k it is impossible; otherwise the number of operations equals the count of distinct values strictly greater than k. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

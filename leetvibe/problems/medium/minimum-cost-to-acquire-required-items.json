@@ -1,0 +1,63 @@
+{
+  "questionId": "4147",
+  "title": "Minimum Cost to Acquire Required Items",
+  "titleSlug": "minimum-cost-to-acquire-required-items",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given five integers cost1, cost2, costBoth, need1, and need2.\n\nThere are three types of items available:\n\n• An item of type 1 costs cost1 and contributes 1 unit to the type 1 requirement only.\n\n• An item of type 2 costs cost2 and contributes 1 unit to the type 2 requirement only.\n\n• An item of type 3 costs costBoth and contributes 1 unit to both type 1 and type 2 requirements.\n\nYou must collect enough items so that the total contribution toward type 1 is at least need1 and the total contribution toward type 2 is at least need2.\n\nReturn an integer representing the minimum possible total cost to achieve these requirements.\n\nExample 1:\n\nInput: cost1 = 3, cost2 = 2, costBoth = 1, need1 = 3, need2 = 2\n\nOutput: 3\n\nExplanation: After buying three type 3 items, which cost 3 * 1 = 3, the total contribution to type 1 is 3 (>= need1 = 3) and to type 2 is 3 (>= need2 = 2).\nAny other valid combination would cost more, so the minimum total cost is 3.\n\nExample 2:\n\nInput: cost1 = 5, cost2 = 4, costBoth = 15, need1 = 2, need2 = 3\n\nOutput: 22\n\nExplanation: We buy need1 = 2 items of type 1 and need2 = 3 items of type 2: 2 * 5 + 3 * 4 = 10 + 12 = 22.\n\nAny other valid combination would cost more, so the minimum total cost is 22.\n\nExample 3:\n\nInput: cost1 = 5, cost2 = 4, costBoth = 15, need1 = 0, need2 = 0\n\nOutput: 0\n\nExplanation: Since no items are required (need1 = need2 = 0), we buy nothing and pay 0.\n\nConstraints:\n\n• 1 <= cost1, cost2, costBoth <= 106\n\n• 0 <= need1, need2 <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumCost(self, cost1, cost2, costBoth, need1, need2):\n        \"\"\"\n        :type cost1: int\n        :type cost2: int\n        :type costBoth: int\n        :type need1: int\n        :type need2: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "First, use min(costBoth, cost1 + cost2) for min(need1, need2).",
+    "For the remaining type 1 requirement rem1, use cost min(costBoth, cost1) for the rest.",
+    "Do the same for type 2, using cost min(costBoth, cost2)."
+  ],
+  "testCases": [
+    [
+      "3",
+      "2",
+      "1",
+      "3",
+      "2"
+    ],
+    [
+      "5",
+      "4",
+      "15",
+      "2",
+      "3"
+    ],
+    [
+      "5",
+      "4",
+      "15",
+      "0",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "22",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumCost(self, cost1, cost2, costBoth, need1, need2):\n        # For each unit of 'both', use min(costBoth, cost1 + cost2)\n        # We buy 'b' units of type-3 (both): b in [0, min(need1, need2)]\n        # Remaining need1 - b units of type 1 at min(cost1, costBoth)\n        # Remaining need2 - b units of type 2 at min(cost2, costBoth)\n        # Optimize: b = min(need1, need2) always (buy as many 'both' as possible if beneficial)\n        # Actually: per unit of 'both' vs separate: save (cost1 + cost2 - costBoth)\n        # If costBoth < cost1 + cost2: use as many 'both' as possible\n        # Then for remaining, cost1 vs costBoth: use min(cost1, costBoth)\n\n        both_unit = min(costBoth, cost1 + cost2)\n        type1_unit = min(cost1, costBoth)  # can buy 'both' and waste type2\n        type2_unit = min(cost2, costBoth)  # can buy 'both' and waste type1\n\n        # Try all b from 0 to min(need1, need2)\n        # But optimal is: use both_unit for min(need1, need2) items if beneficial\n        best = float('inf')\n        max_b = min(need1, need2)\n        # For b units of 'both':\n        # cost = b * both_unit + (need1 - b) * type1_unit + (need2 - b) * type2_unit\n        # This is linear in b; minimize by choosing b = max_b if coefficient of b is negative\n        # coeff = both_unit - type1_unit - type2_unit\n        coeff = both_unit - type1_unit - type2_unit\n        if coeff <= 0:\n            b = max_b\n        else:\n            b = 0\n        cost = b * both_unit + (need1 - b) * type1_unit + (need2 - b) * type2_unit\n        return cost",
+    "explanation": "Three item types: type1 (cost1, satisfies need1), type2 (cost2, satisfies need2), type3/both (costBoth, satisfies both).\n\nEffective per-unit costs:\n- 'both' item: min(costBoth, cost1 + cost2)\n- extra type1: min(cost1, costBoth) (buy 'both' and discard the type2 contribution)\n- extra type2: min(cost2, costBoth)\n\nLet b = number of 'both' items. Total cost = b * both_unit + (need1-b) * type1_unit + (need2-b) * type2_unit. This is linear in b; choose b = min(need1,need2) if the 'both' coefficient is ≤ 0, else b = 0.\n\nTime: O(1). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

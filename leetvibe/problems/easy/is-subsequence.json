@@ -1,0 +1,49 @@
+{
+  "questionId": "392",
+  "title": "Is Subsequence",
+  "titleSlug": "is-subsequence",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given two strings s and t, return true if s is a subsequence of t, or false otherwise.\n\nA subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., \"ace\" is a subsequence of \"abcde\" while \"aec\" is not).\n\nExample 1:\n\nInput: s = \"abc\", t = \"ahbgdc\"\nOutput: true\nExample 2:\n\nInput: s = \"axc\", t = \"ahbgdc\"\nOutput: false\n\nConstraints:\n\n• 0 <= s.length <= 100\n\n• 0 <= t.length <= 104\n\n• s and t consist only of lowercase English letters.\n\nFollow up: Suppose there are lots of incoming s, say s1, s2, ..., sk where k >= 109, and you want to check one by one to see if t has its subsequence. In this scenario, how would you change your code?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isSubsequence(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"abc\"",
+      "\"ahbgdc\""
+    ],
+    [
+      "\"axc\"",
+      "\"ahbgdc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isSubsequence(self, s, t):\n        if not s:\n            return True\n        s_idx = 0\n        for char in t:\n            if s_idx < len(s) and char == s[s_idx]:\n                s_idx += 1\n        return s_idx == len(s)",
+    "explanation": "Traverse t, match characters from s in order.\nTime: O(len(t))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Matching Subsequences\", \"titleSlug\": \"number-of-matching-subsequences\", \"difficulty\": \"Medium\"}, {\"title\": \"Shortest Way to Form String\", \"titleSlug\": \"shortest-way-to-form-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Append Characters to String to Make Subsequence\", \"titleSlug\": \"append-characters-to-string-to-make-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Make String a Subsequence Using Cyclic Increments\", \"titleSlug\": \"make-string-a-subsequence-using-cyclic-increments\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,41 @@
+{
+  "questionId": "4012",
+  "title": "Earliest Time to Finish One Task",
+  "titleSlug": "earliest-time-to-finish-one-task",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "You are given a 2D integer array tasks where tasks[i] = [si, ti].\n\nEach [si, ti] in tasks represents a task with start time si that takes ti units of time to finish.\n\nReturn the earliest time at which at least one task is finished.\n\nExample 1:\n\nInput: tasks = [[1,6],[2,3]]\n\nOutput: 5\n\nExplanation: The first task starts at time t = 1 and finishes at time 1 + 6 = 7. The second task finishes at time 2 + 3 = 5. You can finish one task at time 5.\n\nExample 2:\n\nInput: tasks = [[100,100],[100,100],[100,100]]\n\nOutput: 200\n\nExplanation: All three tasks finish at time 100 + 100 = 200.\n\nConstraints:\n\n• 1 <= tasks.length <= 100\n\n• tasks[i] = [si, ti]\n\n• 1 <= si, ti <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def earliestTime(self, tasks):\n        \"\"\"\n        :type tasks: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Compute finish[i] = s[i] + t[i] for each task and take the minimum."
+  ],
+  "testCases": [
+    [
+      "[[1,6],[2,3]]"
+    ],
+    [
+      "[[100,100],[100,100],[100,100]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "200"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def earliestTime(self, tasks):\n        return min(s + t for s, t in tasks)",
+    "explanation": "Each task finishes at start + duration; return the minimum finish time across all tasks. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

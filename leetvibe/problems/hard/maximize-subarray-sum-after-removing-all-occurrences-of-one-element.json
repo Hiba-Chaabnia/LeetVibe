@@ -1,0 +1,50 @@
+{
+  "questionId": "3688",
+  "title": "Maximize Subarray Sum After Removing All Occurrences of One Element",
+  "titleSlug": "maximize-subarray-sum-after-removing-all-occurrences-of-one-element",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nYou can do the following operation on the array at most once:\n\n• Choose any integer x such that nums remains non-empty on removing all occurrences of x.\n\n• Remove all occurrences of x from the array.\n\nReturn the maximum subarray sum across all possible resulting arrays.\n\nExample 1:\n\nInput: nums = [-3,2,-2,-1,3,-2,3]\n\nOutput: 7\n\nExplanation: We can have the following arrays after at most one operation:\n\n• The original array is nums = [-3, 2, -2, -1, 3, -2, 3]. The maximum subarray sum is 3 + (-2) + 3 = 4.\n\n• Deleting all occurences of x = -3 results in nums = [2, -2, -1, 3, -2, 3]. The maximum subarray sum is 3 + (-2) + 3 = 4.\n\n• Deleting all occurences of x = -2 results in nums = [-3, 2, -1, 3, 3]. The maximum subarray sum is 2 + (-1) + 3 + 3 = 7.\n\n• Deleting all occurences of x = -1 results in nums = [-3, 2, -2, 3, -2, 3]. The maximum subarray sum is 3 + (-2) + 3 = 4.\n\n• Deleting all occurences of x = 3 results in nums = [-3, 2, -2, -1, -2]. The maximum subarray sum is 2.\n\nThe output is max(4, 4, 7, 4, 2) = 7.\n\nExample 2:\n\nInput: nums = [1,2,3,4]\n\nOutput: 10\n\nExplanation: It is optimal to not perform any operations.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -106 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSubarraySum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a segment tree data structure to solve the problem.",
+    "Each node of the segment tree should store the subarray sum, the maximum subarray sum, the maximum prefix sum, and the maximum suffix sum within the subarray defined by that node."
+  ],
+  "testCases": [
+    [
+      "[-3,2,-2,-1,3,-2,3]"
+    ],
+    [
+      "[1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxSubarraySum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        from collections import Counter\n        \n        max_sum = float('-inf')\n        \n        # Try without removing any element\n        max_sum = max(max_sum, max(self.kadane(nums)))\n        \n        # Try removing each unique element\n        counts = Counter(nums)\n        for x in counts:\n            filtered = [num for num in nums if num != x]\n            if filtered:  # Make sure array is non-empty\n                max_sum = max(max_sum, max(self.kadane(filtered)))\n        \n        return max_sum\n    \n    def kadane(self, arr):\n        \"\"\"Kadane's algorithm to find maximum subarray sum\"\"\"\n        if not arr:\n            return [float('-inf')]\n        \n        max_current = arr[0]\n        max_global = arr[0]\n        \n        for i in range(1, len(arr)):\n            max_current = max(arr[i], max_current + arr[i])\n            max_global = max(max_global, max_current)\n        \n        return [max_global]",
+    "explanation": "This solution uses Kadane's algorithm with element removal:\n\n1. **Problem Understanding**:\n   - Remove all occurrences of at most one element type\n   - Find maximum subarray sum in resulting array\n   - If removing makes array empty, that's invalid\n\n2. **Algorithm**:\n   - Find max subarray sum in original array (no removal)\n   - For each unique element in array:\n     - Create filtered array (remove all occurrences)\n     - Find max subarray sum in filtered array\n     - Track overall maximum\n\n3. **Kadane's Algorithm**:\n   - Classic O(n) algorithm for max subarray problem\n   - Maintains:\n     - max_current: max sum ending at current position\n     - max_global: overall maximum found\n   - At each element:\n     - Either extend current subarray or start new\n     - Update global maximum\n\n4. **Why It Works**:\n   - After removing element x, disconnected subarrays merge\n   - Kadane finds optimal selection in merged array\n   - By trying all removals, find global optimum\n\n5. **Example**:\n   - nums = [-3, 2, -2, -1, 3, -2, 3]\n   - No removal: max sum = 3 (subarray [3])\n   - Remove -2: nums = [-3, 2, -1, 3, 3]\n     - Max sum = 2 + (-1) + 3 + 3 = 7\n     - Subarray [2, -1, 3, 3]\n   - Answer = 7\n\nTime Complexity: O(n * m) where m = number of unique elements\nSpace Complexity: O(n) for filtered arrays"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Subarray\", \"titleSlug\": \"maximum-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Subarray Sum with One Deletion\", \"titleSlug\": \"maximum-subarray-sum-with-one-deletion\", \"difficulty\": \"Medium\"}]"
+}

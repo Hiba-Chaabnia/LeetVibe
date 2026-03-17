@@ -1,0 +1,63 @@
+{
+  "questionId": "88",
+  "title": "Merge Sorted Array",
+  "titleSlug": "merge-sorted-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.\n\nMerge nums1 and nums2 into a single array sorted in non-decreasing order.\n\nThe final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.\n\nExample 1:\n\nInput: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3\nOutput: [1,2,2,3,5,6]\nExplanation: The arrays we are merging are [1,2,3] and [2,5,6].\n    The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.\n\nExample 2:\n\nInput: nums1 = [1], m = 1, nums2 = [], n = 0\nOutput: [1]\nExplanation: The arrays we are merging are [1] and [].\n    The result of the merge is [1].\n\nExample 3:\n\nInput: nums1 = [0], m = 0, nums2 = [1], n = 1\nOutput: [1]\nExplanation: The arrays we are merging are [] and [1].\n    The result of the merge is [1].\n    Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.\n\nConstraints:\n\n• nums1.length == m + n\n\n• nums2.length == n\n\n• 0 <= m, n <= 200\n\n• 1 <= m + n <= 200\n\n• -109 <= nums1[i], nums2[j] <= 109\n\nFollow up: Can you come up with an algorithm that runs in O(m + n) time?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def merge(self, nums1, m, nums2, n):\n        \"\"\"\n        :type nums1: List[int]\n        :type m: int\n        :type nums2: List[int]\n        :type n: int\n        :rtype: None Do not return anything, modify nums1 in-place instead.\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You can easily solve this problem if you simply think about two elements at a time rather than two arrays. We know that each of the individual arrays is sorted. What we don't know is how they will intertwine. Can we take a local decision and arrive at an optimal solution?",
+    "If you simply consider one element each at a time from the two arrays and make a decision and proceed accordingly, you will arrive at the optimal solution."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,0,0,0]",
+      "3",
+      "[2,5,6]",
+      "3"
+    ],
+    [
+      "[1]",
+      "1",
+      "[]",
+      "0"
+    ],
+    [
+      "[0]",
+      "0",
+      "[1]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,2,3,5,6]",
+    "[1]",
+    "[1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def merge(self, nums1, m, nums2, n):\n        p1, p2, p = m - 1, n - 1, m + n - 1\n        while p1 >= 0 and p2 >= 0:\n            if nums1[p1] > nums2[p2]:\n                nums1[p] = nums1[p1]\n                p1 -= 1\n            else:\n                nums1[p] = nums2[p2]\n                p2 -= 1\n            p -= 1\n        while p2 >= 0:\n            nums1[p] = nums2[p2]\n            p2 -= 1\n            p -= 1",
+    "explanation": "Three pointers from end. Compare and place larger. Handle remaining nums2.\nTime: O(m + n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Merge Two Sorted Lists\", \"titleSlug\": \"merge-two-sorted-lists\", \"difficulty\": \"Easy\"}, {\"title\": \"Squares of a Sorted Array\", \"titleSlug\": \"squares-of-a-sorted-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Interval List Intersections\", \"titleSlug\": \"interval-list-intersections\", \"difficulty\": \"Medium\"}, {\"title\": \"Take K of Each Character From Left and Right\", \"titleSlug\": \"take-k-of-each-character-from-left-and-right\", \"difficulty\": \"Medium\"}]"
+}

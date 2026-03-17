@@ -1,0 +1,46 @@
+{
+  "questionId": "1806",
+  "title": "Count of Matches in Tournament",
+  "titleSlug": "count-of-matches-in-tournament",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an integer n, the number of teams in a tournament that has strange rules:\n\n• If the current number of teams is even, each team gets paired with another team. A total of n / 2 matches are played, and n / 2 teams advance to the next round.\n\n• If the current number of teams is odd, one team randomly advances in the tournament, and the rest gets paired. A total of (n - 1) / 2 matches are played, and (n - 1) / 2 + 1 teams advance to the next round.\n\nReturn the number of matches played in the tournament until a winner is decided.\n\nExample 1:\n\nInput: n = 7\nOutput: 6\nExplanation: Details of the tournament:\n    - 1st Round: Teams = 7, Matches = 3, and 4 teams advance.\n    - 2nd Round: Teams = 4, Matches = 2, and 2 teams advance.\n    - 3rd Round: Teams = 2, Matches = 1, and 1 team is declared the winner.\n    Total number of matches = 3 + 2 + 1 = 6.\n\nExample 2:\n\nInput: n = 14\nOutput: 13\nExplanation: Details of the tournament:\n    - 1st Round: Teams = 14, Matches = 7, and 7 teams advance.\n    - 2nd Round: Teams = 7, Matches = 3, and 4 teams advance.\n    - 3rd Round: Teams = 4, Matches = 2, and 2 teams advance.\n    - 4th Round: Teams = 2, Matches = 1, and 1 team is declared the winner.\n    Total number of matches = 7 + 3 + 2 + 1 = 13.\n\nConstraints:\n\n• 1 <= n <= 200",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfMatches(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the tournament as given in the statement.",
+    "Be careful when handling odd integers."
+  ],
+  "testCases": [
+    [
+      "7"
+    ],
+    [
+      "14"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "13"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numberOfMatches(n: int) -> int:\n    matches = 0\n    while n > 1:\n        matches += n // 2\n        n = (n + 1) // 2\n    return matches",
+    "explanation": "The algorithm starts with `n` teams and initializes a `matches` counter with 0. In each iteration of the loop, it calculates the number of matches played in the current round and adds it to the `matches` counter. Then, the number of teams advancing to the next round is calculated as `(n + 1) / 2`. The loop continues until there is a single winner left, i.e., `n === 1`. Finally, the total number of matches played throughout the tournament is returned."
+  },
+  "similarQuestions": "[{\"title\": \"Count Distinct Numbers on Board\", \"titleSlug\": \"count-distinct-numbers-on-board\", \"difficulty\": \"Easy\"}]"
+}

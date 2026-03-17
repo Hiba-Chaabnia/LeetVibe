@@ -1,0 +1,45 @@
+{
+  "questionId": "9",
+  "title": "Palindrome Number",
+  "titleSlug": "palindrome-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given an integer x, return true if x is a palindrome, and false otherwise.\n\nExample 1:\n\nInput: x = 121\nOutput: true\nExplanation: 121 reads as 121 from left to right and from right to left.\n\nExample 2:\n\nInput: x = -121\nOutput: false\nExplanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.\n\nExample 3:\n\nInput: x = 10\nOutput: false\nExplanation: Reads 01 from right to left. Therefore it is not a palindrome.\n\nConstraints:\n\n• -231 <= x <= 231 - 1\n\nFollow up: Could you solve it without converting the integer to a string?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isPalindrome(self, x):\n        \"\"\"\n        :type x: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Beware of overflow when you reverse the integer."
+  ],
+  "testCases": [
+    [
+      "121"
+    ],
+    [
+      "-121"
+    ],
+    [
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isPalindrome(self, x):\n        if x < 0:\n            return False\n        rev = 0\n        temp = x\n        while temp:\n            rev = rev * 10 + temp % 10\n            temp //= 10\n        return x == rev",
+    "explanation": "Negative numbers aren't palindromes. Reverse digits and compare.\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Palindrome Linked List\", \"titleSlug\": \"palindrome-linked-list\", \"difficulty\": \"Easy\"}, {\"title\": \"Find Palindrome With Fixed Length\", \"titleSlug\": \"find-palindrome-with-fixed-length\", \"difficulty\": \"Medium\"}, {\"title\": \"Strictly Palindromic Number\", \"titleSlug\": \"strictly-palindromic-number\", \"difficulty\": \"Medium\"}, {\"title\": \"  Count Symmetric Integers\", \"titleSlug\": \"count-symmetric-integers\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Count of Good Integers\", \"titleSlug\": \"find-the-count-of-good-integers\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Largest Palindrome Divisible by K\", \"titleSlug\": \"find-the-largest-palindrome-divisible-by-k\", \"difficulty\": \"Hard\"}]"
+}

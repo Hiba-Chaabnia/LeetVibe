@@ -1,0 +1,47 @@
+{
+  "questionId": "998",
+  "title": "Check Completeness of a Binary Tree",
+  "titleSlug": "check-completeness-of-a-binary-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, determine if it is a complete binary tree.\n\nIn a complete binary tree, every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.\n\nExample 1:\n\nInput: root = [1,2,3,4,5,6]\nOutput: true\nExplanation: Every level before the last is full (ie. levels with node-values {1} and {2, 3}), and all nodes in the last level ({4, 5, 6}) are as far left as possible.\n\nExample 2:\n\nInput: root = [1,2,3,4,5,null,7]\nOutput: false\nExplanation: The node with value 7 isn't as far left as possible.\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 100].\n\n• 1 <= Node.val <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isCompleteTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6]"
+    ],
+    [
+      "[1,2,3,4,5,null,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isCompleteTree(self, root):\n        from collections import deque\n        queue = deque([root])\n        found_null = False\n        while queue:\n            node = queue.popleft()\n            if not node:\n                found_null = True\n            else:\n                if found_null:\n                    return False\n                queue.append(node.left)\n                queue.append(node.right)\n        return True",
+    "explanation": "BFS. Once we see a null, no non-null should follow.\nTime: O(n)\nSpace: O(w)"
+  },
+  "similarQuestions": "[]"
+}

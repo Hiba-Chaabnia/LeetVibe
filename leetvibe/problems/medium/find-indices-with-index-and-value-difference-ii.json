@@ -1,0 +1,57 @@
+{
+  "questionId": "3170",
+  "title": "Find Indices With Index and Value Difference II",
+  "titleSlug": "find-indices-with-index-and-value-difference-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums having length n, an integer indexDifference, and an integer valueDifference.\n\nYour task is to find two indices i and j, both in the range [0, n - 1], that satisfy the following conditions:\n\n• abs(i - j) >= indexDifference, and\n\n• abs(nums[i] - nums[j]) >= valueDifference\n\nReturn an integer array answer, where answer = [i, j] if there are two such indices, and answer = [-1, -1] otherwise. If there are multiple choices for the two indices, return any of them.\n\nNote: i and j may be equal.\n\nExample 1:\n\nInput: nums = [5,1,4,1], indexDifference = 2, valueDifference = 4\nOutput: [0,3]\nExplanation: In this example, i = 0 and j = 3 can be selected.\n    abs(0 - 3) >= 2 and abs(nums[0] - nums[3]) >= 4.\n    Hence, a valid answer is [0,3].\n    [3,0] is also a valid answer.\n\nExample 2:\n\nInput: nums = [2,1], indexDifference = 0, valueDifference = 0\nOutput: [0,0]\nExplanation: In this example, i = 0 and j = 0 can be selected.\n    abs(0 - 0) >= 0 and abs(nums[0] - nums[0]) >= 0.\n    Hence, a valid answer is [0,0].\n    Other valid answers are [0,1], [1,0], and [1,1].\n\nExample 3:\n\nInput: nums = [1,2,3], indexDifference = 2, valueDifference = 4\nOutput: [-1,-1]\nExplanation: In this example, it can be shown that it is impossible to find two indices that satisfy both conditions.\n    Hence, [-1,-1] is returned.\n\nConstraints:\n\n• 1 <= n == nums.length <= 105\n\n• 0 <= nums[i] <= 109\n\n• 0 <= indexDifference <= 105\n\n• 0 <= valueDifference <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findIndices(self, nums, indexDifference, valueDifference):\n        \"\"\"\n        :type nums: List[int]\n        :type indexDifference: int\n        :type valueDifference: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each index i >= indexDifference, keep the indices j<sub>1</sub> and j<sub>2</sub> in the range [0, i - indexDifference] such that nums[j<sub>1</sub>] and nums[j<sub>2</sub>] are the minimum and maximum values in the index range.",
+    "Check if abs(nums[i] - nums[j<sub>1</sub>]) >= valueDifference or abs(nums[i] - nums[j<sub>2</sub>]) >= valueDifference.",
+    "j<sub>1</sub> and j<sub>2</sub> can be updated dynamically, or they can be pre-computed since they are just prefix minimum and maximum."
+  ],
+  "testCases": [
+    [
+      "[5,1,4,1]",
+      "2",
+      "4"
+    ],
+    [
+      "[2,1]",
+      "0",
+      "0"
+    ],
+    [
+      "[1,2,3]",
+      "2",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,3]",
+    "[0,0]",
+    "[-1,-1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findIndices(self, nums, indexDifference, valueDifference):\n        n = len(nums)\n        min_idx = max_idx = 0  # indices of min and max in sliding window [0..j]\n        for j in range(indexDifference, n):\n            i = j - indexDifference  # i is available\n            # Update min and max trackers\n            if nums[i] < nums[min_idx]:\n                min_idx = i\n            if nums[i] > nums[max_idx]:\n                max_idx = i\n            # Check max vs nums[j]\n            if abs(nums[max_idx] - nums[j]) >= valueDifference:\n                return [max_idx, j]\n            # Check min vs nums[j]\n            if abs(nums[min_idx] - nums[j]) >= valueDifference:\n                return [min_idx, j]\n        return [-1, -1]",
+    "explanation": "Slide j from indexDifference to n-1. At each j, the valid i range is [0, j-indexDifference]. Track running min and max indices in that range. Check if max or min paired with nums[j] gives value difference ≥ valueDifference.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Absolute Difference Between Elements With Constraint\", \"titleSlug\": \"minimum-absolute-difference-between-elements-with-constraint\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Indices With Index and Value Difference I\", \"titleSlug\": \"find-indices-with-index-and-value-difference-i\", \"difficulty\": \"Easy\"}]"
+}

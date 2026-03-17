@@ -1,0 +1,61 @@
+{
+  "questionId": "3702",
+  "title": "Maximum Subarray With Equal Products",
+  "titleSlug": "maximum-subarray-with-equal-products",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an array of positive integers nums.\n\nAn array arr is called product equivalent if prod(arr) == lcm(arr) * gcd(arr), where:\n\n• prod(arr) is the product of all elements of arr.\n\n• gcd(arr) is the GCD of all elements of arr.\n\n• lcm(arr) is the LCM of all elements of arr.\n\nReturn the length of the longest product equivalent subarray of nums.\n\nExample 1:\n\nInput: nums = [1,2,1,2,1,1,1]\n\nOutput: 5\n\nExplanation: The longest product equivalent subarray is [1, 2, 1, 1, 1], where prod([1, 2, 1, 1, 1]) = 2, gcd([1, 2, 1, 1, 1]) = 1, and lcm([1, 2, 1, 1, 1]) = 2.\n\nExample 2:\n\nInput: nums = [2,3,4,5,6]\n\nOutput: 3\n\nExplanation: The longest product equivalent subarray is [3, 4, 5].\n\nExample 3:\n\nInput: nums = [1,2,3,1,4,5,1]\n\nOutput: 5\n\nConstraints:\n\n• 2 <= nums.length <= 100\n\n• 1 <= nums[i] <= 10",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What is the maximum possible lcm?"
+  ],
+  "testCases": [
+    [
+      "[1,2,1,2,1,1,1]"
+    ],
+    [
+      "[2,3,4,5,6]"
+    ],
+    [
+      "[1,2,3,1,4,5,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "3",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxLength(self, nums):\n        from math import gcd\n        def lcm(a, b):\n            return a * b // gcd(a, b)\n        n = len(nums)\n        best = 1\n        for i in range(n):\n            prod = 1\n            cur_lcm = 1\n            for j in range(i, n):\n                prod *= nums[j]\n                cur_lcm = lcm(cur_lcm, nums[j])\n                if prod == cur_lcm:\n                    best = max(best, j - i + 1)\n                if prod > cur_lcm:\n                    break\n        return best",
+    "explanation": "Brute-force subarrays; for each, maintain running product and LCM; a subarray qualifies when product == LCM. O(n^2 * log) time."
+  },
+  "similarQuestions": "[{\"title\": \"Find Greatest Common Divisor of Array\", \"titleSlug\": \"find-greatest-common-divisor-of-array\", \"difficulty\": \"Easy\"}]"
+}

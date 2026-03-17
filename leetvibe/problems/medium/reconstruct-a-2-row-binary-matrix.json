@@ -1,0 +1,56 @@
+{
+  "questionId": "1379",
+  "title": "Reconstruct a 2-Row Binary Matrix",
+  "titleSlug": "reconstruct-a-2-row-binary-matrix",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given the following details of a matrix with n columns and 2 rows :\n\n• The matrix is a binary matrix, which means each element in the matrix can be 0 or 1.\n\n• The sum of elements of the 0-th(upper) row is given as upper.\n\n• The sum of elements of the 1-st(lower) row is given as lower.\n\n• The sum of elements in the i-th column(0-indexed) is colsum[i], where colsum is given as an integer array with length n.\n\nYour task is to reconstruct the matrix with upper, lower and colsum.\n\nReturn it as a 2-D integer array.\n\nIf there are more than one valid solution, any of them will be accepted.\n\nIf no valid solution exists, return an empty 2-D array.\n\nExample 1:\n\nInput: upper = 2, lower = 1, colsum = [1,1,1]\nOutput: [[1,1,0],[0,0,1]]\nExplanation: [[1,0,1],[0,1,0]], and [[0,1,1],[1,0,0]] are also correct answers.\n\nExample 2:\n\nInput: upper = 2, lower = 3, colsum = [2,2,1,1]\nOutput: []\n\nExample 3:\n\nInput: upper = 5, lower = 5, colsum = [2,1,2,0,1,0,1,2,0,1]\nOutput: [[1,1,1,0,1,0,0,1,0,0],[1,0,1,0,0,0,1,1,0,1]]\n\nConstraints:\n\n• 1 <= colsum.length <= 10^5\n\n• 0 <= upper, lower <= colsum.length\n\n• 0 <= colsum[i] <= 2",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reconstructMatrix(self, upper, lower, colsum):\n        \"\"\"\n        :type upper: int\n        :type lower: int\n        :type colsum: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You cannot do anything about colsum[i] = 2 case or colsum[i] = 0 case. Then you put colsum[i] = 1 case to the upper row until upper has reached. Then put the rest into lower row.",
+    "Fill 0 and 2 first, then fill 1 in the upper row or lower row in turn but be careful about exhausting permitted 1s in each row."
+  ],
+  "testCases": [
+    [
+      "2",
+      "1",
+      "[1,1,1]"
+    ],
+    [
+      "2",
+      "3",
+      "[2,2,1,1]"
+    ],
+    [
+      "5",
+      "5",
+      "[2,1,2,0,1,0,1,2,0,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,1,0],[0,0,1]]",
+    "[]",
+    "[[1,1,1,0,1,0,0,1,0,0],[1,0,1,0,0,0,1,1,0,1]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find Valid Matrix Given Row and Column Sums\", \"titleSlug\": \"find-valid-matrix-given-row-and-column-sums\", \"difficulty\": \"Medium\"}]"
+}

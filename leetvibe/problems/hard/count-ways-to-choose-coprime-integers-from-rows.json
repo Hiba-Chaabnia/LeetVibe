@@ -1,0 +1,65 @@
+{
+  "questionId": "4069",
+  "title": "Count Ways to Choose Coprime Integers from Rows",
+  "titleSlug": "count-ways-to-choose-coprime-integers-from-rows",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given a m x n matrix mat of positive integers.\n\nReturn an integer denoting the number of ways to choose exactly one integer from each row of mat such that the greatest common divisor of all chosen integers is 1.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: mat = [[1,2],[3,4]]\n\nOutput: 3\n\nExplanation: \t\t\t\tChosen integer in the first row\n\t\t\t\tChosen integer in the second row\n\t\t\t\tGreatest common divisor of chosen integers\n\n\t\t\t\t1\n\t\t\t\t3\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\t4\n\t\t\t\t1\n\n\t\t\t\t2\n\t\t\t\t3\n\t\t\t\t1\n\n\t\t\t\t2\n\t\t\t\t4\n\t\t\t\t2\n\n3 of these combinations have a greatest common divisor of 1. Therefore, the answer is 3.\n\nExample 2:\n\nInput: mat = [[2,2],[2,2]]\n\nOutput: 0\n\nExplanation: Every combination has a greatest common divisor of 2. Therefore, the answer is 0.\n\nConstraints:\n\n• 1 <= m == mat.length <= 150\n\n• 1 <= n == mat[i].length <= 150\n\n• 1 <= mat[i][j] <= 150",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countCoprime(self, mat):\n        \"\"\"\n        :type mat: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "Use dp[row][g], where row is the current row and g is the current gcd value.",
+    "Initialize the first row: for each value v in row 0 do dp[0][v] += 1.",
+    "For a row i, use the values from the previous row i - 1 to build the values: for each previous gcd g and each value v in row i.",
+    "The final answer is dp[n-1][1] (number of ways with gcd 1)."
+  ],
+  "testCases": [
+    [
+      "[[1,2],[3,4]]"
+    ],
+    [
+      "[[2,2],[2,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countCoprime(self, mat):\n        \"\"\"\n        :type mat: List[List[int]]\n        :rtype: int\n        \"\"\"\n        from math import gcd\n        MOD = 10**9 + 7\n        \n        m = len(mat)\n        \n        # For each row, count occurrences of each value\n        # dp[i][g] = ways to choose one element from first i rows with gcd=g\n        dp = [0] * 51  # GCD can be at most 150\n        \n        # Process first row\n        first_row_count = {}\n        for val in mat[0]:\n            first_row_count[val] = first_row_count.get(val, 0) + 1\n        \n        for val, count in first_row_count.items():\n            dp[val] = (dp[val] + count) % MOD\n        \n        # Process remaining rows\n        for row_idx in range(1, m):\n            # Count occurrences in current row\n            row_count = {}\n            for val in mat[row_idx]:\n                row_count[val] = row_count.get(val, 0) + 1\n            \n            new_dp = [0] * 51\n            \n            # For each previous GCD\n            for prev_g in range(1, 51):\n                if dp[prev_g] == 0:\n                    continue\n                \n                # For each value in current row\n                for curr_val, count in row_count.items():\n                    new_g = gcd(prev_g, curr_val)\n                    new_dp[new_g] = (new_dp[new_g] + dp[prev_g] * count) % MOD\n            \n            dp = new_dp\n        \n        return dp[1]",
+    "explanation": "Row-wise DP with GCD tracking:\n\n1. **State**: dp[g] = ways to choose one element from each row with combined gcd = g\n2. **Transition**:\n   - For each previous gcd prev_g\n   - For each value in current row\n   - New gcd = gcd(prev_g, value)\n   - Update count\n\n3. **Counting**:\n   - First row: count each distinct value\n   - Subsequent rows: combine with previous gcd values\n   - Answer: dp[1] (GCD of 1 = coprime)\n\nTime: O(m * n * 50 * log max_val)\nSpace: O(50)"
+  },
+  "similarQuestions": "[]"
+}

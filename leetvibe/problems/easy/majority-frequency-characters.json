@@ -1,0 +1,57 @@
+{
+  "questionId": "4053",
+  "title": "Majority Frequency Characters",
+  "titleSlug": "majority-frequency-characters",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters.\n\nThe frequency group for a value k is the set of characters that appear exactly k times in s.\n\nThe majority frequency group is the frequency group that contains the largest number of distinct characters.\n\nReturn a string containing all characters in the majority frequency group, in any order. If two or more frequency groups tie for that largest size, pick the group whose frequency k is larger.\n\nExample 1:\n\nInput: s = \"aaabbbccdddde\"\n\nOutput: \"ab\"\n\nExplanation: \t\t\t\tFrequency (k)\n\t\t\t\tDistinct characters in group\n\t\t\t\tGroup size\n\t\t\t\tMajority?\n\n\t\t\t\t4\n\t\t\t\t{d}\n\t\t\t\t1\n\t\t\t\tNo\n\n\t\t\t\t3\n\t\t\t\t{a, b}\n\t\t\t\t2\n\t\t\t\tYes\n\n\t\t\t\t2\n\t\t\t\t{c}\n\t\t\t\t1\n\t\t\t\tNo\n\n\t\t\t\t1\n\t\t\t\t{e}\n\t\t\t\t1\n\t\t\t\tNo\n\nBoth characters 'a' and 'b' share the same frequency 3, they are in the majority frequency group. \"ba\" is also a valid answer.\n\nExample 2:\n\nInput: s = \"abcd\"\n\nOutput: \"abcd\"\n\nExplanation: \t\t\t\tFrequency (k)\n\t\t\t\tDistinct characters in group\n\t\t\t\tGroup size\n\t\t\t\tMajority?\n\n\t\t\t\t1\n\t\t\t\t{a, b, c, d}\n\t\t\t\t4\n\t\t\t\tYes\n\nAll characters share the same frequency 1, they are all in the majority frequency group.\n\nExample 3:\n\nInput: s = \"pfpfgi\"\n\nOutput: \"fp\"\n\nExplanation: \t\t\t\tFrequency (k)\n\t\t\t\tDistinct characters in group\n\t\t\t\tGroup size\n\t\t\t\tMajority?\n\n\t\t\t\t2\n\t\t\t\t{p, f}\n\t\t\t\t2\n\t\t\t\tYes\n\n\t\t\t\t1\n\t\t\t\t{g, i}\n\t\t\t\t2\n\t\t\t\tNo (tied size, lower frequency)\n\nBoth characters 'p' and 'f' share the same frequency 2, they are in the majority frequency group. There is a tie in group size with frequency 1, but we pick the higher frequency: 2.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def majorityFrequencyGroup(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Start by counting the frequency of each character in the string.",
+    "Group characters based on their frequencies.",
+    "Identify the group with the largest number of distinct characters.",
+    "If multiple groups tie, select the one with the higher frequency value.",
+    "Construct the answer string using all characters from that chosen group."
+  ],
+  "testCases": [
+    [
+      "\"aaabbbccdddde\""
+    ],
+    [
+      "\"abcd\""
+    ],
+    [
+      "\"pfpfgi\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"ab\"",
+    "\"abcd\"",
+    "\"fp\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def majorityFrequencyGroup(self, s):\n        from collections import Counter\n        freq = Counter(s)\n        freq_of_freq = Counter(freq.values())\n        max_count = max(freq_of_freq.values())\n        # among tied modes, pick the highest frequency\n        target_freq = max(f for f, c in freq_of_freq.items() if c == max_count)\n        return ''.join(sorted(ch for ch, f in freq.items() if f == target_freq))",
+    "explanation": "Find the most common frequency value (mode); on tie take the highest frequency; return sorted characters having that frequency. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

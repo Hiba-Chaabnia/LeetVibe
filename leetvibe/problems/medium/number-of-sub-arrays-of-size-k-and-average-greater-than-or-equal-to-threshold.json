@@ -1,0 +1,51 @@
+{
+  "questionId": "1445",
+  "title": "Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold",
+  "titleSlug": "number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given an array of integers arr and two integers k and threshold, return the number of sub-arrays of size k and average greater than or equal to threshold.\n\nExample 1:\n\nInput: arr = [2,2,2,2,5,5,5,8], k = 3, threshold = 4\nOutput: 3\nExplanation: Sub-arrays [2,5,5],[5,5,5] and [5,5,8] have averages 4, 5 and 6 respectively. All other sub-arrays of size 3 have averages less than 4 (the threshold).\n\nExample 2:\n\nInput: arr = [11,13,17,23,29,31,7,5,2,3], k = 3, threshold = 5\nOutput: 6\nExplanation: The first 6 sub-arrays of size 3 have averages greater than 5. Note that averages are not integers.\n\nConstraints:\n\n• 1 <= arr.length <= 105\n\n• 1 <= arr[i] <= 104\n\n• 1 <= k <= arr.length\n\n• 0 <= threshold <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numOfSubarrays(self, arr, k, threshold):\n        \"\"\"\n        :type arr: List[int]\n        :type k: int\n        :type threshold: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Start with a window of size K and test its average against the threshold.",
+    "Keep moving the window by one element maintaining its size k until you cover the whole array. Count the number of windows that have an average greater than or equal to the threshold."
+  ],
+  "testCases": [
+    [
+      "[2,2,2,2,5,5,5,8]",
+      "3",
+      "4"
+    ],
+    [
+      "[11,13,17,23,29,31,7,5,2,3]",
+      "3",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def numOfSubarrays(self, arr, k, threshold):\n        \"\"\"\n        :type arr: List[int]\n        :type k: int\n        :type threshold: int\n        :rtype: int\n        \"\"\"\n        window_sum = sum(arr[:k])\n        count = 1 if window_sum >= k * threshold else 0\n        \n        for i in range(k, len(arr)):\n            # Slide window: remove leftmost, add rightmost\n            window_sum = window_sum - arr[i-k] + arr[i]\n            if window_sum >= k * threshold:\n                count += 1\n        \n        return count",
+    "explanation": "Sliding window of size k. Check if sum >= k*threshold (equivalent to avg >= threshold).",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"K Radius Subarray Averages\", \"titleSlug\": \"k-radius-subarray-averages\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Subarrays With Median K\", \"titleSlug\": \"count-subarrays-with-median-k\", \"difficulty\": \"Hard\"}, {\"title\": \"Apply Operations to Make All Array Elements Equal to Zero\", \"titleSlug\": \"apply-operations-to-make-all-array-elements-equal-to-zero\", \"difficulty\": \"Medium\"}]"
+}

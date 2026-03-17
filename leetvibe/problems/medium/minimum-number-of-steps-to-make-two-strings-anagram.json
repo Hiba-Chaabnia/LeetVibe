@@ -1,0 +1,57 @@
+{
+  "questionId": "1469",
+  "title": "Minimum Number of Steps to Make Two Strings Anagram",
+  "titleSlug": "minimum-number-of-steps-to-make-two-strings-anagram",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given two strings of the same length s and t. In one step you can choose any character of t and replace it with another character.\n\nReturn the minimum number of steps to make t an anagram of s.\n\nAn Anagram of a string is a string that contains the same characters with a different (or the same) ordering.\n\nExample 1:\n\nInput: s = \"bab\", t = \"aba\"\nOutput: 1\nExplanation: Replace the first 'a' in t with b, t = \"bba\" which is anagram of s.\n\nExample 2:\n\nInput: s = \"leetcode\", t = \"practice\"\nOutput: 5\nExplanation: Replace 'p', 'r', 'a', 'i' and 'c' from t with proper characters to make t anagram of s.\n\nExample 3:\n\nInput: s = \"anagram\", t = \"mangaar\"\nOutput: 0\nExplanation: \"anagram\" and \"mangaar\" are anagrams.\n\nConstraints:\n\n• 1 <= s.length <= 5 * 104\n\n• s.length == t.length\n\n• s and t consist of lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSteps(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the frequency of characters of each string.",
+    "Loop over all characters if the frequency of a character in t is less than the frequency of the same character in s then add the difference between the frequencies to the answer."
+  ],
+  "testCases": [
+    [
+      "\"bab\"",
+      "\"aba\""
+    ],
+    [
+      "\"leetcode\"",
+      "\"practice\""
+    ],
+    [
+      "\"anagram\"",
+      "\"mangaar\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minSteps(s, t):\n    s_Count = [0] * 26\n    t_Count = [0] * 26\n    for c in s: s_Count[ord(c) - ord('a')] += 1\n    for c in t: t_Count[ord(c) - ord('a')] += 1\n    res = 0\n    for i in range(26):\n        res += abs(s_Count[i] - t_Count[i])\n    return res // 2",
+    "explanation": "1. Initialize two arrays, `s_Count` and `t_Count`, of length 26, both filled with zeros. These arrays will represent the character counts in strings `s` and `t`. The index represents the respective character number and the value at that index represents the count of the character.\n2. Iterate through both strings `s` and `t` and increase the count of characters in their respective count arrays.\n3. Initialize a counter `res` to zero.\n4. Iterate through the arrays `s_Count` and `t_Count` and calculate the absolute difference between the counts for each character. Add the difference to the counter variable `res`.\n5. Return half of the `res` variable (since we counted the difference two times, i.e., in both `s` and `t`).\n\nThis algorithm has a time complexity of O(n) since we iterate through both strings once and the count arrays once."
+  },
+  "similarQuestions": "[{\"title\": \"Determine if Two Strings Are Close\", \"titleSlug\": \"determine-if-two-strings-are-close\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Steps to Make Two Strings Anagram II\", \"titleSlug\": \"minimum-number-of-steps-to-make-two-strings-anagram-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Make Character Frequencies Equal\", \"titleSlug\": \"minimum-operations-to-make-character-frequencies-equal\", \"difficulty\": \"Hard\"}]"
+}

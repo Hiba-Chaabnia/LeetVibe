@@ -1,0 +1,51 @@
+{
+  "questionId": "1041",
+  "title": "Available Captures for Rook",
+  "titleSlug": "available-captures-for-rook",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an 8 x 8 matrix representing a chessboard. There is exactly one white rook represented by 'R', some number of white bishops 'B', and some number of black pawns 'p'. Empty squares are represented by '.'.\n\nA rook can move any number of squares horizontally or vertically (up, down, left, right) until it reaches another piece or the edge of the board. A rook is attacking a pawn if it can move to the pawn's square in one move.\n\nNote: A rook cannot move through other pieces, such as bishops or pawns. This means a rook cannot attack a pawn if there is another piece blocking the path.\n\nReturn the number of pawns the white rook is attacking.\n\nExample 1:\n\nInput: board = [[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"p\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"R\",\".\",\".\",\".\",\"p\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"p\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"]]\n\nOutput: 3\n\nExplanation: In this example, the rook is attacking all the pawns.\n\nExample 2:\n\nInput: board = [[\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\"p\",\"p\",\"p\",\"p\",\"p\",\".\",\".\"],[\".\",\"p\",\"p\",\"B\",\"p\",\"p\",\".\",\".\"],[\".\",\"p\",\"B\",\"R\",\"B\",\"p\",\".\",\".\"],[\".\",\"p\",\"p\",\"B\",\"p\",\"p\",\".\",\".\"],[\".\",\"p\",\"p\",\"p\",\"p\",\"p\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"]]\n\nOutput: 0\n\nExplanation: The bishops are blocking the rook from attacking any of the pawns.\n\nExample 3:\n\nInput: board = [[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"p\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"p\",\".\",\".\",\".\",\".\"],[\"p\",\"p\",\".\",\"R\",\".\",\"p\",\"B\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"B\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"p\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"]]\n\nOutput: 3\n\nExplanation: The rook is attacking the pawns at positions b5, d6, and f5.\n\nConstraints:\n\n• board.length == 8\n\n• board[i].length == 8\n\n• board[i][j] is either 'R', '.', 'B', or 'p'\n\n• There is exactly one cell with board[i][j] == 'R'",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numRookCaptures(self, board):\n        \"\"\"\n        :type board: List[List[str]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"p\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"R\",\".\",\".\",\".\",\"p\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"p\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"]]"
+    ],
+    [
+      "[[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\"p\",\"p\",\"p\",\"p\",\"p\",\".\",\".\"],[\".\",\"p\",\"p\",\"B\",\"p\",\"p\",\".\",\".\"],[\".\",\"p\",\"B\",\"R\",\"B\",\"p\",\".\",\".\"],[\".\",\"p\",\"p\",\"B\",\"p\",\"p\",\".\",\".\"],[\".\",\"p\",\"p\",\"p\",\"p\",\"p\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"]]"
+    ],
+    [
+      "[[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"p\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"p\",\".\",\".\",\".\",\".\"],[\"p\",\"p\",\".\",\"R\",\".\",\"p\",\"B\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"B\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"p\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numRookCaptures(self, board):\n        result = 0\n        r, c = 0, 0\n        for i in range(8):\n            for j in range(8):\n                if board[i][j] == 'R':\n                    r, c = i, j\n                    break\n        for direction in [(0, 1), (0, -1), (1, 0), (-1, 0)]:\n            nr, nc = r, c\n            while 0 <= nr < 8 and 0 <= nc < 8:\n                if board[nr][nc] == 'B':\n                    break\n                if board[nr][nc] == 'p':\n                    result += 1\n                    break\n                nr += direction[0]\n                nc += direction[1]\n        return result",
+    "explanation": "Find rook position. Check 4 directions: stop at bishop or capture pawn, count captures."
+  },
+  "similarQuestions": "[{\"title\": \"Count Unguarded Cells in the Grid\", \"titleSlug\": \"count-unguarded-cells-in-the-grid\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Moves to Capture The Queen\", \"titleSlug\": \"minimum-moves-to-capture-the-queen\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Value Sum by Placing Three Rooks II\", \"titleSlug\": \"maximum-value-sum-by-placing-three-rooks-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Value Sum by Placing Three Rooks I\", \"titleSlug\": \"maximum-value-sum-by-placing-three-rooks-i\", \"difficulty\": \"Hard\"}]"
+}

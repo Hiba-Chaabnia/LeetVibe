@@ -1,0 +1,53 @@
+{
+  "questionId": "3707",
+  "title": "Find the Most Common Response",
+  "titleSlug": "find-the-most-common-response",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a 2D string array responses where each responses[i] is an array of strings representing survey responses from the ith day.\n\nReturn the most common response across all days after removing duplicate responses within each responses[i]. If there is a tie, return the lexicographically smallest response.\n\nExample 1:\n\nInput: responses = [[\"good\",\"ok\",\"good\",\"ok\"],[\"ok\",\"bad\",\"good\",\"ok\",\"ok\"],[\"good\"],[\"bad\"]]\n\nOutput: \"good\"\n\nExplanation:\n\n• After removing duplicates within each list, responses = [[\"good\", \"ok\"], [\"ok\", \"bad\", \"good\"], [\"good\"], [\"bad\"]].\n\n• \"good\" appears 3 times, \"ok\" appears 2 times, and \"bad\" appears 2 times.\n\n• Return \"good\" because it has the highest frequency.\n\nExample 2:\n\nInput: responses = [[\"good\",\"ok\",\"good\"],[\"ok\",\"bad\"],[\"bad\",\"notsure\"],[\"great\",\"good\"]]\n\nOutput: \"bad\"\n\nExplanation:\n\n• After removing duplicates within each list we have responses = [[\"good\", \"ok\"], [\"ok\", \"bad\"], [\"bad\", \"notsure\"], [\"great\", \"good\"]].\n\n• \"bad\", \"good\", and \"ok\" each occur 2 times.\n\n• The output is \"bad\" because it is the lexicographically smallest amongst the words with the highest frequency.\n\nConstraints:\n\n• 1 <= responses.length <= 1000\n\n• 1 <= responses[i].length <= 1000\n\n• 1 <= responses[i][j].length <= 10\n\n• responses[i][j] consists of only lowercase English letters",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findCommonResponse(self, responses):\n        \"\"\"\n        :type responses: List[List[str]]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a HashMap."
+  ],
+  "testCases": [
+    [
+      "[[\"good\",\"ok\",\"good\",\"ok\"],[\"ok\",\"bad\",\"good\",\"ok\",\"ok\"],[\"good\"],[\"bad\"]]"
+    ],
+    [
+      "[[\"good\",\"ok\",\"good\"],[\"ok\",\"bad\"],[\"bad\",\"notsure\"],[\"great\",\"good\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"good\"",
+    "\"bad\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def findCommonResponse(self, responses):\n        freq = Counter()\n        for day in responses:\n            for r in set(day):  # deduplicate within day\n                freq[r] += 1\n        best_count = max(freq.values())\n        return min(r for r, c in freq.items() if c == best_count)",
+    "explanation": "For each day, deduplicate responses using a set, then count frequency across days. Return the response with highest frequency; break ties lexicographically with min().\n\nTime: O(total_responses). Space: O(unique_responses)."
+  },
+  "similarQuestions": "[{\"title\": \"Majority Element\", \"titleSlug\": \"majority-element\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "1048",
+  "title": "Clumsy Factorial",
+  "titleSlug": "clumsy-factorial",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "The factorial of a positive integer n is the product of all positive integers less than or equal to n.\n\n• For example, factorial(10) = 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1.\n\nWe make a clumsy factorial using the integers in decreasing order by swapping out the multiply operations for a fixed rotation of operations with multiply '*', divide '/', add '+', and subtract '-' in this order.\n\n• For example, clumsy(10) = 10 * 9 / 8 + 7 - 6 * 5 / 4 + 3 - 2 * 1.\n\nHowever, these operations are still applied using the usual order of operations of arithmetic. We do all multiplication and division steps before any addition or subtraction steps, and multiplication and division steps are processed left to right.\n\nAdditionally, the division that we use is floor division such that 10 * 9 / 8 = 90 / 8 = 11.\n\nGiven an integer n, return the clumsy factorial of n.\n\nExample 1:\n\nInput: n = 4\nOutput: 7\nExplanation: 7 = 4 * 3 / 2 + 1\n\nExample 2:\n\nInput: n = 10\nOutput: 12\nExplanation: 12 = 10 * 9 / 8 + 7 - 6 * 5 / 4 + 3 - 2 * 1\n\nConstraints:\n\n• 1 <= n <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def clumsy(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "4"
+    ],
+    [
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def clumsy(self, n):\n        ops = ['*', '/', '+', '-'] * (n // 4 + 1)\n        stack = [n]\n        num = n - 1\n        for i, op in enumerate(ops):\n            if num <= 0:\n                break\n            if op == '*':\n                stack.append(stack.pop() * num)\n            elif op == '/':\n                stack.append(int(stack.pop() / num))\n            elif op == '+':\n                stack.append(num)\n            else:  # op == '-'\n                stack.append(-num)\n            num -= 1\n        return sum(stack)",
+    "explanation": "Stack-based with operation rotation. Handle * and / immediately.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Count the Number of Computer Unlocking Permutations\", \"titleSlug\": \"count-the-number-of-computer-unlocking-permutations\", \"difficulty\": \"Medium\"}]"
+}

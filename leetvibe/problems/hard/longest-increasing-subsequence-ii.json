@@ -1,0 +1,71 @@
+{
+  "questionId": "2526",
+  "title": "Longest Increasing Subsequence II",
+  "titleSlug": "longest-increasing-subsequence-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Monotonic Queue",
+      "slug": "monotonic-queue"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nFind the longest subsequence of nums that meets the following requirements:\n\n• The subsequence is strictly increasing and\n\n• The difference between adjacent elements in the subsequence is at most k.\n\nReturn the length of the longest subsequence that meets the requirements.\n\nA subsequence is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.\n\nExample 1:\n\nInput: nums = [4,2,1,4,3,4,5,8,15], k = 3\nOutput: 5\nExplanation:\n    The longest subsequence that meets the requirements is [1,3,4,5,8].\n    The subsequence has a length of 5, so we return 5.\n    Note that the subsequence [1,3,4,5,8,15] does not meet the requirements because 15 - 8 = 7 is larger than 3.\n\nExample 2:\n\nInput: nums = [7,4,5,1,8,12,4,7], k = 5\nOutput: 4\nExplanation:\n    The longest subsequence that meets the requirements is [4,5,8,12].\n    The subsequence has a length of 4, so we return 4.\n\nExample 3:\n\nInput: nums = [1,5], k = 1\nOutput: 1\nExplanation:\n    The longest subsequence that meets the requirements is [1].\n    The subsequence has a length of 1, so we return 1.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i], k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lengthOfLIS(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can use dynamic programming. Let dp[i][val] be the answer using only the first i + 1 elements, and the last element in the subsequence is equal to val.",
+    "The only value that might change between dp[i - 1] and dp[i] are dp[i - 1][val] and dp[i][val].",
+    "Try using dp[i - 1] and the fact that the second last element in the subsequence has to fall within a range to calculate dp[i][val].",
+    "We can use a segment tree to find the maximum value in dp[i - 1] within a certain range."
+  ],
+  "testCases": [
+    [
+      "[4,2,1,4,3,4,5,8,15]",
+      "3"
+    ],
+    [
+      "[7,4,5,1,8,12,4,7]",
+      "5"
+    ],
+    [
+      "[1,5]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "4",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Increasing Subsequence\", \"titleSlug\": \"longest-increasing-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Longest Increasing Subsequence\", \"titleSlug\": \"number-of-longest-increasing-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Continuous Increasing Subsequence\", \"titleSlug\": \"longest-continuous-increasing-subsequence\", \"difficulty\": \"Easy\"}, {\"title\": \"Longest Substring of One Repeating Character\", \"titleSlug\": \"longest-substring-of-one-repeating-character\", \"difficulty\": \"Hard\"}, {\"title\": \"Booking Concert Tickets in Groups\", \"titleSlug\": \"booking-concert-tickets-in-groups\", \"difficulty\": \"Hard\"}, {\"title\": \"Longest Subsequence With Decreasing Adjacent Difference\", \"titleSlug\": \"longest-subsequence-with-decreasing-adjacent-difference\", \"difficulty\": \"Medium\"}]"
+}

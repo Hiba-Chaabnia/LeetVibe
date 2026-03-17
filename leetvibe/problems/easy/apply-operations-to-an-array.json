@@ -1,0 +1,49 @@
+{
+  "questionId": "2551",
+  "title": "Apply Operations to an Array",
+  "titleSlug": "apply-operations-to-an-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a 0-indexed array nums of size n consisting of non-negative integers.\n\nYou need to apply n - 1 operations to this array where, in the ith operation (0-indexed), you will apply the following on the ith element of nums:\n\n• If nums[i] == nums[i + 1], then multiply nums[i] by 2 and set nums[i + 1] to 0. Otherwise, you skip this operation.\n\nAfter performing all the operations, shift all the 0's to the end of the array.\n\n• For example, the array [1,0,2,0,0,1] after shifting all its 0's to the end, is [1,2,1,0,0,0].\n\nReturn the resulting array.\n\nNote that the operations are applied sequentially, not all at once.\n\nExample 1:\n\nInput: nums = [1,2,2,1,1,0]\nOutput: [1,4,2,0,0,0]\nExplanation: We do the following operations:\n    - i = 0: nums[0] and nums[1] are not equal, so we skip this operation.\n    - i = 1: nums[1] and nums[2] are equal, we multiply nums[1] by 2 and change nums[2] to 0. The array becomes [1,4,0,1,1,0].\n    - i = 2: nums[2] and nums[3] are not equal, so we skip this operation.\n    - i = 3: nums[3] and nums[4] are equal, we multiply nums[3] by 2 and change nums[4] to 0. The array becomes [1,4,0,2,0,0].\n    - i = 4: nums[4] and nums[5] are equal, we multiply nums[4] by 2 and change nums[5] to 0. The array becomes [1,4,0,2,0,0].\n    After that, we shift the 0's to the end, which gives the array [1,4,2,0,0,0].\n\nExample 2:\n\nInput: nums = [0,1]\nOutput: [1,0]\nExplanation: No operation can be applied, we just shift the 0 to the end.\n\nConstraints:\n\n• 2 <= nums.length <= 2000\n\n• 0 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def applyOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate over the array and simulate the described process."
+  ],
+  "testCases": [
+    [
+      "[1,2,2,1,1,0]"
+    ],
+    [
+      "[0,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,4,2,0,0,0]",
+    "[1,0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def applyOperations(self, nums):\n        n = len(nums)\n        for i in range(n - 1):\n            if nums[i] == nums[i + 1]:\n                nums[i] *= 2\n                nums[i + 1] = 0\n        result = [x for x in nums if x != 0]\n        result += [0] * (n - len(result))\n        return result",
+    "explanation": "1. Apply operations: if equal, double and zero next. 2. Move non-zeros to front, zeros to back."
+  },
+  "similarQuestions": "[{\"title\": \"Remove Duplicates from Sorted Array\", \"titleSlug\": \"remove-duplicates-from-sorted-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Move Zeroes\", \"titleSlug\": \"move-zeroes\", \"difficulty\": \"Easy\"}]"
+}

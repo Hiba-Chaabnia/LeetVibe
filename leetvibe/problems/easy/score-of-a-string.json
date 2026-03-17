@@ -1,0 +1,41 @@
+{
+  "questionId": "3379",
+  "title": "Score of a String",
+  "titleSlug": "score-of-a-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string s. The score of a string is defined as the sum of the absolute difference between the ASCII values of adjacent characters.\n\nReturn the score of s.\n\nExample 1:\n\nInput: s = \"hello\"\n\nOutput: 13\n\nExplanation: The ASCII values of the characters in s are: 'h' = 104, 'e' = 101, 'l' = 108, 'o' = 111. So, the score of s would be |104 - 101| + |101 - 108| + |108 - 108| + |108 - 111| = 3 + 7 + 0 + 3 = 13.\n\nExample 2:\n\nInput: s = \"zaz\"\n\nOutput: 50\n\nExplanation: The ASCII values of the characters in s are: 'z' = 122, 'a' = 97. So, the score of s would be |122 - 97| + |97 - 122| = 25 + 25 = 50.\n\nConstraints:\n\n• 2 <= s.length <= 100\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def scoreOfString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sum the difference between all the adjacent characters by just taking the absolute difference of their ASCII values."
+  ],
+  "testCases": [
+    [
+      "\"hello\""
+    ],
+    [
+      "\"zaz\""
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "50"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def scoreOfString(self, s):\n        return sum(abs(ord(s[i]) - ord(s[i - 1])) for i in range(1, len(s)))",
+    "explanation": "Sum the absolute differences of ASCII values between every pair of adjacent characters. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

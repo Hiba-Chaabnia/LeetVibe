@@ -1,0 +1,46 @@
+{
+  "questionId": "2872",
+  "title": "Largest Element in an Array after Merge Operations",
+  "titleSlug": "largest-element-in-an-array-after-merge-operations",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed array nums consisting of positive integers.\n\nYou can do the following operation on the array any number of times:\n\n• Choose an index i such that 0 <= i < nums.length - 1 and nums[i] <= nums[i + 1]. Replace the element nums[i + 1] with nums[i] + nums[i + 1] and delete the element nums[i] from the array.\n\nReturn the value of the largest element that you can possibly obtain in the final array.\n\nExample 1:\n\nInput: nums = [2,3,7,9,3]\nOutput: 21\nExplanation: We can apply the following operations on the array:\n    - Choose i = 0. The resulting array will be nums = [5,7,9,3].\n    - Choose i = 1. The resulting array will be nums = [5,16,3].\n    - Choose i = 0. The resulting array will be nums = [21,3].\n    The largest element in the final array is 21. It can be shown that we cannot obtain a larger element.\n\nExample 2:\n\nInput: nums = [5,3,3]\nOutput: 11\nExplanation: We can do the following operations on the array:\n    - Choose i = 1. The resulting array will be nums = [5,6].\n    - Choose i = 0. The resulting array will be nums = [11].\n    There is only one element in the final array, which is 11.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxArrayValue(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Start from the end of the array and keep merging elements together until it is no longer possible.",
+    "The answer will be the resulting element from the last merge operation."
+  ],
+  "testCases": [
+    [
+      "[2,3,7,9,3]"
+    ],
+    [
+      "[5,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "21",
+    "11"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxArrayValue(self, nums):\n        # Scan right to left: greedily merge\n        n = len(nums)\n        cur = nums[n-1]\n        for i in range(n-2, -1, -1):\n            if nums[i] <= cur:\n                cur += nums[i]\n            else:\n                cur = nums[i]\n        return cur",
+    "explanation": "Scan right to left, maintaining a running sum. If nums[i] ≤ current accumulated value, we can merge nums[i] into it (add). Otherwise, reset to nums[i]. The maximum is the largest accumulated value seen.\n\nActually we need the global max, but since merging can only increase values and we scan right-to-left, `cur` at the end (after processing index 0) gives the answer.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Jump Game\", \"titleSlug\": \"jump-game\", \"difficulty\": \"Medium\"}, {\"title\": \"House Robber\", \"titleSlug\": \"house-robber\", \"difficulty\": \"Medium\"}, {\"title\": \"Get Maximum in Generated Array\", \"titleSlug\": \"get-maximum-in-generated-array\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "3308",
+  "title": "Apply Operations to Make String Empty",
+  "titleSlug": "apply-operations-to-make-string-empty",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s.\n\nConsider performing the following operation until s becomes empty:\n\n• For every alphabet character from 'a' to 'z', remove the first occurrence of that character in s (if it exists).\n\nFor example, let initially s = \"aabcbbca\". We do the following operations:\n\n• Remove the underlined characters s = \"aabcbbca\". The resulting string is s = \"abbca\".\n\n• Remove the underlined characters s = \"abbca\". The resulting string is s = \"ba\".\n\n• Remove the underlined characters s = \"ba\". The resulting string is s = \"\".\n\nReturn the value of the string s right before applying the last operation. In the example above, answer is \"ba\".\n\nExample 1:\n\nInput: s = \"aabcbbca\"\nOutput: \"ba\"\nExplanation: Explained in the statement.\n\nExample 2:\n\nInput: s = \"abcd\"\nOutput: \"abcd\"\nExplanation: We do the following operation:\n    - Remove the underlined characters s = \"abcd\". The resulting string is s = \"\".\n    The string just before the last operation is \"abcd\".\n\nConstraints:\n\n• 1 <= s.length <= 5 * 105\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lastNonEmptyString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Before the last operation, only the most frequent characters in the original string will remain.",
+    "Keep only the last occurence of each of the most frequent characters."
+  ],
+  "testCases": [
+    [
+      "\"aabcbbca\""
+    ],
+    [
+      "\"abcd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"ba\"",
+    "\"abcd\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def lastNonEmptyString(self, s):\n        from collections import Counter\n        cnt = Counter(s)\n        max_freq = max(cnt.values())\n        last = {}\n        for i, c in enumerate(s):\n            if cnt[c] == max_freq:\n                last[c] = i\n        return ''.join(sorted(last.keys(), key=lambda c: last[c]))",
+    "explanation": "The surviving string contains chars with max frequency; return their last occurrences in original order. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

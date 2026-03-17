@@ -1,0 +1,60 @@
+{
+  "questionId": "3659",
+  "title": "Count Paths With the Given XOR Value",
+  "titleSlug": "count-paths-with-the-given-xor-value",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a 2D integer array grid with size m x n. You are also given an integer k.\n\nYour task is to calculate the number of paths you can take from the top-left cell (0, 0) to the bottom-right cell (m - 1, n - 1) satisfying the following constraints:\n\n• You can either move to the right or down. Formally, from the cell (i, j) you may move to the cell (i, j + 1) or to the cell (i + 1, j) if the target cell exists.\n\n• The XOR of all the numbers on the path must be equal to k.\n\nReturn the total number of such paths.\n\nSince the answer can be very large, return the result modulo 109 + 7.\n\nExample 1:\n\nInput: grid = [[2, 1, 5], [7, 10, 0], [12, 6, 4]], k = 11\n\nOutput: 3\n\nExplanation: The 3 paths are:\n\n• (0, 0) → (1, 0) → (2, 0) → (2, 1) → (2, 2)\n\n• (0, 0) → (1, 0) → (1, 1) → (1, 2) → (2, 2)\n\n• (0, 0) → (0, 1) → (1, 1) → (2, 1) → (2, 2)\n\nExample 2:\n\nInput: grid = [[1, 3, 3, 3], [0, 3, 3, 2], [3, 0, 1, 1]], k = 2\n\nOutput: 5\n\nExplanation: The 5 paths are:\n\n• (0, 0) → (1, 0) → (2, 0) → (2, 1) → (2, 2) → (2, 3)\n\n• (0, 0) → (1, 0) → (1, 1) → (2, 1) → (2, 2) → (2, 3)\n\n• (0, 0) → (1, 0) → (1, 1) → (1, 2) → (1, 3) → (2, 3)\n\n• (0, 0) → (0, 1) → (1, 1) → (1, 2) → (2, 2) → (2, 3)\n\n• (0, 0) → (0, 1) → (0, 2) → (1, 2) → (2, 2) → (2, 3)\n\nExample 3:\n\nInput: grid = [[1, 1, 1, 2], [3, 0, 3, 2], [3, 0, 2, 2]], k = 10\n\nOutput: 0\n\nConstraints:\n\n• 1 <= m == grid.length <= 300\n\n• 1 <= n == grid[r].length <= 300\n\n• 0 <= grid[r][c] < 16\n\n• 0 <= k < 16",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPathsWithXorValue(self, grid, k):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use DP."
+  ],
+  "testCases": [
+    [
+      "[[2,1,5],[7,10,0],[12,6,4]]",
+      "11"
+    ],
+    [
+      "[[1,3,3,3],[0,3,3,2],[3,0,1,1]]",
+      "2"
+    ],
+    [
+      "[[1,1,1,2],[3,0,3,2],[3,0,2,2]]",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countPathsWithXorValue(self, grid, k):\n        MOD = 10**9 + 7\n        m, n = len(grid), len(grid[0])\n        # dp[i][j][x] = number of paths to (i,j) with XOR value x\n        # x can be 0..15 since grid values < 16 and k < 16\n        dp = [[[0] * 16 for _ in range(n)] for _ in range(m)]\n        dp[0][0][grid[0][0]] = 1\n        for i in range(m):\n            for j in range(n):\n                if i == 0 and j == 0:\n                    continue\n                for x in range(16):\n                    ways = 0\n                    if i > 0:\n                        ways += dp[i-1][j][x ^ grid[i][j]]\n                    if j > 0:\n                        ways += dp[i][j-1][x ^ grid[i][j]]\n                    dp[i][j][x] = ways % MOD\n        return dp[m-1][n-1][k]",
+    "explanation": "DP: dp[i][j][x] = paths to (i,j) with XOR = x. Since values < 16 and k < 16, XOR stays within 4 bits. Transition: from left or above, XOR with grid[i][j].\n\nTime: O(m*n*16). Space: O(m*n*16)."
+  },
+  "similarQuestions": "[{\"title\": \"Count Pairs With XOR in a Range\", \"titleSlug\": \"count-pairs-with-xor-in-a-range\", \"difficulty\": \"Hard\"}]"
+}

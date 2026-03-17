@@ -1,0 +1,47 @@
+{
+  "questionId": "151",
+  "title": "Reverse Words in a String",
+  "titleSlug": "reverse-words-in-a-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given an input string s, reverse the order of the words.\n\nA word is defined as a sequence of non-space characters. The words in s will be separated by at least one space.\n\nReturn a string of the words in reverse order concatenated by a single space.\n\nNote that s may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.\n\nExample 1:\n\nInput: s = \"the sky is blue\"\nOutput: \"blue is sky the\"\n\nExample 2:\n\nInput: s = \"  hello world  \"\nOutput: \"world hello\"\nExplanation: Your reversed string should not contain leading or trailing spaces.\n\nExample 3:\n\nInput: s = \"a good   example\"\nOutput: \"example good a\"\nExplanation: You need to reduce multiple spaces between two words to a single space in the reversed string.\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s contains English letters (upper-case and lower-case), digits, and spaces ' '.\n\n• There is at least one word in s.\n\nFollow-up: If the string data type is mutable in your language, can you solve it in-place with O(1) extra space?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reverseWords(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"the sky is blue\""
+    ],
+    [
+      "\"  hello world  \""
+    ],
+    [
+      "\"a good   example\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"blue is sky the\"",
+    "\"world hello\"",
+    "\"example good a\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def reverseWords(s):\n    words = s.split()\n    words.reverse()\n    return ' '.join(words)",
+    "explanation": "The algorithm to reverse the order of the words is as follows:\n\n1. First, split the input string using spaces. In C++, we use `stringstream` and a while loop to read words, while in Java and JavaScript, we use `split` with regex to split the string based on one or more spaces. In Python, we can simply use `split()` since it splits on whitespace by default and ignores leading and trailing spaces.\n\n2. Reverse the array of words. In C++, we use the `reverse` function from the `algorithm` library. In Java, we can use `Collections.reverse()` method. In Python, we use list `reverse()` method. In JavaScript, we use the `reverse()` method on the array.\n\n3. Join the reversed array of words into a single string with a space delimiter. In C++, we concatenate words with a space but avoid adding an extra space at the end. In Java, we use `String.join()`, in Python, use `join()` on the delimiter string, and in JavaScript, use `join()` on the array."
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Words in a String II\", \"titleSlug\": \"reverse-words-in-a-string-ii\", \"difficulty\": \"Medium\"}]"
+}

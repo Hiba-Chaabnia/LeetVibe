@@ -1,0 +1,54 @@
+{
+  "questionId": "2008",
+  "title": "Minimum Cost to Change the Final Value of Expression",
+  "titleSlug": "minimum-cost-to-change-the-final-value-of-expression",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "You are given a valid boolean expression as a string expression consisting of the characters '1','0','&' (bitwise AND operator),'|' (bitwise OR operator),'(', and ')'.\n\n• For example, \"()1|1\" and \"(1)&()\" are not valid while \"1\", \"(((1))|(0))\", and \"1|(0&(1))\" are valid expressions.\n\nReturn the minimum cost to change the final value of the expression.\n\n• For example, if expression = \"1|1|(0&0)&1\", its value is 1|1|(0&0)&1 = 1|1|0&1 = 1|0&1 = 1&1 = 1. We want to apply operations so that the new expression evaluates to 0.\n\nThe cost of changing the final value of an expression is the number of operations performed on the expression. The types of operations are described as follows:\n\n• Turn a '1' into a '0'.\n\n• Turn a '0' into a '1'.\n\n• Turn a '&' into a '|'.\n\n• Turn a '|' into a '&'.\n\nNote: '&' does not take precedence over '|' in the order of calculation. Evaluate parentheses first, then in left-to-right order.\n\nExample 1:\n\nInput: expression = \"1&(0|1)\"\nOutput: 1\nExplanation: We can turn \"1&(0|1)\" into \"1&(0&1)\" by changing the '|' to a '&' using 1 operation.\n    The new expression evaluates to 0.\n\nExample 2:\n\nInput: expression = \"(0&0)&(0&0&0)\"\nOutput: 3\nExplanation: We can turn \"(0&0)&(0&0&0)\" into \"(0|1)|(0&0&0)\" using 3 operations.\n    The new expression evaluates to 1.\n\nExample 3:\n\nInput: expression = \"(0|(1|0&1))\"\nOutput: 1\nExplanation: We can turn \"(0|(1|0&1))\" into \"(0|(0|0&1))\" using 1 operation.\n    The new expression evaluates to 0.\n\nConstraints:\n\n• 1 <= expression.length <= 105\n\n• expression only contains '1','0','&','|','(', and ')'\n\n• All parentheses are properly matched.\n\n• There will be no empty parentheses (i.e: \"()\" is not a substring of expression).",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperationsToFlip(self, expression):\n        \"\"\"\n        :type expression: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How many possible states are there for a given expression?",
+    "Is there a data structure that we can use to solve the problem optimally?"
+  ],
+  "testCases": [
+    [
+      "\"1&(0|1)\""
+    ],
+    [
+      "\"(0&0)&(0&0&0)\""
+    ],
+    [
+      "\"(0|(1|0&1))\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "3",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

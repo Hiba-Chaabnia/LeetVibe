@@ -1,0 +1,42 @@
+{
+  "questionId": "2659",
+  "title": "Number of Even and Odd Bits",
+  "titleSlug": "number-of-even-and-odd-bits",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a positive integer n.\n\nLet even denote the number of even indices in the binary representation of n with value 1.\n\nLet odd denote the number of odd indices in the binary representation of n with value 1.\n\nNote that bits are indexed from right to left in the binary representation of a number.\n\nReturn the array [even, odd].\n\nExample 1:\n\nInput: n = 50\n\nOutput: [1,2]\n\nExplanation: The binary representation of 50 is 110010.\n\nIt contains 1 on indices 1, 4, and 5.\n\nExample 2:\n\nInput: n = 2\n\nOutput: [0,1]\n\nExplanation: The binary representation of 2 is 10.\n\nIt contains 1 only on index 1.\n\nConstraints:\n\n• 1 <= n <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def evenOddBit(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Maintain two integer variables, even and odd, to count the number of even and odd indices in the binary representation of integer n.",
+    "Divide n by 2 while n is positive, and if n modulo 2 is 1, add 1 to its corresponding variable."
+  ],
+  "testCases": [
+    [
+      "50"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2]",
+    "[0,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def evenOddBit(self, n):\n        even, odd = 0, 0\n        bit_index = 0\n        while n:\n            if n & 1:\n                if bit_index % 2 == 0:\n                    even += 1\n                else:\n                    odd += 1\n            n >>= 1\n            bit_index += 1\n        return [even, odd]",
+    "explanation": "Check each bit. Count by index parity (0-indexed from right).\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Numbers with Even Number of Digits\", \"titleSlug\": \"find-numbers-with-even-number-of-digits\", \"difficulty\": \"Easy\"}]"
+}

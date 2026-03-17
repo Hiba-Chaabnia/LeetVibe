@@ -1,0 +1,51 @@
+{
+  "questionId": "1534",
+  "title": "Minimum Number of Frogs Croaking",
+  "titleSlug": "minimum-number-of-frogs-croaking",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given the string croakOfFrogs, which represents a combination of the string \"croak\" from different frogs, that is, multiple frogs can croak at the same time, so multiple \"croak\" are mixed.\n\nReturn the minimum number of different frogs to finish all the croaks in the given string.\n\nA valid \"croak\" means a frog is printing five letters 'c', 'r', 'o', 'a', and 'k' sequentially. The frogs have to print all five letters to finish a croak. If the given string is not a combination of a valid \"croak\" return -1.\n\nExample 1:\n\nInput: croakOfFrogs = \"croakcroak\"\nOutput: 1\nExplanation: One frog yelling \"croak\" twice.\n\nExample 2:\n\nInput: croakOfFrogs = \"crcoakroak\"\nOutput: 2\nExplanation: The minimum number of frogs is two.\n    The first frog could yell \"crcoakroak\".\n    The second frog could yell later \"crcoakroak\".\n\nExample 3:\n\nInput: croakOfFrogs = \"croakcrook\"\nOutput: -1\nExplanation: The given string is an invalid combination of \"croak\" from different frogs.\n\nConstraints:\n\n• 1 <= croakOfFrogs.length <= 105\n\n• croakOfFrogs is either 'c', 'r', 'o', 'a', or 'k'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minNumberOfFrogs(self, croakOfFrogs):\n        \"\"\"\n        :type croakOfFrogs: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "keep the frequency of all characters from \"croak\" using a hashmap.",
+    "For each character in the given string, greedily match it to a possible \"croak\"."
+  ],
+  "testCases": [
+    [
+      "\"croakcroak\""
+    ],
+    [
+      "\"crcoakroak\""
+    ],
+    [
+      "\"croakcrook\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def minNumberOfFrogs(self, croakOfFrogs):\n        \"\"\"\n        :type croakOfFrogs: str\n        :rtype: int\n        \"\"\"\n        c = r = o = a = k = 0\n        max_frogs = 0\n        \n        for ch in croakOfFrogs:\n            if ch == 'c':\n                c += 1\n                max_frogs = max(max_frogs, c - k)\n            elif ch == 'r':\n                r += 1\n                if r > c:\n                    return -1\n            elif ch == 'o':\n                o += 1\n                if o > r:\n                    return -1\n            elif ch == 'a':\n                a += 1\n                if a > o:\n                    return -1\n            elif ch == 'k':\n                k += 1\n                if k > a:\n                    return -1\n        \n        # At end, all frogs must have completed their croak\n        if c == r == o == a == k:\n            return max_frogs\n        return -1",
+    "explanation": "Track counts of each character in 'croak'. Max concurrent frogs = max(c - k). Validate sequence validity.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Divide Intervals Into Minimum Number of Groups\", \"titleSlug\": \"divide-intervals-into-minimum-number-of-groups\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "3335",
+  "title": "Minimum Operations to Write the Letter Y on a Grid",
+  "titleSlug": "minimum-operations-to-write-the-letter-y-on-a-grid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a 0-indexed n x n grid where n is odd, and grid[r][c] is 0, 1, or 2.\n\nWe say that a cell belongs to the Letter Y if it belongs to one of the following:\n\n• The diagonal starting at the top-left cell and ending at the center cell of the grid.\n\n• The diagonal starting at the top-right cell and ending at the center cell of the grid.\n\n• The vertical line starting at the center cell and ending at the bottom border of the grid.\n\nThe Letter Y is written on the grid if and only if:\n\n• All values at cells belonging to the Y are equal.\n\n• All values at cells not belonging to the Y are equal.\n\n• The values at cells belonging to the Y are different from the values at cells not belonging to the Y.\n\nReturn the minimum number of operations needed to write the letter Y on the grid given that in one operation you can change the value at any cell to 0, 1, or 2.\n\nExample 1:\n\nInput: grid = [[1,2,2],[1,1,0],[0,1,0]]\nOutput: 3\nExplanation: We can write Y on the grid by applying the changes highlighted in blue in the image above. After the operations, all cells that belong to Y, denoted in bold, have the same value of 1 while those that do not belong to Y are equal to 0.\n    It can be shown that 3 is the minimum number of operations needed to write Y on the grid.\n\nExample 2:\n\nInput: grid = [[0,1,0,1,0],[2,1,0,1,2],[2,2,2,0,1],[2,2,2,2,2],[2,1,2,2,2]]\nOutput: 12\nExplanation: We can write Y on the grid by applying the changes highlighted in blue in the image above. After the operations, all cells that belong to Y, denoted in bold, have the same value of 0 while those that do not belong to Y are equal to 2.\n    It can be shown that 12 is the minimum number of operations needed to write Y on the grid.\n\nConstraints:\n\n• 3 <= n <= 49\n\n• n == grid.length == grid[i].length\n\n• 0 <= grid[i][j] <= 2\n\n• n is odd.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumOperationsToWriteY(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2,2],[1,1,0],[0,1,0]]"
+    ],
+    [
+      "[[0,1,0,1,0],[2,1,0,1,2],[2,2,2,0,1],[2,2,2,2,2],[2,1,2,2,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def minimumOperationsToWriteY(self, grid):\n        n = len(grid)\n        mid = n // 2\n        y_cells = set()\n        for r in range(mid + 1):\n            y_cells.add((r, r))\n            y_cells.add((r, n - 1 - r))\n        for r in range(mid, n):\n            y_cells.add((r, mid))\n\n        y_count = Counter()\n        non_y_count = Counter()\n        for r in range(n):\n            for c in range(n):\n                v = grid[r][c]\n                if (r, c) in y_cells:\n                    y_count[v] += 1\n                else:\n                    non_y_count[v] += 1\n\n        total_y = sum(y_count.values())\n        total_non_y = sum(non_y_count.values())\n        ans = float('inf')\n        for cy in range(3):\n            for cn in range(3):\n                if cy == cn:\n                    continue\n                ops = (total_y - y_count[cy]) + (total_non_y - non_y_count[cn])\n                ans = min(ans, ops)\n        return ans",
+    "explanation": "We identify Y-cells: both diagonals from top corners to center, plus the vertical stem from center to bottom. We count value frequencies (0,1,2) in Y-cells and non-Y-cells separately. For each pair of distinct colors (cy for Y, cn for non-Y), cost = (Y cells not already cy) + (non-Y cells not already cn). We try all 6 valid pairs (cy != cn) and return the minimum.\n\nTime: O(n²). Space: O(n²) for the set."
+  },
+  "similarQuestions": "[]"
+}

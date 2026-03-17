@@ -1,0 +1,54 @@
+{
+  "questionId": "2614",
+  "title": "Maximum Count of Positive Integer and Negative Integer",
+  "titleSlug": "maximum-count-of-positive-integer-and-negative-integer",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an array nums sorted in non-decreasing order, return the maximum between the number of positive integers and the number of negative integers.\n\n• In other words, if the number of positive integers in nums is pos and the number of negative integers is neg, then return the maximum of pos and neg.\n\nNote that 0 is neither positive nor negative.\n\nExample 1:\n\nInput: nums = [-2,-1,-1,1,2,3]\nOutput: 3\nExplanation: There are 3 positive integers and 3 negative integers. The maximum count among them is 3.\n\nExample 2:\n\nInput: nums = [-3,-2,-1,0,0,1,2]\nOutput: 3\nExplanation: There are 2 positive integers and 3 negative integers. The maximum count among them is 3.\n\nExample 3:\n\nInput: nums = [5,20,66,1314]\nOutput: 4\nExplanation: There are 4 positive integers and 0 negative integers. The maximum count among them is 4.\n\nConstraints:\n\n• 1 <= nums.length <= 2000\n\n• -2000 <= nums[i] <= 2000\n\n• nums is sorted in a non-decreasing order.\n\nFollow up: Can you solve the problem in O(log(n)) time complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumCount(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count how many positive integers and negative integers are in the array.",
+    "Since the array is sorted, can we use the binary search?"
+  ],
+  "testCases": [
+    [
+      "[-2,-1,-1,1,2,3]"
+    ],
+    [
+      "[-3,-2,-1,0,0,1,2]"
+    ],
+    [
+      "[5,20,66,1314]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumCount(self, nums):\n        pos_count = sum(1 for num in nums if num > 0)\n        neg_count = sum(1 for num in nums if num < 0)\n        return max(pos_count, neg_count)",
+    "explanation": "Count positive and negative numbers. Return maximum count.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Binary Search\", \"titleSlug\": \"binary-search\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Negative Numbers in a Sorted Matrix\", \"titleSlug\": \"count-negative-numbers-in-a-sorted-matrix\", \"difficulty\": \"Easy\"}]"
+}

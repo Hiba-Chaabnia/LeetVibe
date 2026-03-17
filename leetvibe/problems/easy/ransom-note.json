@@ -1,0 +1,54 @@
+{
+  "questionId": "383",
+  "title": "Ransom Note",
+  "titleSlug": "ransom-note",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.\n\nEach letter in magazine can only be used once in ransomNote.\n\nExample 1:\n\nInput: ransomNote = \"a\", magazine = \"b\"\nOutput: false\nExample 2:\n\nInput: ransomNote = \"aa\", magazine = \"ab\"\nOutput: false\nExample 3:\n\nInput: ransomNote = \"aa\", magazine = \"aab\"\nOutput: true\n\nConstraints:\n\n• 1 <= ransomNote.length, magazine.length <= 105\n\n• ransomNote and magazine consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canConstruct(self, ransomNote, magazine):\n        \"\"\"\n        :type ransomNote: str\n        :type magazine: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"a\"",
+      "\"b\""
+    ],
+    [
+      "\"aa\"",
+      "\"ab\""
+    ],
+    [
+      "\"aa\"",
+      "\"aab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canConstruct(self, ransomNote, magazine):\n        from collections import Counter\n        ransom_count = Counter(ransomNote)\n        magazine_count = Counter(magazine)\n        for char, count in ransom_count.items():\n            if magazine_count[char] < count:\n                return False\n        return True",
+    "explanation": "Count frequencies. Check if magazine has enough of each character.\nTime: O(n + m)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Stickers to Spell Word\", \"titleSlug\": \"stickers-to-spell-word\", \"difficulty\": \"Hard\"}, {\"title\": \"Find Words That Can Be Formed by Characters\", \"titleSlug\": \"find-words-that-can-be-formed-by-characters\", \"difficulty\": \"Easy\"}]"
+}

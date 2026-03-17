@@ -1,0 +1,43 @@
+{
+  "questionId": "540",
+  "title": "Single Element in a Sorted Array",
+  "titleSlug": "single-element-in-a-sorted-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You are given a sorted array consisting of only integers where every element appears exactly twice, except for one element which appears exactly once.\n\nReturn the single element that appears only once.\n\nYour solution must run in O(log n) time and O(1) space.\n\nExample 1:\n\nInput: nums = [1,1,2,3,3,4,4,8,8]\nOutput: 2\nExample 2:\n\nInput: nums = [3,3,7,7,10,11,11]\nOutput: 10\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def singleNonDuplicate(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,1,2,3,3,4,4,8,8]"
+    ],
+    [
+      "[3,3,7,7,10,11,11]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def singleNonDuplicate(nums):\n    low, high = 0, len(nums) - 1\n    while low < high:\n        mid = low + (high - low) // 2\n        if mid % 2 == 1:\n            mid -= 1\n        if nums[mid] == nums[mid + 1]:\n            low = mid + 2\n        else:\n            high = mid\n    return nums[low]",
+    "explanation": "The algorithm starts by initializing two pointers, `low` and `high`, to the start and end indices of the given array. Then, it enters a loop that continues until `low` is greater or equal to `high`. In each iteration, the algorithm calculates the index in the middle of the range `[low, high]` and checks if the middle index is odd. If it is, it subtracts 1 from it to make it even.\n\nThe algorithm then checks if the middle element is equal to the element immediately after it. If it is, it means that the single element is on the right side of the middle index, so it updates the `low` pointer to be `mid + 2`. Otherwise, it updates the `high` pointer to be `mid`.\n\nAfter the loop ends, the algorithm returns the element at the index stored in the `low` pointer, which is the single non-duplicate element."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,70 @@
+{
+  "questionId": "1169",
+  "title": "Largest Values From Labels",
+  "titleSlug": "largest-values-from-labels",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given n item's value and label as two integer arrays values and labels. You are also given two integers numWanted and useLimit.\n\nYour task is to find a subset of items with the maximum sum of their values such that:\n\n• The number of items is at most numWanted.\n\n• The number of items with the same label is at most useLimit.\n\nReturn the maximum sum.\n\nExample 1:\n\nInput: values = [5,4,3,2,1], labels = [1,1,2,2,3], numWanted = 3, useLimit = 1\n\nOutput: 9\n\nExplanation: The subset chosen is the first, third, and fifth items with the sum of values 5 + 3 + 1.\n\nExample 2:\n\nInput: values = [5,4,3,2,1], labels = [1,3,3,3,2], numWanted = 3, useLimit = 2\n\nOutput: 12\n\nExplanation: The subset chosen is the first, second, and third items with the sum of values 5 + 4 + 3.\n\nExample 3:\n\nInput: values = [9,8,8,7,6], labels = [0,0,0,1,1], numWanted = 3, useLimit = 1\n\nOutput: 16\n\nExplanation: The subset chosen is the first and fourth items with the sum of values 9 + 7.\n\nConstraints:\n\n• n == values.length == labels.length\n\n• 1 <= n <= 2 * 104\n\n• 0 <= values[i], labels[i] <= 2 * 104\n\n• 1 <= numWanted, useLimit <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestValsFromLabels(self, values, labels, numWanted, useLimit):\n        \"\"\"\n        :type values: List[int]\n        :type labels: List[int]\n        :type numWanted: int\n        :type useLimit: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider the items in order from largest to smallest value, and greedily take the items if they fall under the use_limit.  We can keep track of how many items of each label are used by using a hash table."
+  ],
+  "testCases": [
+    [
+      "[5,4,3,2,1]",
+      "[1,1,2,2,3]",
+      "3",
+      "1"
+    ],
+    [
+      "[5,4,3,2,1]",
+      "[1,3,3,3,2]",
+      "3",
+      "2"
+    ],
+    [
+      "[9,8,8,7,6]",
+      "[0,0,0,1,1]",
+      "3",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "12",
+    "16"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from typing import List\n\ndef largestValsFromLabels(values: List[int], labels: List[int], numWanted: int, useLimit: int) -> int:\n    items = list(zip(values, labels))\n    items.sort(key=lambda x: x[0], reverse=True)\n\n    label_count = {}\n    ans = 0\n\n    for value, label in items:\n        if label not in label_count:\n            label_count[label] = 0\n        if label_count[label] < useLimit:\n            ans += value\n            label_count[label] += 1\n            numWanted -= 1\n            if numWanted == 0:\n                break\n\n    return ans",
+    "explanation": "1. Create a list of pairs containing value and label.\n2. Sort the list of pairs based on the value in decreasing order.\n3. Initialize an empty hash table called 'labelCount' to store the count of each label in the selected subset.\n4. Initialize 'ans' to 0, which will store the result of maximum score.\n5. Iterate through the sorted list of pairs:\n   a. If the label is not in 'labelCount', set the label count as 0.\n   b. If the count of the current label is less than the 'useLimit', add the value to 'ans', increment the count of the label, and decrement 'numWanted'.\n   c. If 'numWanted' becomes 0, break the loop.\n6. Return 'ans'."
+  },
+  "similarQuestions": "[{\"title\": \"Maximize Y\\u2011Sum by Picking a Triplet of Distinct X\\u2011Values\", \"titleSlug\": \"maximize-ysum-by-picking-a-triplet-of-distinct-xvalues\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "2020",
+  "title": "Remove One Element to Make the Array Strictly Increasing",
+  "titleSlug": "remove-one-element-to-make-the-array-strictly-increasing",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given a 0-indexed integer array nums, return true if it can be made strictly increasing after removing exactly one element, or false otherwise. If the array is already strictly increasing, return true.\n\nThe array nums is strictly increasing if nums[i - 1] < nums[i] for each index (1 <= i < nums.length).\n\nExample 1:\n\nInput: nums = [1,2,10,5,7]\nOutput: true\nExplanation: By removing 10 at index 2 from nums, it becomes [1,2,5,7].\n    [1,2,5,7] is strictly increasing, so return true.\n\nExample 2:\n\nInput: nums = [2,3,1,2]\nOutput: false\nExplanation:\n    [3,1,2] is the result of removing the element at index 0.\n    [2,1,2] is the result of removing the element at index 1.\n    [2,3,2] is the result of removing the element at index 2.\n    [2,3,1] is the result of removing the element at index 3.\n    No resulting array is strictly increasing, so return false.\n\nExample 3:\n\nInput: nums = [1,1,1]\nOutput: false\nExplanation: The result of removing any element is [1,1].\n    [1,1] is not strictly increasing, so return false.\n\nConstraints:\n\n• 2 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canBeIncreasing(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each index i in nums remove this index.",
+    "If the array becomes sorted return true, otherwise revert to the original array and try different index."
+  ],
+  "testCases": [
+    [
+      "[1,2,10,5,7]"
+    ],
+    [
+      "[2,3,1,2]"
+    ],
+    [
+      "[1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def canBeIncreasing(nums):\n    count = 0\n    for i in range(1, len(nums)):\n        if nums[i - 1] >= nums[i]:\n            count += 1\n            if count > 1: return False\n            if i > 1 and nums[i - 2] >= nums[i] and i < len(nums) - 1 and nums[i - 1] >= nums[i + 1]: return False\n    return True",
+    "explanation": "We start by initializing a counter variable `count` to keep track of the number of non-increasing sequences we find in the array `nums`. We iterate through the array starting from index 1 till the end of the array, and at each index, we check if the current element is greater than or equal to the previous element. If we find such elements, we increment the `count` by 1. We return `false` if `count` is greater than 1, as we can only remove exactly one element.\n\nWe also need to handle a special case: if removing the current element doesn't make the subarray strictly increasing, we return `false`. This happens if the element before the previous element is greater than or equal to the current element and the previous element is greater than or equal to the next element.\n\nIf we pass through the array without finding either of these conditions, we return `true`."
+  },
+  "similarQuestions": "[{\"title\": \"Steps to Make Array Non-decreasing\", \"titleSlug\": \"steps-to-make-array-non-decreasing\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Maximum Factor Score of Array\", \"titleSlug\": \"find-the-maximum-factor-score-of-array\", \"difficulty\": \"Medium\"}]"
+}

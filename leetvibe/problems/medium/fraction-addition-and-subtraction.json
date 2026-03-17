@@ -1,0 +1,51 @@
+{
+  "questionId": "592",
+  "title": "Fraction Addition and Subtraction",
+  "titleSlug": "fraction-addition-and-subtraction",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given a string expression representing an expression of fraction addition and subtraction, return the calculation result in string format.\n\nThe final result should be an irreducible fraction. If your final result is an integer, change it to the format of a fraction that has a denominator 1. So in this case, 2 should be converted to 2/1.\n\nExample 1:\n\nInput: expression = \"-1/2+1/2\"\nOutput: \"0/1\"\n\nExample 2:\n\nInput: expression = \"-1/2+1/2+1/3\"\nOutput: \"1/3\"\n\nExample 3:\n\nInput: expression = \"1/3-1/2\"\nOutput: \"-1/6\"\n\nConstraints:\n\n• The input string only contains '0' to '9', '/', '+' and '-'. So does the output.\n\n• Each fraction (input and output) has the format ±numerator/denominator. If the first input fraction or the output is positive, then '+' will be omitted.\n\n• The input only contains valid irreducible fractions, where the numerator and denominator of each fraction will always be in the range [1, 10]. If the denominator is 1, it means this fraction is actually an integer in a fraction format defined above.\n\n• The number of given fractions will be in the range [1, 10].\n\n• The numerator and denominator of the final result are guaranteed to be valid and in the range of 32-bit int.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def fractionAddition(self, expression):\n        \"\"\"\n        :type expression: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"-1/2+1/2\""
+    ],
+    [
+      "\"-1/2+1/2+1/3\""
+    ],
+    [
+      "\"1/3-1/2\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"0/1\"",
+    "\"1/3\"",
+    "\"-1/6\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from fractions import Fraction\n\ndef fractionAddition(expression: str) -> str:\n    fractions = expression.replace('+', ' +').replace('-', ' -').split()\n    result = sum(Fraction(fraction) for fraction in fractions)\n    return f\"{result.numerator}/{result.denominator}\"",
+    "explanation": "The algorithm first initializes the result fraction A/B to 0/1. It then iterates over the input expression, parsing and adjusting signs of each fraction it encounters. Each fraction's numerator and denominator are found by parsing the characters in the expression. The current sum A/B is updated with the current fraction by the equation:\n\n```\nA = A * den + B * num * sign\nB *= den\n```\n\nAfter updating A/B, the greatest common divisor (GCD) of A and B, found using the Euclidean algorithm, is used to reduce the fraction.\n\nThe process is repeated until the whole string input expression is processed. At the end, the irreducible fraction is returned in the format A/B."
+  },
+  "similarQuestions": "[{\"title\": \"Solve the Equation\", \"titleSlug\": \"solve-the-equation\", \"difficulty\": \"Medium\"}]"
+}

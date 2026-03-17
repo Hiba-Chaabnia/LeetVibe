@@ -1,0 +1,61 @@
+{
+  "questionId": "3894",
+  "title": "Maximize Y‑Sum by Picking a Triplet of Distinct X‑Values",
+  "titleSlug": "maximize-ysum-by-picking-a-triplet-of-distinct-xvalues",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given two integer arrays x and y, each of length n. You must choose three distinct indices i, j, and k such that:\n\n• x[i] != x[j]\n\n• x[j] != x[k]\n\n• x[k] != x[i]\n\nYour goal is to maximize the value of y[i] + y[j] + y[k] under these conditions. Return the maximum possible sum that can be obtained by choosing such a triplet of indices.\n\nIf no such triplet exists, return -1.\n\nExample 1:\n\nInput: x = [1,2,1,3,2], y = [5,3,4,6,2]\n\nOutput: 14\n\nExplanation:\n\n• Choose i = 0 (x[i] = 1, y[i] = 5), j = 1 (x[j] = 2, y[j] = 3), k = 3 (x[k] = 3, y[k] = 6).\n\n• All three values chosen from x are distinct. 5 + 3 + 6 = 14 is the maximum we can obtain. Hence, the output is 14.\n\nExample 2:\n\nInput: x = [1,2,1,2], y = [4,5,6,7]\n\nOutput: -1\n\nExplanation:\n\n• There are only two distinct values in x. Hence, the output is -1.\n\nConstraints:\n\n• n == x.length == y.length\n\n• 3 <= n <= 105\n\n• 1 <= x[i], y[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSumDistinctTriplet(self, x, y):\n        \"\"\"\n        :type x: List[int]\n        :type y: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each unique x, keep only the maximum y; all other pairs with the same x are redundant.",
+    "Sort the pairs by x so that identical x values form contiguous blocks, then take the maximum y from each block.",
+    "Alternatively, use a map (or dictionary) from x to its largest y."
+  ],
+  "testCases": [
+    [
+      "[1,2,1,3,2]",
+      "[5,3,4,6,2]"
+    ],
+    [
+      "[1,2,1,2]",
+      "[4,5,6,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "14",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxSumDistinctTriplet(self, x, y):\n        # For each unique x value, keep max y\n        best = {}\n        for xi, yi in zip(x, y):\n            if xi not in best or best[xi] < yi:\n                best[xi] = yi\n        vals = sorted(best.values(), reverse=True)\n        if len(vals) < 3:\n            return -1\n        return vals[0] + vals[1] + vals[2]",
+    "explanation": "For each unique x value, keep the maximum y. Then take the top 3 y-values from different x-groups. If fewer than 3 distinct x values exist, return -1.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Sum of 3 Non-Overlapping Subarrays\", \"titleSlug\": \"maximum-sum-of-3-non-overlapping-subarrays\", \"difficulty\": \"Hard\"}, {\"title\": \"Largest Values From Labels\", \"titleSlug\": \"largest-values-from-labels\", \"difficulty\": \"Medium\"}]"
+}

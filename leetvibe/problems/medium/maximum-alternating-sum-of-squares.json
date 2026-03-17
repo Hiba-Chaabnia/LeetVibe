@@ -1,0 +1,46 @@
+{
+  "questionId": "4078",
+  "title": "Maximum Alternating Sum of Squares",
+  "titleSlug": "maximum-alternating-sum-of-squares",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer array nums. You may rearrange the elements in any order.\n\nThe alternating score of an array arr is defined as:\n\n• score = arr[0]2 - arr[1]2 + arr[2]2 - arr[3]2 + ...\n\nReturn an integer denoting the maximum possible alternating score of nums after rearranging its elements.\n\nExample 1:\n\nInput: nums = [1,2,3]\n\nOutput: 12\n\nExplanation: A possible rearrangement for nums is [2,1,3], which gives the maximum alternating score among all possible rearrangements.\n\nThe alternating score is calculated as:\n\nscore = 22 - 12 + 32 = 4 - 1 + 9 = 12\n\nExample 2:\n\nInput: nums = [1,-1,2,-2,3,-3]\n\nOutput: 16\n\nExplanation: A possible rearrangement for nums is [-3,-1,-2,1,3,2], which gives the maximum alternating score among all possible rearrangements.\n\nThe alternating score is calculated as:\n\nscore = (-3)2 - (-1)2 + (-2)2 - (1)2 + (3)2 - (2)2 = 9 - 1 + 4 - 1 + 9 - 4 = 16\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -4 * 104 <= nums[i] <= 4 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxAlternatingSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The score uses squares of values. The original signs of nums don't affect the squared terms.",
+    "In the alternating sum, even indices contribute positively and odd indices negatively."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[1,-1,2,-2,3,-3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "16"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

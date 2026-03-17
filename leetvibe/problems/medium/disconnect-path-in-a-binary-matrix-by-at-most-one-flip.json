@@ -1,0 +1,54 @@
+{
+  "questionId": "2641",
+  "title": "Disconnect Path in a Binary Matrix by at Most One Flip",
+  "titleSlug": "disconnect-path-in-a-binary-matrix-by-at-most-one-flip",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a 0-indexed m x n binary matrix grid. You can move from a cell (row, col) to any of the cells (row + 1, col) or (row, col + 1) that has the value 1. The matrix is disconnected if there is no path from (0, 0) to (m - 1, n - 1).\n\nYou can flip the value of at most one (possibly none) cell. You cannot flip the cells (0, 0) and (m - 1, n - 1).\n\nReturn true if it is possible to make the matrix disconnect or false otherwise.\n\nNote that flipping a cell changes its value from 0 to 1 or from 1 to 0.\n\nExample 1:\n\nInput: grid = [[1,1,1],[1,0,0],[1,1,1]]\nOutput: true\nExplanation: We can change the cell shown in the diagram above. There is no path from (0, 0) to (2, 2) in the resulting grid.\n\nExample 2:\n\nInput: grid = [[1,1,1],[1,0,1],[1,1,1]]\nOutput: false\nExplanation: It is not possible to change at most one cell such that there is not path from (0, 0) to (2, 2).\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 1000\n\n• 1 <= m * n <= 105\n\n• grid[i][j] is either 0 or 1.\n\n• grid[0][0] == grid[m - 1][n - 1] == 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isPossibleToCutPath(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can consider the grid a graph with edges between adjacent cells.",
+    "If you can find two non-intersecting paths from (0, 0) to (m - 1, n - 1) then the answer is false. Otherwise, it is always true."
+  ],
+  "testCases": [
+    [
+      "[[1,1,1],[1,0,0],[1,1,1]]"
+    ],
+    [
+      "[[1,1,1],[1,0,1],[1,1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Number of Submatrices That Sum to Target\", \"titleSlug\": \"number-of-submatrices-that-sum-to-target\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Cost to Make at Least One Valid Path in a Grid\", \"titleSlug\": \"minimum-cost-to-make-at-least-one-valid-path-in-a-grid\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Number of Days to Disconnect Island\", \"titleSlug\": \"minimum-number-of-days-to-disconnect-island\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Weighted Subgraph With the Required Paths\", \"titleSlug\": \"minimum-weighted-subgraph-with-the-required-paths\", \"difficulty\": \"Hard\"}]"
+}

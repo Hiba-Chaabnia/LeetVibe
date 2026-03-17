@@ -1,0 +1,53 @@
+{
+  "questionId": "395",
+  "title": "Longest Substring with At Least K Repeating Characters",
+  "titleSlug": "longest-substring-with-at-least-k-repeating-characters",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given a string s and an integer k, return the length of the longest substring of s such that the frequency of each character in this substring is greater than or equal to k.\n\nif no such substring exists, return 0.\n\nExample 1:\n\nInput: s = \"aaabb\", k = 3\nOutput: 3\nExplanation: The longest substring is \"aaa\", as 'a' is repeated 3 times.\n\nExample 2:\n\nInput: s = \"ababbc\", k = 2\nOutput: 5\nExplanation: The longest substring is \"ababb\", as 'a' is repeated 2 times and 'b' is repeated 3 times.\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s consists of only lowercase English letters.\n\n• 1 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestSubstring(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"aaabb\"",
+      "3"
+    ],
+    [
+      "\"ababbc\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def longestSubstring(s: str, k: int) -> int:\n    if not s or k <= 0:\n        return 0\n\n    char_count = {}\n    for ch in s:\n        char_count[ch] = char_count.get(ch, 0) + 1\n\n    for char, count in char_count.items():\n        if count < k:\n            return max(longestSubstring(sub_s, k) for sub_s in s.split(char))\n    return len(s)",
+    "explanation": "The algorithm starts by counting the frequency of each character in the input string `s`. If the count of any character is less than `k`, then that character cannot be part of any substring with characters having a frequency greater than or equal to `k`. Therefore, we split the input string around such characters and recursively apply the same logic on each substring. The longest substring's length across different recursive calls is returned."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Subsequence Repeated k Times\", \"titleSlug\": \"longest-subsequence-repeated-k-times\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Equal Count Substrings\", \"titleSlug\": \"number-of-equal-count-substrings\", \"difficulty\": \"Medium\"}, {\"title\": \"Optimal Partition of String\", \"titleSlug\": \"optimal-partition-of-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Length of Longest Subarray With at Most K Frequency\", \"titleSlug\": \"length-of-longest-subarray-with-at-most-k-frequency\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Longest Special Substring That Occurs Thrice II\", \"titleSlug\": \"find-longest-special-substring-that-occurs-thrice-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Longest Special Substring That Occurs Thrice I\", \"titleSlug\": \"find-longest-special-substring-that-occurs-thrice-i\", \"difficulty\": \"Medium\"}]"
+}

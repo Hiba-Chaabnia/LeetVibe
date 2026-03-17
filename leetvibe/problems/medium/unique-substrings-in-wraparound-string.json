@@ -1,0 +1,49 @@
+{
+  "questionId": "467",
+  "title": "Unique Substrings in Wraparound String",
+  "titleSlug": "unique-substrings-in-wraparound-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "We define the string base to be the infinite wraparound string of \"abcdefghijklmnopqrstuvwxyz\", so base will look like this:\n\n• \"...zabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd....\".\n\nGiven a string s, return the number of unique non-empty substrings of s are present in base.\n\nExample 1:\n\nInput: s = \"a\"\nOutput: 1\nExplanation: Only the substring \"a\" of s is in base.\n\nExample 2:\n\nInput: s = \"cac\"\nOutput: 2\nExplanation: There are two substrings (\"a\", \"c\") of s in base.\n\nExample 3:\n\nInput: s = \"zab\"\nOutput: 6\nExplanation: There are six substrings (\"z\", \"a\", \"b\", \"za\", \"ab\", and \"zab\") of s in base.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findSubstringInWraproundString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "One possible solution might be to consider allocating an array size of 26 for each character in the alphabet. (Credits to @r2ysxu)"
+  ],
+  "testCases": [
+    [
+      "\"a\""
+    ],
+    [
+      "\"cac\""
+    ],
+    [
+      "\"zab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findSubstringInWraproundString(p: str) -> int:\n    cnt = [0] * 26\n    length = 0\n\n    for i in range(len(p)):\n        if i > 0 and (p[i] == chr(ord(p[i - 1]) + 1) or ord(p[i - 1]) - ord(p[i]) == 25):\n            length += 1\n        else:\n            length = 1\n        cnt[ord(p[i]) - ord('a')] = max(cnt[ord(p[i]) - ord('a')], length)\n\n    return sum(cnt)",
+    "explanation": "1. Initialize an array cnt of size 26 to keep the count of the maximum length of contiguous characters ending with a given character.\n2. Initialize a variable length to keep track of the current count of contiguous characters.\n3. Iterate through the given string p.\n   - If the current character is the next character of the previous one or wraps around from 'z' to 'a', increment length by 1.\n   - Otherwise, reset length to 1.\n   - Update cnt for the current character with the maximum of its current value and length.\n4. Return the sum of all the counts in cnt."
+  },
+  "similarQuestions": "[]"
+}

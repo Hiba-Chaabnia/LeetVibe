@@ -1,0 +1,51 @@
+{
+  "questionId": "474",
+  "title": "Ones and Zeroes",
+  "titleSlug": "ones-and-zeroes",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an array of binary strings strs and two integers m and n.\n\nReturn the size of the largest subset of strs such that there are at most m 0's and n 1's in the subset.\n\nA set x is a subset of a set y if all elements of x are also elements of y.\n\nExample 1:\n\nInput: strs = [\"10\",\"0001\",\"111001\",\"1\",\"0\"], m = 5, n = 3\nOutput: 4\nExplanation: The largest subset with at most 5 0's and 3 1's is {\"10\", \"0001\", \"1\", \"0\"}, so the answer is 4.\n    Other valid but smaller subsets include {\"0001\", \"1\"} and {\"10\", \"1\", \"0\"}.\n    {\"111001\"} is an invalid subset because it contains 4 1's, greater than the maximum of 3.\n\nExample 2:\n\nInput: strs = [\"10\",\"0\",\"1\"], m = 1, n = 1\nOutput: 2\nExplanation: The largest subset is {\"0\", \"1\"}, so the answer is 2.\n\nConstraints:\n\n• 1 <= strs.length <= 600\n\n• 1 <= strs[i].length <= 100\n\n• strs[i] consists only of digits '0' and '1'.\n\n• 1 <= m, n <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMaxForm(self, strs, m, n):\n        \"\"\"\n        :type strs: List[str]\n        :type m: int\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"10\",\"0001\",\"111001\",\"1\",\"0\"]",
+      "5",
+      "3"
+    ],
+    [
+      "[\"10\",\"0\",\"1\"]",
+      "1",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findMaxForm(strs, m, n):\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n    \n    for s in strs:\n        ones = s.count('1')\n        zeros = len(s) - ones\n        \n        for i in range(m, zeros - 1, -1):\n            for j in range(n, ones - 1, -1):\n                dp[i][j] = max(dp[i][j], dp[i - zeros][j - ones] + 1)\n    \n    return dp[m][n]",
+    "explanation": "1. Initialize a 2-dimensional DP table dp, where dp[i][j] represents the maximum size of a subset with i 0's and j 1's.\n2. Loop through each string in strs.\n3. Count the number of 0's (zeros) and 1's (ones) in each string.\n4. Iterate backward through the DP table, updating dp[i][j] to the maximum of its current value and dp[i - zeros][j - ones] + 1. This is because a string with zeros 0's and ones 1's will be included in the subset if i 0's and j 1's are available.\n5. After processing all the strings, return dp[m][n], which represents the size of the largest subset with at most m 0's and n 1's."
+  },
+  "similarQuestions": "[{\"title\": \"Count Subarrays With More Ones Than Zeros\", \"titleSlug\": \"count-subarrays-with-more-ones-than-zeros\", \"difficulty\": \"Medium\"}, {\"title\": \"Non-negative Integers without Consecutive Ones\", \"titleSlug\": \"non-negative-integers-without-consecutive-ones\", \"difficulty\": \"Hard\"}, {\"title\": \"All Divisions With the Highest Score of a Binary Array\", \"titleSlug\": \"all-divisions-with-the-highest-score-of-a-binary-array\", \"difficulty\": \"Medium\"}]"
+}

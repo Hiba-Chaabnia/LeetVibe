@@ -1,0 +1,51 @@
+{
+  "questionId": "3490",
+  "title": "Find the Maximum Length of Valid Subsequence I",
+  "titleSlug": "find-the-maximum-length-of-valid-subsequence-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums.\nA subsequence sub of nums with length x is called valid if it satisfies:\n\n• (sub[0] + sub[1]) % 2 == (sub[1] + sub[2]) % 2 == ... == (sub[x - 2] + sub[x - 1]) % 2.\n\nReturn the length of the longest valid subsequence of nums.\n\nA subsequence is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.\n\nExample 1:\n\nInput: nums = [1,2,3,4]\n\nOutput: 4\n\nExplanation: The longest valid subsequence is [1, 2, 3, 4].\n\nExample 2:\n\nInput: nums = [1,2,1,1,2,1,2]\n\nOutput: 6\n\nExplanation: The longest valid subsequence is [1, 2, 1, 2, 1, 2].\n\nExample 3:\n\nInput: nums = [1,3]\n\nOutput: 2\n\nExplanation: The longest valid subsequence is [1, 3].\n\nConstraints:\n\n• 2 <= nums.length <= 2 * 105\n\n• 1 <= nums[i] <= 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The possible sequence either contains all even elements, all odd elements, alternate even odd, or alternate odd even elements.",
+    "Considering only the parity of elements, there are only 4 possibilities and we can try all of them.",
+    "When selecting an element with any parity, try to select the earliest one."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4]"
+    ],
+    [
+      "[1,2,1,1,2,1,2]"
+    ],
+    [
+      "[1,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "6",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumLength(self, nums):\n        # Valid: all (sub[i] + sub[i+1]) % 2 equal => only 4 patterns:\n        # 1. All even: (sub[i]+sub[i+1]) % 2 = 0\n        # 2. All odd: (sub[i]+sub[i+1]) % 2 = 0  \n        # 3. Alternating even-odd: sum % 2 = 1\n        # 4. Alternating odd-even: sum % 2 = 1\n        evens = sum(1 for v in nums if v % 2 == 0)\n        odds = sum(1 for v in nums if v % 2 == 1)\n        # All even or all odd\n        ans = max(evens, odds)\n        # Alternating: count alternating even-odd or odd-even\n        def alt(start_even):\n            count = 0\n            want_even = start_even\n            for v in nums:\n                if (v % 2 == 0) == want_even:\n                    count += 1\n                    want_even = not want_even\n            return count\n        ans = max(ans, alt(True), alt(False))\n        return ans",
+    "explanation": "Only 4 patterns based on parity: all-even, all-odd, alternating even-odd, alternating odd-even. Count each greedily in O(n).\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Increasing Subsequence\", \"titleSlug\": \"longest-increasing-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Length of the Longest Subsequence That Sums to Target\", \"titleSlug\": \"length-of-the-longest-subsequence-that-sums-to-target\", \"difficulty\": \"Medium\"}]"
+}

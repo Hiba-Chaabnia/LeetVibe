@@ -1,0 +1,48 @@
+{
+  "questionId": "423",
+  "title": "Reconstruct Original Digits from English",
+  "titleSlug": "reconstruct-original-digits-from-english",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s containing an out-of-order English representation of digits 0-9, return the digits in ascending order.\n\nExample 1:\n\nInput: s = \"owoztneoer\"\nOutput: \"012\"\nExample 2:\n\nInput: s = \"fviefuro\"\nOutput: \"45\"\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s[i] is one of the characters [\"e\",\"g\",\"f\",\"i\",\"h\",\"o\",\"n\",\"s\",\"r\",\"u\",\"t\",\"w\",\"v\",\"x\",\"z\"].\n\n• s is guaranteed to be valid.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def originalDigits(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"owoztneoer\""
+    ],
+    [
+      "\"fviefuro\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"012\"",
+    "\"45\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def originalDigits(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        from collections import Counter\n        \n        # Count characters\n        char_count = Counter(s)\n        digit_count = [0] * 10\n        \n        # Some digits have unique characters\n        digit_count[0] = char_count['z']  # zero has z\n        digit_count[2] = char_count['w']  # two has w\n        digit_count[4] = char_count['u']  # four has u\n        digit_count[6] = char_count['x']  # six has x\n        digit_count[8] = char_count['g']  # eight has g\n        \n        # Others need to remove previous digits\n        digit_count[3] = char_count['h'] - digit_count[8]  # three has h (not in 8)\n        digit_count[5] = char_count['f'] - digit_count[4]  # five has f (not in 4)\n        digit_count[7] = char_count['s'] - digit_count[6]  # seven has s (not in 6)\n        \n        # Remaining\n        digit_count[9] = char_count['i'] - digit_count[5] - digit_count[6] - digit_count[8]\n        digit_count[1] = char_count['o'] - digit_count[0] - digit_count[2] - digit_count[4]\n        \n        result = []\n        for digit in range(10):\n            result.extend([str(digit)] * digit_count[digit])\n        \n        return ''.join(result)",
+    "explanation": "Identify digits with unique characters first. Then remove those from remaining characters to find others.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

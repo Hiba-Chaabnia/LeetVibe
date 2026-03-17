@@ -1,0 +1,51 @@
+{
+  "questionId": "900",
+  "title": "Reordered Power of 2",
+  "titleSlug": "reordered-power-of-2",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an integer n. We reorder the digits in any order (including the original order) such that the leading digit is not zero.\n\nReturn true if and only if we can do this so that the resulting number is a power of two.\n\nExample 1:\n\nInput: n = 1\nOutput: true\n\nExample 2:\n\nInput: n = 10\nOutput: false\n\nConstraints:\n\n• 1 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reorderedPowerOf2(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

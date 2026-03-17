@@ -1,0 +1,47 @@
+{
+  "questionId": "1002",
+  "title": "Maximum Width Ramp",
+  "titleSlug": "maximum-width-ramp",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "A ramp in an integer array nums is a pair (i, j) for which i < j and nums[i] <= nums[j]. The width of such a ramp is j - i.\n\nGiven an integer array nums, return the maximum width of a ramp in nums. If there is no ramp in nums, return 0.\n\nExample 1:\n\nInput: nums = [6,0,8,2,1,5]\nOutput: 4\nExplanation: The maximum width ramp is achieved at (i, j) = (1, 5): nums[1] = 0 and nums[5] = 5.\n\nExample 2:\n\nInput: nums = [9,8,1,0,1,9,4,0,4,1]\nOutput: 7\nExplanation: The maximum width ramp is achieved at (i, j) = (2, 9): nums[2] = 1 and nums[9] = 1.\n\nConstraints:\n\n• 2 <= nums.length <= 5 * 104\n\n• 0 <= nums[i] <= 5 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxWidthRamp(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[6,0,8,2,1,5]"
+    ],
+    [
+      "[9,8,1,0,1,9,4,0,4,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "7"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

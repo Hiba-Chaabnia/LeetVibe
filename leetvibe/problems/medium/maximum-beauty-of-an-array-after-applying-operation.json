@@ -1,0 +1,56 @@
+{
+  "questionId": "2891",
+  "title": "Maximum Beauty of an Array After Applying Operation",
+  "titleSlug": "maximum-beauty-of-an-array-after-applying-operation",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed array nums and a non-negative integer k.\n\nIn one operation, you can do the following:\n\n• Choose an index i that hasn't been chosen before from the range [0, nums.length - 1].\n\n• Replace nums[i] with any integer from the range [nums[i] - k, nums[i] + k].\n\nThe beauty of the array is the length of the longest subsequence consisting of equal elements.\n\nReturn the maximum possible beauty of the array nums after applying the operation any number of times.\n\nNote that you can apply the operation to each index only once.\n\nA subsequence of an array is a new array generated from the original array by deleting some elements (possibly none) without changing the order of the remaining elements.\n\nExample 1:\n\nInput: nums = [4,6,1,2], k = 2\nOutput: 3\nExplanation: In this example, we apply the following operations:\n    - Choose index 1, replace it with 4 (from range [4,8]), nums = [4,4,1,2].\n    - Choose index 3, replace it with 4 (from range [0,4]), nums = [4,4,1,4].\n    After the applied operations, the beauty of the array nums is 3 (subsequence consisting of indices 0, 1, and 3).\n    It can be proven that 3 is the maximum possible length we can achieve.\n\nExample 2:\n\nInput: nums = [1,1,1,1], k = 10\nOutput: 4\nExplanation: In this example we don't have to apply any operations.\n    The beauty of the array nums is 4 (whole array).\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i], k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumBeauty(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the array.",
+    "The problem becomes the following: find maximum subarray A[i … j] such that A[j] - A[i] ≤ 2 * k."
+  ],
+  "testCases": [
+    [
+      "[4,6,1,2]",
+      "2"
+    ],
+    [
+      "[1,1,1,1]",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumBeauty(self, nums, k):\n        nums.sort()\n        # Each element nums[i] can be changed to anything in [nums[i]-k, nums[i]+k].\n        # We want the longest subsequence that can all become the same value.\n        # In sorted order, a group nums[i..j] can all become equal iff\n        # nums[j] - nums[i] <= 2*k (both ends can meet in the middle).\n        # Sliding window on sorted array.\n        left = 0\n        ans = 0\n        for right in range(len(nums)):\n            while nums[right] - nums[left] > 2 * k:\n                left += 1\n            ans = max(ans, right - left + 1)\n        return ans",
+    "explanation": "Sort the array. Element nums[i] can reach any value in [nums[i]-k, nums[i]+k]. Two elements can become equal iff their ranges overlap, which (for sorted elements) means nums[j] - nums[i] <= 2k. Use a sliding window to find the longest subarray satisfying this.\n\nTime: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Size Subarray Sum Equals k\", \"titleSlug\": \"maximum-size-subarray-sum-equals-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Partition Array Such That Maximum Difference Is K\", \"titleSlug\": \"partition-array-such-that-maximum-difference-is-k\", \"difficulty\": \"Medium\"}]"
+}

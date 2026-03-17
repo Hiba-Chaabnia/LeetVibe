@@ -1,0 +1,72 @@
+{
+  "questionId": "2162",
+  "title": "Partition Array Into Two Arrays to Minimize Sum Difference",
+  "titleSlug": "partition-array-into-two-arrays-to-minimize-sum-difference",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given an integer array nums of 2 * n integers. You need to partition nums into two arrays of length n to minimize the absolute difference of the sums of the arrays. To partition nums, put each element of nums into one of the two arrays.\n\nReturn the minimum possible absolute difference.\n\nExample 1:\n\nInput: nums = [3,9,7,3]\nOutput: 2\nExplanation: One optimal partition is: [3,9] and [7,3].\n    The absolute difference between the sums of the arrays is abs((3 + 9) - (7 + 3)) = 2.\n\nExample 2:\n\nInput: nums = [-36,36]\nOutput: 72\nExplanation: One optimal partition is: [-36] and [36].\n    The absolute difference between the sums of the arrays is abs((-36) - (36)) = 72.\n\nExample 3:\n\nInput: nums = [2,-1,0,4,-2,-9]\nOutput: 0\nExplanation: One optimal partition is: [2,4,-9] and [-1,0,-2].\n    The absolute difference between the sums of the arrays is abs((2 + 4 + -9) - (-1 + 0 + -2)) = 0.\n\nConstraints:\n\n• 1 <= n <= 15\n\n• nums.length == 2 * n\n\n• -107 <= nums[i] <= 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumDifference(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The target sum for the two partitions is sum(nums) / 2.",
+    "Could you reduce the time complexity if you arbitrarily divide nums into two halves (two arrays)? Meet-in-the-Middle?",
+    "For both halves, pre-calculate a 2D array where the kth index will store all possible sum values if only k elements from this half are added.",
+    "For each sum of k elements in the first half, find the best sum of n-k elements in the second half such that the two sums add up to a value closest to the target sum from hint 1. These two subsets will form one array of the partition."
+  ],
+  "testCases": [
+    [
+      "[3,9,7,3]"
+    ],
+    [
+      "[-36,36]"
+    ],
+    [
+      "[2,-1,0,4,-2,-9]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "72",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Partition Equal Subset Sum\", \"titleSlug\": \"partition-equal-subset-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Split Array With Same Average\", \"titleSlug\": \"split-array-with-same-average\", \"difficulty\": \"Hard\"}, {\"title\": \"Tallest Billboard\", \"titleSlug\": \"tallest-billboard\", \"difficulty\": \"Hard\"}, {\"title\": \"Last Stone Weight II\", \"titleSlug\": \"last-stone-weight-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Fair Distribution of Cookies\", \"titleSlug\": \"fair-distribution-of-cookies\", \"difficulty\": \"Medium\"}, {\"title\": \"Closest Subsequence Sum\", \"titleSlug\": \"closest-subsequence-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Ways to Split Array\", \"titleSlug\": \"number-of-ways-to-split-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Sum of Squared Difference\", \"titleSlug\": \"minimum-sum-of-squared-difference\", \"difficulty\": \"Medium\"}, {\"title\": \"Split With Minimum Sum\", \"titleSlug\": \"split-with-minimum-sum\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "2576",
+  "title": "Minimum Penalty for a Shop",
+  "titleSlug": "minimum-penalty-for-a-shop",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given the customer visit log of a shop represented by a 0-indexed string customers consisting only of characters 'N' and 'Y':\n\n• if the ith character is 'Y', it means that customers come at the ith hour\n\n• whereas 'N' indicates that no customers come at the ith hour.\n\nIf the shop closes at the jth hour (0 <= j <= n), the penalty is calculated as follows:\n\n• For every hour when the shop is open and no customers come, the penalty increases by 1.\n\n• For every hour when the shop is closed and customers come, the penalty increases by 1.\n\nReturn the earliest hour at which the shop must be closed to incur a minimum penalty.\n\nNote that if a shop closes at the jth hour, it means the shop is closed at the hour j.\n\nExample 1:\n\nInput: customers = \"YYNY\"\nOutput: 2\nExplanation:\n    - Closing the shop at the 0th hour incurs in 1+1+0+1 = 3 penalty.\n    - Closing the shop at the 1st hour incurs in 0+1+0+1 = 2 penalty.\n    - Closing the shop at the 2nd hour incurs in 0+0+0+1 = 1 penalty.\n    - Closing the shop at the 3rd hour incurs in 0+0+1+1 = 2 penalty.\n    - Closing the shop at the 4th hour incurs in 0+0+1+0 = 1 penalty.\n    Closing the shop at 2nd or 4th hour gives a minimum penalty. Since 2 is earlier, the optimal closing time is 2.\n\nExample 2:\n\nInput: customers = \"NNNNN\"\nOutput: 0\nExplanation: It is best to close the shop at the 0th hour as no customers arrive.\n\nExample 3:\n\nInput: customers = \"YYYY\"\nOutput: 4\nExplanation: It is best to close the shop at the 4th hour as customers arrive at each hour.\n\nConstraints:\n\n• 1 <= customers.length <= 105\n\n• customers consists only of characters 'Y' and 'N'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def bestClosingTime(self, customers):\n        \"\"\"\n        :type customers: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "At any index, the penalty is the sum of prefix count of ‘N’ and suffix count of ‘Y’.",
+    "Enumerate all indices and find the minimum such value."
+  ],
+  "testCases": [
+    [
+      "\"YYNY\""
+    ],
+    [
+      "\"NNNNN\""
+    ],
+    [
+      "\"YYYY\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Grid Game\", \"titleSlug\": \"grid-game\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Amount of Damage Dealt to Bob\", \"titleSlug\": \"minimum-amount-of-damage-dealt-to-bob\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,41 @@
+{
+  "questionId": "3251",
+  "title": "Maximum Area of Longest Diagonal Rectangle",
+  "titleSlug": "maximum-area-of-longest-diagonal-rectangle",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "You are given a 2D 0-indexed integer array dimensions.\n\nFor all indices i, 0 <= i < dimensions.length, dimensions[i][0] represents the length and dimensions[i][1] represents the width of the rectangle i.\n\nReturn the area of the rectangle having the longest diagonal. If there are multiple rectangles with the longest diagonal, return the area of the rectangle having the maximum area.\n\nExample 1:\n\nInput: dimensions = [[9,3],[8,6]]\nOutput: 48\nExplanation:\n    For index = 0, length = 9 and width = 3. Diagonal length = sqrt(9 * 9 + 3 * 3) = sqrt(90) ≈ 9.487.\n    For index = 1, length = 8 and width = 6. Diagonal length = sqrt(8 * 8 + 6 * 6) = sqrt(100) = 10.\n    So, the rectangle at index 1 has a greater diagonal length therefore we return area = 8 * 6 = 48.\n\nExample 2:\n\nInput: dimensions = [[3,4],[4,3]]\nOutput: 12\nExplanation: Length of diagonal is the same for both which is 5, so maximum area = 12.\n\nConstraints:\n\n• 1 <= dimensions.length <= 100\n\n• dimensions[i].length == 2\n\n• 1 <= dimensions[i][0], dimensions[i][1] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def areaOfMaxDiagonal(self, dimensions):\n        \"\"\"\n        :type dimensions: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Diagonal of rectangle is sqrt(length<sup>2</sup> + width<sup>2</sup>)."
+  ],
+  "testCases": [
+    [
+      "[[9,3],[8,6]]"
+    ],
+    [
+      "[[3,4],[4,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "48",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def areaOfMaxDiagonal(self, dimensions):\n        best_diag_sq = 0\n        best_area = 0\n        for l, w in dimensions:\n            d2 = l * l + w * w\n            area = l * w\n            if d2 > best_diag_sq or (d2 == best_diag_sq and area > best_area):\n                best_diag_sq = d2\n                best_area = area\n        return best_area",
+    "explanation": "Track the rectangle with the largest diagonal (compared by squared length to avoid floats); on ties keep the one with the larger area. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

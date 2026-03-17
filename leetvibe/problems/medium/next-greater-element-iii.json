@@ -1,0 +1,47 @@
+{
+  "questionId": "556",
+  "title": "Next Greater Element III",
+  "titleSlug": "next-greater-element-iii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a positive integer n, find the smallest integer which has exactly the same digits existing in the integer n and is greater in value than n. If no such positive integer exists, return -1.\n\nNote that the returned integer should fit in 32-bit integer, if there is a valid answer but it does not fit in 32-bit integer, return -1.\n\nExample 1:\n\nInput: n = 12\nOutput: 21\nExample 2:\n\nInput: n = 21\nOutput: -1\n\nConstraints:\n\n• 1 <= n <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nextGreaterElement(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "12"
+    ],
+    [
+      "21"
+    ]
+  ],
+  "expectedOutputs": [
+    "21",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from itertools import permutations\n\ndef nextGreaterElement(n: int) -> int:\n    num_str = str(n)\n    num_permutations = sorted(set(int(\"\".join(p)) for p in permutations(num_str)))\n    index = num_permutations.index(n)\n    if index + 1 < len(num_permutations) and num_permutations[index + 1] <= 2**31 - 1:\n        return num_permutations[index + 1]\n    return -1",
+    "explanation": "1. Convert input integer n to string/array of characters.\n2. Find the rightmost character such that when swapped with a character greater than it, the number increases. If no such character exists, return -1.\n3. Swap the character found with the smallest character to its right that is greater than it.\n4. Sort the portion of the array to the right of the swapped character in non-descending order.\n5. Convert the modified array back to an integer and check if it fits in 32-bit integer. If yes, return the integer, otherwise return -1."
+  },
+  "similarQuestions": "[{\"title\": \"Next Greater Element I\", \"titleSlug\": \"next-greater-element-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Next Greater Element II\", \"titleSlug\": \"next-greater-element-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Next Palindrome Using Same Digits\", \"titleSlug\": \"next-palindrome-using-same-digits\", \"difficulty\": \"Hard\"}]"
+}

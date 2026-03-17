@@ -1,0 +1,58 @@
+{
+  "questionId": "3927",
+  "title": "Minimum Cost Path with Alternating Directions II",
+  "titleSlug": "minimum-cost-path-with-alternating-directions-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given two integers m and n representing the number of rows and columns of a grid, respectively.\n\nThe cost to enter cell (i, j) is defined as (i + 1) * (j + 1).\n\nYou are also given a 2D integer array waitCost where waitCost[i][j] defines the cost to wait on that cell.\n\nThe path will always begin by entering cell (0, 0) on move 1 and paying the entrance cost.\n\nAt each step, you follow an alternating pattern:\n\n• On odd-numbered seconds, you must move right or down to an adjacent cell, paying its entry cost.\n\n• On even-numbered seconds, you must wait in place for exactly one second and pay waitCost[i][j] during that second.\n\nReturn the minimum total cost required to reach (m - 1, n - 1).\n\nExample 1:\n\nInput: m = 1, n = 2, waitCost = [[1,2]]\n\nOutput: 3\n\nExplanation: The optimal path is:\n\n• Start at cell (0, 0) at second 1 with entry cost (0 + 1) * (0 + 1) = 1.\n\n• Second 1: Move right to cell (0, 1) with entry cost (0 + 1) * (1 + 1) = 2.\n\nThus, the total cost is 1 + 2 = 3.\n\nExample 2:\n\nInput: m = 2, n = 2, waitCost = [[3,5],[2,4]]\n\nOutput: 9\n\nExplanation: The optimal path is:\n\n• Start at cell (0, 0) at second 1 with entry cost (0 + 1) * (0 + 1) = 1.\n\n• Second 1: Move down to cell (1, 0) with entry cost (1 + 1) * (0 + 1) = 2.\n\n• Second 2: Wait at cell (1, 0), paying waitCost[1][0] = 2.\n\n• Second 3: Move right to cell (1, 1) with entry cost (1 + 1) * (1 + 1) = 4.\n\nThus, the total cost is 1 + 2 + 2 + 4 = 9.\n\nExample 3:\n\nInput: m = 2, n = 3, waitCost = [[6,1,4],[3,2,5]]\n\nOutput: 16\n\nExplanation: The optimal path is:\n\n• Start at cell (0, 0) at second 1 with entry cost (0 + 1) * (0 + 1) = 1.\n\n• Second 1: Move right to cell (0, 1) with entry cost (0 + 1) * (1 + 1) = 2.\n\n• Second 2: Wait at cell (0, 1), paying waitCost[0][1] = 1.\n\n• Second 3: Move down to cell (1, 1) with entry cost (1 + 1) * (1 + 1) = 4.\n\n• Second 4: Wait at cell (1, 1), paying waitCost[1][1] = 2.\n\n• Second 5: Move right to cell (1, 2) with entry cost (1 + 1) * (2 + 1) = 6.\n\nThus, the total cost is 1 + 2 + 1 + 4 + 2 + 6 = 16.\n\nConstraints:\n\n• 1 <= m, n <= 105\n\n• 2 <= m * n <= 105\n\n• waitCost.length == m\n\n• waitCost[0].length == n\n\n• 0 <= waitCost[i][j] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCost(self, m, n, waitCost):\n        \"\"\"\n        :type m: int\n        :type n: int\n        :type waitCost: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming",
+    "Observe that you need to wait at each cell except the first and last",
+    "Transition: dp[i][j] <- min(dp[i‑1][j], dp[i][j‑1]) + waitCost[i][j] + (i+1)*(j+1)",
+    "The answer is dp[m‑1][n‑1] - waitCost[m‑1][n‑1]"
+  ],
+  "testCases": [
+    [
+      "1",
+      "2",
+      "[[1,2]]"
+    ],
+    [
+      "2",
+      "2",
+      "[[3,5],[2,4]]"
+    ],
+    [
+      "2",
+      "3",
+      "[[6,1,4],[3,2,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "9",
+    "16"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,49 @@
+{
+  "questionId": "70",
+  "title": "Climbing Stairs",
+  "titleSlug": "climbing-stairs",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "You are climbing a staircase. It takes n steps to reach the top.\n\nEach time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?\n\nExample 1:\n\nInput: n = 2\nOutput: 2\nExplanation: There are two ways to climb to the top.\n    1. 1 step + 1 step\n    2. 2 steps\n\nExample 2:\n\nInput: n = 3\nOutput: 3\nExplanation: There are three ways to climb to the top.\n    1. 1 step + 1 step + 1 step\n    2. 1 step + 2 steps\n    3. 2 steps + 1 step\n\nConstraints:\n\n• 1 <= n <= 45",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def climbStairs(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "To reach nth step, what could have been your previous steps? (Think about the step sizes)"
+  ],
+  "testCases": [
+    [
+      "2"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def climbStairs(n):\n    if n <= 2:\n        return n\n    a, b = 1, 2\n    for _ in range(3, n+1):\n        a, b = b, a + b\n    return b",
+    "explanation": "This problem can be solved using dynamic programming. The number of ways to reach the top can be calculated by finding the sum of the ways to reach the previous two steps. We start with the base cases where `n` is 1 or 2, and then iteratively build up the solution. In each iteration, we update `a` and `b` with the new number of ways to reach steps `n-2` and `n-1` respectively, and keep calculating the number of ways to reach step `n` using `a + b`. This continues until we reach the top and return the final result."
+  },
+  "similarQuestions": "[{\"title\": \"Min Cost Climbing Stairs\", \"titleSlug\": \"min-cost-climbing-stairs\", \"difficulty\": \"Easy\"}, {\"title\": \"Fibonacci Number\", \"titleSlug\": \"fibonacci-number\", \"difficulty\": \"Easy\"}, {\"title\": \"N-th Tribonacci Number\", \"titleSlug\": \"n-th-tribonacci-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Rounds to Complete All Tasks\", \"titleSlug\": \"minimum-rounds-to-complete-all-tasks\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Number of Ways to Place Houses\", \"titleSlug\": \"count-number-of-ways-to-place-houses\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Ways to Reach a Position After Exactly k Steps\", \"titleSlug\": \"number-of-ways-to-reach-a-position-after-exactly-k-steps\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Ways To Build Good Strings\", \"titleSlug\": \"count-ways-to-build-good-strings\", \"difficulty\": \"Medium\"}, {\"title\": \"Frog Jump II\", \"titleSlug\": \"frog-jump-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Number of Ways to Reach the K-th Stair\", \"titleSlug\": \"find-number-of-ways-to-reach-the-k-th-stair\", \"difficulty\": \"Hard\"}, {\"title\": \"The Number of Ways to Make the Sum\", \"titleSlug\": \"the-number-of-ways-to-make-the-sum\", \"difficulty\": \"Medium\"}]"
+}

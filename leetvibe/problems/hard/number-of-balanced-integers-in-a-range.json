@@ -1,0 +1,52 @@
+{
+  "questionId": "4095",
+  "title": "Number of Balanced Integers in a Range",
+  "titleSlug": "number-of-balanced-integers-in-a-range",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given two integers low and high.\n\nAn integer is called balanced if it satisfies both of the following conditions:\n\n• It contains at least two digits.\n\n• The sum of digits at even positions is equal to the sum of digits at odd positions (the leftmost digit has position 1).\n\nReturn an integer representing the number of balanced integers in the range [low, high] (both inclusive).\n\nExample 1:\n\nInput: low = 1, high = 100\n\nOutput: 9\n\nExplanation: The 9 balanced numbers between 1 and 100 are 11, 22, 33, 44, 55, 66, 77, 88, and 99.\n\nExample 2:\n\nInput: low = 120, high = 129\n\nOutput: 1\n\nExplanation: Only 121 is balanced because the sum of digits at even and odd positions are both 2.\n\nExample 3:\n\nInput: low = 1234, high = 1234\n\nOutput: 0\n\nExplanation: 1234 is not balanced because the sum of digits at odd positions (1 + 3 = 4) does not equal the sum at even positions (2 + 4 = 6).\n\nConstraints:\n\n• 1 <= low <= high <= 1015",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countBalanced(self, low, high):\n        \"\"\"\n        :type low: int\n        :type high: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use digit dynamic programming.",
+    "Let f(x) be the number of balanced integers in [1, x]; the answer is f(high) - f(low - 1).",
+    "Track the difference sum(odd positions) - sum(even positions) while building from the most significant digit, and require it to be zero at the end.",
+    "Ignore leading zeros during transitions.",
+    "Enforce the length constraint by counting only when at least two digits have been placed."
+  ],
+  "testCases": [
+    [
+      "1",
+      "100"
+    ],
+    [
+      "120",
+      "129"
+    ],
+    [
+      "1234",
+      "1234"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countBalanced(self, low, high):\n        \"\"\"\n        :type low: int\n        :type high: int\n        :rtype: int\n        \"\"\"\n        def count_up_to(num):\n            s = str(num)\n            n = len(s)\n            memo = {}\n            \n            def dp(pos, diff, tight, started):\n                # diff = sum(odd_positions) - sum(even_positions)\n                # pos = current position (1-indexed)\n                # tight = whether we're still bounded by num\n                # started = whether we've placed a non-zero digit\n                \n                if pos == n + 1:\n                    # Valid if diff == 0 and we have at least 2 digits\n                    return 1 if diff == 0 and started and pos - 1 >= 2 else 0\n                \n                state = (pos, diff, tight, started)\n                if state in memo:\n                    return memo[state]\n                \n                limit = int(s[pos - 1]) if tight else 9\n                result = 0\n                \n                for digit in range(0, limit + 1):\n                    new_tight = tight and (digit == limit)\n                    new_started = started or (digit > 0)\n                    \n                    # Calculate new diff\n                    new_diff = diff\n                    if new_started or digit > 0:\n                        # Position 1 is odd (1-indexed)\n                        if pos % 2 == 1:  # odd position\n                            new_diff = diff + digit\n                        else:  # even position\n                            new_diff = diff - digit\n                    \n                    result += dp(pos + 1, new_diff, new_tight, new_started)\n                \n                memo[state] = result\n                return result\n            \n            return dp(1, 0, True, False)\n        \n        return count_up_to(high) - count_up_to(low - 1)",
+    "explanation": "This solution uses digit dynamic programming:\n\n1. **Problem Definition**: Balanced integer has:\n   - At least 2 digits\n   - Sum of digits at odd positions (1, 3, 5, ...) = Sum of digits at even positions (2, 4, 6, ...)\n\n2. **Digit DP Approach**:\n   - Build numbers digit by digit from left to right\n   - Track the difference: sum(odd_positions) - sum(even_positions)\n   - Ensure difference equals 0 at the end\n\n3. **DP State**:\n   - pos: current position in the number (1-indexed)\n   - diff: current difference between odd and even position sums\n   - tight: whether we're still bounded by the upper limit\n   - started: whether we've placed a non-zero digit (to handle leading zeros)\n\n4. **Transitions**:\n   - For each position, try all digits from 0 to limit (or 9 if not tight)\n   - Update diff based on position parity:\n     - Odd position (1, 3, 5, ...): add digit to diff\n     - Even position (2, 4, 6, ...): subtract digit from diff\n   - Propagate tight flag (remains true only if current digit = limit)\n\n5. **Base Case**: When pos = n + 1:\n   - Valid if diff = 0 and we have at least 2 digits\n   - Return 1 if valid, 0 otherwise\n\n6. **Answer Calculation**:\n   - count_up_to(high) - count_up_to(low - 1)\n   - Gives count of balanced integers in [low, high]\n\nTime Complexity: O(D * D² * 10 * 2 * 2) = O(D³) where D = number of digits\nSpace Complexity: O(D³)"
+  },
+  "similarQuestions": "[]"
+}

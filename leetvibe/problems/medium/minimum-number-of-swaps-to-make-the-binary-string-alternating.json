@@ -1,0 +1,46 @@
+{
+  "questionId": "1994",
+  "title": "Minimum Number of Swaps to Make the Binary String Alternating",
+  "titleSlug": "minimum-number-of-swaps-to-make-the-binary-string-alternating",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given a binary string s, return the minimum number of character swaps to make it alternating, or -1 if it is impossible.\n\nThe string is called alternating if no two adjacent characters are equal. For example, the strings \"010\" and \"1010\" are alternating, while the string \"0100\" is not.\n\nAny two characters may be swapped, even if they are not adjacent.\n\nExample 1:\n\nInput: s = \"111000\"\nOutput: 1\nExplanation: Swap positions 1 and 4: \"111000\" -> \"101010\"\n    The string is now alternating.\n\nExample 2:\n\nInput: s = \"010\"\nOutput: 0\nExplanation: The string is already alternating, no swaps are needed.\n\nExample 3:\n\nInput: s = \"1110\"\nOutput: -1\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSwaps(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think about all valid strings of length n.",
+    "Try to count the mismatched positions with each valid string of length n."
+  ],
+  "testCases": [
+    [
+      "\"111000\""
+    ],
+    [
+      "\"010\""
+    ],
+    [
+      "\"1110\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

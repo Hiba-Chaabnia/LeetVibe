@@ -1,0 +1,50 @@
+{
+  "questionId": "2785",
+  "title": "Semi-Ordered Permutation",
+  "titleSlug": "semi-ordered-permutation",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a 0-indexed permutation of n integers nums.\n\nA permutation is called semi-ordered if the first number equals 1 and the last number equals n. You can perform the below operation as many times as you want until you make nums a semi-ordered permutation:\n\n• Pick two adjacent elements in nums, then swap them.\n\nReturn the minimum number of operations to make nums a semi-ordered permutation.\n\nA permutation is a sequence of integers from 1 to n of length n containing each number exactly once.\n\nExample 1:\n\nInput: nums = [2,1,4,3]\nOutput: 2\nExplanation: We can make the permutation semi-ordered using these sequence of operations:\n    1 - swap i = 0 and j = 1. The permutation becomes [1,2,4,3].\n    2 - swap i = 2 and j = 3. The permutation becomes [1,2,3,4].\n    It can be proved that there is no sequence of less than two operations that make nums a semi-ordered permutation.\n\nExample 2:\n\nInput: nums = [2,4,1,3]\nOutput: 3\nExplanation: We can make the permutation semi-ordered using these sequence of operations:\n    1 - swap i = 1 and j = 2. The permutation becomes [2,1,4,3].\n    2 - swap i = 0 and j = 1. The permutation becomes [1,2,4,3].\n    3 - swap i = 2 and j = 3. The permutation becomes [1,2,3,4].\n    It can be proved that there is no sequence of less than three operations that make nums a semi-ordered permutation.\n\nExample 3:\n\nInput: nums = [1,3,4,2,5]\nOutput: 0\nExplanation: The permutation is already a semi-ordered permutation.\n\nConstraints:\n\n• 2 <= nums.length == n <= 50\n\n• 1 <= nums[i] <= 50\n\n• nums is a permutation.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def semiOrderedPermutation(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the index of elements 1 and n.",
+    "Let x be the position of 1 and y be the position of n. the answer is x + (n-y-1) if x < y and x + (n-y-1) - 1 if x > y."
+  ],
+  "testCases": [
+    [
+      "[2,1,4,3]"
+    ],
+    [
+      "[2,4,1,3]"
+    ],
+    [
+      "[1,3,4,2,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def semiOrderedPermutation(self, nums):\n        n = len(nums)\n        pos1 = nums.index(1)\n        posn = nums.index(n)\n        cost = pos1 + (n - 1 - posn)\n        if pos1 > posn:\n            cost -= 1\n        return cost",
+    "explanation": "Bring 1 to the front (pos1 swaps) and n to the back (n-1-posn swaps); subtract 1 if they cross during movement. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

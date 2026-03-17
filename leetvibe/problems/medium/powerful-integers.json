@@ -1,0 +1,51 @@
+{
+  "questionId": "1010",
+  "title": "Powerful Integers",
+  "titleSlug": "powerful-integers",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Given three integers x, y, and bound, return a list of all the powerful integers that have a value less than or equal to bound.\n\nAn integer is powerful if it can be represented as xi + yj for some integers i >= 0 and j >= 0.\n\nYou may return the answer in any order. In your answer, each value should occur at most once.\n\nExample 1:\n\nInput: x = 2, y = 3, bound = 10\nOutput: [2,3,4,5,7,9,10]\nExplanation:\n    2 = 20 + 30\n    3 = 21 + 30\n    4 = 20 + 31\n    5 = 21 + 31\n    7 = 22 + 31\n    9 = 23 + 30\n    10 = 20 + 32\n\nExample 2:\n\nInput: x = 3, y = 5, bound = 15\nOutput: [2,4,6,8,10,14]\n\nConstraints:\n\n• 1 <= x, y <= 100\n\n• 0 <= bound <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def powerfulIntegers(self, x, y, bound):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :type bound: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "2",
+      "3",
+      "10"
+    ],
+    [
+      "3",
+      "5",
+      "15"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3,4,5,7,9,10]",
+    "[2,4,6,8,10,14]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def powerfulIntegers(x, y, bound):\n    max_i = 0 if x == 1 else int(math.log(bound, x))\n    max_j = 0 if y == 1 else int(math.log(bound, y))\n    result_set = set()\n    \n    for i in range(max_i + 1):\n        for j in range(max_j + 1):\n            powerful_num = x ** i + y ** j\n            if powerful_num <= bound:\n                result_set.add(powerful_num)\n                \n    return list(result_set)",
+    "explanation": "1. Calculate max_i and max_j for the given x, y, and bound.\n2. Create an empty set called resultSet to store unique powerful integers.\n3. Iterate through i from 0 to max_i, and j from 0 to max_j.\n4. For each i and j, calculate the powerful number using x^i + y^j.\n5. If the powerful number is less than or equal to bound, add it into resultSet.\n6. Return resultSet converted into a vector (C++), ArrayList (Java), list (Python), or array (JavaScript)."
+  },
+  "similarQuestions": "[{\"title\": \"Count the Number of Powerful Integers\", \"titleSlug\": \"count-the-number-of-powerful-integers\", \"difficulty\": \"Hard\"}]"
+}

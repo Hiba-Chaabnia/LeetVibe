@@ -1,0 +1,50 @@
+{
+  "questionId": "3738",
+  "title": "Make Array Non-decreasing",
+  "titleSlug": "make-array-non-decreasing",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given an integer array nums. In one operation, you can select a subarray and replace it with a single element equal to its maximum value.\n\nReturn the maximum possible size of the array after performing zero or more operations such that the resulting array is non-decreasing.\n\nExample 1:\n\nInput: nums = [4,2,5,3,5]\n\nOutput: 3\n\nExplanation: One way to achieve the maximum size is:\n\n• Replace subarray nums[1..2] = [2, 5] with 5 → [4, 5, 3, 5].\n\n• Replace subarray nums[2..3] = [3, 5] with 5 → [4, 5, 5].\n\nThe final array [4, 5, 5] is non-decreasing with size 3.\n\nExample 2:\n\nInput: nums = [1,2,3]\n\nOutput: 3\n\nExplanation: No operation is needed as the array [1,2,3] is already non-decreasing.\n\nConstraints:\n\n• 1 <= nums.length <= 2 * 105\n\n• 1 <= nums[i] <= 2 * 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumPossibleSize(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate backwards.",
+    "Can you remove the largest element in the array? Is that ever helpful?"
+  ],
+  "testCases": [
+    [
+      "[4,2,5,3,5]"
+    ],
+    [
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

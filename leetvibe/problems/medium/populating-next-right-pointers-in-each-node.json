@@ -1,0 +1,51 @@
+{
+  "questionId": "116",
+  "title": "Populating Next Right Pointers in Each Node",
+  "titleSlug": "populating-next-right-pointers-in-each-node",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given a perfect binary tree where all leaves are on the same level, and every parent has two children. The binary tree has the following definition:\n\n    struct Node {\n      int val;\n      Node *left;\n      Node *right;\n      Node *next;\n    }\n\nPopulate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.\n\nInitially, all next pointers are set to NULL.\n\nExample 1:\n\nInput: root = [1,2,3,4,5,6,7]\nOutput: [1,#,2,3,#,4,5,6,7,#]\nExplanation: Given the above perfect binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B. The serialized output is in level order as connected by the next pointers, with '#' signifying the end of each level.\n\nExample 2:\n\nInput: root = []\nOutput: []\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 212 - 1].\n\n• -1000 <= Node.val <= 1000\n\nFollow-up:\n\n• You may only use constant extra space.\n\n• The recursive approach is fine. You may assume implicit stack space does not count as extra space for this problem.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "\"\"\"\n# Definition for a Node.\nclass Node(object):\n    def __init__(self, val=0, left=None, right=None, next=None):\n        self.val = val\n        self.left = left\n        self.right = right\n        self.next = next\n\"\"\"\n\nclass Solution(object):\n    def connect(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: Node\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6,7]"
+    ],
+    [
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,#,2,3,#,4,5,6,7,#]",
+    "[]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Populating Next Right Pointers in Each Node II\", \"titleSlug\": \"populating-next-right-pointers-in-each-node-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Binary Tree Right Side View\", \"titleSlug\": \"binary-tree-right-side-view\", \"difficulty\": \"Medium\"}, {\"title\": \"Cycle Length Queries in a Tree\", \"titleSlug\": \"cycle-length-queries-in-a-tree\", \"difficulty\": \"Hard\"}]"
+}

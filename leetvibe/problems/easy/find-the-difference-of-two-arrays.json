@@ -1,0 +1,48 @@
+{
+  "questionId": "1392",
+  "title": "Find the Difference of Two Arrays",
+  "titleSlug": "find-the-difference-of-two-arrays",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "Given two 0-indexed integer arrays nums1 and nums2, return a list answer of size 2 where:\n\n• answer[0] is a list of all distinct integers in nums1 which are not present in nums2.\n\n• answer[1] is a list of all distinct integers in nums2 which are not present in nums1.\n\nNote that the integers in the lists may be returned in any order.\n\nExample 1:\n\nInput: nums1 = [1,2,3], nums2 = [2,4,6]\nOutput: [[1,3],[4,6]]\nExplanation:\n    For nums1, nums1[1] = 2 is present at index 0 of nums2, whereas nums1[0] = 1 and nums1[2] = 3 are not present in nums2. Therefore, answer[0] = [1,3].\n    For nums2, nums2[0] = 2 is present at index 1 of nums1, whereas nums2[1] = 4 and nums2[2] = 6 are not present in nums1. Therefore, answer[1] = [4,6].\n\nExample 2:\n\nInput: nums1 = [1,2,3,3], nums2 = [1,1,2,2]\nOutput: [[3],[]]\nExplanation:\n    For nums1, nums1[2] and nums1[3] are not present in nums2. Since nums1[2] == nums1[3], their value is only included once and answer[0] = [3].\n    Every integer in nums2 is present in nums1. Therefore, answer[1] = [].\n\nConstraints:\n\n• 1 <= nums1.length, nums2.length <= 1000\n\n• -1000 <= nums1[i], nums2[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findDifference(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each integer in nums1, check if it exists in nums2.",
+    "Do the same for each integer in nums2."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "[2,4,6]"
+    ],
+    [
+      "[1,2,3,3]",
+      "[1,1,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,3],[4,6]]",
+    "[[3],[]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findDifference(self, nums1, nums2):\n        set1 = set(nums1)\n        set2 = set(nums2)\n        return [list(set1 - set2), list(set2 - set1)]",
+    "explanation": "Set difference for both directions.\nTime: O(n + m)\nSpace: O(n + m)"
+  },
+  "similarQuestions": "[{\"title\": \"Intersection of Two Arrays\", \"titleSlug\": \"intersection-of-two-arrays\", \"difficulty\": \"Easy\"}, {\"title\": \"Intersection of Two Arrays II\", \"titleSlug\": \"intersection-of-two-arrays-ii\", \"difficulty\": \"Easy\"}, {\"title\": \"Intersection of Multiple Arrays\", \"titleSlug\": \"intersection-of-multiple-arrays\", \"difficulty\": \"Easy\"}]"
+}

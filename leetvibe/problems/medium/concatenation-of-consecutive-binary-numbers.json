@@ -1,0 +1,53 @@
+{
+  "questionId": "1800",
+  "title": "Concatenation of Consecutive Binary Numbers",
+  "titleSlug": "concatenation-of-consecutive-binary-numbers",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given an integer n, return the decimal value of the binary string formed by concatenating the binary representations of 1 to n in order, modulo 109 + 7.\n\nExample 1:\n\nInput: n = 1\nOutput: 1\nExplanation: \"1\" in binary corresponds to the decimal value 1.\n\nExample 2:\n\nInput: n = 3\nOutput: 27\nExplanation: In binary, 1, 2, and 3 corresponds to \"1\", \"10\", and \"11\".\n    After concatenating them, we have \"11011\", which corresponds to the decimal value 27.\n\nExample 3:\n\nInput: n = 12\nOutput: 505379714\nExplanation: The concatenation results in \"1101110010111011110001001101010111100\".\n    The decimal value of that is 118505380540.\n    After modulo 109 + 7, the result is 505379714.\n\nConstraints:\n\n• 1 <= n <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def concatenatedBinary(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Express the nth number value in a recursion formula and think about how we can do a fast evaluation."
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "3"
+    ],
+    [
+      "12"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "27",
+    "505379714"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def concatenatedBinary(self, n):\n        MOD = 10**9 + 7\n        result = 0\n        for i in range(1, n + 1):\n            bits = i.bit_length()\n            result = (result << bits | i) % MOD\n        return result",
+    "explanation": "Shift result left by bit_length, OR with i. Use mod at each step.\nTime: O(n*log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Possible Number by Binary Concatenation\", \"titleSlug\": \"maximum-possible-number-by-binary-concatenation\", \"difficulty\": \"Medium\"}]"
+}

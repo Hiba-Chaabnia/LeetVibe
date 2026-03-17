@@ -1,0 +1,49 @@
+{
+  "questionId": "3579",
+  "title": "Maximum Possible Number by Binary Concatenation",
+  "titleSlug": "maximum-possible-number-by-binary-concatenation",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an array of integers nums of size 3.\n\nReturn the maximum possible number whose binary representation can be formed by concatenating the binary representation of all elements in nums in some order.\n\nNote that the binary representation of any number does not contain leading zeros.\n\nExample 1:\n\nInput: nums = [1,2,3]\n\nOutput: 30\n\nExplanation: Concatenate the numbers in the order [3, 1, 2] to get the result \"11110\", which is the binary representation of 30.\n\nExample 2:\n\nInput: nums = [2,8,16]\n\nOutput: 1296\n\nExplanation: Concatenate the numbers in the order [2, 8, 16] to get the result \"10100010000\", which is the binary representation of 1296.\n\nConstraints:\n\n• nums.length == 3\n\n• 1 <= nums[i] <= 127",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxGoodNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How many possible concatenation orders are there?"
+  ],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[2,8,16]"
+    ]
+  ],
+  "expectedOutputs": [
+    "30",
+    "1296"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from itertools import permutations\n\nclass Solution(object):\n    def maxGoodNumber(self, nums):\n        best = 0\n        for perm in permutations(nums):\n            # Concatenate binary representations\n            result = 0\n            for v in perm:\n                bits = v.bit_length()\n                result = (result << bits) | v\n            best = max(best, result)\n        return best",
+    "explanation": "With only 3 elements, there are 3! = 6 permutations. Try all of them, concatenate the binary representations (shift left by bit_length and OR), return the maximum.\n\nTime: O(1) (constant 6 permutations). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Concatenation of Consecutive Binary Numbers\", \"titleSlug\": \"concatenation-of-consecutive-binary-numbers\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,43 @@
+{
+  "questionId": "769",
+  "title": "Largest Plus Sign",
+  "titleSlug": "largest-plus-sign",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer n. You have an n x n binary grid grid with all values initially 1's except for some indices given in the array mines. The ith element of the array mines is defined as mines[i] = [xi, yi] where grid[xi][yi] == 0.\n\nReturn the order of the largest axis-aligned plus sign of 1's contained in grid. If there is none, return 0.\n\nAn axis-aligned plus sign of 1's of order k has some center grid[r][c] == 1 along with four arms of length k - 1 going up, down, left, and right, and made of 1's. Note that there could be 0's or 1's beyond the arms of the plus sign, only the relevant area of the plus sign is checked for 1's.\n\nExample 1:\n\nInput: n = 5, mines = [[4,2]]\nOutput: 2\nExplanation: In the above grid, the largest plus sign can only be of order 2. One of them is shown.\n\nExample 2:\n\nInput: n = 1, mines = [[0,0]]\nOutput: 0\nExplanation: There is no plus sign, so return 0.\n\nConstraints:\n\n• 1 <= n <= 500\n\n• 1 <= mines.length <= 5000\n\n• 0 <= xi, yi < n\n\n• All the pairs (xi, yi) are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def orderOfLargestPlusSign(self, n, mines):\n        \"\"\"\n        :type n: int\n        :type mines: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each direction such as \"left\", find left[r][c] = the number of 1s you will see before a zero starting at r, c and walking left.  You can find this in N^2 time with a dp.  The largest plus sign at r, c is just the minimum of left[r][c], up[r][c] etc."
+  ],
+  "testCases": [
+    [
+      "5",
+      "[[4,2]]"
+    ],
+    [
+      "1",
+      "[[0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximal Square\", \"titleSlug\": \"maximal-square\", \"difficulty\": \"Medium\"}]"
+}

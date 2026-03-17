@@ -1,0 +1,56 @@
+{
+  "questionId": "593",
+  "title": "Valid Square",
+  "titleSlug": "valid-square",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "Given the coordinates of four points in 2D space p1, p2, p3 and p4, return true if the four points construct a square.\n\nThe coordinate of a point pi is represented as [xi, yi]. The input is not given in any order.\n\nA valid square has four equal sides with positive length and four equal angles (90-degree angles).\n\nExample 1:\n\nInput: p1 = [0,0], p2 = [1,1], p3 = [1,0], p4 = [0,1]\nOutput: true\n\nExample 2:\n\nInput: p1 = [0,0], p2 = [1,1], p3 = [1,0], p4 = [0,12]\nOutput: false\n\nExample 3:\n\nInput: p1 = [1,0], p2 = [-1,0], p3 = [0,1], p4 = [0,-1]\nOutput: true\n\nConstraints:\n\n• p1.length == p2.length == p3.length == p4.length == 2\n\n• -104 <= xi, yi <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def validSquare(self, p1, p2, p3, p4):\n        \"\"\"\n        :type p1: List[int]\n        :type p2: List[int]\n        :type p3: List[int]\n        :type p4: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[0,0]",
+      "[1,1]",
+      "[1,0]",
+      "[0,1]"
+    ],
+    [
+      "[0,0]",
+      "[1,1]",
+      "[1,0]",
+      "[0,12]"
+    ],
+    [
+      "[1,0]",
+      "[-1,0]",
+      "[0,1]",
+      "[0,-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def validSquare(p1, p2, p3, p4):\n    def dist_sq(p, q):\n        return (p[0] - q[0])**2 + (p[1] - q[1])**2\n\n    points = [p1, p2, p3, p4]\n    dists = set()\n\n    for i in range(4):\n        for j in range(i + 1, 4):\n            dists.add(dist_sq(points[i], points[j]))\n\n    return len(dists) == 2 and 0 not in dists",
+    "explanation": "1. Create a function to calculate the distance between two points in 2D space.\n2. Create a set to store unique distances between points.\n3. Iterate through all distinct pairs of points, calculating the distance between them and adding the result to the set.\n4. Check if the size of the set is 2, meaning that there are exactly two unique distances, and that the smallest distance is not 0, indicating that no two points are the same.\n5. If the above conditions are met, the four points form a square. Otherwise, they do not."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "3202",
+  "title": "High-Access Employees",
+  "titleSlug": "high-access-employees",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 2D 0-indexed array of strings, access_times, with size n. For each i where 0 <= i <= n - 1, access_times[i][0] represents the name of an employee, and access_times[i][1] represents the access time of that employee. All entries in access_times are within the same day.\n\nThe access time is represented as four digits using a 24-hour time format, for example, \"0800\" or \"2250\".\n\nAn employee is said to be high-access if he has accessed the system three or more times within a one-hour period.\n\nTimes with exactly one hour of difference are not considered part of the same one-hour period. For example, \"0815\" and \"0915\" are not part of the same one-hour period.\n\nAccess times at the start and end of the day are not counted within the same one-hour period. For example, \"0005\" and \"2350\" are not part of the same one-hour period.\n\nReturn a list that contains the names of high-access employees with any order you want.\n\nExample 1:\n\nInput: access_times = [[\"a\",\"0549\"],[\"b\",\"0457\"],[\"a\",\"0532\"],[\"a\",\"0621\"],[\"b\",\"0540\"]]\nOutput: [\"a\"]\nExplanation: \"a\" has three access times in the one-hour period of [05:32, 06:31] which are 05:32, 05:49, and 06:21.\n    But \"b\" does not have more than two access times at all.\n    So the answer is [\"a\"].\n\nExample 2:\n\nInput: access_times = [[\"d\",\"0002\"],[\"c\",\"0808\"],[\"c\",\"0829\"],[\"e\",\"0215\"],[\"d\",\"1508\"],[\"d\",\"1444\"],[\"d\",\"1410\"],[\"c\",\"0809\"]]\nOutput: [\"c\",\"d\"]\nExplanation: \"c\" has three access times in the one-hour period of [08:08, 09:07] which are 08:08, 08:09, and 08:29.\n    \"d\" has also three access times in the one-hour period of [14:10, 15:09] which are 14:10, 14:44, and 15:08.\n    However, \"e\" has just one access time, so it can not be in the answer and the final answer is [\"c\",\"d\"].\n\nExample 3:\n\nInput: access_times = [[\"cd\",\"1025\"],[\"ab\",\"1025\"],[\"cd\",\"1046\"],[\"cd\",\"1055\"],[\"ab\",\"1124\"],[\"ab\",\"1120\"]]\nOutput: [\"ab\",\"cd\"]\nExplanation: \"ab\" has three access times in the one-hour period of [10:25, 11:24] which are 10:25, 11:20, and 11:24.\n    \"cd\" has also three access times in the one-hour period of [10:25, 11:24] which are 10:25, 10:46, and 10:55.\n    So the answer is [\"ab\",\"cd\"].\n\nConstraints:\n\n• 1 <= access_times.length <= 100\n\n• access_times[i].length == 2\n\n• 1 <= access_times[i][0].length <= 10\n\n• access_times[i][0] consists only of English small letters.\n\n• access_times[i][1].length == 4\n\n• access_times[i][1] is in 24-hour time format.\n\n• access_times[i][1] consists only of '0' to '9'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findHighAccessEmployees(self, access_times):\n        \"\"\"\n        :type access_times: List[List[str]]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the access times in each person’s list.",
+    "A person’s name should be in the answer list if there are 2 access times in his/her access time list (after sorting), where the index difference is at least 2 and the time difference is strictly less than 60 minutes."
+  ],
+  "testCases": [
+    [
+      "[[\"a\",\"0549\"],[\"b\",\"0457\"],[\"a\",\"0532\"],[\"a\",\"0621\"],[\"b\",\"0540\"]]"
+    ],
+    [
+      "[[\"d\",\"0002\"],[\"c\",\"0808\"],[\"c\",\"0829\"],[\"e\",\"0215\"],[\"d\",\"1508\"],[\"d\",\"1444\"],[\"d\",\"1410\"],[\"c\",\"0809\"]]"
+    ],
+    [
+      "[[\"cd\",\"1025\"],[\"ab\",\"1025\"],[\"cd\",\"1046\"],[\"cd\",\"1055\"],[\"ab\",\"1124\"],[\"ab\",\"1120\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"a\"]",
+    "[\"c\",\"d\"]",
+    "[\"ab\",\"cd\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def findHighAccessEmployees(self, access_times):\n        emp_times = defaultdict(list)\n        for name, t in access_times:\n            minutes = int(t[:2]) * 60 + int(t[2:])\n            emp_times[name].append(minutes)\n        result = []\n        for name, times in emp_times.items():\n            times.sort()\n            # Sliding window: find any 3 accesses within < 60 minutes\n            for i in range(len(times) - 2):\n                if times[i+2] - times[i] < 60:\n                    result.append(name)\n                    break\n        return result",
+    "explanation": "Convert times to minutes. Sort per employee. Use a sliding window of size 3: if times[i+2] - times[i] < 60, employee is high-access.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

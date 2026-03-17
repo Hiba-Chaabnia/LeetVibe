@@ -1,0 +1,66 @@
+{
+  "questionId": "2409",
+  "title": "Number of Increasing Paths in a Grid",
+  "titleSlug": "number-of-increasing-paths-in-a-grid",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Topological Sort",
+      "slug": "topological-sort"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n integer matrix grid, where you can move from a cell to any adjacent cell in all 4 directions.\n\nReturn the number of strictly increasing paths in the grid such that you can start from any cell and end at any cell. Since the answer may be very large, return it modulo 109 + 7.\n\nTwo paths are considered different if they do not have exactly the same sequence of visited cells.\n\nExample 1:\n\nInput: grid = [[1,1],[3,4]]\nOutput: 8\nExplanation: The strictly increasing paths are:\n    - Paths with length 1: [1], [1], [3], [4].\n    - Paths with length 2: [1 -> 3], [1 -> 4], [3 -> 4].\n    - Paths with length 3: [1 -> 3 -> 4].\n    The total number of paths is 4 + 3 + 1 = 8.\n\nExample 2:\n\nInput: grid = [[1],[2]]\nOutput: 3\nExplanation: The strictly increasing paths are:\n    - Paths with length 1: [1], [2].\n    - Paths with length 2: [1 -> 2].\n    The total number of paths is 2 + 1 = 3.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 1000\n\n• 1 <= m * n <= 105\n\n• 1 <= grid[i][j] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPaths(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can you calculate the number of increasing paths that start from a cell (i, j)? Think about dynamic programming.",
+    "Define f(i, j) as the number of increasing paths starting from cell (i, j). Try to find how f(i, j) is related to each of f(i, j+1), f(i, j-1), f(i+1, j) and f(i-1, j)."
+  ],
+  "testCases": [
+    [
+      "[[1,1],[3,4]]"
+    ],
+    [
+      "[[1],[2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Increasing Path in a Matrix\", \"titleSlug\": \"longest-increasing-path-in-a-matrix\", \"difficulty\": \"Hard\"}, {\"title\": \"All Paths From Source to Target\", \"titleSlug\": \"all-paths-from-source-to-target\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Strictly Increasing Cells in a Matrix\", \"titleSlug\": \"maximum-strictly-increasing-cells-in-a-matrix\", \"difficulty\": \"Hard\"}]"
+}

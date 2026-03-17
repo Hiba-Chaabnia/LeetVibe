@@ -1,0 +1,57 @@
+{
+  "questionId": "2006",
+  "title": "Find the Student that Will Replace the Chalk",
+  "titleSlug": "find-the-student-that-will-replace-the-chalk",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "There are n students in a class numbered from 0 to n - 1. The teacher will give each student a problem starting with the student number 0, then the student number 1, and so on until the teacher reaches the student number n - 1. After that, the teacher will restart the process, starting with the student number 0 again.\n\nYou are given a 0-indexed integer array chalk and an integer k. There are initially k pieces of chalk. When the student number i is given a problem to solve, they will use chalk[i] pieces of chalk to solve that problem. However, if the current number of chalk pieces is strictly less than chalk[i], then the student number i will be asked to replace the chalk.\n\nReturn the index of the student that will replace the chalk pieces.\n\nExample 1:\n\nInput: chalk = [5,1,5], k = 22\nOutput: 0\nExplanation: The students go in turns as follows:\n    - Student number 0 uses 5 chalk, so k = 17.\n    - Student number 1 uses 1 chalk, so k = 16.\n    - Student number 2 uses 5 chalk, so k = 11.\n    - Student number 0 uses 5 chalk, so k = 6.\n    - Student number 1 uses 1 chalk, so k = 5.\n    - Student number 2 uses 5 chalk, so k = 0.\n    Student number 0 does not have enough chalk, so they will have to replace it.\n\nExample 2:\n\nInput: chalk = [3,4,1,2], k = 25\nOutput: 1\nExplanation: The students go in turns as follows:\n    - Student number 0 uses 3 chalk so k = 22.\n    - Student number 1 uses 4 chalk so k = 18.\n    - Student number 2 uses 1 chalk so k = 17.\n    - Student number 3 uses 2 chalk so k = 15.\n    - Student number 0 uses 3 chalk so k = 12.\n    - Student number 1 uses 4 chalk so k = 8.\n    - Student number 2 uses 1 chalk so k = 7.\n    - Student number 3 uses 2 chalk so k = 5.\n    - Student number 0 uses 3 chalk so k = 2.\n    Student number 1 does not have enough chalk, so they will have to replace it.\n\nConstraints:\n\n• chalk.length == n\n\n• 1 <= n <= 105\n\n• 1 <= chalk[i] <= 105\n\n• 1 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def chalkReplacer(self, chalk, k):\n        \"\"\"\n        :type chalk: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Subtract the sum of chalk from k until k is less than the sum of chalk.",
+    "Now iterate over the array. If chalk[i] is less than k, this is the answer. Otherwise, subtract chalk[i] from k and continue."
+  ],
+  "testCases": [
+    [
+      "[5,1,5]",
+      "22"
+    ],
+    [
+      "[3,4,1,2]",
+      "25"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def chalkReplacer(self, chalk, k):\n        \"\"\"\n        :type chalk: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        total = sum(chalk)\n        k %= total\n        \n        for i, c in enumerate(chalk):\n            if k < c:\n                return i\n            k -= c\n        \n        return 0",
+    "explanation": "Calculate total chalk used per round. Use modulo to find which round matters. Then find position within that round.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Pass the Pillow\", \"titleSlug\": \"pass-the-pillow\", \"difficulty\": \"Easy\"}]"
+}

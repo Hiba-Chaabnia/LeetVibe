@@ -1,0 +1,49 @@
+{
+  "questionId": "3753",
+  "title": "Maximum Difference Between Even and Odd Frequency I",
+  "titleSlug": "maximum-difference-between-even-and-odd-frequency-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters.\n\nYour task is to find the maximum difference diff = freq(a1) - freq(a2) between the frequency of characters a1 and a2 in the string such that:\n\n• a1 has an odd frequency in the string.\n\n• a2 has an even frequency in the string.\n\nReturn this maximum difference.\n\nExample 1:\n\nInput: s = \"aaaaabbc\"\n\nOutput: 3\n\nExplanation:\n\n• The character 'a' has an odd frequency of 5, and 'b' has an even frequency of 2.\n\n• The maximum difference is 5 - 2 = 3.\n\nExample 2:\n\nInput: s = \"abcabcab\"\n\nOutput: 1\n\nExplanation:\n\n• The character 'a' has an odd frequency of 3, and 'c' has an even frequency of 2.\n\n• The maximum difference is 3 - 2 = 1.\n\nConstraints:\n\n• 3 <= s.length <= 100\n\n• s consists only of lowercase English letters.\n\n• s contains at least one character with an odd frequency and one with an even frequency.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxDifference(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a frequency map to identify the maximum odd and minimum even frequencies. Then, calculate their difference."
+  ],
+  "testCases": [
+    [
+      "\"aaaaabbc\""
+    ],
+    [
+      "\"abcabcab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxDifference(self, s):\n        from collections import Counter\n        cnt = Counter(s)\n        freqs = list(cnt.values())\n        max_odd = max((f for f in freqs if f % 2 == 1), default=0)\n        min_even = min((f for f in freqs if f % 2 == 0), default=0)\n        return max_odd - min_even",
+    "explanation": "Find the maximum odd frequency and the minimum even frequency among all character counts; return their difference. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

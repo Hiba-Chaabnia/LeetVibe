@@ -1,0 +1,39 @@
+{
+  "questionId": "135",
+  "title": "Candy",
+  "titleSlug": "candy",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "There are n children standing in a line. Each child is assigned a rating value given in the integer array ratings.\n\nYou are giving candies to these children subjected to the following requirements:\n\n• Each child must have at least one candy.\n\n• Children with a higher rating get more candies than their neighbors.\n\nReturn the minimum number of candies you need to have to distribute the candies to the children.\n\nExample 1:\n\nInput: ratings = [1,0,2]\nOutput: 5\nExplanation: You can allocate to the first, second and third child with 2, 1, 2 candies respectively.\n\nExample 2:\n\nInput: ratings = [1,2,2]\nOutput: 4\nExplanation: You can allocate to the first, second and third child with 1, 2, 1 candies respectively.\n    The third child gets 1 candy because it satisfies the above two conditions.\n\nConstraints:\n\n• n == ratings.length\n\n• 1 <= n <= 2 * 104\n\n• 0 <= ratings[i] <= 2 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def candy(self, ratings):\n        \"\"\"\n        :type ratings: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,0,2]"
+    ],
+    [
+      "[1,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimize Maximum Value in a Grid\", \"titleSlug\": \"minimize-maximum-value-in-a-grid\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Number of Operations to Satisfy Conditions\", \"titleSlug\": \"minimum-number-of-operations-to-satisfy-conditions\", \"difficulty\": \"Medium\"}, {\"title\": \"Check if Grid Satisfies Conditions\", \"titleSlug\": \"check-if-grid-satisfies-conditions\", \"difficulty\": \"Easy\"}]"
+}

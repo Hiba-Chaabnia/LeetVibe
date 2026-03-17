@@ -1,0 +1,49 @@
+{
+  "questionId": "3338",
+  "title": "Count Submatrices with Top-Left Element and Sum Less Than k",
+  "titleSlug": "count-submatrices-with-top-left-element-and-sum-less-than-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed integer matrix grid and an integer k.\n\nReturn the number of submatrices that contain the top-left element of the grid, and have a sum less than or equal to k.\n\nExample 1:\n\nInput: grid = [[7,6,3],[6,6,1]], k = 18\nOutput: 4\nExplanation: There are only 4 submatrices, shown in the image above, that contain the top-left element of grid, and have a sum less than or equal to 18.\n\nExample 2:\n\nInput: grid = [[7,2,9],[1,5,0],[2,6,6]], k = 20\nOutput: 6\nExplanation: There are only 6 submatrices, shown in the image above, that contain the top-left element of grid, and have a sum less than or equal to 20.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= n, m <= 1000\n\n• 0 <= grid[i][j] <= 1000\n\n• 1 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSubmatrices(self, grid, k):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[7,6,3],[6,6,1]]",
+      "18"
+    ],
+    [
+      "[[7,2,9],[1,5,0],[2,6,6]]",
+      "20"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countSubmatrices(self, grid, k):\n        m, n = len(grid), len(grid[0])\n        # Prefix sum of submatrices containing (0,0)\n        prefix = [[0]*n for _ in range(m)]\n        ans = 0\n        for i in range(m):\n            for j in range(n):\n                prefix[i][j] = grid[i][j]\n                if i > 0: prefix[i][j] += prefix[i-1][j]\n                if j > 0: prefix[i][j] += prefix[i][j-1]\n                if i > 0 and j > 0: prefix[i][j] -= prefix[i-1][j-1]\n                if prefix[i][j] <= k:\n                    ans += 1\n        return ans",
+    "explanation": "2D prefix sum where prefix[i][j] = sum of submatrix [0..i][0..j]. Count entries ≤ k.\n\nTime: O(m*n). Space: O(m*n)."
+  },
+  "similarQuestions": "[]"
+}

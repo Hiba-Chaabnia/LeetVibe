@@ -1,0 +1,80 @@
+{
+  "questionId": "3478",
+  "title": "Check if the Rectangle Corner Is Reachable",
+  "titleSlug": "check-if-the-rectangle-corner-is-reachable",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "You are given two positive integers xCorner and yCorner, and a 2D array circles, where circles[i] = [xi, yi, ri] denotes a circle with center at (xi, yi) and radius ri.\n\nThere is a rectangle in the coordinate plane with its bottom left corner at the origin and top right corner at the coordinate (xCorner, yCorner). You need to check whether there is a path from the bottom left corner to the top right corner such that the entire path lies inside the rectangle, does not touch or lie inside any circle, and touches the rectangle only at the two corners.\n\nReturn true if such a path exists, and false otherwise.\n\nExample 1:\n\nInput: xCorner = 3, yCorner = 4, circles = [[2,1,1]]\n\nOutput: true\n\nExplanation: The black curve shows a possible path between (0, 0) and (3, 4).\n\nExample 2:\n\nInput: xCorner = 3, yCorner = 3, circles = [[1,1,2]]\n\nOutput: false\n\nExplanation: No path exists from (0, 0) to (3, 3).\n\nExample 3:\n\nInput: xCorner = 3, yCorner = 3, circles = [[2,1,1],[1,2,1]]\n\nOutput: false\n\nExplanation: No path exists from (0, 0) to (3, 3).\n\nExample 4:\n\nInput: xCorner = 4, yCorner = 4, circles = [[5,5,1]]\n\nOutput: true\n\nExplanation: Constraints:\n\n• 3 <= xCorner, yCorner <= 109\n\n• 1 <= circles.length <= 1000\n\n• circles[i].length == 3\n\n• 1 <= xi, yi, ri <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canReachCorner(self, xCorner, yCorner, circles):\n        \"\"\"\n        :type xCorner: int\n        :type yCorner: int\n        :type circles: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Create a graph with n + 4 vertices.",
+    "Vertices 0 to n - 1 represent the circles, vertex n represents upper edge, vertex n + 1 represents right edge, vertex n + 2 represents lower edge, and vertex n + 3 represents left edge.",
+    "Add an edge between these vertices if they intersect or touch.",
+    "Answer will be false when any of two sides left-right, left-bottom, right-top or top-bottom are reachable using the edges."
+  ],
+  "testCases": [
+    [
+      "3",
+      "4",
+      "[[2,1,1]]"
+    ],
+    [
+      "3",
+      "3",
+      "[[1,1,2]]"
+    ],
+    [
+      "3",
+      "3",
+      "[[2,1,1],[1,2,1]]"
+    ],
+    [
+      "4",
+      "4",
+      "[[5,5,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canReachCorner(self, xCorner, yCorner, circles):\n        \"\"\"\n        :type xCorner: int\n        :type yCorner: int\n        :type circles: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        from math import sqrt\n        \n        # Graph approach: vertices are circles + 4 edges\n        # Check if blocking obstacle reaches opposite corners\n        \n        n = len(circles)\n        # Vertices: 0..n-1 = circles, n = left, n+1 = bottom, n+2 = right, n+3 = top\n        \n        def touches_edge(cx, cy, r, edge):\n            if edge == 0:  # left (x=0)\n                return cx - r <= 0\n            elif edge == 1:  # bottom (y=0)\n                return cy - r <= 0\n            elif edge == 2:  # right (x=xCorner)\n                return xCorner - cx <= r\n            else:  # top (y=yCorner)\n                return yCorner - cy <= r\n        \n        def circles_intersect(i, j):\n            x1, y1, r1 = circles[i]\n            x2, y2, r2 = circles[j]\n            dist_sq = (x1 - x2) ** 2 + (y1 - y2) ** 2\n            return dist_sq <= (r1 + r2) ** 2\n        \n        # Build adjacency\n        adj = [[] for _ in range(n + 4)]\n        \n        # Circle to circle\n        for i in range(n):\n            for j in range(i + 1, n):\n                if circles_intersect(i, j):\n                    adj[i].append(j)\n                    adj[j].append(i)\n        \n        # Circle to edges\n        for i in range(n):\n            cx, cy, r = circles[i]\n            for edge in range(4):\n                if touches_edge(cx, cy, r, edge):\n                    adj[i].append(n + edge)\n                    adj[n + edge].append(i)\n        \n        # BFS: check if left connects to right OR bottom connects to top\n        from collections import deque\n        \n        def bfs(start, end):\n            visited = [False] * (n + 4)\n            queue = deque([start])\n            visited[start] = True\n            \n            while queue:\n                u = queue.popleft()\n                if u == end:\n                    return True\n                for v in adj[u]:\n                    if not visited[v]:\n                        visited[v] = True\n                        queue.append(v)\n            \n            return False\n        \n        # Path blocked if left-right OR bottom-top connected\n        left_right_blocked = bfs(n, n + 2)  # left to right\n        bottom_top_blocked = bfs(n + 1, n + 3)  # bottom to top\n        \n        return not (left_right_blocked or bottom_top_blocked)",
+    "explanation": "Obstacle blocking detection:\n\n1. **Graph Model**:\n   - Vertices: circles + 4 edges\n   - Edges exist if circles/edges touch\n\n2. **Blocking Condition**:\n   - Path blocked if opposite edges connected\n   - Left↔Right OR Bottom↔Top\n\n3. **BFS Connectivity**:\n   - Check if connected via touching obstacles\n   - If not connected, path exists\n\nTime: O(n² + m) where m = edges\nSpace: O(n²)"
+  },
+  "similarQuestions": "[{\"title\": \"Queries on Number of Points Inside a Circle\", \"titleSlug\": \"queries-on-number-of-points-inside-a-circle\", \"difficulty\": \"Medium\"}, {\"title\": \"Check if Point Is Reachable\", \"titleSlug\": \"check-if-point-is-reachable\", \"difficulty\": \"Hard\"}]"
+}

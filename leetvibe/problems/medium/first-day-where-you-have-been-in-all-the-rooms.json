@@ -1,0 +1,51 @@
+{
+  "questionId": "2124",
+  "title": "First Day Where You Have Been in All the Rooms",
+  "titleSlug": "first-day-where-you-have-been-in-all-the-rooms",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "There are n rooms you need to visit, labeled from 0 to n - 1. Each day is labeled, starting from 0. You will go in and visit one room a day.\n\nInitially on day 0, you visit room 0. The order you visit the rooms for the coming days is determined by the following rules and a given 0-indexed array nextVisit of length n:\n\n• Assuming that on a day, you visit room i,\n\n• if you have been in room i an odd number of times (including the current visit), on the next day you will visit a room with a lower or equal room number specified by nextVisit[i] where 0 <= nextVisit[i] <= i;\n\n• if you have been in room i an even number of times (including the current visit), on the next day you will visit room (i + 1) mod n.\n\nReturn the label of the first day where you have been in all the rooms. It can be shown that such a day exists. Since the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: nextVisit = [0,0]\nOutput: 2\nExplanation:\n    - On day 0, you visit room 0. The total times you have been in room 0 is 1, which is odd.\n      On the next day you will visit room nextVisit[0] = 0\n    - On day 1, you visit room 0, The total times you have been in room 0 is 2, which is even.\n      On the next day you will visit room (0 + 1) mod 2 = 1\n    - On day 2, you visit room 1. This is the first day where you have been in all the rooms.\n\nExample 2:\n\nInput: nextVisit = [0,0,2]\nOutput: 6\nExplanation:\n    Your room visiting order for each day is: [0,0,1,0,0,1,2,...].\n    Day 6 is the first day where you have been in all the rooms.\n\nExample 3:\n\nInput: nextVisit = [0,1,2,0]\nOutput: 6\nExplanation:\n    Your room visiting order for each day is: [0,0,1,1,2,2,3,...].\n    Day 6 is the first day where you have been in all the rooms.\n\nConstraints:\n\n• n == nextVisit.length\n\n• 2 <= n <= 105\n\n• 0 <= nextVisit[i] <= i",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def firstDayBeenInAllRooms(self, nextVisit):\n        \"\"\"\n        :type nextVisit: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The only way to get to room i+1 is when you are visiting room i and room i has been visited an even number of times.",
+    "After visiting room i an odd number of times, you are required to visit room nextVisit[i] where nextVisit[i] <= i. It takes a fixed amount of days for you to come back from room nextVisit[i] to room i. Then, you have visited room i even number of times.nextVisit[i]",
+    "Can you use Dynamic Programming to avoid recomputing the number of days it takes to visit room i from room nextVisit[i]?"
+  ],
+  "testCases": [
+    [
+      "[0,0]"
+    ],
+    [
+      "[0,0,2]"
+    ],
+    [
+      "[0,1,2,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "6",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def firstDayBeenInAllRooms(nextVisit):\n    n = len(nextVisit)\n    MOD = 10**9 + 7\n    dp = [0] * n\n\n    for i in range(1, n):\n        dp[i] = (dp[i - 1] * 2 - dp[nextVisit[i - 1]] + 2) % MOD\n\n    return dp[n - 1]",
+    "explanation": "The algorithm can be solved using Dynamic Programming - specifically, by keeping track of the first day when the room `i` is visited in a `dp` array.\n\nWe can calculate the value of `dp[i]` based on `dp[i-1]` and `dp[nextVisit[i-1]]`._visit[i-1]]. RootStateRoomTime - startTime[nextVisit[i - 1]]+2[DP[i++]=dp[i-1]*2-DP[nextVisit[i-1]]+2%MOD.\n\nThe result will be the value in `dp` at index `n-1`"
+  },
+  "similarQuestions": "[]"
+}

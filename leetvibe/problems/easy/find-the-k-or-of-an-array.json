@@ -1,0 +1,43 @@
+{
+  "questionId": "3183",
+  "title": "Find the K-or of an Array",
+  "titleSlug": "find-the-k-or-of-an-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given an integer array nums, and an integer k. Let's introduce K-or operation by extending the standard bitwise OR. In K-or, a bit position in the result is set to 1 if at least k numbers in nums have a 1 in that position.\n\nReturn the K-or of nums.\n\nExample 1:\n\nInput: nums = [7,12,9,8,9,15], k = 4\n\nOutput: 9\n\nExplanation: Represent numbers in binary:\n\n\t\t\t\tNumber\n\t\t\t\tBit 3\n\t\t\t\tBit 2\n\t\t\t\tBit 1\n\t\t\t\tBit 0\n\n\t\t\t\t7\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t12\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\n\t\t\t\t9\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t1\n\n\t\t\t\t8\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t0\n\n\t\t\t\t9\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t1\n\n\t\t\t\t15\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\tResult = 9\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t0\n\t\t\t\t1\n\nBit 0 is set in 7, 9, 9, and 15. Bit 3 is set in 12, 9, 8, 9, and 15.\n\nOnly bits 0 and 3 qualify. The result is (1001)2 = 9.\n\nExample 2:\n\nInput: nums = [2,12,1,11,4,5], k = 6\n\nOutput: 0\n\nExplanation: No bit appears as 1 in all six array numbers, as required for K-or with k = 6. Thus, the result is 0.\n\nExample 3:\n\nInput: nums = [10,8,5,9,11,6,8], k = 1\n\nOutput: 15\n\nExplanation:  Since k == 1, the 1-or of the array is equal to the bitwise OR of all its elements. Hence, the answer is 10 OR 8 OR 5 OR 9 OR 11 OR 6 OR 8 = 15.\n\nConstraints:\n\n• 1 <= nums.length <= 50\n\n• 0 <= nums[i] < 231\n\n• 1 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findKOr(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Fix a bit from the range [0, 31], then count the number of elements of nums that have bit set in them.",
+    "bit is set in integer x if and only if 2<sup>bit</sup> AND x == 2<sup>bit</sup>, where AND is the bitwise AND operation."
+  ],
+  "testCases": [
+    [
+      "[7,12,9,8,9,15]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "9"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findKOr(self, nums, k):\n        result = 0\n        for bit in range(32):\n            count = sum(1 for x in nums if x & (1 << bit))\n            if count >= k:\n                result |= (1 << bit)\n        return result",
+    "explanation": "For each bit position count how many numbers have it set; include the bit if count >= k. O(32n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Counting Bits\", \"titleSlug\": \"counting-bits\", \"difficulty\": \"Easy\"}, {\"title\": \"Sum of Values at Indices With K Set Bits\", \"titleSlug\": \"sum-of-values-at-indices-with-k-set-bits\", \"difficulty\": \"Easy\"}]"
+}

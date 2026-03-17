@@ -1,0 +1,43 @@
+{
+  "questionId": "483",
+  "title": "Smallest Good Base",
+  "titleSlug": "smallest-good-base",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given an integer n represented as a string, return the smallest good base of n.\n\nWe call k >= 2 a good base of n, if all digits of n base k are 1's.\n\nExample 1:\n\nInput: n = \"13\"\nOutput: \"3\"\nExplanation: 13 base 3 is 111.\n\nExample 2:\n\nInput: n = \"4681\"\nOutput: \"8\"\nExplanation: 4681 base 8 is 11111.\n\nExample 3:\n\nInput: n = \"1000000000000000000\"\nOutput: \"999999999999999999\"\nExplanation: 1000000000000000000 base 999999999999999999 is 11.\n\nConstraints:\n\n• n is an integer in the range [3, 1018].\n\n• n does not contain any leading zeros.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestGoodBase(self, n):\n        \"\"\"\n        :type n: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"13\""
+    ],
+    [
+      "\"4681\""
+    ],
+    [
+      "\"1000000000000000000\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"3\"",
+    "\"8\"",
+    "\"999999999999999999\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

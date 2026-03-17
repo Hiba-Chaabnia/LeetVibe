@@ -1,0 +1,48 @@
+{
+  "questionId": "1249",
+  "title": "Snapshot Array",
+  "titleSlug": "snapshot-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Design",
+      "slug": "design"
+    }
+  ],
+  "content": "Implement a SnapshotArray that supports the following interface:\n\n• SnapshotArray(int length) initializes an array-like data structure with the given length. Initially, each element equals 0.\n\n• void set(index, val) sets the element at the given index to be equal to val.\n\n• int snap() takes a snapshot of the array and returns the snap_id: the total number of times we called snap() minus 1.\n\n• int get(index, snap_id) returns the value at the given index, at the time we took the snapshot with the given snap_id\n\nExample 1:\n\nInput: [\"SnapshotArray\",\"set\",\"snap\",\"set\",\"get\"]\n    [[3],[0,5],[],[0,6],[0,0]]\nOutput: [null,null,0,null,5]\nExplanation:\n    SnapshotArray snapshotArr = new SnapshotArray(3); // set the length to be 3\n    snapshotArr.set(0,5);  // Set array[0] = 5\n    snapshotArr.snap();  // Take a snapshot, return snap_id = 0\n    snapshotArr.set(0,6);\n    snapshotArr.get(0,0);  // Get the value of array[0] with snap_id = 0, return 5\n\nConstraints:\n\n• 1 <= length <= 5 * 104\n\n• 0 <= index < length\n\n• 0 <= val <= 109\n\n• 0 <= snap_id < (the total number of times we call snap())\n\n• At most 5 * 104 calls will be made to set, snap, and get.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class SnapshotArray(object):\n\n    def __init__(self, length):\n        \"\"\"\n        :type length: int\n        \"\"\"\n        \n\n    def set(self, index, val):\n        \"\"\"\n        :type index: int\n        :type val: int\n        :rtype: None\n        \"\"\"\n        \n\n    def snap(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n    def get(self, index, snap_id):\n        \"\"\"\n        :type index: int\n        :type snap_id: int\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your SnapshotArray object will be instantiated and called as such:\n# obj = SnapshotArray(length)\n# obj.set(index,val)\n# param_2 = obj.snap()\n# param_3 = obj.get(index,snap_id)"
+    }
+  ],
+  "hints": [
+    "Use a list of lists, adding both the element and the snap_id to each index."
+  ],
+  "testCases": [
+    [
+      "[\"SnapshotArray\",\"set\",\"snap\",\"set\",\"get\"]"
+    ],
+    [
+      "[[3],[0,5],[],[0,6],[0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[null,null,0,null,5]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,64 @@
+{
+  "questionId": "3827",
+  "title": "Implement Router",
+  "titleSlug": "implement-router",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Design",
+      "slug": "design"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "Design a data structure that can efficiently manage data packets in a network router. Each data packet consists of the following attributes:\n\n• source: A unique identifier for the machine that generated the packet.\n\n• destination: A unique identifier for the target machine.\n\n• timestamp: The time at which the packet arrived at the router.\n\nImplement the Router class:\n\nRouter(int memoryLimit): Initializes the Router object with a fixed memory limit.\n\n• memoryLimit is the maximum number of packets the router can store at any given time.\n\n• If adding a new packet would exceed this limit, the oldest packet must be removed to free up space.\n\nbool addPacket(int source, int destination, int timestamp): Adds a packet with the given attributes to the router.\n\n• A packet is considered a duplicate if another packet with the same source, destination, and timestamp already exists in the router.\n\n• Return true if the packet is successfully added (i.e., it is not a duplicate); otherwise return false.\n\nint[] forwardPacket(): Forwards the next packet in FIFO (First In First Out) order.\n\n• Remove the packet from storage.\n\n• Return the packet as an array [source, destination, timestamp].\n\n• If there are no packets to forward, return an empty array.\n\nint getCount(int destination, int startTime, int endTime):\n\n• Returns the number of packets currently stored in the router (i.e., not yet forwarded) that have the specified destination and have timestamps in the inclusive range [startTime, endTime].\n\nNote that queries for addPacket will be made in non-decreasing order of timestamp.\n\nExample 1:\n\nInput:\n\n[\"Router\", \"addPacket\", \"addPacket\", \"addPacket\", \"addPacket\", \"addPacket\", \"forwardPacket\", \"addPacket\", \"getCount\"]\n\n[[3], [1, 4, 90], [2, 5, 90], [1, 4, 90], [3, 5, 95], [4, 5, 105], [], [5, 2, 110], [5, 100, 110]]\n\nOutput:\n\n[null, true, true, false, true, true, [2, 5, 90], true, 1]\n\nExplanation\n\nRouter router = new Router(3); // Initialize Router with memoryLimit of 3.\n\nrouter.addPacket(1, 4, 90); // Packet is added. Return True.\n\nrouter.addPacket(2, 5, 90); // Packet is added. Return True.\n\nrouter.addPacket(1, 4, 90); // This is a duplicate packet. Return False.\n\nrouter.addPacket(3, 5, 95); // Packet is added. Return True\n\nrouter.addPacket(4, 5, 105); // Packet is added, [1, 4, 90] is removed as number of packets exceeds memoryLimit. Return True.\n\nrouter.forwardPacket(); // Return [2, 5, 90] and remove it from router.\n\nrouter.addPacket(5, 2, 110); // Packet is added. Return True.\n\nrouter.getCount(5, 100, 110); // The only packet with destination 5 and timestamp in the inclusive range [100, 110] is [4, 5, 105]. Return 1.\n\nExample 2:\n\nInput:\n\n[\"Router\", \"addPacket\", \"forwardPacket\", \"forwardPacket\"]\n\n[[2], [7, 4, 90], [], []]\n\nOutput:\n\n[null, true, [7, 4, 90], []]\n\nExplanation\n\nRouter router = new Router(2); // Initialize Router with memoryLimit of 2.\n\nrouter.addPacket(7, 4, 90); // Return True.\n\nrouter.forwardPacket(); // Return [7, 4, 90].\n\nrouter.forwardPacket(); // There are no packets left, return [].\n\nConstraints:\n\n• 2 <= memoryLimit <= 105\n\n• 1 <= source, destination <= 2 * 105\n\n• 1 <= timestamp <= 109\n\n• 1 <= startTime <= endTime <= 109\n\n• At most 105 calls will be made to addPacket, forwardPacket, and getCount methods altogether.\n\n• queries for addPacket will be made in non-decreasing order of timestamp.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Router(object):\n\n    def __init__(self, memoryLimit):\n        \"\"\"\n        :type memoryLimit: int\n        \"\"\"\n        \n\n    def addPacket(self, source, destination, timestamp):\n        \"\"\"\n        :type source: int\n        :type destination: int\n        :type timestamp: int\n        :rtype: bool\n        \"\"\"\n        \n\n    def forwardPacket(self):\n        \"\"\"\n        :rtype: List[int]\n        \"\"\"\n        \n\n    def getCount(self, destination, startTime, endTime):\n        \"\"\"\n        :type destination: int\n        :type startTime: int\n        :type endTime: int\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your Router object will be instantiated and called as such:\n# obj = Router(memoryLimit)\n# param_1 = obj.addPacket(source,destination,timestamp)\n# param_2 = obj.forwardPacket()\n# param_3 = obj.getCount(destination,startTime,endTime)"
+    }
+  ],
+  "hints": [
+    "A deque can simulate the adding and forwarding of packets efficiently.",
+    "Use binary search for counting packets within a timestamp range."
+  ],
+  "testCases": [
+    [
+      "[\"Router\",\"addPacket\",\"addPacket\",\"addPacket\",\"addPacket\",\"addPacket\",\"forwardPacket\",\"addPacket\",\"getCount\"]"
+    ],
+    [
+      "[[3],[1,4,90],[2,5,90],[1,4,90],[3,5,95],[4,5,105],[],[5,2,110],[5,100,110]]"
+    ],
+    [
+      "[\"Router\",\"addPacket\",\"forwardPacket\",\"forwardPacket\"]"
+    ],
+    [
+      "[[2],[7,4,90],[],[]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[null, true, true, false, true, true, [2, 5, 90], true, 1]",
+    "[null, true, [7, 4, 90], []]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

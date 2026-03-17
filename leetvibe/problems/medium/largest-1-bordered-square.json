@@ -1,0 +1,51 @@
+{
+  "questionId": "1239",
+  "title": "Largest 1-Bordered Square",
+  "titleSlug": "largest-1-bordered-square",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given a 2D grid of 0s and 1s, return the number of elements in the largest square subgrid that has all 1s on its border, or 0 if such a subgrid doesn't exist in the grid.\n\nExample 1:\n\nInput: grid = [[1,1,1],[1,0,1],[1,1,1]]\nOutput: 9\n\nExample 2:\n\nInput: grid = [[1,1,0,0]]\nOutput: 1\n\nConstraints:\n\n• 1 <= grid.length <= 100\n\n• 1 <= grid[0].length <= 100\n\n• grid[i][j] is 0 or 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largest1BorderedSquare(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each square, know how many ones are up, left, down, and right of this square. You can find it in O(N^2) using dynamic programming.",
+    "Now for each square ( O(N^3) ), we can evaluate whether that square is 1-bordered in O(1)."
+  ],
+  "testCases": [
+    [
+      "[[1,1,1],[1,0,1],[1,1,1]]"
+    ],
+    [
+      "[[1,1,0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def largest1BorderedSquare(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        m, n = len(grid), len(grid[0])\n        \n        # Precompute consecutive 1s horizontally and vertically\n        h = [[0] * n for _ in range(m)]  # Consecutive 1s to the right\n        v = [[0] * n for _ in range(m)]  # Consecutive 1s below\n        \n        for i in range(m):\n            for j in range(n):\n                if grid[i][j] == 1:\n                    h[i][j] = 1 + (h[i][j-1] if j > 0 else 0)\n                    v[i][j] = 1 + (v[i-1][j] if i > 0 else 0)\n        \n        max_side = 0\n        \n        # Check all possible squares\n        for i in range(m):\n            for j in range(n):\n                # Maximum possible side from this position\n                max_k = min(h[i][j], v[i][j])\n                \n                # Check all sizes\n                for k in range(max_k, 0, -1):\n                    # Check if we can form a k x k square\n                    if h[i-k+1][j] >= k and v[i][j-k+1] >= k:\n                        max_side = max(max_side, k)\n                        break\n        \n        return max_side * max_side",
+    "explanation": "Precompute consecutive 1s in each direction. For each position, find largest square with all 1s on border.",
+    "complexity": "Time: O(m*n*k). Space: O(m*n)."
+  },
+  "similarQuestions": "[]"
+}

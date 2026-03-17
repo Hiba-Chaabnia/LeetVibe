@@ -1,0 +1,51 @@
+{
+  "questionId": "2756",
+  "title": "Buy Two Chocolates",
+  "titleSlug": "buy-two-chocolates",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer array prices representing the prices of various chocolates in a store. You are also given a single integer money, which represents your initial amount of money.\n\nYou must buy exactly two chocolates in such a way that you still have some non-negative leftover money. You would like to minimize the sum of the prices of the two chocolates you buy.\n\nReturn the amount of money you will have leftover after buying the two chocolates. If there is no way for you to buy two chocolates without ending up in debt, return money. Note that the leftover must be non-negative.\n\nExample 1:\n\nInput: prices = [1,2,2], money = 3\nOutput: 0\nExplanation: Purchase the chocolates priced at 1 and 2 units respectively. You will have 3 - 3 = 0 units of money afterwards. Thus, we return 0.\n\nExample 2:\n\nInput: prices = [3,2,3], money = 3\nOutput: 3\nExplanation: You cannot buy 2 chocolates without going in debt, so we return 3.\n\nConstraints:\n\n• 2 <= prices.length <= 50\n\n• 1 <= prices[i] <= 100\n\n• 1 <= money <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def buyChoco(self, prices, money):\n        \"\"\"\n        :type prices: List[int]\n        :type money: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the array and check if the money is more than or equal to the sum of the two cheapest elements."
+  ],
+  "testCases": [
+    [
+      "[1,2,2]",
+      "3"
+    ],
+    [
+      "[3,2,3]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def buyChoco(self, prices, money):\n        prices.sort()\n        cost = prices[0] + prices[1]\n        if cost > money:\n            return money\n        return money - cost",
+    "explanation": "Sort; cheapest two; return leftover if affordable else money."
+  },
+  "similarQuestions": "[]"
+}

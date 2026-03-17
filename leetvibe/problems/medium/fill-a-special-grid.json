@@ -1,0 +1,53 @@
+{
+  "questionId": "3822",
+  "title": "Fill a Special Grid",
+  "titleSlug": "fill-a-special-grid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a non-negative integer n representing a 2n x 2n grid. You must fill the grid with integers from 0 to 22n - 1 to make it special. A grid is special if it satisfies all the following conditions:\n\n• All numbers in the top-right quadrant are smaller than those in the bottom-right quadrant.\n\n• All numbers in the bottom-right quadrant are smaller than those in the bottom-left quadrant.\n\n• All numbers in the bottom-left quadrant are smaller than those in the top-left quadrant.\n\n• Each of its quadrants is also a special grid.\n\nReturn the special 2n x 2n grid.\n\nNote: Any 1x1 grid is special.\n\nExample 1:\n\nInput: n = 0\n\nOutput: [[0]]\n\nExplanation: The only number that can be placed is 0, and there is only one possible position in the grid.\n\nExample 2:\n\nInput: n = 1\n\nOutput: [[3,0],[2,1]]\n\nExplanation: The numbers in each quadrant are:\n\n• Top-right: 0\n\n• Bottom-right: 1\n\n• Bottom-left: 2\n\n• Top-left: 3\n\nSince 0 < 1 < 2 < 3, this satisfies the given constraints.\n\nExample 3:\n\nInput: n = 2\n\nOutput: [[15,12,3,0],[14,13,2,1],[11,8,7,4],[10,9,6,5]]\n\nExplanation: The numbers in each quadrant are:\n\n• Top-right: 3, 0, 2, 1\n\n• Bottom-right: 7, 4, 6, 5\n\n• Bottom-left: 11, 8, 10, 9\n\n• Top-left: 15, 12, 14, 13\n\n• max(3, 0, 2, 1) < min(7, 4, 6, 5)\n\n• max(7, 4, 6, 5) < min(11, 8, 10, 9)\n\n• max(11, 8, 10, 9) < min(15, 12, 14, 13)\n\nThis satisfies the first three requirements. Additionally, each quadrant is also a special grid. Thus, this is a special grid.\n\nConstraints:\n\n• 0 <= n <= 10",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def specialGrid(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Solve the problem recursively."
+  ],
+  "testCases": [
+    [
+      "0"
+    ],
+    [
+      "1"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[0]]",
+    "[[3,0],[2,1]]",
+    "[[15,12,3,0],[14,13,2,1],[11,8,7,4],[10,9,6,5]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def specialGrid(self, n):\n        size = 1 << n  # 2^n\n        grid = [[0] * size for _ in range(size)]\n\n        def fill(r, c, sz, start):\n            # Fill sz x sz subgrid starting at (r, c) with values [start, start + sz*sz - 1]\n            if sz == 1:\n                grid[r][c] = start\n                return\n            half = sz // 2\n            q = half * half  # size of each quadrant\n            # Order: top-right (smallest), bottom-right, bottom-left, top-left (largest)\n            fill(r,        c + half, half, start)           # top-right\n            fill(r + half, c + half, half, start + q)       # bottom-right\n            fill(r + half, c,        half, start + 2 * q)   # bottom-left\n            fill(r,        c,        half, start + 3 * q)   # top-left\n\n        fill(0, 0, size, 0)\n        return grid",
+    "explanation": "Recursive: a 2^n × 2^n grid is divided into 4 quadrants of size 2^(n-1) × 2^(n-1). Assign values in order: top-right (lowest), bottom-right, bottom-left, top-left (highest). Each quadrant recursively becomes a special grid.\n\nTime: O(4^n). Space: O(4^n)."
+  },
+  "similarQuestions": "[]"
+}

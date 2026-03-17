@@ -1,0 +1,45 @@
+{
+  "questionId": "911",
+  "title": "Profitable Schemes",
+  "titleSlug": "profitable-schemes",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "There is a group of n members, and a list of various crimes they could commit. The ith crime generates a profit[i] and requires group[i] members to participate in it. If a member participates in one crime, that member can't participate in another crime.\n\nLet's call a profitable scheme any subset of these crimes that generates at least minProfit profit, and the total number of members participating in that subset of crimes is at most n.\n\nReturn the number of schemes that can be chosen. Since the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: n = 5, minProfit = 3, group = [2,2], profit = [2,3]\nOutput: 2\nExplanation: To make a profit of at least 3, the group could either commit crimes 0 and 1, or just crime 1.\n    In total, there are 2 schemes.\n\nExample 2:\n\nInput: n = 10, minProfit = 5, group = [2,3,5], profit = [6,7,8]\nOutput: 7\nExplanation: To make a profit of at least 5, the group could commit any crimes, as long as they commit one.\n    There are 7 possible schemes: (0), (1), (2), (0,1), (0,2), (1,2), and (0,1,2).\n\nConstraints:\n\n• 1 <= n <= 100\n\n• 0 <= minProfit <= 100\n\n• 1 <= group.length <= 100\n\n• 1 <= group[i] <= 100\n\n• profit.length == group.length\n\n• 0 <= profit[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def profitableSchemes(self, n, minProfit, group, profit):\n        \"\"\"\n        :type n: int\n        :type minProfit: int\n        :type group: List[int]\n        :type profit: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "5",
+      "3",
+      "[2,2]",
+      "[2,3]"
+    ],
+    [
+      "10",
+      "5",
+      "[2,3,5]",
+      "[6,7,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "7"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

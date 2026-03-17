@@ -1,0 +1,57 @@
+{
+  "questionId": "1386",
+  "title": "Shift 2D Grid",
+  "titleSlug": "shift-2d-grid",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given a 2D grid of size m x n and an integer k. You need to shift the grid k times.\n\nIn one shift operation:\n\n• Element at grid[i][j] moves to grid[i][j + 1].\n\n• Element at grid[i][n - 1] moves to grid[i + 1][0].\n\n• Element at grid[m - 1][n - 1] moves to grid[0][0].\n\nReturn the 2D grid after applying shift operation k times.\n\nExample 1:\n\nInput: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1\nOutput: [[9,1,2],[3,4,5],[6,7,8]]\n\nExample 2:\n\nInput: grid = [[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]], k = 4\nOutput: [[12,0,21,13],[3,8,1,9],[19,7,2,5],[4,6,11,10]]\n\nExample 3:\n\nInput: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9\nOutput: [[1,2,3],[4,5,6],[7,8,9]]\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m <= 50\n\n• 1 <= n <= 50\n\n• -1000 <= grid[i][j] <= 1000\n\n• 0 <= k <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shiftGrid(self, grid, k):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate step by step. move grid[i][j] to grid[i][j+1]. handle last column of the grid.",
+    "Put the matrix row by row to a vector. take k % vector.length and move last k of the vector to the beginning. put the vector to the matrix back the same way."
+  ],
+  "testCases": [
+    [
+      "[[1,2,3],[4,5,6],[7,8,9]]",
+      "1"
+    ],
+    [
+      "[[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]]",
+      "4"
+    ],
+    [
+      "[[1,2,3],[4,5,6],[7,8,9]]",
+      "9"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[9,1,2],[3,4,5],[6,7,8]]",
+    "[[12,0,21,13],[3,8,1,9],[19,7,2,5],[4,6,11,10]]",
+    "[[1,2,3],[4,5,6],[7,8,9]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def shiftGrid(self, grid, k):\n        m, n = len(grid), len(grid[0])\n        k %= m * n\n        flat = []\n        for row in grid:\n            flat.extend(row)\n        flat = flat[-k:] + flat[:-k]\n        result = []\n        for i in range(m):\n            result.append(flat[i*n:(i+1)*n])\n        return result",
+    "explanation": "Flatten grid. Rotate array by k using slicing. Reshape back.\nTime: O(m*n)\nSpace: O(m*n)"
+  },
+  "similarQuestions": "[]"
+}

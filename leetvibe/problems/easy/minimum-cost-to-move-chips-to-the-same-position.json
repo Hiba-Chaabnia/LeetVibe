@@ -1,0 +1,56 @@
+{
+  "questionId": "1329",
+  "title": "Minimum Cost to Move Chips to The Same Position",
+  "titleSlug": "minimum-cost-to-move-chips-to-the-same-position",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "We have n chips, where the position of the ith chip is position[i].\n\nWe need to move all the chips to the same position. In one step, we can change the position of the ith chip from position[i] to:\n\n• position[i] + 2 or position[i] - 2 with cost = 0.\n\n• position[i] + 1 or position[i] - 1 with cost = 1.\n\nReturn the minimum cost needed to move all the chips to the same position.\n\nExample 1:\n\nInput: position = [1,2,3]\nOutput: 1\nExplanation: First step: Move the chip at position 3 to position 1 with cost = 0.\n    Second step: Move the chip at position 2 to position 1 with cost = 1.\n    Total cost is 1.\n\nExample 2:\n\nInput: position = [2,2,2,3,3]\nOutput: 2\nExplanation: We can move the two chips at position  3 to position 2. Each move has cost = 1. The total cost = 2.\n\nExample 3:\n\nInput: position = [1,1000000000]\nOutput: 1\n\nConstraints:\n\n• 1 <= position.length <= 100\n\n• 1 <= position[i] <= 10^9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCostToMoveChips(self, position):\n        \"\"\"\n        :type position: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The first move keeps the parity of the element as it is.",
+    "The second move changes the parity of the element.",
+    "Since the first move is free, if all the numbers have the same parity, the answer would be zero.",
+    "Find the minimum cost to make all the numbers have the same parity."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[2,2,2,3,3]"
+    ],
+    [
+      "[1,1000000000]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minCostToMoveChips(self, position):\n        even_count = sum(1 for p in position if p % 2 == 0)\n        odd_count = len(position) - even_count\n        return min(even_count, odd_count)",
+    "explanation": "Even and odd positions can move freely. Cost to switch parity = 1.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Number of Operations to Move All Balls to Each Box\", \"titleSlug\": \"minimum-number-of-operations-to-move-all-balls-to-each-box\", \"difficulty\": \"Medium\"}, {\"title\": \"Split With Minimum Sum\", \"titleSlug\": \"split-with-minimum-sum\", \"difficulty\": \"Easy\"}]"
+}

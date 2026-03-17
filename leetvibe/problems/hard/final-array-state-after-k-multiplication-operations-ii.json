@@ -1,0 +1,51 @@
+{
+  "questionId": "3556",
+  "title": "Final Array State After K Multiplication Operations II",
+  "titleSlug": "final-array-state-after-k-multiplication-operations-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an integer array nums, an integer k, and an integer multiplier.\n\nYou need to perform k operations on nums. In each operation:\n\n• Find the minimum value x in nums. If there are multiple occurrences of the minimum value, select the one that appears first.\n\n• Replace the selected minimum value x with x * multiplier.\n\nAfter the k operations, apply modulo 109 + 7 to every value in nums.\n\nReturn an integer array denoting the final state of nums after performing all k operations and then applying the modulo.\n\nExample 1:\n\nInput: nums = [2,1,3,5,6], k = 5, multiplier = 2\n\nOutput: [8,4,6,5,6]\n\nExplanation: \t\t\t\tOperation\n\t\t\t\tResult\n\n\t\t\t\tAfter operation 1\n\t\t\t\t[2, 2, 3, 5, 6]\n\n\t\t\t\tAfter operation 2\n\t\t\t\t[4, 2, 3, 5, 6]\n\n\t\t\t\tAfter operation 3\n\t\t\t\t[4, 4, 3, 5, 6]\n\n\t\t\t\tAfter operation 4\n\t\t\t\t[4, 4, 6, 5, 6]\n\n\t\t\t\tAfter operation 5\n\t\t\t\t[8, 4, 6, 5, 6]\n\n\t\t\t\tAfter applying modulo\n\t\t\t\t[8, 4, 6, 5, 6]\n\nExample 2:\n\nInput: nums = [100000,2000], k = 2, multiplier = 1000000\n\nOutput: [999999307,999999993]\n\nExplanation: \t\t\t\tOperation\n\t\t\t\tResult\n\n\t\t\t\tAfter operation 1\n\t\t\t\t[100000, 2000000000]\n\n\t\t\t\tAfter operation 2\n\t\t\t\t[100000000000, 2000000000]\n\n\t\t\t\tAfter applying modulo\n\t\t\t\t[999999307, 999999993]\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• 1 <= nums[i] <= 109\n\n• 1 <= k <= 109\n\n• 1 <= multiplier <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getFinalState(self, nums, k, multiplier):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type multiplier: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What happens when min(nums) * multiplier > max(nums)?",
+    "A cycle of operations begins.",
+    "Simulate until min(nums) * multiplier > max(nums), then greedily distribute remaining multiplications."
+  ],
+  "testCases": [
+    [
+      "[2,1,3,5,6]",
+      "5",
+      "2"
+    ],
+    [
+      "[100000,2000]",
+      "2",
+      "1000000"
+    ]
+  ],
+  "expectedOutputs": [
+    "[8,4,6,5,6]",
+    "[999999307,999999993]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

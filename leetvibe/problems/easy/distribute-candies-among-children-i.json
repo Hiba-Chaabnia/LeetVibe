@@ -1,0 +1,51 @@
+{
+  "questionId": "3199",
+  "title": "Distribute Candies Among Children I",
+  "titleSlug": "distribute-candies-among-children-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given two positive integers n and limit.\n\nReturn the total number of ways to distribute n candies among 3 children such that no child gets more than limit candies.\n\nExample 1:\n\nInput: n = 5, limit = 2\nOutput: 3\nExplanation: There are 3 ways to distribute 5 candies such that no child gets more than 2 candies: (1, 2, 2), (2, 1, 2) and (2, 2, 1).\n\nExample 2:\n\nInput: n = 3, limit = 3\nOutput: 10\nExplanation: There are 10 ways to distribute 3 candies such that no child gets more than 3 candies: (0, 0, 3), (0, 1, 2), (0, 2, 1), (0, 3, 0), (1, 0, 2), (1, 1, 1), (1, 2, 0), (2, 0, 1), (2, 1, 0) and (3, 0, 0).\n\nConstraints:\n\n• 1 <= n <= 50\n\n• 1 <= limit <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def distributeCandies(self, n, limit):\n        \"\"\"\n        :type n: int\n        :type limit: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use three nested for loops to check all the triplets."
+  ],
+  "testCases": [
+    [
+      "5",
+      "2"
+    ],
+    [
+      "3",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def distributeCandies(self, n, limit):\n        count = 0\n        for a in range(min(n, limit) + 1):\n            for b in range(min(n - a, limit) + 1):\n                c = n - a - b\n                if 0 <= c <= limit:\n                    count += 1\n        return count",
+    "explanation": "Brute force all (a, b) pairs and derive c = n - a - b; count valid triples. O(limit^2) time."
+  },
+  "similarQuestions": "[{\"title\": \"Count Ways to Distribute Candies\", \"titleSlug\": \"count-ways-to-distribute-candies\", \"difficulty\": \"Hard\"}]"
+}

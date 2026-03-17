@@ -1,0 +1,53 @@
+{
+  "questionId": "3645",
+  "title": "Maximize the Number of Target Nodes After Connecting Trees II",
+  "titleSlug": "maximize-the-number-of-target-nodes-after-connecting-trees-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "There exist two undirected trees with n and m nodes, labeled from [0, n - 1] and [0, m - 1], respectively.\n\nYou are given two 2D integer arrays edges1 and edges2 of lengths n - 1 and m - 1, respectively, where edges1[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the first tree and edges2[i] = [ui, vi] indicates that there is an edge between nodes ui and vi in the second tree.\n\nNode u is target to node v if the number of edges on the path from u to v is even. Note that a node is always target to itself.\n\nReturn an array of n integers answer, where answer[i] is the maximum possible number of nodes that are target to node i of the first tree if you had to connect one node from the first tree to another node in the second tree.\n\nNote that queries are independent from each other. That is, for every query you will remove the added edge before proceeding to the next query.\n\nExample 1:\n\nInput: edges1 = [[0,1],[0,2],[2,3],[2,4]], edges2 = [[0,1],[0,2],[0,3],[2,7],[1,4],[4,5],[4,6]]\n\nOutput: [8,7,7,8,8]\n\nExplanation:\n\n• For i = 0, connect node 0 from the first tree to node 0 from the second tree.\n\n• For i = 1, connect node 1 from the first tree to node 4 from the second tree.\n\n• For i = 2, connect node 2 from the first tree to node 7 from the second tree.\n\n• For i = 3, connect node 3 from the first tree to node 0 from the second tree.\n\n• For i = 4, connect node 4 from the first tree to node 4 from the second tree.\n\nExample 2:\n\nInput: edges1 = [[0,1],[0,2],[0,3],[0,4]], edges2 = [[0,1],[1,2],[2,3]]\n\nOutput: [3,6,6,6,6]\n\nExplanation: For every i, connect node i of the first tree with any node of the second tree.\n\nConstraints:\n\n• 2 <= n, m <= 105\n\n• edges1.length == n - 1\n\n• edges2.length == m - 1\n\n• edges1[i].length == edges2[i].length == 2\n\n• edges1[i] = [ai, bi]\n\n• 0 <= ai, bi < n\n\n• edges2[i] = [ui, vi]\n\n• 0 <= ui, vi < m\n\n• The input is generated such that edges1 and edges2 represent valid trees.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxTargetNodes(self, edges1, edges2):\n        \"\"\"\n        :type edges1: List[List[int]]\n        :type edges2: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Compute an array even where even[u] is the number of nodes at an even distance from node u, for every u of the first tree.",
+    "Compute an array odd where odd[u] is the number of nodes at an odd distance from node u, for every u of the second tree.",
+    "answer[i] = even[i]+ max(odd[1], odd[2], …, odd[m - 1])"
+  ],
+  "testCases": [
+    [
+      "[[0,1],[0,2],[2,3],[2,4]]",
+      "[[0,1],[0,2],[0,3],[2,7],[1,4],[4,5],[4,6]]"
+    ],
+    [
+      "[[0,1],[0,2],[0,3],[0,4]]",
+      "[[0,1],[1,2],[2,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[8,7,7,8,8]",
+    "[3,6,6,6,6]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict, deque\n\nclass Solution(object):\n    def maxTargetNodes(self, edges1, edges2):\n        \"\"\"\n        :type edges1: List[List[int]]\n        :type edges2: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        def count_even_odd_distances(edges, n):\n            \"\"\"Count nodes at even and odd distances from each node\"\"\"\n            graph = defaultdict(list)\n            for u, v in edges:\n                graph[u].append(v)\n                graph[v].append(u)\n            \n            even = [0] * n\n            odd = [0] * n\n            \n            for start in range(n):\n                # BFS from start\n                visited = [False] * n\n                queue = deque([(start, 0)])  # (node, distance)\n                visited[start] = True\n                \n                while queue:\n                    node, dist = queue.popleft()\n                    \n                    if dist % 2 == 0:\n                        even[start] += 1\n                    else:\n                        odd[start] += 1\n                    \n                    for neighbor in graph[node]:\n                        if not visited[neighbor]:\n                            visited[neighbor] = True\n                            queue.append((neighbor, dist + 1))\n            \n            return even, odd\n        \n        n = len(edges1) + 1\n        m = len(edges2) + 1\n        \n        even1, odd1 = count_even_odd_distances(edges1, n)\n        even2, odd2 = count_even_odd_distances(edges2, m)\n        \n        # For each node in tree1, connecting to tree2:\n        # - Even distance in tree1 -> can reach even distance in tree2 via odd edge\n        # - Odd distance in tree1 -> can reach odd distance in tree2 via odd edge\n        # So for even node in tree1: count even in tree1 + max odd in tree2\n        # For odd node in tree1: count odd in tree1 + max odd in tree2\n        \n        max_odd_in_tree2 = max(odd2) if odd2 else 0\n        \n        answer = []\n        for i in range(n):\n            # If we connect node i from tree1 to any node in tree2\n            # Target nodes in tree1: even1[i]\n            # Target nodes in tree2: at most max_odd_in_tree2\n            # Because connection edge is odd distance, so even parity in tree1\n            # becomes odd distance to start of tree2, so we can reach odd nodes in tree2\n            total = even1[i] + max_odd_in_tree2\n            answer.append(total)\n        \n        return answer",
+    "explanation": "This solution uses BFS with even/odd distance tracking:\n\n1. **Problem Understanding**:\n   - Node u is target of v if path u↔v has even number of edges\n   - Connect tree1 node to tree2 node via one edge\n   - Find max target nodes for each tree1 node\n\n2. **Key Insight - Path Parity**:\n   - Even path: u is target of v and v is target of u\n   - Odd path: neither is target of other\n   - Connecting via one edge (odd):\n     - Even dist in tree1 + odd dist in tree2 = odd (not target)\n     - Even dist in tree1 + even dist in tree2 = even (target)\n\n3. **Algorithm**:\n   - For each tree:\n     - From each node, count reachable at even/odd distances\n     - BFS with distance tracking\n   - For each tree1 node i:\n     - i can target nodes at even distance in tree1\n     - Via odd edge to tree2, i can target nodes at odd distance in tree2\n     - Maximize by choosing best tree2 connection point\n\n4. **Distance Classes**:\n   - In tree1 rooted at node i:\n     - even[i] = count of nodes at even distance (including 0)\n     - odd[i] = count of nodes at odd distance\n   - In tree2:\n     - max(odd[j]) = best node to connect for odd-distance reachability\n\n5. **Final Formula**:\n   - For tree1 node i:\n     - answer[i] = even1[i] + max(odd2)\n     - even1[i]: target nodes in tree1 (even path)\n     - max(odd2): target nodes in tree2 (via odd connecting edge)\n\n6. **Complexity**:\n   - BFS from each node: O(n² + m²)\n   - Final computation: O(n)\n   - Total: O(n² + m²)\n\nTime Complexity: O(n² + m²)\nSpace Complexity: O(n + m)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Minimum Diameter After Merging Two Trees\", \"titleSlug\": \"find-minimum-diameter-after-merging-two-trees\", \"difficulty\": \"Hard\"}]"
+}

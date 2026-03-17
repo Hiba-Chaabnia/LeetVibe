@@ -1,0 +1,42 @@
+{
+  "questionId": "2316",
+  "title": "Count Hills and Valleys in an Array",
+  "titleSlug": "count-hills-and-valleys-in-an-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. An index i is part of a hill in nums if the closest non-equal neighbors of i are smaller than nums[i]. Similarly, an index i is part of a valley in nums if the closest non-equal neighbors of i are larger than nums[i]. Adjacent indices i and j are part of the same hill or valley if nums[i] == nums[j].\n\nNote that for an index to be part of a hill or valley, it must have a non-equal neighbor on both the left and right of the index.\n\nReturn the number of hills and valleys in nums.\n\nExample 1:\n\nInput: nums = [2,4,1,1,6,5]\nOutput: 3\nExplanation:\n    At index 0: There is no non-equal neighbor of 2 on the left, so index 0 is neither a hill nor a valley.\n    At index 1: The closest non-equal neighbors of 4 are 2 and 1. Since 4 > 2 and 4 > 1, index 1 is a hill.\n    At index 2: The closest non-equal neighbors of 1 are 4 and 6. Since 1  1 and 6 > 5, index 4 is a hill.\n    At index 5: There is no non-equal neighbor of 5 on the right, so index 5 is neither a hill nor a valley.\n    There are 3 hills and valleys so we return 3.\n\nExample 2:\n\nInput: nums = [6,6,5,5,4,1]\nOutput: 0\nExplanation:\n    At index 0: There is no non-equal neighbor of 6 on the left, so index 0 is neither a hill nor a valley.\n    At index 1: There is no non-equal neighbor of 6 on the left, so index 1 is neither a hill nor a valley.\n    At index 2: The closest non-equal neighbors of 5 are 6 and 4. Since 5  4, index 2 is neither a hill nor a valley.\n    At index 3: The closest non-equal neighbors of 5 are 6 and 4. Since 5  4, index 3 is neither a hill nor a valley.\n    At index 4: The closest non-equal neighbors of 4 are 5 and 1. Since 4  1, index 4 is neither a hill nor a valley.\n    At index 5: There is no non-equal neighbor of 1 on the right, so index 5 is neither a hill nor a valley.\n    There are 0 hills and valleys so we return 0.\n\nConstraints:\n\n• 3 <= nums.length <= 100\n\n• 1 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countHillValley(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each index, could you find the closest non-equal neighbors?",
+    "Ensure that adjacent indices that are part of the same hill or valley are not double-counted."
+  ],
+  "testCases": [
+    [
+      "[2,4,1,1,6,5]"
+    ],
+    [
+      "[6,6,5,5,4,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countHillValley(self, nums):\n        count = 0\n        for i in range(1, len(nums) - 1):\n            left_val = nums[i-1]\n            mid_val = nums[i]\n            right_idx = i + 1\n            while right_idx < len(nums) and nums[right_idx] == mid_val:\n                right_idx += 1\n            if right_idx == len(nums):\n                break\n            right_val = nums[right_idx]\n            if (mid_val > left_val and mid_val > right_val) or (mid_val < left_val and mid_val < right_val):\n                count += 1\n        return count",
+    "explanation": "Find non-equal neighbors, check if peak (both smaller) or valley (both larger).\nTime: O(n²) worst case\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Peak Element\", \"titleSlug\": \"find-peak-element\", \"difficulty\": \"Medium\"}, {\"title\": \"Monotonic Array\", \"titleSlug\": \"monotonic-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Subsequence in Non-Increasing Order\", \"titleSlug\": \"minimum-subsequence-in-non-increasing-order\", \"difficulty\": \"Easy\"}]"
+}

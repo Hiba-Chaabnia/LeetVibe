@@ -1,0 +1,45 @@
+{
+  "questionId": "2767",
+  "title": "Maximum Sum With Exactly K Elements ",
+  "titleSlug": "maximum-sum-with-exactly-k-elements",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums and an integer k. Your task is to perform the following operation exactly k times in order to maximize your score:\n\n• Select an element m from nums.\n\n• Remove the selected element m from the array.\n\n• Add a new element with a value of m + 1 to the array.\n\n• Increase your score by m.\n\nReturn the maximum score you can achieve after performing the operation exactly k times.\n\nExample 1:\n\nInput: nums = [1,2,3,4,5], k = 3\nOutput: 18\nExplanation: We need to choose exactly 3 elements from nums to maximize the sum.\n    For the first iteration, we choose 5. Then sum is 5 and nums = [1,2,3,4,6]\n    For the second iteration, we choose 6. Then sum is 5 + 6 and nums = [1,2,3,4,7]\n    For the third iteration, we choose 7. Then sum is 5 + 6 + 7 = 18 and nums = [1,2,3,4,8]\n    So, we will return 18.\n    It can be proven, that 18 is the maximum answer that we can achieve.\n\nExample 2:\n\nInput: nums = [5,5,5], k = 2\nOutput: 11\nExplanation: We need to choose exactly 2 elements from nums to maximize the sum.\n    For the first iteration, we choose 5. Then sum is 5 and nums = [5,5,6]\n    For the second iteration, we choose 6. Then sum is 5 + 6 = 11 and nums = [5,5,7]\n    So, we will return 11.\n    It can be proven, that 11 is the maximum answer that we can achieve.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 100\n\n• 1 <= k <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximizeSum(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5]",
+      "3"
+    ],
+    [
+      "[5,5,5]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "18",
+    "11"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximizeSum(self, nums, k):\n        m = max(nums)\n        return k * m + k * (k - 1) // 2",
+    "explanation": "Pick the maximum element, then each subsequent pick is one more; total = k*max + 0+1+...+(k-1) = k*max + k*(k-1)/2. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

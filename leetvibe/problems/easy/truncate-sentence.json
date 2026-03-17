@@ -1,0 +1,53 @@
+{
+  "questionId": "1944",
+  "title": "Truncate Sentence",
+  "titleSlug": "truncate-sentence",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A sentence is a list of words that are separated by a single space with no leading or trailing spaces. Each of the words consists of only uppercase and lowercase English letters (no punctuation).\n\n• For example, \"Hello World\", \"HELLO\", and \"hello world hello world\" are all sentences.\n\nYou are given a sentence s​​​​​​ and an integer k​​​​​​. You want to truncate s​​​​​​ such that it contains only the first k​​​​​​ words. Return s​​​​​​ after truncating it.\n\nExample 1:\n\nInput: s = \"Hello how are you Contestant\", k = 4\nOutput: \"Hello how are you\"\nExplanation:\n    The words in s are [\"Hello\", \"how\" \"are\", \"you\", \"Contestant\"].\n    The first 4 words are [\"Hello\", \"how\", \"are\", \"you\"].\n    Hence, you should return \"Hello how are you\".\n\nExample 2:\n\nInput: s = \"What is the solution to this problem\", k = 4\nOutput: \"What is the solution\"\nExplanation:\n    The words in s are [\"What\", \"is\" \"the\", \"solution\", \"to\", \"this\", \"problem\"].\n    The first 4 words are [\"What\", \"is\", \"the\", \"solution\"].\n    Hence, you should return \"What is the solution\".\n\nExample 3:\n\nInput: s = \"chopper is not a tanuki\", k = 5\nOutput: \"chopper is not a tanuki\"\n\nConstraints:\n\n• 1 <= s.length <= 500\n\n• k is in the range [1, the number of words in s].\n\n• s consist of only lowercase and uppercase English letters and spaces.\n\n• The words in s are separated by a single space.\n\n• There are no leading or trailing spaces.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def truncateSentence(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It's easier to solve this problem on an array of strings so parse the string to an array of words",
+    "After return the first k words as a sentence"
+  ],
+  "testCases": [
+    [
+      "\"Hello how are you Contestant\"",
+      "4"
+    ],
+    [
+      "\"What is the solution to this problem\"",
+      "4"
+    ],
+    [
+      "\"chopper is not a tanuki\"",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Hello how are you\"",
+    "\"What is the solution\"",
+    "\"chopper is not a tanuki\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def truncateSentence(s: str, k: int) -> str:\n    words = s.split()\n    return \" \".join(words[:k])",
+    "explanation": "The algorithm for all languages is the same:\n1. First, we split the input string `s` by space character to get an array/list of words.\n2. Then, we slice this array/list so that only the first `k` words are included.\n3. Finally, we join the words back into a single string using space character, which is the final output string.\n\nUsing this common algorithm, we wrote functions for the respective programming languages. Note that in C++ and Java, we use a string stream and a string builder respectively for string manipulations as they are more efficient. On the other hand, in Python and JavaScript, slicing and joining strings are much easier to do with the built-in functions."
+  },
+  "similarQuestions": "[]"
+}

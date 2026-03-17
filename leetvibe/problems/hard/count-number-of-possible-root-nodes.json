@@ -1,0 +1,59 @@
+{
+  "questionId": "2652",
+  "title": "Count Number of Possible Root Nodes",
+  "titleSlug": "count-number-of-possible-root-nodes",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    }
+  ],
+  "content": "Alice has an undirected tree with n nodes labeled from 0 to n - 1. The tree is represented as a 2D integer array edges of length n - 1 where edges[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the tree.\n\nAlice wants Bob to find the root of the tree. She allows Bob to make several guesses about her tree. In one guess, he does the following:\n\n• Chooses two distinct integers u and v such that there exists an edge [u, v] in the tree.\n\n• He tells Alice that u is the parent of v in the tree.\n\nBob's guesses are represented by a 2D integer array guesses where guesses[j] = [uj, vj] indicates Bob guessed uj to be the parent of vj.\n\nAlice being lazy, does not reply to each of Bob's guesses, but just says that at least k of his guesses are true.\n\nGiven the 2D integer arrays edges, guesses and the integer k, return the number of possible nodes that can be the root of Alice's tree. If there is no such tree, return 0.\n\nExample 1:\n\nInput: edges = [[0,1],[1,2],[1,3],[4,2]], guesses = [[1,3],[0,1],[1,0],[2,4]], k = 3\nOutput: 3\nExplanation:\n    Root = 0, correct guesses = [1,3], [0,1], [2,4]\n    Root = 1, correct guesses = [1,3], [1,0], [2,4]\n    Root = 2, correct guesses = [1,3], [1,0], [2,4]\n    Root = 3, correct guesses = [1,0], [2,4]\n    Root = 4, correct guesses = [1,3], [1,0]\n    Considering 0, 1, or 2 as root node leads to 3 correct guesses.\n\nExample 2:\n\nInput: edges = [[0,1],[1,2],[2,3],[3,4]], guesses = [[1,0],[3,4],[2,1],[3,2]], k = 1\nOutput: 5\nExplanation:\n    Root = 0, correct guesses = [3,4]\n    Root = 1, correct guesses = [1,0], [3,4]\n    Root = 2, correct guesses = [1,0], [2,1], [3,4]\n    Root = 3, correct guesses = [1,0], [2,1], [3,2], [3,4]\n    Root = 4, correct guesses = [1,0], [2,1], [3,2]\n    Considering any node as root will give at least 1 correct guess.\n\nConstraints:\n\n• edges.length == n - 1\n\n• 2 <= n <= 105\n\n• 1 <= guesses.length <= 105\n\n• 0 <= ai, bi, uj, vj <= n - 1\n\n• ai != bi\n\n• uj != vj\n\n• edges represents a valid tree.\n\n• guesses[j] is an edge of the tree.\n\n• guesses is unique.\n\n• 0 <= k <= guesses.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rootCount(self, edges, guesses, k):\n        \"\"\"\n        :type edges: List[List[int]]\n        :type guesses: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can we check if any node can be the root?",
+    "Can we use this information to check its neighboring nodes?",
+    "When we traverse from current node to a neighboring node, how will we update our answer?"
+  ],
+  "testCases": [
+    [
+      "[[0,1],[1,2],[1,3],[4,2]]",
+      "[[1,3],[0,1],[1,0],[2,4]]",
+      "3"
+    ],
+    [
+      "[[0,1],[1,2],[2,3],[3,4]]",
+      "[[1,0],[3,4],[2,1],[3,2]]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Closest Node to Path in Tree\", \"titleSlug\": \"closest-node-to-path-in-tree\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,53 @@
+{
+  "questionId": "3654",
+  "title": "Minimum Array Sum",
+  "titleSlug": "minimum-array-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums and three integers k, op1, and op2.\n\nYou can perform the following operations on nums:\n\n• Operation 1: Choose an index i and divide nums[i] by 2, rounding up to the nearest whole number. You can perform this operation at most op1 times, and not more than once per index.\n\n• Operation 2: Choose an index i and subtract k from nums[i], but only if nums[i] is greater than or equal to k. You can perform this operation at most op2 times, and not more than once per index.\n\nNote: Both operations can be applied to the same index, but at most once each.\n\nReturn the minimum possible sum of all elements in nums after performing any number of operations.\n\nExample 1:\n\nInput: nums = [2,8,3,19,3], k = 3, op1 = 1, op2 = 1\n\nOutput: 23\n\nExplanation:\n\n• Apply Operation 2 to nums[1] = 8, making nums[1] = 5.\n\n• Apply Operation 1 to nums[3] = 19, making nums[3] = 10.\n\n• The resulting array becomes [2, 5, 3, 10, 3], which has the minimum possible sum of 23 after applying the operations.\n\nExample 2:\n\nInput: nums = [2,4,3], k = 3, op1 = 2, op2 = 1\n\nOutput: 3\n\nExplanation:\n\n• Apply Operation 1 to nums[0] = 2, making nums[0] = 1.\n\n• Apply Operation 1 to nums[1] = 4, making nums[1] = 2.\n\n• Apply Operation 2 to nums[2] = 3, making nums[2] = 0.\n\n• The resulting array becomes [1, 2, 0], which has the minimum possible sum of 3 after applying the operations.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 0 <= nums[i] <= 105\n\n• 0 <= k <= 105\n\n• 0 <= op1, op2 <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minArraySum(self, nums, k, op1, op2):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type op1: int\n        :type op2: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think of dynamic programming with states to track progress and remaining operations.",
+    "Use dp[index][op1][op2] where each state tracks progress at index with op1 and op2 operations left.",
+    "At each state, try applying only operation 1, only operation 2, both in sequence, or skip both to find optimal results."
+  ],
+  "testCases": [
+    [
+      "[2,8,3,19,3]",
+      "3",
+      "1",
+      "1"
+    ],
+    [
+      "[2,4,3]",
+      "3",
+      "2",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "23",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import math\n\nclass Solution(object):\n    def minArraySum(self, nums, k, op1, op2):\n        n = len(nums)\n        # dp[i][j] = min sum using i op1's and j op2's for first elements processed\n        INF = float('inf')\n        # State: (op1_remaining, op2_remaining) -> min sum\n        dp = [[INF] * (op2 + 1) for _ in range(op1 + 1)]\n        dp[op1][op2] = 0\n\n        for v in nums:\n            new_dp = [[INF] * (op2 + 1) for _ in range(op1 + 1)]\n            for r1 in range(op1 + 1):\n                for r2 in range(op2 + 1):\n                    if dp[r1][r2] == INF:\n                        continue\n                    base = dp[r1][r2]\n                    # Option 1: no operation\n                    new_dp[r1][r2] = min(new_dp[r1][r2], base + v)\n                    # Option 2: op1 only (ceil(v/2))\n                    if r1 > 0:\n                        new_dp[r1-1][r2] = min(new_dp[r1-1][r2], base + math.ceil(v / 2))\n                    # Option 3: op2 only (v - k, if v >= k)\n                    if r2 > 0 and v >= k:\n                        new_dp[r1][r2-1] = min(new_dp[r1][r2-1], base + v - k)\n                    # Option 4: op1 then op2\n                    if r1 > 0 and r2 > 0:\n                        v1 = math.ceil(v / 2)\n                        if v1 >= k:\n                            new_dp[r1-1][r2-1] = min(new_dp[r1-1][r2-1], base + v1 - k)\n                    # Option 5: op2 then op1\n                    if r1 > 0 and r2 > 0 and v >= k:\n                        v2 = v - k\n                        new_dp[r1-1][r2-1] = min(new_dp[r1-1][r2-1], base + math.ceil(v2 / 2))\n            dp = new_dp\n\n        return min(dp[r1][r2] for r1 in range(op1+1) for r2 in range(op2+1) if dp[r1][r2] < INF)",
+    "explanation": "DP where state is (op1_remaining, op2_remaining). For each element, try all 5 options: no-op, op1-only, op2-only, op1-then-op2, op2-then-op1. With n ≤ 100 and op1, op2 ≤ n, state space is O(n²) per element.\n\nTime: O(n * op1 * op2). Space: O(op1 * op2)."
+  },
+  "similarQuestions": "[]"
+}

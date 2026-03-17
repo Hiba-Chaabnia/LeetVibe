@@ -1,0 +1,50 @@
+{
+  "questionId": "3242",
+  "title": "Count Elements With Maximum Frequency",
+  "titleSlug": "count-elements-with-maximum-frequency",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an array nums consisting of positive integers.\n\nReturn the total frequencies of elements in nums such that those elements all have the maximum frequency.\n\nThe frequency of an element is the number of occurrences of that element in the array.\n\nExample 1:\n\nInput: nums = [1,2,2,3,1,4]\nOutput: 4\nExplanation: The elements 1 and 2 have a frequency of 2 which is the maximum frequency in the array.\n    So the number of elements in the array with maximum frequency is 4.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5]\nOutput: 5\nExplanation: All elements of the array have a frequency of 1 which is the maximum.\n    So the number of elements in the array with maximum frequency is 5.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxFrequencyElements(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find frequencies of all elements of the array.",
+    "Find the elements that have the maximum frequencies and count their total occurrences."
+  ],
+  "testCases": [
+    [
+      "[1,2,2,3,1,4]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxFrequencyElements(self, nums):\n        from collections import Counter\n        freq = Counter(nums)\n        max_freq = max(freq.values())\n        return sum(v for v in freq.values() if v == max_freq)",
+    "explanation": "Find max freq; sum counts equal to max."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Frequency of an Element After Performing Operations I\", \"titleSlug\": \"maximum-frequency-of-an-element-after-performing-operations-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Frequency of an Element After Performing Operations II\", \"titleSlug\": \"maximum-frequency-of-an-element-after-performing-operations-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Difference Between Even and Odd Frequency II\", \"titleSlug\": \"maximum-difference-between-even-and-odd-frequency-ii\", \"difficulty\": \"Hard\"}]"
+}

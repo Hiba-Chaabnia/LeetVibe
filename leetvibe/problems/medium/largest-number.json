@@ -1,0 +1,51 @@
+{
+  "questionId": "179",
+  "title": "Largest Number",
+  "titleSlug": "largest-number",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given a list of non-negative integers nums, arrange them such that they form the largest number and return it.\n\nSince the result may be very large, so you need to return a string instead of an integer.\n\nExample 1:\n\nInput: nums = [10,2]\nOutput: \"210\"\n\nExample 2:\n\nInput: nums = [3,30,34,5,9]\nOutput: \"9534330\"\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 0 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[10,2]"
+    ],
+    [
+      "[3,30,34,5,9]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"210\"",
+    "\"9534330\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from functools import cmp_to_key\n\ndef largestNumber(nums):\n    def comparator(a, b):\n        return -1 if a + b > b + a else int(a + b < b + a)\n\n    nums_as_str = list(map(str, nums))\n    nums_as_str.sort(key=cmp_to_key(comparator))\n    return '0' if nums_as_str[0] == \"0\" else \"\".join(nums_as_str)",
+    "explanation": "1. Convert all integers to strings.\n2. Sort the strings using a custom comparator. The comparator shall compare concatenation of two strings in reverse order, i.e., a+b and b+a. Compare a+b and b+a, if a+b is larger, it means a should be before b, else b should before a.\n3. Join sorted strings to form the answer. If the first string is '0', return '0' as that means all elements are '0' (as strings are sorted)."
+  },
+  "similarQuestions": "[{\"title\": \"Smallest Value of the Rearranged Number\", \"titleSlug\": \"smallest-value-of-the-rearranged-number\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Key of the Numbers\", \"titleSlug\": \"find-the-key-of-the-numbers\", \"difficulty\": \"Easy\"}]"
+}

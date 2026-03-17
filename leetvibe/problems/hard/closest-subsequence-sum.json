@@ -1,0 +1,67 @@
+{
+  "questionId": "1881",
+  "title": "Closest Subsequence Sum",
+  "titleSlug": "closest-subsequence-sum",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer goal.\n\nYou want to choose a subsequence of nums such that the sum of its elements is the closest possible to goal. That is, if the sum of the subsequence's elements is sum, then you want to minimize the absolute difference abs(sum - goal).\n\nReturn the minimum possible value of abs(sum - goal).\n\nNote that a subsequence of an array is an array formed by removing some elements (possibly all or none) of the original array.\n\nExample 1:\n\nInput: nums = [5,-7,3,5], goal = 6\nOutput: 0\nExplanation: Choose the whole array as a subsequence, with a sum of 6.\n    This is equal to the goal, so the absolute difference is 0.\n\nExample 2:\n\nInput: nums = [7,-9,15,-2], goal = -5\nOutput: 1\nExplanation: Choose the subsequence [7,-9,-2], with a sum of -4.\n    The absolute difference is abs(-4 - (-5)) = abs(1) = 1, which is the minimum.\n\nExample 3:\n\nInput: nums = [1,2,3], goal = -7\nOutput: 7\n\nConstraints:\n\n• 1 <= nums.length <= 40\n\n• -107 <= nums[i] <= 107\n\n• -109 <= goal <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minAbsDifference(self, nums, goal):\n        \"\"\"\n        :type nums: List[int]\n        :type goal: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The naive solution is to check all possible subsequences. This works in O(2^n).",
+    "Divide the array into two parts of nearly is equal size.",
+    "Consider all subsets of one part and make a list of all possible subset sums and sort this list.",
+    "Consider all subsets of the other part, and for each one, let its sum = x, do binary search to get the nearest possible value to goal - x in the first part."
+  ],
+  "testCases": [
+    [
+      "[5,-7,3,5]",
+      "6"
+    ],
+    [
+      "[7,-9,15,-2]",
+      "-5"
+    ],
+    [
+      "[1,2,3]",
+      "-7"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "1",
+    "7"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimize the Difference Between Target and Chosen Elements\", \"titleSlug\": \"minimize-the-difference-between-target-and-chosen-elements\", \"difficulty\": \"Medium\"}, {\"title\": \"Partition Array Into Two Arrays to Minimize Sum Difference\", \"titleSlug\": \"partition-array-into-two-arrays-to-minimize-sum-difference\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Operations to Form Subsequence With Target Sum\", \"titleSlug\": \"minimum-operations-to-form-subsequence-with-target-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Sum of Subsequence Powers\", \"titleSlug\": \"find-the-sum-of-subsequence-powers\", \"difficulty\": \"Hard\"}]"
+}

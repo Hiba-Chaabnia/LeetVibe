@@ -1,0 +1,57 @@
+{
+  "questionId": "2793",
+  "title": "Count the Number of Complete Components",
+  "titleSlug": "count-the-number-of-complete-components",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "You are given an integer n. There is an undirected graph with n vertices, numbered from 0 to n - 1. You are given a 2D integer array edges where edges[i] = [ai, bi] denotes that there exists an undirected edge connecting vertices ai and bi.\n\nReturn the number of complete connected components of the graph.\n\nA connected component is a subgraph of a graph in which there exists a path between any two vertices, and no vertex of the subgraph shares an edge with a vertex outside of the subgraph.\n\nA connected component is said to be complete if there exists an edge between every pair of its vertices.\n\nExample 1:\n\nInput: n = 6, edges = [[0,1],[0,2],[1,2],[3,4]]\nOutput: 3\nExplanation: From the picture above, one can see that all of the components of this graph are complete.\n\nExample 2:\n\nInput: n = 6, edges = [[0,1],[0,2],[1,2],[3,4],[3,5]]\nOutput: 1\nExplanation: The component containing vertices 0, 1, and 2 is complete since there is an edge between every pair of two vertices. On the other hand, the component containing vertices 3, 4, and 5 is not complete since there is no edge between vertices 4 and 5. Thus, the number of complete components in this graph is 1.\n\nConstraints:\n\n• 1 <= n <= 50\n\n• 0 <= edges.length <= n * (n - 1) / 2\n\n• edges[i].length == 2\n\n• 0 <= ai, bi <= n - 1\n\n• ai != bi\n\n• There are no repeated edges.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countCompleteComponents(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the connected components of an undirected graph using depth-first search (DFS) or breadth-first search (BFS).",
+    "For each connected component, count the number of nodes and edges in the component.",
+    "A connected component is complete if and only if the number of edges in the component is equal to m*(m-1)/2, where m is the number of nodes in the component."
+  ],
+  "testCases": [
+    [
+      "6",
+      "[[0,1],[0,2],[1,2],[3,4]]"
+    ],
+    [
+      "6",
+      "[[0,1],[0,2],[1,2],[3,4],[3,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def countCompleteComponents(self, n, edges):\n        adj = defaultdict(set)\n        for u, v in edges:\n            adj[u].add(v)\n            adj[v].add(u)\n        visited = [False] * n\n        ans = 0\n        for start in range(n):\n            if visited[start]:\n                continue\n            # BFS to find component\n            comp = []\n            queue = [start]\n            visited[start] = True\n            while queue:\n                nxt = []\n                for u in queue:\n                    comp.append(u)\n                    for v in adj[u]:\n                        if not visited[v]:\n                            visited[v] = True\n                            nxt.append(v)\n                queue = nxt\n            m_comp = len(comp)\n            e_comp = sum(len(adj[u]) for u in comp) // 2\n            if e_comp == m_comp * (m_comp - 1) // 2:\n                ans += 1\n        return ans",
+    "explanation": "Find each connected component via BFS. A component with m nodes is complete iff it has m*(m-1)/2 edges.\n\nTime: O(n + m). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Connected Components in an Undirected Graph\", \"titleSlug\": \"number-of-connected-components-in-an-undirected-graph\", \"difficulty\": \"Medium\"}]"
+}

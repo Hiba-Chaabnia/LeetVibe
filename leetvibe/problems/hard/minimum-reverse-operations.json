@@ -1,0 +1,68 @@
+{
+  "questionId": "2726",
+  "title": "Minimum Reverse Operations",
+  "titleSlug": "minimum-reverse-operations",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "You are given an integer n and an integer p representing an array arr of length n where all elements are set to 0's, except position p which is set to 1. You are also given an integer array banned containing restricted positions. Perform the following operation on arr:\n\n• Reverse a subarray with size k if the single 1 is not set to a position in banned.\n\nReturn an integer array answer with n results where the ith result is the minimum number of operations needed to bring the single 1 to position i in arr, or -1 if it is impossible.\n\nExample 1:\n\nInput: n = 4, p = 0, banned = [1,2], k = 4\n\nOutput: [0,-1,-1,1]\n\nExplanation:\n\n• Initially 1 is placed at position 0 so the number of operations we need for position 0 is 0.\n\n• We can never place 1 on the banned positions, so the answer for positions 1 and 2 is -1.\n\n• Perform the operation of size 4 to reverse the whole array.\n\n• After a single operation 1 is at position 3 so the answer for position 3 is 1.\n\nExample 2:\n\nInput: n = 5, p = 0, banned = [2,4], k = 3\n\nOutput: [0,-1,-1,-1,-1]\n\nExplanation:\n\n• Initially 1 is placed at position 0 so the number of operations we need for position 0 is 0.\n\n• We cannot perform the operation on the subarray positions [0, 2] because position 2 is in banned.\n\n• Because 1 cannot be set at position 2, it is impossible to set 1 at other positions in more operations.\n\nExample 3:\n\nInput: n = 4, p = 2, banned = [0,1,3], k = 1\n\nOutput: [-1,-1,0,-1]\n\nExplanation: Perform operations of size 1 and 1 never changes its position.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• 0 <= p <= n - 1\n\n• 0 <= banned.length <= n - 1\n\n• 0 <= banned[i] <= n - 1\n\n• 1 <= k <= n\n\n• banned[i] != p\n\n• all values in banned are unique",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minReverseOperations(self, n, p, banned, k):\n        \"\"\"\n        :type n: int\n        :type p: int\n        :type banned: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we use a breadth-first search to find the minimum number of operations?",
+    "Find the beginning and end indices of the subarray of size k that can be reversed to bring 1 to a particular position.",
+    "Can we visit every index or do we need to consider the parity of k?"
+  ],
+  "testCases": [
+    [
+      "4",
+      "0",
+      "[1,2]",
+      "4"
+    ],
+    [
+      "5",
+      "0",
+      "[2,4]",
+      "3"
+    ],
+    [
+      "4",
+      "2",
+      "[0,1,3]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,-1,-1,1]",
+    "[0,-1,-1,-1,-1]",
+    "[-1,-1,0,-1]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

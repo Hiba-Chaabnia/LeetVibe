@@ -1,0 +1,43 @@
+{
+  "questionId": "172",
+  "title": "Factorial Trailing Zeroes",
+  "titleSlug": "factorial-trailing-zeroes",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given an integer n, return the number of trailing zeroes in n!.\n\nNote that n! = n * (n - 1) * (n - 2) * ... * 3 * 2 * 1.\n\nExample 1:\n\nInput: n = 3\nOutput: 0\nExplanation: 3! = 6, no trailing zero.\n\nExample 2:\n\nInput: n = 5\nOutput: 1\nExplanation: 5! = 120, one trailing zero.\n\nExample 3:\n\nInput: n = 0\nOutput: 0\n\nConstraints:\n\n• 0 <= n <= 104\n\nFollow up: Could you write a solution that works in logarithmic time complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def trailingZeroes(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "5"
+    ],
+    [
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def trailingZeroes(self, n):\n        count = 0\n        power_of_5 = 5\n        while power_of_5 <= n:\n            count += n // power_of_5\n            power_of_5 *= 5\n        return count",
+    "explanation": "Count multiples of 5, 25, 125, ... in n!.\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Digit One\", \"titleSlug\": \"number-of-digit-one\", \"difficulty\": \"Hard\"}, {\"title\": \"Preimage Size of Factorial Zeroes Function\", \"titleSlug\": \"preimage-size-of-factorial-zeroes-function\", \"difficulty\": \"Hard\"}, {\"title\": \"Abbreviating the Product of a Range\", \"titleSlug\": \"abbreviating-the-product-of-a-range\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Trailing Zeros in a Cornered Path\", \"titleSlug\": \"maximum-trailing-zeros-in-a-cornered-path\", \"difficulty\": \"Medium\"}]"
+}

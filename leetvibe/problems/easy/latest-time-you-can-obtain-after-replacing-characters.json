@@ -1,0 +1,46 @@
+{
+  "questionId": "3361",
+  "title": "Latest Time You Can Obtain After Replacing Characters",
+  "titleSlug": "latest-time-you-can-obtain-after-replacing-characters",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a string s representing a 12-hour format time where some of the digits (possibly none) are replaced with a \"?\".\n\n12-hour times are formatted as \"HH:MM\", where HH is between 00 and 11, and MM is between 00 and 59. The earliest 12-hour time is 00:00, and the latest is 11:59.\n\nYou have to replace all the \"?\" characters in s with digits such that the time we obtain by the resulting string is a valid 12-hour format time and is the latest possible.\n\nReturn the resulting string.\n\nExample 1:\n\nInput: s = \"1?:?4\"\n\nOutput: \"11:54\"\n\nExplanation: The latest 12-hour format time we can achieve by replacing \"?\" characters is \"11:54\".\n\nExample 2:\n\nInput: s = \"0?:5?\"\n\nOutput: \"09:59\"\n\nExplanation: The latest 12-hour format time we can achieve by replacing \"?\" characters is \"09:59\".\n\nConstraints:\n\n• s.length == 5\n\n• s[2] is equal to the character \":\".\n\n• All characters except s[2] are digits or \"?\" characters.\n\n• The input is generated such that there is at least one time between \"00:00\" and \"11:59\" that you can obtain after replacing the \"?\" characters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findLatestTime(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try using a brute force approach.",
+    "Iterate over all possible times that can be generated from the string and find the latest one."
+  ],
+  "testCases": [
+    [
+      "\"1?:?4\""
+    ],
+    [
+      "\"0?:5?\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"11:54\"",
+    "\"09:59\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findLatestTime(self, s):\n        s = list(s)\n        if s[0] == '?':\n            s[0] = '1' if (s[1] == '?' or s[1] <= '1') else '0'\n        if s[1] == '?':\n            s[1] = '1' if s[0] == '1' else '9'\n        if s[3] == '?':\n            s[3] = '5'\n        if s[4] == '?':\n            s[4] = '9'\n        return \"\".join(s)",
+    "explanation": "Greedily maximise each '?' position: hour tens prefer 1 (if units allow ≤11), hour units max 1 when tens=1 else 9, minute tens max 5, units max 9. O(1) time."
+  },
+  "similarQuestions": "[{\"title\": \"Latest Time by Replacing Hidden Digits\", \"titleSlug\": \"latest-time-by-replacing-hidden-digits\", \"difficulty\": \"Easy\"}]"
+}

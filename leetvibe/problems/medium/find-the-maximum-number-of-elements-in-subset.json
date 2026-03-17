@@ -1,0 +1,52 @@
+{
+  "questionId": "3299",
+  "title": "Find the Maximum Number of Elements in Subset",
+  "titleSlug": "find-the-maximum-number-of-elements-in-subset",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an array of positive integers nums.\n\nYou need to select a subset of nums which satisfies the following condition:\n\n• You can place the selected elements in a 0-indexed array such that it follows the pattern: [x, x2, x4, ..., xk/2, xk, xk/2, ..., x4, x2, x] (Note that k can be be any non-negative power of 2). For example, [2, 4, 16, 4, 2] and [3, 9, 3] follow the pattern while [2, 4, 8, 4, 2] does not.\n\nReturn the maximum number of elements in a subset that satisfies these conditions.\n\nExample 1:\n\nInput: nums = [5,4,1,2,2]\nOutput: 3\nExplanation: We can select the subset {4,2,2}, which can be placed in the array as [2,4,2] which follows the pattern and 22 == 4. Hence the answer is 3.\n\nExample 2:\n\nInput: nums = [1,3,2,4]\nOutput: 1\nExplanation: We can select the subset {1}, which can be placed in the array as [1] which follows the pattern. Hence the answer is 1. Note that we could have also selected the subsets {2}, {3}, or {4}, there may be multiple subsets which provide the same answer.\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can select an odd number of 1’s.",
+    "Put all the values into a HashSet. We can start from each x > 1 as the smallest chosen value and we can find the longest subset by checking the new values (which are the square of the previous value) in the set by brute force.",
+    "Note when x > 1, x<sup>2</sup>, x<sup>4</sup>, x<sup>8</sup>, … increases very fast, the longest subset with smallest value x cannot be very long. (The length is O(log(log(10<sup>9</sup>))).",
+    "Hence we can directly check all lengths less than 10 for all values of x."
+  ],
+  "testCases": [
+    [
+      "[5,4,1,2,2]"
+    ],
+    [
+      "[1,3,2,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def maximumLength(self, nums):\n        freq = Counter(nums)\n        ans = 1\n        # Handle x = 1 separately: can use any odd count of 1s\n        if freq[1] > 0:\n            ans = freq[1] if freq[1] % 2 == 1 else freq[1] - 1\n        # For each x > 1, try building chain x, x^2, x^4, ...\n        for x in freq:\n            if x == 1:\n                continue\n            length = 0\n            cur = x\n            while cur in freq and freq[cur] >= 2:\n                length += 2\n                cur = cur * cur\n            # Add center element if cur exists at least once\n            if cur in freq and freq[cur] >= 1:\n                length += 1\n            ans = max(ans, length)\n        return ans",
+    "explanation": "For x=1: any odd count of 1s forms a valid pattern (e.g., [1,1,1]). For x>1: chain x, x², x⁴,... Each non-center element needs count ≥ 2 (appears twice in pattern). Center element needs count ≥ 1. Since x²⁰ > 10⁹ for x≥2, the chain length is at most O(log log 10⁹) ≈ 6.\n\nTime: O(n log log max_val). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Consecutive Sequence\", \"titleSlug\": \"longest-consecutive-sequence\", \"difficulty\": \"Medium\"}]"
+}

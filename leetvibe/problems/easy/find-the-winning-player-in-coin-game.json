@@ -1,0 +1,53 @@
+{
+  "questionId": "3511",
+  "title": "Find the Winning Player in Coin Game",
+  "titleSlug": "find-the-winning-player-in-coin-game",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "You are given two positive integers x and y, denoting the number of coins with values 75 and 10 respectively.\n\nAlice and Bob are playing a game. Each turn, starting with Alice, the player must pick up coins with a total value 115. If the player is unable to do so, they lose the game.\n\nReturn the name of the player who wins the game if both players play optimally.\n\nExample 1:\n\nInput: x = 2, y = 7\n\nOutput: \"Alice\"\n\nExplanation: The game ends in a single turn:\n\n• Alice picks 1 coin with a value of 75 and 4 coins with a value of 10.\n\nExample 2:\n\nInput: x = 4, y = 11\n\nOutput: \"Bob\"\n\nExplanation: The game ends in 2 turns:\n\n• Alice picks 1 coin with a value of 75 and 4 coins with a value of 10.\n\n• Bob picks 1 coin with a value of 75 and 4 coins with a value of 10.\n\nConstraints:\n\n• 1 <= x, y <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def winningPlayer(self, x, y):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The only way to make 115 is to use one coin of value 75 and four coins of value 10. Each turn uses up these many coins.",
+    "Hence the number of turns is min(x, y / 4).",
+    "Determine the winner from its parity."
+  ],
+  "testCases": [
+    [
+      "2",
+      "7"
+    ],
+    [
+      "4",
+      "11"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Alice\"",
+    "\"Bob\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def winningPlayer(self, x, y):\n        turns = min(x, y // 4)\n        return \"Alice\" if turns % 2 == 1 else \"Bob\"",
+    "explanation": "Each turn a player takes 1 coin of value 75 and 4 coins of value 10; the number of full turns is min(x, y//4), and Alice wins iff that count is odd. O(1) time."
+  },
+  "similarQuestions": "[{\"title\": \"Can I Win\", \"titleSlug\": \"can-i-win\", \"difficulty\": \"Medium\"}, {\"title\": \"Predict the Winner\", \"titleSlug\": \"predict-the-winner\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "749",
+  "title": "Shortest Completing Word",
+  "titleSlug": "shortest-completing-word",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string licensePlate and an array of strings words, find the shortest completing word in words.\n\nA completing word is a word that contains all the letters in licensePlate. Ignore numbers and spaces in licensePlate, and treat letters as case insensitive. If a letter appears more than once in licensePlate, then it must appear in the word the same number of times or more.\n\nFor example, if licensePlate = \"aBc 12c\", then it contains letters 'a', 'b' (ignoring case), and 'c' twice. Possible completing words are \"abccdef\", \"caaacab\", and \"cbca\".\n\nReturn the shortest completing word in words. It is guaranteed an answer exists. If there are multiple shortest completing words, return the first one that occurs in words.\n\nExample 1:\n\nInput: licensePlate = \"1s3 PSt\", words = [\"step\",\"steps\",\"stripe\",\"stepple\"]\nOutput: \"steps\"\nExplanation: licensePlate contains letters 's', 'p', 's' (ignoring case), and 't'.\n    \"step\" contains 't' and 'p', but only contains 1 's'.\n    \"steps\" contains 't', 'p', and both 's' characters.\n    \"stripe\" is missing an 's'.\n    \"stepple\" is missing an 's'.\n    Since \"steps\" is the only word containing all the letters, that is the answer.\n\nExample 2:\n\nInput: licensePlate = \"1s3 456\", words = [\"looks\",\"pest\",\"stew\",\"show\"]\nOutput: \"pest\"\nExplanation: licensePlate only contains the letter 's'. All the words contain 's', but among these \"pest\", \"stew\", and \"show\" are shortest. The answer is \"pest\" because it is the word that appears earliest of the 3.\n\nConstraints:\n\n• 1 <= licensePlate.length <= 7\n\n• licensePlate contains digits, letters (uppercase or lowercase), or space ' '.\n\n• 1 <= words.length <= 1000\n\n• 1 <= words[i].length <= 15\n\n• words[i] consists of lower case English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestCompletingWord(self, licensePlate, words):\n        \"\"\"\n        :type licensePlate: str\n        :type words: List[str]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count only the letters (possibly converted to lowercase) of each word.  If a word is shorter and the count of each letter is at least the count of that letter in the licensePlate, it is the best answer we've seen yet."
+  ],
+  "testCases": [
+    [
+      "\"1s3 PSt\"",
+      "[\"step\",\"steps\",\"stripe\",\"stepple\"]"
+    ],
+    [
+      "\"1s3 456\"",
+      "[\"looks\",\"pest\",\"stew\",\"show\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"steps\"",
+    "\"pest\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def shortestCompletingWord(licensePlate: str, words: list[str]) -> str:\n    from collections import Counter\n\n    lp_count = Counter(c.lower() for c in licensePlate if c.isalpha())\n\n    result = \"\"\n    for word in words:\n        word_count = Counter(word)\n\n        valid = all(word_count[ch] >= count for ch, count in lp_count.items())\n\n        if valid and (not result or len(word) < len(result)):\n            result = word\n\n    return result",
+    "explanation": "1. Create a hash map (or dictionary in Python) to store the count of characters in the `licensePlate`.\n2. Iterate through the `words` array.\n   1. For each word, create a hash map storing the count of characters in the current word.\n   2. Check whether the current word is a valid completing word by comparing the counts in both hash maps. It's valid if it has equal or more count of characters compared to the `licensePlate` for each character.\n   3. If the word is valid and the result is empty or the length of the word is shorter than the result's length, update the result with the current word.\n3. Return the result."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "2186",
+  "title": "Count Vowel Substrings of a String",
+  "titleSlug": "count-vowel-substrings-of-a-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A substring is a contiguous (non-empty) sequence of characters within a string.\n\nA vowel substring is a substring that only consists of vowels ('a', 'e', 'i', 'o', and 'u') and has all five vowels present in it.\n\nGiven a string word, return the number of vowel substrings in word.\n\nExample 1:\n\nInput: word = \"aeiouu\"\nOutput: 2\nExplanation: The vowel substrings of word are as follows (underlined):\n    - \"aeiouu\"\n    - \"aeiouu\"\n\nExample 2:\n\nInput: word = \"unicornarihan\"\nOutput: 0\nExplanation: Not all 5 vowels are present, so there are no vowel substrings.\n\nExample 3:\n\nInput: word = \"cuaieuouac\"\nOutput: 7\nExplanation: The vowel substrings of word are as follows (underlined):\n    - \"cuaieuouac\"\n    - \"cuaieuouac\"\n    - \"cuaieuouac\"\n    - \"cuaieuouac\"\n    - \"cuaieuouac\"\n    - \"cuaieuouac\"\n    - \"cuaieuouac\"\n\nConstraints:\n\n• 1 <= word.length <= 100\n\n• word consists of lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countVowelSubstrings(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "While generating substrings starting at any index, do you need to continue generating larger substrings if you encounter a consonant?",
+    "Can you store the count of characters to avoid generating substrings altogether?"
+  ],
+  "testCases": [
+    [
+      "\"aeiouu\""
+    ],
+    [
+      "\"unicornarihan\""
+    ],
+    [
+      "\"cuaieuouac\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "7"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countVowelSubstrings(self, word):\n        vowels = set('aeiou')\n        count = 0\n        for i in range(len(word)):\n            if word[i] not in vowels:\n                continue\n            seen = set()\n            for j in range(i, len(word)):\n                if word[j] not in vowels:\n                    break\n                seen.add(word[j])\n                if len(seen) == 5:\n                    count += 1\n        return count",
+    "explanation": "For each vowel start, expand right counting substrings with all 5 vowels.\nTime: O(n²)\nSpace: O(5)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Matching Subsequences\", \"titleSlug\": \"number-of-matching-subsequences\", \"difficulty\": \"Medium\"}, {\"title\": \"Subarrays with K Different Integers\", \"titleSlug\": \"subarrays-with-k-different-integers\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Substrings With Only 1s\", \"titleSlug\": \"number-of-substrings-with-only-1s\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Substring Of All Vowels in Order\", \"titleSlug\": \"longest-substring-of-all-vowels-in-order\", \"difficulty\": \"Medium\"}, {\"title\": \"Total Appeal of A String\", \"titleSlug\": \"total-appeal-of-a-string\", \"difficulty\": \"Hard\"}, {\"title\": \"Count of Substrings Containing Every Vowel and K Consonants II\", \"titleSlug\": \"count-of-substrings-containing-every-vowel-and-k-consonants-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Count of Substrings Containing Every Vowel and K Consonants I\", \"titleSlug\": \"count-of-substrings-containing-every-vowel-and-k-consonants-i\", \"difficulty\": \"Medium\"}]"
+}

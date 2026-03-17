@@ -1,0 +1,50 @@
+{
+  "questionId": "2348",
+  "title": "Count Number of Texts",
+  "titleSlug": "count-number-of-texts",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Alice is texting Bob using her phone. The mapping of digits to letters is shown in the figure below.\n\nIn order to add a letter, Alice has to press the key of the corresponding digit i times, where i is the position of the letter in the key.\n\n• For example, to add the letter 's', Alice has to press '7' four times. Similarly, to add the letter 'k', Alice has to press '5' twice.\n\n• Note that the digits '0' and '1' do not map to any letters, so Alice does not use them.\n\nHowever, due to an error in transmission, Bob did not receive Alice's text message but received a string of pressed keys instead.\n\n• For example, when Alice sent the message \"bob\", Bob received the string \"2266622\".\n\nGiven a string pressedKeys representing the string received by Bob, return the total number of possible text messages Alice could have sent.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: pressedKeys = \"22233\"\nOutput: 8\nExplanation:\n    The possible text messages Alice could have sent are:\n    \"aaadd\", \"abdd\", \"badd\", \"cdd\", \"aaae\", \"abe\", \"bae\", and \"ce\".\n    Since there are 8 possible messages, we return 8.\n\nExample 2:\n\nInput: pressedKeys = \"222222222222222222222222222222222222\"\nOutput: 82876089\nExplanation:\n    There are 2082876103 possible text messages Alice could have sent.\n    Since we need to return the answer modulo 109 + 7, we return 2082876103 % (109 + 7) = 82876089.\n\nConstraints:\n\n• 1 <= pressedKeys.length <= 105\n\n• pressedKeys only consists of digits from '2' - '9'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countTexts(self, pressedKeys):\n        \"\"\"\n        :type pressedKeys: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For a substring consisting of the same digit, how can we count the number of texts it could have originally represented?",
+    "How can dynamic programming help us calculate the required answer?"
+  ],
+  "testCases": [
+    [
+      "\"22233\""
+    ],
+    [
+      "\"222222222222222222222222222222222222\""
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "82876089"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Letter Combinations of a Phone Number\", \"titleSlug\": \"letter-combinations-of-a-phone-number\", \"difficulty\": \"Medium\"}, {\"title\": \"Decode Ways\", \"titleSlug\": \"decode-ways\", \"difficulty\": \"Medium\"}]"
+}

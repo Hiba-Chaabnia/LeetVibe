@@ -1,0 +1,64 @@
+{
+  "questionId": "3305",
+  "title": "Count Prefix and Suffix Pairs II",
+  "titleSlug": "count-prefix-and-suffix-pairs-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are given a 0-indexed string array words.\n\nLet's define a boolean function isPrefixAndSuffix that takes two strings, str1 and str2:\n\n• isPrefixAndSuffix(str1, str2) returns true if str1 is both a prefix and a suffix of str2, and false otherwise.\n\nFor example, isPrefixAndSuffix(\"aba\", \"ababa\") is true because \"aba\" is a prefix of \"ababa\" and also a suffix, but isPrefixAndSuffix(\"abc\", \"abcd\") is false.\n\nReturn an integer denoting the number of index pairs (i, j) such that i < j, and isPrefixAndSuffix(words[i], words[j]) is true.\n\nExample 1:\n\nInput: words = [\"a\",\"aba\",\"ababa\",\"aa\"]\nOutput: 4\nExplanation: In this example, the counted index pairs are:\n    i = 0 and j = 1 because isPrefixAndSuffix(\"a\", \"aba\") is true.\n    i = 0 and j = 2 because isPrefixAndSuffix(\"a\", \"ababa\") is true.\n    i = 0 and j = 3 because isPrefixAndSuffix(\"a\", \"aa\") is true.\n    i = 1 and j = 2 because isPrefixAndSuffix(\"aba\", \"ababa\") is true.\n    Therefore, the answer is 4.\n\nExample 2:\n\nInput: words = [\"pa\",\"papa\",\"ma\",\"mama\"]\nOutput: 2\nExplanation: In this example, the counted index pairs are:\n    i = 0 and j = 1 because isPrefixAndSuffix(\"pa\", \"papa\") is true.\n    i = 2 and j = 3 because isPrefixAndSuffix(\"ma\", \"mama\") is true.\n    Therefore, the answer is 2.\n\nExample 3:\n\nInput: words = [\"abab\",\"ab\"]\nOutput: 0\nExplanation: In this example, the only valid index pair is i = 0 and j = 1, and isPrefixAndSuffix(\"abab\", \"ab\") is false.\n    Therefore, the answer is 0.\n\nConstraints:\n\n• 1 <= words.length <= 105\n\n• 1 <= words[i].length <= 105\n\n• words[i] consists only of lowercase English letters.\n\n• The sum of the lengths of all words[i] does not exceed 5 * 105.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPrefixSuffixPairs(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can use a trie to solve it.",
+    "Process all words[i] from left to right. The trie stores the pair (words[i][j], words[i][words[i].length - j - 1]) as a single character; we process all the words in this way.",
+    "During insertion, keep a counter in each trie node, as in a normal trie. If the current node is the end of a word (namely, the pair on that node is (words[i][words[i].length - 1], words[i][0])), increase the node's counter by 1.",
+    "From left to right, insert each word into the trie, and increase our final result by each node's counter when going down the trie during insertion. This means there was at least one word that is both a prefix and a suffix of the current word before."
+  ],
+  "testCases": [
+    [
+      "[\"a\",\"aba\",\"ababa\",\"aa\"]"
+    ],
+    [
+      "[\"pa\",\"papa\",\"ma\",\"mama\"]"
+    ],
+    [
+      "[\"abab\",\"ab\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Implement Trie (Prefix Tree)\", \"titleSlug\": \"implement-trie-prefix-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Design Add and Search Words Data Structure\", \"titleSlug\": \"design-add-and-search-words-data-structure\", \"difficulty\": \"Medium\"}]"
+}

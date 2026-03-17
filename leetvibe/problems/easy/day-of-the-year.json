@@ -1,0 +1,45 @@
+{
+  "questionId": "1260",
+  "title": "Day of the Year",
+  "titleSlug": "day-of-the-year",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string date representing a Gregorian calendar date formatted as YYYY-MM-DD, return the day number of the year.\n\nExample 1:\n\nInput: date = \"2019-01-09\"\nOutput: 9\nExplanation: Given date is the 9th day of the year in 2019.\n\nExample 2:\n\nInput: date = \"2019-02-10\"\nOutput: 41\n\nConstraints:\n\n• date.length == 10\n\n• date[4] == date[7] == '-', and all other date[i]'s are digits\n\n• date represents a calendar date between Jan 1st, 1900 and Dec 31st, 2019.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def dayOfYear(self, date):\n        \"\"\"\n        :type date: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Have a integer array of how many days there are per month.  February gets one extra day if its a leap year.  Then, we can manually count the ordinal as day + (number of days in months before this one)."
+  ],
+  "testCases": [
+    [
+      "\"2019-01-09\""
+    ],
+    [
+      "\"2019-02-10\""
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "41"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def dayOfYear(self, date):\n        days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]\n        year, month, day = int(date[:4]), int(date[5:7]), int(date[8:])\n        if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):\n            days_in_month[1] = 29\n        return sum(days_in_month[:month-1]) + day",
+    "explanation": "Sum days of previous months plus current day. Handle leap year for February.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

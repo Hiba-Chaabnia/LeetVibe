@@ -1,0 +1,48 @@
+{
+  "questionId": "2610",
+  "title": "Closest Prime Numbers in Range",
+  "titleSlug": "closest-prime-numbers-in-range",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "Given two positive integers left and right, find the two integers num1 and num2 such that:\n\n• left <= num1 < num2 <= right .\n\n• Both num1 and num2 are prime numbers.\n\n• num2 - num1 is the minimum amongst all other pairs satisfying the above conditions.\n\nReturn the positive integer array ans = [num1, num2]. If there are multiple pairs satisfying these conditions, return the one with the smallest num1 value. If no such numbers exist, return [-1, -1].\n\nExample 1:\n\nInput: left = 10, right = 19\nOutput: [11,13]\nExplanation: The prime numbers between 10 and 19 are 11, 13, 17, and 19.\n    The closest gap between any pair is 2, which can be achieved by [11,13] or [17,19].\n    Since 11 is smaller than 17, we return the first pair.\n\nExample 2:\n\nInput: left = 4, right = 6\nOutput: [-1,-1]\nExplanation: There exists only one prime number in the given range, so the conditions cannot be satisfied.\n\nConstraints:\n\n• 1 <= left <= right <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def closestPrimes(self, left, right):\n        \"\"\"\n        :type left: int\n        :type right: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use Sieve of Eratosthenes to mark numbers that are primes.",
+    "Iterate from right to left and find pair with the minimum distance between marked numbers."
+  ],
+  "testCases": [
+    [
+      "10",
+      "19"
+    ],
+    [
+      "4",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "[11,13]",
+    "[-1,-1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def closestPrimes(self, left, right):\n        def sieve(n):\n            is_prime = [True] * (n + 1)\n            is_prime[0] = is_prime[1] = False\n            for i in range(2, int(n**0.5) + 1):\n                if is_prime[i]:\n                    for j in range(i*i, n + 1, i):\n                        is_prime[j] = False\n            return is_prime\n        is_prime = sieve(right)\n        primes = [i for i in range(left, right + 1) if is_prime[i]]\n        if len(primes) < 2:\n            return [-1, -1]\n        min_gap = float('inf')\n        result = [-1, -1]\n        for i in range(len(primes) - 1):\n            gap = primes[i + 1] - primes[i]\n            if gap < min_gap or (gap == min_gap and primes[i] < result[0]):\n                min_gap = gap\n                result = [primes[i], primes[i + 1]]\n        return result",
+    "explanation": "Sieve of Eratosthenes. Find primes and return closest pair.\nTime: O(n*log(log n))\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Ways to Make Array With Product\", \"titleSlug\": \"count-ways-to-make-array-with-product\", \"difficulty\": \"Hard\"}]"
+}

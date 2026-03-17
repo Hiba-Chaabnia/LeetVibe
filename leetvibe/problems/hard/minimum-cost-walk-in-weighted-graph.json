@@ -1,0 +1,54 @@
+{
+  "questionId": "3348",
+  "title": "Minimum Cost Walk in Weighted Graph",
+  "titleSlug": "minimum-cost-walk-in-weighted-graph",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There is an undirected weighted graph with n vertices labeled from 0 to n - 1.\n\nYou are given the integer n and an array edges, where edges[i] = [ui, vi, wi] indicates that there is an edge between vertices ui and vi with a weight of wi.\n\nA walk on a graph is a sequence of vertices and edges. The walk starts and ends with a vertex, and each edge connects the vertex that comes before it and the vertex that comes after it. It's important to note that a walk may visit the same edge or vertex more than once.\n\nThe cost of a walk starting at node u and ending at node v is defined as the bitwise AND of the weights of the edges traversed during the walk. In other words, if the sequence of edge weights encountered during the walk is w0, w1, w2, ..., wk, then the cost is calculated as w0 & w1 & w2 & ... & wk, where & denotes the bitwise AND operator.\n\nYou are also given a 2D array query, where query[i] = [si, ti]. For each query, you need to find the minimum cost of the walk starting at vertex si and ending at vertex ti. If there exists no such walk, the answer is -1.\n\nReturn the array answer, where answer[i] denotes the minimum cost of a walk for query i.\n\nExample 1:\n\nInput: n = 5, edges = [[0,1,7],[1,3,7],[1,2,1]], query = [[0,3],[3,4]]\n\nOutput: [1,-1]\n\nExplanation: To achieve the cost of 1 in the first query, we need to move on the following edges: 0->1 (weight 7), 1->2 (weight 1), 2->1 (weight 1), 1->3 (weight 7).\n\nIn the second query, there is no walk between nodes 3 and 4, so the answer is -1.\n\nExample 2:\n\nInput: n = 3, edges = [[0,2,7],[0,1,15],[1,2,6],[1,2,1]], query = [[1,2]]\n\nOutput: [0]\n\nExplanation: To achieve the cost of 0 in the first query, we need to move on the following edges: 1->2 (weight 1), 2->1 (weight 6), 1->2 (weight 1).\n\nConstraints:\n\n• 2 <= n <= 105\n\n• 0 <= edges.length <= 105\n\n• edges[i].length == 3\n\n• 0 <= ui, vi <= n - 1\n\n• ui != vi\n\n• 0 <= wi <= 105\n\n• 1 <= query.length <= 105\n\n• query[i].length == 2\n\n• 0 <= si, ti <= n - 1\n\n• si != ti",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumCost(self, n, edges, query):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type query: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The intended solution uses Disjoint Set Union.",
+    "Notice that, if u and v are not connected then the answer is -1, otherwise we can use all the edges from the connected component where both belong to."
+  ],
+  "testCases": [
+    [
+      "5",
+      "[[0,1,7],[1,3,7],[1,2,1]]",
+      "[[0,3],[3,4]]"
+    ],
+    [
+      "3",
+      "[[0,2,7],[0,1,15],[1,2,6],[1,2,1]]",
+      "[[1,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,-1]",
+    "[0]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,48 @@
+{
+  "questionId": "2998",
+  "title": "  Count Symmetric Integers",
+  "titleSlug": "count-symmetric-integers",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given two positive integers low and high.\n\nAn integer x consisting of 2 * n digits is symmetric if the sum of the first n digits of x is equal to the sum of the last n digits of x. Numbers with an odd number of digits are never symmetric.\n\nReturn the number of symmetric integers in the range [low, high].\n\nExample 1:\n\nInput: low = 1, high = 100\nOutput: 9\nExplanation: There are 9 symmetric integers between 1 and 100: 11, 22, 33, 44, 55, 66, 77, 88, and 99.\n\nExample 2:\n\nInput: low = 1200, high = 1230\nOutput: 4\nExplanation: There are 4 symmetric integers between 1200 and 1230: 1203, 1212, 1221, and 1230.\n\nConstraints:\n\n• 1 <= low <= high <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSymmetricIntegers(self, low, high):\n        \"\"\"\n        :type low: int\n        :type high: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate over all numbers from low to high",
+    "Convert each number to a string and compare the sum of the first half with that of the second."
+  ],
+  "testCases": [
+    [
+      "1",
+      "100"
+    ],
+    [
+      "1200",
+      "1230"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countSymmetricIntegers(self, low, high):\n        count = 0\n        for x in range(low, high + 1):\n            s = str(x)\n            if len(s) % 2 == 1:\n                continue\n            half = len(s) // 2\n            if sum(int(c) for c in s[:half]) == sum(int(c) for c in s[half:]):\n                count += 1\n        return count",
+    "explanation": "Check each number: even digits and equal digit sums in both halves."
+  },
+  "similarQuestions": "[{\"title\": \"Palindrome Number\", \"titleSlug\": \"palindrome-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Sum of Digits in Base K\", \"titleSlug\": \"sum-of-digits-in-base-k\", \"difficulty\": \"Easy\"}]"
+}

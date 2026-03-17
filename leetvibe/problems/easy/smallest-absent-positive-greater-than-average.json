@@ -1,0 +1,50 @@
+{
+  "questionId": "4011",
+  "title": "Smallest Absent Positive Greater Than Average",
+  "titleSlug": "smallest-absent-positive-greater-than-average",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nReturn the smallest absent positive integer in nums such that it is strictly greater than the average of all elements in nums.\n\nThe average of an array is defined as the sum of all its elements divided by the number of elements.\n\nExample 1:\n\nInput: nums = [3,5]\n\nOutput: 6\n\nExplanation:\n\n• The average of nums is (3 + 5) / 2 = 8 / 2 = 4.\n\n• The smallest absent positive integer greater than 4 is 6.\n\nExample 2:\n\nInput: nums = [-1,1,2]\n\nOutput: 3\n\nExplanation:\n\n• ​​​​​​​The average of nums is (-1 + 1 + 2) / 3 = 2 / 3 = 0.667.\n\n• The smallest absent positive integer greater than 0.667 is 3.\n\nExample 3:\n\nInput: nums = [4,-1]\n\nOutput: 2\n\nExplanation:\n\n• The average of nums is (4 + (-1)) / 2 = 3 / 2 = 1.50.\n\n• The smallest absent positive integer greater than 1.50 is 2.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• -100 <= nums[i] <= 100​​​​​​​",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestAbsent(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Compute the average, set x = floor(avg) + 1 (the smallest integer greater than the average).",
+    "Increment x until it's not in the array and return it."
+  ],
+  "testCases": [
+    [
+      "[3,5]"
+    ],
+    [
+      "[-1,1,2]"
+    ],
+    [
+      "[4,-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def smallestAbsent(self, nums):\n        s = set(nums)\n        avg = sum(nums) / len(nums)\n        x = int(avg) + 1\n        while x in s:\n            x += 1\n        return x",
+    "explanation": "Compute average; start searching for missing integers from floor(avg)+1 upwards using a set for O(1) lookup."
+  },
+  "similarQuestions": "[]"
+}

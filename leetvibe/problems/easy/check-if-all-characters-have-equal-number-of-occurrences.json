@@ -1,0 +1,50 @@
+{
+  "questionId": "2053",
+  "title": "Check if All Characters Have Equal Number of Occurrences",
+  "titleSlug": "check-if-all-characters-have-equal-number-of-occurrences",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given a string s, return true if s is a good string, or false otherwise.\n\nA string s is good if all the characters that appear in s have the same number of occurrences (i.e., the same frequency).\n\nExample 1:\n\nInput: s = \"abacbc\"\nOutput: true\nExplanation: The characters that appear in s are 'a', 'b', and 'c'. All characters occur 2 times in s.\n\nExample 2:\n\nInput: s = \"aaabb\"\nOutput: false\nExplanation: The characters that appear in s are 'a' and 'b'.\n    'a' occurs 3 times while 'b' occurs 2 times, which is not the same number of times.\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def areOccurrencesEqual(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Build a dictionary containing the frequency of each character appearing in s",
+    "Check if all values in the dictionary are the same."
+  ],
+  "testCases": [
+    [
+      "\"abacbc\""
+    ],
+    [
+      "\"aaabb\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def areOccurrencesEqual(self, s):\n        from collections import Counter\n        freq = Counter(s)\n        return len(set(freq.values())) == 1",
+    "explanation": "Count character frequencies. Check if all frequencies are equal."
+  },
+  "similarQuestions": "[{\"title\": \"Rings and Rods\", \"titleSlug\": \"rings-and-rods\", \"difficulty\": \"Easy\"}, {\"title\": \"Make Number of Distinct Characters Equal\", \"titleSlug\": \"make-number-of-distinct-characters-equal\", \"difficulty\": \"Medium\"}]"
+}

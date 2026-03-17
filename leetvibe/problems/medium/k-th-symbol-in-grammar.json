@@ -1,0 +1,52 @@
+{
+  "questionId": "795",
+  "title": "K-th Symbol in Grammar",
+  "titleSlug": "k-th-symbol-in-grammar",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "We build a table of n rows (1-indexed). We start by writing 0 in the 1st row. Now in every subsequent row, we look at the previous row and replace each occurrence of 0 with 01, and each occurrence of 1 with 10.\n\n• For example, for n = 3, the 1st row is 0, the 2nd row is 01, and the 3rd row is 0110.\n\nGiven two integer n and k, return the kth (1-indexed) symbol in the nth row of a table of n rows.\n\nExample 1:\n\nInput: n = 1, k = 1\nOutput: 0\nExplanation: row 1: 0\n\nExample 2:\n\nInput: n = 2, k = 1\nOutput: 0\nExplanation:\n    row 1: 0\n    row 2: 01\n\nExample 3:\n\nInput: n = 2, k = 2\nOutput: 1\nExplanation:\n    row 1: 0\n    row 2: 01\n\nConstraints:\n\n• 1 <= n <= 30\n\n• 1 <= k <= 2n - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kthGrammar(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to represent the current (N, K) in terms of some (N-1, prevK).  What is prevK ?"
+  ],
+  "testCases": [
+    [
+      "1",
+      "1"
+    ],
+    [
+      "2",
+      "1"
+    ],
+    [
+      "2",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "0",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

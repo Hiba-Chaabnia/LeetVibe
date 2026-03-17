@@ -1,0 +1,47 @@
+{
+  "questionId": "3479",
+  "title": "Count the Number of Substrings With Dominant Ones",
+  "titleSlug": "count-the-number-of-substrings-with-dominant-ones",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a binary string s.\n\nReturn the number of substrings with dominant ones.\n\nA string has dominant ones if the number of ones in the string is greater than or equal to the square of the number of zeros in the string.\n\nExample 1:\n\nInput: s = \"00011\"\n\nOutput: 5\n\nExplanation: The substrings with dominant ones are shown in the table below.\n\n\t\t\t\ti\n\t\t\t\tj\n\t\t\t\ts[i..j]\n\t\t\t\tNumber of Zeros\n\t\t\t\tNumber of Ones\n\n\t\t\t\t3\n\t\t\t\t3\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t1\n\n\t\t\t\t4\n\t\t\t\t4\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t1\n\n\t\t\t\t2\n\t\t\t\t3\n\t\t\t\t01\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t3\n\t\t\t\t4\n\t\t\t\t11\n\t\t\t\t0\n\t\t\t\t2\n\n\t\t\t\t2\n\t\t\t\t4\n\t\t\t\t011\n\t\t\t\t1\n\t\t\t\t2\n\nExample 2:\n\nInput: s = \"101101\"\n\nOutput: 16\n\nExplanation: The substrings with non-dominant ones are shown in the table below.\n\nSince there are 21 substrings total and 5 of them have non-dominant ones, it follows that there are 16 substrings with dominant ones.\n\n\t\t\t\ti\n\t\t\t\tj\n\t\t\t\ts[i..j]\n\t\t\t\tNumber of Zeros\n\t\t\t\tNumber of Ones\n\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t0\n\n\t\t\t\t4\n\t\t\t\t4\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t0\n\n\t\t\t\t1\n\t\t\t\t4\n\t\t\t\t0110\n\t\t\t\t2\n\t\t\t\t2\n\n\t\t\t\t0\n\t\t\t\t4\n\t\t\t\t10110\n\t\t\t\t2\n\t\t\t\t3\n\n\t\t\t\t1\n\t\t\t\t5\n\t\t\t\t01101\n\t\t\t\t2\n\t\t\t\t3\n\nConstraints:\n\n• 1 <= s.length <= 4 * 104\n\n• s consists only of characters '0' and '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfSubstrings(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let us fix the starting index l of the substring and count the number of indices r such that l <= r and the substring s[l..r] has dominant ones.",
+    "A substring with dominant ones has at most sqrt(n) zeros.",
+    "We cannot iterate over every r and check if the  s[l..r] has dominant ones. Instead, we iterate over the next sqrt(n) zeros to the left of l and count the number of substrings with dominant ones where the current zero is the rightmost zero of the substring."
+  ],
+  "testCases": [
+    [
+      "\"00011\""
+    ],
+    [
+      "\"101101\""
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "16"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfSubstrings(self, s):\n        n = len(s)\n        # zeros in subarray <= sqrt(ones) => zeros <= ~sqrt(n)\n        # For each left l, find minimum right r where subarray is dominant\n        # Then all extensions to the right are also valid\n        # Key: zeros count <= sqrt(n) ~= 200 for n=40000\n        # For each l, iterate right adding chars; stop when zeros^2 > ones\n        ans = 0\n        for l in range(n):\n            ones = 0\n            zeros = 0\n            for r in range(l, n):\n                if s[r] == '1':\n                    ones += 1\n                else:\n                    zeros += 1\n                if ones >= zeros * zeros:\n                    ans += 1\n                elif zeros * zeros > ones + (n - r - 1):\n                    # Even adding all remaining ones won't help\n                    break\n        return ans",
+    "explanation": "For each left index l, scan right. If zeros² > ones + remaining_ones, break early (can't become dominant). Otherwise count when ones ≥ zeros².\n\nTime: O(n√n) amortized since zeros can be at most √n before pruning. Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Count Binary Substrings\", \"titleSlug\": \"count-binary-substrings\", \"difficulty\": \"Easy\"}]"
+}

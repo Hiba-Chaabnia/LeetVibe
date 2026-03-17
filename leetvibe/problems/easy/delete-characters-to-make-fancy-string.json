@@ -1,0 +1,46 @@
+{
+  "questionId": "1302",
+  "title": "Delete Characters to Make Fancy String",
+  "titleSlug": "delete-characters-to-make-fancy-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A fancy string is a string where no three consecutive characters are equal.\n\nGiven a string s, delete the minimum possible number of characters from s to make it fancy.\n\nReturn the final string after the deletion. It can be shown that the answer will always be unique.\n\nExample 1:\n\nInput: s = \"leeetcode\"\nOutput: \"leetcode\"\nExplanation:\n    Remove an 'e' from the first group of 'e's to create \"leetcode\".\n    No three consecutive characters are equal, so return \"leetcode\".\n\nExample 2:\n\nInput: s = \"aaabaaaa\"\nOutput: \"aabaa\"\nExplanation:\n    Remove an 'a' from the first group of 'a's to create \"aabaaaa\".\n    Remove two 'a's from the second group of 'a's to create \"aabaa\".\n    No three consecutive characters are equal, so return \"aabaa\".\n\nExample 3:\n\nInput: s = \"aab\"\nOutput: \"aab\"\nExplanation: No three consecutive characters are equal, so return \"aab\".\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def makeFancyString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What's the optimal way to delete characters if three or more consecutive characters are equal?",
+    "If three or more consecutive characters are equal, keep two of them and delete the rest."
+  ],
+  "testCases": [
+    [
+      "\"leeetcode\""
+    ],
+    [
+      "\"aaabaaaa\""
+    ],
+    [
+      "\"aab\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"leetcode\"",
+    "\"aabaa\"",
+    "\"aab\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def makeFancyString(self, s):\n        result = []\n        for char in s:\n            if len(result) >= 2 and result[-1] == char and result[-2] == char:\n                continue\n            result.append(char)\n        return ''.join(result)",
+    "explanation": "Keep only 2 consecutive identical chars. Skip if last 2 match current.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Find Maximum Removals From Source String\", \"titleSlug\": \"find-maximum-removals-from-source-string\", \"difficulty\": \"Medium\"}]"
+}

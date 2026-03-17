@@ -1,0 +1,54 @@
+{
+  "questionId": "2877",
+  "title": "Shortest String That Contains Three Strings",
+  "titleSlug": "shortest-string-that-contains-three-strings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Given three strings a, b, and c, your task is to find a string that has the minimum length and contains all three strings as substrings.\nIf there are multiple such strings, return the lexicographically smallest one.\n\nReturn a string denoting the answer to the problem.\n\nNotes\n\n• A string a is lexicographically smaller than a string b (of the same length) if in the first position where a and b differ, string a has a letter that appears earlier in the alphabet than the corresponding letter in b.\n\n• A substring is a contiguous sequence of characters within a string.\n\nExample 1:\n\nInput: a = \"abc\", b = \"bca\", c = \"aaa\"\nOutput: \"aaabca\"\nExplanation:  We show that \"aaabca\" contains all the given strings: a = ans[2...4], b = ans[3..5], c = ans[0..2]. It can be shown that the length of the resulting string would be at least 6 and \"aaabca\" is the lexicographically smallest one.\n\nExample 2:\n\nInput: a = \"ab\", b = \"ba\", c = \"aba\"\nOutput: \"aba\"\nExplanation: We show that the string \"aba\" contains all the given strings: a = ans[0..1], b = ans[1..2], c = ans[0..2]. Since the length of c is 3, the length of the resulting string would be at least 3. It can be shown that \"aba\" is the lexicographically smallest one.\n\nConstraints:\n\n• 1 <= a.length, b.length, c.length <= 100\n\n• a, b, c consist only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumString(self, a, b, c):\n        \"\"\"\n        :type a: str\n        :type b: str\n        :type c: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think about how you can generate all possible strings that contain all three input strings as substrings. Can you come up with an efficient algorithm to do this?",
+    "Check all permutations of the words a, b, and c. For each permutation, begin by appending some letters to the end of the first word to form the second word. Then, proceed to add more letters to generate the third word."
+  ],
+  "testCases": [
+    [
+      "\"abc\"",
+      "\"bca\"",
+      "\"aaa\""
+    ],
+    [
+      "\"ab\"",
+      "\"ba\"",
+      "\"aba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"aaabca\"",
+    "\"aba\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from itertools import permutations\n\nclass Solution(object):\n    def minimumString(self, a, b, c):\n        def overlap(x, y):\n            # Find max overlap where suffix of x = prefix of y\n            for i in range(min(len(x), len(y)), 0, -1):\n                if x[-i:] == y[:i]:\n                    return i\n            return 0\n\n        def merge(x, y):\n            # If y is a substring of x, no extra characters needed\n            if y in x:\n                return x\n            ov = overlap(x, y)\n            return x + y[ov:]\n\n        best = None\n        for perm in permutations([a, b, c]):\n            candidate = merge(merge(perm[0], perm[1]), perm[2])\n            if best is None or len(candidate) < len(best) or \\\n               (len(candidate) == len(best) and candidate < best):\n                best = candidate\n        return best",
+    "explanation": "With only 3 strings, we try all 6 orderings. For each ordering, we merge the first two strings (maximizing suffix-prefix overlap, and handling the case where one is a substring of the other), then merge the result with the third.\n\nAmong all 6 candidates, we pick the one with minimum length, breaking ties by lexicographic order.\n\nTime complexity: O(6 * (|a| + |b| + |c|)^2) which is O(L^2) for L = total length. Space complexity: O(L)."
+  },
+  "similarQuestions": "[{\"title\": \"Shortest Common Supersequence \", \"titleSlug\": \"shortest-common-supersequence\", \"difficulty\": \"Hard\"}]"
+}

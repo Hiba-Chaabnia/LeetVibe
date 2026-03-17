@@ -1,0 +1,49 @@
+{
+  "questionId": "242",
+  "title": "Valid Anagram",
+  "titleSlug": "valid-anagram",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given two strings s and t, return true if t is an anagram of s, and false otherwise.\n\nExample 1:\n\nInput: s = \"anagram\", t = \"nagaram\"\n\nOutput: true\n\nExample 2:\n\nInput: s = \"rat\", t = \"car\"\n\nOutput: false\n\nConstraints:\n\n• 1 <= s.length, t.length <= 5 * 104\n\n• s and t consist of lowercase English letters.\n\nFollow up: What if the inputs contain Unicode characters? How would you adapt your solution to such a case?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isAnagram(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"anagram\"",
+      "\"nagaram\""
+    ],
+    [
+      "\"rat\"",
+      "\"car\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isAnagram(self, s, t):\n        from collections import Counter\n        return Counter(s) == Counter(t)",
+    "explanation": "Count character frequencies. Equal counts mean anagram.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Group Anagrams\", \"titleSlug\": \"group-anagrams\", \"difficulty\": \"Medium\"}, {\"title\": \"Palindrome Permutation\", \"titleSlug\": \"palindrome-permutation\", \"difficulty\": \"Easy\"}, {\"title\": \"Find All Anagrams in a String\", \"titleSlug\": \"find-all-anagrams-in-a-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Resultant Array After Removing Anagrams\", \"titleSlug\": \"find-resultant-array-after-removing-anagrams\", \"difficulty\": \"Easy\"}]"
+}

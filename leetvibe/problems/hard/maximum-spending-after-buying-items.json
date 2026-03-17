@@ -1,0 +1,58 @@
+{
+  "questionId": "3107",
+  "title": "Maximum Spending After Buying Items",
+  "titleSlug": "maximum-spending-after-buying-items",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a 0-indexed m * n integer matrix values, representing the values of m * n different items in m different shops. Each shop has n items where the jth item in the ith shop has a value of values[i][j]. Additionally, the items in the ith shop are sorted in non-increasing order of value. That is, values[i][j] >= values[i][j + 1] for all 0 <= j < n - 1.\n\nOn each day, you would like to buy a single item from one of the shops. Specifically, On the dth day you can:\n\n• Pick any shop i.\n\n• Buy the rightmost available item j for the price of values[i][j] * d. That is, find the greatest index j such that item j was never bought before, and buy it for the price of values[i][j] * d.\n\nNote that all items are pairwise different. For example, if you have bought item 0 from shop 1, you can still buy item 0 from any other shop.\n\nReturn the maximum amount of money that can be spent on buying all  m * n products.\n\nExample 1:\n\nInput: values = [[8,5,2],[6,4,1],[9,7,3]]\nOutput: 285\nExplanation: On the first day, we buy product 2 from shop 1 for a price of values[1][2] * 1 = 1.\n    On the second day, we buy product 2 from shop 0 for a price of values[0][2] * 2 = 4.\n    On the third day, we buy product 2 from shop 2 for a price of values[2][2] * 3 = 9.\n    On the fourth day, we buy product 1 from shop 1 for a price of values[1][1] * 4 = 16.\n    On the fifth day, we buy product 1 from shop 0 for a price of values[0][1] * 5 = 25.\n    On the sixth day, we buy product 0 from shop 1 for a price of values[1][0] * 6 = 36.\n    On the seventh day, we buy product 1 from shop 2 for a price of values[2][1] * 7 = 49.\n    On the eighth day, we buy product 0 from shop 0 for a price of values[0][0] * 8 = 64.\n    On the ninth day, we buy product 0 from shop 2 for a price of values[2][0] * 9 = 81.\n    Hence, our total spending is equal to 285.\n    It can be shown that 285 is the maximum amount of money that can be spent buying all m * n products.\n\nExample 2:\n\nInput: values = [[10,8,6,4,2],[9,7,5,3,2]]\nOutput: 386\nExplanation: On the first day, we buy product 4 from shop 0 for a price of values[0][4] * 1 = 2.\n    On the second day, we buy product 4 from shop 1 for a price of values[1][4] * 2 = 4.\n    On the third day, we buy product 3 from shop 1 for a price of values[1][3] * 3 = 9.\n    On the fourth day, we buy product 3 from shop 0 for a price of values[0][3] * 4 = 16.\n    On the fifth day, we buy product 2 from shop 1 for a price of values[1][2] * 5 = 25.\n    On the sixth day, we buy product 2 from shop 0 for a price of values[0][2] * 6 = 36.\n    On the seventh day, we buy product 1 from shop 1 for a price of values[1][1] * 7 = 49.\n    On the eighth day, we buy product 1 from shop 0 for a price of values[0][1] * 8 = 64\n    On the ninth day, we buy product 0 from shop 1 for a price of values[1][0] * 9 = 81.\n    On the tenth day, we buy product 0 from shop 0 for a price of values[0][0] * 10 = 100.\n    Hence, our total spending is equal to 386.\n    It can be shown that 386 is the maximum amount of money that can be spent buying all m * n products.\n\nConstraints:\n\n• 1 <= m == values.length <= 10\n\n• 1 <= n == values[i].length <= 104\n\n• 1 <= values[i][j] <= 106\n\n• values[i] are sorted in non-increasing order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSpending(self, values):\n        \"\"\"\n        :type values: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate on days 1 to m * n.",
+    "On each day, buy the product that minimizes values[i][values[i].length - 1], and pop it from values[i]."
+  ],
+  "testCases": [
+    [
+      "[[8,5,2],[6,4,1],[9,7,3]]"
+    ],
+    [
+      "[[10,8,6,4,2],[9,7,5,3,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "285",
+    "386"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxSpending(self, values):\n        \"\"\"\n        :type values: List[List[int]]\n        :rtype: int\n        \"\"\"\n        import heapq\n        \n        m, n = len(values), len(values[0])\n        \n        # Min heap: (value, shop, item_index)\n        # Start from rightmost item (index n-1) in each shop\n        heap = []\n        for shop in range(m):\n            heapq.heappush(heap, (values[shop][n-1], shop, n-1))\n        \n        day = 1\n        total_spending = 0\n        \n        while heap:\n            value, shop, item_idx = heapq.heappop(heap)\n            \n            # Buy this item at day 1, 2, 3, ...\n            total_spending += value * day\n            day += 1\n            \n            # Add previous item from this shop (if exists)\n            if item_idx > 0:\n                heapq.heappush(heap, (values[shop][item_idx - 1], shop, item_idx - 1))\n        \n        return total_spending",
+    "explanation": "This solution uses greedy approach with min heap:\n\n1. **Problem Understanding**:\n   - Buy from rightmost available item in shops\n   - Price on day d = value * d\n   - Maximize total spending\n   - Items must be bought right-to-left within each shop\n\n2. **Key Insight - Greedy Strategy**:\n   - On each day, buy the smallest available item\n   - Why? Multiply smallest values by smaller days (days are sequential)\n   - This leaves larger values for larger day multipliers\n   - Counterintuitive but optimal!\n\n3. **Algorithm**:\n   - Use min heap with rightmost items from each shop\n   - Each day:\n     - Pop minimum value from heap\n     - Add to spending: value * day\n     - Add previous item from same shop (if available)\n\n4. **Why This Works**:\n   - Items are bought in increasing order of value\n   - Days 1, 2, 3, ..., m*n are applied sequentially\n   - Smaller values get smaller day multipliers\n   - Mathematically optimal\n\n5. **Example**:\n   - values = [[8,5,2],[6,4,1],[9,7,3]]\n   - Rightmost: (2, shop 0), (1, shop 1), (3, shop 2)\n   - Min heap: [1, 2, 3]\n   - Day 1: buy 1 for 1*1=1, add 4 from shop 1\n   - Day 2: buy 2 for 2*2=4, add 5 from shop 0\n   - Day 3: buy 3 for 3*3=9, add 7 from shop 2\n   - Continue...\n   - Total: 285\n\nTime Complexity: O(m*n*log m) for heap operations\nSpace Complexity: O(m) for heap"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Points You Can Obtain from Cards\", \"titleSlug\": \"maximum-points-you-can-obtain-from-cards\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Score from Performing Multiplication Operations\", \"titleSlug\": \"maximum-score-from-performing-multiplication-operations\", \"difficulty\": \"Hard\"}]"
+}

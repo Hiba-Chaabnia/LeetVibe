@@ -1,0 +1,50 @@
+{
+  "questionId": "2792",
+  "title": "Neighboring Bitwise XOR",
+  "titleSlug": "neighboring-bitwise-xor",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "A 0-indexed array derived with length n is derived by computing the bitwise XOR (⊕) of adjacent values in a binary array original of length n.\n\nSpecifically, for each index i in the range [0, n - 1]:\n\n• If i = n - 1, then derived[i] = original[i] ⊕ original[0].\n\n• Otherwise, derived[i] = original[i] ⊕ original[i + 1].\n\nGiven an array derived, your task is to determine whether there exists a valid binary array original that could have formed derived.\n\nReturn true if such an array exists or false otherwise.\n\n• A binary array is an array containing only 0's and 1's\n\nExample 1:\n\nInput: derived = [1,1,0]\nOutput: true\nExplanation: A valid original array that gives derived is [0,1,0].\n    derived[0] = original[0] ⊕ original[1] = 0 ⊕ 1 = 1\n    derived[1] = original[1] ⊕ original[2] = 1 ⊕ 0 = 1\n    derived[2] = original[2] ⊕ original[0] = 0 ⊕ 0 = 0\n\nExample 2:\n\nInput: derived = [1,1]\nOutput: true\nExplanation: A valid original array that gives derived is [0,1].\n    derived[0] = original[0] ⊕ original[1] = 1\n    derived[1] = original[1] ⊕ original[0] = 1\n\nExample 3:\n\nInput: derived = [1,0]\nOutput: false\nExplanation: There is no valid original array that gives derived.\n\nConstraints:\n\n• n == derived.length\n\n• 1 <= n <= 105\n\n• The values in derived are either 0's or 1's",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def doesValidArrayExist(self, derived):\n        \"\"\"\n        :type derived: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Understand that from the original element, we are using each element twice to construct the derived array",
+    "The xor-sum of the derived array should be 0 since there is always a duplicate occurrence of each element."
+  ],
+  "testCases": [
+    [
+      "[1,1,0]"
+    ],
+    [
+      "[1,1]"
+    ],
+    [
+      "[1,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def doesValidArrayExist(self, derived):\n        # XOR all elements of derived.\n        # derived[0] ^ derived[1] ^ ... ^ derived[n-1]\n        # = (o[0]^o[1]) ^ (o[1]^o[2]) ^ ... ^ (o[n-1]^o[0])\n        # Each o[i] appears exactly twice, so XOR = 0.\n        # A valid original exists iff XOR of derived == 0.\n        xor = 0\n        for x in derived:\n            xor ^= x\n        return xor == 0",
+    "explanation": "XOR all elements of derived:\nderived[0] ^ derived[1] ^ ... ^ derived[n-1]\n= (o[0]^o[1]) ^ (o[1]^o[2]) ^ ... ^ (o[n-1]^o[0])\n\nEach original element o[i] appears exactly twice in this expansion (once in derived[i-1] and once in derived[i]), and x^x = 0. Therefore the total XOR is always 0 if a valid original exists.\n\nConversely, if XOR of derived is 0, we can construct original by setting o[0] = 0 (or 1) and deriving the rest: o[i+1] = derived[i] ^ o[i]. The circularity condition o[n-1]^o[0] = derived[n-1] is satisfied exactly when XOR of derived = 0.\n\nTime complexity: O(n). Space complexity: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Bitwise OR of Adjacent Elements\", \"titleSlug\": \"bitwise-or-of-adjacent-elements\", \"difficulty\": \"Easy\"}]"
+}

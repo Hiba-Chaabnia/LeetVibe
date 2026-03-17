@@ -1,0 +1,45 @@
+{
+  "questionId": "541",
+  "title": "Reverse String II",
+  "titleSlug": "reverse-string-ii",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s and an integer k, reverse the first k characters for every 2k characters counting from the start of the string.\n\nIf there are fewer than k characters left, reverse all of them. If there are less than 2k but greater than or equal to k characters, then reverse the first k characters and leave the other as original.\n\nExample 1:\n\nInput: s = \"abcdefg\", k = 2\nOutput: \"bacdfeg\"\nExample 2:\n\nInput: s = \"abcd\", k = 2\nOutput: \"bacd\"\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s consists of only lowercase English letters.\n\n• 1 <= k <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reverseStr(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"abcdefg\"",
+      "2"
+    ],
+    [
+      "\"abcd\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"bacdfeg\"",
+    "\"bacd\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def reverseStr(s, k):\n    chars = list(s)\n    for i in range(0, len(chars), 2 * k):\n        chars[i:i + k] = reversed(chars[i:i + k])\n    return \"\".join(chars)",
+    "explanation": "The algorithm first creates a mutable array from the original string. Then, we iterate over every 2k characters. If there are at least k characters remaining from the current position, we reverse the first k characters. Otherwise, we reverse all the remaining characters.\n\nIn C++, we use the `reverse` function that takes iterators as arguments. In Java, JavaScript, and Python, we use custom loops for reversing k characters, taking into account the case when there are fewer than k characters remaining. Then, we join the characters back into a string."
+  },
+  "similarQuestions": "[{\"title\": \"Reverse String\", \"titleSlug\": \"reverse-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Reverse Words in a String III\", \"titleSlug\": \"reverse-words-in-a-string-iii\", \"difficulty\": \"Easy\"}, {\"title\": \"Faulty Keyboard\", \"titleSlug\": \"faulty-keyboard\", \"difficulty\": \"Easy\"}]"
+}

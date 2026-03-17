@@ -1,0 +1,47 @@
+{
+  "questionId": "191",
+  "title": "Number of 1 Bits",
+  "titleSlug": "number-of-1-bits",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given a positive integer n, write a function that returns the number of set bits in its binary representation (also known as the Hamming weight).\n\nExample 1:\n\nInput: n = 11\n\nOutput: 3\n\nExplanation: The input binary string 1011 has a total of three set bits.\n\nExample 2:\n\nInput: n = 128\n\nOutput: 1\n\nExplanation: The input binary string 10000000 has a total of one set bit.\n\nExample 3:\n\nInput: n = 2147483645\n\nOutput: 30\n\nExplanation: The input binary string 1111111111111111111111111111101 has a total of thirty set bits.\n\nConstraints:\n\n• 1 <= n <= 231 - 1\n\nFollow up: If this function is called many times, how would you optimize it?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def hammingWeight(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "11"
+    ],
+    [
+      "128"
+    ],
+    [
+      "2147483645"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "30"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def hammingWeight(self, n):\n        count = 0\n        while n:\n            count += n & 1\n            n >>= 1\n        return count",
+    "explanation": "Check each bit by AND with 1, right shift.\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Reverse Bits\", \"titleSlug\": \"reverse-bits\", \"difficulty\": \"Easy\"}, {\"title\": \"Power of Two\", \"titleSlug\": \"power-of-two\", \"difficulty\": \"Easy\"}, {\"title\": \"Counting Bits\", \"titleSlug\": \"counting-bits\", \"difficulty\": \"Easy\"}, {\"title\": \"Binary Watch\", \"titleSlug\": \"binary-watch\", \"difficulty\": \"Easy\"}, {\"title\": \"Hamming Distance\", \"titleSlug\": \"hamming-distance\", \"difficulty\": \"Easy\"}, {\"title\": \"Binary Number with Alternating Bits\", \"titleSlug\": \"binary-number-with-alternating-bits\", \"difficulty\": \"Easy\"}, {\"title\": \"Prime Number of Set Bits in Binary Representation\", \"titleSlug\": \"prime-number-of-set-bits-in-binary-representation\", \"difficulty\": \"Easy\"}, {\"title\": \"Convert Date to Binary\", \"titleSlug\": \"convert-date-to-binary\", \"difficulty\": \"Easy\"}]"
+}

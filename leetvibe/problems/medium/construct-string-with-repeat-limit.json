@@ -1,0 +1,56 @@
+{
+  "questionId": "2300",
+  "title": "Construct String With Repeat Limit",
+  "titleSlug": "construct-string-with-repeat-limit",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s and an integer repeatLimit. Construct a new string repeatLimitedString using the characters of s such that no letter appears more than repeatLimit times in a row. You do not have to use all characters from s.\n\nReturn the lexicographically largest repeatLimitedString possible.\n\nA string a is lexicographically larger than a string b if in the first position where a and b differ, string a has a letter that appears later in the alphabet than the corresponding letter in b. If the first min(a.length, b.length) characters do not differ, then the longer string is the lexicographically larger one.\n\nExample 1:\n\nInput: s = \"cczazcc\", repeatLimit = 3\nOutput: \"zzcccac\"\nExplanation: We use all of the characters from s to construct the repeatLimitedString \"zzcccac\".\n    The letter 'a' appears at most 1 time in a row.\n    The letter 'c' appears at most 3 times in a row.\n    The letter 'z' appears at most 2 times in a row.\n    Hence, no letter appears more than repeatLimit times in a row and the string is a valid repeatLimitedString.\n    The string is the lexicographically largest repeatLimitedString possible so we return \"zzcccac\".\n    Note that the string \"zzcccca\" is lexicographically larger but the letter 'c' appears more than 3 times in a row, so it is not a valid repeatLimitedString.\n\nExample 2:\n\nInput: s = \"aababab\", repeatLimit = 2\nOutput: \"bbabaa\"\nExplanation: We use only some of the characters from s to construct the repeatLimitedString \"bbabaa\".\n    The letter 'a' appears at most 2 times in a row.\n    The letter 'b' appears at most 2 times in a row.\n    Hence, no letter appears more than repeatLimit times in a row and the string is a valid repeatLimitedString.\n    The string is the lexicographically largest repeatLimitedString possible so we return \"bbabaa\".\n    Note that the string \"bbabaaa\" is lexicographically larger but the letter 'a' appears more than 2 times in a row, so it is not a valid repeatLimitedString.\n\nConstraints:\n\n• 1 <= repeatLimit <= s.length <= 105\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def repeatLimitedString(self, s, repeatLimit):\n        \"\"\"\n        :type s: str\n        :type repeatLimit: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Start constructing the string in descending order of characters.",
+    "When repeatLimit is reached, pick the next largest character."
+  ],
+  "testCases": [
+    [
+      "\"cczazcc\"",
+      "3"
+    ],
+    [
+      "\"aababab\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"zzcccac\"",
+    "\"bbabaa\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Rearrange String k Distance Apart\", \"titleSlug\": \"rearrange-string-k-distance-apart\", \"difficulty\": \"Hard\"}]"
+}

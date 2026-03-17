@@ -1,0 +1,46 @@
+{
+  "questionId": "1619",
+  "title": "Path Crossing",
+  "titleSlug": "path-crossing",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string path, where path[i] = 'N', 'S', 'E' or 'W', each representing moving one unit north, south, east, or west, respectively. You start at the origin (0, 0) on a 2D plane and walk on the path specified by path.\n\nReturn true if the path crosses itself at any point, that is, if at any time you are on a location you have previously visited. Return false otherwise.\n\nExample 1:\n\nInput: path = \"NES\"\nOutput: false\nExplanation: Notice that the path doesn't cross any point more than once.\n\nExample 2:\n\nInput: path = \"NESWW\"\nOutput: true\nExplanation: Notice that the path visits the origin twice.\n\nConstraints:\n\n• 1 <= path.length <= 104\n\n• path[i] is either 'N', 'S', 'E', or 'W'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isPathCrossing(self, path):\n        \"\"\"\n        :type path: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the process while keeping track of visited points.",
+    "Use a set to store previously visited points."
+  ],
+  "testCases": [
+    [
+      "\"NES\""
+    ],
+    [
+      "\"NESWW\""
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isPathCrossing(self, path):\n        visited = {(0, 0)}\n        x, y = 0, 0\n        directions = {'N': (0, 1), 'S': (0, -1), 'E': (1, 0), 'W': (-1, 0)}\n        for move in path:\n            dx, dy = directions[move]\n            x, y = x + dx, y + dy\n            if (x, y) in visited:\n                return True\n            visited.add((x, y))\n        return False",
+    "explanation": "Track visited positions. Return True if revisit any.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

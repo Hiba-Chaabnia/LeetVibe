@@ -1,0 +1,55 @@
+{
+  "questionId": "1689",
+  "title": "Detect Pattern of Length M Repeated K or More Times",
+  "titleSlug": "detect-pattern-of-length-m-repeated-k-or-more-times",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Given an array of positive integers arr, find a pattern of length m that is repeated k or more times.\n\nA pattern is a subarray (consecutive sub-sequence) that consists of one or more values, repeated multiple times consecutively without overlapping. A pattern is defined by its length and the number of repetitions.\n\nReturn true if there exists a pattern of length m that is repeated k or more times, otherwise return false.\n\nExample 1:\n\nInput: arr = [1,2,4,4,4,4], m = 1, k = 3\nOutput: true\nExplanation: The pattern (4) of length 1 is repeated 4 consecutive times. Notice that pattern can be repeated k or more times but not less.\n\nExample 2:\n\nInput: arr = [1,2,1,2,1,1,1,3], m = 2, k = 2\nOutput: true\nExplanation: The pattern (1,2) of length 2 is repeated 2 consecutive times. Another valid pattern (2,1) is also repeated 2 times.\n\nExample 3:\n\nInput: arr = [1,2,1,2,1,3], m = 2, k = 3\nOutput: false\nExplanation: The pattern (1,2) is of length 2 but is repeated only 2 times. There is no pattern of length 2 that is repeated 3 or more times.\n\nConstraints:\n\n• 2 <= arr.length <= 100\n\n• 1 <= arr[i] <= 100\n\n• 1 <= m <= 100\n\n• 2 <= k <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def containsPattern(self, arr, m, k):\n        \"\"\"\n        :type arr: List[int]\n        :type m: int\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a three-layer loop to check all possible patterns by iterating through all possible starting positions, all indexes less than m, and if the character at the index is repeated k times."
+  ],
+  "testCases": [
+    [
+      "[1,2,4,4,4,4]",
+      "1",
+      "3"
+    ],
+    [
+      "[1,2,1,2,1,1,1,3]",
+      "2",
+      "2"
+    ],
+    [
+      "[1,2,1,2,1,3]",
+      "2",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def containsPattern(self, arr, m, k):\n        for i in range(len(arr) - m * k + 1):\n            valid = True\n            for j in range(m * (k - 1)):\n                if arr[i + j] != arr[i + j + m]:\n                    valid = False\n                    break\n            if valid:\n                return True\n        return False",
+    "explanation": "Check each starting position for pattern of length m repeated k times.\nTime: O(n * m * k)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Repeating Substring\", \"titleSlug\": \"maximum-repeating-substring\", \"difficulty\": \"Easy\"}]"
+}

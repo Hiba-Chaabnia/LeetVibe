@@ -1,0 +1,42 @@
+{
+  "questionId": "1440",
+  "title": "Convert Integer to the Sum of Two No-Zero Integers",
+  "titleSlug": "convert-integer-to-the-sum-of-two-no-zero-integers",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "No-Zero integer is a positive integer that does not contain any 0 in its decimal representation.\n\nGiven an integer n, return a list of two integers [a, b] where:\n\n• a and b are No-Zero integers.\n\n• a + b = n\n\nThe test cases are generated so that there is at least one valid solution. If there are many valid solutions, you can return any of them.\n\nExample 1:\n\nInput: n = 2\nOutput: [1,1]\nExplanation: Let a = 1 and b = 1.\n    Both a and b are no-zero integers, and a + b = 2 = n.\n\nExample 2:\n\nInput: n = 11\nOutput: [2,9]\nExplanation: Let a = 2 and b = 9.\n    Both a and b are no-zero integers, and a + b = 11 = n.\n    Note that there are other valid answers as [8, 3] that can be accepted.\n\nConstraints:\n\n• 2 <= n <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getNoZeroIntegers(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Loop through all elements from 1 to n.",
+    "Choose A = i and B = n - i then check if A and B are both No-Zero integers."
+  ],
+  "testCases": [
+    [
+      "2"
+    ],
+    [
+      "11"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,1]",
+    "[2,9]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getNoZeroIntegers(self, n):\n        def isNoZero(x):\n            return '0' not in str(x)\n        for a in range(1, n):\n            b = n - a\n            if isNoZero(a) and isNoZero(b):\n                return [a, b]\n        return []",
+    "explanation": "Brute force: try all values of a from 1 to n-1. Check if both a and n-a have no zeros.\nTime: O(n * log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

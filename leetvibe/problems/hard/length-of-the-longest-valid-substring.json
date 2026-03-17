@@ -1,0 +1,53 @@
+{
+  "questionId": "2884",
+  "title": "Length of the Longest Valid Substring",
+  "titleSlug": "length-of-the-longest-valid-substring",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a string word and an array of strings forbidden.\n\nA string is called valid if none of its substrings are present in forbidden.\n\nReturn the length of the longest valid substring of the string word.\n\nA substring is a contiguous sequence of characters in a string, possibly empty.\n\nExample 1:\n\nInput: word = \"cbaaaabc\", forbidden = [\"aaa\",\"cb\"]\nOutput: 4\nExplanation: There are 11 valid substrings in word: \"c\", \"b\", \"a\", \"ba\", \"aa\", \"bc\", \"baa\", \"aab\", \"ab\", \"abc\" and \"aabc\". The length of the longest valid substring is 4.\n    It can be shown that all other substrings contain either \"aaa\" or \"cb\" as a substring.\n\nExample 2:\n\nInput: word = \"leetcode\", forbidden = [\"de\",\"le\",\"e\"]\nOutput: 4\nExplanation: There are 11 valid substrings in word: \"l\", \"t\", \"c\", \"o\", \"d\", \"tc\", \"co\", \"od\", \"tco\", \"cod\", and \"tcod\". The length of the longest valid substring is 4.\n    It can be shown that all other substrings contain either \"de\", \"le\", or \"e\" as a substring.\n\nConstraints:\n\n• 1 <= word.length <= 105\n\n• word consists only of lowercase English letters.\n\n• 1 <= forbidden.length <= 105\n\n• 1 <= forbidden[i].length <= 10\n\n• forbidden[i] consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestValidSubstring(self, word, forbidden):\n        \"\"\"\n        :type word: str\n        :type forbidden: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"cbaaaabc\"",
+      "[\"aaa\",\"cb\"]"
+    ],
+    [
+      "\"leetcode\"",
+      "[\"de\",\"le\",\"e\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def longestValidSubstring(self, word, forbidden):\n        \"\"\"\n        :type word: str\n        :type forbidden: List[str]\n        :rtype: int\n        \"\"\"\n        forbidden_set = set(forbidden)\n        max_len = 0\n        left = 0\n        \n        for right in range(len(word)):\n            # Check if any substring ending at 'right' is forbidden\n            # Only check last 10 characters (max forbidden length is 10)\n            for length in range(1, min(11, right - left + 2)):\n                start = right - length + 1\n                if start >= left and word[start:right+1] in forbidden_set:\n                    # Found forbidden substring, move left to skip it\n                    left = start + 1\n                    break\n            \n            # Update max length\n            max_len = max(max_len, right - left + 1)\n        \n        return max_len",
+    "explanation": "This solution uses sliding window with forbidden substring detection:\n\n1. **Problem Understanding**:\n   - Find longest valid substring (no forbidden substrings)\n   - A substring is invalid if it contains any forbidden string\n\n2. **Sliding Window Approach**:\n   - Maintain left and right pointers\n   - Expand right pointer\n   - When forbidden substring found ending at right, move left to skip it\n\n3. **Forbidden Substring Detection**:\n   - At each position, check substrings ending at current position\n   - Only check lengths 1 to 10 (max forbidden length is 10)\n   - This avoids checking all previous positions\n   - If forbidden substring found at [start, right], move left to start+1\n\n4. **Why Check Only Last 10**:\n   - All forbidden strings have length <= 10\n   - Any forbidden substring must end at current position\n   - Must have length <= 10\n   - Can skip checking earlier positions\n\n5. **Efficiency**:\n   - For each position, check at most 10 substrings\n   - Each check is O(1) with set lookup\n   - Total: O(n * 10) = O(n)\n\nTime Complexity: O(n * m) where m = max forbidden length = 10\nSpace Complexity: O(sum of forbidden lengths)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,55 @@
+{
+  "questionId": "933",
+  "title": "Increasing Order Search Tree",
+  "titleSlug": "increasing-order-search-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary search tree, rearrange the tree in in-order so that the leftmost node in the tree is now the root of the tree, and every node has no left child and only one right child.\n\nExample 1:\n\nInput: root = [5,3,6,2,4,null,8,1,null,null,null,7,9]\nOutput: [1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9]\n\nExample 2:\n\nInput: root = [5,1,7]\nOutput: [1,null,5,null,7]\n\nConstraints:\n\n• The number of nodes in the given tree will be in the range [1, 100].\n\n• 0 <= Node.val <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def increasingBST(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[5,3,6,2,4,null,8,1,null,null,null,7,9]"
+    ],
+    [
+      "[5,1,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9]",
+    "[1,null,5,null,7]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def increasingBST(self, root):\n        self.prev = None\n        def inorder(node):\n            if not node:\n                return None\n            left = inorder(node.left)\n            node.left = None\n            if self.prev:\n                self.prev.right = node\n            self.prev = node\n            right = inorder(node.right)\n            return left if left else node\n        return inorder(root)",
+    "explanation": "Inorder traversal. Set each node's left to None, right to next node.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[]"
+}

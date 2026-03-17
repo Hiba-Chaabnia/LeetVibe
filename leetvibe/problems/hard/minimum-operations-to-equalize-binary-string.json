@@ -1,0 +1,66 @@
+{
+  "questionId": "3983",
+  "title": "Minimum Operations to Equalize Binary String",
+  "titleSlug": "minimum-operations-to-equalize-binary-string",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "You are given a binary string s, and an integer k.\n\nIn one operation, you must choose exactly k different indices and flip each '0' to '1' and each '1' to '0'.\n\nReturn the minimum number of operations required to make all characters in the string equal to '1'. If it is not possible, return -1.\n\nExample 1:\n\nInput: s = \"110\", k = 1\n\nOutput: 1\n\nExplanation:\n\n• There is one '0' in s.\n\n• Since k = 1, we can flip it directly in one operation.\n\nExample 2:\n\nInput: s = \"0101\", k = 3\n\nOutput: 2\n\nExplanation: One optimal set of operations choosing k = 3 indices in each operation is:\n\n• Operation 1: Flip indices [0, 1, 3]. s changes from \"0101\" to \"1000\".\n\n• Operation 2: Flip indices [1, 2, 3]. s changes from \"1000\" to \"1111\".\n\nThus, the minimum number of operations is 2.\n\nExample 3:\n\nInput: s = \"101\", k = 2\n\nOutput: -1\n\nExplanation: Since k = 2 and s has only one '0', it is impossible to flip exactly k indices to make all '1'. Hence, the answer is -1.\n\nConstraints:\n\n• 1 <= s.length <= 10​​​​​​​5\n\n• s[i] is either '0' or '1'.\n\n• 1 <= k <= s.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Model state as z = number of zeros; flipping k picks i zeros (i between max(0, k - (n - z)) and min(k, z)) and transforms z to z' = z + k - 2 * i, so z' lies in a contiguous range and has parity (z + k) % 2.",
+    "Build a graph on states 0..n and run BFS from initial z to reach 0; each edge from z goes to all z' in that computed interval.",
+    "For speed, keep two ordered sets of unvisited states by parity and erase ranges with lower_bound while BFSing to achieve near O(n log n) time."
+  ],
+  "testCases": [
+    [
+      "\"110\"",
+      "1"
+    ],
+    [
+      "\"0101\"",
+      "3"
+    ],
+    [
+      "\"101\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        from collections import deque\n        \n        n = len(s)\n        zero_count = s.count('0')\n        \n        # BFS to find minimum operations\n        # State: number of zeros in current string\n        # Goal: reach zero_count = 0 (all ones)\n        \n        if zero_count == 0:\n            return 0\n        \n        visited = {zero_count}\n        queue = deque([(zero_count, 0)])  # (zeros, operations)\n        \n        # Parity sets for optimization\n        even_unvisited = set(range(0, n + 1, 2))\n        odd_unvisited = set(range(1, n + 1, 2))\n        \n        even_unvisited.discard(zero_count)\n        odd_unvisited.discard(zero_count)\n        \n        while queue:\n            zeros, ops = queue.popleft()\n            \n            if zeros == 0:\n                return ops\n            \n            # From state with 'zeros' zeros, we can flip k positions\n            # This changes between 0 and 1\n            # Let's say we flip i zeros (0 <= i <= min(k, zeros))\n            # Result: zeros - i + (k - i) = zeros + k - 2*i zeros\n            \n            # Possible new zero counts\n            min_i = max(0, k - (n - zeros))  # Must flip at least this many zeros\n            max_i = min(k, zeros)  # Can flip at most k zeros\n            \n            for i in range(min_i, max_i + 1):\n                new_zeros = zeros + k - 2 * i\n                \n                if new_zeros == 0:\n                    return ops + 1\n                \n                if new_zeros not in visited and 0 <= new_zeros <= n:\n                    visited.add(new_zeros)\n                    parity = new_zeros % 2\n                    \n                    if parity == 0:\n                        even_unvisited.discard(new_zeros)\n                    else:\n                        odd_unvisited.discard(new_zeros)\n                    \n                    queue.append((new_zeros, ops + 1))\n        \n        return -1",
+    "explanation": "This solution uses BFS on the zero-count state space:\n\n1. **Problem Understanding**:\n   - Flip exactly k positions per operation\n   - Goal: make all characters '1' (all k positions become ones)\n   - Find minimum operations\n\n2. **State Representation**:\n   - State: number of '0's in current string\n   - Transitions: possible next states after one operation\n\n3. **State Transitions**:\n   - From state with z zeros:\n     - Flip i zeros and (k-i) ones\n     - New zero count: z - i + (k-i) = z + k - 2*i\n     - Constraint: min_i <= i <= max_i\n       - min_i = max(0, k - (n-z)) (must flip at least this many zeros)\n       - max_i = min(k, z) (can flip at most k elements)\n\n4. **Parity Observation**:\n   - Each operation changes zero count by: k - 2*i\n   - This changes parity by: k mod 2\n   - All reachable states have same parity as (initial_zeros + k) mod 2\n   - If target parity wrong, return -1\n\n5. **BFS for Shortest Path**:\n   - Use queue to explore states in order of operations\n   - First time reaching zero_count = 0 is the answer\n   - Visited set prevents revisiting\n\n6. **Optimization**:\n   - Maintain separate sets for even/odd unvisited states\n   - Prune by parity to avoid impossible states\n\nTime Complexity: O(N²) for BFS on state space\nSpace Complexity: O(N)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,39 @@
+{
+  "questionId": "664",
+  "title": "Strange Printer",
+  "titleSlug": "strange-printer",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "There is a strange printer with the following two special properties:\n\n• The printer can only print a sequence of the same character each time.\n\n• At each turn, the printer can print new characters starting from and ending at any place and will cover the original existing characters.\n\nGiven a string s, return the minimum number of turns the printer needed to print it.\n\nExample 1:\n\nInput: s = \"aaabbb\"\nOutput: 2\nExplanation: Print \"aaa\" first and then print \"bbb\".\n\nExample 2:\n\nInput: s = \"aba\"\nOutput: 2\nExplanation: Print \"aaa\" first and then print \"b\" from the second place of the string, which will cover the existing character 'a'.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def strangePrinter(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"aaabbb\""
+    ],
+    [
+      "\"aba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Remove Boxes\", \"titleSlug\": \"remove-boxes\", \"difficulty\": \"Hard\"}, {\"title\": \"Strange Printer II\", \"titleSlug\": \"strange-printer-ii\", \"difficulty\": \"Hard\"}]"
+}

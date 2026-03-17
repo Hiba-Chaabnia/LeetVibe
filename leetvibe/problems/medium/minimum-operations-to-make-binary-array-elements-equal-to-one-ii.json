@@ -1,0 +1,50 @@
+{
+  "questionId": "3477",
+  "title": "Minimum Operations to Make Binary Array Elements Equal to One II",
+  "titleSlug": "minimum-operations-to-make-binary-array-elements-equal-to-one-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a binary array nums.\n\nYou can do the following operation on the array any number of times (possibly zero):\n\n• Choose any index i from the array and flip all the elements from index i to the end of the array.\n\nFlipping an element means changing its value from 0 to 1, and from 1 to 0.\n\nReturn the minimum number of operations required to make all elements in nums equal to 1.\n\nExample 1:\n\nInput: nums = [0,1,1,0,1]\n\nOutput: 4\n\nExplanation: We can do the following operations:\n\n• Choose the index i = 1. The resulting array will be nums = [0,0,0,1,0].\n\n• Choose the index i = 0. The resulting array will be nums = [1,1,1,0,1].\n\n• Choose the index i = 4. The resulting array will be nums = [1,1,1,0,0].\n\n• Choose the index i = 3. The resulting array will be nums = [1,1,1,1,1].\n\nExample 2:\n\nInput: nums = [1,0,0,0]\n\nOutput: 1\n\nExplanation: We can do the following operation:\n\n• Choose the index i = 1. The resulting array will be nums = [1,1,1,1].\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The only way to change nums[0] to 1 is by performing an operation with index i = 0.",
+    "Iterate from left to right and perform an operation at each index i where nums[i] is 0, and keep track of how many operations are currently performed on the suffix."
+  ],
+  "testCases": [
+    [
+      "[0,1,1,0,1]"
+    ],
+    [
+      "[1,0,0,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, nums):\n        ops = 0\n        flip_parity = 0\n        for v in nums:\n            if v ^ flip_parity == 0:\n                ops += 1\n                flip_parity ^= 1\n        return ops",
+    "explanation": "Each operation flips all elements from index i to end. Track parity of flips applied. Effective value = nums[i] XOR flip_parity. Whenever effective == 0, apply a new flip (ops++, toggle parity). Greedy: each flip fixes a 0 without creating new 0s to the left.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Suffix Flips\", \"titleSlug\": \"minimum-suffix-flips\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,48 @@
+{
+  "questionId": "109",
+  "title": "Convert Sorted List to Binary Search Tree",
+  "titleSlug": "convert-sorted-list-to-binary-search-tree",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the head of a singly linked list where elements are sorted in ascending order, convert it to a height-balanced binary search tree.\n\nExample 1:\n\nInput: head = [-10,-3,0,5,9]\nOutput: [0,-3,9,-10,null,5]\nExplanation: One possible answer is [0,-3,9,-10,null,5], which represents the shown height balanced BST.\n\nExample 2:\n\nInput: head = []\nOutput: []\n\nConstraints:\n\n• The number of nodes in head is in the range [0, 2 * 104].\n\n• -105 <= Node.val <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\n# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def sortedListToBST(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[-10,-3,0,5,9]",
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,-3,9,-10,null,5]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Convert Sorted Array to Binary Search Tree\", \"titleSlug\": \"convert-sorted-array-to-binary-search-tree\", \"difficulty\": \"Easy\"}, {\"title\": \"Create Binary Tree From Descriptions\", \"titleSlug\": \"create-binary-tree-from-descriptions\", \"difficulty\": \"Medium\"}]"
+}

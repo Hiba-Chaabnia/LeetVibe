@@ -1,0 +1,69 @@
+{
+  "questionId": "3772",
+  "title": "Minimum Pair Removal to Sort Array II",
+  "titleSlug": "minimum-pair-removal-to-sort-array-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    },
+    {
+      "name": "Doubly-Linked List",
+      "slug": "doubly-linked-list"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "Given an array nums, you can perform the following operation any number of times:\n\n• Select the adjacent pair with the minimum sum in nums. If multiple such pairs exist, choose the leftmost one.\n\n• Replace the pair with their sum.\n\nReturn the minimum number of operations needed to make the array non-decreasing.\n\nAn array is said to be non-decreasing if each element is greater than or equal to its previous element (if it exists).\n\nExample 1:\n\nInput: nums = [5,2,3,1]\n\nOutput: 2\n\nExplanation:\n\n• The pair (3,1) has the minimum sum of 4. After replacement, nums = [5,2,4].\n\n• The pair (2,4) has the minimum sum of 6. After replacement, nums = [5,6].\n\nThe array nums became non-decreasing in two operations.\n\nExample 2:\n\nInput: nums = [1,2,2]\n\nOutput: 0\n\nExplanation: The array nums is already sorted.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumPairRemoval(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can perform the simulation using data structures.",
+    "Maintain an array index and value using a map since we need to find the next and previous ones.",
+    "Maintain the indices to be removed using a hash set.",
+    "Maintain the neighbor sums with the smaller indices (set or priority queue).",
+    "Keep the 3 structures in sync during the removals."
+  ],
+  "testCases": [
+    [
+      "[5,2,3,1]"
+    ],
+    [
+      "[1,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumPairRemoval(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        from heapq import heappush, heappop\n        \n        # Track indices and their neighbors\n        index_to_val = {i: nums[i] for i in range(len(nums))}\n        # Map to track next and previous indices\n        neighbors = {i: [i-1 if i > 0 else None, i+1 if i < len(nums)-1 else None] \n                     for i in range(len(nums))}\n        \n        # Min heap to store sums with index (maintaining left index)\n        min_heap = []\n        removed = set()\n        \n        # Initialize heap with all adjacent pairs\n        for i in range(len(nums) - 1):\n            heappush(min_heap, (nums[i] + nums[i+1], i, nums[i], nums[i+1]))\n        \n        operations = 0\n        \n        while min_heap:\n            min_sum, idx, left_val, right_val = heappop(min_heap)\n            \n            # Skip if either element has been removed\n            if idx in removed or idx + 1 in removed:\n                continue\n            \n            if idx + 1 in index_to_val and idx in index_to_val:\n                # Check if array is sorted\n                is_sorted = True\n                sorted_indices = sorted([i for i in index_to_val if i not in removed])\n                for k in range(len(sorted_indices) - 1):\n                    if index_to_val[sorted_indices[k]] > index_to_val[sorted_indices[k+1]]:\n                        is_sorted = False\n                        break\n                \n                if is_sorted:\n                    break\n                \n                # Perform the operation\n                new_val = left_val + right_val\n                index_to_val[idx] = new_val\n                removed.add(idx + 1)\n                operations += 1\n                \n                # Add new adjacent pairs to heap\n                if idx > 0 and idx - 1 not in removed:\n                    heappush(min_heap, (index_to_val[idx-1] + new_val, idx-1, \n                                       index_to_val[idx-1], new_val))\n        \n        return operations",
+    "explanation": "This solution simulates the greedy pairing process:\n\n1. **Data Structures**: Use a min-heap to efficiently find the pair with minimum sum, and maintain index mappings to track which elements have been removed.\n\n2. **Greedy Strategy**: Always select the leftmost pair with minimum sum, as specified in the problem.\n\n3. **Heap Operations**:\n   - Initialize with all adjacent pairs\n   - Extract minimum pair\n   - Skip if either element has been removed\n   - Perform replacement\n   - Add new adjacent pairs created by the replacement\n\n4. **Termination**: Stop when the array becomes non-decreasing.\n\n5. **Tracking**: Use a set to track removed indices and a dictionary to maintain current values.\n\nTime Complexity: O(n² log n) in worst case\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[]"
+}

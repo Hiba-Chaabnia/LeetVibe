@@ -1,0 +1,39 @@
+{
+  "questionId": "851",
+  "title": "Goat Latin",
+  "titleSlug": "goat-latin",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string sentence that consist of words separated by spaces. Each word consists of lowercase and uppercase letters only.\n\nWe would like to convert the sentence to \"Goat Latin\" (a made-up language similar to Pig Latin.) The rules of Goat Latin are as follows:\n\n• If a word begins with a vowel ('a', 'e', 'i', 'o', or 'u'), append \"ma\" to the end of the word.\n\n• For example, the word \"apple\" becomes \"applema\".\n\n• If a word begins with a consonant (i.e., not a vowel), remove the first letter and append it to the end, then add \"ma\".\n\n• For example, the word \"goat\" becomes \"oatgma\".\n\n• Add one letter 'a' to the end of each word per its word index in the sentence, starting with 1.\n\n• For example, the first word gets \"a\" added to the end, the second word gets \"aa\" added to the end, and so on.\n\nReturn the final sentence representing the conversion from sentence to Goat Latin.\n\nExample 1:\n\nInput: sentence = \"I speak Goat Latin\"\nOutput: \"Imaa peaksmaaa oatGmaaaa atinLmaaaaa\"\nExample 2:\n\nInput: sentence = \"The quick brown fox jumped over the lazy dog\"\nOutput: \"heTmaa uickqmaaa rownbmaaaa oxfmaaaaa umpedjmaaaaaa overmaaaaaaa hetmaaaaaaaa azylmaaaaaaaaa ogdmaaaaaaaaaa\"\n\nConstraints:\n\n• 1 <= sentence.length <= 150\n\n• sentence consists of English letters and spaces.\n\n• sentence has no leading or trailing spaces.\n\n• All the words in sentence are separated by a single space.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def toGoatLatin(self, sentence):\n        \"\"\"\n        :type sentence: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"I speak Goat Latin\""
+    ],
+    [
+      "\"The quick brown fox jumped over the lazy dog\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Imaa peaksmaaa oatGmaaaa atinLmaaaaa\"",
+    "\"heTmaa uickqmaaa rownbmaaaa oxfmaaaaa umpedjmaaaaaa overmaaaaaaa hetmaaaaaaaa azylmaaaaaaaaa ogdmaaaaaaaaaa\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def toGoatLatin(self, sentence):\n        vowels = set('aeiouAEIOU')\n        words = sentence.split()\n        result = []\n        for i, word in enumerate(words):\n            if word[0] in vowels:\n                new_word = word + 'ma'\n            else:\n                new_word = word[1:] + word[0] + 'ma'\n            new_word += 'a' * (i + 1)\n            result.append(new_word)\n        return ' '.join(result)",
+    "explanation": "For each word: vowel→add 'ma', consonant→move first to end, add 'ma', then add i 'a's.\nTime: O(n*m) where n=words, m=avg word length\nSpace: O(n*m)"
+  },
+  "similarQuestions": "[]"
+}

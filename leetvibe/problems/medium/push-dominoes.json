@@ -1,0 +1,47 @@
+{
+  "questionId": "868",
+  "title": "Push Dominoes",
+  "titleSlug": "push-dominoes",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "There are n dominoes in a line, and we place each domino vertically upright. In the beginning, we simultaneously push some of the dominoes either to the left or to the right.\n\nAfter each second, each domino that is falling to the left pushes the adjacent domino on the left. Similarly, the dominoes falling to the right push their adjacent dominoes standing on the right.\n\nWhen a vertical domino has dominoes falling on it from both sides, it stays still due to the balance of the forces.\n\nFor the purposes of this question, we will consider that a falling domino expends no additional force to a falling or already fallen domino.\n\nYou are given a string dominoes representing the initial state where:\n\n• dominoes[i] = 'L', if the ith domino has been pushed to the left,\n\n• dominoes[i] = 'R', if the ith domino has been pushed to the right, and\n\n• dominoes[i] = '.', if the ith domino has not been pushed.\n\nReturn a string representing the final state.\n\nExample 1:\n\nInput: dominoes = \"RR.L\"\nOutput: \"RR.L\"\nExplanation: The first domino expends no additional force on the second domino.\n\nExample 2:\n\nInput: dominoes = \".L.R...LR..L..\"\nOutput: \"LL.RR.LLRRLL..\"\n\nConstraints:\n\n• n == dominoes.length\n\n• 1 <= n <= 105\n\n• dominoes[i] is either 'L', 'R', or '.'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def pushDominoes(self, dominoes):\n        \"\"\"\n        :type dominoes: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"RR.L\""
+    ],
+    [
+      "\".L.R...LR..L..\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"RR.L\"",
+    "\"LL.RR.LLRRLL..\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def pushDominoes(dominoes: str) -> str:\n    n = len(dominoes)\n    forces = [0] * n\n    \n    force = 0\n    for i in range(n):\n        if dominoes[i] == 'R':\n            force = n\n        elif dominoes[i] == 'L':\n            force = 0\n        else:\n            force = max(force - 1, 0)\n        forces[i] += force\n    \n    force = 0\n    for i in range(n - 1, -1, -1):\n        if dominoes[i] == 'L':\n            force = n\n        elif dominoes[i] == 'R':\n            force = 0\n        else:\n            force = max(force - 1, 0)\n        forces[i] -= force\n    \n    return \"\".join(['R' if f > 0 else 'L' if f < 0 else '.' for f in forces])",
+    "explanation": "We will use two-pass mechanism:\n1. Pass from left to right - calculate the force exerted by 'R' dominoes to 'L' dominoes.\n2. Pass from right to left - calculate the force exerted by 'L' dominoes to 'R' dominoes and subtract it from the previous force (from pass 1)\n3. Use the final force information to output the final state of dominoes:\n    - if force > 0, it's 'R'\n    - if force < 0, it's 'L'\n    - if force == 0, it's '.'"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "895",
+  "title": "Shortest Path to Get All Keys",
+  "titleSlug": "shortest-path-to-get-all-keys",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n grid grid where:\n\n• '.' is an empty cell.\n\n• '#' is a wall.\n\n• '@' is the starting point.\n\n• Lowercase letters represent keys.\n\n• Uppercase letters represent locks.\n\nYou start at the starting point and one move consists of walking one space in one of the four cardinal directions. You cannot walk outside the grid, or walk into a wall.\n\nIf you walk over a key, you can pick it up and you cannot walk over a lock unless you have its corresponding key.\n\nFor some 1 <= k <= 6, there is exactly one lowercase and one uppercase letter of the first k letters of the English alphabet in the grid. This means that there is exactly one key for each lock, and one lock for each key; and also that the letters used to represent the keys and locks were chosen in the same order as the English alphabet.\n\nReturn the lowest number of moves to acquire all keys. If it is impossible, return -1.\n\nExample 1:\n\nInput: grid = [\"@.a..\",\"###.#\",\"b.A.B\"]\nOutput: 8\nExplanation: Note that the goal is to obtain all the keys not to open all the locks.\n\nExample 2:\n\nInput: grid = [\"@..aA\",\"..B#.\",\"....b\"]\nOutput: 6\n\nExample 3:\n\nInput: grid = [\"@Aa\"]\nOutput: -1\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 30\n\n• grid[i][j] is either an English letter, '.', '#', or '@'.\n\n• There is exactly one '@' in the grid.\n\n• The number of keys in the grid is in the range [1, 6].\n\n• Each key in the grid is unique.\n\n• Each key in the grid has a matching lock.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestPathAllKeys(self, grid):\n        \"\"\"\n        :type grid: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"@.a..\",\"###.#\",\"b.A.B\"]"
+    ],
+    [
+      "[\"@..aA\",\"..B#.\",\"....b\"]"
+    ],
+    [
+      "[\"@Aa\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "6",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

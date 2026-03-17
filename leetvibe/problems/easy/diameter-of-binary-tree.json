@@ -1,0 +1,47 @@
+{
+  "questionId": "543",
+  "title": "Diameter of Binary Tree",
+  "titleSlug": "diameter-of-binary-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the length of the diameter of the tree.\n\nThe diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.\n\nThe length of a path between two nodes is represented by the number of edges between them.\n\nExample 1:\n\nInput: root = [1,2,3,4,5]\nOutput: 3\nExplanation: 3 is the length of the path [4,2,1,3] or [5,2,1,3].\n\nExample 2:\n\nInput: root = [1,2]\nOutput: 1\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 104].\n\n• -100 <= Node.val <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def diameterOfBinaryTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def diameterOfBinaryTree(self, root):\n        self.diameter = 0\n        def dfs(node):\n            if not node:\n                return 0\n            left_depth = dfs(node.left)\n            right_depth = dfs(node.right)\n            self.diameter = max(self.diameter, left_depth + right_depth)\n            return max(left_depth, right_depth) + 1\n        dfs(root)\n        return self.diameter",
+    "explanation": "DFS: at each node, diameter = left_depth + right_depth. Track max diameter.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[{\"title\": \"Diameter of N-Ary Tree\", \"titleSlug\": \"diameter-of-n-ary-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Path With Different Adjacent Characters\", \"titleSlug\": \"longest-path-with-different-adjacent-characters\", \"difficulty\": \"Hard\"}]"
+}

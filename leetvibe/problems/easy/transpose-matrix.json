@@ -1,0 +1,49 @@
+{
+  "questionId": "898",
+  "title": "Transpose Matrix",
+  "titleSlug": "transpose-matrix",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given a 2D integer array matrix, return the transpose of matrix.\n\nThe transpose of a matrix is the matrix flipped over its main diagonal, switching the matrix's row and column indices.\n\nExample 1:\n\nInput: matrix = [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [[1,4,7],[2,5,8],[3,6,9]]\n\nExample 2:\n\nInput: matrix = [[1,2,3],[4,5,6]]\nOutput: [[1,4],[2,5],[3,6]]\n\nConstraints:\n\n• m == matrix.length\n\n• n == matrix[i].length\n\n• 1 <= m, n <= 1000\n\n• 1 <= m * n <= 105\n\n• -109 <= matrix[i][j] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def transpose(self, matrix):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We don't need any special algorithms to do this. You just need to know what the transpose of a matrix looks like. Rows become columns and vice versa!"
+  ],
+  "testCases": [
+    [
+      "[[1,2,3],[4,5,6],[7,8,9]]"
+    ],
+    [
+      "[[1,2,3],[4,5,6]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,4,7],[2,5,8],[3,6,9]]",
+    "[[1,4],[2,5],[3,6]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def transpose(self, matrix):\n        m, n = len(matrix), len(matrix[0])\n        result = [[0] * m for _ in range(n)]\n        for i in range(m):\n            for j in range(n):\n                result[j][i] = matrix[i][j]\n        return result",
+    "explanation": "Swap rows and columns. Create n×m matrix from m×n matrix.\nTime: O(m*n)\nSpace: O(m*n)"
+  },
+  "similarQuestions": "[]"
+}

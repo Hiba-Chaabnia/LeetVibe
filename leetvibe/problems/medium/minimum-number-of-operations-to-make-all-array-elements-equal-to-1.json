@@ -1,0 +1,50 @@
+{
+  "questionId": "2753",
+  "title": "Minimum Number of Operations to Make All Array Elements Equal to 1",
+  "titleSlug": "minimum-number-of-operations-to-make-all-array-elements-equal-to-1",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given a 0-indexed array nums consisting of positive integers. You can do the following operation on the array any number of times:\n\n• Select an index i such that 0 <= i < n - 1 and replace either of nums[i] or nums[i+1] with their gcd value.\n\nReturn the minimum number of operations to make all elements of nums equal to 1. If it is impossible, return -1.\n\nThe gcd of two integers is the greatest common divisor of the two integers.\n\nExample 1:\n\nInput: nums = [2,6,3,4]\nOutput: 4\nExplanation: We can do the following operations:\n    - Choose index i = 2 and replace nums[2] with gcd(3,4) = 1. Now we have nums = [2,6,1,4].\n    - Choose index i = 1 and replace nums[1] with gcd(6,1) = 1. Now we have nums = [2,1,1,4].\n    - Choose index i = 0 and replace nums[0] with gcd(2,1) = 1. Now we have nums = [1,1,1,4].\n    - Choose index i = 2 and replace nums[3] with gcd(1,4) = 1. Now we have nums = [1,1,1,1].\n\nExample 2:\n\nInput: nums = [2,10,6,14]\nOutput: -1\nExplanation: It can be shown that it is impossible to make all the elements equal to 1.\n\nConstraints:\n\n• 2 <= nums.length <= 50\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that if you have at least one occurrence of 1 in the array, then you can make all the other elements equal to 1 with one operation each.",
+    "Try finding the shortest subarray with a gcd equal to 1."
+  ],
+  "testCases": [
+    [
+      "[2,6,3,4]"
+    ],
+    [
+      "[2,10,6,14]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from math import gcd\n\nclass Solution(object):\n    def minOperations(self, nums):\n        n = len(nums)\n        ones = nums.count(1)\n        if ones > 0:\n            return n - ones\n        min_len = float('inf')\n        for i in range(n):\n            g = nums[i]\n            for j in range(i, n):\n                g = gcd(g, nums[j])\n                if g == 1:\n                    min_len = min(min_len, j - i + 1)\n                    break\n        if min_len == float('inf'):\n            return -1\n        return (min_len - 1) + (n - 1)",
+    "explanation": "If a 1 already exists, each non-1 element needs one op to become 1 (gcd with 1). Otherwise find the shortest subarray with GCD==1: it takes (len-1) ops to produce a 1, then (n-1) ops to spread it. If GCD of entire array > 1, return -1.\n\nTime: O(n^2). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

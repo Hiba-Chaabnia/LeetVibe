@@ -1,0 +1,43 @@
+{
+  "questionId": "624",
+  "title": "Maximum Distance in Arrays",
+  "titleSlug": "maximum-distance-in-arrays",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given m arrays, where each array is sorted in ascending order.\n\nYou can pick up two integers from two different arrays (each array picks one) and calculate the distance. We define the distance between two integers a and b to be their absolute difference |a - b|.\n\nReturn the maximum distance.\n\nExample 1:\n\nInput: arrays = [[1,2,3],[4,5],[1,2,3]]\nOutput: 4\nExplanation: One way to reach the maximum distance 4 is to pick 1 in the first or third array and pick 5 in the second array.\n\nExample 2:\n\nInput: arrays = [[1],[1]]\nOutput: 0\n\nConstraints:\n\n• m == arrays.length\n\n• 2 <= m <= 105\n\n• 1 <= arrays[i].length <= 500\n\n• -104 <= arrays[i][j] <= 104\n\n• arrays[i] is sorted in ascending order.\n\n• There will be at most 105 integers in all the arrays.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxDistance(self, arrays):\n        \"\"\"\n        :type arrays: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2,3],[4,5],[1,2,3]]"
+    ],
+    [
+      "[[1],[1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxDistance(arrays: List[List[int]]) -> int:\n    max_dist = 0\n    min_val = arrays[0][0]\n    max_val = arrays[0][-1]\n    \n    for arr in arrays[1:]:\n        max_dist = max(max_dist, max(abs(arr[-1] - min_val), abs(max_val - arr[0])))\n        min_val = min(min_val, arr[0])\n        max_val = max(max_val, arr[-1])\n        \n    return max_dist",
+    "explanation": "We start by initializing the `max_dist` as 0, and get the minimum and maximum values from the first array in the list. Then, we iterate through the other arrays starting from index 1. For each array, we calculate the maximum distance between the current minimum value and the last element of that array, or the current maximum value and the first element of the current array. Using the calculated maximum distance, we update the maximum distance `max_dist` if it exceeds the current value. Finally, we update the minimum and maximum values with the minimum and maximum of the current array. This approach ensures that we are considering the possible array combinations without calculating every possible pair."
+  },
+  "similarQuestions": "[]"
+}

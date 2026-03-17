@@ -1,0 +1,59 @@
+{
+  "questionId": "187",
+  "title": "Repeated DNA Sequences",
+  "titleSlug": "repeated-dna-sequences",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "The DNA sequence is composed of a series of nucleotides abbreviated as 'A', 'C', 'G', and 'T'.\n\n• For example, \"ACGAATTCCG\" is a DNA sequence.\n\nWhen studying DNA, it is useful to identify repeated sequences within the DNA.\n\nGiven a string s that represents a DNA sequence, return all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule. You may return the answer in any order.\n\nExample 1:\n\nInput: s = \"AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT\"\nOutput: [\"AAAAACCCCC\",\"CCCCCAAAAA\"]\nExample 2:\n\nInput: s = \"AAAAAAAAAAAAA\"\nOutput: [\"AAAAAAAAAA\"]\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s[i] is either 'A', 'C', 'G', or 'T'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findRepeatedDnaSequences(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT\""
+    ],
+    [
+      "\"AAAAAAAAAAAAA\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"AAAAACCCCC\",\"CCCCCAAAAA\"]",
+    "[\"AAAAAAAAAA\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\ndef findRepeatedDnaSequences(s: str):\n    dna_counter = defaultdict(int)\n    result = []\n\n    for i in range(len(s) - 9):\n        sequence = s[i:i + 10]\n        dna_counter[sequence] += 1\n        if dna_counter[sequence] == 2:\n            result.append(sequence)\n\n    return result",
+    "explanation": "The algorithm iterates through the input DNA sequence `s` and extracts 10-letter-long substrings. It then uses a hashmap/dictionary to count the occurrences of each substring. If the count for a specific substring becomes 2, it adds the substring to the result list. The defaultdict in Python and Map in JavaScript handle default values automatically when incrementing the counts. \n\nOnce the loop finishes, the result list contains all 10-letter-long DNA sequences that have occurred more than once."
+  },
+  "similarQuestions": "[]"
+}

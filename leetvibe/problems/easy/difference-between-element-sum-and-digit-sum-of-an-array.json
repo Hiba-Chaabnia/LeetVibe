@@ -1,0 +1,46 @@
+{
+  "questionId": "2624",
+  "title": "Difference Between Element Sum and Digit Sum of an Array",
+  "titleSlug": "difference-between-element-sum-and-digit-sum-of-an-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given a positive integer array nums.\n\n• The element sum is the sum of all the elements in nums.\n\n• The digit sum is the sum of all the digits (not necessarily distinct) that appear in nums.\n\nReturn the absolute difference between the element sum and digit sum of nums.\n\nNote that the absolute difference between two integers x and y is defined as |x - y|.\n\nExample 1:\n\nInput: nums = [1,15,6,3]\nOutput: 9\nExplanation:\n    The element sum of nums is 1 + 15 + 6 + 3 = 25.\n    The digit sum of nums is 1 + 1 + 5 + 6 + 3 = 16.\n    The absolute difference between the element sum and digit sum is |25 - 16| = 9.\n\nExample 2:\n\nInput: nums = [1,2,3,4]\nOutput: 0\nExplanation:\n    The element sum of nums is 1 + 2 + 3 + 4 = 10.\n    The digit sum of nums is 1 + 2 + 3 + 4 = 10.\n    The absolute difference between the element sum and digit sum is |10 - 10| = 0.\n\nConstraints:\n\n• 1 <= nums.length <= 2000\n\n• 1 <= nums[i] <= 2000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def differenceOfSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a simple for loop to iterate each number.",
+    "How you can get the digit for each number?"
+  ],
+  "testCases": [
+    [
+      "[1,15,6,3]"
+    ],
+    [
+      "[1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def differenceOfSum(self, nums):\n        element_sum = sum(nums)\n        digit_sum = sum(int(d) for num in nums for d in str(num))\n        return abs(element_sum - digit_sum)",
+    "explanation": "Element sum: sum of all numbers. Digit sum: sum of all digits. Return absolute difference.\nTime: O(n * d) where d is max digits\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Add Digits\", \"titleSlug\": \"add-digits\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Sum of Four Digit Number After Splitting Digits\", \"titleSlug\": \"minimum-sum-of-four-digit-number-after-splitting-digits\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,56 @@
+{
+  "questionId": "852",
+  "title": "Friends Of Appropriate Ages",
+  "titleSlug": "friends-of-appropriate-ages",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "There are n persons on a social media website. You are given an integer array ages where ages[i] is the age of the ith person.\n\nA Person x will not send a friend request to a person y (x != y) if any of the following conditions is true:\n\n• age[y] <= 0.5 * age[x] + 7\n\n• age[y] > age[x]\n\n• age[y] > 100 && age[x] < 100\n\nOtherwise, x will send a friend request to y.\n\nNote that if x sends a request to y, y will not necessarily send a request to x. Also, a person will not send a friend request to themself.\n\nReturn the total number of friend requests made.\n\nExample 1:\n\nInput: ages = [16,16]\nOutput: 2\nExplanation: 2 people friend request each other.\n\nExample 2:\n\nInput: ages = [16,17,18]\nOutput: 2\nExplanation: Friend requests are made 17 -> 16, 18 -> 17.\n\nExample 3:\n\nInput: ages = [20,30,100,110,120]\nOutput: 3\nExplanation: Friend requests are made 110 -> 100, 120 -> 110, 120 -> 100.\n\nConstraints:\n\n• n == ages.length\n\n• 1 <= n <= 2 * 104\n\n• 1 <= ages[i] <= 120",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numFriendRequests(self, ages):\n        \"\"\"\n        :type ages: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[16,16]"
+    ],
+    [
+      "[16,17,18]"
+    ],
+    [
+      "[20,30,100,110,120]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def numFriendRequests(self, ages):\n        \"\"\"\n        :type ages: List[int]\n        :rtype: int\n        \"\"\"\n        count = [0] * 121\n        for age in ages:\n            count[age] += 1\n        \n        requests = 0\n        for age in range(1, 121):\n            if count[age] == 0:\n                continue\n            \n            # Can send to people with age > 0.5*age + 7 and age <= age\n            min_age = age // 2 + 7\n            \n            if min_age < age:\n                # Count people in valid range\n                valid_count = sum(count[min_age+1:age+1]) - 1  # Exclude self\n                requests += count[age] * valid_count\n        \n        return requests",
+    "explanation": "For each age, count friend requests it can send. Use prefix sums for efficiency with age range 1-120.",
+    "complexity": "Time: O(n + 120²). Space: O(120)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,67 @@
+{
+  "questionId": "3959",
+  "title": "Maximum Total from Optimal Activation Order",
+  "titleSlug": "maximum-total-from-optimal-activation-order",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given two integer arrays value and limit, both of length n.\n\nInitially, all elements are inactive. You may activate them in any order.\n\n• To activate an inactive element at index i, the number of currently active elements must be strictly less than limit[i].\n\n• When you activate the element at index i, it adds value[i] to the total activation value (i.e., the sum of value[i] for all elements that have undergone activation operations).\n\n• After each activation, if the number of currently active elements becomes x, then all elements j with limit[j] <= x become permanently inactive, even if they are already active.\n\nReturn the maximum total you can obtain by choosing the activation order optimally.\n\nExample 1:\n\nInput: value = [3,5,8], limit = [2,1,3]\n\nOutput: 16\n\nExplanation: One optimal activation order is:\n\n\t\t\t\tStep\n\t\t\t\tActivated i\n\t\t\t\tvalue[i]\n\t\t\t\tActive Before i\n\t\t\t\tActive After i\n\t\t\t\tBecomes Inactive j\n\t\t\t\tInactive Elements\n\t\t\t\tTotal\n\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t5\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\tj = 1 as limit[1] = 1\n\t\t\t\t[1]\n\t\t\t\t5\n\n\t\t\t\t2\n\t\t\t\t0\n\t\t\t\t3\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t-\n\t\t\t\t[1]\n\t\t\t\t8\n\n\t\t\t\t3\n\t\t\t\t2\n\t\t\t\t8\n\t\t\t\t1\n\t\t\t\t2\n\t\t\t\tj = 0 as limit[0] = 2\n\t\t\t\t[0, 1]\n\t\t\t\t16\n\nThus, the maximum possible total is 16.\n\nExample 2:\n\nInput: value = [4,2,6], limit = [1,1,1]\n\nOutput: 6\n\nExplanation: One optimal activation order is:\n\n\t\t\t\tStep\n\t\t\t\tActivated i\n\t\t\t\tvalue[i]\n\t\t\t\tActive Before i\n\t\t\t\tActive After i\n\t\t\t\tBecomes Inactive j\n\t\t\t\tInactive Elements\n\t\t\t\tTotal\n\n\t\t\t\t1\n\t\t\t\t2\n\t\t\t\t6\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\tj = 0, 1, 2 as limit[j] = 1\n\t\t\t\t[0, 1, 2]\n\t\t\t\t6\n\nThus, the maximum possible total is 6.\n\nExample 3:\n\nInput: value = [4,1,5,2], limit = [3,3,2,3]\n\nOutput: 12\n\nExplanation: One optimal activation order is:​​​​​​​​​​​​​​\n\n\t\t\t\tStep\n\t\t\t\tActivated i\n\t\t\t\tvalue[i]\n\t\t\t\tActive Before i\n\t\t\t\tActive After i\n\t\t\t\tBecomes Inactive j\n\t\t\t\tInactive Elements\n\t\t\t\tTotal\n\n\t\t\t\t1\n\t\t\t\t2\n\t\t\t\t5\n\t\t\t\t0\n\t\t\t\t1\n\t\t\t\t-\n\t\t\t\t[ ]\n\t\t\t\t5\n\n\t\t\t\t2\n\t\t\t\t0\n\t\t\t\t4\n\t\t\t\t1\n\t\t\t\t2\n\t\t\t\tj = 2 as limit[2] = 2\n\t\t\t\t[2]\n\t\t\t\t9\n\n\t\t\t\t3\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t2\n\t\t\t\t-\n\t\t\t\t[2]\n\t\t\t\t10\n\n\t\t\t\t4\n\t\t\t\t3\n\t\t\t\t2\n\t\t\t\t2\n\t\t\t\t3\n\t\t\t\tj = 0, 1, 3 as limit[j] = 3\n\t\t\t\t[0, 1, 2, 3]\n\t\t\t\t12\n\nThus, the maximum possible total is 12.\n\nConstraints:\n\n• 1 <= n == value.length == limit.length <= 105\n\n• 1 <= value[i] <= 105​​​​​​​\n\n• 1 <= limit[i] <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxTotal(self, value, limit):\n        \"\"\"\n        :type value: List[int]\n        :type limit: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Group the items by their limit values, as decisions for each limit are independent.",
+    "For a group with limit = j and m items, its contribution is the sum of the top min(j, m) values.",
+    "To extract each group's top values, use a min-heap of capacity j: push each value[i], and whenever the heap size exceeds j, pop the smallest.",
+    "After processing a group's heap, sum its elements and add to the overall total; repeat for all groups in any order."
+  ],
+  "testCases": [
+    [
+      "[3,5,8]",
+      "[2,1,3]"
+    ],
+    [
+      "[4,2,6]",
+      "[1,1,1]"
+    ],
+    [
+      "[4,1,5,2]",
+      "[3,3,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "16",
+    "6",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\nfrom collections import defaultdict\n\nclass Solution(object):\n    def maxTotal(self, value, limit):\n        # Group items by their limit value\n        groups = defaultdict(list)\n        for v, l in zip(value, limit):\n            groups[l].append(v)\n\n        total = 0\n        # For each group with limit j, we can activate at most j items from this group\n        # (must activate before the count reaches j).\n        # Use a min-heap of capacity j to keep the top j values.\n        for j, vals in groups.items():\n            heap = []\n            for v in vals:\n                heapq.heappush(heap, v)\n                if len(heap) > j:\n                    heapq.heappop(heap)  # remove smallest\n            total += sum(heap)\n\n        return total",
+    "explanation": "Key insight from hints: group items by their limit value. For a group with limit j, we can activate at most j items (we need fewer than j active before activating each one from this group). Use a min-heap of capacity j to keep the top j values. Sum all kept values across all groups.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

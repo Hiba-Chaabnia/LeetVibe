@@ -1,0 +1,57 @@
+{
+  "questionId": "750",
+  "title": "Contain Virus",
+  "titleSlug": "contain-virus",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "A virus is spreading rapidly, and your task is to quarantine the infected area by installing walls.\n\nThe world is modeled as an m x n binary grid isInfected, where isInfected[i][j] == 0 represents uninfected cells, and isInfected[i][j] == 1 represents cells contaminated with the virus. A wall (and only one wall) can be installed between any two 4-directionally adjacent cells, on the shared boundary.\n\nEvery night, the virus spreads to all neighboring cells in all four directions unless blocked by a wall. Resources are limited. Each day, you can install walls around only one region (i.e., the affected area (continuous block of infected cells) that threatens the most uninfected cells the following night). There will never be a tie.\n\nReturn the number of walls used to quarantine all the infected regions. If the world will become fully infected, return the number of walls used.\n\nExample 1:\n\nInput: isInfected = [[0,1,0,0,0,0,0,1],[0,1,0,0,0,0,0,1],[0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0]]\nOutput: 10\nExplanation: There are 2 contaminated regions.\n    On the first day, add 5 walls to quarantine the viral region on the left. The board after the virus spreads is:\n\n    On the second day, add 5 walls to quarantine the viral region on the right. The virus is fully contained.\n\nExample 2:\n\nInput: isInfected = [[1,1,1],[1,0,1],[1,1,1]]\nOutput: 4\nExplanation: Even though there is only one cell saved, there are 4 walls built.\n    Notice that walls are only built on the shared boundary of two different cells.\n\nExample 3:\n\nInput: isInfected = [[1,1,1,0,0,0,0,0,0],[1,0,1,0,1,1,1,1,1],[1,1,1,0,0,0,0,0,0]]\nOutput: 13\nExplanation: The region on the left only builds two new walls.\n\nConstraints:\n\n• m == isInfected.length\n\n• n == isInfected[i].length\n\n• 1 <= m, n <= 50\n\n• isInfected[i][j] is either 0 or 1.\n\n• There is always a contiguous viral region throughout the described process that will infect strictly more uncontaminated squares in the next round.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def containVirus(self, isInfected):\n        \"\"\"\n        :type isInfected: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The implementation is long - we want to perfrom the following steps:\r\n\r\n* Find all viral regions (connected components), additionally for each region keeping track of the frontier (neighboring uncontaminated cells), and the perimeter of the region.\r\n\r\n* Disinfect the most viral region, adding it's perimeter to the answer.\r\n\r\n* Spread the virus in the remaining regions outward by 1 square."
+  ],
+  "testCases": [
+    [
+      "[[0,1,0,0,0,0,0,1],[0,1,0,0,0,0,0,1],[0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0]]"
+    ],
+    [
+      "[[1,1,1],[1,0,1],[1,1,1]]"
+    ],
+    [
+      "[[1,1,1,0,0,0,0,0,0],[1,0,1,0,1,1,1,1,1],[1,1,1,0,0,0,0,0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "10",
+    "4",
+    "13"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count the Number of Infection Sequences\", \"titleSlug\": \"count-the-number-of-infection-sequences\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,55 @@
+{
+  "questionId": "1808",
+  "title": "Stone Game VII",
+  "titleSlug": "stone-game-vii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "Alice and Bob take turns playing a game, with Alice starting first.\n\nThere are n stones arranged in a row. On each player's turn, they can remove either the leftmost stone or the rightmost stone from the row and receive points equal to the sum of the remaining stones' values in the row. The winner is the one with the higher score when there are no stones left to remove.\n\nBob found that he will always lose this game (poor Bob, he always loses), so he decided to minimize the score's difference. Alice's goal is to maximize the difference in the score.\n\nGiven an array of integers stones where stones[i] represents the value of the ith stone from the left, return the difference in Alice and Bob's score if they both play optimally.\n\nExample 1:\n\nInput: stones = [5,3,1,4,2]\nOutput: 6\nExplanation:\n    - Alice removes 2 and gets 5 + 3 + 1 + 4 = 13 points. Alice = 13, Bob = 0, stones = [5,3,1,4].\n    - Bob removes 5 and gets 3 + 1 + 4 = 8 points. Alice = 13, Bob = 8, stones = [3,1,4].\n    - Alice removes 3 and gets 1 + 4 = 5 points. Alice = 18, Bob = 8, stones = [1,4].\n    - Bob removes 1 and gets 4 points. Alice = 18, Bob = 12, stones = [4].\n    - Alice removes 4 and gets 0 points. Alice = 18, Bob = 12, stones = [].\n    The score difference is 18 - 12 = 6.\n\nExample 2:\n\nInput: stones = [7,90,5,1,100,10,10,2]\nOutput: 122\n\nConstraints:\n\n• n == stones.length\n\n• 2 <= n <= 1000\n\n• 1 <= stones[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def stoneGameVII(self, stones):\n        \"\"\"\n        :type stones: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints are small enough for an N^2 solution.",
+    "Try using dynamic programming."
+  ],
+  "testCases": [
+    [
+      "[5,3,1,4,2]"
+    ],
+    [
+      "[7,90,5,1,100,10,10,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "122"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def stoneGameVII(self, stones):\n        \"\"\"\n        :type stones: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(stones)\n        memo = {}\n        prefix = [0] * (n + 1)\n        \n        for i in range(n):\n            prefix[i + 1] = prefix[i] + stones[i]\n        \n        def dp(i, j):\n            if i >= j:\n                return 0\n            if (i, j) in memo:\n                return memo[(i, j)]\n            \n            # Remove left or right\n            left = prefix[j + 1] - prefix[i + 1] - dp(i + 1, j)\n            right = prefix[j] - prefix[i] - dp(i, j - 1)\n            \n            result = max(left, right)\n            memo[(i, j)] = result\n            return result\n        \n        return dp(0, n - 1)",
+    "explanation": "DP: remove left/right stone. Score = remaining sum - opponent's best.",
+    "complexity": "Time: O(n²). Space: O(n²)."
+  },
+  "similarQuestions": "[{\"title\": \"Stone Game\", \"titleSlug\": \"stone-game\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game II\", \"titleSlug\": \"stone-game-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game III\", \"titleSlug\": \"stone-game-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IV\", \"titleSlug\": \"stone-game-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game V\", \"titleSlug\": \"stone-game-v\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game VI\", \"titleSlug\": \"stone-game-vi\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Score from Performing Multiplication Operations\", \"titleSlug\": \"maximum-score-from-performing-multiplication-operations\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game VIII\", \"titleSlug\": \"stone-game-viii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IX\", \"titleSlug\": \"stone-game-ix\", \"difficulty\": \"Medium\"}]"
+}

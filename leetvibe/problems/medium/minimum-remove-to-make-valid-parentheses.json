@@ -1,0 +1,50 @@
+{
+  "questionId": "1371",
+  "title": "Minimum Remove to Make Valid Parentheses",
+  "titleSlug": "minimum-remove-to-make-valid-parentheses",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "Given a string s of '(' , ')' and lowercase English characters.\n\nYour task is to remove the minimum number of parentheses ( '(' or ')', in any positions ) so that the resulting parentheses string is valid and return any valid string.\n\nFormally, a parentheses string is valid if and only if:\n\n• It is the empty string, contains only lowercase characters, or\n\n• It can be written as AB (A concatenated with B), where A and B are valid strings, or\n\n• It can be written as (A), where A is a valid string.\n\nExample 1:\n\nInput: s = \"lee(t(c)o)de)\"\nOutput: \"lee(t(c)o)de\"\nExplanation: \"lee(t(co)de)\" , \"lee(t(c)ode)\" would also be accepted.\n\nExample 2:\n\nInput: s = \"a)b(c)d\"\nOutput: \"ab(c)d\"\n\nExample 3:\n\nInput: s = \"))((\"\nOutput: \"\"\nExplanation: An empty string is also valid.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s[i] is either '(' , ')', or lowercase English letter.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minRemoveToMakeValid(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Each prefix of a balanced parentheses has a number of open parentheses greater or equal than closed parentheses, similar idea with each suffix.",
+    "Check the array from left to right, remove characters that do not meet the property mentioned above, same idea in backward way."
+  ],
+  "testCases": [
+    [
+      "\"lee(t(c)o)de)\""
+    ],
+    [
+      "\"a)b(c)d\""
+    ],
+    [
+      "\"))((\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"lee(t(c)o)de\"",
+    "\"ab(c)d\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minRemoveToMakeValid(self, s):\n        stack = []\n        to_remove = set()\n        for i, c in enumerate(s):\n            if c == '(':\n                stack.append(i)\n            elif c == ')':\n                if stack:\n                    stack.pop()\n                else:\n                    to_remove.add(i)\n        to_remove.update(stack)\n        return ''.join(c for i, c in enumerate(s) if i not in to_remove)",
+    "explanation": "Scan left to right with a stack of unmatched '(' indices. On '(': push index. On ')': if stack non-empty, pop (matched); else mark ')' for removal. After scanning, any '(' remaining in the stack are unmatched and marked for removal. Reconstruct string skipping all marked indices. Only truly unmatched parentheses are removed.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Number of Swaps to Make the String Balanced\", \"titleSlug\": \"minimum-number-of-swaps-to-make-the-string-balanced\", \"difficulty\": \"Medium\"}, {\"title\": \"Check if a Parentheses String Can Be Valid\", \"titleSlug\": \"check-if-a-parentheses-string-can-be-valid\", \"difficulty\": \"Medium\"}]"
+}

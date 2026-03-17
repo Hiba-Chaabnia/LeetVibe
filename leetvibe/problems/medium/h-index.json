@@ -1,0 +1,51 @@
+{
+  "questionId": "274",
+  "title": "H-Index",
+  "titleSlug": "h-index",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting Sort",
+      "slug": "counting-sort"
+    }
+  ],
+  "content": "Given an array of integers citations where citations[i] is the number of citations a researcher received for their ith paper, return the researcher's h-index.\n\nAccording to the definition of h-index on Wikipedia: The h-index is defined as the maximum value of h such that the given researcher has published at least h papers that have each been cited at least h times.\n\nExample 1:\n\nInput: citations = [3,0,6,1,5]\nOutput: 3\nExplanation: [3,0,6,1,5] means the researcher has 5 papers in total and each of them had received 3, 0, 6, 1, 5 citations respectively.\n    Since the researcher has 3 papers with at least 3 citations each and the remaining two with no more than 3 citations each, their h-index is 3.\n\nExample 2:\n\nInput: citations = [1,3,1]\nOutput: 1\n\nConstraints:\n\n• n == citations.length\n\n• 1 <= n <= 5000\n\n• 0 <= citations[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def hIndex(self, citations):\n        \"\"\"\n        :type citations: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "An easy approach is to sort the array first.",
+    "What are the possible values of h-index?",
+    "A faster approach is to use extra space."
+  ],
+  "testCases": [
+    [
+      "[3,0,6,1,5]"
+    ],
+    [
+      "[1,3,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def hIndex(citations: List[int]) -> int:\n    citations.sort(reverse=True)\n    h = 0\n    for i, citation in enumerate(citations):\n        if citation >= i + 1:\n            h = i + 1\n        else:\n            break\n    return h",
+    "explanation": "1. First, we sort the citations array in descending order.\n2. Then, we iterate through the sorted array and compare each value with its index + 1 (zero-based index). If citations[i] is greater or equal to (i + 1), we update the h-index with the new value (i + 1). Otherwise, we break the loop since the maximum h-index is achieved.\n3. Finally, we return the h-index."
+  },
+  "similarQuestions": "[{\"title\": \"H-Index II\", \"titleSlug\": \"h-index-ii\", \"difficulty\": \"Medium\"}]"
+}

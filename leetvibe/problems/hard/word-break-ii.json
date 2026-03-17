@@ -1,0 +1,66 @@
+{
+  "questionId": "140",
+  "title": "Word Break II",
+  "titleSlug": "word-break-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "Given a string s and a dictionary of strings wordDict, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences in any order.\n\nNote that the same word in the dictionary may be reused multiple times in the segmentation.\n\nExample 1:\n\nInput: s = \"catsanddog\", wordDict = [\"cat\",\"cats\",\"and\",\"sand\",\"dog\"]\nOutput: [\"cats and dog\",\"cat sand dog\"]\n\nExample 2:\n\nInput: s = \"pineapplepenapple\", wordDict = [\"apple\",\"pen\",\"applepen\",\"pine\",\"pineapple\"]\nOutput: [\"pine apple pen apple\",\"pineapple pen apple\",\"pine applepen apple\"]\nExplanation: Note that you are allowed to reuse a dictionary word.\n\nExample 3:\n\nInput: s = \"catsandog\", wordDict = [\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]\nOutput: []\n\nConstraints:\n\n• 1 <= s.length <= 20\n\n• 1 <= wordDict.length <= 1000\n\n• 1 <= wordDict[i].length <= 10\n\n• s and wordDict[i] consist of only lowercase English letters.\n\n• All the strings of wordDict are unique.\n\n• Input is generated in a way that the length of the answer doesn't exceed 105.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def wordBreak(self, s, wordDict):\n        \"\"\"\n        :type s: str\n        :type wordDict: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"catsanddog\"",
+      "[\"cat\",\"cats\",\"and\",\"sand\",\"dog\"]"
+    ],
+    [
+      "\"pineapplepenapple\"",
+      "[\"apple\",\"pen\",\"applepen\",\"pine\",\"pineapple\"]"
+    ],
+    [
+      "\"catsandog\"",
+      "[\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"cats and dog\",\"cat sand dog\"]",
+    "[\"pine apple pen apple\",\"pineapple pen apple\",\"pine applepen apple\"]",
+    "[]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Word Break\", \"titleSlug\": \"word-break\", \"difficulty\": \"Medium\"}, {\"title\": \"Concatenated Words\", \"titleSlug\": \"concatenated-words\", \"difficulty\": \"Hard\"}]"
+}

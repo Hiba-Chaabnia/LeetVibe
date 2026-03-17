@@ -1,0 +1,45 @@
+{
+  "questionId": "3207",
+  "title": "Make Three Strings Equal",
+  "titleSlug": "make-three-strings-equal",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given three strings: s1, s2, and s3. In one operation you can choose one of these strings and delete its rightmost character. Note that you cannot completely empty a string.\n\nReturn the minimum number of operations required to make the strings equal. If it is impossible to make them equal, return -1.\n\nExample 1:\n\nInput: s1 = \"abc\", s2 = \"abb\", s3 = \"ab\"\n\nOutput: 2\n\nExplanation: Deleting the rightmost character from both s1 and s2 will result in three equal strings.\n\nExample 2:\n\nInput: s1 = \"dac\", s2 = \"bac\", s3 = \"cac\"\n\nOutput: -1\n\nExplanation: Since the first letters of s1 and s2 differ, they cannot be made equal.\n\nConstraints:\n\n• 1 <= s1.length, s2.length, s3.length <= 100\n\n• s1, s2 and s3 consist only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMinimumOperations(self, s1, s2, s3):\n        \"\"\"\n        :type s1: str\n        :type s2: str\n        :type s3: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Calculate the length of the longest common prefix of the 3 strings."
+  ],
+  "testCases": [
+    [
+      "\"abc\"",
+      "\"abb\"",
+      "\"ab\""
+    ],
+    [
+      "\"dac\"",
+      "\"bac\"",
+      "\"cac\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findMinimumOperations(self, s1, s2, s3):\n        L = 0\n        for a, b, c in zip(s1, s2, s3):\n            if a == b == c:\n                L += 1\n            else:\n                break\n        if L == 0:\n            return -1\n        return (len(s1) - L) + (len(s2) - L) + (len(s3) - L)",
+    "explanation": "Find the longest common prefix of all three strings; total deletions needed equals the sum of excess lengths. Return -1 if no common prefix exists. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Delete Operation for Two Strings\", \"titleSlug\": \"delete-operation-for-two-strings\", \"difficulty\": \"Medium\"}]"
+}

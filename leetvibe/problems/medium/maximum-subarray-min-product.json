@@ -1,0 +1,58 @@
+{
+  "questionId": "1985",
+  "title": "Maximum Subarray Min-Product",
+  "titleSlug": "maximum-subarray-min-product",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "The min-product of an array is equal to the minimum value in the array multiplied by the array's sum.\n\n• For example, the array [3,2,5] (minimum value is 2) has a min-product of 2 * (3+2+5) = 2 * 10 = 20.\n\nGiven an array of integers nums, return the maximum min-product of any non-empty subarray of nums. Since the answer may be large, return it modulo 109 + 7.\n\nNote that the min-product should be maximized before performing the modulo operation. Testcases are generated such that the maximum min-product without modulo will fit in a 64-bit signed integer.\n\nA subarray is a contiguous part of an array.\n\nExample 1:\n\nInput: nums = [1,2,3,2]\nOutput: 14\nExplanation: The maximum min-product is achieved with the subarray [2,3,2] (minimum value is 2).\n    2 * (2+3+2) = 2 * 7 = 14.\n\nExample 2:\n\nInput: nums = [2,3,3,1,2]\nOutput: 18\nExplanation: The maximum min-product is achieved with the subarray [3,3] (minimum value is 3).\n    3 * (3+3) = 3 * 6 = 18.\n\nExample 3:\n\nInput: nums = [3,1,5,6,4,2]\nOutput: 60\nExplanation: The maximum min-product is achieved with the subarray [5,6,4] (minimum value is 4).\n    4 * (5+6+4) = 4 * 15 = 60.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSumMinProduct(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Is there a way we can sort the elements to simplify the problem?",
+    "Can we find the maximum min-product for every value in the array?"
+  ],
+  "testCases": [
+    [
+      "[1,2,3,2]"
+    ],
+    [
+      "[2,3,3,1,2]"
+    ],
+    [
+      "[3,1,5,6,4,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "14",
+    "18",
+    "60"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxSumMinProduct(nums: list[int]) -> int:\n    MOD = int(1e9 + 7)\n    max_product = 0\n    stk = []\n    prefix_sum = [0] * (len(nums) + 1)\n\n    for i in range(len(nums)):\n        prefix_sum[i + 1] = prefix_sum[i] + nums[i]\n\n    for i in range(len(nums)):\n        while stk and nums[stk[-1]] > nums[i]:\n            min_val = nums[stk.pop()]\n            max_product = max(max_product, min_val * (prefix_sum[i] - prefix_sum[stk[-1] + 1 if stk else 0]))\n        stk.append(i)\n       \n    while stk:\n        min_val = nums[stk.pop()]\n        max_product = max(max_product, min_val * (prefix_sum[len(nums)] - prefix_sum[stk[-1] + 1 if stk else 0]))\n\n    return max_product % MOD",
+    "explanation": "1. Calculate the prefix sums for every element in the input array.\n2. Then, we iterate through the input array and maintain a decreasing monotonic stack.\n3. If the current element is lower than the top element of the stack, we calculate the maximum min-product for the top element by popping it from the stack.\n4. After processing all elements, we calculate the maximum min-product for the remaining elements in the stack.\n5. The time complexity is O(n) as we push and pop each element exactly once."
+  },
+  "similarQuestions": "[{\"title\": \"Subarray With Elements Greater Than Varying Threshold\", \"titleSlug\": \"subarray-with-elements-greater-than-varying-threshold\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "563",
+  "title": "Binary Tree Tilt",
+  "titleSlug": "binary-tree-tilt",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the sum of every tree node's tilt.\n\nThe tilt of a tree node is the absolute difference between the sum of all left subtree node values and all right subtree node values. If a node does not have a left child, then the sum of the left subtree node values is treated as 0. The rule is similar if the node does not have a right child.\n\nExample 1:\n\nInput: root = [1,2,3]\nOutput: 1\nExplanation:\n    Tilt of node 2 : |0-0| = 0 (no children)\n    Tilt of node 3 : |0-0| = 0 (no children)\n    Tilt of node 1 : |2-3| = 1 (left subtree is just left child, so sum is 2; right subtree is just right child, so sum is 3)\n    Sum of every tilt : 0 + 0 + 1 = 1\n\nExample 2:\n\nInput: root = [4,2,9,3,5,null,7]\nOutput: 15\nExplanation:\n    Tilt of node 3 : |0-0| = 0 (no children)\n    Tilt of node 5 : |0-0| = 0 (no children)\n    Tilt of node 7 : |0-0| = 0 (no children)\n    Tilt of node 2 : |3-5| = 2 (left subtree is just left child, so sum is 3; right subtree is just right child, so sum is 5)\n    Tilt of node 9 : |0-7| = 7 (no left child, so sum is 0; right subtree is just right child, so sum is 7)\n    Tilt of node 4 : |(3+5+2)-(9+7)| = |10-16| = 6 (left subtree values are 3, 5, and 2, which sums to 10; right subtree values are 9 and 7, which sums to 16)\n    Sum of every tilt : 0 + 0 + 0 + 2 + 7 + 6 = 15\n\nExample 3:\n\nInput: root = [21,7,14,1,1,2,2,3,3]\nOutput: 9\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 104].\n\n• -1000 <= Node.val <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def findTilt(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Don't think too much, this is an easy problem. Take some small tree as an example.",
+    "Can a parent node use the values of its child nodes? How will you implement it?",
+    "May be recursion and tree traversal can help you in implementing.",
+    "What about postorder traversal, using values of left and right childs?"
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "[4,2,9,3,5,null,7]",
+      "[21,7,14,1,1,2,2,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findTilt(self, root):\n        self.tilt_sum = 0\n        def dfs(node):\n            if not node:\n                return 0\n            left_sum = dfs(node.left)\n            right_sum = dfs(node.right)\n            self.tilt_sum += abs(left_sum - right_sum)\n            return left_sum + right_sum + node.val\n        dfs(root)\n        return self.tilt_sum",
+    "explanation": "Post-order DFS: calculate subtree sums, compute tilt |left-right|, accumulate."
+  },
+  "similarQuestions": "[{\"title\": \"Find All The Lonely Nodes\", \"titleSlug\": \"find-all-the-lonely-nodes\", \"difficulty\": \"Easy\"}]"
+}

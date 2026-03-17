@@ -1,0 +1,49 @@
+{
+  "questionId": "3540",
+  "title": "Hash Divided String",
+  "titleSlug": "hash-divided-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a string s of length n and an integer k, where n is a multiple of k. Your task is to hash the string s into a new string called result, which has a length of n / k.\n\nFirst, divide s into n / k substrings, each with a length of k. Then, initialize result as an empty string.\n\nFor each substring in order from the beginning:\n\n• The hash value of a character is the index of that character in the English alphabet (e.g., 'a' → 0, 'b' → 1, ..., 'z' → 25).\n\n• Calculate the sum of all the hash values of the characters in the substring.\n\n• Find the remainder of this sum when divided by 26, which is called hashedChar.\n\n• Identify the character in the English lowercase alphabet that corresponds to hashedChar.\n\n• Append that character to the end of result.\n\nReturn result.\n\nExample 1:\n\nInput: s = \"abcd\", k = 2\n\nOutput: \"bf\"\n\nExplanation: First substring: \"ab\", 0 + 1 = 1, 1 % 26 = 1, result[0] = 'b'.\n\nSecond substring: \"cd\", 2 + 3 = 5, 5 % 26 = 5, result[1] = 'f'.\n\nExample 2:\n\nInput: s = \"mxz\", k = 3\n\nOutput: \"i\"\n\nExplanation: The only substring: \"mxz\", 12 + 23 + 25 = 60, 60 % 26 = 8, result[0] = 'i'.\n\nConstraints:\n\n• 1 <= k <= 100\n\n• k <= s.length <= 1000\n\n• s.length is divisible by k.\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def stringHash(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to find each substring.",
+    "Use a for loop to find hashedChar of each substring.",
+    "Find the answer using hashedChar of each substring."
+  ],
+  "testCases": [
+    [
+      "\"abcd\"",
+      "2"
+    ],
+    [
+      "\"mxz\"",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"bf\"",
+    "\"i\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def stringHash(self, s, k):\n        result = []\n        for i in range(0, len(s), k):\n            chunk = s[i:i+k]\n            h = sum(ord(c) - ord('a') for c in chunk) % 26\n            result.append(chr(ord('a') + h))\n        return ''.join(result)",
+    "explanation": "Split s into chunks of size k, compute sum of char indices mod 26 for each chunk, convert to character.\n\nTime: O(n). Space: O(n/k)."
+  },
+  "similarQuestions": "[]"
+}

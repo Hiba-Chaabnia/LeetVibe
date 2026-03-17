@@ -1,0 +1,53 @@
+{
+  "questionId": "2015",
+  "title": "Determine Whether Matrix Can Be Obtained By Rotation",
+  "titleSlug": "determine-whether-matrix-can-be-obtained-by-rotation",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given two n x n binary matrices mat and target, return true if it is possible to make mat equal to target by rotating mat in 90-degree increments, or false otherwise.\n\nExample 1:\n\nInput: mat = [[0,1],[1,0]], target = [[1,0],[0,1]]\nOutput: true\nExplanation: We can rotate mat 90 degrees clockwise to make mat equal target.\n\nExample 2:\n\nInput: mat = [[0,1],[1,1]], target = [[1,0],[0,1]]\nOutput: false\nExplanation: It is impossible to make mat equal to target by rotating mat.\n\nExample 3:\n\nInput: mat = [[0,0,0],[0,1,0],[1,1,1]], target = [[1,1,1],[0,1,0],[0,0,0]]\nOutput: true\nExplanation: We can rotate mat 90 degrees clockwise two times to make mat equal target.\n\nConstraints:\n\n• n == mat.length == target.length\n\n• n == mat[i].length == target[i].length\n\n• 1 <= n <= 10\n\n• mat[i][j] and target[i][j] are either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findRotation(self, mat, target):\n        \"\"\"\n        :type mat: List[List[int]]\n        :type target: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What is the maximum number of rotations you have to check?",
+    "Is there a formula you can use to rotate a matrix 90 degrees?"
+  ],
+  "testCases": [
+    [
+      "[[0,1],[1,0]]",
+      "[[1,0],[0,1]]"
+    ],
+    [
+      "[[0,1],[1,1]]",
+      "[[1,0],[0,1]]"
+    ],
+    [
+      "[[0,0,0],[0,1,0],[1,1,1]]",
+      "[[1,1,1],[0,1,0],[0,0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findRotation(self, mat, target):\n        def rotate_90(matrix):\n            n = len(matrix)\n            return [[matrix[n-1-j][i] for j in range(n)] for i in range(n)]\n        current = [row[:] for row in mat]\n        for _ in range(4):\n            if current == target:\n                return True\n            current = rotate_90(current)\n        return False",
+    "explanation": "Try 0, 90, 180, 270 degree rotations. Check if any matches target.\nTime: O(n² * 4) = O(n²)\nSpace: O(n²)"
+  },
+  "similarQuestions": "[{\"title\": \"Rotate Image\", \"titleSlug\": \"rotate-image\", \"difficulty\": \"Medium\"}]"
+}

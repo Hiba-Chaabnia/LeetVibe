@@ -1,0 +1,50 @@
+{
+  "questionId": "372",
+  "title": "Super Pow",
+  "titleSlug": "super-pow",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    }
+  ],
+  "content": "Your task is to calculate ab mod 1337 where a is a positive integer and b is an extremely large positive integer given in the form of an array.\n\nExample 1:\n\nInput: a = 2, b = [3]\nOutput: 8\n\nExample 2:\n\nInput: a = 2, b = [1,0]\nOutput: 1024\n\nExample 3:\n\nInput: a = 1, b = [4,3,3,8,5,2]\nOutput: 1\n\nConstraints:\n\n• 1 <= a <= 231 - 1\n\n• 1 <= b.length <= 2000\n\n• 0 <= b[i] <= 9\n\n• b does not contain leading zeros.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def superPow(self, a, b):\n        \"\"\"\n        :type a: int\n        :type b: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "2",
+      "[3]"
+    ],
+    [
+      "2",
+      "[1,0]"
+    ],
+    [
+      "1",
+      "[4,3,3,8,5,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "1024",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def powmod(a, b):\n    if b == 0:\n        return 1\n    res = powmod(a, b // 2)\n    return res * res % 1337 * a % 1337 if b % 2 else res * res % 1337\n\ndef superPow(a, b):\n    n = 0\n    for bi in b:\n        n = (n * 10 + bi) % 1140\n    return powmod(a % 1337, n + 1140)",
+    "explanation": "First, we create a utility `powmod` function to compute `a^b % 1337`. We can do this using the fast exponentiation technique, where for an even power, we recursively compute the square, and for an odd power, we additionally multiply by `a`.\n- For the main `superPow` function, we first convert the given array into a single integer `n`. Since, the power could be very large, we can instead calculate `(n % 1140) + 1140`, due to Fermat's Little Theorem and Euler's Theorem: `(a^(λ(n)) ≡ 1 (mod n))` so `a^(1140) % 1337 = 1` where λ is Carmichael function.\n- Finally, we call our `powmod` function with `a % 1337` and `(n % 1140) + 1140` as the power."
+  },
+  "similarQuestions": "[{\"title\": \"Pow(x, n)\", \"titleSlug\": \"powx-n\", \"difficulty\": \"Medium\"}]"
+}

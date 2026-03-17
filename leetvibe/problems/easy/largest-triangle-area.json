@@ -1,0 +1,47 @@
+{
+  "questionId": "830",
+  "title": "Largest Triangle Area",
+  "titleSlug": "largest-triangle-area",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "Given an array of points on the X-Y plane points where points[i] = [xi, yi], return the area of the largest triangle that can be formed by any three different points. Answers within 10-5 of the actual answer will be accepted.\n\nExample 1:\n\nInput: points = [[0,0],[0,1],[1,0],[0,2],[2,0]]\nOutput: 2.00000\nExplanation: The five points are shown in the above figure. The red triangle is the largest.\n\nExample 2:\n\nInput: points = [[1,0],[0,0],[0,1]]\nOutput: 0.50000\n\nConstraints:\n\n• 3 <= points.length <= 50\n\n• -50 <= xi, yi <= 50\n\n• All the given points are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestTriangleArea(self, points):\n        \"\"\"\n        :type points: List[List[int]]\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,0],[0,1],[1,0],[0,2],[2,0]]"
+    ],
+    [
+      "[[1,0],[0,0],[0,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2.00000",
+    "0.50000"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def largestTriangleArea(self, points):\n        def triangle_area(p1, p2, p3):\n            return abs((p1[0]*(p2[1]-p3[1]) + p2[0]*(p3[1]-p1[1]) + p3[0]*(p1[1]-p2[1])) / 2.0)\n        max_area = 0\n        n = len(points)\n        for i in range(n):\n            for j in range(i+1, n):\n                for k in range(j+1, n):\n                    area = triangle_area(points[i], points[j], points[k])\n                    max_area = max(max_area, area)\n        return max_area",
+    "explanation": "Try all triples. Use shoelace formula for area. Return max.\nTime: O(n³)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Largest Perimeter Triangle\", \"titleSlug\": \"largest-perimeter-triangle\", \"difficulty\": \"Easy\"}]"
+}

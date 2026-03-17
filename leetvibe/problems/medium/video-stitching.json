@@ -1,0 +1,58 @@
+{
+  "questionId": "1081",
+  "title": "Video Stitching",
+  "titleSlug": "video-stitching",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a series of video clips from a sporting event that lasted time seconds. These video clips can be overlapping with each other and have varying lengths.\n\nEach video clip is described by an array clips where clips[i] = [starti, endi] indicates that the ith clip started at starti and ended at endi.\n\nWe can cut these clips into segments freely.\n\n• For example, a clip [0, 7] can be cut into segments [0, 1] + [1, 3] + [3, 7].\n\nReturn the minimum number of clips needed so that we can cut the clips into segments that cover the entire sporting event [0, time]. If the task is impossible, return -1.\n\nExample 1:\n\nInput: clips = [[0,2],[4,6],[8,10],[1,9],[1,5],[5,9]], time = 10\nOutput: 3\nExplanation: We take the clips [0,2], [8,10], [1,9]; a total of 3 clips.\n    Then, we can reconstruct the sporting event as follows:\n    We cut [1,9] into segments [1,2] + [2,8] + [8,9].\n    Now we have segments [0,2] + [2,8] + [8,10] which cover the sporting event [0, 10].\n\nExample 2:\n\nInput: clips = [[0,1],[1,2]], time = 5\nOutput: -1\nExplanation: We cannot cover [0,5] with only [0,1] and [1,2].\n\nExample 3:\n\nInput: clips = [[0,1],[6,8],[0,2],[5,6],[0,4],[0,3],[6,7],[1,3],[4,7],[1,4],[2,5],[2,6],[3,4],[4,5],[5,7],[6,9]], time = 9\nOutput: 3\nExplanation: We can take clips [0,4], [4,7], and [6,9].\n\nConstraints:\n\n• 1 <= clips.length <= 100\n\n• 0 <= starti <= endi <= 100\n\n• 1 <= time <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def videoStitching(self, clips, time):\n        \"\"\"\n        :type clips: List[List[int]]\n        :type time: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What if we sort the intervals?  Considering the sorted intervals, how can we solve the problem with dynamic programming?",
+    "Let's consider a DP(pos, limit) where pos represents the position of the current interval we are gonna take the decision and limit is the current covered area from [0 - limit]. This DP returns the minimum number of taken intervals or infinite if it's not possible to cover the [0 - T] section."
+  ],
+  "testCases": [
+    [
+      "[[0,2],[4,6],[8,10],[1,9],[1,5],[5,9]]",
+      "10"
+    ],
+    [
+      "[[0,1],[1,2]]",
+      "5"
+    ],
+    [
+      "[[0,1],[6,8],[0,2],[5,6],[0,4],[0,3],[6,7],[1,3],[4,7],[1,4],[2,5],[2,6],[3,4],[4,5],[5,7],[6,9]]",
+      "9"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def videoStitching(self, clips, time):\n        \"\"\"\n        :type clips: List[List[int]]\n        :type time: int\n        :rtype: int\n        \"\"\"\n        clips.sort()\n        count = 0\n        current_end = 0\n        next_end = 0\n        i = 0\n        \n        while current_end < time:\n            # Find the clip that extends furthest from current_end\n            while i < len(clips) and clips[i][0] <= current_end:\n                next_end = max(next_end, clips[i][1])\n                i += 1\n            \n            # No progress made\n            if next_end == current_end:\n                return -1\n            \n            current_end = next_end\n            count += 1\n        \n        return count",
+    "explanation": "Greedy: sort clips. For each position, pick clip that extends furthest.",
+    "complexity": "Time: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

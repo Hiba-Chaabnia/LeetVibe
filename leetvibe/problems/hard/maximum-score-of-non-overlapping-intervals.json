@@ -1,0 +1,53 @@
+{
+  "questionId": "3562",
+  "title": "Maximum Score of Non-overlapping Intervals",
+  "titleSlug": "maximum-score-of-non-overlapping-intervals",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 2D integer array intervals, where intervals[i] = [li, ri, weighti]. Interval i starts at position li and ends at ri, and has a weight of weighti. You can choose up to 4 non-overlapping intervals. The score of the chosen intervals is defined as the total sum of their weights.\n\nReturn the lexicographically smallest array of at most 4 indices from intervals with maximum score, representing your choice of non-overlapping intervals.\n\nTwo intervals are said to be non-overlapping if they do not share any points. In particular, intervals sharing a left or right boundary are considered overlapping.\n\nExample 1:\n\nInput: intervals = [[1,3,2],[4,5,2],[1,5,5],[6,9,3],[6,7,1],[8,9,1]]\n\nOutput: [2,3]\n\nExplanation: You can choose the intervals with indices 2, and 3 with respective weights of 5, and 3.\n\nExample 2:\n\nInput: intervals = [[5,8,1],[6,7,7],[4,7,3],[9,10,6],[7,8,2],[11,14,3],[3,5,5]]\n\nOutput: [1,3,5,6]\n\nExplanation: You can choose the intervals with indices 1, 3, 5, and 6 with respective weights of 7, 6, 3, and 5.\n\nConstraints:\n\n• 1 <= intevals.length <= 5 * 104\n\n• intervals[i].length == 3\n\n• intervals[i] = [li, ri, weighti]\n\n• 1 <= li <= ri <= 109\n\n• 1 <= weighti <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumWeight(self, intervals):\n        \"\"\"\n        :type intervals: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use Dynamic Programming.",
+    "Sort intervals by right boundary.",
+    "Let dp[r][i] denote the maximum score having picked r intervals from the prefix of intervals ending at index i.",
+    "dp[r][i] = max(dp[r][i - 1], intervals[i][2] + dp[r][j]) where j is the largest index such that intervals[j][1] < intervals[i][0].",
+    "Since intervals is sorted by right boundary, we can find index j using binary search."
+  ],
+  "testCases": [
+    [
+      "[[1,3,2],[4,5,2],[1,5,5],[6,9,3],[6,7,1],[8,9,1]]"
+    ],
+    [
+      "[[5,8,1],[6,7,7],[4,7,3],[9,10,6],[7,8,2],[11,14,3],[3,5,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3]",
+    "[1,3,5,6]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Two Best Non-Overlapping Events\", \"titleSlug\": \"two-best-non-overlapping-events\", \"difficulty\": \"Medium\"}]"
+}

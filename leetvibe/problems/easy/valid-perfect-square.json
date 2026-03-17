@@ -1,0 +1,43 @@
+{
+  "questionId": "367",
+  "title": "Valid Perfect Square",
+  "titleSlug": "valid-perfect-square",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given a positive integer num, return true if num is a perfect square or false otherwise.\n\nA perfect square is an integer that is the square of an integer. In other words, it is the product of some integer with itself.\n\nYou must not use any built-in library function, such as sqrt.\n\nExample 1:\n\nInput: num = 16\nOutput: true\nExplanation: We return true because 4 * 4 = 16 and 4 is an integer.\n\nExample 2:\n\nInput: num = 14\nOutput: false\nExplanation: We return false because 3.742 * 3.742 = 14 and 3.742 is not an integer.\n\nConstraints:\n\n• 1 <= num <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isPerfectSquare(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "16"
+    ],
+    [
+      "14"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isPerfectSquare(self, num):\n        left, right = 1, num\n        while left <= right:\n            mid = (left + right) // 2\n            square = mid * mid\n            if square == num:\n                return True\n            elif square < num:\n                left = mid + 1\n            else:\n                right = mid - 1\n        return False",
+    "explanation": "Binary search for square root. Check if mid² == num.\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Sqrt(x)\", \"titleSlug\": \"sqrtx\", \"difficulty\": \"Easy\"}, {\"title\": \"Sum of Square Numbers\", \"titleSlug\": \"sum-of-square-numbers\", \"difficulty\": \"Medium\"}]"
+}

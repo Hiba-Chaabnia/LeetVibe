@@ -1,0 +1,49 @@
+{
+  "questionId": "3420",
+  "title": "Find Occurrences of an Element in an Array",
+  "titleSlug": "find-occurrences-of-an-element-in-an-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given an integer array nums, an integer array queries, and an integer x.\n\nFor each queries[i], you need to find the index of the queries[i]th occurrence of x in the nums array. If there are fewer than queries[i] occurrences of x, the answer should be -1 for that query.\n\nReturn an integer array answer containing the answers to all queries.\n\nExample 1:\n\nInput: nums = [1,3,1,7], queries = [1,3,2,4], x = 1\n\nOutput: [0,-1,2,-1]\n\nExplanation:\n\n• For the 1st query, the first occurrence of 1 is at index 0.\n\n• For the 2nd query, there are only two occurrences of 1 in nums, so the answer is -1.\n\n• For the 3rd query, the second occurrence of 1 is at index 2.\n\n• For the 4th query, there are only two occurrences of 1 in nums, so the answer is -1.\n\nExample 2:\n\nInput: nums = [1,2,3], queries = [10], x = 5\n\nOutput: [-1]\n\nExplanation:\n\n• For the 1st query, 5 doesn't exist in nums, so the answer is -1.\n\nConstraints:\n\n• 1 <= nums.length, queries.length <= 105\n\n• 1 <= queries[i] <= 105\n\n• 1 <= nums[i], x <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def occurrencesOfElement(self, nums, queries, x):\n        \"\"\"\n        :type nums: List[int]\n        :type queries: List[int]\n        :type x: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Compress the array nums and save all the occurrences of each element in the separate arrays."
+  ],
+  "testCases": [
+    [
+      "[1,3,1,7]",
+      "[1,3,2,4]",
+      "1"
+    ],
+    [
+      "[1,2,3]",
+      "[10]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0,-1,2,-1]",
+    "[-1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def occurrencesOfElement(self, nums, queries, x):\n        positions = [i for i, v in enumerate(nums) if v == x]\n        return [positions[q-1] if q <= len(positions) else -1 for q in queries]",
+    "explanation": "Collect all indices where nums[i] == x into a list. For each query q, return positions[q-1] if q ≤ len(positions), else -1.\n\nTime: O(n + m). Space: O(count of x)."
+  },
+  "similarQuestions": "[]"
+}

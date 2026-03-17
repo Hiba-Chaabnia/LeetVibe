@@ -1,0 +1,51 @@
+{
+  "questionId": "1738",
+  "title": "Maximal Network Rank",
+  "titleSlug": "maximal-network-rank",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There is an infrastructure of n cities with some number of roads connecting these cities. Each roads[i] = [ai, bi] indicates that there is a bidirectional road between cities ai and bi.\n\nThe network rank of two different cities is defined as the total number of directly connected roads to either city. If a road is directly connected to both cities, it is only counted once.\n\nThe maximal network rank of the infrastructure is the maximum network rank of all pairs of different cities.\n\nGiven the integer n and the array roads, return the maximal network rank of the entire infrastructure.\n\nExample 1:\n\nInput: n = 4, roads = [[0,1],[0,3],[1,2],[1,3]]\nOutput: 4\nExplanation: The network rank of cities 0 and 1 is 4 as there are 4 roads that are connected to either 0 or 1. The road between 0 and 1 is only counted once.\n\nExample 2:\n\nInput: n = 5, roads = [[0,1],[0,3],[1,2],[1,3],[2,3],[2,4]]\nOutput: 5\nExplanation: There are 5 roads that are connected to cities 1 or 2.\n\nExample 3:\n\nInput: n = 8, roads = [[0,1],[1,2],[2,3],[2,4],[5,6],[5,7]]\nOutput: 5\nExplanation: The network rank of 2 and 5 is 5. Notice that all the cities do not have to be connected.\n\nConstraints:\n\n• 2 <= n <= 100\n\n• 0 <= roads.length <= n * (n - 1) / 2\n\n• roads[i].length == 2\n\n• 0 <= ai, bi <= n-1\n\n• ai != bi\n\n• Each pair of cities has at most one road connecting them.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximalNetworkRank(self, n, roads):\n        \"\"\"\n        :type n: int\n        :type roads: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try every pair of different cities and calculate its network rank.",
+    "The network rank of two vertices is <i>almost</i> the sum of their degrees.",
+    "How can you efficiently check if there is a road connecting two different cities?"
+  ],
+  "testCases": [
+    [
+      "4",
+      "[[0,1],[0,3],[1,2],[1,3]]"
+    ],
+    [
+      "5",
+      "[[0,1],[0,3],[1,2],[1,3],[2,3],[2,4]]"
+    ],
+    [
+      "8",
+      "[[0,1],[1,2],[2,3],[2,4],[5,6],[5,7]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "5",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maximalNetworkRank(self, n, roads):\n        \"\"\"\n        :type n: int\n        :type roads: List[List[int]]\n        :rtype: int\n        \"\"\"\n        # Count degree of each city\n        degree = [0] * n\n        edges = set()\n        \n        for a, b in roads:\n            degree[a] += 1\n            degree[b] += 1\n            edges.add((min(a, b), max(a, b)))\n        \n        max_rank = 0\n        \n        # Check all pairs of cities\n        for i in range(n):\n            for j in range(i + 1, n):\n                # Rank = degree[i] + degree[j]\n                # If edge exists between them, subtract 1 (counted twice)\n                rank = degree[i] + degree[j]\n                if (i, j) in edges:\n                    rank -= 1\n                max_rank = max(max_rank, rank)\n        \n        return max_rank",
+    "explanation": "Count degree of each node. For each pair, rank = sum of degrees - (1 if connected else 0).",
+    "complexity": "Time: O(n² + m). Space: O(m)."
+  },
+  "similarQuestions": "[]"
+}

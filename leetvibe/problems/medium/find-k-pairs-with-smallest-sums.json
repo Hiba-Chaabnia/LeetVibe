@@ -1,0 +1,47 @@
+{
+  "questionId": "373",
+  "title": "Find K Pairs with Smallest Sums",
+  "titleSlug": "find-k-pairs-with-smallest-sums",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are given two integer arrays nums1 and nums2 sorted in non-decreasing order and an integer k.\n\nDefine a pair (u, v) which consists of one element from the first array and one element from the second array.\n\nReturn the k pairs (u1, v1), (u2, v2), ..., (uk, vk) with the smallest sums.\n\nExample 1:\n\nInput: nums1 = [1,7,11], nums2 = [2,4,6], k = 3\nOutput: [[1,2],[1,4],[1,6]]\nExplanation: The first 3 pairs are returned from the sequence: [1,2],[1,4],[1,6],[7,2],[7,4],[11,2],[7,6],[11,4],[11,6]\n\nExample 2:\n\nInput: nums1 = [1,1,2], nums2 = [1,2,3], k = 2\nOutput: [[1,1],[1,1]]\nExplanation: The first 2 pairs are returned from the sequence: [1,1],[1,1],[1,2],[2,1],[1,2],[2,2],[1,3],[1,3],[2,3]\n\nConstraints:\n\n• 1 <= nums1.length, nums2.length <= 105\n\n• -109 <= nums1[i], nums2[i] <= 109\n\n• nums1 and nums2 both are sorted in non-decreasing order.\n\n• 1 <= k <= 104\n\n• k <= nums1.length * nums2.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kSmallestPairs(self, nums1, nums2, k):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,7,11]",
+      "[2,4,6]",
+      "3"
+    ],
+    [
+      "[1,1,2]",
+      "[1,2,3]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,2],[1,4],[1,6]]",
+    "[[1,1],[1,1]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\ndef kSmallestPairs(nums1, nums2, k):\n    if not nums1 or not nums2:\n        return []\n    \n    heap = [(nums1[i] + nums2[0], i, 0) for i in range(min(k, len(nums1)))]\n    heapq.heapify(heap)\n    result = []\n\n    while k > 0 and heap:\n        s, i, j = heapq.heappop(heap)\n        result.append([nums1[i], nums2[j]])\n        if j + 1 < len(nums2):\n            heapq.heappush(heap, (nums1[i] + nums2[j + 1], i, j + 1))\n        k -= 1\n\n    return result",
+    "explanation": "The idea is to take advantage of the fact that the input arrays are sorted. We start by adding the first element of nums2 with each element of nums1 into a min heap. In each iteration, we pop the smallest sum from the heap, add it to the result, and then replace this sum with the sum of the same element from nums1 but with the next element from nums2, if there is a next element in nums2.\n\nThe comparison function used for the min heap is based on the actual sum of pairs of elements from the given arrays.\n\nAll solutions have O(k * log(min(k, m))) time complexity, where m is the length of the first array. This is because there will be at most min(k, m) elements in the min heap, and at most k iterations."
+  },
+  "similarQuestions": "[{\"title\": \"Kth Smallest Element in a Sorted Matrix\", \"titleSlug\": \"kth-smallest-element-in-a-sorted-matrix\", \"difficulty\": \"Medium\"}, {\"title\": \"Find K-th Smallest Pair Distance\", \"titleSlug\": \"find-k-th-smallest-pair-distance\", \"difficulty\": \"Hard\"}, {\"title\": \"Kth Smallest Product of Two Sorted Arrays\", \"titleSlug\": \"kth-smallest-product-of-two-sorted-arrays\", \"difficulty\": \"Hard\"}]"
+}

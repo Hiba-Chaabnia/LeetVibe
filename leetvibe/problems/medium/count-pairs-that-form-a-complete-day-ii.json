@@ -1,0 +1,50 @@
+{
+  "questionId": "3418",
+  "title": "Count Pairs That Form a Complete Day II",
+  "titleSlug": "count-pairs-that-form-a-complete-day-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an integer array hours representing times in hours, return an integer denoting the number of pairs i, j where i < j and hours[i] + hours[j] forms a complete day.\n\nA complete day is defined as a time duration that is an exact multiple of 24 hours.\n\nFor example, 1 day is 24 hours, 2 days is 48 hours, 3 days is 72 hours, and so on.\n\nExample 1:\n\nInput: hours = [12,12,30,24,24]\n\nOutput: 2\n\nExplanation: The pairs of indices that form a complete day are (0, 1) and (3, 4).\n\nExample 2:\n\nInput: hours = [72,48,24,3]\n\nOutput: 3\n\nExplanation: The pairs of indices that form a complete day are (0, 1), (0, 2), and (1, 2).\n\nConstraints:\n\n• 1 <= hours.length <= 5 * 105\n\n• 1 <= hours[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countCompleteDayPairs(self, hours):\n        \"\"\"\n        :type hours: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A pair (i, j) forms a valid complete day if (hours[i] + hours[j]) % 24 == 0.",
+    "Using an array or a map, for each index j moving from left to right, increase the answer by the count of (24 - hours[j]) % 24, and then increase the count of hours[j]."
+  ],
+  "testCases": [
+    [
+      "[12,12,30,24,24]"
+    ],
+    [
+      "[72,48,24,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def countCompleteDayPairs(self, hours):\n        freq = defaultdict(int)\n        ans = 0\n        for h in hours:\n            r = h % 24\n            need = (24 - r) % 24\n            ans += freq[need]\n            freq[r] += 1\n        return ans",
+    "explanation": "For each hour h, its remainder mod 24 must pair with (24 - r) % 24 to sum to a multiple of 24. Count previously seen matching remainders.\n\nTime: O(n). Space: O(24)."
+  },
+  "similarQuestions": "[{\"title\": \"Pairs of Songs With Total Durations Divisible by 60\", \"titleSlug\": \"pairs-of-songs-with-total-durations-divisible-by-60\", \"difficulty\": \"Medium\"}, {\"title\": \"Check If Array Pairs Are Divisible by k\", \"titleSlug\": \"check-if-array-pairs-are-divisible-by-k\", \"difficulty\": \"Medium\"}]"
+}

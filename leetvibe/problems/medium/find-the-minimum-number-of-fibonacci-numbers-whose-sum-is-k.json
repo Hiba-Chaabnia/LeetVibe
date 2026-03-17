@@ -1,0 +1,51 @@
+{
+  "questionId": "1515",
+  "title": "Find the Minimum Number of Fibonacci Numbers Whose Sum Is K",
+  "titleSlug": "find-the-minimum-number-of-fibonacci-numbers-whose-sum-is-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given an integer k, return the minimum number of Fibonacci numbers whose sum is equal to k. The same Fibonacci number can be used multiple times.\n\nThe Fibonacci numbers are defined as:\n\n• F1 = 1\n\n• F2 = 1\n\n• Fn = Fn-1 + Fn-2 for n > 2.\n\nIt is guaranteed that for the given constraints we can always find such Fibonacci numbers that sum up to k.\n\nExample 1:\n\nInput: k = 7\nOutput: 2\nExplanation: The Fibonacci numbers are: 1, 1, 2, 3, 5, 8, 13, ...\n    For k = 7 we can use 2 + 5 = 7.\n\nExample 2:\n\nInput: k = 10\nOutput: 2\nExplanation: For k = 10 we can use 2 + 8 = 10.\n\nExample 3:\n\nInput: k = 19\nOutput: 3\nExplanation: For k = 19 we can use 1 + 5 + 13 = 19.\n\nConstraints:\n\n• 1 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMinFibonacciNumbers(self, k):\n        \"\"\"\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Generate all Fibonacci numbers up to the limit (they are few).",
+    "Use greedy solution, taking at every time the greatest Fibonacci number which is smaller than or equal to the current number. Subtract this Fibonacci number from the current number and repeat again the process."
+  ],
+  "testCases": [
+    [
+      "7"
+    ],
+    [
+      "10"
+    ],
+    [
+      "19"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def findMinFibonacciNumbers(self, k):\n        \"\"\"\n        :type k: int\n        :rtype: int\n        \"\"\"\n        # Generate Fibonacci numbers up to k\n        fibs = [1, 1]\n        while fibs[-1] < k:\n            fibs.append(fibs[-1] + fibs[-2])\n        \n        # Greedy: use largest Fibonacci <= remaining value\n        count = 0\n        i = len(fibs) - 1\n        \n        while k > 0:\n            if fibs[i] <= k:\n                k -= fibs[i]\n                count += 1\n            else:\n                i -= 1\n        \n        return count",
+    "explanation": "Generate all Fibonacci numbers up to k. Greedily select largest available Fibonacci <= remaining value.",
+    "complexity": "Time: O(log k) for Fibonacci generation + greedy. Space: O(log k) for Fibonacci list."
+  },
+  "similarQuestions": "[]"
+}

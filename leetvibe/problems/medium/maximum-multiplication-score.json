@@ -1,0 +1,48 @@
+{
+  "questionId": "3518",
+  "title": "Maximum Multiplication Score",
+  "titleSlug": "maximum-multiplication-score",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array a of size 4 and another integer array b of size at least 4.\n\nYou need to choose 4 indices i0, i1, i2, and i3 from the array b such that i0 < i1 < i2 < i3. Your score will be equal to the value a[0] * b[i0] + a[1] * b[i1] + a[2] * b[i2] + a[3] * b[i3].\n\nReturn the maximum score you can achieve.\n\nExample 1:\n\nInput: a = [3,2,5,6], b = [2,-6,4,-5,-3,2,-7]\n\nOutput: 26\n\nExplanation: We can choose the indices 0, 1, 2, and 5. The score will be 3 * 2 + 2 * (-6) + 5 * 4 + 6 * 2 = 26.\n\nExample 2:\n\nInput: a = [-1,4,5,-2], b = [-5,-1,-3,-2,-4]\n\nOutput: -1\n\nExplanation: We can choose the indices 0, 1, 3, and 4. The score will be (-1) * (-5) + 4 * (-1) + 5 * (-2) + (-2) * (-4) = -1.\n\nConstraints:\n\n• a.length == 4\n\n• 4 <= b.length <= 105\n\n• -105 <= a[i], b[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxScore(self, a, b):\n        \"\"\"\n        :type a: List[int]\n        :type b: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try using dynamic programming.",
+    "Consider a dp with the following states: The current position in the array b, and the number of indices considered."
+  ],
+  "testCases": [
+    [
+      "[3,2,5,6]",
+      "[2,-6,4,-5,-3,2,-7]"
+    ],
+    [
+      "[-1,4,5,-2]",
+      "[-5,-1,-3,-2,-4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "26",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxScore(self, a, b):\n        # dp[j] = max score using first j elements of a (0..j-1) and some indices in b\n        # dp[0] = 0, dp[j] = max over index i in b of (dp[j-1] + a[j-1] * b[i])\n        # where i is strictly increasing.\n        # dp[j][last_b_idx] but that's O(n^2).\n        # Better: dp[j] = max score having chosen j elements from a (a[0..j-1])\n        # and j indices i0<i1<...<i(j-1) from b.\n        # Transition: dp[j][i] = dp[j-1][prev] + a[j-1]*b[i] for prev < i\n        # = (max dp[j-1][0..i-1]) + a[j-1]*b[i]\n        # So maintain prefix max of dp[j-1].\n        INF = float('-inf')\n        n = len(b)\n        # dp[j] = array of size n: dp[j][i] = best score using a[0..j-1] with last index i\n        # Use 1D rolling.\n        prev = [INF] * n\n        prev[0] = a[0] * b[0]\n        for i in range(1, n):\n            prev[i] = max(prev[i-1], a[0] * b[i])  # actually just a[0]*b[i], but track max\n        # Wait, dp[1][i] = a[0]*b[i], not prefix max.\n        # Let me redo properly:\n        # dp[j][i] = max score choosing j elements from a matched to j indices in b, last index = i\n        # dp[1][i] = a[0] * b[i]\n        # dp[j][i] = max(dp[j-1][0..i-1]) + a[j-1] * b[i]\n\n        dp = [INF] * n\n        for i in range(n):\n            dp[i] = a[0] * b[i]\n\n        for j in range(1, 4):\n            new_dp = [INF] * n\n            prefix_max = INF\n            for i in range(j, n):  # need at least j previous indices\n                if prefix_max == INF:\n                    prefix_max = dp[i-1]\n                else:\n                    prefix_max = max(prefix_max, dp[i-1])\n                if prefix_max != INF:\n                    new_dp[i] = prefix_max + a[j] * b[i]\n            dp = new_dp\n\n        return max(dp)",
+    "explanation": "DP: dp[j][i] = max score using a[0..j-1] with last chosen index i in b. Transition: dp[j][i] = max(dp[j-1][0..i-1]) + a[j] * b[i]. Maintain prefix max of previous dp layer as we scan i left to right. Only 4 layers (|a|=4).\n\nTime: O(4 * n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

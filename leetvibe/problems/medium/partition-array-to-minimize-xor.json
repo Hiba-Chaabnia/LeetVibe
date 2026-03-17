@@ -1,0 +1,63 @@
+{
+  "questionId": "3913",
+  "title": "Partition Array to Minimize XOR",
+  "titleSlug": "partition-array-to-minimize-xor",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nYour task is to partition nums into k non-empty subarrays. For each subarray, compute the bitwise XOR of all its elements.\n\nReturn the minimum possible value of the maximum XOR among these k subarrays.\n\nExample 1:\n\nInput: nums = [1,2,3], k = 2\n\nOutput: 1\n\nExplanation: The optimal partition is [1] and [2, 3].\n\n• XOR of the first subarray is 1.\n\n• XOR of the second subarray is 2 XOR 3 = 1.\n\nThe maximum XOR among the subarrays is 1, which is the minimum possible.\n\nExample 2:\n\nInput: nums = [2,3,3,2], k = 3\n\nOutput: 2\n\nExplanation: The optimal partition is [2], [3, 3], and [2].\n\n• XOR of the first subarray is 2.\n\n• XOR of the second subarray is 3 XOR 3 = 0.\n\n• XOR of the third subarray is 2.\n\nThe maximum XOR among the subarrays is 2, which is the minimum possible.\n\nExample 3:\n\nInput: nums = [1,1,2,3,1], k = 2\n\nOutput: 0\n\nExplanation: The optimal partition is [1, 1] and [2, 3, 1].\n\n• XOR of the first subarray is 1 XOR 1 = 0.\n\n• XOR of the second subarray is 2 XOR 3 XOR 1 = 0.\n\nThe maximum XOR among the subarrays is 0, which is the minimum possible.\n\nConstraints:\n\n• 1 <= nums.length <= 250\n\n• 1 <= nums[i] <= 109\n\n• 1 <= k <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minXor(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "Precompute pre[i] = nums[0] ^ … ^ nums[i-1] so any subarray XOR is pre[r] ^ pre[l].",
+    "Define dp[i][j] = minimum possible “max‑XOR” when splitting the first i elements into j parts.",
+    "For each dp[i][j], try all splits t < i and take the minimum over max(dp[t][j-1], pre[i] ^ pre[t])."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "2"
+    ],
+    [
+      "[2,3,3,2]",
+      "3"
+    ],
+    [
+      "[1,1,2,3,1]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minXor(self, nums, k):\n        n = len(nums)\n        pre = [0] * (n + 1)\n        for i in range(n):\n            pre[i + 1] = pre[i] ^ nums[i]\n\n        INF = float('inf')\n        # dp[j][i] = min max-XOR splitting nums[0..i-1] into j parts\n        dp = [[INF] * (n + 1) for _ in range(k + 1)]\n        dp[0][0] = 0\n\n        for j in range(1, k + 1):\n            for i in range(j, n + 1):\n                for t in range(j - 1, i):\n                    if dp[j - 1][t] == INF:\n                        continue\n                    xor_val = pre[i] ^ pre[t]\n                    dp[j][i] = min(dp[j][i], max(dp[j - 1][t], xor_val))\n\n        return dp[k][n]",
+    "explanation": "We define dp[j][i] = minimum possible maximum XOR when splitting nums[0..i-1] into exactly j subarrays.\n\nBase case: dp[0][0] = 0 (empty array, 0 parts).\n\nTransition: for the j-th subarray ending at index i, it started at some index t. The subarray XOR is pre[i] ^ pre[t]. We take the max with the best result for the previous j-1 parts ending at t:\ndp[j][i] = min over all valid t of max(dp[j-1][t], pre[i] ^ pre[t]).\n\nAnswer: dp[k][n].\n\nTime complexity: O(k * n^2). With n <= 250 and k <= n, this is at most 250^3 / something, feasible. Space complexity: O(k * n)."
+  },
+  "similarQuestions": "[]"
+}

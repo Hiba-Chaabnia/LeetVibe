@@ -1,0 +1,61 @@
+{
+  "questionId": "653",
+  "title": "Two Sum IV - Input is a BST",
+  "titleSlug": "two-sum-iv-input-is-a-bst",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary search tree and an integer k, return true if there exist two elements in the BST such that their sum is equal to k, or false otherwise.\n\nExample 1:\n\nInput: root = [5,3,6,2,4,null,7], k = 9\nOutput: true\n\nExample 2:\n\nInput: root = [5,3,6,2,4,null,7], k = 28\nOutput: false\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 104].\n\n• -104 <= Node.val <= 104\n\n• root is guaranteed to be a valid binary search tree.\n\n• -105 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def findTarget(self, root, k):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[5,3,6,2,4,null,7]",
+      "9",
+      "[5,3,6,2,4,null,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findTarget(self, root, k):\n        seen = set()\n        def dfs(node):\n            if not node:\n                return False\n            if k - node.val in seen:\n                return True\n            seen.add(node.val)\n            return dfs(node.left) or dfs(node.right)\n        return dfs(root)",
+    "explanation": "DFS with set. For each node, check if complement exists.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Two Sum II - Input Array Is Sorted\", \"titleSlug\": \"two-sum-ii-input-array-is-sorted\", \"difficulty\": \"Medium\"}, {\"title\": \"Two Sum III - Data structure design\", \"titleSlug\": \"two-sum-iii-data-structure-design\", \"difficulty\": \"Easy\"}, {\"title\": \"Two Sum BSTs\", \"titleSlug\": \"two-sum-bsts\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,43 @@
+{
+  "questionId": "390",
+  "title": "Elimination Game",
+  "titleSlug": "elimination-game",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "You have a list arr of all integers in the range [1, n] sorted in a strictly increasing order. Apply the following algorithm on arr:\n\n• Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.\n\n• Repeat the previous step again, but this time from right to left, remove the rightmost number and every other number from the remaining numbers.\n\n• Keep repeating the steps again, alternating left to right and right to left, until a single number remains.\n\nGiven the integer n, return the last number that remains in arr.\n\nExample 1:\n\nInput: n = 9\nOutput: 6\nExplanation:\n    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    arr = [2, 4, 6, 8]\n    arr = [2, 6]\n    arr = [6]\n\nExample 2:\n\nInput: n = 1\nOutput: 1\n\nConstraints:\n\n• 1 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lastRemaining(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "9"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def lastRemaining(self, n):\n        left = 1\n        remaining = n\n        step = 1\n        left_to_right = True\n        while remaining > 1:\n            if left_to_right or remaining % 2 == 1:\n                left += step\n            remaining //= 2\n            step *= 2\n            left_to_right = not left_to_right\n        return left",
+    "explanation": "Simulate elimination. Track left boundary, remaining, step size.\nTime: O(log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Min Max Game\", \"titleSlug\": \"min-max-game\", \"difficulty\": \"Easy\"}]"
+}

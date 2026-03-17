@@ -1,0 +1,58 @@
+{
+  "questionId": "2479",
+  "title": "Meeting Rooms III",
+  "titleSlug": "meeting-rooms-iii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an integer n. There are n rooms numbered from 0 to n - 1.\n\nYou are given a 2D integer array meetings where meetings[i] = [starti, endi] means that a meeting will be held during the half-closed time interval [starti, endi). All the values of starti are unique.\n\nMeetings are allocated to rooms in the following manner:\n\n• Each meeting will take place in the unused room with the lowest number.\n\n• If there are no available rooms, the meeting will be delayed until a room becomes free. The delayed meeting should have the same duration as the original meeting.\n\n• When a room becomes unused, meetings that have an earlier original start time should be given the room.\n\nReturn the number of the room that held the most meetings. If there are multiple rooms, return the room with the lowest number.\n\nA half-closed interval [a, b) is the interval between a and b including a and not including b.\n\nExample 1:\n\nInput: n = 2, meetings = [[0,10],[1,5],[2,7],[3,4]]\nOutput: 0\nExplanation:\n    - At time 0, both rooms are not being used. The first meeting starts in room 0.\n    - At time 1, only room 1 is not being used. The second meeting starts in room 1.\n    - At time 2, both rooms are being used. The third meeting is delayed.\n    - At time 3, both rooms are being used. The fourth meeting is delayed.\n    - At time 5, the meeting in room 1 finishes. The third meeting starts in room 1 for the time period [5,10).\n    - At time 10, the meetings in both rooms finish. The fourth meeting starts in room 0 for the time period [10,11).\n    Both rooms 0 and 1 held 2 meetings, so we return 0.\n\nExample 2:\n\nInput: n = 3, meetings = [[1,20],[2,10],[3,5],[4,9],[6,8]]\nOutput: 1\nExplanation:\n    - At time 1, all three rooms are not being used. The first meeting starts in room 0.\n    - At time 2, rooms 1 and 2 are not being used. The second meeting starts in room 1.\n    - At time 3, only room 2 is not being used. The third meeting starts in room 2.\n    - At time 4, all three rooms are being used. The fourth meeting is delayed.\n    - At time 5, the meeting in room 2 finishes. The fourth meeting starts in room 2 for the time period [5,10).\n    - At time 6, all three rooms are being used. The fifth meeting is delayed.\n    - At time 10, the meetings in rooms 1 and 2 finish. The fifth meeting starts in room 1 for the time period [10,12).\n    Room 0 held 1 meeting while rooms 1 and 2 each held 2 meetings, so we return 1.\n\nConstraints:\n\n• 1 <= n <= 100\n\n• 1 <= meetings.length <= 105\n\n• meetings[i].length == 2\n\n• 0 <= starti < endi <= 5 * 105\n\n• All the values of starti are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mostBooked(self, n, meetings):\n        \"\"\"\n        :type n: int\n        :type meetings: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort meetings based on start times.",
+    "Use two min heaps, the first one keeps track of the numbers of all the rooms that are free. The second heap keeps track of the end times of all the meetings that are happening and the room that they are in.",
+    "Keep track of the number of times each room is used in an array.",
+    "With each meeting, check if there are any free rooms. If there are, then use the room with the smallest number. Otherwise, assign the meeting to the room whose meeting will end the soonest."
+  ],
+  "testCases": [
+    [
+      "2",
+      "[[0,10],[1,5],[2,7],[3,4]]"
+    ],
+    [
+      "3",
+      "[[1,20],[2,10],[3,5],[4,9],[6,8]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Meeting Rooms\", \"titleSlug\": \"meeting-rooms\", \"difficulty\": \"Easy\"}, {\"title\": \"Meeting Rooms II\", \"titleSlug\": \"meeting-rooms-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Events That Can Be Attended\", \"titleSlug\": \"maximum-number-of-events-that-can-be-attended\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Servers That Handled Most Number of Requests\", \"titleSlug\": \"find-servers-that-handled-most-number-of-requests\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Number of Events That Can Be Attended II\", \"titleSlug\": \"maximum-number-of-events-that-can-be-attended-ii\", \"difficulty\": \"Hard\"}]"
+}

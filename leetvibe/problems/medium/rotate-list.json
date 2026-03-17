@@ -1,0 +1,41 @@
+{
+  "questionId": "61",
+  "title": "Rotate List",
+  "titleSlug": "rotate-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "Given the head of a linked list, rotate the list to the right by k places.\n\nExample 1:\n\nInput: head = [1,2,3,4,5], k = 2\nOutput: [4,5,1,2,3]\n\nExample 2:\n\nInput: head = [0,1,2], k = 4\nOutput: [2,0,1]\n\nConstraints:\n\n• The number of nodes in the list is in the range [0, 500].\n\n• -100 <= Node.val <= 100\n\n• 0 <= k <= 2 * 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def rotateRight(self, head, k):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :type k: int\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5]",
+      "2"
+    ],
+    [
+      "[0,1,2]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[4,5,1,2,3]",
+    "[2,0,1]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Rotate Array\", \"titleSlug\": \"rotate-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Split Linked List in Parts\", \"titleSlug\": \"split-linked-list-in-parts\", \"difficulty\": \"Medium\"}]"
+}

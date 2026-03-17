@@ -1,0 +1,50 @@
+{
+  "questionId": "1972",
+  "title": "Rotating the Box",
+  "titleSlug": "rotating-the-box",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n matrix of characters boxGrid representing a side-view of a box. Each cell of the box is one of the following:\n\n• A stone '#'\n\n• A stationary obstacle '*'\n\n• Empty '.'\n\nThe box is rotated 90 degrees clockwise, causing some of the stones to fall due to gravity. Each stone falls down until it lands on an obstacle, another stone, or the bottom of the box. Gravity does not affect the obstacles' positions, and the inertia from the box's rotation does not affect the stones' horizontal positions.\n\nIt is guaranteed that each stone in boxGrid rests on an obstacle, another stone, or the bottom of the box.\n\nReturn an n x m matrix representing the box after the rotation described above.\n\nExample 1:\n\nInput: boxGrid = [[\"#\",\".\",\"#\"]]\nOutput: [[\".\"],\n             [\"#\"],\n             [\"#\"]]\n\nExample 2:\n\nInput: boxGrid = [[\"#\",\".\",\"*\",\".\"],\n                  [\"#\",\"#\",\"*\",\".\"]]\nOutput: [[\"#\",\".\"],\n             [\"#\",\"#\"],\n             [\"*\",\"*\"],\n             [\".\",\".\"]]\n\nExample 3:\n\nInput: boxGrid = [[\"#\",\"#\",\"*\",\".\",\"*\",\".\"],\n                  [\"#\",\"#\",\"#\",\"*\",\".\",\".\"],\n                  [\"#\",\"#\",\"#\",\".\",\"#\",\".\"]]\nOutput: [[\".\",\"#\",\"#\"],\n             [\".\",\"#\",\"#\"],\n             [\"#\",\"#\",\"*\"],\n             [\"#\",\"*\",\".\"],\n             [\"#\",\".\",\"*\"],\n             [\"#\",\".\",\".\"]]\n\nConstraints:\n\n• m == boxGrid.length\n\n• n == boxGrid[i].length\n\n• 1 <= m, n <= 500\n\n• boxGrid[i][j] is either '#', '*', or '.'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rotateTheBox(self, boxGrid):\n        \"\"\"\n        :type boxGrid: List[List[str]]\n        :rtype: List[List[str]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Rotate the box using the relation rotatedBox[i][j] = box[m - 1 - j][i].",
+    "Start iterating from the bottom of the box and for each empty cell check if there is any stone above it with no obstacles between them."
+  ],
+  "testCases": [
+    [
+      "[[\"#\",\".\",\"#\"]]"
+    ],
+    [
+      "[[\"#\",\".\",\"*\",\".\"],[\"#\",\"#\",\"*\",\".\"]]"
+    ],
+    [
+      "[[\"#\",\"#\",\"*\",\".\",\"*\",\".\"],[\"#\",\"#\",\"#\",\"*\",\".\",\".\"],[\"#\",\"#\",\"#\",\".\",\"#\",\".\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[\".\"],",
+    "[[\"#\",\".\"],",
+    "[[\".\",\"#\",\"#\"],"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

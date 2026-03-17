@@ -1,0 +1,45 @@
+{
+  "questionId": "1156",
+  "title": "Occurrences After Bigram",
+  "titleSlug": "occurrences-after-bigram",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given two strings first and second, consider occurrences in some text of the form \"first second third\", where second comes immediately after first, and third comes immediately after second.\n\nReturn an array of all the words third for each occurrence of \"first second third\".\n\nExample 1:\n\nInput: text = \"alice is a good girl she is a good student\", first = \"a\", second = \"good\"\nOutput: [\"girl\",\"student\"]\nExample 2:\n\nInput: text = \"we will we will rock you\", first = \"we\", second = \"will\"\nOutput: [\"we\",\"rock\"]\n\nConstraints:\n\n• 1 <= text.length <= 1000\n\n• text consists of lowercase English letters and spaces.\n\n• All the words in text are separated by a single space.\n\n• 1 <= first.length, second.length <= 10\n\n• first and second consist of lowercase English letters.\n\n• text will not have any leading or trailing spaces.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findOcurrences(self, text, first, second):\n        \"\"\"\n        :type text: str\n        :type first: str\n        :type second: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Split the string into words, then look at adjacent triples of words."
+  ],
+  "testCases": [
+    [
+      "\"alice is a good girl she is a good student\"",
+      "\"a\"",
+      "\"good\""
+    ],
+    [
+      "\"we will we will rock you\"",
+      "\"we\"",
+      "\"will\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"girl\",\"student\"]",
+    "[\"we\",\"rock\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findOcurrences(self, text, first, second):\n        words = text.split()\n        result = []\n        for i in range(len(words) - 2):\n            if words[i] == first and words[i + 1] == second:\n                result.append(words[i + 2])\n        return result",
+    "explanation": "Find words matching (first, second). Collect following words.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

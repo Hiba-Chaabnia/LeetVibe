@@ -1,0 +1,56 @@
+{
+  "questionId": "2433",
+  "title": "Best Poker Hand",
+  "titleSlug": "best-poker-hand",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an integer array ranks and a character array suits. You have 5 cards where the ith card has a rank of ranks[i] and a suit of suits[i].\n\nThe following are the types of poker hands you can make from best to worst:\n\n• \"Flush\": Five cards of the same suit.\n\n• \"Three of a Kind\": Three cards of the same rank.\n\n• \"Pair\": Two cards of the same rank.\n\n• \"High Card\": Any single card.\n\nReturn a string representing the best type of poker hand you can make with the given cards.\n\nNote that the return values are case-sensitive.\n\nExample 1:\n\nInput: ranks = [13,2,3,1,9], suits = [\"a\",\"a\",\"a\",\"a\",\"a\"]\nOutput: \"Flush\"\nExplanation: The hand with all the cards consists of 5 cards with the same suit, so we have a \"Flush\".\n\nExample 2:\n\nInput: ranks = [4,4,2,4,4], suits = [\"d\",\"a\",\"a\",\"b\",\"c\"]\nOutput: \"Three of a Kind\"\nExplanation: The hand with the first, second, and fourth card consists of 3 cards with the same rank, so we have a \"Three of a Kind\".\n    Note that we could also make a \"Pair\" hand but \"Three of a Kind\" is a better hand.\n    Also note that other cards could be used to make the \"Three of a Kind\" hand.\n\nExample 3:\n\nInput: ranks = [10,10,2,12,9], suits = [\"a\",\"b\",\"c\",\"a\",\"d\"]\nOutput: \"Pair\"\nExplanation: The hand with the first and second card consists of 2 cards with the same rank, so we have a \"Pair\".\n    Note that we cannot make a \"Flush\" or a \"Three of a Kind\".\n\nConstraints:\n\n• ranks.length == suits.length == 5\n\n• 1 <= ranks[i] <= 13\n\n• 'a' <= suits[i] <= 'd'\n\n• No two cards have the same rank and suit.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def bestHand(self, ranks, suits):\n        \"\"\"\n        :type ranks: List[int]\n        :type suits: List[str]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sequentially check the conditions 1 through 4, and return the outcome corresponding to the first met condition."
+  ],
+  "testCases": [
+    [
+      "[13,2,3,1,9]",
+      "[\"a\",\"a\",\"a\",\"a\",\"a\"]"
+    ],
+    [
+      "[4,4,2,4,4]",
+      "[\"d\",\"a\",\"a\",\"b\",\"c\"]"
+    ],
+    [
+      "[10,10,2,12,9]",
+      "[\"a\",\"b\",\"c\",\"a\",\"d\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Flush\"",
+    "\"Three of a Kind\"",
+    "\"Pair\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def bestHand(self, ranks, suits):\n        from collections import Counter\n        rank_count = Counter(ranks)\n        suit_count = Counter(suits)\n        if max(suit_count.values()) == 5:\n            return 'Flush'\n        if max(rank_count.values()) >= 3:\n            return 'Three of a Kind'\n        if max(rank_count.values()) == 2:\n            return 'Pair'\n        return 'High Card'",
+    "explanation": "Check conditions in order: Flush (all same suit), Three of a Kind, Pair, High Card."
+  },
+  "similarQuestions": "[{\"title\": \"Categorize Box According to Criteria\", \"titleSlug\": \"categorize-box-according-to-criteria\", \"difficulty\": \"Easy\"}]"
+}

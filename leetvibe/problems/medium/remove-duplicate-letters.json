@@ -1,0 +1,53 @@
+{
+  "questionId": "316",
+  "title": "Remove Duplicate Letters",
+  "titleSlug": "remove-duplicate-letters",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "Given a string s, remove duplicate letters so that every letter appears once and only once. You must make sure your result is the smallest in lexicographical order among all possible results.\n\nExample 1:\n\nInput: s = \"bcabc\"\nOutput: \"abc\"\n\nExample 2:\n\nInput: s = \"cbacdcbc\"\nOutput: \"acdb\"\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s consists of lowercase English letters.\n\nNote: This question is the same as 1081: https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeDuplicateLetters(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Greedily try to add one missing character. How to check if adding some character will not cause problems ? Use bit-masks to check whether you will be able to complete the sub-sequence if you add the character at some index i."
+  ],
+  "testCases": [
+    [
+      "\"bcabc\""
+    ],
+    [
+      "\"cbacdcbc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"abc\"",
+    "\"acdb\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def removeDuplicateLetters(s):\n    count = [0] * 256\n    visited = [False] * 256\n    st = []\n\n    for ch in s:\n        count[ord(ch)] += 1\n\n    for ch in s:\n        count[ord(ch)] -= 1\n        if visited[ord(ch)]:\n            continue\n        while st and ch < st[-1] and count[ord(st[-1])] > 0:\n            visited[ord(st.pop())] = False\n        st.append(ch)\n        visited[ord(ch)] = True\n\n    return \"\".join(st)",
+    "explanation": "1. Initialize count and visited arrays. We will use count to track the occurrences of each character in the string and visited to mark if a character has been pushed into the result.\n2. Iterate through the string, count the occurrences of each character.\n3. Iterate through the string again, decrease the count of the current character.\n4. If the current character is visited, continue.\n5. While the stack is not empty, the current character is smaller than the top character on stack, and the count of the top character is greater than 0, set the visited of the top character to false and pop the character from the stack.\n6. Push the current character onto the stack, and set visited to true.\n7. Build the result string from the stack.\n8. Return the result string."
+  },
+  "similarQuestions": "[{\"title\": \"Smallest K-Length Subsequence With Occurrences of a Letter\", \"titleSlug\": \"smallest-k-length-subsequence-with-occurrences-of-a-letter\", \"difficulty\": \"Hard\"}, {\"title\": \"Lexicographically Smallest String After Deleting Duplicate Characters\", \"titleSlug\": \"lexicographically-smallest-string-after-deleting-duplicate-characters\", \"difficulty\": \"Hard\"}]"
+}

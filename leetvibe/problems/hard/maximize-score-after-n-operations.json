@@ -1,0 +1,66 @@
+{
+  "questionId": "1906",
+  "title": "Maximize Score After N Operations",
+  "titleSlug": "maximize-score-after-n-operations",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given nums, an array of positive integers of size 2 * n. You must perform n operations on this array.\n\nIn the ith operation (1-indexed), you will:\n\n• Choose two elements, x and y.\n\n• Receive a score of i * gcd(x, y).\n\n• Remove x and y from nums.\n\nReturn the maximum score you can receive after performing n operations.\n\nThe function gcd(x, y) is the greatest common divisor of x and y.\n\nExample 1:\n\nInput: nums = [1,2]\nOutput: 1\nExplanation: The optimal choice of operations is:\n    (1 * gcd(1, 2)) = 1\n\nExample 2:\n\nInput: nums = [3,4,6,8]\nOutput: 11\nExplanation: The optimal choice of operations is:\n    (1 * gcd(3, 6)) + (2 * gcd(4, 8)) = 3 + 8 = 11\n\nExample 3:\n\nInput: nums = [1,2,3,4,5,6]\nOutput: 14\nExplanation: The optimal choice of operations is:\n    (1 * gcd(1, 5)) + (2 * gcd(2, 4)) + (3 * gcd(3, 6)) = 1 + 4 + 9 = 14\n\nConstraints:\n\n• 1 <= n <= 7\n\n• nums.length == 2 * n\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxScore(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find every way to split the array until n groups of 2. Brute force recursion is acceptable.",
+    "Calculate the gcd of every pair and greedily multiply the largest gcds."
+  ],
+  "testCases": [
+    [
+      "[1,2]"
+    ],
+    [
+      "[3,4,6,8]"
+    ],
+    [
+      "[1,2,3,4,5,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "11",
+    "14"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

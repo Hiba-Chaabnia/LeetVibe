@@ -1,0 +1,61 @@
+{
+  "questionId": "3628",
+  "title": "Find Minimum Time to Reach Last Room II",
+  "titleSlug": "find-minimum-time-to-reach-last-room-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "There is a dungeon with n x m rooms arranged as a grid.\n\nYou are given a 2D array moveTime of size n x m, where moveTime[i][j] represents the minimum time in seconds when you can start moving to that room. You start from the room (0, 0) at time t = 0 and can move to an adjacent room. Moving between adjacent rooms takes one second for one move and two seconds for the next, alternating between the two.\n\nReturn the minimum time to reach the room (n - 1, m - 1).\n\nTwo rooms are adjacent if they share a common wall, either horizontally or vertically.\n\nExample 1:\n\nInput: moveTime = [[0,4],[4,4]]\n\nOutput: 7\n\nExplanation: The minimum time required is 7 seconds.\n\n• At time t == 4, move from room (0, 0) to room (1, 0) in one second.\n\n• At time t == 5, move from room (1, 0) to room (1, 1) in two seconds.\n\nExample 2:\n\nInput: moveTime = [[0,0,0,0],[0,0,0,0]]\n\nOutput: 6\n\nExplanation: The minimum time required is 6 seconds.\n\n• At time t == 0, move from room (0, 0) to room (1, 0) in one second.\n\n• At time t == 1, move from room (1, 0) to room (1, 1) in two seconds.\n\n• At time t == 3, move from room (1, 1) to room (1, 2) in one second.\n\n• At time t == 4, move from room (1, 2) to room (1, 3) in two seconds.\n\nExample 3:\n\nInput: moveTime = [[0,1],[1,2]]\n\nOutput: 4\n\nConstraints:\n\n• 2 <= n == moveTime.length <= 750\n\n• 2 <= m == moveTime[i].length <= 750\n\n• 0 <= moveTime[i][j] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minTimeToReach(self, moveTime):\n        \"\"\"\n        :type moveTime: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use shortest path algorithms with a state for the last move being odd or even indexed."
+  ],
+  "testCases": [
+    [
+      "[[0,4],[4,4]]"
+    ],
+    [
+      "[[0,0,0,0],[0,0,0,0]]"
+    ],
+    [
+      "[[0,1],[1,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "6",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def minTimeToReach(self, moveTime):\n        n, m = len(moveTime), len(moveTime[0])\n        # State: (time, r, c, parity) where parity=0 means next move costs 1, parity=1 means costs 2\n        dist = [[[float('inf')] * 2 for _ in range(m)] for _ in range(n)]\n        dist[0][0][0] = 0\n        heap = [(0, 0, 0, 0)]  # (time, r, c, parity)\n        while heap:\n            t, r, c, p = heapq.heappop(heap)\n            if t > dist[r][c][p]:\n                continue\n            cost = 1 if p == 0 else 2\n            for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:\n                nr, nc = r+dr, c+dc\n                if 0 <= nr < n and 0 <= nc < m:\n                    nt = max(t, moveTime[nr][nc]) + cost\n                    np = 1 - p\n                    if nt < dist[nr][nc][np]:\n                        dist[nr][nc][np] = nt\n                        heapq.heappush(heap, (nt, nr, nc, np))\n        return min(dist[n-1][m-1])",
+    "explanation": "Dijkstra with state (r, c, parity). Parity 0 = next move costs 1, parity 1 = next move costs 2 (alternating). Cost to enter (nr,nc) = max(t, moveTime[nr][nc]) + cost, then flip parity.\n\nTime: O(n*m log(n*m)). Space: O(n*m)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cost to Reach Destination in Time\", \"titleSlug\": \"minimum-cost-to-reach-destination-in-time\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Time to Visit a Cell In a Grid\", \"titleSlug\": \"minimum-time-to-visit-a-cell-in-a-grid\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,49 @@
+{
+  "questionId": "1737",
+  "title": "Maximum Nesting Depth of the Parentheses",
+  "titleSlug": "maximum-nesting-depth-of-the-parentheses",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "Given a valid parentheses string s, return the nesting depth of s. The nesting depth is the maximum number of nested parentheses.\n\nExample 1:\n\nInput: s = \"(1+(2*3)+((8)/4))+1\"\n\nOutput: 3\n\nExplanation: Digit 8 is inside of 3 nested parentheses in the string.\n\nExample 2:\n\nInput: s = \"(1)+((2))+(((3)))\"\n\nOutput: 3\n\nExplanation: Digit 3 is inside of 3 nested parentheses in the string.\n\nExample 3:\n\nInput: s = \"()(())((()()))\"\n\nOutput: 3\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists of digits 0-9 and characters '+', '-', '*', '/', '(', and ')'.\n\n• It is guaranteed that parentheses expression s is a VPS.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxDepth(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The depth of any character in the VPS is the ( number of left brackets before it ) - ( number of right brackets before it )"
+  ],
+  "testCases": [
+    [
+      "\"(1+(2*3)+((8)/4))+1\""
+    ],
+    [
+      "\"(1)+((2))+(((3)))\""
+    ],
+    [
+      "\"()(())((()()))\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "3",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxDepth(s: str) -> int:\n    depth = 0\n    max_depth = 0\n\n    for c in s:\n        if c == '(':\n            depth += 1\n            max_depth = max(depth, max_depth)\n        elif c == ')':\n            depth -= 1\n\n    return max_depth",
+    "explanation": "Iterate through the string `s`. When an opening parenthesis '(' is encountered, increment the `depth` value, update the `max_depth` with the maximum between the current `max_depth` and the `depth`. In contrast, when a closing parenthesis ')' is encountered, decrement the `depth`. The `max_depth` will be the nesting depth of the given valid parentheses string."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Nesting Depth of Two Valid Parentheses Strings\", \"titleSlug\": \"maximum-nesting-depth-of-two-valid-parentheses-strings\", \"difficulty\": \"Medium\"}]"
+}

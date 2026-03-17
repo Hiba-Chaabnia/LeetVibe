@@ -1,0 +1,47 @@
+{
+  "questionId": "1646",
+  "title": "Kth Missing Positive Number",
+  "titleSlug": "kth-missing-positive-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.\n\nReturn the kth positive integer that is missing from this array.\n\nExample 1:\n\nInput: arr = [2,3,4,7,11], k = 5\nOutput: 9\nExplanation: The missing positive integers are [1,5,6,8,9,10,12,13,...]. The 5th missing positive integer is 9.\n\nExample 2:\n\nInput: arr = [1,2,3,4], k = 2\nOutput: 6\nExplanation: The missing positive integers are [5,6,7,...]. The 2nd missing positive integer is 6.\n\nConstraints:\n\n• 1 <= arr.length <= 1000\n\n• 1 <= arr[i] <= 1000\n\n• 1 <= k <= 1000\n\n• arr[i] < arr[j] for 1 <= i < j <= arr.length\n\nFollow up:\n\nCould you solve this problem in less than O(n) complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findKthPositive(self, arr, k):\n        \"\"\"\n        :type arr: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep track of how many positive numbers are missing as you scan the array."
+  ],
+  "testCases": [
+    [
+      "[2,3,4,7,11]",
+      "5"
+    ],
+    [
+      "[1,2,3,4]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findKthPositive(self, arr, k):\n        missing = 0\n        current = 1\n        arr_idx = 0\n        while missing < k:\n            if arr_idx < len(arr) and arr[arr_idx] == current:\n                arr_idx += 1\n            else:\n                missing += 1\n                if missing == k:\n                    return current\n            current += 1\n        return current - 1",
+    "explanation": "Iterate through positive integers. Count missing ones. Return kth.\nTime: O(n + k)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Append K Integers With Minimal Sum\", \"titleSlug\": \"append-k-integers-with-minimal-sum\", \"difficulty\": \"Medium\"}]"
+}

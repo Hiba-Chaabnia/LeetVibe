@@ -1,0 +1,48 @@
+{
+  "questionId": "1105",
+  "title": "Uncrossed Lines",
+  "titleSlug": "uncrossed-lines",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given two integer arrays nums1 and nums2. We write the integers of nums1 and nums2 (in the order they are given) on two separate horizontal lines.\n\nWe may draw connecting lines: a straight line connecting two numbers nums1[i] and nums2[j] such that:\n\n• nums1[i] == nums2[j], and\n\n• the line we draw does not intersect any other connecting (non-horizontal) line.\n\nNote that a connecting line cannot intersect even at the endpoints (i.e., each number can only belong to one connecting line).\n\nReturn the maximum number of connecting lines we can draw in this way.\n\nExample 1:\n\nInput: nums1 = [1,4,2], nums2 = [1,2,4]\nOutput: 2\nExplanation: We can draw 2 uncrossed lines as in the diagram.\n    We cannot draw 3 uncrossed lines, because the line from nums1[1] = 4 to nums2[2] = 4 will intersect the line from nums1[2]=2 to nums2[1]=2.\n\nExample 2:\n\nInput: nums1 = [2,5,1,2,5], nums2 = [10,5,2,1,5,2]\nOutput: 3\n\nExample 3:\n\nInput: nums1 = [1,3,7,1,7,5], nums2 = [1,9,2,5,1]\nOutput: 2\n\nConstraints:\n\n• 1 <= nums1.length, nums2.length <= 500\n\n• 1 <= nums1[i], nums2[j] <= 2000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxUncrossedLines(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think dynamic programming.  Given an oracle dp(i,j) that tells us how many lines A[i:], B[j:]  [the sequence A[i], A[i+1], ... and B[j], B[j+1], ...] are uncrossed, can we write this as a recursion?"
+  ],
+  "testCases": [
+    [
+      "[1,4,2]",
+      "[1,2,4]"
+    ],
+    [
+      "[2,5,1,2,5]",
+      "[10,5,2,1,5,2]"
+    ],
+    [
+      "[1,3,7,1,7,5]",
+      "[1,9,2,5,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Edit Distance\", \"titleSlug\": \"edit-distance\", \"difficulty\": \"Medium\"}]"
+}

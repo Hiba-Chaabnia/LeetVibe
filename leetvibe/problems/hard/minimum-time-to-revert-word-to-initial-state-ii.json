@@ -1,0 +1,61 @@
+{
+  "questionId": "3296",
+  "title": "Minimum Time to Revert Word to Initial State II",
+  "titleSlug": "minimum-time-to-revert-word-to-initial-state-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are given a 0-indexed string word and an integer k.\n\nAt every second, you must perform the following operations:\n\n• Remove the first k characters of word.\n\n• Add any k characters to the end of word.\n\nNote that you do not necessarily need to add the same characters that you removed. However, you must perform both operations at every second.\n\nReturn the minimum time greater than zero required for word to revert to its initial state.\n\nExample 1:\n\nInput: word = \"abacaba\", k = 3\nOutput: 2\nExplanation: At the 1st second, we remove characters \"aba\" from the prefix of word, and add characters \"bac\" to the end of word. Thus, word becomes equal to \"cababac\".\n    At the 2nd second, we remove characters \"cab\" from the prefix of word, and add \"aba\" to the end of word. Thus, word becomes equal to \"abacaba\" and reverts to its initial state.\n    It can be shown that 2 seconds is the minimum time greater than zero required for word to revert to its initial state.\n\nExample 2:\n\nInput: word = \"abacaba\", k = 4\nOutput: 1\nExplanation: At the 1st second, we remove characters \"abac\" from the prefix of word, and add characters \"caba\" to the end of word. Thus, word becomes equal to \"abacaba\" and reverts to its initial state.\n    It can be shown that 1 second is the minimum time greater than zero required for word to revert to its initial state.\n\nExample 3:\n\nInput: word = \"abcbabcd\", k = 2\nOutput: 4\nExplanation: At every second, we will remove the first 2 characters of word, and add the same characters to the end of word.\n    After 4 seconds, word becomes equal to \"abcbabcd\" and reverts to its initial state.\n    It can be shown that 4 seconds is the minimum time greater than zero required for word to revert to its initial state.\n\nConstraints:\n\n• 1 <= word.length <= 106\n\n• 1 <= k <= word.length\n\n• word consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumTimeToInitialState(self, word, k):\n        \"\"\"\n        :type word: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the longest suffix which is also a prefix and whose length is a multiple of K in O(N).",
+    "Use Z-function."
+  ],
+  "testCases": [
+    [
+      "\"abacaba\"",
+      "3"
+    ],
+    [
+      "\"abacaba\"",
+      "4"
+    ],
+    [
+      "\"abcbabcd\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumTimeToInitialState(self, word, k):\n        \"\"\"\n        :type word: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        n = len(word)\n        \n        # Use Z-algorithm to find longest suffix that is also a prefix\n        def z_algorithm(s):\n            n = len(s)\n            z = [0] * n\n            z[0] = n\n            l, r = 0, 0\n            for i in range(1, n):\n                if i <= r:\n                    z[i] = min(r - i + 1, z[i - l])\n                while i + z[i] < n and s[z[i]] == s[i + z[i]]:\n                    z[i] += 1\n                if i + z[i] - 1 > r:\n                    l, r = i, i + z[i] - 1\n            return z\n        \n        z = z_algorithm(word)\n        \n        # Find minimum time\n        for t in range(1, n // k + 1):\n            # At time t, we've removed k*t characters\n            # Check if remaining word matches prefix\n            removed = k * t\n            if removed >= n:\n                return t\n            \n            # Check if word[removed:] matches word[0:n-removed]\n            # Using Z-array: z[removed] >= n - removed means suffix at position removed\n            # matches prefix of length at least n - removed\n            if z[removed] >= n - removed:\n                return t\n        \n        return (n + k - 1) // k  # Ceiling division",
+    "explanation": "This solution uses the Z-algorithm for efficient string pattern matching:\n\n1. **Problem Understanding**: At each second, we remove first k characters and add k new characters. We want the string to return to its original state in minimum time.\n\n2. **Key Insight**: After time t:\n   - We've removed k*t characters from the front\n   - We need the remaining string word[k*t:] to match some prefix we can recreate\n   - The optimal strategy is to add back characters from the beginning of the word\n   - This works if word[k*t:] equals word[0:n-k*t]\n\n3. **Z-Algorithm**: Computes for each position i, the length of the longest substring starting from i that matches a prefix of the string.\n   - z[i] = length of longest substring starting at position i that matches word[0:z[i]]\n\n4. **Using Z-Array**:\n   - For time t, we've removed k*t characters\n   - Check if z[k*t] >= n - k*t (suffix at position k*t matches at least n-k*t characters with prefix)\n   - If yes, we can revert to initial state by time t\n\n5. **Search Space**: We try times from 1 to n/k (worst case is when we need to remove all but one character and recreate).\n\nTime Complexity: O(N) for Z-algorithm + O(N/K) for search = O(N)\nSpace Complexity: O(N)"
+  },
+  "similarQuestions": "[{\"title\": \"Longest Happy Prefix\", \"titleSlug\": \"longest-happy-prefix\", \"difficulty\": \"Hard\"}]"
+}

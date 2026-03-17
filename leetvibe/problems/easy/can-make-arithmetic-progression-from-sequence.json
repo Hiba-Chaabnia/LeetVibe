@@ -1,0 +1,46 @@
+{
+  "questionId": "1626",
+  "title": "Can Make Arithmetic Progression From Sequence",
+  "titleSlug": "can-make-arithmetic-progression-from-sequence",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "A sequence of numbers is called an arithmetic progression if the difference between any two consecutive elements is the same.\n\nGiven an array of numbers arr, return true if the array can be rearranged to form an arithmetic progression. Otherwise, return false.\n\nExample 1:\n\nInput: arr = [3,5,1]\nOutput: true\nExplanation: We can reorder the elements as [1,3,5] or [5,3,1] with differences 2 and -2 respectively, between each consecutive elements.\n\nExample 2:\n\nInput: arr = [1,2,4]\nOutput: false\nExplanation: There is no way to reorder the elements to obtain an arithmetic progression.\n\nConstraints:\n\n• 2 <= arr.length <= 1000\n\n• -106 <= arr[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canMakeArithmeticProgression(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider that any valid arithmetic progression will be in sorted order.",
+    "Sort the array, then check if the differences of all consecutive elements are equal."
+  ],
+  "testCases": [
+    [
+      "[3,5,1]"
+    ],
+    [
+      "[1,2,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canMakeArithmeticProgression(self, arr):\n        arr.sort()\n        diff = arr[1] - arr[0]\n        for i in range(2, len(arr)):\n            if arr[i] - arr[i-1] != diff:\n                return False\n        return True",
+    "explanation": "Sort array. Check if all consecutive differences are equal."
+  },
+  "similarQuestions": "[{\"title\": \"Arithmetic Subarrays\", \"titleSlug\": \"arithmetic-subarrays\", \"difficulty\": \"Medium\"}]"
+}

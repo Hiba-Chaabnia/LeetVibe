@@ -1,0 +1,55 @@
+{
+  "questionId": "3492",
+  "title": "Count Submatrices With Equal Frequency of X and Y",
+  "titleSlug": "count-submatrices-with-equal-frequency-of-x-and-y",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a 2D character matrix grid, where grid[i][j] is either 'X', 'Y', or '.', return the number of submatrices that contain:\n\n• grid[0][0]\n\n• an equal frequency of 'X' and 'Y'.\n\n• at least one 'X'.\n\nExample 1:\n\nInput: grid = [[\"X\",\"Y\",\".\"],[\"Y\",\".\",\".\"]]\n\nOutput: 3\n\nExplanation: Example 2:\n\nInput: grid = [[\"X\",\"X\"],[\"X\",\"Y\"]]\n\nOutput: 0\n\nExplanation: No submatrix has an equal frequency of 'X' and 'Y'.\n\nExample 3:\n\nInput: grid = [[\".\",\".\"],[\".\",\".\"]]\n\nOutput: 0\n\nExplanation: No submatrix has at least one 'X'.\n\nConstraints:\n\n• 1 <= grid.length, grid[i].length <= 1000\n\n• grid[i][j] is either 'X', 'Y', or '.'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfSubmatrices(self, grid):\n        \"\"\"\n        :type grid: List[List[str]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Replace ’X’ with 1, ’Y’ with -1 and ’.’ with 0.",
+    "You need to find how many submatrices grid[0..x][0..y] have a sum of 0 and at least one ’X’.",
+    "Use prefix sum to calculate submatrices sum."
+  ],
+  "testCases": [
+    [
+      "[[\"X\",\"Y\",\".\"],[\"Y\",\".\",\".\"]]"
+    ],
+    [
+      "[[\"X\",\"X\"],[\"X\",\"Y\"]]"
+    ],
+    [
+      "[[\".\",\".\"],[\".\",\".\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfSubmatrices(self, grid):\n        m, n = len(grid), len(grid[0])\n        # Prefix sum: val[i][j] = sum of (X=1, Y=-1, .=0) for submatrix [0..i][0..j]\n        # Also track has_x[i][j] = True if submatrix [0..i][0..j] contains X\n        val = [[0]*n for _ in range(m)]\n        has_x = [[False]*n for _ in range(m)]\n        ans = 0\n        for i in range(m):\n            for j in range(n):\n                v = 1 if grid[i][j] == 'X' else (-1 if grid[i][j] == 'Y' else 0)\n                x = grid[i][j] == 'X'\n                val[i][j] = v\n                has_x[i][j] = x\n                if i > 0:\n                    val[i][j] += val[i-1][j]\n                    has_x[i][j] = has_x[i][j] or has_x[i-1][j]\n                if j > 0:\n                    val[i][j] += val[i][j-1]\n                    has_x[i][j] = has_x[i][j] or has_x[i][j-1]\n                if i > 0 and j > 0:\n                    val[i][j] -= val[i-1][j-1]\n                    has_x[i][j] = has_x[i][j] or has_x[i-1][j-1]\n                # Wait: has_x should be: does submatrix [0..i][0..j] contain X?\n                # Need proper 2D prefix OR - but OR doesn't subtract like sum\n                # Instead just use val for X count separately\n        # Redo properly\n        cx = [[0]*n for _ in range(m)]  # count of X\n        cy = [[0]*n for _ in range(m)]  # count of Y\n        for i in range(m):\n            for j in range(n):\n                cx[i][j] = (1 if grid[i][j] == 'X' else 0)\n                cy[i][j] = (1 if grid[i][j] == 'Y' else 0)\n                if i > 0: cx[i][j] += cx[i-1][j]; cy[i][j] += cy[i-1][j]\n                if j > 0: cx[i][j] += cx[i][j-1]; cy[i][j] += cy[i][j-1]\n                if i > 0 and j > 0: cx[i][j] -= cx[i-1][j-1]; cy[i][j] -= cy[i-1][j-1]\n                if cx[i][j] == cy[i][j] and cx[i][j] > 0:\n                    ans += 1\n        return ans",
+    "explanation": "2D prefix sums for X count and Y count in submatrices rooted at (0,0). A submatrix [0..i][0..j] is valid if count(X) == count(Y) > 0.\n\nTime: O(m*n). Space: O(m*n)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Equal Frequency\", \"titleSlug\": \"maximum-equal-frequency\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Submatrices With All Ones\", \"titleSlug\": \"count-submatrices-with-all-ones\", \"difficulty\": \"Medium\"}]"
+}

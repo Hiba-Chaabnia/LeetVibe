@@ -1,0 +1,53 @@
+{
+  "questionId": "1382",
+  "title": "Calculate Amount Paid in Taxes",
+  "titleSlug": "calculate-amount-paid-in-taxes",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a 0-indexed 2D integer array brackets where brackets[i] = [upperi, percenti] means that the ith tax bracket has an upper bound of upperi and is taxed at a rate of percenti. The brackets are sorted by upper bound (i.e. upperi-1 < upperi for 0 < i < brackets.length).\n\nTax is calculated as follows:\n\n• The first upper0 dollars earned are taxed at a rate of percent0.\n\n• The next upper1 - upper0 dollars earned are taxed at a rate of percent1.\n\n• The next upper2 - upper1 dollars earned are taxed at a rate of percent2.\n\n• And so on.\n\nYou are given an integer income representing the amount of money you earned. Return the amount of money that you have to pay in taxes. Answers within 10-5 of the actual answer will be accepted.\n\nExample 1:\n\nInput: brackets = [[3,50],[7,10],[12,25]], income = 10\nOutput: 2.65000\nExplanation:\n    Based on your income, you have 3 dollars in the 1st tax bracket, 4 dollars in the 2nd tax bracket, and 3 dollars in the 3rd tax bracket.\n    The tax rate for the three tax brackets is 50%, 10%, and 25%, respectively.\n    In total, you pay $3 * 50% + $4 * 10% + $3 * 25% = $2.65 in taxes.\n\nExample 2:\n\nInput: brackets = [[1,0],[4,25],[5,50]], income = 2\nOutput: 0.25000\nExplanation:\n    Based on your income, you have 1 dollar in the 1st tax bracket and 1 dollar in the 2nd tax bracket.\n    The tax rate for the two tax brackets is 0% and 25%, respectively.\n    In total, you pay $1 * 0% + $1 * 25% = $0.25 in taxes.\n\nExample 3:\n\nInput: brackets = [[2,50]], income = 0\nOutput: 0.00000\nExplanation:\n    You have no income to tax, so you have to pay a total of $0 in taxes.\n\nConstraints:\n\n• 1 <= brackets.length <= 100\n\n• 1 <= upperi <= 1000\n\n• 0 <= percenti <= 100\n\n• 0 <= income <= 1000\n\n• upperi is sorted in ascending order.\n\n• All the values of upperi are unique.\n\n• The upper bound of the last tax bracket is greater than or equal to income.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def calculateTax(self, brackets, income):\n        \"\"\"\n        :type brackets: List[List[int]]\n        :type income: int\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "As you iterate through the tax brackets, keep track of the previous tax bracket’s upper bound in a variable called prev. If there is no previous tax bracket, use 0 instead.",
+    "The amount of money in the ith tax bracket is min(income, upperi) - prev."
+  ],
+  "testCases": [
+    [
+      "[[3,50],[7,10],[12,25]]",
+      "10"
+    ],
+    [
+      "[[1,0],[4,25],[5,50]]",
+      "2"
+    ],
+    [
+      "[[2,50]]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "2.65000",
+    "0.25000",
+    "0.00000"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def calculateTax(self, brackets, income):\n        tax = 0\n        prev_upper = 0\n        for upper, percent in brackets:\n            if income <= prev_upper:\n                break\n            taxable = min(income, upper) - prev_upper\n            tax += taxable * percent / 100\n            prev_upper = upper\n        return tax",
+    "explanation": "Iterate through brackets. For each, calculate taxable income and apply rate."
+  },
+  "similarQuestions": "[]"
+}

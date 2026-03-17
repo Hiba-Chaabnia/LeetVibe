@@ -1,0 +1,61 @@
+{
+  "questionId": "3627",
+  "title": "Find Minimum Time to Reach Last Room I",
+  "titleSlug": "find-minimum-time-to-reach-last-room-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "There is a dungeon with n x m rooms arranged as a grid.\n\nYou are given a 2D array moveTime of size n x m, where moveTime[i][j] represents the minimum time in seconds after which the room opens and can be moved to. You start from the room (0, 0) at time t = 0 and can move to an adjacent room. Moving between adjacent rooms takes exactly one second.\n\nReturn the minimum time to reach the room (n - 1, m - 1).\n\nTwo rooms are adjacent if they share a common wall, either horizontally or vertically.\n\nExample 1:\n\nInput: moveTime = [[0,4],[4,4]]\n\nOutput: 6\n\nExplanation: The minimum time required is 6 seconds.\n\n• At time t == 4, move from room (0, 0) to room (1, 0) in one second.\n\n• At time t == 5, move from room (1, 0) to room (1, 1) in one second.\n\nExample 2:\n\nInput: moveTime = [[0,0,0],[0,0,0]]\n\nOutput: 3\n\nExplanation: The minimum time required is 3 seconds.\n\n• At time t == 0, move from room (0, 0) to room (1, 0) in one second.\n\n• At time t == 1, move from room (1, 0) to room (1, 1) in one second.\n\n• At time t == 2, move from room (1, 1) to room (1, 2) in one second.\n\nExample 3:\n\nInput: moveTime = [[0,1],[1,2]]\n\nOutput: 3\n\nConstraints:\n\n• 2 <= n == moveTime.length <= 50\n\n• 2 <= m == moveTime[i].length <= 50\n\n• 0 <= moveTime[i][j] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minTimeToReach(self, moveTime):\n        \"\"\"\n        :type moveTime: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use shortest path algorithms."
+  ],
+  "testCases": [
+    [
+      "[[0,4],[4,4]]"
+    ],
+    [
+      "[[0,0,0],[0,0,0]]"
+    ],
+    [
+      "[[0,1],[1,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "3",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def minTimeToReach(self, moveTime):\n        n, m = len(moveTime), len(moveTime[0])\n        dist = [[float('inf')] * m for _ in range(n)]\n        dist[0][0] = 0\n        heap = [(0, 0, 0)]  # (time, r, c)\n        while heap:\n            t, r, c = heapq.heappop(heap)\n            if t > dist[r][c]:\n                continue\n            for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:\n                nr, nc = r+dr, c+dc\n                if 0 <= nr < n and 0 <= nc < m:\n                    nt = max(t, moveTime[nr][nc]) + 1\n                    if nt < dist[nr][nc]:\n                        dist[nr][nc] = nt\n                        heapq.heappush(heap, (nt, nr, nc))\n        return dist[n-1][m-1]",
+    "explanation": "Dijkstra: to enter room (nr, nc) you must wait until max(current_time, moveTime[nr][nc]), then +1 for the move. Use a min-heap on arrival time.\n\nTime: O(n*m log(n*m)). Space: O(n*m)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cost to Reach Destination in Time\", \"titleSlug\": \"minimum-cost-to-reach-destination-in-time\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Time to Visit a Cell In a Grid\", \"titleSlug\": \"minimum-time-to-visit-a-cell-in-a-grid\", \"difficulty\": \"Hard\"}]"
+}

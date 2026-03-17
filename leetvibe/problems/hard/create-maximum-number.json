@@ -1,0 +1,61 @@
+{
+  "questionId": "321",
+  "title": "Create Maximum Number",
+  "titleSlug": "create-maximum-number",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given two integer arrays nums1 and nums2 of lengths m and n respectively. nums1 and nums2 represent the digits of two numbers. You are also given an integer k.\n\nCreate the maximum number of length k <= m + n from digits of the two numbers. The relative order of the digits from the same array must be preserved.\n\nReturn an array of the k digits representing the answer.\n\nExample 1:\n\nInput: nums1 = [3,4,6,5], nums2 = [9,1,2,5,8,3], k = 5\nOutput: [9,8,6,5,3]\n\nExample 2:\n\nInput: nums1 = [6,7], nums2 = [6,0,4], k = 5\nOutput: [6,7,6,0,4]\n\nExample 3:\n\nInput: nums1 = [3,9], nums2 = [8,9], k = 3\nOutput: [9,8,9]\n\nConstraints:\n\n• m == nums1.length\n\n• n == nums2.length\n\n• 1 <= m, n <= 500\n\n• 0 <= nums1[i], nums2[i] <= 9\n\n• 1 <= k <= m + n\n\n• nums1 and nums2 do not have leading zeros.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxNumber(self, nums1, nums2, k):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,4,6,5]",
+      "[9,1,2,5,8,3]",
+      "5"
+    ],
+    [
+      "[6,7]",
+      "[6,0,4]",
+      "5"
+    ],
+    [
+      "[3,9]",
+      "[8,9]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[9,8,6,5,3]",
+    "[6,7,6,0,4]",
+    "[9,8,9]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Remove K Digits\", \"titleSlug\": \"remove-k-digits\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Swap\", \"titleSlug\": \"maximum-swap\", \"difficulty\": \"Medium\"}]"
+}

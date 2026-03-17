@@ -1,0 +1,42 @@
+{
+  "questionId": "2358",
+  "title": "Number of Ways to Split Array",
+  "titleSlug": "number-of-ways-to-split-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums of length n.\n\nnums contains a valid split at index i if the following are true:\n\n• The sum of the first i + 1 elements is greater than or equal to the sum of the last n - i - 1 elements.\n\n• There is at least one element to the right of i. That is, 0 <= i < n - 1.\n\nReturn the number of valid splits in nums.\n\nExample 1:\n\nInput: nums = [10,4,-8,7]\nOutput: 2\nExplanation:\n    There are three ways of splitting nums into two non-empty parts:\n    - Split nums at index 0. Then, the first part is [10], and its sum is 10. The second part is [4,-8,7], and its sum is 3. Since 10 >= 3, i = 0 is a valid split.\n    - Split nums at index 1. Then, the first part is [10,4], and its sum is 14. The second part is [-8,7], and its sum is -1. Since 14 >= -1, i = 1 is a valid split.\n    - Split nums at index 2. Then, the first part is [10,4,-8], and its sum is 6. The second part is [7], and its sum is 7. Since 6 Example 2:\n\nInput: nums = [2,3,1,0]\nOutput: 2\nExplanation:\n    There are two valid splits in nums:\n    - Split nums at index 1. Then, the first part is [2,3], and its sum is 5. The second part is [1,0], and its sum is 1. Since 5 >= 1, i = 1 is a valid split.\n    - Split nums at index 2. Then, the first part is [2,3,1], and its sum is 6. The second part is [0], and its sum is 0. Since 6 >= 0, i = 2 is a valid split.\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• -105 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def waysToSplitArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For any index i, how can we find the sum of the first (i+1) elements from the sum of the first i elements?",
+    "If the total sum of the array is known, how can we check if the sum of the first (i+1) elements greater than or equal to the remaining elements?"
+  ],
+  "testCases": [
+    [
+      "[10,4,-8,7]"
+    ],
+    [
+      "[2,3,1,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Split Array Largest Sum\", \"titleSlug\": \"split-array-largest-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Find Pivot Index\", \"titleSlug\": \"find-pivot-index\", \"difficulty\": \"Easy\"}, {\"title\": \"Ways to Split Array Into Three Subarrays\", \"titleSlug\": \"ways-to-split-array-into-three-subarrays\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Middle Index in Array\", \"titleSlug\": \"find-the-middle-index-in-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Partition Array Into Two Arrays to Minimize Sum Difference\", \"titleSlug\": \"partition-array-into-two-arrays-to-minimize-sum-difference\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Average Difference\", \"titleSlug\": \"minimum-average-difference\", \"difficulty\": \"Medium\"}]"
+}

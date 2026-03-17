@@ -1,0 +1,51 @@
+{
+  "questionId": "124",
+  "title": "Binary Tree Maximum Path Sum",
+  "titleSlug": "binary-tree-maximum-path-sum",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. Note that the path does not need to pass through the root.\n\nThe path sum of a path is the sum of the node's values in the path.\n\nGiven the root of a binary tree, return the maximum path sum of any non-empty path.\n\nExample 1:\n\nInput: root = [1,2,3]\nOutput: 6\nExplanation: The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6.\n\nExample 2:\n\nInput: root = [-10,9,20,null,null,15,7]\nOutput: 42\nExplanation: The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 3 * 104].\n\n• -1000 <= Node.val <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def maxPathSum(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[-10,9,20,null,null,15,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "42"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def maxPathSum(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        self.max_sum = float('-inf')\n        \n        def dfs(node):\n            if not node:\n                return 0\n            \n            # Get max path sum from left and right (at least 0 to not include negative paths)\n            left_sum = max(0, dfs(node.left))\n            right_sum = max(0, dfs(node.right))\n            \n            # Max path through this node (can go left -> node -> right)\n            current_max = node.val + left_sum + right_sum\n            self.max_sum = max(self.max_sum, current_max)\n            \n            # Return max path sum going down from this node\n            return node.val + max(left_sum, right_sum)\n        \n        dfs(root)\n        return self.max_sum",
+    "explanation": "Use DFS to traverse tree. For each node, calculate: (1) max path going down (used for parent), (2) max path through node (left->node->right). Key insight: we can exclude negative child paths by using max(0, child_sum). Update global maximum whenever we find a better path. Time complexity: O(n), Space complexity: O(h) where h is height."
+  },
+  "similarQuestions": "[{\"title\": \"Path Sum\", \"titleSlug\": \"path-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Sum Root to Leaf Numbers\", \"titleSlug\": \"sum-root-to-leaf-numbers\", \"difficulty\": \"Medium\"}, {\"title\": \"Path Sum IV\", \"titleSlug\": \"path-sum-iv\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Univalue Path\", \"titleSlug\": \"longest-univalue-path\", \"difficulty\": \"Medium\"}, {\"title\": \"Time Needed to Inform All Employees\", \"titleSlug\": \"time-needed-to-inform-all-employees\", \"difficulty\": \"Medium\"}, {\"title\": \"Difference Between Maximum and Minimum Price Sum\", \"titleSlug\": \"difference-between-maximum-and-minimum-price-sum\", \"difficulty\": \"Hard\"}]"
+}

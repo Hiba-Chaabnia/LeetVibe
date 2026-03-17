@@ -1,0 +1,50 @@
+{
+  "questionId": "3691",
+  "title": "Minimum Operations to Make Columns Strictly Increasing",
+  "titleSlug": "minimum-operations-to-make-columns-strictly-increasing",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a m x n matrix grid consisting of non-negative integers.\n\nIn one operation, you can increment the value of any grid[i][j] by 1.\n\nReturn the minimum number of operations needed to make all columns of grid strictly increasing.\n\nExample 1:\n\nInput: grid = [[3,2],[1,3],[3,4],[0,1]]\n\nOutput: 15\n\nExplanation:\n\n• To make the 0th column strictly increasing, we can apply 3 operations on grid[1][0], 2 operations on grid[2][0], and 6 operations on grid[3][0].\n\n• To make the 1st column strictly increasing, we can apply 4 operations on grid[3][1].\n\nExample 2:\n\nInput: grid = [[3,2,1],[2,1,0],[1,2,3]]\n\nOutput: 12\n\nExplanation:\n\n• To make the 0th column strictly increasing, we can apply 2 operations on grid[1][0], and 4 operations on grid[2][0].\n\n• To make the 1st column strictly increasing, we can apply 2 operations on grid[1][1], and 2 operations on grid[2][1].\n\n• To make the 2nd column strictly increasing, we can apply 2 operations on grid[1][2].\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 50\n\n• 0 <= grid[i][j] < 2500",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumOperations(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "grid[i + 1][j] must be at least equal to grid[i][j] + 1.",
+    "Iterate on i in increasing order, and set grid[i + 1][j] = max(grid[i][j]+1, grid[i + 1][j])."
+  ],
+  "testCases": [
+    [
+      "[[3,2],[1,3],[3,4],[0,1]]"
+    ],
+    [
+      "[[3,2,1],[2,1,0],[1,2,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "15",
+    "12"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumOperations(self, grid):\n        rows = len(grid)\n        cols = len(grid[0])\n        total = 0\n        for c in range(cols):\n            prev = grid[0][c]\n            for r in range(1, rows):\n                if grid[r][c] <= prev:\n                    needed = prev + 1\n                    total += needed - grid[r][c]\n                    prev = needed\n                else:\n                    prev = grid[r][c]\n        return total",
+    "explanation": "For each column process top-to-bottom; if an element is not strictly greater than the previous, increment it to previous+1 and count the cost. O(rows*cols) time."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Operations to Make the Array Increasing\", \"titleSlug\": \"minimum-operations-to-make-the-array-increasing\", \"difficulty\": \"Easy\"}]"
+}

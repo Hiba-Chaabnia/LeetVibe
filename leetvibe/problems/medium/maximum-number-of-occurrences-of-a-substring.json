@@ -1,0 +1,53 @@
+{
+  "questionId": "1423",
+  "title": "Maximum Number of Occurrences of a Substring",
+  "titleSlug": "maximum-number-of-occurrences-of-a-substring",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given a string s, return the maximum number of occurrences of any substring under the following rules:\n\n• The number of unique characters in the substring must be less than or equal to maxLetters.\n\n• The substring size must be between minSize and maxSize inclusive.\n\nExample 1:\n\nInput: s = \"aababcaab\", maxLetters = 2, minSize = 3, maxSize = 4\nOutput: 2\nExplanation: Substring \"aab\" has 2 occurrences in the original string.\n    It satisfies the conditions, 2 unique letters and size 3 (between minSize and maxSize).\n\nExample 2:\n\nInput: s = \"aaaa\", maxLetters = 1, minSize = 3, maxSize = 3\nOutput: 2\nExplanation: Substring \"aaa\" occur 2 times in the string. It can overlap.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• 1 <= maxLetters <= 26\n\n• 1 <= minSize <= maxSize <= min(26, s.length)\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxFreq(self, s, maxLetters, minSize, maxSize):\n        \"\"\"\n        :type s: str\n        :type maxLetters: int\n        :type minSize: int\n        :type maxSize: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Check out the constraints, (maxSize <=26).",
+    "This means you can explore all substrings in O(n * 26).",
+    "Find the Maximum Number of Occurrences of a Substring with bruteforce."
+  ],
+  "testCases": [
+    [
+      "\"aababcaab\"",
+      "2",
+      "3",
+      "4"
+    ],
+    [
+      "\"aaaa\"",
+      "1",
+      "3",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Rearrange Characters to Make Target String\", \"titleSlug\": \"rearrange-characters-to-make-target-string\", \"difficulty\": \"Easy\"}]"
+}

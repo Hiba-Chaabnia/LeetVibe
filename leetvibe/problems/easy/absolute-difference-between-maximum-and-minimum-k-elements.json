@@ -1,0 +1,47 @@
+{
+  "questionId": "4158",
+  "title": "Absolute Difference Between Maximum and Minimum K Elements",
+  "titleSlug": "absolute-difference-between-maximum-and-minimum-k-elements",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nFind the absolute difference between:\n\n• the sum of the k largest elements in the array; and\n\n• the sum of the k smallest elements in the array.\n\nReturn an integer denoting this difference.\n\nExample 1:\n\nInput: nums = [5,2,2,4], k = 2\n\nOutput: 5\n\nExplanation:\n\n• The k = 2 largest elements are 4 and 5. Their sum is 4 + 5 = 9.\n\n• The k = 2 smallest elements are 2 and 2. Their sum is 2 + 2 = 4.\n\n• The absolute difference is abs(9 - 4) = 5.\n\nExample 2:\n\nInput: nums = [100], k = 1\n\nOutput: 0\n\nExplanation:\n\n• The largest element is 100.\n\n• The smallest element is 100.\n\n• The absolute difference is abs(100 - 100) = 0.\n\nConstraints:\n\n• 1 <= n == nums.length <= 100\n\n• 1 <= nums[i] <= 100\n\n• 1 <= k <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def absDifference(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the array and find the difference between the first and last k values."
+  ],
+  "testCases": [
+    [
+      "[5,2,2,4]",
+      "2"
+    ],
+    [
+      "[100]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def absDifference(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        nums.sort()\n        return abs(sum(nums[-k:]) - sum(nums[:k]))",
+    "explanation": "Sort the array. The k smallest elements are the first k (nums[:k]) and the k largest are the last k (nums[-k:]). Subtract their sums and return the absolute difference."
+  },
+  "similarQuestions": "[]"
+}

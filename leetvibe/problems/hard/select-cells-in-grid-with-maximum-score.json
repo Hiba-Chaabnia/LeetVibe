@@ -1,0 +1,58 @@
+{
+  "questionId": "3563",
+  "title": "Select Cells in Grid With Maximum Score",
+  "titleSlug": "select-cells-in-grid-with-maximum-score",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given a 2D matrix grid consisting of positive integers.\n\nYou have to select one or more cells from the matrix such that the following conditions are satisfied:\n\n• No two selected cells are in the same row of the matrix.\n\n• The values in the set of selected cells are unique.\n\nYour score will be the sum of the values of the selected cells.\n\nReturn the maximum score you can achieve.\n\nExample 1:\n\nInput: grid = [[1,2,3],[4,3,2],[1,1,1]]\n\nOutput: 8\n\nExplanation: We can select the cells with values 1, 3, and 4 that are colored above.\n\nExample 2:\n\nInput: grid = [[8,7,6],[8,3,2]]\n\nOutput: 15\n\nExplanation: We can select the cells with values 7 and 8 that are colored above.\n\nConstraints:\n\n• 1 <= grid.length, grid[i].length <= 10\n\n• 1 <= grid[i][j] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxScore(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort all the cells in the grid by their values and keep track of their original positions.",
+    "Try dynamic programming with the following states: the current cell that we might select and a bitmask representing all the rows from which we have already selected a cell so far."
+  ],
+  "testCases": [
+    [
+      "[[1,2,3],[4,3,2],[1,1,1]]"
+    ],
+    [
+      "[[8,7,6],[8,3,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "15"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxScore(self, grid):\n        m = len(grid)\n        n = len(grid[0])\n        # DP with bitmask for used rows\n        # Sort all cells by value descending\n        cells = sorted([(grid[r][c], r) for r in range(m) for c in range(n)], reverse=True)\n        # dp[mask] = max score achievable using exactly the rows in mask\n        dp = [0] * (1 << m)\n        # Process cells in descending value order\n        # For each value, among all cells with that value, decide which rows to use\n        # Group by value\n        from itertools import groupby\n        for val, group in groupby(cells, key=lambda x: x[0]):\n            group = list(group)\n            rows = list(set(r for _, r in group))\n            # For each subset of rows (from 'rows'), we can add this value\n            # dp[mask | row_subset] = max(dp[mask] + val * |row_subset|)\n            # But can only pick one cell per row (already have one per row via mask)\n            # Actually: at most one cell per value is selected per row\n            # Since all cells in this group have same value, greedily pick as many distinct rows as possible\n            # DP: for current mask, if we add any subset of 'rows' not already in mask:\n            # dp[mask | row_bit] = max(..., dp[mask] + val)\n            # Process each row separately\n            new_dp = list(dp)\n            for r in rows:\n                rb = 1 << r\n                for mask in range(1 << m):\n                    if not (mask & rb):  # row r not used\n                        new_dp[mask | rb] = max(new_dp[mask | rb], dp[mask] + val)\n            dp = new_dp\n        return max(dp)",
+    "explanation": "Bitmask DP over used rows. Process cells in descending value order grouped by value. For each group (same value), for each row present in the group: try adding that row to existing masks. dp[mask] = max score using exactly rows in mask. Since values are distinct per group pick, process each group's rows independently.\n\nTime: O(V * m * 2^m) where V = total distinct values, m ≤ 10. Space: O(2^m)."
+  },
+  "similarQuestions": "[]"
+}

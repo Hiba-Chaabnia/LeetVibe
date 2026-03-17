@@ -1,0 +1,48 @@
+{
+  "questionId": "2483",
+  "title": "Task Scheduler II",
+  "titleSlug": "task-scheduler-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a 0-indexed array of positive integers tasks, representing tasks that need to be completed in order, where tasks[i] represents the type of the ith task.\n\nYou are also given a positive integer space, which represents the minimum number of days that must pass after the completion of a task before another task of the same type can be performed.\n\nEach day, until all tasks have been completed, you must either:\n\n• Complete the next task from tasks, or\n\n• Take a break.\n\nReturn the minimum number of days needed to complete all tasks.\n\nExample 1:\n\nInput: tasks = [1,2,1,2,3,1], space = 3\nOutput: 9\nExplanation:\n    One way to complete all tasks in 9 days is as follows:\n    Day 1: Complete the 0th task.\n    Day 2: Complete the 1st task.\n    Day 3: Take a break.\n    Day 4: Take a break.\n    Day 5: Complete the 2nd task.\n    Day 6: Complete the 3rd task.\n    Day 7: Take a break.\n    Day 8: Complete the 4th task.\n    Day 9: Complete the 5th task.\n    It can be shown that the tasks cannot be completed in less than 9 days.\n\nExample 2:\n\nInput: tasks = [5,8,8,5], space = 2\nOutput: 6\nExplanation:\n    One way to complete all tasks in 6 days is as follows:\n    Day 1: Complete the 0th task.\n    Day 2: Complete the 1st task.\n    Day 3: Take a break.\n    Day 4: Take a break.\n    Day 5: Complete the 2nd task.\n    Day 6: Complete the 3rd task.\n    It can be shown that the tasks cannot be completed in less than 6 days.\n\nConstraints:\n\n• 1 <= tasks.length <= 105\n\n• 1 <= tasks[i] <= 109\n\n• 1 <= space <= tasks.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def taskSchedulerII(self, tasks, space):\n        \"\"\"\n        :type tasks: List[int]\n        :type space: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try taking breaks as late as possible, such that tasks are still spaced appropriately.",
+    "Whenever considering whether to complete the next task, if it is not the first task of its type, check how many days ago the previous task was completed and add an appropriate number of breaks."
+  ],
+  "testCases": [
+    [
+      "[1,2,1,2,3,1]",
+      "3"
+    ],
+    [
+      "[5,8,8,5]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "6"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Task Scheduler\", \"titleSlug\": \"task-scheduler\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximize Distance to Closest Person\", \"titleSlug\": \"maximize-distance-to-closest-person\", \"difficulty\": \"Medium\"}, {\"title\": \"Check If All 1's Are at Least Length K Places Away\", \"titleSlug\": \"check-if-all-1s-are-at-least-length-k-places-away\", \"difficulty\": \"Easy\"}]"
+}

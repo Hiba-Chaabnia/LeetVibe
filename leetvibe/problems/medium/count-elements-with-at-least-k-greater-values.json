@@ -1,0 +1,60 @@
+{
+  "questionId": "4141",
+  "title": "Count Elements With at Least K Greater Values",
+  "titleSlug": "count-elements-with-at-least-k-greater-values",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Quickselect",
+      "slug": "quickselect"
+    }
+  ],
+  "content": "You are given an integer array nums of length n and an integer k.\n\nAn element in nums is said to be qualified if there exist at least k elements in the array that are strictly greater than it.\n\nReturn an integer denoting the total number of qualified elements in nums.\n\nExample 1:\n\nInput: nums = [3,1,2], k = 1\n\nOutput: 2\n\nExplanation: The elements 1 and 2 each have at least k = 1 element greater than themselves.\n\n​​​​​​​No element is greater than 3. Therefore, the answer is 2.\n\nExample 2:\n\nInput: nums = [5,5,5], k = 2\n\nOutput: 0\n\nExplanation: Since all elements are equal to 5, no element is greater than the other. Therefore, the answer is 0.\n\nConstraints:\n\n• 1 <= n == nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 0 <= k < n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countElements(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort nums, build distinct values and count.",
+    "For each val: find upper_bound, compute greater = n - upper_bound_idx; if greater >= k add count[val] to ans."
+  ],
+  "testCases": [
+    [
+      "[3,1,2]",
+      "1"
+    ],
+    [
+      "[5,5,5]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import bisect\n\nclass Solution(object):\n    def countElements(self, nums, k):\n        sorted_nums = sorted(nums)\n        n = len(sorted_nums)\n        ans = 0\n        for x in nums:\n            greater = n - bisect.bisect_right(sorted_nums, x)\n            if greater >= k:\n                ans += 1\n        return ans",
+    "explanation": "Sort the array. For each element x, count strictly greater elements using bisect_right. Qualified if count >= k.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,55 @@
+{
+  "questionId": "975",
+  "title": "Range Sum of BST",
+  "titleSlug": "range-sum-of-bst",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root node of a binary search tree and two integers low and high, return the sum of values of all nodes with a value in the inclusive range [low, high].\n\nExample 1:\n\nInput: root = [10,5,15,3,7,null,18], low = 7, high = 15\nOutput: 32\nExplanation: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.\n\nExample 2:\n\nInput: root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10\nOutput: 23\nExplanation: Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 2 * 104].\n\n• 1 <= Node.val <= 105\n\n• 1 <= low <= high <= 105\n\n• All Node.val are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def rangeSumBST(self, root, low, high):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type low: int\n        :type high: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[10,5,15,3,7,null,18]",
+      "7",
+      "15"
+    ],
+    [
+      "[10,5,15,3,7,13,18,1,null,6]",
+      "6",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "32",
+    "23"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def rangeSumBST(self, root, low, high):\n        if not root:\n            return 0\n        if root.val < low:\n            return self.rangeSumBST(root.right, low, high)\n        if root.val > high:\n            return self.rangeSumBST(root.left, low, high)\n        return root.val + self.rangeSumBST(root.left, low, high) + self.rangeSumBST(root.right, low, high)",
+    "explanation": "DFS with BST pruning: skip left if val > high, skip right if val < low.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[]"
+}

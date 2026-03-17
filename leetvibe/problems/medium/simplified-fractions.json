@@ -1,0 +1,50 @@
+{
+  "questionId": "1543",
+  "title": "Simplified Fractions",
+  "titleSlug": "simplified-fractions",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "Given an integer n, return a list of all simplified fractions between 0 and 1 (exclusive) such that the denominator is less-than-or-equal-to n. You can return the answer in any order.\n\nExample 1:\n\nInput: n = 2\nOutput: [\"1/2\"]\nExplanation: \"1/2\" is the only unique fraction with a denominator less-than-or-equal-to 2.\n\nExample 2:\n\nInput: n = 3\nOutput: [\"1/2\",\"1/3\",\"2/3\"]\n\nExample 3:\n\nInput: n = 4\nOutput: [\"1/2\",\"1/3\",\"1/4\",\"2/3\",\"3/4\"]\nExplanation: \"2/4\" is not a simplified fraction because it can be simplified to \"1/2\".\n\nConstraints:\n\n• 1 <= n <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def simplifiedFractions(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A fraction is fully simplified if there is no integer that divides cleanly into the numerator and denominator.",
+    "In other words the greatest common divisor of the numerator and the denominator of a simplified fraction is 1."
+  ],
+  "testCases": [
+    [
+      "2"
+    ],
+    [
+      "3"
+    ],
+    [
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"1/2\"]",
+    "[\"1/2\",\"1/3\",\"2/3\"]",
+    "[\"1/2\",\"1/3\",\"1/4\",\"2/3\",\"3/4\"]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

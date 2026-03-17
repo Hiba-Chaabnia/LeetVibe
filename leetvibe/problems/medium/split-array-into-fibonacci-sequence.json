@@ -1,0 +1,48 @@
+{
+  "questionId": "872",
+  "title": "Split Array into Fibonacci Sequence",
+  "titleSlug": "split-array-into-fibonacci-sequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "You are given a string of digits num, such as \"123456579\". We can split it into a Fibonacci-like sequence [123, 456, 579].\n\nFormally, a Fibonacci-like sequence is a list f of non-negative integers such that:\n\n• 0 <= f[i] < 231, (that is, each integer fits in a 32-bit signed integer type),\n\n• f.length >= 3, and\n\n• f[i] + f[i + 1] == f[i + 2] for all 0 <= i < f.length - 2.\n\nNote that when splitting the string into pieces, each piece must not have extra leading zeroes, except if the piece is the number 0 itself.\n\nReturn any Fibonacci-like sequence split from num, or return [] if it cannot be done.\n\nExample 1:\n\nInput: num = \"1101111\"\nOutput: [11,0,11,11]\nExplanation: The output [110, 1, 111] would also be accepted.\n\nExample 2:\n\nInput: num = \"112358130\"\nOutput: []\nExplanation: The task is impossible.\n\nExample 3:\n\nInput: num = \"0123\"\nOutput: []\nExplanation: Leading zeroes are not allowed, so \"01\", \"2\", \"3\" is not valid.\n\nConstraints:\n\n• 1 <= num.length <= 200\n\n• num contains only digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def splitIntoFibonacci(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"1101111\""
+    ],
+    [
+      "\"112358130\""
+    ],
+    [
+      "\"0123\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[11,0,11,11]",
+    "[]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def splitIntoFibonacci(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: List[int]\n        \"\"\"\n        def backtrack(index, path):\n            if index == len(num):\n                return len(path) >= 3\n            \n            for i in range(index + 1, len(num) + 1):\n                # No leading zeros\n                if num[index] == '0' and i > index + 1:\n                    break\n                \n                current = int(num[index:i])\n                \n                # Check 32-bit limit\n                if current > 2**31 - 1:\n                    break\n                \n                if len(path) < 2:\n                    path.append(current)\n                    if backtrack(i, path):\n                        return True\n                    path.pop()\n                else:\n                    if current == path[-1] + path[-2]:\n                        path.append(current)\n                        if backtrack(i, path):\n                            return True\n                        path.pop()\n                    elif current > path[-1] + path[-2]:\n                        break\n            \n            return False\n        \n        path = []\n        backtrack(0, path)\n        return path",
+    "explanation": "Backtrack: try all number splits. Check Fibonacci property and 32-bit constraint.",
+    "complexity": "Time: O(n²) worst case. Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Additive Number\", \"titleSlug\": \"additive-number\", \"difficulty\": \"Medium\"}, {\"title\": \"Fibonacci Number\", \"titleSlug\": \"fibonacci-number\", \"difficulty\": \"Easy\"}]"
+}

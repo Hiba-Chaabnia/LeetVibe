@@ -1,0 +1,44 @@
+{
+  "questionId": "4023",
+  "title": "Count Binary Palindromic Numbers",
+  "titleSlug": "count-binary-palindromic-numbers",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a non-negative integer n.\n\nA non-negative integer is called binary-palindromic if its binary representation (written without leading zeros) reads the same forward and backward.\n\nReturn the number of integers k such that 0 <= k <= n and the binary representation of k is a palindrome.\n\nNote: The number 0 is considered binary-palindromic, and its representation is \"0\".\n\nExample 1:\n\nInput: n = 9\n\nOutput: 6\n\nExplanation: The integers k in the range [0, 9] whose binary representations are palindromes are:\n\n• 0 → \"0\"\n\n• 1 → \"1\"\n\n• 3 → \"11\"\n\n• 5 → \"101\"\n\n• 7 → \"111\"\n\n• 9 → \"1001\"\n\nAll other values in [0, 9] have non-palindromic binary forms. Therefore, the count is 6.\n\nExample 2:\n\nInput: n = 0\n\nOutput: 1\n\nExplanation: Since \"0\" is a palindrome, the count is 1.\n\nConstraints:\n\n• 0 <= n <= 1015",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countBinaryPalindromes(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to think in terms of binary string length rather than brute forcing all numbers <= n.",
+    "How many binary palindromes exist for a given length L? (only the first half determines the whole number.)",
+    "You can pre-count all palindromes of length < len(n) directly using powers of 2.",
+    "For palindromes of length = len(n), extract the prefix of n, mirror it, and check if it exceeds n."
+  ],
+  "testCases": [
+    [
+      "9"
+    ],
+    [
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

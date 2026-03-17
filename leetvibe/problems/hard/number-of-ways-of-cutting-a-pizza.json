@@ -1,0 +1,63 @@
+{
+  "questionId": "1555",
+  "title": "Number of Ways of Cutting a Pizza",
+  "titleSlug": "number-of-ways-of-cutting-a-pizza",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a rectangular pizza represented as a rows x cols matrix containing the following characters: 'A' (an apple) and '.' (empty cell) and given the integer k. You have to cut the pizza into k pieces using k-1 cuts.\n\nFor each cut you choose the direction: vertical or horizontal, then you choose a cut position at the cell boundary and cut the pizza into two pieces. If you cut the pizza vertically, give the left part of the pizza to a person. If you cut the pizza horizontally, give the upper part of the pizza to a person. Give the last piece of pizza to the last person.\n\nReturn the number of ways of cutting the pizza such that each piece contains at least one apple. Since the answer can be a huge number, return this modulo 10^9 + 7.\n\nExample 1:\n\nInput: pizza = [\"A..\",\"AAA\",\"...\"], k = 3\nOutput: 3\nExplanation: The figure above shows the three ways to cut the pizza. Note that pieces must contain at least one apple.\n\nExample 2:\n\nInput: pizza = [\"A..\",\"AA.\",\"...\"], k = 3\nOutput: 1\n\nExample 3:\n\nInput: pizza = [\"A..\",\"A..\",\"...\"], k = 1\nOutput: 1\n\nConstraints:\n\n• 1 <= rows, cols <= 50\n\n• rows == pizza.length\n\n• cols == pizza[i].length\n\n• 1 <= k <= 10\n\n• pizza consists of characters 'A' and '.' only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def ways(self, pizza, k):\n        \"\"\"\n        :type pizza: List[str]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Note that after each cut the remaining piece of pizza always has the lower right coordinate at (rows-1,cols-1).",
+    "Use dynamic programming approach with states (row1, col1, c) which computes the number of ways of cutting the pizza using \"c\" cuts where the current piece of pizza has upper left coordinate at (row1,col1) and lower right coordinate at (rows-1,cols-1).",
+    "For the transitions try all vertical and horizontal cuts such that the piece of pizza you have to give a person must contain at least one apple. The base case is when c=k-1.",
+    "Additionally use a 2D dynamic programming to respond in O(1) if a piece of pizza contains at least one apple."
+  ],
+  "testCases": [
+    [
+      "[\"A..\",\"AAA\",\"...\"]",
+      "3"
+    ],
+    [
+      "[\"A..\",\"AA.\",\"...\"]",
+      "3"
+    ],
+    [
+      "[\"A..\",\"A..\",\"...\"]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Selling Pieces of Wood\", \"titleSlug\": \"selling-pieces-of-wood\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,61 @@
+{
+  "questionId": "789",
+  "title": "Kth Largest Element in a Stream",
+  "titleSlug": "kth-largest-element-in-a-stream",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Design",
+      "slug": "design"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    },
+    {
+      "name": "Data Stream",
+      "slug": "data-stream"
+    }
+  ],
+  "content": "You are part of a university admissions office and need to keep track of the kth highest test score from applicants in real-time. This helps to determine cut-off marks for interviews and admissions dynamically as new applicants submit their scores.\n\nYou are tasked to implement a class which, for a given integer k, maintains a stream of test scores and continuously returns the kth highest test score after a new score has been submitted. More specifically, we are looking for the kth highest score in the sorted list of all scores.\n\nImplement the KthLargest class:\n\n• KthLargest(int k, int[] nums) Initializes the object with the integer k and the stream of test scores nums.\n\n• int add(int val) Adds a new test score val to the stream and returns the element representing the kth largest element in the pool of test scores so far.\n\nExample 1:\n\nInput:\n\n[\"KthLargest\", \"add\", \"add\", \"add\", \"add\", \"add\"]\n\n[[3, [4, 5, 8, 2]], [3], [5], [10], [9], [4]]\n\nOutput: [null, 4, 5, 5, 8, 8]\n\nExplanation: KthLargest kthLargest = new KthLargest(3, [4, 5, 8, 2]);\n\nkthLargest.add(3); // return 4\n\nkthLargest.add(5); // return 5\n\nkthLargest.add(10); // return 5\n\nkthLargest.add(9); // return 8\n\nkthLargest.add(4); // return 8\n\nExample 2:\n\nInput:\n\n[\"KthLargest\", \"add\", \"add\", \"add\", \"add\"]\n\n[[4, [7, 7, 7, 7, 8, 3]], [2], [10], [9], [9]]\n\nOutput: [null, 7, 7, 7, 8]\n\nExplanation: KthLargest kthLargest = new KthLargest(4, [7, 7, 7, 7, 8, 3]);\n\nkthLargest.add(2); // return 7\n\nkthLargest.add(10); // return 7\n\nkthLargest.add(9); // return 7\n\nkthLargest.add(9); // return 8\n\nConstraints:\n\n• 0 <= nums.length <= 104\n\n• 1 <= k <= nums.length + 1\n\n• -104 <= nums[i] <= 104\n\n• -104 <= val <= 104\n\n• At most 104 calls will be made to add.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class KthLargest(object):\n\n    def __init__(self, k, nums):\n        \"\"\"\n        :type k: int\n        :type nums: List[int]\n        \"\"\"\n        \n\n    def add(self, val):\n        \"\"\"\n        :type val: int\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your KthLargest object will be instantiated and called as such:\n# obj = KthLargest(k, nums)\n# param_1 = obj.add(val)"
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"KthLargest\",\"add\",\"add\",\"add\",\"add\",\"add\"]",
+      "[[3,[4,5,8,2]],[3],[5],[10],[9],[4]]"
+    ],
+    [
+      "[\"KthLargest\",\"add\",\"add\",\"add\",\"add\"]",
+      "[[4,[7,7,7,7,8,3]],[2],[10],[9],[9]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[null, 4, 5, 5, 8, 8]",
+    "[null, 7, 7, 7, 8]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\nclass KthLargest(object):\n    def __init__(self, k, nums):\n        self.k = k\n        self.heap = nums\n        heapq.heapify(self.heap)\n        while len(self.heap) > k:\n            heapq.heappop(self.heap)\n    def add(self, val):\n        if len(self.heap) < self.k:\n            heapq.heappush(self.heap, val)\n        elif val > self.heap[0]:\n            heapq.heapreplace(self.heap, val)\n        return self.heap[0]",
+    "explanation": "Min heap of size k. Root is kth largest. Add only if larger than min.\nTime: O(log k) per add\nSpace: O(k)"
+  },
+  "similarQuestions": "[{\"title\": \"Kth Largest Element in an Array\", \"titleSlug\": \"kth-largest-element-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Finding MK Average\", \"titleSlug\": \"finding-mk-average\", \"difficulty\": \"Hard\"}, {\"title\": \"Sequentially Ordinal Rank Tracker\", \"titleSlug\": \"sequentially-ordinal-rank-tracker\", \"difficulty\": \"Hard\"}]"
+}

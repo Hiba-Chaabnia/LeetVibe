@@ -1,0 +1,53 @@
+{
+  "questionId": "779",
+  "title": "Max Chunks To Make Sorted II",
+  "titleSlug": "max-chunks-to-make-sorted-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given an integer array arr.\n\nWe split arr into some number of chunks (i.e., partitions), and individually sort each chunk. After concatenating them, the result should equal the sorted array.\n\nReturn the largest number of chunks we can make to sort the array.\n\nExample 1:\n\nInput: arr = [5,4,3,2,1]\nOutput: 1\nExplanation:\n    Splitting into two or more chunks will not return the required result.\n    For example, splitting into [5, 4], [3, 2, 1] will result in [4, 5, 1, 2, 3], which isn't sorted.\n\nExample 2:\n\nInput: arr = [2,1,3,4,4]\nOutput: 4\nExplanation:\n    We can split into two chunks, such as [2, 1], [3, 4, 4].\n    However, splitting into [2, 1], [3], [4], [4] is the highest number of chunks possible.\n\nConstraints:\n\n• 1 <= arr.length <= 2000\n\n• 0 <= arr[i] <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxChunksToSorted(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Each k for which some permutation of arr[:k] is equal to sorted(arr)[:k] is where we should cut each chunk."
+  ],
+  "testCases": [
+    [
+      "[5,4,3,2,1]"
+    ],
+    [
+      "[2,1,3,4,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Max Chunks To Make Sorted\", \"titleSlug\": \"max-chunks-to-make-sorted\", \"difficulty\": \"Medium\"}]"
+}

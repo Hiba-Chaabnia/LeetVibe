@@ -1,0 +1,79 @@
+{
+  "questionId": "2839",
+  "title": "Maximum Sum Queries",
+  "titleSlug": "maximum-sum-queries",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given two 0-indexed integer arrays nums1 and nums2, each of length n, and a 1-indexed 2D array queries where queries[i] = [xi, yi].\n\nFor the ith query, find the maximum value of nums1[j] + nums2[j] among all indices j (0 <= j < n), where nums1[j] >= xi and nums2[j] >= yi, or -1 if there is no j satisfying the constraints.\n\nReturn an array answer where answer[i] is the answer to the ith query.\n\nExample 1:\n\nInput: nums1 = [4,3,1,2], nums2 = [2,4,9,5], queries = [[4,1],[1,3],[2,5]]\nOutput: [6,10,7]\nExplanation:\n    For the 1st query xi = 4 and yi = 1, we can select index j = 0 since nums1[j] >= 4 and nums2[j] >= 1. The sum nums1[j] + nums2[j] is 6, and we can show that 6 is the maximum we can obtain.\n\n    For the 2nd query xi = 1 and yi = 3, we can select index j = 2 since nums1[j] >= 1 and nums2[j] >= 3. The sum nums1[j] + nums2[j] is 10, and we can show that 10 is the maximum we can obtain.\n\n    For the 3rd query xi = 2 and yi = 5, we can select index j = 3 since nums1[j] >= 2 and nums2[j] >= 5. The sum nums1[j] + nums2[j] is 7, and we can show that 7 is the maximum we can obtain.\n\n    Therefore, we return [6,10,7].\n\nExample 2:\n\nInput: nums1 = [3,2,5], nums2 = [2,3,4], queries = [[4,4],[3,2],[1,1]]\nOutput: [9,9,9]\nExplanation: For this example, we can use index j = 2 for all the queries since it satisfies the constraints for each query.\n\nExample 3:\n\nInput: nums1 = [2,1], nums2 = [2,3], queries = [[3,3]]\nOutput: [-1]\nExplanation: There is one query in this example with xi = 3 and yi = 3. For every index, j, either nums1[j]\n\nConstraints:\n\n• nums1.length == nums2.length\n\n• n == nums1.length\n\n• 1 <= n <= 105\n\n• 1 <= nums1[i], nums2[i] <= 109\n\n• 1 <= queries.length <= 105\n\n• queries[i].length == 2\n\n• xi == queries[i][1]\n\n• yi == queries[i][2]\n\n• 1 <= xi, yi <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumSumQueries(self, nums1, nums2, queries):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort (x, y) tuples and queries by x-coordinate descending. Don’t forget to index queries before sorting so that you can answer them in the correct order.",
+    "Before answering a query (min_x, min_y), add all (x, y) pairs with x >= min_x to some data structure.",
+    "Use a monotone descending map to store (y, x + y) pairs. A monotone map has ascending keys and descending values. When inserting a pair (y, x + y), remove all pairs (y', x' + y') with y' < y and x' + y' <= x + y.",
+    "To find the insertion position use binary search (built-in in many languages).",
+    "When querying for max (x + y) over y >= y', use binary search to find the first pair (y, x + y) with y >= y'. It will have the maximum value of x + y because the map has monotone descending values."
+  ],
+  "testCases": [
+    [
+      "[4,3,1,2]",
+      "[2,4,9,5]",
+      "[[4,1],[1,3],[2,5]]"
+    ],
+    [
+      "[3,2,5]",
+      "[2,3,4]",
+      "[[4,4],[3,2],[1,1]]"
+    ],
+    [
+      "[2,1]",
+      "[2,3]",
+      "[[3,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[6,10,7]",
+    "[9,9,9]",
+    "[-1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumSumQueries(self, nums1, nums2, queries):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        import bisect\n        \n        n = len(nums1)\n        # Create pairs and sort by nums1 descending\n        pairs = sorted(zip(nums1, nums2), reverse=True)\n        \n        # Sort queries with indices to answer them in correct order\n        indexed_queries = [(queries[i][0], queries[i][1], i) for i in range(len(queries))]\n        indexed_queries.sort(reverse=True)\n        \n        result = [-1] * len(queries)\n        # Monotone descending map: (y, x+y) pairs\n        monotone_map = []  # List of (y_value, sum_value)\n        pair_idx = 0\n        \n        for xi, yi, q_idx in indexed_queries:\n            # Add all pairs with nums1[j] >= xi\n            while pair_idx < n and pairs[pair_idx][0] >= xi:\n                x, y = pairs[pair_idx]\n                current_sum = x + y\n                \n                # Remove pairs that violate monotone property\n                while monotone_map and monotone_map[-1][0] < y and monotone_map[-1][1] <= current_sum:\n                    monotone_map.pop()\n                \n                if not monotone_map or monotone_map[-1][1] < current_sum:\n                    monotone_map.append((y, current_sum))\n                \n                pair_idx += 1\n            \n            # Binary search for first pair with y >= yi\n            pos = bisect.bisect_left(monotone_map, (yi,))\n            if pos < len(monotone_map):\n                result[q_idx] = monotone_map[pos][1]\n        \n        return result",
+    "explanation": "This solution uses a monotone descending map with binary search:\n\n1. **Problem Understanding**:\n   - For each query (xi, yi), find max(nums1[j] + nums2[j]) where nums1[j] >= xi and nums2[j] >= yi\n   - Process queries in descending order by xi\n\n2. **Key Insight - Monotone Map**:\n   - Sort pairs by nums1 descending\n   - Sort queries by xi descending\n   - Maintain a map of (y, x+y) pairs where:\n     - y values are strictly increasing\n     - x+y values are strictly decreasing (monotone property)\n   - This allows O(log n) binary search for each query\n\n3. **Monotone Property Enforcement**:\n   - When inserting (y, x+y):\n     - Remove all pairs (y', x'+y') where y' < y and x'+y' <= x+y\n     - These pairs can never be optimal (higher y value always better)\n   - Only keep pairs that form a descending envelope\n\n4. **Query Processing**:\n   - For query (xi, yi):\n     - All pairs with nums1 >= xi are already in the map\n     - Binary search for first pair with y >= yi\n     - This pair has maximum x+y (due to monotone property)\n\n5. **Time Complexity**:\n   - Sorting: O(n log n + q log q)\n   - Adding pairs: O(n) amortized (each pair added/removed once)\n   - Queries: O(q log n) for binary searches\n   - Total: O((n+q) log n)\n\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Most Beautiful Item for Each Query\", \"titleSlug\": \"most-beautiful-item-for-each-query\", \"difficulty\": \"Medium\"}]"
+}

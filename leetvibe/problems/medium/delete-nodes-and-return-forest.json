@@ -1,0 +1,49 @@
+{
+  "questionId": "1207",
+  "title": "Delete Nodes And Return Forest",
+  "titleSlug": "delete-nodes-and-return-forest",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, each node in the tree has a distinct value.\n\nAfter deleting all nodes with a value in to_delete, we are left with a forest (a disjoint union of trees).\n\nReturn the roots of the trees in the remaining forest. You may return the result in any order.\n\nExample 1:\n\nInput: root = [1,2,3,4,5,6,7], to_delete = [3,5]\nOutput: [[1,2,null,4],[6],[7]]\n\nExample 2:\n\nInput: root = [1,2,4,null,3], to_delete = [3]\nOutput: [[1,2,4]]\n\nConstraints:\n\n• The number of nodes in the given tree is at most 1000.\n\n• Each node has a distinct value between 1 and 1000.\n\n• to_delete.length <= 1000\n\n• to_delete contains distinct values between 1 and 1000.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def delNodes(self, root, to_delete):\n        \"\"\"\n        :type root: TreeNode\n        :type to_delete: List[int]\n        :rtype: List[TreeNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6,7]",
+      "[3,5]",
+      "[1,2,4,null,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,2,null,4],[6],[7]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count Nodes With the Highest Score\", \"titleSlug\": \"count-nodes-with-the-highest-score\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,63 @@
+{
+  "questionId": "268",
+  "title": "Missing Number",
+  "titleSlug": "missing-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.\n\nExample 1:\n\nInput: nums = [3,0,1]\n\nOutput: 2\n\nExplanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.\n\nExample 2:\n\nInput: nums = [0,1]\n\nOutput: 2\n\nExplanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.\n\nExample 3:\n\nInput: nums = [9,6,4,2,3,5,7,0,1]\n\nOutput: 8\n\nExplanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 104\n\n• 0 <= nums[i] <= n\n\n• All the numbers of nums are unique.\n\nFollow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def missingNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,0,1]"
+    ],
+    [
+      "[0,1]"
+    ],
+    [
+      "[9,6,4,2,3,5,7,0,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def missingNumber(nums):\n    n = len(nums)\n    expected_sum = (n * (n + 1)) // 2\n    actual_sum = sum(nums)\n    return expected_sum - actual_sum",
+    "explanation": "The algorithm calculates the expected sum of integers in the range [0, n] using the formula n * (n + 1) / 2. Then, it calculates the actual sum of the integers in the given array. Finally, it returns the difference between the expected sum and the actual sum, which represents the missing number in the range."
+  },
+  "similarQuestions": "[{\"title\": \"First Missing Positive\", \"titleSlug\": \"first-missing-positive\", \"difficulty\": \"Hard\"}, {\"title\": \"Single Number\", \"titleSlug\": \"single-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Duplicate Number\", \"titleSlug\": \"find-the-duplicate-number\", \"difficulty\": \"Medium\"}, {\"title\": \"Couples Holding Hands\", \"titleSlug\": \"couples-holding-hands\", \"difficulty\": \"Hard\"}, {\"title\": \"Find Unique Binary String\", \"titleSlug\": \"find-unique-binary-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Largest Almost Missing Integer\", \"titleSlug\": \"find-the-largest-almost-missing-integer\", \"difficulty\": \"Easy\"}]"
+}

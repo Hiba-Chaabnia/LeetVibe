@@ -1,0 +1,63 @@
+{
+  "questionId": "315",
+  "title": "Count of Smaller Numbers After Self",
+  "titleSlug": "count-of-smaller-numbers-after-self",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    },
+    {
+      "name": "Merge Sort",
+      "slug": "merge-sort"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "Given an integer array nums, return an integer array counts where counts[i] is the number of smaller elements to the right of nums[i].\n\nExample 1:\n\nInput: nums = [5,2,6,1]\nOutput: [2,1,1,0]\nExplanation:\n    To the right of 5 there are 2 smaller elements (2 and 1).\n    To the right of 2 there is only 1 smaller element (1).\n    To the right of 6 there is 1 smaller element (1).\n    To the right of 1 there is 0 smaller element.\n\nExample 2:\n\nInput: nums = [-1]\nOutput: [0]\n\nExample 3:\n\nInput: nums = [-1,-1]\nOutput: [0,0]\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -104 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSmaller(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[5,2,6,1]"
+    ],
+    [
+      "[-1]"
+    ],
+    [
+      "[-1,-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,1,1,0]",
+    "[0]",
+    "[0,0]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count of Range Sum\", \"titleSlug\": \"count-of-range-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Queue Reconstruction by Height\", \"titleSlug\": \"queue-reconstruction-by-height\", \"difficulty\": \"Medium\"}, {\"title\": \"Reverse Pairs\", \"titleSlug\": \"reverse-pairs\", \"difficulty\": \"Hard\"}, {\"title\": \"How Many Numbers Are Smaller Than the Current Number\", \"titleSlug\": \"how-many-numbers-are-smaller-than-the-current-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Good Triplets in an Array\", \"titleSlug\": \"count-good-triplets-in-an-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Count the Number of K-Big Indices\", \"titleSlug\": \"count-the-number-of-k-big-indices\", \"difficulty\": \"Hard\"}]"
+}

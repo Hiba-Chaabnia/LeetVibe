@@ -1,0 +1,60 @@
+{
+  "questionId": "1145",
+  "title": "Number of Submatrices That Sum to Target",
+  "titleSlug": "number-of-submatrices-that-sum-to-target",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a matrix and a target, return the number of non-empty submatrices that sum to target.\n\nA submatrix x1, y1, x2, y2 is the set of all cells matrix[x][y] with x1 <= x <= x2 and y1 <= y <= y2.\n\nTwo submatrices (x1, y1, x2, y2) and (x1', y1', x2', y2') are different if they have some coordinate that is different: for example, if x1 != x1'.\n\nExample 1:\n\nInput: matrix = [[0,1,0],[1,1,1],[0,1,0]], target = 0\nOutput: 4\nExplanation: The four 1x1 submatrices that only contain 0.\n\nExample 2:\n\nInput: matrix = [[1,-1],[-1,1]], target = 0\nOutput: 5\nExplanation: The two 1x2 submatrices, plus the two 2x1 submatrices, plus the 2x2 submatrix.\n\nExample 3:\n\nInput: matrix = [[904]], target = 0\nOutput: 0\n\nConstraints:\n\n• 1 <= matrix.length <= 100\n\n• 1 <= matrix[0].length <= 100\n\n• -1000 <= matrix[i][j] <= 1000\n\n• -10^8 <= target <= 10^8",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSubmatrixSumTarget(self, matrix, target):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Using a 2D prefix sum, we can query the sum of any submatrix in O(1) time.\r\nNow for each (r1, r2), we can find the largest sum of a submatrix that uses every row in [r1, r2] in linear time using a sliding window."
+  ],
+  "testCases": [
+    [
+      "[[0,1,0],[1,1,1],[0,1,0]]",
+      "0"
+    ],
+    [
+      "[[1,-1],[-1,1]]",
+      "0"
+    ],
+    [
+      "[[904]]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numSubmatrixSumTarget(matrix: List[List[int]], target: int) -> int:\n    rows, cols = len(matrix), len(matrix[0])\n    for row in range(rows):\n        for col in range(1, cols):\n            matrix[row][col] += matrix[row][col-1]\n    \n    count = 0\n    for col1 in range(cols):\n        for col2 in range(col1, cols):\n            counter = collections.defaultdict(int)\n            counter[0] = 1\n            cur_sum = 0\n            for row in range(rows):\n                cur_sum += matrix[row][col2] - (matrix[row][col1-1] if col1 > 0 else 0)\n                count += counter[cur_sum - target]\n                counter[cur_sum] += 1\n\n    return count",
+    "explanation": "1. First, we need to find the prefix sum of each row in the matrix. This means that the value at the cell (i, j) will store the sum of all elements from (i, 0) to (i, j) in the same row.\n2. Then, we iterate through all possible column pairs (col1, col2), and calculate the sum between those columns for each row using the prefix sum.\n3. We use a hashmap to store the sum we have encountered so far and their counts.\n4. For each row, update the sum and check how many times we have encountered the sum - target from the hashmap.\n5. Add the count and update the hashmap for the current sum.\n6. Return the total count after iterating all possible column pairs."
+  },
+  "similarQuestions": "[{\"title\": \"Disconnect Path in a Binary Matrix by at Most One Flip\", \"titleSlug\": \"disconnect-path-in-a-binary-matrix-by-at-most-one-flip\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "876",
+  "title": "Hand of Straights",
+  "titleSlug": "hand-of-straights",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Alice has some number of cards and she wants to rearrange the cards into groups so that each group is of size groupSize, and consists of groupSize consecutive cards.\n\nGiven an integer array hand where hand[i] is the value written on the ith card and an integer groupSize, return true if she can rearrange the cards, or false otherwise.\n\nExample 1:\n\nInput: hand = [1,2,3,6,2,3,4,7,8], groupSize = 3\nOutput: true\nExplanation: Alice's hand can be rearranged as [1,2,3],[2,3,4],[6,7,8]\n\nExample 2:\n\nInput: hand = [1,2,3,4,5], groupSize = 4\nOutput: false\nExplanation: Alice's hand can not be rearranged into groups of 4.\n\nConstraints:\n\n• 1 <= hand.length <= 104\n\n• 0 <= hand[i] <= 109\n\n• 1 <= groupSize <= hand.length\n\nNote: This question is the same as 1296: https://leetcode.com/problems/divide-array-in-sets-of-k-consecutive-numbers/",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isNStraightHand(self, hand, groupSize):\n        \"\"\"\n        :type hand: List[int]\n        :type groupSize: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,6,2,3,4,7,8]",
+      "3"
+    ],
+    [
+      "[1,2,3,4,5]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def isNStraightHand(self, hand, groupSize):\n        \"\"\"\n        :type hand: List[int]\n        :type groupSize: int\n        :rtype: bool\n        \"\"\"\n        if len(hand) % groupSize != 0:\n            return False\n        \n        count = Counter(hand)\n        hand.sort()\n        \n        for card in hand:\n            if count[card] == 0:\n                continue\n            \n            # Try to form group starting with this card\n            for i in range(groupSize):\n                current = card + i\n                if count[current] == 0:\n                    return False\n                count[current] -= 1\n        \n        return True",
+    "explanation": "For each card (in order), try to form a consecutive group. Use counter to track availability.",
+    "complexity": "Time: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

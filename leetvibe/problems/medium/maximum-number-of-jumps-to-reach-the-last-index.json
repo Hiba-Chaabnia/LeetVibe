@@ -1,0 +1,54 @@
+{
+  "questionId": "2855",
+  "title": "Maximum Number of Jumps to Reach the Last Index",
+  "titleSlug": "maximum-number-of-jumps-to-reach-the-last-index",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a 0-indexed array nums of n integers and an integer target.\n\nYou are initially positioned at index 0. In one step, you can jump from index i to any index j such that:\n\n• 0 <= i < j < n\n\n• -target <= nums[j] - nums[i] <= target\n\nReturn the maximum number of jumps you can make to reach index n - 1.\n\nIf there is no way to reach index n - 1, return -1.\n\nExample 1:\n\nInput: nums = [1,3,6,4,1,2], target = 2\nOutput: 3\nExplanation: To go from index 0 to index n - 1 with the maximum number of jumps, you can perform the following jumping sequence:\n    - Jump from index 0 to index 1.\n    - Jump from index 1 to index 3.\n    - Jump from index 3 to index 5.\n    It can be proven that there is no other jumping sequence that goes from 0 to n - 1 with more than 3 jumps. Hence, the answer is 3.\n\nExample 2:\n\nInput: nums = [1,3,6,4,1,2], target = 3\nOutput: 5\nExplanation: To go from index 0 to index n - 1 with the maximum number of jumps, you can perform the following jumping sequence:\n    - Jump from index 0 to index 1.\n    - Jump from index 1 to index 2.\n    - Jump from index 2 to index 3.\n    - Jump from index 3 to index 4.\n    - Jump from index 4 to index 5.\n    It can be proven that there is no other jumping sequence that goes from 0 to n - 1 with more than 5 jumps. Hence, the answer is 5.\n\nExample 3:\n\nInput: nums = [1,3,6,4,1,2], target = 0\nOutput: -1\nExplanation: It can be proven that there is no jumping sequence that goes from 0 to n - 1. Hence, the answer is -1.\n\nConstraints:\n\n• 2 <= nums.length == n <= 1000\n\n• -109 <= nums[i] <= 109\n\n• 0 <= target <= 2 * 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumJumps(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a dynamic programming approach.",
+    "Define a dynamic programming array dp of size n, where dp[i] represents the maximum number of jumps from index 0 to index i.",
+    "For each j iterate over all i < j. Set dp[j] = max(dp[j], dp[i] + 1) if -target <= nums[j] - nums[i] <= target."
+  ],
+  "testCases": [
+    [
+      "[1,3,6,4,1,2]",
+      "2"
+    ],
+    [
+      "[1,3,6,4,1,2]",
+      "3"
+    ],
+    [
+      "[1,3,6,4,1,2]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumJumps(self, nums, target):\n        n = len(nums)\n        dp = [-1] * n\n        dp[0] = 0\n        for j in range(1, n):\n            for i in range(j):\n                if dp[i] != -1 and abs(nums[j] - nums[i]) <= target:\n                    dp[j] = max(dp[j], dp[i] + 1)\n        return dp[n-1]",
+    "explanation": "DP: dp[j] = maximum jumps to reach index j. For each j, try all valid predecessors i where |nums[j]-nums[i]| ≤ target and dp[i] != -1. Return dp[n-1] (-1 if unreachable).\n\nTime: O(n²). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Jump Game II\", \"titleSlug\": \"jump-game-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Frog Jump\", \"titleSlug\": \"frog-jump\", \"difficulty\": \"Hard\"}, {\"title\": \"Jump Game III\", \"titleSlug\": \"jump-game-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game IV\", \"titleSlug\": \"jump-game-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Jumps to Reach Home\", \"titleSlug\": \"minimum-jumps-to-reach-home\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game VII\", \"titleSlug\": \"jump-game-vii\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "4139",
+  "title": "Minimum Absolute Distance Between Mirror Pairs",
+  "titleSlug": "minimum-absolute-distance-between-mirror-pairs",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nA mirror pair is a pair of indices (i, j) such that:\n\n• 0 <= i < j < nums.length, and\n\n• reverse(nums[i]) == nums[j], where reverse(x) denotes the integer formed by reversing the digits of x. Leading zeros are omitted after reversing, for example reverse(120) = 21.\n\nReturn the minimum absolute distance between the indices of any mirror pair. The absolute distance between indices i and j is abs(i - j).\n\nIf no mirror pair exists, return -1.\n\nExample 1:\n\nInput: nums = [12,21,45,33,54]\n\nOutput: 1\n\nExplanation: The mirror pairs are:\n\n• (0, 1) since reverse(nums[0]) = reverse(12) = 21 = nums[1], giving an absolute distance abs(0 - 1) = 1.\n\n• (2, 4) since reverse(nums[2]) = reverse(45) = 54 = nums[4], giving an absolute distance abs(2 - 4) = 2.\n\nThe minimum absolute distance among all pairs is 1.\n\nExample 2:\n\nInput: nums = [120,21]\n\nOutput: 1\n\nExplanation: There is only one mirror pair (0, 1) since reverse(nums[0]) = reverse(120) = 21 = nums[1].\n\nThe minimum absolute distance is 1.\n\nExample 3:\n\nInput: nums = [21,120]\n\nOutput: -1\n\nExplanation: There are no mirror pairs in the array.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109​​​​​​​",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMirrorPairDistance(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Scan left to right with a hash map: for each nums[i], if the map contains key nums[i] then set ans = min(ans, i - map[nums[i]]).",
+    "Store/update the current index under key reverse(nums[i]), so future matches use the most recent index."
+  ],
+  "testCases": [
+    [
+      "[12,21,45,33,54]"
+    ],
+    [
+      "[120,21]"
+    ],
+    [
+      "[21,120]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "1",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

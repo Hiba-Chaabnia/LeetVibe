@@ -1,0 +1,54 @@
+{
+  "questionId": "2112",
+  "title": "Minimum Difference Between Highest and Lowest of K Scores",
+  "titleSlug": "minimum-difference-between-highest-and-lowest-of-k-scores",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums, where nums[i] represents the score of the ith student. You are also given an integer k.\n\nPick the scores of any k students from the array so that the difference between the highest and the lowest of the k scores is minimized.\n\nReturn the minimum possible difference.\n\nExample 1:\n\nInput: nums = [90], k = 1\nOutput: 0\nExplanation: There is one way to pick score(s) of one student:\n    - [90]. The difference between the highest and lowest score is 90 - 90 = 0.\n    The minimum possible difference is 0.\n\nExample 2:\n\nInput: nums = [9,4,1,7], k = 2\nOutput: 2\nExplanation: There are six ways to pick score(s) of two students:\n    - [9,4,1,7]. The difference between the highest and lowest score is 9 - 4 = 5.\n    - [9,4,1,7]. The difference between the highest and lowest score is 9 - 1 = 8.\n    - [9,4,1,7]. The difference between the highest and lowest score is 9 - 7 = 2.\n    - [9,4,1,7]. The difference between the highest and lowest score is 4 - 1 = 3.\n    - [9,4,1,7]. The difference between the highest and lowest score is 7 - 4 = 3.\n    - [9,4,1,7]. The difference between the highest and lowest score is 7 - 1 = 6.\n    The minimum possible difference is 2.\n\nConstraints:\n\n• 1 <= k <= nums.length <= 1000\n\n• 0 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumDifference(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For the difference between the highest and lowest element to be minimized, the k chosen scores need to be as close to each other as possible.",
+    "What if the array was sorted?",
+    "After sorting the scores, any contiguous k scores are as close to each other as possible.",
+    "Apply a sliding window solution to iterate over each contiguous k scores, and find the minimum of the differences of all windows."
+  ],
+  "testCases": [
+    [
+      "[90]",
+      "1"
+    ],
+    [
+      "[9,4,1,7]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumDifference(self, nums, k):\n        nums.sort()\n        min_diff = float('inf')\n        for i in range(len(nums) - k + 1):\n            min_diff = min(min_diff, nums[i + k - 1] - nums[i])\n        return min_diff",
+    "explanation": "Sort. Sliding window of size k. Min diff in contiguous k elements.\nTime: O(n*log(n))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Array Partition\", \"titleSlug\": \"array-partition\", \"difficulty\": \"Easy\"}]"
+}

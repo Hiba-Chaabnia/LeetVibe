@@ -1,0 +1,51 @@
+{
+  "questionId": "4030",
+  "title": "Maximize Cyclic Partition Score",
+  "titleSlug": "maximize-cyclic-partition-score",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a cyclic array nums and an integer k.\n\nPartition nums into at most k subarrays. As nums is cyclic, these subarrays may wrap around from the end of the array back to the beginning.\n\nThe range of a subarray is the difference between its maximum and minimum values. The score of a partition is the sum of subarray ranges.\n\nReturn the maximum possible score among all cyclic partitions.\n\nExample 1:\n\nInput: nums = [1,2,3,3], k = 2\n\nOutput: 3\n\nExplanation:\n\n• Partition nums into [2, 3] and [3, 1] (wrapped around).\n\n• The range of [2, 3] is max(2, 3) - min(2, 3) = 3 - 2 = 1.\n\n• The range of [3, 1] is max(3, 1) - min(3, 1) = 3 - 1 = 2.\n\n• The score is 1 + 2 = 3.\n\nExample 2:\n\nInput: nums = [1,2,3,3], k = 1\n\nOutput: 2\n\nExplanation:\n\n• Partition nums into [1, 2, 3, 3].\n\n• The range of [1, 2, 3, 3] is max(1, 2, 3, 3) - min(1, 2, 3, 3) = 3 - 1 = 2.\n\n• The score is 2.\n\nExample 3:\n\nInput: nums = [1,2,3,3], k = 4\n\nOutput: 3\n\nExplanation: Identical to Example 1, we partition nums into [2, 3] and [3, 1]. Note that nums may be partitioned into fewer than k subarrays.\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 109\n\n• 1 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumScore(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming on the number of extreme picks: allow up to 2 * k picks (each partition can supply a + and a -), so the problem becomes choosing which elements are + or -.",
+    "Model a partition by its max (+nums[i]) and min (-nums[i]) contributions; selecting an element as a max adds +nums[i], and selecting it as a min adds -nums[i].",
+    "Use a DP state (picks, balance) where picks is the total number of + and - chosen so far (<= 2 * k), and balance represents the difference between the counts of + and - currently; at each i, you conceptually take +, take -, or skip.",
+    "Handle cyclicity by limiting balance to the range [0, 2]. You can show that such a balance is always achievable."
+  ],
+  "testCases": [
+    [
+      "[1,3,4]",
+      "2"
+    ],
+    [
+      "[1,1000000000,1000000000]",
+      "3"
+    ],
+    [
+      "[1]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

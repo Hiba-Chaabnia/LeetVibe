@@ -1,0 +1,46 @@
+{
+  "questionId": "2589",
+  "title": "Maximum Value of a String in an Array",
+  "titleSlug": "maximum-value-of-a-string-in-an-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "The value of an alphanumeric string can be defined as:\n\n• The numeric representation of the string in base 10, if it comprises of digits only.\n\n• The length of the string, otherwise.\n\nGiven an array strs of alphanumeric strings, return the maximum value of any string in strs.\n\nExample 1:\n\nInput: strs = [\"alic3\",\"bob\",\"3\",\"4\",\"00000\"]\nOutput: 5\nExplanation:\n    - \"alic3\" consists of both letters and digits, so its value is its length, i.e. 5.\n    - \"bob\" consists only of letters, so its value is also its length, i.e. 3.\n    - \"3\" consists only of digits, so its value is its numeric equivalent, i.e. 3.\n    - \"4\" also consists only of digits, so its value is 4.\n    - \"00000\" consists only of digits, so its value is 0.\n    Hence, the maximum value is 5, of \"alic3\".\n\nExample 2:\n\nInput: strs = [\"1\",\"01\",\"001\",\"0001\"]\nOutput: 1\nExplanation:\n    Each string in the array has value 1. Hence, we return 1.\n\nConstraints:\n\n• 1 <= strs.length <= 100\n\n• 1 <= strs[i].length <= 9\n\n• strs[i] consists of only lowercase English letters and digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumValue(self, strs):\n        \"\"\"\n        :type strs: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For strings comprising only of digits, convert them into integers.",
+    "For all other strings, calculate their length."
+  ],
+  "testCases": [
+    [
+      "[\"alic3\",\"bob\",\"3\",\"4\",\"00000\"]"
+    ],
+    [
+      "[\"1\",\"01\",\"001\",\"0001\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumValue(self, strs):\n        max_val = 0\n        for s in strs:\n            if s.isdigit():\n                val = int(s)\n            else:\n                val = len(s)\n            max_val = max(max_val, val)\n        return max_val",
+    "explanation": "For each string: if all digits, convert to int; else use length.\nTime: O(n*m)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Subarray\", \"titleSlug\": \"maximum-subarray\", \"difficulty\": \"Medium\"}]"
+}

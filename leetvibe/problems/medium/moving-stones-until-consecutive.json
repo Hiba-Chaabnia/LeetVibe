@@ -1,0 +1,51 @@
+{
+  "questionId": "1103",
+  "title": "Moving Stones Until Consecutive",
+  "titleSlug": "moving-stones-until-consecutive",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    }
+  ],
+  "content": "There are three stones in different positions on the X-axis. You are given three integers a, b, and c, the positions of the stones.\n\nIn one move, you pick up a stone at an endpoint (i.e., either the lowest or highest position stone), and move it to an unoccupied position between those endpoints. Formally, let's say the stones are currently at positions x, y, and z with x < y < z. You pick up the stone at either position x or position z, and move that stone to an integer position k, with x < k < z and k != y.\n\nThe game ends when you cannot make any more moves (i.e., the stones are in three consecutive positions).\n\nReturn an integer array answer of length 2 where:\n\n• answer[0] is the minimum number of moves you can play, and\n\n• answer[1] is the maximum number of moves you can play.\n\nExample 1:\n\nInput: a = 1, b = 2, c = 5\nOutput: [1,2]\nExplanation: Move the stone from 5 to 3, or move the stone from 5 to 4 to 3.\n\nExample 2:\n\nInput: a = 4, b = 3, c = 2\nOutput: [0,0]\nExplanation: We cannot make any moves.\n\nExample 3:\n\nInput: a = 3, b = 5, c = 1\nOutput: [1,2]\nExplanation: Move the stone from 1 to 4; or move the stone from 1 to 2 to 4.\n\nConstraints:\n\n• 1 <= a, b, c <= 100\n\n• a, b, and c have different values.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numMovesStones(self, a, b, c):\n        \"\"\"\n        :type a: int\n        :type b: int\n        :type c: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For the minimum:  We can always do it in at most 2 moves, by moving one stone next to another, then the third stone next to the other two.  When can we do it in 1 move?  0 moves?\r\n\r\nFor the maximum:  Every move, the maximum position minus the minimum position must decrease by at least 1."
+  ],
+  "testCases": [
+    [
+      "1",
+      "2",
+      "5"
+    ],
+    [
+      "4",
+      "3",
+      "2"
+    ],
+    [
+      "3",
+      "5",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2]",
+    "[0,0]",
+    "[1,2]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "2480",
+  "title": "Find Subarrays With Equal Sum",
+  "titleSlug": "find-subarrays-with-equal-sum",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "Given a 0-indexed integer array nums, determine whether there exist two subarrays of length 2 with equal sum. Note that the two subarrays must begin at different indices.\n\nReturn true if these subarrays exist, and false otherwise.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [4,2,4]\nOutput: true\nExplanation: The subarrays with elements [4,2] and [2,4] have the same sum of 6.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5]\nOutput: false\nExplanation: No two subarrays of size 2 have the same sum.\n\nExample 3:\n\nInput: nums = [0,0,0]\nOutput: true\nExplanation: The subarrays [nums[0],nums[1]] and [nums[1],nums[2]] have the same sum of 0.\n    Note that even though the subarrays have the same content, the two subarrays are considered different because they are in different positions in the original array.\n\nConstraints:\n\n• 2 <= nums.length <= 1000\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findSubarrays(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a counter to keep track of the subarray sums.",
+    "Use a hashset to check if any two sums are equal."
+  ],
+  "testCases": [
+    [
+      "[4,2,4]"
+    ],
+    [
+      "[1,2,3,4,5]"
+    ],
+    [
+      "[0,0,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findSubarrays(self, nums):\n        seen = set()\n        for i in range(len(nums) - 1):\n            current_sum = nums[i] + nums[i+1]\n            if current_sum in seen:\n                return True\n            seen.add(current_sum)\n        return False",
+    "explanation": "Track sums of consecutive pairs. Return True if duplicate found.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Partition Equal Subset Sum\", \"titleSlug\": \"partition-equal-subset-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Two Non-overlapping Sub-arrays Each With Target Sum\", \"titleSlug\": \"find-two-non-overlapping-sub-arrays-each-with-target-sum\", \"difficulty\": \"Medium\"}]"
+}

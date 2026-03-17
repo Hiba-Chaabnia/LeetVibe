@@ -1,0 +1,63 @@
+{
+  "questionId": "3057",
+  "title": "Count K-Subsequences of a String With Maximum Beauty",
+  "titleSlug": "count-k-subsequences-of-a-string-with-maximum-beauty",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "You are given a string s and an integer k.\n\nA k-subsequence is a subsequence of s, having length k, and all its characters are unique, i.e., every character occurs once.\n\nLet f(c) denote the number of times the character c occurs in s.\n\nThe beauty of a k-subsequence is the sum of f(c) for every character c in the k-subsequence.\n\nFor example, consider s = \"abbbdd\" and k = 2:\n\n• f('a') = 1, f('b') = 3, f('d') = 2\n\n• Some k-subsequences of s are:\n\n• \"abbbdd\" -> \"ab\" having a beauty of f('a') + f('b') = 4\n\n• \"abbbdd\" -> \"ad\" having a beauty of f('a') + f('d') = 3\n\n• \"abbbdd\" -> \"bd\" having a beauty of f('b') + f('d') = 5\n\nReturn an integer denoting the number of k-subsequences whose beauty is the maximum among all k-subsequences. Since the answer may be too large, return it modulo 109 + 7.\n\nA subsequence of a string is a new string formed from the original string by deleting some (possibly none) of the characters without disturbing the relative positions of the remaining characters.\n\nNotes\n\n• f(c) is the number of times a character c occurs in s, not a k-subsequence.\n\n• Two k-subsequences are considered different if one is formed by an index that is not present in the other. So, two k-subsequences may form the same string.\n\nExample 1:\n\nInput: s = \"bcca\", k = 2\nOutput: 4\nExplanation: From s we have f('a') = 1, f('b') = 1, and f('c') = 2.\n    The k-subsequences of s are:\n    bcca having a beauty of f('b') + f('c') = 3\n    bcca having a beauty of f('b') + f('c') = 3\n    bcca having a beauty of f('b') + f('a') = 2\n    bcca having a beauty of f('c') + f('a') = 3\n    bcca having a beauty of f('c') + f('a') = 3\n    There are 4 k-subsequences that have the maximum beauty, 3.\n    Hence, the answer is 4.\n\nExample 2:\n\nInput: s = \"abbcd\", k = 4\nOutput: 2\nExplanation: From s we have f('a') = 1, f('b') = 2, f('c') = 1, and f('d') = 1.\n    The k-subsequences of s are:\n    abbcd having a beauty of f('a') + f('b') + f('c') + f('d') = 5\n    abbcd having a beauty of f('a') + f('b') + f('c') + f('d') = 5\n    There are 2 k-subsequences that have the maximum beauty, 5.\n    Hence, the answer is 2.\n\nConstraints:\n\n• 1 <= s.length <= 2 * 105\n\n• 1 <= k <= s.length\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countKSubsequencesWithMaxBeauty(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since every character appears once in a k-subsequence, we can solve the following problem first: Find the total number of ways to select k characters such that the sum of their frequencies is maximum.",
+    "An obvious case to eliminate is if k is greater than the number of distinct characters in s, then the answer is 0.",
+    "We are now interested in the top frequencies among the characters. Using a map data structure, let cnt[x] denote the number of characters that have a frequency of x.",
+    "Starting from the maximum value x in cnt. Let i = min(k, cnt[x]) we add to our result  <sup>cnt[x]</sup>C<sub>i</sub> * x<sup>i</sup> representing the number of ways to select i characters from all characters with frequency x, multiplied by the number of ways to choose each individual character. Subtract i from k and continue downwards to the next maximum value.",
+    "Powers, combinations, and additions should be done modulo 10<sup>9</sup> + 7."
+  ],
+  "testCases": [
+    [
+      "\"bcca\"",
+      "2"
+    ],
+    [
+      "\"abbcd\"",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countKSubsequencesWithMaxBeauty(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        from collections import Counter\n        MOD = 10**9 + 7\n        \n        # Count frequencies\n        freq = Counter(s)\n        \n        if len(freq) < k:\n            return 0\n        \n        # Get sorted frequencies (descending)\n        freqs = sorted(freq.values(), reverse=True)\n        \n        # Precompute factorials and inverse factorials\n        max_n = len(freqs) + 1\n        fact = [1] * max_n\n        for i in range(1, max_n):\n            fact[i] = fact[i-1] * i % MOD\n        \n        def modinv(a, m=MOD):\n            return pow(a, m - 2, m)\n        \n        def comb(n, r):\n            if r > n or r < 0:\n                return 0\n            return fact[n] * modinv(fact[r]) % MOD * modinv(fact[n-r]) % MOD\n        \n        # Select top k characters with maximum beauty\n        result = 1\n        remaining = k\n        \n        i = 0\n        while remaining > 0 and i < len(freqs):\n            # Count chars with this frequency\n            current_freq = freqs[i]\n            count = 0\n            j = i\n            while j < len(freqs) and freqs[j] == current_freq:\n                count += 1\n                j += 1\n            \n            # Select min(remaining, count) from these\n            take = min(remaining, count)\n            \n            # Ways = C(count, take) * current_freq^take\n            result = result * comb(count, take) % MOD\n            result = result * pow(current_freq, take, MOD) % MOD\n            \n            remaining -= take\n            i = j\n        \n        return result",
+    "explanation": "Greedy frequency-based subsequence counting:\n\n1. **Frequency Extraction**: Count occurrence of each character\n2. **Greedy Selection**:\n   - Sort frequencies descending\n   - Select k characters with highest frequencies\n   - Maximize sum = maximize individual contributions\n\n3. **Counting Ways**:\n   - C(count_at_freq, selected) * freq^selected\n   - Product over all frequency groups\n\nTime: O(n + unique * log(unique))\nSpace: O(unique)"
+  },
+  "similarQuestions": "[{\"title\": \"Distinct Subsequences II\", \"titleSlug\": \"distinct-subsequences-ii\", \"difficulty\": \"Hard\"}]"
+}

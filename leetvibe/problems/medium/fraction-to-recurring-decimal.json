@@ -1,0 +1,60 @@
+{
+  "questionId": "166",
+  "title": "Fraction to Recurring Decimal",
+  "titleSlug": "fraction-to-recurring-decimal",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given two integers representing the numerator and denominator of a fraction, return the fraction in string format.\n\nIf the fractional part is repeating, enclose the repeating part in parentheses\n\nIf multiple answers are possible, return any of them.\n\nIt is guaranteed that the length of the answer string is less than 104 for all the given inputs.\n\nNote that if the fraction can be represented as a finite length string, you must return it.\n\nExample 1:\n\nInput: numerator = 1, denominator = 2\nOutput: \"0.5\"\n\nExample 2:\n\nInput: numerator = 2, denominator = 1\nOutput: \"2\"\n\nExample 3:\n\nInput: numerator = 4, denominator = 333\nOutput: \"0.(012)\"\n\nConstraints:\n\n• -231 <= numerator, denominator <= 231 - 1\n\n• denominator != 0",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def fractionToDecimal(self, numerator, denominator):\n        \"\"\"\n        :type numerator: int\n        :type denominator: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "No scary math, just apply elementary math knowledge. Still remember how to perform a <i>long division</i>?",
+    "Try a long division on 4/9, the repeating part is obvious. Now try 4/333. Do you see a pattern?",
+    "Notice that once the remainder starts repeating, so does the divided result.",
+    "Be wary of edge cases! List out as many test cases as you can think of and test your code thoroughly."
+  ],
+  "testCases": [
+    [
+      "1",
+      "2"
+    ],
+    [
+      "2",
+      "1"
+    ],
+    [
+      "4",
+      "333"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"0.5\"",
+    "\"2\"",
+    "\"0.(012)\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def fractionToDecimal(self, numerator, denominator):\n        \"\"\"\n        :type numerator: int\n        :type denominator: int\n        :rtype: str\n        \"\"\"\n        result = []\n        if (numerator < 0) ^ (denominator < 0):\n            result.append('-')\n        \n        numerator, denominator = abs(numerator), abs(denominator)\n        result.append(str(numerator // denominator))\n        \n        remainder = numerator % denominator\n        if not remainder:\n            return ''.join(result)\n        \n        result.append('.')\n        seen = {}  # remainder: position\n        \n        while remainder:\n            if remainder in seen:\n                # Found cycle\n                pos = seen[remainder]\n                result.insert(pos, '(')\n                result.append(')')\n                return ''.join(result)\n            \n            seen[remainder] = len(result)\n            remainder *= 10\n            result.append(str(remainder // denominator))\n            remainder %= denominator\n        \n        return ''.join(result)",
+    "explanation": "Long division simulation. Track remainders seen. When remainder repeats, wrap cycle in parentheses.",
+    "complexity": "Time: O(d) where d is denominator. Space: O(d) for result."
+  },
+  "similarQuestions": "[]"
+}

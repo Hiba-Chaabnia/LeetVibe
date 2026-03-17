@@ -1,0 +1,57 @@
+{
+  "questionId": "375",
+  "title": "Guess Number Higher or Lower II",
+  "titleSlug": "guess-number-higher-or-lower-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "We are playing the Guessing Game. The game will work as follows:\n\n• I pick a number between 1 and n.\n\n• You guess a number.\n\n• If you guess the right number, you win the game.\n\n• If you guess the wrong number, then I will tell you whether the number I picked is higher or lower, and you will continue guessing.\n\n• Every time you guess a wrong number x, you will pay x dollars. If you run out of money, you lose the game.\n\nGiven a particular n, return the minimum amount of money you need to guarantee a win regardless of what number I pick.\n\nExample 1:\n\nInput: n = 10\nOutput: 16\nExplanation: The winning strategy is as follows:\n    - The range is [1,10]. Guess 7.\n        - If this is my number, your total is $0. Otherwise, you pay $7.\n        - If my number is higher, the range is [8,10]. Guess 9.\n            - If this is my number, your total is $7. Otherwise, you pay $9.\n            - If my number is higher, it must be 10. Guess 10. Your total is $7 + $9 = $16.\n            - If my number is lower, it must be 8. Guess 8. Your total is $7 + $9 = $16.\n        - If my number is lower, the range is [1,6]. Guess 3.\n            - If this is my number, your total is $7. Otherwise, you pay $3.\n            - If my number is higher, the range is [4,6]. Guess 5.\n                - If this is my number, your total is $7 + $3 = $10. Otherwise, you pay $5.\n                - If my number is higher, it must be 6. Guess 6. Your total is $7 + $3 + $5 = $15.\n                - If my number is lower, it must be 4. Guess 4. Your total is $7 + $3 + $5 = $15.\n            - If my number is lower, the range is [1,2]. Guess 1.\n                - If this is my number, your total is $7 + $3 = $10. Otherwise, you pay $1.\n                - If my number is higher, it must be 2. Guess 2. Your total is $7 + $3 + $1 = $11.\n    The worst case in all these scenarios is that you pay $16. Hence, you only need $16 to guarantee a win.\n\nExample 2:\n\nInput: n = 1\nOutput: 0\nExplanation: There is only one possible number, so you can guess 1 and not have to pay anything.\n\nExample 3:\n\nInput: n = 2\nOutput: 1\nExplanation: There are two possible numbers, 1 and 2.\n    - Guess 1.\n        - If this is my number, your total is $0. Otherwise, you pay $1.\n        - If my number is higher, it must be 2. Guess 2. Your total is $1.\n    The worst case is that you pay $1.\n\nConstraints:\n\n• 1 <= n <= 200",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getMoneyAmount(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The best strategy to play the game is to minimize the maximum loss you could possibly face. Another strategy is to minimize the expected loss. Here, we are interested in the <b>first</b> scenario.",
+    "Take a small example (n = 3). What do you end up paying in the worst case?",
+    "Check out <a href=\"https://en.wikipedia.org/wiki/Minimax\">this article</a> if you're still stuck.",
+    "The purely recursive implementation of minimax would be worthless for even a small n. You MUST use dynamic programming.",
+    "As a follow-up, how would you modify your code to solve the problem of minimizing the expected loss, instead of the worst-case loss?"
+  ],
+  "testCases": [
+    [
+      "10"
+    ],
+    [
+      "1"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "16",
+    "0",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def getMoneyAmount(n: int) -> int:\n    dp = [[0] * (n + 1) for _ in range(n + 1)]\n    for i in range(n - 1, 0, -1):\n        for j in range(i + 1, n + 1):\n            min_cost = float(\"inf\")\n            for k in range(i, j):\n                cost = k + max(dp[i][k - 1], dp[k + 1][j])\n                min_cost = min(min_cost, cost)\n            dp[i][j] = min_cost\n    return dp[1][n]",
+    "explanation": "The algorithm uses dynamic programming to find the minimum cost required to guarantee a win. We create a 2D array `dp` where `dp[i][j]` represents the minimum cost required to guess the correct number from numbers between i and j inclusive.\n\nWe fill in this array from the bottom right corner, and move towards the top left corner. For each value of `i` and `j`, we calculate the cost by guessing a number `k` between `i` and `j`. The cost is equal to `k + max(dp[i][k-1], dp[k+1][j])`, which means that we pay `k` and take the worst-case scenario, and we try to minimize this cost.\n\nAfter filling the `dp` array, the minimum cost required to win the game when guessing numbers from 1 to `n` is stored in `dp[1][n]`."
+  },
+  "similarQuestions": "[{\"title\": \"Flip Game II\", \"titleSlug\": \"flip-game-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Guess Number Higher or Lower\", \"titleSlug\": \"guess-number-higher-or-lower\", \"difficulty\": \"Easy\"}, {\"title\": \"Can I Win\", \"titleSlug\": \"can-i-win\", \"difficulty\": \"Medium\"}, {\"title\": \"Find K Closest Elements\", \"titleSlug\": \"find-k-closest-elements\", \"difficulty\": \"Medium\"}]"
+}

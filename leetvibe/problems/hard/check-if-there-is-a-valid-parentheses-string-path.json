@@ -1,0 +1,47 @@
+{
+  "questionId": "2349",
+  "title": " Check if There Is a Valid Parentheses String Path",
+  "titleSlug": "check-if-there-is-a-valid-parentheses-string-path",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "A parentheses string is a non-empty string consisting only of '(' and ')'. It is valid if any of the following conditions is true:\n\n• It is ().\n\n• It can be written as AB (A concatenated with B), where A and B are valid parentheses strings.\n\n• It can be written as (A), where A is a valid parentheses string.\n\nYou are given an m x n matrix of parentheses grid. A valid parentheses string path in the grid is a path satisfying all of the following conditions:\n\n• The path starts from the upper left cell (0, 0).\n\n• The path ends at the bottom-right cell (m - 1, n - 1).\n\n• The path only ever moves down or right.\n\n• The resulting parentheses string formed by the path is valid.\n\nReturn true if there exists a valid parentheses string path in the grid. Otherwise, return false.\n\nExample 1:\n\nInput: grid = [[\"(\",\"(\",\"(\"],[\")\",\"(\",\")\"],[\"(\",\"(\",\")\"],[\"(\",\"(\",\")\"]]\nOutput: true\nExplanation: The above diagram shows two possible paths that form valid parentheses strings.\n    The first path shown results in the valid parentheses string \"()(())\".\n    The second path shown results in the valid parentheses string \"((()))\".\n    Note that there may be other valid parentheses string paths.\n\nExample 2:\n\nInput: grid = [[\")\",\")\"],[\"(\",\"(\"]]\nOutput: false\nExplanation: The two possible paths form the parentheses strings \"))(\" and \")((\". Since neither of them are valid parentheses strings, we return false.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 100\n\n• grid[i][j] is either '(' or ')'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def hasValidPath(self, grid):\n        \"\"\"\n        :type grid: List[List[str]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What observations can you make about the number of open brackets and close brackets for any prefix of a valid bracket sequence?",
+    "The number of open brackets must always be greater than or equal to the number of close brackets.",
+    "Could you use dynamic programming?"
+  ],
+  "testCases": [
+    [
+      "[[\"(\",\"(\",\"(\"],[\")\",\"(\",\")\"],[\"(\",\"(\",\")\"],[\"(\",\"(\",\")\"]]"
+    ],
+    [
+      "[[\")\",\")\"],[\"(\",\"(\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Check if There is a Valid Path in a Grid\", \"titleSlug\": \"check-if-there-is-a-valid-path-in-a-grid\", \"difficulty\": \"Medium\"}, {\"title\": \"Check if a Parentheses String Can Be Valid\", \"titleSlug\": \"check-if-a-parentheses-string-can-be-valid\", \"difficulty\": \"Medium\"}]"
+}

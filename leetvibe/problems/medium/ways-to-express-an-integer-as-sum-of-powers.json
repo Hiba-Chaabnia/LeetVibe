@@ -1,0 +1,44 @@
+{
+  "questionId": "2882",
+  "title": "Ways to Express an Integer as Sum of Powers",
+  "titleSlug": "ways-to-express-an-integer-as-sum-of-powers",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given two positive integers n and x.\n\nReturn the number of ways n can be expressed as the sum of the xth power of unique positive integers, in other words, the number of sets of unique integers [n1, n2, ..., nk] where n = n1x + n2x + ... + nkx.\n\nSince the result can be very large, return it modulo 109 + 7.\n\nFor example, if n = 160 and x = 3, one way to express n is n = 23 + 33 + 53.\n\nExample 1:\n\nInput: n = 10, x = 2\nOutput: 1\nExplanation: We can express n as the following: n = 32 + 12 = 10.\n    It can be shown that it is the only way to express 10 as the sum of the 2nd power of unique integers.\n\nExample 2:\n\nInput: n = 4, x = 1\nOutput: 2\nExplanation: We can express n in the following ways:\n    - n = 41 = 4.\n    - n = 31 + 11 = 4.\n\nConstraints:\n\n• 1 <= n <= 300\n\n• 1 <= x <= 5",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfWays(self, n, x):\n        \"\"\"\n        :type n: int\n        :type x: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You can use dynamic programming, where dp[k][j] represents the number of ways to express k as the sum of the x-th power of unique positive integers such that the biggest possible number we use is j.",
+    "To calculate dp[k][j], you can iterate over the numbers smaller than j and try to use each one as a power of x to make our sum k."
+  ],
+  "testCases": [
+    [
+      "10",
+      "2"
+    ],
+    [
+      "4",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numberOfWays(self, n, x):\n        MOD = 10**9 + 7\n        dp = [0] * (n + 1)\n        dp[0] = 1\n        i = 1\n        while i ** x <= n:\n            pw = i ** x\n            for j in range(n, pw - 1, -1):\n                dp[j] = (dp[j] + dp[j - pw]) % MOD\n            i += 1\n        return dp[n]",
+    "explanation": "This is a classic 0/1 knapsack (subset-sum) problem. Each distinct positive integer i contributes item weight i^x, and we want the number of subsets summing to exactly n.\n\nWe use a 1D DP array where dp[j] = number of ways to form sum j using distinct integers processed so far. Iterating j from n down to i^x (standard 0/1 knapsack direction) ensures each integer is used at most once.\n\nWe enumerate i starting from 1 until i^x > n, adding each valid power as an item.\n\nTime complexity: O(n^(1+1/x)) since there are at most n^(1/x) valid integers. Space complexity: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Perfect Squares\", \"titleSlug\": \"perfect-squares\", \"difficulty\": \"Medium\"}, {\"title\": \"Combination Sum IV\", \"titleSlug\": \"combination-sum-iv\", \"difficulty\": \"Medium\"}, {\"title\": \"Target Sum\", \"titleSlug\": \"target-sum\", \"difficulty\": \"Medium\"}]"
+}

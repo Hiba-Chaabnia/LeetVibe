@@ -1,0 +1,50 @@
+{
+  "questionId": "3729",
+  "title": "Unit Conversion I",
+  "titleSlug": "unit-conversion-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There are n types of units indexed from 0 to n - 1. You are given a 2D integer array conversions of length n - 1, where conversions[i] = [sourceUniti, targetUniti, conversionFactori]. This indicates that a single unit of type sourceUniti is equivalent to conversionFactori units of type targetUniti.\n\nReturn an array baseUnitConversion of length n, where baseUnitConversion[i] is the number of units of type i equivalent to a single unit of type 0. Since the answer may be large, return each baseUnitConversion[i] modulo 109 + 7.\n\nExample 1:\n\nInput: conversions = [[0,1,2],[1,2,3]]\n\nOutput: [1,2,6]\n\nExplanation:\n\n• Convert a single unit of type 0 into 2 units of type 1 using conversions[0].\n\n• Convert a single unit of type 0 into 6 units of type 2 using conversions[0], then conversions[1].\n\nExample 2:\n\nInput: conversions = [[0,1,2],[0,2,3],[1,3,4],[1,4,5],[2,5,2],[4,6,3],[5,7,4]]\n\nOutput: [1,2,3,8,10,6,30,24]\n\nExplanation:\n\n• Convert a single unit of type 0 into 2 units of type 1 using conversions[0].\n\n• Convert a single unit of type 0 into 3 units of type 2 using conversions[1].\n\n• Convert a single unit of type 0 into 8 units of type 3 using conversions[0], then conversions[2].\n\n• Convert a single unit of type 0 into 10 units of type 4 using conversions[0], then conversions[3].\n\n• Convert a single unit of type 0 into 6 units of type 5 using conversions[1], then conversions[4].\n\n• Convert a single unit of type 0 into 30 units of type 6 using conversions[0], conversions[3], then conversions[5].\n\n• Convert a single unit of type 0 into 24 units of type 7 using conversions[1], conversions[4], then conversions[6].\n\nConstraints:\n\n• 2 <= n <= 105\n\n• conversions.length == n - 1\n\n• 0 <= sourceUniti, targetUniti < n\n\n• 1 <= conversionFactori <= 109\n\n• It is guaranteed that unit 0 can be converted into any other unit through a unique combination of conversions without using any conversions in the opposite direction.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def baseUnitConversions(self, conversions):\n        \"\"\"\n        :type conversions: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The input is a weighted directed tree rooted at 0.",
+    "Launch a BFS from node 0 and multiply the weights on the path."
+  ],
+  "testCases": [
+    [
+      "[[0,1,2],[1,2,3]]"
+    ],
+    [
+      "[[0,1,2],[0,2,3],[1,3,4],[1,4,5],[2,5,2],[4,6,3],[5,7,4]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,6]",
+    "[1,2,3,8,10,6,30,24]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict, deque\n\nclass Solution(object):\n    def baseUnitConversions(self, conversions):\n        MOD = 10**9 + 7\n        n = len(conversions) + 1\n        graph = defaultdict(list)\n        for src, tgt, factor in conversions:\n            graph[src].append((tgt, factor))\n\n        result = [0] * n\n        result[0] = 1\n        queue = deque([0])\n\n        while queue:\n            node = queue.popleft()\n            for neighbor, factor in graph[node]:\n                result[neighbor] = result[node] * factor % MOD\n                queue.append(neighbor)\n\n        return result",
+    "explanation": "The conversions form a directed tree rooted at unit 0 (guaranteed by the problem). We perform a BFS starting from node 0.\n\nFor each node we visit, we compute its conversion factor relative to unit 0 by multiplying the parent's factor by the edge weight. Since unit 0 starts with factor 1, every node gets the cumulative product along the unique path from 0 to that node.\n\nAll multiplications are taken modulo 10^9+7.\n\nTime complexity: O(n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[]"
+}

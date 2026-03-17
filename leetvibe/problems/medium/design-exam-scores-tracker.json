@@ -1,0 +1,50 @@
+{
+  "questionId": "4059",
+  "title": "Design Exam Scores Tracker",
+  "titleSlug": "design-exam-scores-tracker",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Design",
+      "slug": "design"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Alice frequently takes exams and wants to track her scores and calculate the total scores over specific time periods.\n\nImplement the ExamTracker class:\n\n• ExamTracker(): Initializes the ExamTracker object.\n\n• void record(int time, int score): Alice takes a new exam at time time and achieves the score score.\n\n• long long totalScore(int startTime, int endTime): Returns an integer that represents the total score of all exams taken by Alice between startTime and endTime (inclusive). If there are no recorded exams taken by Alice within the specified time interval, return 0.\n\nIt is guaranteed that the function calls are made in chronological order. That is,\n\n• Calls to record() will be made with strictly increasing time.\n\n• Alice will never ask for total scores that require information from the future. That is, if the latest record() is called with time = t, then totalScore() will always be called with startTime <= endTime <= t.\n\nExample 1:\n\nInput:\n\n[\"ExamTracker\", \"record\", \"totalScore\", \"record\", \"totalScore\", \"totalScore\", \"totalScore\", \"totalScore\"]\n\n[[], [1, 98], [1, 1], [5, 99], [1, 3], [1, 5], [3, 4], [2, 5]]\n\nOutput:\n\n[null, null, 98, null, 98, 197, 0, 99]\n\nExplanation\n\nExamTracker examTracker = new ExamTracker();\n\nexamTracker.record(1, 98); // Alice takes a new exam at time 1, scoring 98.\n\nexamTracker.totalScore(1, 1); // Between time 1 and time 1, Alice took 1 exam at time 1, scoring 98. The total score is 98.\n\nexamTracker.record(5, 99); // Alice takes a new exam at time 5, scoring 99.\n\nexamTracker.totalScore(1, 3); // Between time 1 and time 3, Alice took 1 exam at time 1, scoring 98. The total score is 98.\n\nexamTracker.totalScore(1, 5); // Between time 1 and time 5, Alice took 2 exams at time 1 and 5, scoring 98 and 99. The total score is 98 + 99 = 197.\n\nexamTracker.totalScore(3, 4); // Alice did not take any exam between time 3 and time 4. Therefore, the answer is 0.\n\nexamTracker.totalScore(2, 5); // Between time 2 and time 5, Alice took 1 exam at time 5, scoring 99. The total score is 99.\n\nConstraints:\n\n• 1 <= time <= 109\n\n• 1 <= score <= 109\n\n• 1 <= startTime <= endTime <= t, where t is the value of time from the most recent call of record().\n\n• Calls of record() will be made with strictly increasing time.\n\n• After ExamTracker(), the first function call will always be record().\n\n• At most 105 calls will be made in total to record() and totalScore().",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class ExamTracker(object):\n\n    def __init__(self):\n        \n\n    def record(self, time, score):\n        \"\"\"\n        :type time: int\n        :type score: int\n        :rtype: None\n        \"\"\"\n        \n\n    def totalScore(self, startTime, endTime):\n        \"\"\"\n        :type startTime: int\n        :type endTime: int\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your ExamTracker object will be instantiated and called as such:\n# obj = ExamTracker()\n# obj.record(time,score)\n# param_2 = obj.totalScore(startTime,endTime)"
+    }
+  ],
+  "hints": [
+    "Maintain two arrays: times (append each time) and prefix where prefix[i] is sum of scores up to index i.",
+    "Use binary search to find indices: l = lower_bound(times, startTime) and r = upper_bound(times, endTime) - 1.",
+    "If l > r there are no exams, so return 0; otherwise compute total using the prefix."
+  ],
+  "testCases": [
+    [
+      "[\"ExamTracker\",\"record\",\"totalScore\",\"record\",\"totalScore\",\"totalScore\",\"totalScore\",\"totalScore\"]"
+    ],
+    [
+      "[[],[1,98],[1,1],[5,99],[1,3],[1,5],[3,4],[2,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[null, null, 98, null, 98, 197, 0, 99]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

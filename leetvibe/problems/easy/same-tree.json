@@ -1,0 +1,55 @@
+{
+  "questionId": "100",
+  "title": "Same Tree",
+  "titleSlug": "same-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the roots of two binary trees p and q, write a function to check if they are the same or not.\n\nTwo binary trees are considered the same if they are structurally identical, and the nodes have the same value.\n\nExample 1:\n\nInput: p = [1,2,3], q = [1,2,3]\nOutput: true\n\nExample 2:\n\nInput: p = [1,2], q = [1,null,2]\nOutput: false\n\nExample 3:\n\nInput: p = [1,2,1], q = [1,1,2]\nOutput: false\n\nConstraints:\n\n• The number of nodes in both trees is in the range [0, 100].\n\n• -104 <= Node.val <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isSameTree(self, p, q):\n        \"\"\"\n        :type p: Optional[TreeNode]\n        :type q: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "[1,2,3]",
+      "[1,2]"
+    ],
+    [
+      "[1,null,2]",
+      "[1,2,1]",
+      "[1,1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isSameTree(self, p, q):\n        if not p and not q:\n            return True\n        if not p or not q:\n            return False\n        return p.val == q.val and self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)",
+    "explanation": "Recursively check: both null, values equal, left subtrees equal, right subtrees equal.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[]"
+}

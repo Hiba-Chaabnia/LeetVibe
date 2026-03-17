@@ -1,0 +1,52 @@
+{
+  "questionId": "1414",
+  "title": "Shortest Path in a Grid with Obstacles Elimination",
+  "titleSlug": "shortest-path-in-a-grid-with-obstacles-elimination",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n integer matrix grid where each cell is either 0 (empty) or 1 (obstacle). You can move up, down, left, or right from and to an empty cell in one step.\n\nReturn the minimum number of steps to walk from the upper left corner (0, 0) to the lower right corner (m - 1, n - 1) given that you can eliminate at most k obstacles. If it is not possible to find such walk return -1.\n\nExample 1:\n\nInput: grid = [[0,0,0],[1,1,0],[0,0,0],[0,1,1],[0,0,0]], k = 1\nOutput: 6\nExplanation:\n    The shortest path without eliminating any obstacle is 10.\n    The shortest path with one obstacle elimination at position (3,2) is 6. Such path is (0,0) -> (0,1) -> (0,2) -> (1,2) -> (2,2) -> (3,2) -> (4,2).\n\nExample 2:\n\nInput: grid = [[0,1,1],[1,1,1],[1,0,0]], k = 1\nOutput: -1\nExplanation: We need to eliminate at least two obstacles to find such a walk.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 40\n\n• 1 <= k <= m * n\n\n• grid[i][j] is either 0 or 1.\n\n• grid[0][0] == grid[m - 1][n - 1] == 0",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestPath(self, grid, k):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use BFS.",
+    "BFS on (x,y,r) x,y is coordinate, r is remain number of obstacles you can remove."
+  ],
+  "testCases": [
+    [
+      "[[0,0,0],[1,1,0],[0,0,0],[0,1,1],[0,0,0]]",
+      "1"
+    ],
+    [
+      "[[0,1,1],[1,1,1],[1,0,0]]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\ndef shortestPath(grid, k):\n    m, n = len(grid), len(grid[0])\n    visited = [[[False for _ in range(k + 1)] for _ in range(n)] for _ in range(m)]\n    q = deque([(0, 0, 0, k)])\n    moves = [(0, 1), (0, -1), (1, 0), (-1, 0)]\n    steps = 0\n\n    while q:\n        for _ in range(len(q)):\n            x, y, steps, k_remaining = q.popleft()\n            if x == m - 1 and y == n - 1:\n                return steps\n            for dx, dy in moves:\n                new_x, new_y, = x + dx, y + dy\n                if 0 <= new_x < m and 0 <= new_y < n:\n                    new_k_remaining = k_remaining - grid[new_x][new_y]\n                    if new_k_remaining >= 0 and not visited[new_x][new_y][new_k_remaining]:\n                        visited[new_x][new_y][new_k_remaining] = True\n                        q.append((new_x, new_y, steps + 1, new_k_remaining))\n        steps += 1\n\n    return -1",
+    "explanation": "The given problem can be solved using BFS with an additional state for the number of obstacles we can still eliminate. We use a 3D visited array to keep track of the states we have visited at each cell with a certain number of obstacle eliminations remaining. \n\nFor each cell, we perform 4 possible moves: left, right, up and down. We then calculate the new number of obstacles we can eliminate. If the move is valid within the boundaries of the grid and the new number of obstacles we can eliminate is non-negative, we add the new state to the queue and mark it as visited. \n\nWe continue the BFS until the queue is empty or we have visited the cell at the bottom right corner with valid number of obstacle eliminations remaining. If we visit the target cell, we return the number of steps taken so far. If the queue is empty, we return -1 as we couldn't find a valid path."
+  },
+  "similarQuestions": "[{\"title\": \"Shortest Path to Get Food\", \"titleSlug\": \"shortest-path-to-get-food\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Obstacle Removal to Reach Corner\", \"titleSlug\": \"minimum-obstacle-removal-to-reach-corner\", \"difficulty\": \"Hard\"}, {\"title\": \"Find a Safe Walk Through a Grid\", \"titleSlug\": \"find-a-safe-walk-through-a-grid\", \"difficulty\": \"Medium\"}]"
+}

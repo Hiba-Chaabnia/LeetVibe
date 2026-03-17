@@ -1,0 +1,54 @@
+{
+  "questionId": "3",
+  "title": "Longest Substring Without Repeating Characters",
+  "titleSlug": "longest-substring-without-repeating-characters",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given a string s, find the length of the longest substring without duplicate characters.\n\nExample 1:\n\nInput: s = \"abcabcbb\"\nOutput: 3\nExplanation: The answer is \"abc\", with the length of 3. Note that \"bca\" and \"cab\" are also correct answers.\n\nExample 2:\n\nInput: s = \"bbbbb\"\nOutput: 1\nExplanation: The answer is \"b\", with the length of 1.\n\nExample 3:\n\nInput: s = \"pwwkew\"\nOutput: 3\nExplanation: The answer is \"wke\", with the length of 3.\n    Notice that the answer must be a substring, \"pwke\" is a subsequence and not a substring.\n\nConstraints:\n\n• 0 <= s.length <= 5 * 104\n\n• s consists of English letters, digits, symbols and spaces.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lengthOfLongestSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Generate all possible substrings & check for each substring if it's valid and keep updating maxLen accordingly."
+  ],
+  "testCases": [
+    [
+      "\"abcabcbb\""
+    ],
+    [
+      "\"bbbbb\""
+    ],
+    [
+      "\"pwwkew\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def lengthOfLongestSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        char_index = {}\n        max_len = 0\n        left = 0\n        \n        for right in range(len(s)):\n            char = s[right]\n            \n            # If character seen before and within window, move left pointer\n            if char in char_index and char_index[char] >= left:\n                left = char_index[char] + 1\n            \n            # Update character's latest index\n            char_index[char] = right\n            \n            # Update max length\n            max_len = max(max_len, right - left + 1)\n        \n        return max_len",
+    "explanation": "Sliding window with hash map. Track latest index of each character. When duplicate found in window, move left pointer past previous occurrence.",
+    "complexity": "Time: O(n). Space: O(min(n, 26))."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Substring with At Most Two Distinct Characters\", \"titleSlug\": \"longest-substring-with-at-most-two-distinct-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Substring with At Most K Distinct Characters\", \"titleSlug\": \"longest-substring-with-at-most-k-distinct-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Subarrays with K Different Integers\", \"titleSlug\": \"subarrays-with-k-different-integers\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Erasure Value\", \"titleSlug\": \"maximum-erasure-value\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Equal Count Substrings\", \"titleSlug\": \"number-of-equal-count-substrings\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Consecutive Cards to Pick Up\", \"titleSlug\": \"minimum-consecutive-cards-to-pick-up\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Nice Subarray\", \"titleSlug\": \"longest-nice-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Optimal Partition of String\", \"titleSlug\": \"optimal-partition-of-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Complete Subarrays in an Array\", \"titleSlug\": \"count-complete-subarrays-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Longest Special Substring That Occurs Thrice II\", \"titleSlug\": \"find-longest-special-substring-that-occurs-thrice-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Longest Special Substring That Occurs Thrice I\", \"titleSlug\": \"find-longest-special-substring-that-occurs-thrice-i\", \"difficulty\": \"Medium\"}]"
+}

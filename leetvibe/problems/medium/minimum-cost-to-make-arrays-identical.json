@@ -1,0 +1,55 @@
+{
+  "questionId": "3712",
+  "title": "Minimum Cost to Make Arrays Identical",
+  "titleSlug": "minimum-cost-to-make-arrays-identical",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given two integer arrays arr and brr of length n, and an integer k. You can perform the following operations on arr any number of times:\n\n• Split arr into any number of contiguous subarrays and rearrange these subarrays in any order. This operation has a fixed cost of k.\n\n•\n\tChoose any element in arr and add or subtract a positive integer x to it. The cost of this operation is x.\n\nReturn the minimum total cost to make arr equal to brr.\n\nExample 1:\n\nInput: arr = [-7,9,5], brr = [7,-2,-5], k = 2\n\nOutput: 13\n\nExplanation:\n\n• Split arr into two contiguous subarrays: [-7] and [9, 5] and rearrange them as [9, 5, -7], with a cost of 2.\n\n• Subtract 2 from element arr[0]. The array becomes [7, 5, -7]. The cost of this operation is 2.\n\n• Subtract 7 from element arr[1]. The array becomes [7, -2, -7]. The cost of this operation is 7.\n\n• Add 2 to element arr[2]. The array becomes [7, -2, -5]. The cost of this operation is 2.\n\nThe total cost to make the arrays equal is 2 + 2 + 7 + 2 = 13.\n\nExample 2:\n\nInput: arr = [2,1], brr = [2,1], k = 0\n\nOutput: 0\n\nExplanation: Since the arrays are already equal, no operations are needed, and the total cost is 0.\n\nConstraints:\n\n• 1 <= arr.length == brr.length <= 105\n\n• 0 <= k <= 2 * 1010\n\n• -105 <= arr[i] <= 105\n\n• -105 <= brr[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCost(self, arr, brr, k):\n        \"\"\"\n        :type arr: List[int]\n        :type brr: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What does Operation 1 (rearranging subarrays) actually accomplish?",
+    "Calculate sum(abs(arr[i] - brr[i])) if you do not use Operation 1.",
+    "Calculate sum(abs(arr[i] - brr[i])) after sorting both arrays if you use Operation 1."
+  ],
+  "testCases": [
+    [
+      "[-7,9,5]",
+      "[7,-2,-5]",
+      "2"
+    ],
+    [
+      "[2,1]",
+      "[2,1]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minCost(self, arr, brr, k):\n        n = len(arr)\n        # Cost without rearranging: sum(|arr[i] - brr[i]|)\n        cost_no_rearrange = sum(abs(arr[i] - brr[i]) for i in range(n))\n\n        # Cost with rearranging (pay k once): sort both, match optimally\n        # After sorting, cost = k + sum(|sorted_arr[i] - sorted_brr[i]|)\n        sa = sorted(arr)\n        sb = sorted(brr)\n        cost_rearrange = k + sum(abs(sa[i] - sb[i]) for i in range(n))\n\n        return min(cost_no_rearrange, cost_rearrange)",
+    "explanation": "Operation 1 (rearrange subarrays at cost k) effectively allows any permutation of arr (any sequence of subarray rearrangements can achieve any permutation). After rearranging, we still pay element-wise adjustment costs.\n\nTo minimize adjustment cost after rearranging: sort both arrays — the rearrangement to minimize sum of |arr[i] - brr[i]| is to sort both and match them in order.\n\nCompare: (1) no rearrange: sum|arr[i]-brr[i]|, (2) rearrange: k + sum|sorted_arr[i]-sorted_brr[i]|.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

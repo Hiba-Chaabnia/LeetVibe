@@ -1,0 +1,60 @@
+{
+  "questionId": "3215",
+  "title": "Matrix Similarity After Cyclic Shifts",
+  "titleSlug": "matrix-similarity-after-cyclic-shifts",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an m x n integer matrix mat and an integer k. The matrix rows are 0-indexed.\n\nThe following proccess happens k times:\n\n• Even-indexed rows (0, 2, 4, ...) are cyclically shifted to the left.\n\n• Odd-indexed rows (1, 3, 5, ...) are cyclically shifted to the right.\n\nReturn true if the final modified matrix after k steps is identical to the original matrix, and false otherwise.\n\nExample 1:\n\nInput: mat = [[1,2,3],[4,5,6],[7,8,9]], k = 4\n\nOutput: false\n\nExplanation: In each step left shift is applied to rows 0 and 2 (even indices), and right shift to row 1 (odd index).\n\nExample 2:\n\nInput: mat = [[1,2,1,2],[5,5,5,5],[6,3,6,3]], k = 2\n\nOutput: true\n\nExplanation: Example 3:\n\nInput: mat = [[2,2],[2,2]], k = 3\n\nOutput: true\n\nExplanation: As all the values are equal in the matrix, even after performing cyclic shifts the matrix will remain the same.\n\nConstraints:\n\n• 1 <= mat.length <= 25\n\n• 1 <= mat[i].length <= 25\n\n• 1 <= mat[i][j] <= 25\n\n• 1 <= k <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def areSimilar(self, mat, k):\n        \"\"\"\n        :type mat: List[List[int]]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You can reduce k shifts to (k % n) shifts as after n shifts the matrix will become similar to the initial matrix."
+  ],
+  "testCases": [
+    [
+      "[[1,2,3],[4,5,6],[7,8,9]]",
+      "4"
+    ],
+    [
+      "[[1,2,1,2],[5,5,5,5],[6,3,6,3]]",
+      "2"
+    ],
+    [
+      "[[2,2],[2,2]]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def areSimilar(self, mat, k):\n        cols = len(mat[0])\n        shift = k % cols\n        if shift == 0:\n            return True\n        for i, row in enumerate(mat):\n            if i % 2 == 0:\n                rotated = row[-shift:] + row[:-shift]\n            else:\n                rotated = row[shift:] + row[:shift]\n        return all(\n            (mat[i][-shift:] + mat[i][:-shift] if i % 2 == 0 else mat[i][shift:] + mat[i][:shift]) == mat[i]\n            for i in range(len(mat))\n        )",
+    "explanation": "After k shifts even rows rotate right and odd rows rotate left; check if each row's k-cyclic rotation equals itself. O(rows*cols) time."
+  },
+  "similarQuestions": "[]"
+}

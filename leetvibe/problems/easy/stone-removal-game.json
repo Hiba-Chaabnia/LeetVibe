@@ -1,0 +1,45 @@
+{
+  "questionId": "3625",
+  "title": "Stone Removal Game",
+  "titleSlug": "stone-removal-game",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Alice and Bob are playing a game where they take turns removing stones from a pile, with Alice going first.\n\n• Alice starts by removing exactly 10 stones on her first turn.\n\n• For each subsequent turn, each player removes exactly 1 fewer stone than the previous opponent.\n\nThe player who cannot make a move loses the game.\n\nGiven a positive integer n, return true if Alice wins the game and false otherwise.\n\nExample 1:\n\nInput: n = 12\n\nOutput: true\n\nExplanation:\n\n• Alice removes 10 stones on her first turn, leaving 2 stones for Bob.\n\n• Bob cannot remove 9 stones, so Alice wins.\n\nExample 2:\n\nInput: n = 1\n\nOutput: false\n\nExplanation:\n\n• Alice cannot remove 10 stones, so Alice loses.\n\nConstraints:\n\n• 1 <= n <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canAliceWin(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints are small enough that a brute-force solution is feasible."
+  ],
+  "testCases": [
+    [
+      "12"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def canAliceWin(self, n):\n        stones = n\n        to_remove = 10\n        alice_turn = True\n        while stones >= to_remove:\n            stones -= to_remove\n            to_remove -= 1\n            alice_turn = not alice_turn\n        return not alice_turn",
+    "explanation": "Simulate: Alice starts by removing 10, then each turn decreases by 1; the player who cannot move loses. O(sqrt(n)) time."
+  },
+  "similarQuestions": "[{\"title\": \"Stone Game IV\", \"titleSlug\": \"stone-game-iv\", \"difficulty\": \"Hard\"}]"
+}

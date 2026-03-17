@@ -1,0 +1,48 @@
+{
+  "questionId": "17",
+  "title": "Letter Combinations of a Phone Number",
+  "titleSlug": "letter-combinations-of-a-phone-number",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.\n\nA mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.\n\nExample 1:\n\nInput: digits = \"23\"\nOutput: [\"ad\",\"ae\",\"af\",\"bd\",\"be\",\"bf\",\"cd\",\"ce\",\"cf\"]\n\nExample 2:\n\nInput: digits = \"2\"\nOutput: [\"a\",\"b\",\"c\"]\n\nConstraints:\n\n• 1 <= digits.length <= 4\n\n• digits[i] is a digit in the range ['2', '9'].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def letterCombinations(self, digits):\n        \"\"\"\n        :type digits: str\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"23\""
+    ],
+    [
+      "\"2\""
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"ad\",\"ae\",\"af\",\"bd\",\"be\",\"bf\",\"cd\",\"ce\",\"cf\"]",
+    "[\"a\",\"b\",\"c\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def letterCombinations(self, digits):\n        \"\"\"\n        :type digits: str\n        :rtype: List[str]\n        \"\"\"\n        if not digits:\n            return []\n        \n        mapping = {\n            '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl',\n            '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'\n        }\n        \n        result = ['']\n        \n        for digit in digits:\n            new_result = []\n            for combo in result:\n                for letter in mapping[digit]:\n                    new_result.append(combo + letter)\n            result = new_result\n        \n        return result",
+    "explanation": "For each digit, generate combinations with all mapped letters. Build iteratively.",
+    "complexity": "Time: O(4^n) worst case. Space: O(4^n)."
+  },
+  "similarQuestions": "[{\"title\": \"Generate Parentheses\", \"titleSlug\": \"generate-parentheses\", \"difficulty\": \"Medium\"}, {\"title\": \"Combination Sum\", \"titleSlug\": \"combination-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Binary Watch\", \"titleSlug\": \"binary-watch\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Number of Texts\", \"titleSlug\": \"count-number-of-texts\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Pushes to Type Word I\", \"titleSlug\": \"minimum-number-of-pushes-to-type-word-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Number of Pushes to Type Word II\", \"titleSlug\": \"minimum-number-of-pushes-to-type-word-ii\", \"difficulty\": \"Medium\"}]"
+}

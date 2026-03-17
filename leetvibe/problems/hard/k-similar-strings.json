@@ -1,0 +1,49 @@
+{
+  "questionId": "884",
+  "title": "K-Similar Strings",
+  "titleSlug": "k-similar-strings",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "Strings s1 and s2 are k-similar (for some non-negative integer k) if we can swap the positions of two letters in s1 exactly k times so that the resulting string equals s2.\n\nGiven two anagrams s1 and s2, return the smallest k for which s1 and s2 are k-similar.\n\nExample 1:\n\nInput: s1 = \"ab\", s2 = \"ba\"\nOutput: 1\nExplanation: The two string are 1-similar because we can use one swap to change s1 to s2: \"ab\" --> \"ba\".\n\nExample 2:\n\nInput: s1 = \"abc\", s2 = \"bca\"\nOutput: 2\nExplanation: The two strings are 2-similar because we can use two swaps to change s1 to s2: \"abc\" --> \"bac\" --> \"bca\".\n\nConstraints:\n\n• 1 <= s1.length <= 20\n\n• s2.length == s1.length\n\n• s1 and s2 contain only lowercase letters from the set {'a', 'b', 'c', 'd', 'e', 'f'}.\n\n• s2 is an anagram of s1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kSimilarity(self, s1, s2):\n        \"\"\"\n        :type s1: str\n        :type s2: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"ab\"",
+      "\"ba\""
+    ],
+    [
+      "\"abc\"",
+      "\"bca\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def kSimilarity(s1: str, s2: str) -> int:\n    k = 0\n    temp = list(s1)\n\n    for i in range(len(temp)):\n        if temp[i] != s2[i]:\n            j = i + 1\n            while temp[j] != s2[i] or s2[j] == temp[j]:\n                j += 1\n            temp[i], temp[j] = temp[j], temp[i]\n            k += 1\n\n    return k",
+    "explanation": "The algorithm works by iterating over each character position in the strings, and checking if the characters in s1 and s2 are different at that position. If they are indeed different, we find the index j in the remaining substring of s1 such that swapping the characters at i and j would make s1 and s2 match at position i. We then perform that swap in s1 and increment the counter k. When we reach the end of the strings, the counter k contains the minimum number of swaps necessary to make s1 equal to s2."
+  },
+  "similarQuestions": "[{\"title\": \"Couples Holding Hands\", \"titleSlug\": \"couples-holding-hands\", \"difficulty\": \"Hard\"}]"
+}

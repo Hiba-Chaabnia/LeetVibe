@@ -1,0 +1,57 @@
+{
+  "questionId": "1511",
+  "title": "Count Number of Teams",
+  "titleSlug": "count-number-of-teams",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "There are n soldiers standing in a line. Each soldier is assigned a unique rating value.\n\nYou have to form a team of 3 soldiers amongst them under the following rules:\n\n• Choose 3 soldiers with index (i, j, k) with rating (rating[i], rating[j], rating[k]).\n\n• A team is valid if: (rating[i] < rating[j] < rating[k]) or (rating[i] > rating[j] > rating[k]) where (0 <= i < j < k < n).\n\nReturn the number of teams you can form given the conditions. (soldiers can be part of multiple teams).\n\nExample 1:\n\nInput: rating = [2,5,3,4,1]\nOutput: 3\nExplanation: We can form three teams given the conditions. (2,3,4), (5,4,1), (5,3,1).\n\nExample 2:\n\nInput: rating = [2,1,3]\nOutput: 0\nExplanation: We can't form any team given the conditions.\n\nExample 3:\n\nInput: rating = [1,2,3,4]\nOutput: 4\n\nConstraints:\n\n• n == rating.length\n\n• 3 <= n <= 1000\n\n• 1 <= rating[i] <= 105\n\n• All the integers in rating are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numTeams(self, rating):\n        \"\"\"\n        :type rating: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "BruteForce, check all possibilities."
+  ],
+  "testCases": [
+    [
+      "[2,5,3,4,1]"
+    ],
+    [
+      "[2,1,3]"
+    ],
+    [
+      "[1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numTeams(self, rating):\n        n = len(rating)\n        count = 0\n        for j in range(1, n - 1):\n            left_smaller = 0\n            left_larger = 0\n            right_smaller = 0\n            right_larger = 0\n            for i in range(j):\n                if rating[i] < rating[j]:\n                    left_smaller += 1\n                elif rating[i] > rating[j]:\n                    left_larger += 1\n            for k in range(j + 1, n):\n                if rating[k] > rating[j]:\n                    right_larger += 1\n                elif rating[k] < rating[j]:\n                    right_smaller += 1\n            count += left_smaller * right_larger + left_larger * right_smaller\n        return count",
+    "explanation": "For each middle element, count (smaller left * larger right) + (larger left * smaller right).\nTime: O(n²)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

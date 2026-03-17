@@ -1,0 +1,43 @@
+{
+  "questionId": "1965",
+  "title": "Sum of Digits in Base K",
+  "titleSlug": "sum-of-digits-in-base-k",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given an integer n (in base 10) and a base k, return the sum of the digits of n after converting n from base 10 to base k.\n\nAfter converting, each digit should be interpreted as a base 10 number, and the sum should be returned in base 10.\n\nExample 1:\n\nInput: n = 34, k = 6\nOutput: 9\nExplanation: 34 (base 10) expressed in base 6 is 54. 5 + 4 = 9.\n\nExample 2:\n\nInput: n = 10, k = 10\nOutput: 1\nExplanation: n is already in base 10. 1 + 0 = 1.\n\nConstraints:\n\n• 1 <= n <= 100\n\n• 2 <= k <= 10",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumBase(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Convert the given number into base k."
+  ],
+  "testCases": [
+    [
+      "34",
+      "6"
+    ],
+    [
+      "10",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumBase(self, n, k):\n        result = 0\n        while n > 0:\n            result += n % k\n            n //= k\n        return result",
+    "explanation": "Convert to base k by repeatedly taking mod k. Sum digits.\nTime: O(log_k n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"  Count Symmetric Integers\", \"titleSlug\": \"count-symmetric-integers\", \"difficulty\": \"Easy\"}]"
+}

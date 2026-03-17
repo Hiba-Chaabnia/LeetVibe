@@ -1,0 +1,51 @@
+{
+  "questionId": "3455",
+  "title": "Minimum Length of String After Operations",
+  "titleSlug": "minimum-length-of-string-after-operations",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s.\n\nYou can perform the following process on s any number of times:\n\n• Choose an index i in the string such that there is at least one character to the left of index i that is equal to s[i], and at least one character to the right that is also equal to s[i].\n\n• Delete the closest occurrence of s[i] located to the left of i.\n\n• Delete the closest occurrence of s[i] located to the right of i.\n\nReturn the minimum length of the final string s that you can achieve.\n\nExample 1:\n\nInput: s = \"abaacbcbb\"\n\nOutput: 5\n\nExplanation: We do the following operations:\n\n• Choose index 2, then remove the characters at indices 0 and 3. The resulting string is s = \"bacbcbb\".\n\n• Choose index 3, then remove the characters at indices 0 and 5. The resulting string is s = \"acbcb\".\n\nExample 2:\n\nInput: s = \"aa\"\n\nOutput: 2\n\nExplanation: We cannot perform any operations, so we return the length of the original string.\n\nConstraints:\n\n• 1 <= s.length <= 2 * 105\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumLength(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Only the frequency of each character matters in finding the final answer.",
+    "If a character occurs less than 3 times, we cannot perform any process with it.",
+    "Suppose there is a character that occurs at least 3 times in the string, we can repeatedly delete two of these characters until there are at most 2 occurrences left of it."
+  ],
+  "testCases": [
+    [
+      "\"abaacbcbb\""
+    ],
+    [
+      "\"aa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def minimumLength(self, s):\n        freq = Counter(s)\n        result = 0\n        for cnt in freq.values():\n            # Repeatedly remove pairs until <= 2 remain\n            # If cnt is odd: left with 1\n            # If cnt is even: left with 2\n            if cnt % 2 == 1:\n                result += 1\n            else:\n                result += 2\n        return result",
+    "explanation": "For each character with frequency cnt: each operation removes 2 occurrences (one left, one right of a chosen middle). We can keep removing pairs until 1 or 2 remain:\n- If cnt is odd: reduce to 1 (remove (cnt-1)/2 pairs)\n- If cnt is even: reduce to 2 (remove (cnt-2)/2 pairs)\n\nThe minimum length is the sum of residuals across all characters.\n\nTime: O(n). Space: O(26)."
+  },
+  "similarQuestions": "[]"
+}

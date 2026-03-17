@@ -1,0 +1,55 @@
+{
+  "questionId": "15",
+  "title": "3Sum",
+  "titleSlug": "3sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.\n\nNotice that the solution set must not contain duplicate triplets.\n\nExample 1:\n\nInput: nums = [-1,0,1,2,-1,-4]\nOutput: [[-1,-1,2],[-1,0,1]]\nExplanation:\n    nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.\n    nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.\n    nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.\n    The distinct triplets are [-1,0,1] and [-1,-1,2].\n    Notice that the order of the output and the order of the triplets does not matter.\n\nExample 2:\n\nInput: nums = [0,1,1]\nOutput: []\nExplanation: The only possible triplet does not sum up to 0.\n\nExample 3:\n\nInput: nums = [0,0,0]\nOutput: [[0,0,0]]\nExplanation: The only possible triplet sums up to 0.\n\nConstraints:\n\n• 3 <= nums.length <= 3000\n\n• -105 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "So, we essentially need to find three numbers x, y, and z such that they add up to the given value. If we fix one of the numbers say x, we are left with the two-sum problem at hand!",
+    "For the two-sum problem, if we fix one of the numbers, say x, we have to scan the entire array to find the next number y, which is value - x where value is the input parameter. Can we change our array somehow so that this search becomes faster?",
+    "The second train of thought for two-sum is, without changing the array, can we use additional space somehow? Like maybe a hash map to speed up the search?"
+  ],
+  "testCases": [
+    [
+      "[-1,0,1,2,-1,-4]"
+    ],
+    [
+      "[0,1,1]"
+    ],
+    [
+      "[0,0,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[-1,-1,2],[-1,0,1]]",
+    "[]",
+    "[[0,0,0]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def threeSum(nums):\n    nums.sort()\n    result = []\n\n    for i in range(len(nums) - 2):\n        if i == 0 or nums[i] != nums[i - 1]:\n            j, k = i + 1, len(nums) - 1\n            while j < k:\n                s = nums[i] + nums[j] + nums[k]\n                if s == 0:\n                    result.append([nums[i], nums[j], nums[k]])\n                    while j < k and nums[j] == nums[j + 1]:\n                        j += 1\n                    while j < k and nums[k] == nums[k - 1]:\n                        k -= 1\n                    j += 1\n                    k -= 1\n                elif s < 0:\n                    j += 1\n                else:\n                    k -= 1\n\n    return result",
+    "explanation": "1. Sort the input array `nums`.\n2. Loop through `nums` from index `0` to `length - 2`. Let the current index be `i`.\n    - If `i` is `0` or `nums[i]` is not equal to the previous element (`nums[i - 1]`), perform the following steps:\n        - Initialize two pointers `j` and `k`, where `j` is the next index after `i`, and `k` is the last index of `nums`.\n        - While `j` is less than `k`, perform the following steps:\n            - Calculate the sum `s` of the elements at indices `i`, `j`, and `k`.\n            - If the sum `s` is equal to `0`, then we've found a valid triplet. Add it to the `result` array and move the pointers, `j` and `k`, skipping duplicates if any.\n            - If the sum `s` is less than `0`, increment `j` to move towards positive values.\n            - If the sum `s` is greater than `0`, decrement `k` to move towards negative values.\n3. Return the `result` array.\n\nThe algorithm removes duplicates by checking if the current numbers being processed are equal to previously processed numbers. The sorting step helps in simplifying the algorithm and reducing the search space."
+  },
+  "similarQuestions": "[{\"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"3Sum Closest\", \"titleSlug\": \"3sum-closest\", \"difficulty\": \"Medium\"}, {\"title\": \"4Sum\", \"titleSlug\": \"4sum\", \"difficulty\": \"Medium\"}, {\"title\": \"3Sum Smaller\", \"titleSlug\": \"3sum-smaller\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Arithmetic Triplets\", \"titleSlug\": \"number-of-arithmetic-triplets\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Sum of Mountain Triplets I\", \"titleSlug\": \"minimum-sum-of-mountain-triplets-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Sum of Mountain Triplets II\", \"titleSlug\": \"minimum-sum-of-mountain-triplets-ii\", \"difficulty\": \"Medium\"}]"
+}

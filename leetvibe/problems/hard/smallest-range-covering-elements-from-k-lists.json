@@ -1,0 +1,59 @@
+{
+  "questionId": "632",
+  "title": "Smallest Range Covering Elements from K Lists",
+  "titleSlug": "smallest-range-covering-elements-from-k-lists",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You have k lists of sorted integers in non-decreasing order. Find the smallest range that includes at least one number from each of the k lists.\n\nWe define the range [a, b] is smaller than range [c, d] if b - a < d - c or a < c if b - a == d - c.\n\nExample 1:\n\nInput: nums = [[4,10,15,24,26],[0,9,12,20],[5,18,22,30]]\nOutput: [20,24]\nExplanation:\n    List 1: [4, 10, 15, 24,26], 24 is in range [20,24].\n    List 2: [0, 9, 12, 20], 20 is in range [20,24].\n    List 3: [5, 18, 22, 30], 22 is in range [20,24].\n\nExample 2:\n\nInput: nums = [[1,2,3],[1,2,3],[1,2,3]]\nOutput: [1,1]\n\nConstraints:\n\n• nums.length == k\n\n• 1 <= k <= 3500\n\n• 1 <= nums[i].length <= 50\n\n• -105 <= nums[i][j] <= 105\n\n• nums[i] is sorted in non-decreasing order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestRange(self, nums):\n        \"\"\"\n        :type nums: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[4,10,15,24,26],[0,9,12,20],[5,18,22,30]]"
+    ],
+    [
+      "[[1,2,3],[1,2,3],[1,2,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[20,24]",
+    "[1,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\ndef smallestRange(nums):\n    minHeap = []\n    maxVal = -1e9\n    \n    for i, lst in enumerate(nums):\n        heapq.heappush(minHeap, (lst[0], i))\n        maxVal = max(maxVal, lst[0])\n        \n    listIndices = [0] * len(nums)\n    minRange = 1e9\n    start, end = -1, -1\n    \n    while len(minHeap) == len(nums):\n        val, listIdx = heapq.heappop(minHeap)\n        range_ = maxVal - val\n        \n        if range_ < minRange:\n            minRange = range_\n            start, end = val, maxVal\n            \n        listIndices[listIdx] += 1\n        if listIndices[listIdx] < len(nums[listIdx]):\n            newVal = nums[listIdx][listIndices[listIdx]]\n            heapq.heappush(minHeap, (newVal, listIdx))\n            maxVal = max(maxVal, newVal)\n            \n    return [start, end]",
+    "explanation": "1. The algorithm starts by initializing a min heap, listIndices, maxVal, and the range [start, end]. \n2. Then, for each list in nums, we add the first element and its index into the min heap and update maxVal when necessary. Meanwhile, we fill listIndices with zeros.\n3. We loop as long as min heap size is equal to the number of lists. Within the loop:\n   a. We get the smallest value and its list index from the min heap.\n   b. If it produces a smaller range, we update the range [start, end].\n   c. We increment the relevant list index and update the current value when necessary.\n   d. We push the newVal along with its listIdx into the min heap and update maxVal if needed.\n4. Finally, the updated range is returned."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Window Substring\", \"titleSlug\": \"minimum-window-substring\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,59 @@
+{
+  "questionId": "594",
+  "title": "Longest Harmonious Subsequence",
+  "titleSlug": "longest-harmonious-subsequence",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "We define a harmonious array as an array where the difference between its maximum value and its minimum value is exactly 1.\n\nGiven an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.\n\nExample 1:\n\nInput: nums = [1,3,2,2,5,2,3,7]\n\nOutput: 5\n\nExplanation: The longest harmonious subsequence is [3,2,2,2,3].\n\nExample 2:\n\nInput: nums = [1,2,3,4]\n\nOutput: 2\n\nExplanation: The longest harmonious subsequences are [1,2], [2,3], and [3,4], all of which have a length of 2.\n\nExample 3:\n\nInput: nums = [1,1,1,1]\n\nOutput: 0\n\nExplanation: No harmonic subsequence exists.\n\nConstraints:\n\n• 1 <= nums.length <= 2 * 104\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findLHS(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,3,2,2,5,2,3,7]"
+    ],
+    [
+      "[1,2,3,4]"
+    ],
+    [
+      "[1,1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findLHS(nums):\n    count = {}\n    for num in nums:\n        count[num] = count.get(num, 0) + 1\n\n    longest_sequence = 0\n    for key in count:\n        if key + 1 in count:\n            longest_sequence = max(longest_sequence, count[key] + count[key + 1])\n\n    return longest_sequence",
+    "explanation": "1. Create a hashmap to count the occurrences of each number in the input array.\n2. Iterate through the uniquq elements in the hashmap.\n3. For each element, check if there exists an element that is 1 greater, and if so, record the sum of the element count and the count of the element 1 greater.\n4. Keep track of the maximum harmony sequence found during this iteration.\n5. Return the length of the longest harmonious sequence found."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,59 @@
+{
+  "questionId": "2129",
+  "title": "Number of Pairs of Interchangeable Rectangles",
+  "titleSlug": "number-of-pairs-of-interchangeable-rectangles",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given n rectangles represented by a 0-indexed 2D integer array rectangles, where rectangles[i] = [widthi, heighti] denotes the width and height of the ith rectangle.\n\nTwo rectangles i and j (i < j) are considered interchangeable if they have the same width-to-height ratio. More formally, two rectangles are interchangeable if widthi/heighti == widthj/heightj (using decimal division, not integer division).\n\nReturn the number of pairs of interchangeable rectangles in rectangles.\n\nExample 1:\n\nInput: rectangles = [[4,8],[3,6],[10,20],[15,30]]\nOutput: 6\nExplanation: The following are the interchangeable pairs of rectangles by index (0-indexed):\n    - Rectangle 0 with rectangle 1: 4/8 == 3/6.\n    - Rectangle 0 with rectangle 2: 4/8 == 10/20.\n    - Rectangle 0 with rectangle 3: 4/8 == 15/30.\n    - Rectangle 1 with rectangle 2: 3/6 == 10/20.\n    - Rectangle 1 with rectangle 3: 3/6 == 15/30.\n    - Rectangle 2 with rectangle 3: 10/20 == 15/30.\n\nExample 2:\n\nInput: rectangles = [[4,5],[7,8]]\nOutput: 0\nExplanation: There are no interchangeable pairs of rectangles.\n\nConstraints:\n\n• n == rectangles.length\n\n• 1 <= n <= 105\n\n• rectangles[i].length == 2\n\n• 1 <= widthi, heighti <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def interchangeableRectangles(self, rectangles):\n        \"\"\"\n        :type rectangles: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Store the rectangle height and width ratio in a hashmap.",
+    "Traverse the ratios, and for each ratio, use the frequency of the ratio to add to the total pair count."
+  ],
+  "testCases": [
+    [
+      "[[4,8],[3,6],[10,20],[15,30]]"
+    ],
+    [
+      "[[4,5],[7,8]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def interchangeableRectangles(self, rectangles):\n        \"\"\"\n        :type rectangles: List[List[int]]\n        :rtype: int\n        \"\"\"\n        from math import gcd\n        \n        ratio_count = defaultdict(int)\n        \n        for w, h in rectangles:\n            # Normalize ratio to avoid floating point issues\n            g = gcd(w, h)\n            ratio = (w // g, h // g)\n            ratio_count[ratio] += 1\n        \n        # Count pairs: for count c, pairs = c*(c-1)/2\n        pairs = 0\n        for count in ratio_count.values():\n            pairs += count * (count - 1) // 2\n        \n        return pairs",
+    "explanation": "Use GCD to normalize width/height ratios. Count frequency of each ratio. For each ratio with count c, number of pairs = c*(c-1)/2.",
+    "complexity": "Time: O(n log(max(w,h))). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Good Pairs\", \"titleSlug\": \"number-of-good-pairs\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Nice Pairs in an Array\", \"titleSlug\": \"count-nice-pairs-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Replace Non-Coprime Numbers in Array\", \"titleSlug\": \"replace-non-coprime-numbers-in-array\", \"difficulty\": \"Hard\"}]"
+}

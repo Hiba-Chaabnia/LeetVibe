@@ -1,0 +1,45 @@
+{
+  "questionId": "1797",
+  "title": "Goal Parser Interpretation",
+  "titleSlug": "goal-parser-interpretation",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You own a Goal Parser that can interpret a string command. The command consists of an alphabet of \"G\", \"()\" and/or \"(al)\" in some order. The Goal Parser will interpret \"G\" as the string \"G\", \"()\" as the string \"o\", and \"(al)\" as the string \"al\". The interpreted strings are then concatenated in the original order.\n\nGiven the string command, return the Goal Parser's interpretation of command.\n\nExample 1:\n\nInput: command = \"G()(al)\"\nOutput: \"Goal\"\nExplanation: The Goal Parser interprets the command as follows:\n    G -> G\n    () -> o\n    (al) -> al\n    The final concatenated result is \"Goal\".\n\nExample 2:\n\nInput: command = \"G()()()()(al)\"\nOutput: \"Gooooal\"\n\nExample 3:\n\nInput: command = \"(al)G(al)()()G\"\nOutput: \"alGalooG\"\n\nConstraints:\n\n• 1 <= command.length <= 100\n\n• command consists of \"G\", \"()\", and/or \"(al)\" in some order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def interpret(self, command):\n        \"\"\"\n        :type command: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You need to check at most 2 characters to determine which character comes next."
+  ],
+  "testCases": [
+    [
+      "\"G()(al)\""
+    ],
+    [
+      "\"G()()()()(al)\""
+    ],
+    [
+      "\"(al)G(al)()()G\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Goal\"",
+    "\"Gooooal\"",
+    "\"alGalooG\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def interpret(self, command):\n        result = \"\"\n        i = 0\n        while i < len(command):\n            if command[i] == 'G':\n                result += 'G'\n                i += 1\n            elif command[i] == '(' and command[i+1] == ')':\n                result += 'o'\n                i += 2\n            elif command[i] == '(' and command[i+1] == 'a':\n                result += 'al'\n                i += 4\n        return result",
+    "explanation": "Parse command character by character. 'G' → 'G', '()' → 'o', '(al)' → 'al'.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "1503",
+  "title": "Reducing Dishes",
+  "titleSlug": "reducing-dishes",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "A chef has collected data on the satisfaction level of his n dishes. Chef can cook any dish in 1 unit of time.\n\nLike-time coefficient of a dish is defined as the time taken to cook that dish including previous dishes multiplied by its satisfaction level i.e. time[i] * satisfaction[i].\n\nReturn the maximum sum of like-time coefficient that the chef can obtain after preparing some amount of dishes.\n\nDishes can be prepared in any order and the chef can discard some dishes to get this maximum value.\n\nExample 1:\n\nInput: satisfaction = [-1,-8,0,5,-9]\nOutput: 14\nExplanation: After Removing the second and last dish, the maximum total like-time coefficient will be equal to (-1*1 + 0*2 + 5*3 = 14).\n    Each dish is prepared in one unit of time.\n\nExample 2:\n\nInput: satisfaction = [4,3,2]\nOutput: 20\nExplanation: Dishes can be prepared in any order, (2*1 + 3*2 + 4*3 = 20)\n\nExample 3:\n\nInput: satisfaction = [-1,-4,-5]\nOutput: 0\nExplanation: People do not like the dishes. No dish is prepared.\n\nConstraints:\n\n• n == satisfaction.length\n\n• 1 <= n <= 500\n\n• -1000 <= satisfaction[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSatisfaction(self, satisfaction):\n        \"\"\"\n        :type satisfaction: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming to find the optimal solution by saving the previous best like-time coefficient and its corresponding element sum.",
+    "If adding the current element to the previous best like-time coefficient and its corresponding element sum would increase the best like-time coefficient, then go ahead and add it. Otherwise, keep the previous best like-time coefficient."
+  ],
+  "testCases": [
+    [
+      "[-1,-8,0,5,-7]"
+    ],
+    [
+      "[4,3,2]"
+    ],
+    [
+      "[-1,-4,-5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "14",
+    "20",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

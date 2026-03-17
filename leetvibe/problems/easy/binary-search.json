@@ -1,0 +1,45 @@
+{
+  "questionId": "792",
+  "title": "Binary Search",
+  "titleSlug": "binary-search",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.\n\nYou must write an algorithm with O(log n) runtime complexity.\n\nExample 1:\n\nInput: nums = [-1,0,3,5,9,12], target = 9\nOutput: 4\nExplanation: 9 exists in nums and its index is 4\n\nExample 2:\n\nInput: nums = [-1,0,3,5,9,12], target = 2\nOutput: -1\nExplanation: 2 does not exist in nums so return -1\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• -104 < nums[i], target < 104\n\n• All the integers in nums are unique.\n\n• nums is sorted in ascending order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def search(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[-1,0,3,5,9,12]",
+      "9"
+    ],
+    [
+      "[-1,0,3,5,9,12]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def search(nums: List[int], target: int) -> int:\n    left, right = 0, len(nums) - 1\n    while left <= right:\n        mid = left + (right - left) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+    "explanation": "The algorithm implements a binary search, since the input array is sorted in ascending order. We start with two pointers, `left` and `right`, representing the beginning and the end of the search range, respectively. We then find the middle element of the array (or subarray) by calculating the average of `left` and `right` and round it down.\n\nIf the middle element matches the target, we return its index. If the middle element is smaller than the target, we set `left` to the next index (`mid + 1`). If the middle element is greater than the target, we set `right` to the previous index (`mid - 1`). We continue iterating until we find the target or the pointers cross (`left > right`), in which case we return `-1` because the target is not in the array. The time complexity of this algorithm is O(log n)."
+  },
+  "similarQuestions": "[{\"title\": \"Search in a Sorted Array of Unknown Size\", \"titleSlug\": \"search-in-a-sorted-array-of-unknown-size\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Count of Positive Integer and Negative Integer\", \"titleSlug\": \"maximum-count-of-positive-integer-and-negative-integer\", \"difficulty\": \"Easy\"}]"
+}

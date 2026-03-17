@@ -1,0 +1,63 @@
+{
+  "questionId": "1038",
+  "title": "Number of Squareful Arrays",
+  "titleSlug": "number-of-squareful-arrays",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "An array is squareful if the sum of every pair of adjacent elements is a perfect square.\n\nGiven an integer array nums, return the number of permutations of nums that are squareful.\n\nTwo permutations perm1 and perm2 are different if there is some index i such that perm1[i] != perm2[i].\n\nExample 1:\n\nInput: nums = [1,17,8]\nOutput: 2\nExplanation: [1,8,17] and [17,8,1] are the valid permutations.\n\nExample 2:\n\nInput: nums = [2,2,2]\nOutput: 1\n\nConstraints:\n\n• 1 <= nums.length <= 12\n\n• 0 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSquarefulPerms(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,17,8]"
+    ],
+    [
+      "[2,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\ndef numSquarefulPerms(nums):\n    def is_square(n):\n        return int(n ** 0.5) ** 2 == n\n\n    def dfs(idx):\n        if idx == len(nums):\n            return 1\n\n        count = 0\n        for key in counter.keys():\n            if counter[key] and (idx == 0 or is_square(nums[idx - 1] + key)):\n                counter[key] -= 1\n                nums[idx] = key\n                count += dfs(idx + 1)\n                counter[key] += 1\n\n        return count\n\n    key_set, counter = set(nums), Counter(nums)\n    return dfs(0)",
+    "explanation": "The algorithm first captures the frequency of each number in the input `nums` with a counter. Using a depth-first search algorithm, it then processes each permutation that starts with a number existing in `nums`, ensuring that the sum of adjacent elements in the permutation being processed is a perfect square. With each valid instance, the algorithm increases the count.\n\nThe base case for the recursive `dfs` function is when the current index `idx` is equal to the length of the `nums`, which is when a valid permutation is found. If this happens, the function returns 1, signaling the completion of the permutation.\n\nThe `isSquare` helper function checks if the given number `n` is a perfect square by taking its square root, then squaring the result again and comparing the squared value to the original value of `n`.\n\nFor each language, the code starts by creating a counter dict or map for `nums`, which stores the frequency of each element in `nums`. The `dfs` function then deals with forming the permutations and checking if they are squareful. If a permutation is found to be squareful, the count is incremented by 1 until all permutations are checked. The final count is returned."
+  },
+  "similarQuestions": "[{\"title\": \"Permutations II\", \"titleSlug\": \"permutations-ii\", \"difficulty\": \"Medium\"}]"
+}

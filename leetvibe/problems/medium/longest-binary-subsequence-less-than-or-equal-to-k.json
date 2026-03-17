@@ -1,0 +1,52 @@
+{
+  "questionId": "2395",
+  "title": "Longest Binary Subsequence Less Than or Equal to K",
+  "titleSlug": "longest-binary-subsequence-less-than-or-equal-to-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "You are given a binary string s and a positive integer k.\n\nReturn the length of the longest subsequence of s that makes up a binary number less than or equal to k.\n\nNote:\n\n• The subsequence can contain leading zeroes.\n\n• The empty string is considered to be equal to 0.\n\n• A subsequence is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters.\n\nExample 1:\n\nInput: s = \"1001010\", k = 5\nOutput: 5\nExplanation: The longest subsequence of s that makes up a binary number less than or equal to 5 is \"00010\", as this number is equal to 2 in decimal.\n    Note that \"00100\" and \"00101\" are also possible, which are equal to 4 and 5 in decimal, respectively.\n    The length of this subsequence is 5, so 5 is returned.\n\nExample 2:\n\nInput: s = \"00101001\", k = 1\nOutput: 6\nExplanation: \"000001\" is the longest subsequence of s that makes up a binary number less than or equal to 1, as this number is equal to 1 in decimal.\n    The length of this subsequence is 6, so 6 is returned.\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s[i] is either '0' or '1'.\n\n• 1 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestSubsequence(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Choosing a subsequence from the string is equivalent to deleting all the other digits.",
+    "If you were to remove a digit, which one should you remove to reduce the value of the string?"
+  ],
+  "testCases": [
+    [
+      "\"1001010\"",
+      "5"
+    ],
+    [
+      "\"00101001\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "6"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Binary String After Change\", \"titleSlug\": \"maximum-binary-string-after-change\", \"difficulty\": \"Medium\"}]"
+}

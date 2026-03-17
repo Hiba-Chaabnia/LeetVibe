@@ -1,0 +1,58 @@
+{
+  "questionId": "3464",
+  "title": "Maximize Total Cost of Alternating Subarrays",
+  "titleSlug": "maximize-total-cost-of-alternating-subarrays",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums with length n.\n\nThe cost of a subarray nums[l..r], where 0 <= l <= r < n, is defined as:\n\ncost(l, r) = nums[l] - nums[l + 1] + ... + nums[r] * (−1)r − l\n\nYour task is to split nums into subarrays such that the total cost of the subarrays is maximized, ensuring each element belongs to exactly one subarray.\n\nFormally, if nums is split into k subarrays, where k > 1, at indices i1, i2, ..., ik − 1, where 0 <= i1 < i2 < ... < ik - 1 < n - 1, then the total cost will be:\n\ncost(0, i1) + cost(i1 + 1, i2) + ... + cost(ik − 1 + 1, n − 1)\n\nReturn an integer denoting the maximum total cost of the subarrays after splitting the array optimally.\n\nNote: If nums is not split into subarrays, i.e. k = 1, the total cost is simply cost(0, n - 1).\n\nExample 1:\n\nInput: nums = [1,-2,3,4]\n\nOutput: 10\n\nExplanation: One way to maximize the total cost is by splitting [1, -2, 3, 4] into subarrays [1, -2, 3] and [4]. The total cost will be (1 + 2 + 3) + 4 = 10.\n\nExample 2:\n\nInput: nums = [1,-1,1,-1]\n\nOutput: 4\n\nExplanation: One way to maximize the total cost is by splitting [1, -1, 1, -1] into subarrays [1, -1] and [1, -1]. The total cost will be (1 + 1) + (1 + 1) = 4.\n\nExample 3:\n\nInput: nums = [0]\n\nOutput: 0\n\nExplanation: We cannot split the array further, so the answer is 0.\n\nExample 4:\n\nInput: nums = [1,-1]\n\nOutput: 2\n\nExplanation: Selecting the whole array gives a total cost of 1 + 1 = 2, which is the maximum.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumTotalCost(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The problem can be solved using dynamic programming.",
+    "Since we can always start a new subarray, the problem is the same as selecting some elements in the array and flipping their signs to negative to maximize the sum. However, we cannot flip the signs of 2 consecutive elements, and the first element in the array cannot be negative.",
+    "Let dp[i][0/1] be the largest sum we can get for prefix nums[0..i], where dp[i][0] is the maximum if the i<sup>th</sup> element wasn't flipped, and dp[i][1] is the maximum if the i<sup>th</sup> element was flipped.",
+    "Based on the restriction:<br />\r\ndp[i][0] = max(dp[i - 1][0], dp[i - 1][1]) + nums[i]<br />\r\ndp[i][1] = dp[i - 1][0] - nums[i]",
+    "The initial state is:<br />\r\ndp[1][0] = nums[0] + nums[1]<br />\r\ndp[1][1] = nums[0] - nums[1]<br />\r\nand the answer is max(dp[n - 1][0], dp[n - 1][1]).",
+    "Can you optimize the space complexity?"
+  ],
+  "testCases": [
+    [
+      "[1,-2,3,4]"
+    ],
+    [
+      "[1,-1,1,-1]"
+    ],
+    [
+      "[0]"
+    ],
+    [
+      "[1,-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "10",
+    "4",
+    "0",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumTotalCost(self, nums):\n        # dp[0] = max total if current element is NOT negated (starts new subarray or continues)\n        # dp[1] = max total if current element IS negated (inside a subarray, odd position)\n        # First element is always +nums[0]\n        n = len(nums)\n        if n == 1:\n            return nums[0]\n        dp0 = nums[0]  # current index not negated\n        dp1 = float('-inf')  # current index negated (impossible for index 0)\n        for i in range(1, n):\n            new_dp0 = max(dp0, dp1) + nums[i]  # this element is positive (start new or continue even pos)\n            new_dp1 = dp0 - nums[i]            # this element is negated (must follow non-negated)\n            dp0, dp1 = new_dp0, new_dp1\n        return max(dp0, dp1)",
+    "explanation": "Observation: the total cost equals the sum of all nums[i], but we can optionally negate some elements (the 'odd-position' ones within subarrays). Two consecutive elements can't both be negated. First element can't be negated.\n\nDP: dp0 = max sum where current element is positive; dp1 = max where current is negated. Transitions: dp0[i] = max(dp0[i-1], dp1[i-1]) + nums[i]; dp1[i] = dp0[i-1] - nums[i].\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

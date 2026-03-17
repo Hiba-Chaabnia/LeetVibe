@@ -1,0 +1,57 @@
+{
+  "questionId": "4055",
+  "title": "Longest Balanced Substring I",
+  "titleSlug": "longest-balanced-substring-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters.\n\nA substring of s is called balanced if all distinct characters in the substring appear the same number of times.\n\nReturn the length of the longest balanced substring of s.\n\nExample 1:\n\nInput: s = \"abbac\"\n\nOutput: 4\n\nExplanation: The longest balanced substring is \"abba\" because both distinct characters 'a' and 'b' each appear exactly 2 times.\n\nExample 2:\n\nInput: s = \"zzabccy\"\n\nOutput: 4\n\nExplanation: The longest balanced substring is \"zabc\" because the distinct characters 'z', 'a', 'b', and 'c' each appear exactly 1 time.​​​​​​​\n\nExample 3:\n\nInput: s = \"aba\"\n\nOutput: 2\n\nExplanation: ​​​​​​​One of the longest balanced substrings is \"ab\" because both distinct characters 'a' and 'b' each appear exactly 1 time. Another longest balanced substring is \"ba\".\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestBalanced(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use bruteforce over all substrings"
+  ],
+  "testCases": [
+    [
+      "\"abbac\""
+    ],
+    [
+      "\"zzabccy\""
+    ],
+    [
+      "\"aba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "4",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def longestBalanced(self, s):\n        n = len(s)\n        best = 0\n        for i in range(n):\n            freq = Counter()\n            for j in range(i, n):\n                freq[s[j]] += 1\n                counts = set(freq.values())\n                if len(counts) == 1:  # all distinct chars have same count\n                    best = max(best, j - i + 1)\n        return best",
+    "explanation": "Brute force O(n²): for each substring, check if all character frequencies are equal (one distinct count value). Update best length.\n\nTime: O(n²). Space: O(26)."
+  },
+  "similarQuestions": "[]"
+}

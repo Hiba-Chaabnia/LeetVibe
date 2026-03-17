@@ -1,0 +1,43 @@
+{
+  "questionId": "856",
+  "title": "Consecutive Numbers Sum",
+  "titleSlug": "consecutive-numbers-sum",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Given an integer n, return the number of ways you can write n as the sum of consecutive positive integers.\n\nExample 1:\n\nInput: n = 5\nOutput: 2\nExplanation: 5 = 2 + 3\n\nExample 2:\n\nInput: n = 9\nOutput: 3\nExplanation: 9 = 4 + 5 = 2 + 3 + 4\n\nExample 3:\n\nInput: n = 15\nOutput: 4\nExplanation: 15 = 8 + 7 = 4 + 5 + 6 = 1 + 2 + 3 + 4 + 5\n\nConstraints:\n\n• 1 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def consecutiveNumbersSum(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "5"
+    ],
+    [
+      "9"
+    ],
+    [
+      "15"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

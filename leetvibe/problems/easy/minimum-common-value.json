@@ -1,0 +1,56 @@
+{
+  "questionId": "2634",
+  "title": "Minimum Common Value",
+  "titleSlug": "minimum-common-value",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "Given two integer arrays nums1 and nums2, sorted in non-decreasing order, return the minimum integer common to both arrays. If there is no common integer amongst nums1 and nums2, return -1.\n\nNote that an integer is said to be common to nums1 and nums2 if both arrays have at least one occurrence of that integer.\n\nExample 1:\n\nInput: nums1 = [1,2,3], nums2 = [2,4]\nOutput: 2\nExplanation: The smallest element common to both arrays is 2, so we return 2.\n\nExample 2:\n\nInput: nums1 = [1,2,3,6], nums2 = [2,3,4,5]\nOutput: 2\nExplanation: There are two common elements in the array 2 and 3 out of which 2 is the smallest, so 2 is returned.\n\nConstraints:\n\n• 1 <= nums1.length, nums2.length <= 105\n\n• 1 <= nums1[i], nums2[j] <= 109\n\n• Both nums1 and nums2 are sorted in non-decreasing order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getCommon(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to use a set.",
+    "Otherwise, try to use a two-pointer approach."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "[2,4]"
+    ],
+    [
+      "[1,2,3,6]",
+      "[2,3,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getCommon(self, nums1, nums2):\n        i = j = 0\n        while i < len(nums1) and j < len(nums2):\n            if nums1[i] == nums2[j]:\n                return nums1[i]\n            elif nums1[i] < nums2[j]:\n                i += 1\n            else:\n                j += 1\n        return -1",
+    "explanation": "Two pointers. Advance smaller pointer. Return first match.\nTime: O(n + m)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Intersection of Two Arrays\", \"titleSlug\": \"intersection-of-two-arrays\", \"difficulty\": \"Easy\"}, {\"title\": \"Intersection of Two Arrays II\", \"titleSlug\": \"intersection-of-two-arrays-ii\", \"difficulty\": \"Easy\"}]"
+}

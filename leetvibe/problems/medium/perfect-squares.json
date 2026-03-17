@@ -1,0 +1,47 @@
+{
+  "questionId": "279",
+  "title": "Perfect Squares",
+  "titleSlug": "perfect-squares",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "Given an integer n, return the least number of perfect square numbers that sum to n.\n\nA perfect square is an integer that is the square of an integer; in other words, it is the product of some integer with itself. For example, 1, 4, 9, and 16 are perfect squares while 3 and 11 are not.\n\nExample 1:\n\nInput: n = 12\nOutput: 3\nExplanation: 12 = 4 + 4 + 4.\n\nExample 2:\n\nInput: n = 13\nOutput: 2\nExplanation: 13 = 4 + 9.\n\nConstraints:\n\n• 1 <= n <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSquares(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "12"
+    ],
+    [
+      "13"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numSquares(n):\n    dp = [float('inf')] * (n + 1)\n    dp[0] = 0\n    \n    for i in range(1, n + 1):\n        j = 1\n        while j * j <= i:\n            dp[i] = min(dp[i], dp[i - j * j] + 1)\n            j += 1\n            \n    return dp[n]",
+    "explanation": "We use Dynamic Programming (DP) to solve this problem. We initialize a 1-dimensional DP array, `dp`, of size `n + 1`, where `n` is given in the problem statement. We set `dp[0]` to `0` because it takes zero square numbers to sum up to zero. We fill the rest of the DP array with a maximum or infinite value, depending on the language used.\n\nWe iterate through the DP array from index `1` to index `n`, inclusive. For each index `i`, we iterate through all perfect square numbers `j * j` smaller than or equal to `i` to find the least number of perfect square numbers that sum up to `i`. We update the `dp` array with the minimum value of the current value at `dp[i]` and `dp[i - j * j] + 1`.\n\nAfter completing the iterations, the value at `dp[n]` represents the least number of perfect squares that sum to `n`."
+  },
+  "similarQuestions": "[{\"title\": \"Count Primes\", \"titleSlug\": \"count-primes\", \"difficulty\": \"Medium\"}, {\"title\": \"Ugly Number II\", \"titleSlug\": \"ugly-number-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Ways to Express an Integer as Sum of Powers\", \"titleSlug\": \"ways-to-express-an-integer-as-sum-of-powers\", \"difficulty\": \"Medium\"}]"
+}

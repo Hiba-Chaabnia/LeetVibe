@@ -1,0 +1,74 @@
+{
+  "questionId": "3613",
+  "title": "Maximize Amount After Two Days of Conversions",
+  "titleSlug": "maximize-amount-after-two-days-of-conversions",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "You are given a string initialCurrency, and you start with 1.0 of initialCurrency.\n\nYou are also given four arrays with currency pairs (strings) and rates (real numbers):\n\n• pairs1[i] = [startCurrencyi, targetCurrencyi] denotes that you can convert from startCurrencyi to targetCurrencyi at a rate of rates1[i] on day 1.\n\n• pairs2[i] = [startCurrencyi, targetCurrencyi] denotes that you can convert from startCurrencyi to targetCurrencyi at a rate of rates2[i] on day 2.\n\n• Also, each targetCurrency can be converted back to its corresponding startCurrency at a rate of 1 / rate.\n\nYou can perform any number of conversions, including zero, using rates1 on day 1, followed by any number of additional conversions, including zero, using rates2 on day 2.\n\nReturn the maximum amount of initialCurrency you can have after performing any number of conversions on both days in order.\n\nNote: Conversion rates are valid, and there will be no contradictions in the rates for either day. The rates for the days are independent of each other.\n\nExample 1:\n\nInput: initialCurrency = \"EUR\", pairs1 = [[\"EUR\",\"USD\"],[\"USD\",\"JPY\"]], rates1 = [2.0,3.0], pairs2 = [[\"JPY\",\"USD\"],[\"USD\",\"CHF\"],[\"CHF\",\"EUR\"]], rates2 = [4.0,5.0,6.0]\n\nOutput: 720.00000\n\nExplanation: To get the maximum amount of EUR, starting with 1.0 EUR:\n\n• On Day 1:\n\n• Convert EUR to USD to get 2.0 USD.\n\n• Convert USD to JPY to get 6.0 JPY.\n\n• On Day 2:\n\n• Convert JPY to USD to get 24.0 USD.\n\n• Convert USD to CHF to get 120.0 CHF.\n\n• Finally, convert CHF to EUR to get 720.0 EUR.\n\nExample 2:\n\nInput: initialCurrency = \"NGN\", pairs1 = [[\"NGN\",\"EUR\"]], rates1 = [9.0], pairs2 = [[\"NGN\",\"EUR\"]], rates2 = [6.0]\n\nOutput: 1.50000\n\nExplanation: Converting NGN to EUR on day 1 and EUR to NGN using the inverse rate on day 2 gives the maximum amount.\n\nExample 3:\n\nInput: initialCurrency = \"USD\", pairs1 = [[\"USD\",\"EUR\"]], rates1 = [1.0], pairs2 = [[\"EUR\",\"JPY\"]], rates2 = [10.0]\n\nOutput: 1.00000\n\nExplanation: In this example, there is no need to make any conversions on either day.\n\nConstraints:\n\n• 1 <= initialCurrency.length <= 3\n\n• initialCurrency consists only of uppercase English letters.\n\n• 1 <= n == pairs1.length <= 10\n\n• 1 <= m == pairs2.length <= 10\n\n• pairs1[i] == [startCurrencyi, targetCurrencyi]\n\n• pairs2[i] == [startCurrencyi, targetCurrencyi]\n\n• 1 <= startCurrencyi.length, targetCurrencyi.length <= 3\n\n• startCurrencyi and targetCurrencyi consist only of uppercase English letters.\n\n• rates1.length == n\n\n• rates2.length == m\n\n• 1.0 <= rates1[i], rates2[i] <= 10.0\n\n• The input is generated such that there are no contradictions or cycles in the conversion graphs for either day.\n\n• The input is generated such that the output is at most 5 * 1010.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxAmount(self, initialCurrency, pairs1, rates1, pairs2, rates2):\n        \"\"\"\n        :type initialCurrency: str\n        :type pairs1: List[List[str]]\n        :type rates1: List[float]\n        :type pairs2: List[List[str]]\n        :type rates2: List[float]\n        :rtype: float\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Choose an intermediate currency. Convert from initialCurrency to this currency on day 1, and from that currency back to initialCurrency on day 2.",
+    "Use a DFS/BFS to calculate the direct conversion rate between any two currencies."
+  ],
+  "testCases": [
+    [
+      "\"EUR\"",
+      "[[\"EUR\",\"USD\"],[\"USD\",\"JPY\"]]",
+      "[2.0,3.0]",
+      "[[\"JPY\",\"USD\"],[\"USD\",\"CHF\"],[\"CHF\",\"EUR\"]]",
+      "[4.0,5.0,6.0]"
+    ],
+    [
+      "\"NGN\"",
+      "[[\"NGN\",\"EUR\"]]",
+      "[9.0]",
+      "[[\"NGN\",\"EUR\"]]",
+      "[6.0]"
+    ],
+    [
+      "\"USD\"",
+      "[[\"USD\",\"EUR\"]]",
+      "[1.0]",
+      "[[\"EUR\",\"JPY\"]]",
+      "[10.0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "720.00000",
+    "1.50000",
+    "1.00000"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def maxAmount(self, initialCurrency, pairs1, rates1, pairs2, rates2):\n        def bfs_rates(pairs, rates, start):\n            # BFS/DFS to find max conversion rate from start to all currencies\n            graph = defaultdict(list)\n            for (a, b), r in zip(pairs, rates):\n                graph[a].append((b, r))\n                graph[b].append((a, 1.0 / r))\n            best = {start: 1.0}\n            queue = [start]\n            while queue:\n                cur = queue.pop()\n                for nxt, rate in graph[cur]:\n                    new_amt = best[cur] * rate\n                    if nxt not in best or best[nxt] < new_amt:\n                        best[nxt] = new_amt\n                        queue.append(nxt)\n            return best\n\n        # Day 1: convert from initialCurrency to all reachable currencies\n        day1 = bfs_rates(pairs1, rates1, initialCurrency)\n        # Day 2: for each intermediate currency, convert back to initialCurrency\n        # = find max amount of initialCurrency reachable from each currency on day 2\n        # Equivalently: find rate from each currency to initialCurrency on day 2\n        day2_to_init = bfs_rates(pairs2, rates2, initialCurrency)\n        # day2_to_init[c] = amount of initialCurrency from 1 unit of initialCurrency via c\n        # But we need: from 1 unit of c, how much initialCurrency do we get?\n        # Run BFS from each currency... Instead: run reverse BFS\n        # day2_from_c_to_init[c] = 1/day2_to_init... no.\n        # Let's just compute: for each currency c reachable on day1,\n        # find best rate to convert c back to initialCurrency on day2.\n        # day2_rates[initialCurrency->c] = X means 1 init -> X of c\n        # So c -> init = 1/X... but we can do multi-hop.\n        # Simpler: compute from each currency to initialCurrency on day2 using reverse graph.\n        graph2 = defaultdict(list)\n        for (a, b), r in zip(pairs2, rates2):\n            graph2[a].append((b, r))\n            graph2[b].append((a, 1.0 / r))\n        # For each currency reachable on day1, BFS day2 to get to initialCurrency\n        # = run BFS on day2 starting from initialCurrency, rates give init->c.\n        # rate from c to init = day2_to_init_from_c.\n        # day2_to_init[c] = amount of c starting from 1 unit of initialCurrency.\n        # So starting from 1 unit of c: init_amount = 1 / day2_to_init[c] if reachable\n        # That's not right for multi-hop either.\n        # Correct: run BFS from initialCurrency on day2 gives rate(init->c).\n        # To go c->init: rate = 1.0 / rate(init->c)... only if graph is consistent (no contradictions per problem).\n        # But there could be multiple paths. Since no contradictions, all paths give same rate.\n        best = 0.0\n        for c, amt in day1.items():\n            if c in day2_to_init:\n                # amt of c on day2, rate from c to init = 1/day2_to_init[c]\n                # No: day2_to_init[c] is amount of c when starting with 1 init.\n                # So going c->init: multiply by (1 / day2_to_init[c])... \n                # Actually BFS from init gives init->c rate. c->init = 1/(init->c rate) only if no contradictions.\n                # Let me just run BFS from each unique currency in day1 on day2 graph... too slow.\n                # Correct approach: run BFS on day2 from initialCurrency to get all rates.\n                # rate(init->c) stored in day2_to_init[c].\n                # Having amt of c, converting to init = amt / day2_to_init[c] if c!=init, else amt.\n                if c == initialCurrency:\n                    best = max(best, amt)\n                else:\n                    # rate init->c = day2_to_init[c], so c->init = 1/day2_to_init[c]\n                    # but only valid if the graph is undirected (it is, since we added reverse edges)\n                    best = max(best, amt / day2_to_init[c])\n        # Also try staying at initialCurrency entire time\n        best = max(best, 1.0)\n        return best",
+    "explanation": "BFS/DFS to find best conversion rates from initialCurrency on Day 1 to all reachable currencies. On Day 2, BFS from initialCurrency to find rate(init→c) for each currency c. Since no contradictions, rate(c→init) = 1/rate(init→c). For each intermediate currency c reachable after day 1 with amount `day1[c]`, the final initialCurrency amount = day1[c] / day2_to_init[c]. Return maximum.\n\nTime: O(E1 + E2). Space: O(V)."
+  },
+  "similarQuestions": "[{\"title\": \"Evaluate Division\", \"titleSlug\": \"evaluate-division\", \"difficulty\": \"Medium\"}]"
+}

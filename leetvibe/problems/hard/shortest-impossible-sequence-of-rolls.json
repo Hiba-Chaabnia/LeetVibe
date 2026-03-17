@@ -1,0 +1,54 @@
+{
+  "questionId": "2435",
+  "title": "Shortest Impossible Sequence of Rolls",
+  "titleSlug": "shortest-impossible-sequence-of-rolls",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an integer array rolls of length n and an integer k. You roll a k sided dice numbered from 1 to k, n times, where the result of the ith roll is rolls[i].\n\nReturn the length of the shortest sequence of rolls so that there's no such subsequence in rolls.\n\nA sequence of rolls of length len is the result of rolling a k sided dice len times.\n\nExample 1:\n\nInput: rolls = [4,2,1,2,3,3,2,4,1], k = 4\nOutput: 3\nExplanation: Every sequence of rolls of length 1, [1], [2], [3], [4], can be taken from rolls.\n    Every sequence of rolls of length 2, [1, 1], [1, 2], ..., [4, 4], can be taken from rolls.\n    The sequence [1, 4, 2] cannot be taken from rolls, so we return 3.\n    Note that there are other sequences that cannot be taken from rolls.\n\nExample 2:\n\nInput: rolls = [1,1,2,2], k = 2\nOutput: 2\nExplanation: Every sequence of rolls of length 1, [1], [2], can be taken from rolls.\n    The sequence [2, 1] cannot be taken from rolls, so we return 2.\n    Note that there are other sequences that cannot be taken from rolls but [2, 1] is the shortest.\n\nExample 3:\n\nInput: rolls = [1,1,3,2,2,2,3,3], k = 4\nOutput: 1\nExplanation: The sequence [4] cannot be taken from rolls, so we return 1.\n    Note that there are other sequences that cannot be taken from rolls but [4] is the shortest.\n\nConstraints:\n\n• n == rolls.length\n\n• 1 <= n <= 105\n\n• 1 <= rolls[i] <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestSequence(self, rolls, k):\n        \"\"\"\n        :type rolls: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can you find the minimum index such that all sequences of length 1 can be formed from the start until that index?",
+    "Starting from the previous minimum index, what is the next index such that all sequences of length 2 can be formed?",
+    "Can you extend the idea to sequences of length 3 and more?"
+  ],
+  "testCases": [
+    [
+      "[4,2,1,2,3,3,2,4,1]",
+      "4"
+    ],
+    [
+      "[1,1,2,2]",
+      "2"
+    ],
+    [
+      "[1,1,3,2,2,2,3,3]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

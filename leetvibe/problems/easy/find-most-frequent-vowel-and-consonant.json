@@ -1,0 +1,50 @@
+{
+  "questionId": "3872",
+  "title": "Find Most Frequent Vowel and Consonant",
+  "titleSlug": "find-most-frequent-vowel-and-consonant",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters ('a' to 'z').\n\nYour task is to:\n\n• Find the vowel (one of 'a', 'e', 'i', 'o', or 'u') with the maximum frequency.\n\n• Find the consonant (all other letters excluding vowels) with the maximum frequency.\n\nReturn the sum of the two frequencies.\n\nNote: If multiple vowels or consonants have the same maximum frequency, you may choose any one of them. If there are no vowels or no consonants in the string, consider their frequency as 0.\n\nThe frequency of a letter x is the number of times it occurs in the string.\n\nExample 1:\n\nInput: s = \"successes\"\n\nOutput: 6\n\nExplanation:\n\n• The vowels are: 'u' (frequency 1), 'e' (frequency 2). The maximum frequency is 2.\n\n• The consonants are: 's' (frequency 4), 'c' (frequency 2). The maximum frequency is 4.\n\n• The output is 2 + 4 = 6.\n\nExample 2:\n\nInput: s = \"aeiaeia\"\n\nOutput: 3\n\nExplanation:\n\n• The vowels are: 'a' (frequency 3), 'e' ( frequency 2), 'i' (frequency 2). The maximum frequency is 3.\n\n• There are no consonants in s. Hence, maximum consonant frequency = 0.\n\n• The output is 3 + 0 = 3.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists of lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxFreqSum(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a hashmap",
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "\"successes\""
+    ],
+    [
+      "\"aeiaeia\""
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxFreqSum(self, s):\n        from collections import Counter\n        VOWELS = set('aeiou')\n        cnt = Counter(s)\n        max_v = max((f for c, f in cnt.items() if c in VOWELS), default=0)\n        max_c = max((f for c, f in cnt.items() if c not in VOWELS), default=0)\n        return max_v + max_c",
+    "explanation": "Find max vowel frequency and max consonant frequency separately, then sum them. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,53 @@
+{
+  "questionId": "4084",
+  "title": "Maximize Sum of Squares of Digits",
+  "titleSlug": "maximize-sum-of-squares-of-digits",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given two positive integers num and sum.\n\nA positive integer n is good if it satisfies both of the following:\n\n• The number of digits in n is exactly num.\n\n• The sum of digits in n is exactly sum.\n\nThe score of a good integer n is the sum of the squares of digits in n.\n\nReturn a string denoting the good integer n that achieves the maximum score. If there are multiple possible integers, return the maximum ​​​​​​​one. If no such integer exists, return an empty string.\n\nExample 1:\n\nInput: num = 2, sum = 3\n\nOutput: \"30\"\n\nExplanation: There are 3 good integers: 12, 21, and 30.\n\n• The score of 12 is 12 + 22 = 5.\n\n• The score of 21 is 22 + 12 = 5.\n\n• The score of 30 is 32 + 02 = 9.\n\nThe maximum score is 9, which is achieved by the good integer 30. Therefore, the answer is \"30\".\n\nExample 2:\n\nInput: num = 2, sum = 17\n\nOutput: \"98\"\n\nExplanation: There are 2 good integers: 89 and 98.\n\n• The score of 89 is 82 + 92 = 145.\n\n• The score of 98 is 92 + 82 = 145.\n\nThe maximum score is 145. The maximum good integer that achieves this score is 98. Therefore, the answer is \"98\".\n\nExample 3:\n\nInput: num = 1, sum = 10\n\nOutput: \"\"\n\nExplanation: There are no integers that have exactly 1 digit and whose digits sum to 10. Therefore, the answer is \"\".\n\nConstraints:\n\n• 1 <= num <= 2 * 105\n\n• 1 <= sum <= 2 * 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSumOfSquares(self, num, sum):\n        \"\"\"\n        :type num: int\n        :type sum: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a greedy approach.",
+    "Fill the leftmost digits with 9s first (as much as possible)."
+  ],
+  "testCases": [
+    [
+      "2",
+      "3"
+    ],
+    [
+      "2",
+      "17"
+    ],
+    [
+      "1",
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"30\"",
+    "\"98\"",
+    "\"\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxSumOfSquares(self, num, s):\n        # Greedy: to maximize sum of squares, maximize the larger digits.\n        # Fill leftmost digits with 9 as much as possible.\n        if s > 9 * num or s < num:  # impossible: need num digits >= 1 each\n            return \"\"\n        # Wait: digits are >= 0 for all but leading digit (first digit >= 1 for no leading zeros)\n        # Actually: num-digit positive integer, digits sum to s.\n        # First digit >= 1. To maximize sum of squares: use as many 9s as possible from the left.\n        # Greedy: assign 9 to each digit from left until remaining sum fits in remaining digits.\n        digits = []\n        remaining = s\n        for i in range(num):\n            left = num - i - 1  # digits after this one\n            # Maximum we can assign to this digit: 9\n            # Minimum we must leave: left * 0 = 0 (but first digit >= 1)\n            # For digit i, max assign = min(9, remaining - left * 0) = min(9, remaining)\n            # But remaining digits need at least 0 each (except first which needs >=1)\n            # Actually all digits 0-9 are valid, leading digit 1-9.\n            # To maximize score, assign as large as possible to current digit:\n            max_here = min(9, remaining - 0 * left)  # remaining digits can be 0\n            # But we also need remaining - max_here to be <= 9 * left and >= 0\n            # So max_here = min(9, remaining) but also remaining - max_here >= 0\n            # and remaining - max_here <= 9 * left\n            max_here = min(9, remaining)\n            # Ensure remaining fits: remaining - max_here <= 9 * left\n            while remaining - max_here > 9 * left:\n                max_here -= 1\n            if i == 0 and max_here == 0:\n                return \"\"\n            digits.append(max_here)\n            remaining -= max_here\n\n        if remaining != 0:\n            return \"\"\n        return ''.join(map(str, digits))",
+    "explanation": "Greedy: maximize sum of squares by making leading digits as large as possible (9s first). For each position, assign the largest value that still allows the remaining sum to be distributed among remaining digits (each 0-9). Validate feasibility: sum must be in [num, 9*num].\n\nTime: O(num). Space: O(num)."
+  },
+  "similarQuestions": "[]"
+}

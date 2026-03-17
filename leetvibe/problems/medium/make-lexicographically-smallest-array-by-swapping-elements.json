@@ -1,0 +1,60 @@
+{
+  "questionId": "3219",
+  "title": "Make Lexicographically Smallest Array by Swapping Elements",
+  "titleSlug": "make-lexicographically-smallest-array-by-swapping-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed array of positive integers nums and a positive integer limit.\n\nIn one operation, you can choose any two indices i and j and swap nums[i] and nums[j] if |nums[i] - nums[j]| <= limit.\n\nReturn the lexicographically smallest array that can be obtained by performing the operation any number of times.\n\nAn array a is lexicographically smaller than an array b if in the first position where a and b differ, array a has an element that is less than the corresponding element in b. For example, the array [2,10,3] is lexicographically smaller than the array [10,2,3] because they differ at index 0 and 2 < 10.\n\nExample 1:\n\nInput: nums = [1,5,3,9,8], limit = 2\nOutput: [1,3,5,8,9]\nExplanation: Apply the operation 2 times:\n    - Swap nums[1] with nums[2]. The array becomes [1,3,5,9,8]\n    - Swap nums[3] with nums[4]. The array becomes [1,3,5,8,9]\n    We cannot obtain a lexicographically smaller array by applying any more operations.\n    Note that it may be possible to get the same result by doing different operations.\n\nExample 2:\n\nInput: nums = [1,7,6,18,2,1], limit = 3\nOutput: [1,6,7,18,1,2]\nExplanation: Apply the operation 3 times:\n    - Swap nums[1] with nums[2]. The array becomes [1,6,7,18,2,1]\n    - Swap nums[0] with nums[4]. The array becomes [2,6,7,18,1,1]\n    - Swap nums[0] with nums[5]. The array becomes [1,6,7,18,1,2]\n    We cannot obtain a lexicographically smaller array by applying any more operations.\n\nExample 3:\n\nInput: nums = [1,7,28,19,10], limit = 3\nOutput: [1,7,28,19,10]\nExplanation: [1,7,28,19,10] is the lexicographically smallest array we can obtain because we cannot apply the operation on any two indices.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 1 <= limit <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lexicographicallySmallestArray(self, nums, limit):\n        \"\"\"\n        :type nums: List[int]\n        :type limit: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Construct a virtual graph where all elements in nums are nodes and the pairs satisfying the condition have an edge between them.",
+    "Instead of constructing all edges, we only care about the connected components.",
+    "Can we use DSU?",
+    "Sort nums. Now we just need to consider if the consecutive elements have an edge to check if they belong to the same connected component. Hence, all connected components become a list of position-consecutive elements after sorting.",
+    "For each index of nums from 0 to nums.length - 1 we can change it to the current minimum value we have in its connected component and remove that value from the connected component."
+  ],
+  "testCases": [
+    [
+      "[1,5,3,9,8]",
+      "2"
+    ],
+    [
+      "[1,7,6,18,2,1]",
+      "3"
+    ],
+    [
+      "[1,7,28,19,10]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,3,5,8,9]",
+    "[1,6,7,18,1,2]",
+    "[1,7,28,19,10]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def lexicographicallySmallestArray(self, nums, limit):\n        n = len(nums)\n        # Sort by value; consecutive elements within limit form a connected component.\n        # Within each component, sort original indices and assign sorted values.\n        sorted_idx = sorted(range(n), key=lambda i: nums[i])\n        result = [0] * n\n        i = 0\n        while i < n:\n            j = i\n            # Extend component while consecutive sorted values differ by <= limit\n            while j + 1 < n and nums[sorted_idx[j+1]] - nums[sorted_idx[j]] <= limit:\n                j += 1\n            # Component: sorted_idx[i..j]\n            component_indices = sorted_idx[i:j+1]\n            # Sort these original indices and assign sorted values\n            orig_positions = sorted(component_indices)\n            sorted_values = sorted(nums[idx] for idx in component_indices)\n            for pos, val in zip(orig_positions, sorted_values):\n                result[pos] = val\n            i = j + 1\n        return result",
+    "explanation": "Sort indices by value. Consecutive elements with value difference ≤ limit form a connected component (transitively reachable by swaps). For each component: collect original positions, sort them, assign sorted values in order. This makes each component's positions hold the smallest possible values.\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Smallest String With Swaps\", \"titleSlug\": \"smallest-string-with-swaps\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimize Hamming Distance After Swap Operations\", \"titleSlug\": \"minimize-hamming-distance-after-swap-operations\", \"difficulty\": \"Medium\"}]"
+}

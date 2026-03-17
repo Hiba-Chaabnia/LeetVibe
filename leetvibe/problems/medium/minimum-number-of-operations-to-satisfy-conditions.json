@@ -1,0 +1,51 @@
+{
+  "questionId": "3404",
+  "title": "Minimum Number of Operations to Satisfy Conditions",
+  "titleSlug": "minimum-number-of-operations-to-satisfy-conditions",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given a 2D matrix grid of size m x n. In one operation, you can change the value of any cell to any non-negative number. You need to perform some operations such that each cell grid[i][j] is:\n\n• Equal to the cell below it, i.e. grid[i][j] == grid[i + 1][j] (if it exists).\n\n• Different from the cell to its right, i.e. grid[i][j] != grid[i][j + 1] (if it exists).\n\nReturn the minimum number of operations needed.\n\nExample 1:\n\nInput: grid = [[1,0,2],[1,0,2]]\n\nOutput: 0\n\nExplanation: All the cells in the matrix already satisfy the properties.\n\nExample 2:\n\nInput: grid = [[1,1,1],[0,0,0]]\n\nOutput: 3\n\nExplanation: The matrix becomes [[1,0,1],[1,0,1]] which satisfies the properties, by doing these 3 operations:\n\n• Change grid[1][0] to 1.\n\n• Change grid[0][1] to 0.\n\n• Change grid[1][2] to 1.\n\nExample 3:\n\nInput: grid = [[1],[2],[3]]\n\nOutput: 2\n\nExplanation: There is a single column. We can change the value to 1 in each cell using 2 operations.\n\nConstraints:\n\n• 1 <= n, m <= 1000\n\n• 0 <= grid[i][j] <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumOperations(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,0,2],[1,0,2]]"
+    ],
+    [
+      "[[1,1,1],[0,0,0]]"
+    ],
+    [
+      "[[1],[2],[3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "3",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumOperations(self, grid):\n        m, n = len(grid), len(grid[0])\n        INF = float('inf')\n\n        def col_costs(j):\n            costs = [m] * 10\n            for r in range(m):\n                costs[grid[r][j]] -= 1\n            return costs\n\n        prev = col_costs(0)\n\n        for j in range(1, n):\n            costs_j = col_costs(j)\n            min1 = min2 = INF\n            min1_c = -1\n            for pc in range(10):\n                if prev[pc] < min1:\n                    min2 = min1\n                    min1 = prev[pc]\n                    min1_c = pc\n                elif prev[pc] < min2:\n                    min2 = prev[pc]\n            curr = [0] * 10\n            for c in range(10):\n                best = min1 if min1_c != c else min2\n                curr[c] = best + costs_j[c]\n            prev = curr\n\n        return min(prev)",
+    "explanation": "Each column must be uniform (all cells equal) and adjacent columns must differ. DP over columns with 10 possible digit values. col_cost[j][c] = cells in column j needing change to become c. Transition uses top-2 minimums for O(1) per color. Answer = min over final dp values.\n\nTime: O(m*n*10). Space: O(m + 10)."
+  },
+  "similarQuestions": "[{\"title\": \"Candy\", \"titleSlug\": \"candy\", \"difficulty\": \"Hard\"}, {\"title\": \"Distribute Candies\", \"titleSlug\": \"distribute-candies\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Cost of Buying Candies With Discount\", \"titleSlug\": \"minimum-cost-of-buying-candies-with-discount\", \"difficulty\": \"Easy\"}]"
+}

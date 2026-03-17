@@ -1,0 +1,56 @@
+{
+  "questionId": "522",
+  "title": "Longest Uncommon Subsequence II",
+  "titleSlug": "longest-uncommon-subsequence-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array of strings strs, return the length of the longest uncommon subsequence between them. If the longest uncommon subsequence does not exist, return -1.\n\nAn uncommon subsequence between an array of strings is a string that is a subsequence of one string but not the others.\n\nA subsequence of a string s is a string that can be obtained after deleting any number of characters from s.\n\n• For example, \"abc\" is a subsequence of \"aebdc\" because you can delete the underlined characters in \"aebdc\" to get \"abc\". Other subsequences of \"aebdc\" include \"aebdc\", \"aeb\", and \"\" (empty string).\n\nExample 1:\n\nInput: strs = [\"aba\",\"cdc\",\"eae\"]\nOutput: 3\nExample 2:\n\nInput: strs = [\"aaa\",\"aaa\",\"aa\"]\nOutput: -1\n\nConstraints:\n\n• 2 <= strs.length <= 50\n\n• 1 <= strs[i].length <= 10\n\n• strs[i] consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findLUSlength(self, strs):\n        \"\"\"\n        :type strs: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"aba\",\"cdc\",\"eae\"]"
+    ],
+    [
+      "[\"aaa\",\"aaa\",\"aa\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def findLUSlength(self, strs):\n        \"\"\"\n        :type strs: List[str]\n        :rtype: int\n        \"\"\"\n        def is_subsequence(s, t):\n            # Check if s is subsequence of t\n            it = iter(t)\n            return all(c in it for c in s)\n        \n        # Sort by length descending, then lexicographically\n        strs.sort(key=lambda x: (-len(x), x))\n        \n        for i, s in enumerate(strs):\n            # Check if s is not subsequence of any other string\n            is_uncommon = True\n            for j, t in enumerate(strs):\n                if i != j and is_subsequence(s, t):\n                    is_uncommon = False\n                    break\n            \n            if is_uncommon:\n                return len(s)\n        \n        return -1",
+    "explanation": "Sort by length descending. For each string, check if it's not a subsequence of any other. Return first (longest) uncommon string.",
+    "complexity": "Time: O(n² * L²) where L is max length. Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Uncommon Subsequence I\", \"titleSlug\": \"longest-uncommon-subsequence-i\", \"difficulty\": \"Easy\"}]"
+}

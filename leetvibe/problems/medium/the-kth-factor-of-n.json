@@ -1,0 +1,49 @@
+{
+  "questionId": "1585",
+  "title": "The kth Factor of n",
+  "titleSlug": "the-kth-factor-of-n",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given two positive integers n and k. A factor of an integer n is defined as an integer i where n % i == 0.\n\nConsider a list of all factors of n sorted in ascending order, return the kth factor in this list or return -1 if n has less than k factors.\n\nExample 1:\n\nInput: n = 12, k = 3\nOutput: 3\nExplanation: Factors list is [1, 2, 3, 4, 6, 12], the 3rd factor is 3.\n\nExample 2:\n\nInput: n = 7, k = 2\nOutput: 7\nExplanation: Factors list is [1, 7], the 2nd factor is 7.\n\nExample 3:\n\nInput: n = 4, k = 4\nOutput: -1\nExplanation: Factors list is [1, 2, 4], there is only 3 factors. We should return -1.\n\nConstraints:\n\n• 1 <= k <= n <= 1000\n\nFollow up:\n\nCould you solve this problem in less than O(n) complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kthFactor(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The factors of n will be always in the range [1, n].",
+    "Keep a list of all factors sorted.  Loop i from 1 to n and add i if n % i == 0. Return the kth factor if it exist in this list."
+  ],
+  "testCases": [
+    [
+      "12",
+      "3"
+    ],
+    [
+      "7",
+      "2"
+    ],
+    [
+      "4",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "7",
+    "-1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,52 @@
+{
+  "questionId": "2265",
+  "title": "Partition Array According to Given Pivot",
+  "titleSlug": "partition-array-according-to-given-pivot",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums and an integer pivot. Rearrange nums such that the following conditions are satisfied:\n\n• Every element less than pivot appears before every element greater than pivot.\n\n• Every element equal to pivot appears in between the elements less than and greater than pivot.\n\n• The relative order of the elements less than pivot and the elements greater than pivot is maintained.\n\n• More formally, consider every pi, pj where pi is the new position of the ith element and pj is the new position of the jth element. If i < j and both elements are smaller (or larger) than pivot, then pi < pj.\n\nReturn nums after the rearrangement.\n\nExample 1:\n\nInput: nums = [9,12,5,10,14,3,10], pivot = 10\nOutput: [9,5,3,10,10,12,14]\nExplanation:\n    The elements 9, 5, and 3 are less than the pivot so they are on the left side of the array.\n    The elements 12 and 14 are greater than the pivot so they are on the right side of the array.\n    The relative ordering of the elements less than and greater than pivot is also maintained. [9, 5, 3] and [12, 14] are the respective orderings.\n\nExample 2:\n\nInput: nums = [-3,4,3,2], pivot = 2\nOutput: [-3,2,4,3]\nExplanation:\n    The element -3 is less than the pivot so it is on the left side of the array.\n    The elements 4 and 3 are greater than the pivot so they are on the right side of the array.\n    The relative ordering of the elements less than and greater than pivot is also maintained. [-3] and [4, 3] are the respective orderings.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -106 <= nums[i] <= 106\n\n• pivot equals to an element of nums.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def pivotArray(self, nums, pivot):\n        \"\"\"\n        :type nums: List[int]\n        :type pivot: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Could you put the elements smaller than the pivot and greater than the pivot in a separate list as in the sequence that they occur?",
+    "With the separate lists generated, could you then generate the result?"
+  ],
+  "testCases": [
+    [
+      "[9,12,5,10,14,3,10]",
+      "10"
+    ],
+    [
+      "[-3,4,3,2]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[9,5,3,10,10,12,14]",
+    "[-3,2,4,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def pivotArray(self, nums, pivot):\n        less = [x for x in nums if x < pivot]\n        equal = [x for x in nums if x == pivot]\n        greater = [x for x in nums if x > pivot]\n        return less + equal + greater",
+    "explanation": "We make three passes over nums (preserving original order in each pass):\n1. Collect all elements less than pivot.\n2. Collect all elements equal to pivot.\n3. Collect all elements greater than pivot.\n\nConcatenating these three lists gives the required partition while maintaining relative order within each group.\n\nTime complexity: O(n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Partition List\", \"titleSlug\": \"partition-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Rearrange Array Elements by Sign\", \"titleSlug\": \"rearrange-array-elements-by-sign\", \"difficulty\": \"Medium\"}]"
+}

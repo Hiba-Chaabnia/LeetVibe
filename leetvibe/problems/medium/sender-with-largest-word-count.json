@@ -1,0 +1,52 @@
+{
+  "questionId": "2378",
+  "title": "Sender With Largest Word Count",
+  "titleSlug": "sender-with-largest-word-count",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You have a chat log of n messages. You are given two string arrays messages and senders where messages[i] is a message sent by senders[i].\n\nA message is list of words that are separated by a single space with no leading or trailing spaces. The word count of a sender is the total number of words sent by the sender. Note that a sender may send more than one message.\n\nReturn the sender with the largest word count. If there is more than one sender with the largest word count, return the one with the lexicographically largest name.\n\nNote:\n\n• Uppercase letters come before lowercase letters in lexicographical order.\n\n• \"Alice\" and \"alice\" are distinct.\n\nExample 1:\n\nInput: messages = [\"Hello userTwooo\",\"Hi userThree\",\"Wonderful day Alice\",\"Nice day userThree\"], senders = [\"Alice\",\"userTwo\",\"userThree\",\"Alice\"]\nOutput: \"Alice\"\nExplanation: Alice sends a total of 2 + 3 = 5 words.\n    userTwo sends a total of 2 words.\n    userThree sends a total of 3 words.\n    Since Alice has the largest word count, we return \"Alice\".\n\nExample 2:\n\nInput: messages = [\"How is leetcode for everyone\",\"Leetcode is useful for practice\"], senders = [\"Bob\",\"Charlie\"]\nOutput: \"Charlie\"\nExplanation: Bob sends a total of 5 words.\n    Charlie sends a total of 5 words.\n    Since there is a tie for the largest word count, we return the sender with the lexicographically larger name, Charlie.\n\nConstraints:\n\n• n == messages.length == senders.length\n\n• 1 <= n <= 104\n\n• 1 <= messages[i].length <= 100\n\n• 1 <= senders[i].length <= 10\n\n• messages[i] consists of uppercase and lowercase English letters and ' '.\n\n• All the words in messages[i] are separated by a single space.\n\n• messages[i] does not have leading or trailing spaces.\n\n• senders[i] consists of uppercase and lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestWordCount(self, messages, senders):\n        \"\"\"\n        :type messages: List[str]\n        :type senders: List[str]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The number of words in a message is equal to the number of spaces + 1.",
+    "Use a hash map to count the total number of words from each sender."
+  ],
+  "testCases": [
+    [
+      "[\"Hello userTwooo\",\"Hi userThree\",\"Wonderful day Alice\",\"Nice day userThree\"]",
+      "[\"Alice\",\"userTwo\",\"userThree\",\"Alice\"]"
+    ],
+    [
+      "[\"How is leetcode for everyone\",\"Leetcode is useful for practice\"]",
+      "[\"Bob\",\"Charlie\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Alice\"",
+    "\"Charlie\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Top K Frequent Elements\", \"titleSlug\": \"top-k-frequent-elements\", \"difficulty\": \"Medium\"}, {\"title\": \"Top K Frequent Words\", \"titleSlug\": \"top-k-frequent-words\", \"difficulty\": \"Medium\"}]"
+}

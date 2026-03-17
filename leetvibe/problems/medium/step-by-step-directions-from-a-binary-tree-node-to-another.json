@@ -1,0 +1,60 @@
+{
+  "questionId": "2217",
+  "title": "Step-By-Step Directions From a Binary Tree Node to Another",
+  "titleSlug": "step-by-step-directions-from-a-binary-tree-node-to-another",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary tree with n nodes. Each node is uniquely assigned a value from 1 to n. You are also given an integer startValue representing the value of the start node s, and a different integer destValue representing the value of the destination node t.\n\nFind the shortest path starting from node s and ending at node t. Generate step-by-step directions of such path as a string consisting of only the uppercase letters 'L', 'R', and 'U'. Each letter indicates a specific direction:\n\n• 'L' means to go from a node to its left child node.\n\n• 'R' means to go from a node to its right child node.\n\n• 'U' means to go from a node to its parent node.\n\nReturn the step-by-step directions of the shortest path from node s to node t.\n\nExample 1:\n\nInput: root = [5,1,2,3,null,6,4], startValue = 3, destValue = 6\nOutput: \"UURL\"\nExplanation: The shortest path is: 3 → 1 → 5 → 2 → 6.\n\nExample 2:\n\nInput: root = [2,1], startValue = 2, destValue = 1\nOutput: \"L\"\nExplanation: The shortest path is: 2 → 1.\n\nConstraints:\n\n• The number of nodes in the tree is n.\n\n• 2 <= n <= 105\n\n• 1 <= Node.val <= n\n\n• All the values in the tree are unique.\n\n• 1 <= startValue, destValue <= n\n\n• startValue != destValue",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def getDirections(self, root, startValue, destValue):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type startValue: int\n        :type destValue: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The shortest path between any two nodes in a tree must pass through their Lowest Common Ancestor (LCA). The path will travel upwards from node s to the LCA and then downwards from the LCA to node t.",
+    "Find the path strings from root → s, and root → t. Can you use these two strings to prepare the final answer?",
+    "Remove the longest common prefix of the two path strings to get the path LCA → s, and LCA → t. Each step in the path of LCA → s should be reversed as 'U'."
+  ],
+  "testCases": [
+    [
+      "[5,1,2,3,null,6,4]",
+      "3",
+      "6"
+    ],
+    [
+      "[2,1]",
+      "2",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"UURL\"",
+    "\"L\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def getDirections(self, root, startValue, destValue):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type startValue: int\n        :type destValue: int\n        :rtype: str\n        \"\"\"\n        def findPath(node, target, path):\n            if not node:\n                return False\n            \n            if node.val == target:\n                return True\n            \n            path.append('L')\n            if findPath(node.left, target, path):\n                return True\n            path.pop()\n            \n            path.append('R')\n            if findPath(node.right, target, path):\n                return True\n            path.pop()\n            \n            return False\n        \n        start_path = []\n        dest_path = []\n        \n        findPath(root, startValue, start_path)\n        findPath(root, destValue, dest_path)\n        \n        # Find LCA (remove common prefix)\n        i = 0\n        while i < len(start_path) and i < len(dest_path) and start_path[i] == dest_path[i]:\n            i += 1\n        \n        # Up from start to LCA, then down to destination\n        result = 'U' * (len(start_path) - i) + ''.join(dest_path[i:])\n        \n        return result",
+    "explanation": "Find paths from root to both nodes. Find LCA by removing common prefix.",
+    "complexity": "Time: O(n). Space: O(h)."
+  },
+  "similarQuestions": "[{\"title\": \"Path Sum II\", \"titleSlug\": \"path-sum-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Lowest Common Ancestor of a Binary Tree\", \"titleSlug\": \"lowest-common-ancestor-of-a-binary-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Binary Tree Paths\", \"titleSlug\": \"binary-tree-paths\", \"difficulty\": \"Easy\"}, {\"title\": \"Find Distance in a Binary Tree\", \"titleSlug\": \"find-distance-in-a-binary-tree\", \"difficulty\": \"Medium\"}]"
+}

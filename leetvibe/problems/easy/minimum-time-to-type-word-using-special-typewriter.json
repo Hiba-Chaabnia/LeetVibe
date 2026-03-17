@@ -1,0 +1,50 @@
+{
+  "questionId": "2088",
+  "title": "Minimum Time to Type Word Using Special Typewriter",
+  "titleSlug": "minimum-time-to-type-word-using-special-typewriter",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "There is a special typewriter with lowercase English letters 'a' to 'z' arranged in a circle with a pointer. A character can only be typed if the pointer is pointing to that character. The pointer is initially pointing to the character 'a'.\n\nEach second, you may perform one of the following operations:\n\n• Move the pointer one character counterclockwise or clockwise.\n\n• Type the character the pointer is currently on.\n\nGiven a string word, return the minimum number of seconds to type out the characters in word.\n\nExample 1:\n\nInput: word = \"abc\"\nOutput: 5\nExplanation:\n    The characters are printed as follows:\n    - Type the character 'a' in 1 second since the pointer is initially on 'a'.\n    - Move the pointer clockwise to 'b' in 1 second.\n    - Type the character 'b' in 1 second.\n    - Move the pointer clockwise to 'c' in 1 second.\n    - Type the character 'c' in 1 second.\n\nExample 2:\n\nInput: word = \"bza\"\nOutput: 7\nExplanation:\n    The characters are printed as follows:\n    - Move the pointer clockwise to 'b' in 1 second.\n    - Type the character 'b' in 1 second.\n    - Move the pointer counterclockwise to 'z' in 2 seconds.\n    - Type the character 'z' in 1 second.\n    - Move the pointer clockwise to 'a' in 1 second.\n    - Type the character 'a' in 1 second.\n\nExample 3:\n\nInput: word = \"zjpc\"\nOutput: 34\nExplanation:\n    The characters are printed as follows:\n    - Move the pointer counterclockwise to 'z' in 1 second.\n    - Type the character 'z' in 1 second.\n    - Move the pointer clockwise to 'j' in 10 seconds.\n    - Type the character 'j' in 1 second.\n    - Move the pointer clockwise to 'p' in 6 seconds.\n    - Type the character 'p' in 1 second.\n    - Move the pointer counterclockwise to 'c' in 13 seconds.\n    - Type the character 'c' in 1 second.\n\nConstraints:\n\n• 1 <= word.length <= 100\n\n• word consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minTimeToType(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "There are only two possible directions you can go when you move to the next letter.",
+    "When moving to the next letter, you will always go in the direction that takes the least amount of time."
+  ],
+  "testCases": [
+    [
+      "\"abc\""
+    ],
+    [
+      "\"bza\""
+    ],
+    [
+      "\"zjpc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "7",
+    "34"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minTimeToType(word: str) -> int:\n    time = 0\n    position = 0\n    for c in word:\n        next_position = ord(c) - ord('a')\n        diff = abs(next_position - position)\n        time += min(diff, 26 - diff) + 1\n        position = next_position\n    return time",
+    "explanation": "1. Initialize the time and position to 0.\n2. Iterate through the characters of the word.\n3. Calculate the next position based on the ASCII value of the character and 'a'.\n4. Calculate the difference between the next position and the current position.\n5. Update the time by adding the minimum of the difference and (26 - difference), and 1 extra second for typing the character.\n6. Update the current position to the next position.\n7. Return the total time after processing all characters in the word."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Distance to Type a Word Using Two Fingers\", \"titleSlug\": \"minimum-distance-to-type-a-word-using-two-fingers\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,59 @@
+{
+  "questionId": "3629",
+  "title": "Total Characters in String After Transformations I",
+  "titleSlug": "total-characters-in-string-after-transformations-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s and an integer t, representing the number of transformations to perform. In one transformation, every character in s is replaced according to the following rules:\n\n• If the character is 'z', replace it with the string \"ab\".\n\n• Otherwise, replace it with the next character in the alphabet. For example, 'a' is replaced with 'b', 'b' is replaced with 'c', and so on.\n\nReturn the length of the resulting string after exactly t transformations.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: s = \"abcyy\", t = 2\n\nOutput: 7\n\nExplanation:\n\n• First Transformation (t = 1):\n\n• 'a' becomes 'b'\n\n• 'b' becomes 'c'\n\n• 'c' becomes 'd'\n\n• 'y' becomes 'z'\n\n• 'y' becomes 'z'\n\n• String after the first transformation: \"bcdzz\"\n\n• Second Transformation (t = 2):\n\n• 'b' becomes 'c'\n\n• 'c' becomes 'd'\n\n• 'd' becomes 'e'\n\n• 'z' becomes \"ab\"\n\n• 'z' becomes \"ab\"\n\n• String after the second transformation: \"cdeabab\"\n\n• Final Length of the string: The string is \"cdeabab\", which has 7 characters.\n\nExample 2:\n\nInput: s = \"azbk\", t = 1\n\nOutput: 5\n\nExplanation:\n\n• First Transformation (t = 1):\n\n• 'a' becomes 'b'\n\n• 'z' becomes \"ab\"\n\n• 'b' becomes 'c'\n\n• 'k' becomes 'l'\n\n• String after the first transformation: \"babcl\"\n\n• Final Length of the string: The string is \"babcl\", which has 5 characters.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists only of lowercase English letters.\n\n• 1 <= t <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lengthAfterTransformations(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Maintain the frequency of each character."
+  ],
+  "testCases": [
+    [
+      "\"abcyy\"",
+      "2"
+    ],
+    [
+      "\"azbk\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def lengthAfterTransformations(self, s, t):\n        MOD = 10**9 + 7\n        freq = [0] * 26\n        for c in s:\n            freq[ord(c) - ord('a')] += 1\n        for _ in range(t):\n            new_freq = [0] * 26\n            for i in range(25):\n                new_freq[i + 1] = (new_freq[i + 1] + freq[i]) % MOD\n            new_freq[0] = (new_freq[0] + freq[25]) % MOD\n            new_freq[1] = (new_freq[1] + freq[25]) % MOD\n            freq = new_freq\n        return sum(freq) % MOD",
+    "explanation": "Instead of simulating the actual string (which grows exponentially), we track only the frequency of each of the 26 letters.\n\nOn each transformation step:\n- Every letter at index i (0–24) shifts to index i+1, so freq[i+1] += freq[i].\n- The letter 'z' (index 25) expands to 'a' and 'b', so freq[0] += freq[25] and freq[1] += freq[25].\n\nWe build a new frequency array each round and apply modular arithmetic throughout. After t rounds, the answer is the sum of all frequencies mod 10^9+7.\n\nTime complexity: O(26 * t). Space complexity: O(26)."
+  },
+  "similarQuestions": "[]"
+}

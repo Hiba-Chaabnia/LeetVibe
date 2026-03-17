@@ -1,0 +1,51 @@
+{
+  "questionId": "501",
+  "title": "Find Mode in Binary Search Tree",
+  "titleSlug": "find-mode-in-binary-search-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary search tree (BST) with duplicates, return all the mode(s) (i.e., the most frequently occurred element) in it.\n\nIf the tree has more than one mode, return them in any order.\n\nAssume a BST is defined as follows:\n\n• The left subtree of a node contains only nodes with keys less than or equal to the node's key.\n\n• The right subtree of a node contains only nodes with keys greater than or equal to the node's key.\n\n• Both the left and right subtrees must also be binary search trees.\n\nExample 1:\n\nInput: root = [1,null,2,2]\nOutput: [2]\n\nExample 2:\n\nInput: root = [0]\nOutput: [0]\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 104].\n\n• -105 <= Node.val <= 105\n\nFollow up: Could you do that without using any extra space? (Assume that the implicit stack space incurred due to recursion does not count).",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def findMode(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,null,2,2]"
+    ],
+    [
+      "[0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2]",
+    "[0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findMode(self, root):\n        freq = {}\n        def inorder(node):\n            if not node:\n                return\n            inorder(node.left)\n            freq[node.val] = freq.get(node.val, 0) + 1\n            inorder(node.right)\n        inorder(root)\n        max_freq = max(freq.values())\n        return [num for num in freq if freq[num] == max_freq]",
+    "explanation": "Inorder traversal counts frequencies. Return all with max frequency.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Validate Binary Search Tree\", \"titleSlug\": \"validate-binary-search-tree\", \"difficulty\": \"Medium\"}]"
+}

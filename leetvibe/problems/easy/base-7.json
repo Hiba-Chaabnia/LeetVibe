@@ -1,0 +1,43 @@
+{
+  "questionId": "504",
+  "title": "Base 7",
+  "titleSlug": "base-7",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given an integer num, return a string of its base 7 representation.\n\nExample 1:\n\nInput: num = 100\nOutput: \"202\"\nExample 2:\n\nInput: num = -7\nOutput: \"-10\"\n\nConstraints:\n\n• -107 <= num <= 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def convertToBase7(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "100"
+    ],
+    [
+      "-7"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"202\"",
+    "\"-10\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def convertToBase7(self, num):\n        if num == 0:\n            return '0'\n        is_negative = num < 0\n        num = abs(num)\n        result = ''\n        while num > 0:\n            result = str(num % 7) + result\n            num //= 7\n        return '-' + result if is_negative else result",
+    "explanation": "Standard base conversion: repeatedly divide by 7, collect remainders."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,43 @@
+{
+  "questionId": "345",
+  "title": "Reverse Vowels of a String",
+  "titleSlug": "reverse-vowels-of-a-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s, reverse only all the vowels in the string and return it.\n\nThe vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.\n\nExample 1:\n\nInput: s = \"IceCreAm\"\n\nOutput: \"AceCreIm\"\n\nExplanation: The vowels in s are ['I', 'e', 'e', 'A']. On reversing the vowels, s becomes \"AceCreIm\".\n\nExample 2:\n\nInput: s = \"leetcode\"\n\nOutput: \"leotcede\"\n\nConstraints:\n\n• 1 <= s.length <= 3 * 105\n\n• s consist of printable ASCII characters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reverseVowels(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"IceCreAm\""
+    ],
+    [
+      "\"leetcode\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"AceCreIm\"",
+    "\"leotcede\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def reverseVowels(s: str) -> str:\n    vowels = set('aeiouAEIOU')\n    s_list = list(s)\n    i, j = 0, len(s) - 1\n    while i < j:\n        if s_list[i] not in vowels:\n            i += 1\n        elif s_list[j] not in vowels:\n            j -= 1\n        else:\n            s_list[i], s_list[j] = s_list[j], s_list[i]\n            i += 1\n            j -= 1\n    return ''.join(s_list)",
+    "explanation": "The algorithm uses two-pointer technique to iterate over the string from both the start and the end. It then checks if the characters at the pointers are vowels or not. If the characters are not vowels, the pointers move accordingly. If both characters are vowels, they are swapped and the pointers move forward. This process continues until the pointers meet in the middle of the string or cross each other. Finally, the modified string is returned."
+  },
+  "similarQuestions": "[{\"title\": \"Reverse String\", \"titleSlug\": \"reverse-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Remove Vowels from a String\", \"titleSlug\": \"remove-vowels-from-a-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Faulty Keyboard\", \"titleSlug\": \"faulty-keyboard\", \"difficulty\": \"Easy\"}, {\"title\": \"Sort Vowels in a String\", \"titleSlug\": \"sort-vowels-in-a-string\", \"difficulty\": \"Medium\"}]"
+}

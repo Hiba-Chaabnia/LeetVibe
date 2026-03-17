@@ -1,0 +1,51 @@
+{
+  "questionId": "53",
+  "title": "Maximum Subarray",
+  "titleSlug": "maximum-subarray",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given an integer array nums, find the subarray with the largest sum, and return its sum.\n\nExample 1:\n\nInput: nums = [-2,1,-3,4,-1,2,1,-5,4]\nOutput: 6\nExplanation: The subarray [4,-1,2,1] has the largest sum 6.\n\nExample 2:\n\nInput: nums = [1]\nOutput: 1\nExplanation: The subarray [1] has the largest sum 1.\n\nExample 3:\n\nInput: nums = [5,4,-1,7,8]\nOutput: 23\nExplanation: The subarray [5,4,-1,7,8] has the largest sum 23.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -104 <= nums[i] <= 104\n\nFollow up: If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[-2,1,-3,4,-1,2,1,-5,4]"
+    ],
+    [
+      "[1]"
+    ],
+    [
+      "[5,4,-1,7,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "1",
+    "23"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxSubArray(nums):\n    max_sum = current_sum = nums[0]\n\n    for num in nums[1:]:\n        current_sum = max(current_sum + num, num)\n        max_sum = max(max_sum, current_sum)\n\n    return max_sum",
+    "explanation": "The algorithm uses the \"Kadane's Algorithm\" approach to find the maximum contiguous subarray sum. It iterates through the given array once and tracks the maximum sum found so far and the current sum.\n\nFor each element, we compare the sum of the current_sum with the element itself, and select the maximum of the two. This helps us to decide whether to continue the current contiguous subarray or start a new one from that element. Then, we compare the new current_sum with our global max_sum, and update max_sum if we find a larger value.\n\nIn the end, max_sum contains the largest sum of the contiguous subarray.\n\nTime complexity: O(n)\nSpace complexity: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Best Time to Buy and Sell Stock\", \"titleSlug\": \"best-time-to-buy-and-sell-stock\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Product Subarray\", \"titleSlug\": \"maximum-product-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Degree of an Array\", \"titleSlug\": \"degree-of-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Longest Turbulent Subarray\", \"titleSlug\": \"longest-turbulent-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Score Of Spliced Array\", \"titleSlug\": \"maximum-score-of-spliced-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Absolute Sum of Any Subarray\", \"titleSlug\": \"maximum-absolute-sum-of-any-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Subarray Sum After One Operation\", \"titleSlug\": \"maximum-subarray-sum-after-one-operation\", \"difficulty\": \"Medium\"}, {\"title\": \"Substring With Largest Variance\", \"titleSlug\": \"substring-with-largest-variance\", \"difficulty\": \"Hard\"}, {\"title\": \"Count Subarrays With Score Less Than K\", \"titleSlug\": \"count-subarrays-with-score-less-than-k\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Value of a String in an Array\", \"titleSlug\": \"maximum-value-of-a-string-in-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Find the Substring With Maximum Cost\", \"titleSlug\": \"find-the-substring-with-maximum-cost\", \"difficulty\": \"Medium\"}, {\"title\": \"K Items With the Maximum Sum\", \"titleSlug\": \"k-items-with-the-maximum-sum\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Good Subarray Sum\", \"titleSlug\": \"maximum-good-subarray-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximize Subarray Sum After Removing All Occurrences of One Element\", \"titleSlug\": \"maximize-subarray-sum-after-removing-all-occurrences-of-one-element\", \"difficulty\": \"Hard\"}]"
+}

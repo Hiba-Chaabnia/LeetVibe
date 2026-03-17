@@ -1,0 +1,48 @@
+{
+  "questionId": "1168",
+  "title": "Duplicate Zeros",
+  "titleSlug": "duplicate-zeros",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "Given a fixed-length integer array arr, duplicate each occurrence of zero, shifting the remaining elements to the right.\n\nNote that elements beyond the length of the original array are not written. Do the above modifications to the input array in place and do not return anything.\n\nExample 1:\n\nInput: arr = [1,0,2,3,0,4,5,0]\nOutput: [1,0,0,2,3,0,0,4]\nExplanation: After calling your function, the input array is modified to: [1,0,0,2,3,0,0,4]\n\nExample 2:\n\nInput: arr = [1,2,3]\nOutput: [1,2,3]\nExplanation: After calling your function, the input array is modified to: [1,2,3]\n\nConstraints:\n\n• 1 <= arr.length <= 104\n\n• 0 <= arr[i] <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def duplicateZeros(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: None Do not return anything, modify arr in-place instead.\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "This is a great introductory problem for understanding and working with the concept of in-place operations. The problem statement clearly states that we are to modify the array in-place. That does not mean we cannot use another array. We just don't have to return anything.",
+    "A better way to solve this would be without using additional space. The only reason the problem statement allows you to make modifications in place is that it hints at avoiding any additional memory.",
+    "The main problem with not using additional memory is that we might override elements due to the zero duplication requirement of the problem statement. How do we get around that?",
+    "If we had enough space available, we would be able to accommodate all the elements properly. The new length would be the original length of the array plus the number of zeros. Can we use this information somehow to solve the problem?"
+  ],
+  "testCases": [
+    [
+      "[1,0,2,3,0,4,5,0]"
+    ],
+    [
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,0,0,2,3,0,0,4]",
+    "[1,2,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def duplicateZeros(self, arr):\n        zero_count = arr.count(0)\n        n = len(arr)\n        for i in range(n - 1, -1, -1):\n            if i + zero_count < n:\n                arr[i + zero_count] = arr[i]\n            if arr[i] == 0:\n                zero_count -= 1\n                if i + zero_count < n:\n                    arr[i + zero_count] = 0",
+    "explanation": "Backward pass: shift elements right, duplicate zeros in-place.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

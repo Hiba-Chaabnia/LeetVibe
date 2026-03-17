@@ -1,0 +1,50 @@
+{
+  "questionId": "87",
+  "title": "Scramble String",
+  "titleSlug": "scramble-string",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "We can scramble a string s to get a string t using the following algorithm:\n\n• If the length of the string is 1, stop.\n\n• If the length of the string is > 1, do the following:\n\n• Split the string into two non-empty substrings at a random index, i.e., if the string is s, divide it to x and y where s = x + y.\n\n• Randomly decide to swap the two substrings or to keep them in the same order. i.e., after this step, s may become s = x + y or s = y + x.\n\n• Apply step 1 recursively on each of the two substrings x and y.\n\nGiven two strings s1 and s2 of the same length, return true if s2 is a scrambled string of s1, otherwise, return false.\n\nExample 1:\n\nInput: s1 = \"great\", s2 = \"rgeat\"\nOutput: true\nExplanation: One possible scenario applied on s1 is:\n    \"great\" --> \"gr/eat\" // divide at random index.\n    \"gr/eat\" --> \"gr/eat\" // random decision is not to swap the two substrings and keep them in order.\n    \"gr/eat\" --> \"g/r / e/at\" // apply the same algorithm recursively on both substrings. divide at random index each of them.\n    \"g/r / e/at\" --> \"r/g / e/at\" // random decision was to swap the first substring and to keep the second substring in the same order.\n    \"r/g / e/at\" --> \"r/g / e/ a/t\" // again apply the algorithm recursively, divide \"at\" to \"a/t\".\n    \"r/g / e/ a/t\" --> \"r/g / e/ a/t\" // random decision is to keep both substrings in the same order.\n    The algorithm stops now, and the result string is \"rgeat\" which is s2.\n    As one possible scenario led s1 to be scrambled to s2, we return true.\n\nExample 2:\n\nInput: s1 = \"abcde\", s2 = \"caebd\"\nOutput: false\n\nExample 3:\n\nInput: s1 = \"a\", s2 = \"a\"\nOutput: true\n\nConstraints:\n\n• s1.length == s2.length\n\n• 1 <= s1.length <= 30\n\n• s1 and s2 consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isScramble(self, s1, s2):\n        \"\"\"\n        :type s1: str\n        :type s2: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"great\"",
+      "\"rgeat\""
+    ],
+    [
+      "\"abcde\"",
+      "\"caebd\""
+    ],
+    [
+      "\"a\"",
+      "\"a\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def isScramble(s1: str, s2: str) -> bool:\n    if s1 == s2:\n        return True\n    if len(s1) != len(s2) or sorted(s1) != sorted(s2):\n        return False\n\n    for i in range(1, len(s1)):\n        if (isScramble(s1[:i], s2[:i]) and isScramble(s1[i:], s2[i:])) or \\\n           (isScramble(s1[:i], s2[-i:]) and isScramble(s1[i:], s2[:-i])):\n            return True\n    return False",
+    "explanation": "The algorithm works by recursively dividing the strings into smaller substrings and checking if the substrings from s1 can be rearranged into the corresponding substrings of s2. The base case is when both strings (s1, and s2) are equal. If the lengths of the strings are different or the characters are different, then the function returns false. Then, we iterate through the length of strings, dividing the strings into smaller substrings and checking if these substrings can be rearranged to form the scrambled string. We check for both possible arrangements of the substrings, i.e., same order and reverse order, invoking the same function recursively for each combination."
+  },
+  "similarQuestions": "[]"
+}

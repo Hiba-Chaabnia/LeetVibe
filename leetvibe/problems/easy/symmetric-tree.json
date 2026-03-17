@@ -1,0 +1,51 @@
+{
+  "questionId": "101",
+  "title": "Symmetric Tree",
+  "titleSlug": "symmetric-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).\n\nExample 1:\n\nInput: root = [1,2,2,3,4,4,3]\nOutput: true\n\nExample 2:\n\nInput: root = [1,2,2,null,3,null,3]\nOutput: false\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 1000].\n\n• -100 <= Node.val <= 100\n\nFollow up: Could you solve it both recursively and iteratively?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isSymmetric(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,2,3,4,4,3]"
+    ],
+    [
+      "[1,2,2,null,3,null,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isSymmetric(self, root):\n        def is_mirror(left, right):\n            if not left and not right:\n                return True\n            if not left or not right:\n                return False\n            return left.val == right.val and is_mirror(left.left, right.right) and is_mirror(left.right, right.left)\n        return is_mirror(root, root)",
+    "explanation": "Check if left subtree mirrors right subtree (swapped children).\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[]"
+}

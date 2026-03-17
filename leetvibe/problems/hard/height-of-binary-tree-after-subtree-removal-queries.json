@@ -1,0 +1,52 @@
+{
+  "questionId": "2545",
+  "title": "Height of Binary Tree After Subtree Removal Queries",
+  "titleSlug": "height-of-binary-tree-after-subtree-removal-queries",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary tree with n nodes. Each node is assigned a unique value from 1 to n. You are also given an array queries of size m.\n\nYou have to perform m independent queries on the tree where in the ith query you do the following:\n\n• Remove the subtree rooted at the node with the value queries[i] from the tree. It is guaranteed that queries[i] will not be equal to the value of the root.\n\nReturn an array answer of size m where answer[i] is the height of the tree after performing the ith query.\n\nNote:\n\n• The queries are independent, so the tree returns to its initial state after each query.\n\n• The height of a tree is the number of edges in the longest simple path from the root to some node in the tree.\n\nExample 1:\n\nInput: root = [1,3,4,2,null,6,5,null,null,null,null,null,7], queries = [4]\nOutput: [2]\nExplanation: The diagram above shows the tree after removing the subtree rooted at node with value 4.\n    The height of the tree is 2 (The path 1 -> 3 -> 2).\n\nExample 2:\n\nInput: root = [5,8,9,2,1,3,7,4,6], queries = [3,2,4,8]\nOutput: [3,2,3,2]\nExplanation: We have the following queries:\n    - Removing the subtree rooted at node with value 3. The height of the tree becomes 3 (The path 5 -> 8 -> 2 -> 4).\n    - Removing the subtree rooted at node with value 2. The height of the tree becomes 2 (The path 5 -> 8 -> 1).\n    - Removing the subtree rooted at node with value 4. The height of the tree becomes 3 (The path 5 -> 8 -> 2 -> 6).\n    - Removing the subtree rooted at node with value 8. The height of the tree becomes 2 (The path 5 -> 9 -> 3).\n\nConstraints:\n\n• The number of nodes in the tree is n.\n\n• 2 <= n <= 105\n\n• 1 <= Node.val <= n\n\n• All the values in the tree are unique.\n\n• m == queries.length\n\n• 1 <= m <= min(n, 104)\n\n• 1 <= queries[i] <= n\n\n• queries[i] != root.val",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def treeQueries(self, root, queries):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type queries: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try pre-computing the answer for each node from 1 to n, and answer each query in O(1).",
+    "The answers can be precomputed in a single tree traversal after computing the height of each subtree."
+  ],
+  "testCases": [
+    [
+      "[1,3,4,2,null,6,5,null,null,null,null,null,7]",
+      "[4]",
+      "[5,8,9,2,1,3,7,4,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Depth of Binary Tree\", \"titleSlug\": \"maximum-depth-of-binary-tree\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,43 @@
+{
+  "questionId": "121",
+  "title": "Best Time to Buy and Sell Stock",
+  "titleSlug": "best-time-to-buy-and-sell-stock",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an array prices where prices[i] is the price of a given stock on the ith day.\n\nYou want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.\n\nReturn the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.\n\nExample 1:\n\nInput: prices = [7,1,5,3,6,4]\nOutput: 5\nExplanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\n    Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.\n\nExample 2:\n\nInput: prices = [7,6,4,3,1]\nOutput: 0\nExplanation: In this case, no transactions are done and the max profit = 0.\n\nConstraints:\n\n• 1 <= prices.length <= 105\n\n• 0 <= prices[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxProfit(self, prices):\n        \"\"\"\n        :type prices: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[7,1,5,3,6,4]"
+    ],
+    [
+      "[7,6,4,3,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxProfit(prices):\n    minPrice = float('inf')\n    maxProfit = 0\n    for price in prices:\n        minPrice = min(minPrice, price)\n        maxProfit = max(maxProfit, price - minPrice)\n    return maxProfit",
+    "explanation": "The algorithm iterates through the input array of prices. We maintain two variables: `minPrice` to track the minimum price encountered up to the current day, and `maxProfit` to track maximum achievable profit. \n\nFor each day, we update:\n1. `minPrice` by comparing its value with the current day's stock price.\n2. `maxProfit` by comparing its value with the difference between the current day's stock price and the minimum stock price encountered so far.\n\nAt the end of the iteration, the algorithm returns the value stored in `maxProfit`, which is the maximum possible profit that can be achieved."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Subarray\", \"titleSlug\": \"maximum-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Best Time to Buy and Sell Stock II\", \"titleSlug\": \"best-time-to-buy-and-sell-stock-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Best Time to Buy and Sell Stock III\", \"titleSlug\": \"best-time-to-buy-and-sell-stock-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Best Time to Buy and Sell Stock IV\", \"titleSlug\": \"best-time-to-buy-and-sell-stock-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Best Time to Buy and Sell Stock with Cooldown\", \"titleSlug\": \"best-time-to-buy-and-sell-stock-with-cooldown\", \"difficulty\": \"Medium\"}, {\"title\": \"Sum of Beauty in the Array\", \"titleSlug\": \"sum-of-beauty-in-the-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Difference Between Increasing Elements\", \"titleSlug\": \"maximum-difference-between-increasing-elements\", \"difficulty\": \"Easy\"}, {\"title\": \"Maximum Profit From Trading Stocks\", \"titleSlug\": \"maximum-profit-from-trading-stocks\", \"difficulty\": \"Medium\"}, {\"title\": \"Best Time to Buy and Sell Stock V\", \"titleSlug\": \"best-time-to-buy-and-sell-stock-v\", \"difficulty\": \"Medium\"}]"
+}

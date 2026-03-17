@@ -1,0 +1,56 @@
+{
+  "questionId": "2569",
+  "title": "Number of Beautiful Partitions",
+  "titleSlug": "number-of-beautiful-partitions",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a string s that consists of the digits '1' to '9' and two integers k and minLength.\n\nA partition of s is called beautiful if:\n\n• s is partitioned into k non-intersecting substrings.\n\n• Each substring has a length of at least minLength.\n\n• Each substring starts with a prime digit and ends with a non-prime digit. Prime digits are '2', '3', '5', and '7', and the rest of the digits are non-prime.\n\nReturn the number of beautiful partitions of s. Since the answer may be very large, return it modulo 109 + 7.\n\nA substring is a contiguous sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"23542185131\", k = 3, minLength = 2\nOutput: 3\nExplanation: There exists three ways to create a beautiful partition:\n    \"2354 | 218 | 5131\"\n    \"2354 | 21851 | 31\"\n    \"2354218 | 51 | 31\"\n\nExample 2:\n\nInput: s = \"23542185131\", k = 3, minLength = 3\nOutput: 1\nExplanation: There exists one way to create a beautiful partition: \"2354 | 218 | 5131\".\n\nExample 3:\n\nInput: s = \"3312958\", k = 3, minLength = 1\nOutput: 1\nExplanation: There exists one way to create a beautiful partition: \"331 | 29 | 58\".\n\nConstraints:\n\n• 1 <= k, minLength <= s.length <= 1000\n\n• s consists of the digits '1' to '9'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def beautifulPartitions(self, s, k, minLength):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :type minLength: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try using a greedy approach where you take as many digits as possible from the left of the string for each partition.",
+    "You can also use a dynamic programming approach, let an array dp where dp[i] is the solution of the problem for the prefix of the string ending at index i, the answer of the problem will be dp[n-1]. What are the transitions of this dp?"
+  ],
+  "testCases": [
+    [
+      "\"23542185131\"",
+      "3",
+      "2"
+    ],
+    [
+      "\"23542185131\"",
+      "3",
+      "3"
+    ],
+    [
+      "\"3312958\"",
+      "3",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Restore The Array\", \"titleSlug\": \"restore-the-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Ways to Separate Numbers\", \"titleSlug\": \"number-of-ways-to-separate-numbers\", \"difficulty\": \"Hard\"}]"
+}

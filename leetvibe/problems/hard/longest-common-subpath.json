@@ -1,0 +1,62 @@
+{
+  "questionId": "2051",
+  "title": "Longest Common Subpath",
+  "titleSlug": "longest-common-subpath",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "Suffix Array",
+      "slug": "suffix-array"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "There is a country of n cities numbered from 0 to n - 1. In this country, there is a road connecting every pair of cities.\n\nThere are m friends numbered from 0 to m - 1 who are traveling through the country. Each one of them will take a path consisting of some cities. Each path is represented by an integer array that contains the visited cities in order. The path may contain a city more than once, but the same city will not be listed consecutively.\n\nGiven an integer n and a 2D integer array paths where paths[i] is an integer array representing the path of the ith friend, return the length of the longest common subpath that is shared by every friend's path, or 0 if there is no common subpath at all.\n\nA subpath of a path is a contiguous sequence of cities within that path.\n\nExample 1:\n\nInput: n = 5, paths = [[0,1,2,3,4],\n                           [2,3,4],\n                           [4,0,1,2,3]]\nOutput: 2\nExplanation: The longest common subpath is [2,3].\n\nExample 2:\n\nInput: n = 3, paths = [[0],[1],[2]]\nOutput: 0\nExplanation: There is no common subpath shared by the three paths.\n\nExample 3:\n\nInput: n = 5, paths = [[0,1,2,3,4],\n                           [4,3,2,1,0]]\nOutput: 1\nExplanation: The possible longest common subpaths are [0], [1], [2], [3], and [4]. All have a length of 1.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• m == paths.length\n\n• 2 <= m <= 105\n\n• sum(paths[i].length) <= 105\n\n• 0 <= paths[i][j] < n\n\n• The same city is not listed multiple times consecutively in paths[i].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestCommonSubpath(self, n, paths):\n        \"\"\"\n        :type n: int\n        :type paths: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If there is a common path with length x, there is for sure a common path of length y where y < x.",
+    "We can use binary search over the answer with the range [0, min(path[i].length)].",
+    "Using binary search, we want to verify if we have a common path of length m. We can achieve this using hashing."
+  ],
+  "testCases": [
+    [
+      "5",
+      "[[0,1,2,3,4],[2,3,4],[4,0,1,2,3]]"
+    ],
+    [
+      "3",
+      "[[0],[1],[2]]"
+    ],
+    [
+      "5",
+      "[[0,1,2,3,4],[4,3,2,1,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Reconstruct Itinerary\", \"titleSlug\": \"reconstruct-itinerary\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Length of Repeated Subarray\", \"titleSlug\": \"maximum-length-of-repeated-subarray\", \"difficulty\": \"Medium\"}]"
+}

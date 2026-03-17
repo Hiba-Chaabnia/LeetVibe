@@ -1,0 +1,50 @@
+{
+  "questionId": "2811",
+  "title": "Determine the Minimum Sum of a k-avoiding Array",
+  "titleSlug": "determine-the-minimum-sum-of-a-k-avoiding-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given two integers, n and k.\n\nAn array of distinct positive integers is called a k-avoiding array if there does not exist any pair of distinct elements that sum to k.\n\nReturn the minimum possible sum of a k-avoiding array of length n.\n\nExample 1:\n\nInput: n = 5, k = 4\nOutput: 18\nExplanation: Consider the k-avoiding array [1,2,4,5,6], which has a sum of 18.\n    It can be proven that there is no k-avoiding array with a sum less than 18.\n\nExample 2:\n\nInput: n = 2, k = 6\nOutput: 3\nExplanation: We can construct the array [1,2], which has a sum of 3.\n    It can be proven that there is no k-avoiding array with a sum less than 3.\n\nConstraints:\n\n• 1 <= n, k <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumSum(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to start with the smallest possible integers.",
+    "Check if the current number can be added to the array.",
+    "To check if the current number can be added, keep track of already added numbers in a set.",
+    "If the number i is added to the array, then i + k can not be added."
+  ],
+  "testCases": [
+    [
+      "5",
+      "4"
+    ],
+    [
+      "2",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "18",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumSum(self, n, k):\n        used = set()\n        total = 0\n        num = 1\n        count = 0\n        while count < n:\n            if (k - num) not in used:\n                used.add(num)\n                total += num\n                count += 1\n            num += 1\n        return total",
+    "explanation": "Greedily pick smallest positive integers. Skip num if (k - num) is already in the set (would form pair summing to k).\n\nTime: O(n + k). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

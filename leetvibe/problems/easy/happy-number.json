@@ -1,0 +1,47 @@
+{
+  "questionId": "202",
+  "title": "Happy Number",
+  "titleSlug": "happy-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "Write an algorithm to determine if a number n is happy.\n\nA happy number is a number defined by the following process:\n\n• Starting with any positive integer, replace the number by the sum of the squares of its digits.\n\n• Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1.\n\n• Those numbers for which this process ends in 1 are happy.\n\nReturn true if n is a happy number, and false if not.\n\nExample 1:\n\nInput: n = 19\nOutput: true\nExplanation:\n    12 + 92 = 82\n    82 + 22 = 68\n    62 + 82 = 100\n    12 + 02 + 02 = 1\n\nExample 2:\n\nInput: n = 2\nOutput: false\n\nConstraints:\n\n• 1 <= n <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isHappy(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "19"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isHappy(self, n):\n        def sum_of_squares(num):\n            total = 0\n            while num > 0:\n                digit = num % 10\n                total += digit * digit\n                num //= 10\n            return total\n        seen = set()\n        while n != 1 and n not in seen:\n            seen.add(n)\n            n = sum_of_squares(n)\n        return n == 1",
+    "explanation": "Repeatedly sum squares of digits. If reaches 1, happy. If cycles, unhappy.\nTime: O(log n * d) where d=digits\nSpace: O(log n)"
+  },
+  "similarQuestions": "[{\"title\": \"Linked List Cycle\", \"titleSlug\": \"linked-list-cycle\", \"difficulty\": \"Easy\"}, {\"title\": \"Add Digits\", \"titleSlug\": \"add-digits\", \"difficulty\": \"Easy\"}, {\"title\": \"Ugly Number\", \"titleSlug\": \"ugly-number\", \"difficulty\": \"Easy\"}, {\"title\": \"Sum of Digits of String After Convert\", \"titleSlug\": \"sum-of-digits-of-string-after-convert\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Addition to Make Integer Beautiful\", \"titleSlug\": \"minimum-addition-to-make-integer-beautiful\", \"difficulty\": \"Medium\"}, {\"title\": \"Smallest Value After Replacing With Sum of Prime Factors\", \"titleSlug\": \"smallest-value-after-replacing-with-sum-of-prime-factors\", \"difficulty\": \"Medium\"}, {\"title\": \"Count the Digits That Divide a Number\", \"titleSlug\": \"count-the-digits-that-divide-a-number\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,57 @@
+{
+  "questionId": "3573",
+  "title": "Count Substrings That Can Be Rearranged to Contain a String I",
+  "titleSlug": "count-substrings-that-can-be-rearranged-to-contain-a-string-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given two strings word1 and word2.\n\nA string x is called valid if x can be rearranged to have word2 as a prefix.\n\nReturn the total number of valid substrings of word1.\n\nExample 1:\n\nInput: word1 = \"bcca\", word2 = \"abc\"\n\nOutput: 1\n\nExplanation: The only valid substring is \"bcca\" which can be rearranged to \"abcc\" having \"abc\" as a prefix.\n\nExample 2:\n\nInput: word1 = \"abcabc\", word2 = \"abc\"\n\nOutput: 10\n\nExplanation: All the substrings except substrings of size 1 and size 2 are valid.\n\nExample 3:\n\nInput: word1 = \"abcabc\", word2 = \"aaabc\"\n\nOutput: 0\n\nConstraints:\n\n• 1 <= word1.length <= 105\n\n• 1 <= word2.length <= 104\n\n• word1 and word2 consist only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def validSubstringCount(self, word1, word2):\n        \"\"\"\n        :type word1: str\n        :type word2: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Store the frequency of each character for all prefixes.",
+    "Use Binary Search."
+  ],
+  "testCases": [
+    [
+      "\"bcca\"",
+      "\"abc\""
+    ],
+    [
+      "\"abcabc\"",
+      "\"abc\""
+    ],
+    [
+      "\"abcabc\"",
+      "\"aaabc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "10",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def validSubstringCount(self, word1, word2):\n        need = defaultdict(int)\n        for c in word2:\n            need[c] += 1\n        deficit = len(need)  # number of chars still needed\n        window = defaultdict(int)\n        ans = 0\n        left = 0\n        n = len(word1)\n        for right in range(n):\n            c = word1[right]\n            window[c] += 1\n            if window[c] == need[c]:\n                deficit -= 1\n            # When window satisfies word2, count all valid endings\n            while deficit == 0:\n                ans += n - right  # substrings word1[left..right..n-1]\n                lc = word1[left]\n                window[lc] -= 1\n                if window[lc] < need[lc]:\n                    deficit += 1\n                left += 1\n        return ans",
+    "explanation": "Sliding window: maintain frequency deficit (chars still needed). When window is valid (deficit==0), all extensions to the right are also valid. Add (n - right) for each left position, then shrink.\n\nTime: O(n + m). Space: O(26)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Window Substring\", \"titleSlug\": \"minimum-window-substring\", \"difficulty\": \"Hard\"}]"
+}

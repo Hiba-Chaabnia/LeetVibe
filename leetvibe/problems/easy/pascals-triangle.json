@@ -1,0 +1,43 @@
+{
+  "questionId": "118",
+  "title": "Pascal's Triangle",
+  "titleSlug": "pascals-triangle",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given an integer numRows, return the first numRows of Pascal's triangle.\n\nIn Pascal's triangle, each number is the sum of the two numbers directly above it as shown:\n\nExample 1:\n\nInput: numRows = 5\nOutput: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]\nExample 2:\n\nInput: numRows = 1\nOutput: [[1]]\n\nConstraints:\n\n• 1 <= numRows <= 30",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def generate(self, numRows):\n        \"\"\"\n        :type numRows: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "5"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]",
+    "[[1]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def generate(numRows):\n    pascalsTriangle = []\n    for i in range(numRows):\n        row = [1]\n        if i > 0:\n            for j in range(1, i):\n                row.append(pascalsTriangle[i-1][j-1] + pascalsTriangle[i-1][j])\n            row.append(1)\n        pascalsTriangle.append(row)\n    return pascalsTriangle",
+    "explanation": "The algorithm iterates through each row of Pascal's Triangle, from 0 to numRows-1, and generates the corresponding row with the required values based on the row index. For each row, it initializes an array or list, and then sets the first element to 1 (since all rows start with 1).\n\nNext, we iterate from the second element to the (i-1)-th element of the row (i being the row index). Each element (at index j) of the row is set to the sum of the two values positioned just above it in the previous row - these values are available at (i-1, j-1) and (i-1, j) in Pascal's Triangle.\n\nIf the current row is not the first row, we add another 1 at the end of the row, since all rows end with 1 (except the very first row).\n\nFinally, we append the row to the resulting Pascal's Triangle structure (list of lists or vector of vectors). After completing the loop, the algorithm returns the Pascal's Triangle structure containing numRows."
+  },
+  "similarQuestions": "[{\"title\": \"Pascal's Triangle II\", \"titleSlug\": \"pascals-triangle-ii\", \"difficulty\": \"Easy\"}, {\"title\": \"Check If Digits Are Equal in String After Operations II\", \"titleSlug\": \"check-if-digits-are-equal-in-string-after-operations-ii\", \"difficulty\": \"Hard\"}]"
+}

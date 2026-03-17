@@ -1,0 +1,54 @@
+{
+  "questionId": "3544",
+  "title": "Count Almost Equal Pairs II",
+  "titleSlug": "count-almost-equal-pairs-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "Attention: In this version, the number of operations that can be performed, has been increased to twice.\n\nYou are given an array nums consisting of positive integers.\n\nWe call two integers x and y almost equal if both integers can become equal after performing the following operation at most twice:\n\n• Choose either x or y and swap any two digits within the chosen number.\n\nReturn the number of indices i and j in nums where i < j such that nums[i] and nums[j] are almost equal.\n\nNote that it is allowed for an integer to have leading zeros after performing an operation.\n\nExample 1:\n\nInput: nums = [1023,2310,2130,213]\n\nOutput: 4\n\nExplanation: The almost equal pairs of elements are:\n\n• 1023 and 2310. By swapping the digits 1 and 2, and then the digits 0 and 3 in 1023, you get 2310.\n\n• 1023 and 213. By swapping the digits 1 and 0, and then the digits 1 and 2 in 1023, you get 0213, which is 213.\n\n• 2310 and 213. By swapping the digits 2 and 0, and then the digits 3 and 2 in 2310, you get 0213, which is 213.\n\n• 2310 and 2130. By swapping the digits 3 and 1 in 2310, you get 2130.\n\nExample 2:\n\nInput: nums = [1,10,100]\n\nOutput: 3\n\nExplanation: The almost equal pairs of elements are:\n\n• 1 and 10. By swapping the digits 1 and 0 in 10, you get 01 which is 1.\n\n• 1 and 100. By swapping the second 0 with the digit 1 in 100, you get 001, which is 1.\n\n• 10 and 100. By swapping the first 0 with the digit 1 in 100, you get 010, which is 10.\n\nConstraints:\n\n• 2 <= nums.length <= 5000\n\n• 1 <= nums[i] < 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPairs(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each element, find all possible integers we can get by applying the operations.",
+    "Store the frequencies of all the integers in a hashmap."
+  ],
+  "testCases": [
+    [
+      "[1023,2310,2130,213]"
+    ],
+    [
+      "[1,10,100]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find the Occurrence of First Almost Equal Substring\", \"titleSlug\": \"find-the-occurrence-of-first-almost-equal-substring\", \"difficulty\": \"Hard\"}]"
+}

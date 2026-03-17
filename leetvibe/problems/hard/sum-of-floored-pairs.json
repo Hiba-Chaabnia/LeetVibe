@@ -1,0 +1,58 @@
+{
+  "questionId": "1326",
+  "title": "Sum of Floored Pairs",
+  "titleSlug": "sum-of-floored-pairs",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given an integer array nums, return the sum of floor(nums[i] / nums[j]) for all pairs of indices 0 <= i, j < nums.length in the array. Since the answer may be too large, return it modulo 109 + 7.\n\nThe floor() function returns the integer part of the division.\n\nExample 1:\n\nInput: nums = [2,5,9]\nOutput: 10\nExplanation:\n    floor(2 / 5) = floor(2 / 9) = floor(5 / 9) = 0\n    floor(2 / 2) = floor(5 / 5) = floor(9 / 9) = 1\n    floor(5 / 2) = 2\n    floor(9 / 2) = 4\n    floor(9 / 5) = 1\n    We calculate the floor of the division for every pair of indices in the array then sum them up.\n\nExample 2:\n\nInput: nums = [7,7,7,7,7,7,7]\nOutput: 49\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumOfFlooredPairs(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the frequency (number of occurrences) of all elements in the array.",
+    "For each element, iterate through its multiples and multiply frequencies to find the answer."
+  ],
+  "testCases": [
+    [
+      "[2,5,9]"
+    ],
+    [
+      "[7,7,7,7,7,7,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "10",
+    "49"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,56 @@
+{
+  "questionId": "2189",
+  "title": "Maximum Path Quality of a Graph",
+  "titleSlug": "maximum-path-quality-of-a-graph",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There is an undirected graph with n nodes numbered from 0 to n - 1 (inclusive). You are given a 0-indexed integer array values where values[i] is the value of the ith node. You are also given a 0-indexed 2D integer array edges, where each edges[j] = [uj, vj, timej] indicates that there is an undirected edge between the nodes uj and vj, and it takes timej seconds to travel between the two nodes. Finally, you are given an integer maxTime.\n\nA valid path in the graph is any path that starts at node 0, ends at node 0, and takes at most maxTime seconds to complete. You may visit the same node multiple times. The quality of a valid path is the sum of the values of the unique nodes visited in the path (each node's value is added at most once to the sum).\n\nReturn the maximum quality of a valid path.\n\nNote: There are at most four edges connected to each node.\n\nExample 1:\n\nInput: values = [0,32,10,43], edges = [[0,1,10],[1,2,15],[0,3,10]], maxTime = 49\nOutput: 75\nExplanation:\n    One possible path is 0 -> 1 -> 0 -> 3 -> 0. The total time taken is 10 + 10 + 10 + 10 = 40 Example 2:\n\nInput: values = [5,10,15,20], edges = [[0,1,10],[1,2,10],[0,3,10]], maxTime = 30\nOutput: 25\nExplanation:\n    One possible path is 0 -> 3 -> 0. The total time taken is 10 + 10 = 20 Example 3:\n\nInput: values = [1,2,3,4], edges = [[0,1,10],[1,2,11],[2,3,12],[1,3,13]], maxTime = 50\nOutput: 7\nExplanation:\n    One possible path is 0 -> 1 -> 3 -> 1 -> 0. The total time taken is 10 + 13 + 13 + 10 = 46\n\nConstraints:\n\n• n == values.length\n\n• 1 <= n <= 1000\n\n• 0 <= values[i] <= 108\n\n• 0 <= edges.length <= 2000\n\n• edges[j].length == 3\n\n• 0 <= uj < vj <= n - 1\n\n• 10 <= timej, maxTime <= 100\n\n• All the pairs [uj, vj] are unique.\n\n• There are at most four edges connected to each node.\n\n• The graph may not be connected.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximalPathQuality(self, values, edges, maxTime):\n        \"\"\"\n        :type values: List[int]\n        :type edges: List[List[int]]\n        :type maxTime: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How many nodes can you visit within maxTime seconds?",
+    "Can you try every valid path?"
+  ],
+  "testCases": [
+    [
+      "[0,32,10,43]",
+      "[[0,1,10],[1,2,15],[0,3,10]]",
+      "49"
+    ],
+    [
+      "[5,10,15,20]",
+      "[[0,1,10],[1,2,10],[0,3,10]]",
+      "30"
+    ],
+    [
+      "[1,2,3,4]",
+      "[[0,1,10],[1,2,11],[2,3,12],[1,3,13]]",
+      "50"
+    ]
+  ],
+  "expectedOutputs": [
+    "75",
+    "25",
+    "7"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Cherry Pickup\", \"titleSlug\": \"cherry-pickup\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Cost to Reach Destination in Time\", \"titleSlug\": \"minimum-cost-to-reach-destination-in-time\", \"difficulty\": \"Hard\"}]"
+}

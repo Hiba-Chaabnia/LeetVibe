@@ -1,0 +1,43 @@
+{
+  "questionId": "1024",
+  "title": "Triples with Bitwise AND Equal To Zero",
+  "titleSlug": "triples-with-bitwise-and-equal-to-zero",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given an integer array nums, return the number of AND triples.\n\nAn AND triple is a triple of indices (i, j, k) such that:\n\n• 0 <= i < nums.length\n\n• 0 <= j < nums.length\n\n• 0 <= k < nums.length\n\n• nums[i] & nums[j] & nums[k] == 0, where & represents the bitwise-AND operator.\n\nExample 1:\n\nInput: nums = [2,1,3]\nOutput: 12\nExplanation: We could choose the following i, j, k triples:\n    (i=0, j=0, k=1) : 2 & 2 & 1\n    (i=0, j=1, k=0) : 2 & 1 & 2\n    (i=0, j=1, k=1) : 2 & 1 & 1\n    (i=0, j=1, k=2) : 2 & 1 & 3\n    (i=0, j=2, k=1) : 2 & 3 & 1\n    (i=1, j=0, k=0) : 1 & 2 & 2\n    (i=1, j=0, k=1) : 1 & 2 & 1\n    (i=1, j=0, k=2) : 1 & 2 & 3\n    (i=1, j=1, k=0) : 1 & 1 & 2\n    (i=1, j=2, k=0) : 1 & 3 & 2\n    (i=2, j=0, k=1) : 3 & 2 & 1\n    (i=2, j=1, k=0) : 3 & 1 & 2\n\nExample 2:\n\nInput: nums = [0,0,0]\nOutput: 27\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 0 <= nums[i] < 216",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countTriplets(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,1,3]"
+    ],
+    [
+      "[0,0,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "12",
+    "27"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

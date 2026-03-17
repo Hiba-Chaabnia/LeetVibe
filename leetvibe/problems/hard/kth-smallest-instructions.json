@@ -1,0 +1,57 @@
+{
+  "questionId": "489",
+  "title": "Kth Smallest Instructions",
+  "titleSlug": "kth-smallest-instructions",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "Bob is standing at cell (0, 0), and he wants to reach destination: (row, column). He can only travel right and down. You are going to help Bob by providing instructions for him to reach destination.\n\nThe instructions are represented as a string, where each character is either:\n\n• 'H', meaning move horizontally (go right), or\n\n• 'V', meaning move vertically (go down).\n\nMultiple instructions will lead Bob to destination. For example, if destination is (2, 3), both \"HHHVV\" and \"HVHVH\" are valid instructions.\n\nHowever, Bob is very picky. Bob has a lucky number k, and he wants the kth lexicographically smallest instructions that will lead him to destination. k is 1-indexed.\n\nGiven an integer array destination and an integer k, return the kth lexicographically smallest instructions that will take Bob to destination.\n\nExample 1:\n\nInput: destination = [2,3], k = 1\nOutput: \"HHHVV\"\nExplanation: All the instructions that reach (2, 3) in lexicographic order are as follows:\n    [\"HHHVV\", \"HHVHV\", \"HHVVH\", \"HVHHV\", \"HVHVH\", \"HVVHH\", \"VHHHV\", \"VHHVH\", \"VHVHH\", \"VVHHH\"].\n\nExample 2:\n\nInput: destination = [2,3], k = 2\nOutput: \"HHVHV\"\n\nExample 3:\n\nInput: destination = [2,3], k = 3\nOutput: \"HHVVH\"\n\nConstraints:\n\n• destination.length == 2\n\n• 1 <= row, column <= 15\n\n• 1 <= k <= nCr(row + column, row), where nCr(a, b) denotes a choose b​​​​​.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kthSmallestPath(self, destination, k):\n        \"\"\"\n        :type destination: List[int]\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "There are nCr(row + column, row) possible instructions to reach (row, column).",
+    "Try building the instructions one step at a time. How many instructions start with \"H\", and how does this compare with k?"
+  ],
+  "testCases": [
+    [
+      "[2,3]",
+      "1"
+    ],
+    [
+      "[2,3]",
+      "2"
+    ],
+    [
+      "[2,3]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"HHHVV\"",
+    "\"HHVHV\"",
+    "\"HHVVH\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

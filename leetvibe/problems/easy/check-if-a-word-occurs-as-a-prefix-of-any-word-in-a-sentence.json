@@ -1,0 +1,58 @@
+{
+  "questionId": "1566",
+  "title": "Check If a Word Occurs As a Prefix of Any Word in a Sentence",
+  "titleSlug": "check-if-a-word-occurs-as-a-prefix-of-any-word-in-a-sentence",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "Given a sentence that consists of some words separated by a single space, and a searchWord, check if searchWord is a prefix of any word in sentence.\n\nReturn the index of the word in sentence (1-indexed) where searchWord is a prefix of this word. If searchWord is a prefix of more than one word, return the index of the first word (minimum index). If there is no such word return -1.\n\nA prefix of a string s is any leading contiguous substring of s.\n\nExample 1:\n\nInput: sentence = \"i love eating burger\", searchWord = \"burg\"\nOutput: 4\nExplanation: \"burg\" is prefix of \"burger\" which is the 4th word in the sentence.\n\nExample 2:\n\nInput: sentence = \"this problem is an easy problem\", searchWord = \"pro\"\nOutput: 2\nExplanation: \"pro\" is prefix of \"problem\" which is the 2nd and the 6th word in the sentence, but we return 2 as it's the minimal index.\n\nExample 3:\n\nInput: sentence = \"i am tired\", searchWord = \"you\"\nOutput: -1\nExplanation: \"you\" is not a prefix of any word in the sentence.\n\nConstraints:\n\n• 1 <= sentence.length <= 100\n\n• 1 <= searchWord.length <= 10\n\n• sentence consists of lowercase English letters and spaces.\n\n• searchWord consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isPrefixOfWord(self, sentence, searchWord):\n        \"\"\"\n        :type sentence: str\n        :type searchWord: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "First extract the words of the sentence.",
+    "Check for each word if searchWord occurs at index 0, if so return the index of this word (1-indexed)",
+    "If searchWord doesn't exist as a prefix of any word return the default value (-1)."
+  ],
+  "testCases": [
+    [
+      "\"i love eating burger\"",
+      "\"burg\""
+    ],
+    [
+      "\"this problem is an easy problem\"",
+      "\"pro\""
+    ],
+    [
+      "\"i am tired\"",
+      "\"you\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isPrefixOfWord(self, sentence, searchWord):\n        words = sentence.split()\n        for i, word in enumerate(words, 1):\n            if word.startswith(searchWord):\n                return i\n        return -1",
+    "explanation": "Split sentence. Find first word starting with searchWord. Return 1-indexed position."
+  },
+  "similarQuestions": "[{\"title\": \"Counting Words With a Given Prefix\", \"titleSlug\": \"counting-words-with-a-given-prefix\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Prefixes of a Given String\", \"titleSlug\": \"count-prefixes-of-a-given-string\", \"difficulty\": \"Easy\"}]"
+}

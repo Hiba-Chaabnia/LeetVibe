@@ -1,0 +1,43 @@
+{
+  "questionId": "886",
+  "title": "Score of Parentheses",
+  "titleSlug": "score-of-parentheses",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "Given a balanced parentheses string s, return the score of the string.\n\nThe score of a balanced parentheses string is based on the following rule:\n\n• \"()\" has score 1.\n\n• AB has score A + B, where A and B are balanced parentheses strings.\n\n• (A) has score 2 * A, where A is a balanced parentheses string.\n\nExample 1:\n\nInput: s = \"()\"\nOutput: 1\n\nExample 2:\n\nInput: s = \"(())\"\nOutput: 2\n\nExample 3:\n\nInput: s = \"()()\"\nOutput: 2\n\nConstraints:\n\n• 2 <= s.length <= 50\n\n• s consists of only '(' and ')'.\n\n• s is a balanced parentheses string.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def scoreOfParentheses(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"()\""
+    ],
+    [
+      "\"(())\""
+    ],
+    [
+      "\"()()\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

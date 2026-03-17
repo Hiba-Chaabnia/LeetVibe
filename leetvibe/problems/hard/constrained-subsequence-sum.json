@@ -1,0 +1,67 @@
+{
+  "questionId": "1286",
+  "title": "Constrained Subsequence Sum",
+  "titleSlug": "constrained-subsequence-sum",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Queue",
+      "slug": "queue"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Monotonic Queue",
+      "slug": "monotonic-queue"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, return the maximum sum of a non-empty subsequence of that array such that for every two consecutive integers in the subsequence, nums[i] and nums[j], where i < j, the condition j - i <= k is satisfied.\n\nA subsequence of an array is obtained by deleting some number of elements (can be zero) from the array, leaving the remaining elements in their original order.\n\nExample 1:\n\nInput: nums = [10,2,-10,5,20], k = 2\nOutput: 37\nExplanation: The subsequence is [10, 2, 5, 20].\n\nExample 2:\n\nInput: nums = [-1,-2,-3], k = 1\nOutput: -1\nExplanation: The subsequence must be non-empty, so we choose the largest number.\n\nExample 3:\n\nInput: nums = [10,-2,-10,-5,20], k = 2\nOutput: 23\nExplanation: The subsequence is [10, -2, -5, 20].\n\nConstraints:\n\n• 1 <= k <= nums.length <= 105\n\n• -104 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def constrainedSubsetSum(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "Let dp[i] be the solution for the prefix of the array that ends at index i, if the element at index i is in the subsequence.",
+    "dp[i] = nums[i] + max(0, dp[i-k], dp[i-k+1], ..., dp[i-1])",
+    "Use a heap with the sliding window technique to optimize the dp."
+  ],
+  "testCases": [
+    [
+      "[10,2,-10,5,20]",
+      "2"
+    ],
+    [
+      "[-1,-2,-3]",
+      "1"
+    ],
+    [
+      "[10,-2,-10,-5,20]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "37",
+    "-1",
+    "23"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Element-Sum of a Complete Subset of Indices\", \"titleSlug\": \"maximum-element-sum-of-a-complete-subset-of-indices\", \"difficulty\": \"Hard\"}]"
+}

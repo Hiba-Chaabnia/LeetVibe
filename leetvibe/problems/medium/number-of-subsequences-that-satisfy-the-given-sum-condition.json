@@ -1,0 +1,63 @@
+{
+  "questionId": "1621",
+  "title": "Number of Subsequences That Satisfy the Given Sum Condition",
+  "titleSlug": "number-of-subsequences-that-satisfy-the-given-sum-condition",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an array of integers nums and an integer target.\n\nReturn the number of non-empty subsequences of nums such that the sum of the minimum and maximum element on it is less or equal to target. Since the answer may be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: nums = [3,5,6,7], target = 9\nOutput: 4\nExplanation: There are 4 subsequences that satisfy the condition.\n    [3] -> Min value + max value  (3 + 5  (3 + 6  (3 + 6 Example 2:\n\nInput: nums = [3,3,6,8], target = 10\nOutput: 6\nExplanation: There are 6 subsequences that satisfy the condition. (nums can have repeated numbers).\n    [3] , [3] , [3,3], [3,6] , [3,6] , [3,3,6]\n\nExample 3:\n\nInput: nums = [2,3,3,4,6,7], target = 12\nOutput: 61\nExplanation: There are 63 non-empty subsequences, two of them do not satisfy the condition ([6,7], [7]).\n    Number of valid subsequences (63 - 2 = 61).\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 106\n\n• 1 <= target <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSubseq(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the array nums.",
+    "Use two pointers approach: Given an index i (choose it as the minimum in a subsequence) find the maximum j where j ≥ i and nums[i] +nums[j] ≤ target.",
+    "Count the number of subsequences."
+  ],
+  "testCases": [
+    [
+      "[3,5,6,7]",
+      "9"
+    ],
+    [
+      "[3,3,6,8]",
+      "10"
+    ],
+    [
+      "[2,3,3,4,6,7]",
+      "12"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "6",
+    "61"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def numSubseq(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        MOD = 10**9 + 7\n        nums.sort()\n        n = len(nums)\n        \n        # Precompute powers of 2\n        pow2 = [1] * n\n        for i in range(1, n):\n            pow2[i] = pow2[i-1] * 2 % MOD\n        \n        result = 0\n        left, right = 0, n - 1\n        \n        while left <= right:\n            if nums[left] + nums[right] <= target:\n                # All subsequences with nums[left] as min and any subset of nums[left+1:right]\n                # Number of such subsequences = 2^(right-left)\n                result = (result + pow2[right - left]) % MOD\n                left += 1\n            else:\n                right -= 1\n        \n        return result",
+    "explanation": "Sort array. Two pointers: if min+max <= target, count 2^(right-left) subsequences, move left. Otherwise move right.",
+    "complexity": "Time: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Operations to Form Subsequence With Target Sum\", \"titleSlug\": \"minimum-operations-to-form-subsequence-with-target-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Sum of Subsequence Powers\", \"titleSlug\": \"find-the-sum-of-subsequence-powers\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Sum of the Power of All Subsequences\", \"titleSlug\": \"find-the-sum-of-the-power-of-all-subsequences\", \"difficulty\": \"Hard\"}]"
+}

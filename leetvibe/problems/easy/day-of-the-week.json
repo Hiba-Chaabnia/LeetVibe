@@ -1,0 +1,53 @@
+{
+  "questionId": "1289",
+  "title": "Day of the Week",
+  "titleSlug": "day-of-the-week",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given a date, return the corresponding day of the week for that date.\n\nThe input is given as three integers representing the day, month and year respectively.\n\nReturn the answer as one of the following values {\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"}.\n\nNote: January 1, 1971 was a Friday.\n\nExample 1:\n\nInput: day = 31, month = 8, year = 2019\nOutput: \"Saturday\"\n\nExample 2:\n\nInput: day = 18, month = 7, year = 1999\nOutput: \"Sunday\"\n\nExample 3:\n\nInput: day = 15, month = 8, year = 1993\nOutput: \"Sunday\"\n\nConstraints:\n\n• The given dates are valid dates between the years 1971 and 2100.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def dayOfTheWeek(self, day, month, year):\n        \"\"\"\n        :type day: int\n        :type month: int\n        :type year: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sum up the number of days for the years before the given year.",
+    "Handle the case of a leap year.",
+    "Find the number of days for each month of the given year."
+  ],
+  "testCases": [
+    [
+      "31",
+      "8",
+      "2019"
+    ],
+    [
+      "18",
+      "7",
+      "1999"
+    ],
+    [
+      "15",
+      "8",
+      "1993"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"Saturday\"",
+    "\"Sunday\"",
+    "\"Sunday\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def dayOfTheWeek(self, day, month, year):\n        import datetime\n        date = datetime.date(year, month, day)\n        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']\n        return days[date.weekday()]",
+    "explanation": "Use built-in datetime to get day of week.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

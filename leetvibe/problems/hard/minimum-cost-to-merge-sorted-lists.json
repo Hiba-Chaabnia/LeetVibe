@@ -1,0 +1,65 @@
+{
+  "questionId": "4144",
+  "title": "Minimum Cost to Merge Sorted Lists",
+  "titleSlug": "minimum-cost-to-merge-sorted-lists",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a 2D integer array lists, where each lists[i] is a non-empty array of integers sorted in non-decreasing order.\n\nYou may repeatedly choose two lists a = lists[i] and b = lists[j], where i != j, and merge them. The cost to merge a and b is:\n\nlen(a) + len(b) + abs(median(a) - median(b)), where len and median denote the list length and median, respectively.\n\nAfter merging a and b, remove both a and b from lists and insert the new merged sorted list in any position. Repeat merges until only one list remains.\n\nReturn an integer denoting the minimum total cost required to merge all lists into one single sorted list.\n\nThe median of an array is the middle element after sorting it in non-decreasing order. If the array has an even number of elements, the median is the left middle element.\n\nExample 1:\n\nInput: lists = [[1,3,5],[2,4],[6,7,8]]\n\nOutput: 18\n\nExplanation: Merge a = [1, 3, 5] and b = [2, 4]:\n\n• len(a) = 3 and len(b) = 2\n\n• median(a) = 3 and median(b) = 2\n\n• cost = len(a) + len(b) + abs(median(a) - median(b)) = 3 + 2 + abs(3 - 2) = 6\n\nSo lists becomes [[1, 2, 3, 4, 5], [6, 7, 8]].\n\nMerge a = [1, 2, 3, 4, 5] and b = [6, 7, 8]:\n\n• len(a) = 5 and len(b) = 3\n\n• median(a) = 3 and median(b) = 7\n\n• cost = len(a) + len(b) + abs(median(a) - median(b)) = 5 + 3 + abs(3 - 7) = 12\n\nSo lists becomes [[1, 2, 3, 4, 5, 6, 7, 8]], and total cost is 6 + 12 = 18.\n\nExample 2:\n\nInput: lists = [[1,1,5],[1,4,7,8]]\n\nOutput: 10\n\nExplanation: Merge a = [1, 1, 5] and b = [1, 4, 7, 8]:\n\n• len(a) = 3 and len(b) = 4\n\n• median(a) = 1 and median(b) = 4\n\n• cost = len(a) + len(b) + abs(median(a) - median(b)) = 3 + 4 + abs(1 - 4) = 10\n\nSo lists becomes [[1, 1, 1, 4, 5, 7, 8]], and total cost is 10.\n\nExample 3:\n\nInput: lists = [[1],[3]]\n\nOutput: 4\n\nExplanation: Merge a = [1] and b = [3]:\n\n• len(a) = 1 and len(b) = 1\n\n• median(a) = 1 and median(b) = 3\n\n• cost = len(a) + len(b) + abs(median(a) - median(b)) = 1 + 1 + abs(1 - 3) = 4\n\nSo lists becomes [[1, 3]], and total cost is 4.\n\nExample 4:\n\nInput: lists = [[1],[1]]\n\nOutput: 2\n\nExplanation: The total cost is len(a) + len(b) + abs(median(a) - median(b)) = 1 + 1 + abs(1 - 1) = 2.\n\nConstraints:\n\n• 2 <= lists.length <= 12\n\n• 1 <= lists[i].length <= 500\n\n• -109 <= lists[i][j] <= 109\n\n• lists[i] is sorted in non-decreasing order.\n\n• The sum of lists[i].length will not exceed 2000.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMergeCost(self, lists):\n        \"\"\"\n        :type lists: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming and bitmasks",
+    "Precompute the medians for every mask",
+    "Let dp[mask] represent the minimum cost to merge all lists in mask",
+    "dp[mask] = min(dp[s] + dp[mask ^ s] + cost(s, mask ^ s)), where s and mask ^ s are nonempty disjoint submasks whose union is mask",
+    "Use the precomputed medians to compute costs efficiently"
+  ],
+  "testCases": [
+    [
+      "[[1,3,5],[2,4],[6,7,8]]"
+    ],
+    [
+      "[[1,1,5],[1,4,7,8]]"
+    ],
+    [
+      "[[1],[3]]"
+    ],
+    [
+      "[[1],[1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "18",
+    "10",
+    "4",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

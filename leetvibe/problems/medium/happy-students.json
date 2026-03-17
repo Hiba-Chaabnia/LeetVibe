@@ -1,0 +1,51 @@
+{
+  "questionId": "3104",
+  "title": "Happy Students",
+  "titleSlug": "happy-students",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums of length n where n is the total number of students in the class. The class teacher tries to select a group of students so that all the students remain happy.\n\nThe ith student will become happy if one of these two conditions is met:\n\n• The student is selected and the total number of selected students is strictly greater than nums[i].\n\n• The student is not selected and the total number of selected students is strictly less than nums[i].\n\nReturn the number of ways to select a group of students so that everyone remains happy.\n\nExample 1:\n\nInput: nums = [1,1]\nOutput: 2\nExplanation:\n    The two possible ways are:\n    The class teacher selects no student.\n    The class teacher selects both students to form the group.\n    If the class teacher selects just one student to form a group then the both students will not be happy. Therefore, there are only two possible ways.\n\nExample 2:\n\nInput: nums = [6,0,3,3,6,7,2,7]\nOutput: 3\nExplanation:\n    The three possible ways are:\n    The class teacher selects the student with index = 1 to form the group.\n    The class teacher selects the students with index = 1, 2, 3, 6 to form the group.\n    The class teacher selects all the students to form the group.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] < nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countWays(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If a student with nums[i] = x is selected, all the students with nums[j] <= x must be selected.",
+    "If a student with nums[i] = x is not selected, all the students with nums[j] >= x must not be selected.",
+    "Sort values in nums and try all possible values for x from 0 to n separately."
+  ],
+  "testCases": [
+    [
+      "[1,1]"
+    ],
+    [
+      "[6,0,3,3,6,7,2,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countWays(self, nums):\n        n = len(nums)\n        nums.sort()\n        count = 0\n        # Try selecting exactly k students for k in 0..n\n        # For k selected: all selected students need total > their nums[i] (k > nums[i])\n        # All unselected need total < their nums[j] (k < nums[j])\n        # Sort; select k students with smallest nums.\n        # Valid iff: nums[k-1] < k (last selected) AND (k == n or nums[k] > k) (first unselected)\n        # k = 0: no one selected; need all nums[i] > 0. Since nums[i] >= 0, check nums[0] > 0.\n        if nums[0] > 0:\n            count += 1\n        for k in range(1, n + 1):\n            # Select k students: the k with smallest values (greedy)\n            # All selected: need k > nums[i] for i in 0..k-1 => nums[k-1] < k\n            # All unselected: need k < nums[j] for j in k..n-1 => nums[k] > k (if k < n)\n            if nums[k-1] < k and (k == n or nums[k] > k):\n                count += 1\n        return count",
+    "explanation": "Sort nums. For exactly k students selected, the optimal choice is the k smallest-valued students. Condition: nums[k-1] < k (all k selected students satisfied) and nums[k] > k (all unselected satisfied; if k=n, trivially true). Also check k=0: valid if nums[0] > 0.\n\nTime: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

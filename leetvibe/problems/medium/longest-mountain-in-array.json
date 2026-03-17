@@ -1,0 +1,51 @@
+{
+  "questionId": "875",
+  "title": "Longest Mountain in Array",
+  "titleSlug": "longest-mountain-in-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You may recall that an array arr is a mountain array if and only if:\n\n• arr.length >= 3\n\n• There exists some index i (0-indexed) with 0 < i < arr.length - 1 such that:\n\n• arr[0] < arr[1] < ... < arr[i - 1] < arr[i]\n\n• arr[i] > arr[i + 1] > ... > arr[arr.length - 1]\n\nGiven an integer array arr, return the length of the longest subarray, which is a mountain. Return 0 if there is no mountain subarray.\n\nExample 1:\n\nInput: arr = [2,1,4,7,3,2,5]\nOutput: 5\nExplanation: The largest mountain is [1,4,7,3,2] which has length 5.\n\nExample 2:\n\nInput: arr = [2,2,2]\nOutput: 0\nExplanation: There is no mountain.\n\nConstraints:\n\n• 1 <= arr.length <= 104\n\n• 0 <= arr[i] <= 104\n\nFollow up:\n\n• Can you solve it using only one pass?\n\n• Can you solve it in O(1) space?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestMountain(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[2,1,4,7,3,2,5]"
+    ],
+    [
+      "[2,2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def longestMountain(arr):\n    n = len(arr)\n    res = up = down = 0\n\n    for i in range(1, n):\n        if (down and arr[i - 1] < arr[i]) or arr[i - 1] == arr[i]:\n            up = down = 0\n\n        up += arr[i - 1] < arr[i]\n        down += arr[i - 1] > arr[i]\n\n        if up and down:\n            res = max(res, up + down + 1)\n\n    return res",
+    "explanation": "The algorithm uses one pass with two pointers and maintains two counters, \"up\" and \"down\". It begins at the 1st index, iterating through the array. If the current element is greater than the previous, it increases the \"up\" counter; otherwise, if it's less than the previous, it increases the \"down\" counter. Every time a mountain is identified (when both \"up\" and \"down\" are non-zero), the maximum length is updated. If some conditions are met, such as a new ascending sequence interruption or equal adjacent elements, reset the \"up\" and \"down\" counters to zero. Finally, return the maximum length of a mountain subarray found.\n\nThis solution executes in O(n) time with O(1) space complexity."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Number of Removals to Make Mountain Array\", \"titleSlug\": \"minimum-number-of-removals-to-make-mountain-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Find Good Days to Rob the Bank\", \"titleSlug\": \"find-good-days-to-rob-the-bank\", \"difficulty\": \"Medium\"}]"
+}

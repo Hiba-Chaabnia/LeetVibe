@@ -1,0 +1,49 @@
+{
+  "questionId": "3762",
+  "title": "Maximize the Minimum Game Score",
+  "titleSlug": "maximize-the-minimum-game-score",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an array points of size n and an integer m. There is another array gameScore of size n, where gameScore[i] represents the score achieved at the ith game. Initially, gameScore[i] == 0 for all i.\n\nYou start at index -1, which is outside the array (before the first position at index 0). You can make at most m moves. In each move, you can either:\n\n• Increase the index by 1 and add points[i] to gameScore[i].\n\n• Decrease the index by 1 and add points[i] to gameScore[i].\n\nNote that the index must always remain within the bounds of the array after the first move.\n\nReturn the maximum possible minimum value in gameScore after at most m moves.\n\nExample 1:\n\nInput: points = [2,4], m = 3\n\nOutput: 4\n\nExplanation: Initially, index i = -1 and gameScore = [0, 0].\n\n\t\t\t\tMove\n\t\t\t\tIndex\n\t\t\t\tgameScore\n\n\t\t\t\tIncrease i\n\t\t\t\t0\n\t\t\t\t[2, 0]\n\n\t\t\t\tIncrease i\n\t\t\t\t1\n\t\t\t\t[2, 4]\n\n\t\t\t\tDecrease i\n\t\t\t\t0\n\t\t\t\t[4, 4]\n\nThe minimum value in gameScore is 4, and this is the maximum possible minimum among all configurations. Hence, 4 is the output.\n\nExample 2:\n\nInput: points = [1,2,3], m = 5\n\nOutput: 2\n\nExplanation: Initially, index i = -1 and gameScore = [0, 0, 0].\n\n\t\t\t\tMove\n\t\t\t\tIndex\n\t\t\t\tgameScore\n\n\t\t\t\tIncrease i\n\t\t\t\t0\n\t\t\t\t[1, 0, 0]\n\n\t\t\t\tIncrease i\n\t\t\t\t1\n\t\t\t\t[1, 2, 0]\n\n\t\t\t\tDecrease i\n\t\t\t\t0\n\t\t\t\t[2, 2, 0]\n\n\t\t\t\tIncrease i\n\t\t\t\t1\n\t\t\t\t[2, 4, 0]\n\n\t\t\t\tIncrease i\n\t\t\t\t2\n\t\t\t\t[2, 4, 3]\n\nThe minimum value in gameScore is 2, and this is the maximum possible minimum among all configurations. Hence, 2 is the output.\n\nConstraints:\n\n• 2 <= n == points.length <= 5 * 104\n\n• 1 <= points[i] <= 106\n\n• 1 <= m <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxScore(self, points, m):\n        \"\"\"\n        :type points: List[int]\n        :type m: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we use binary search?",
+    "What happens if you fix the game score as x?",
+    "We should go from i to (i + 1) back and forth, making the value for each index i (from left to right) no less than x."
+  ],
+  "testCases": [
+    [
+      "[2,4]",
+      "3"
+    ],
+    [
+      "[1,2,3]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

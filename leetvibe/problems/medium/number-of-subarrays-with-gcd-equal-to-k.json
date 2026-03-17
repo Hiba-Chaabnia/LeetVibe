@@ -1,0 +1,53 @@
+{
+  "questionId": "2546",
+  "title": "Number of Subarrays With GCD Equal to K",
+  "titleSlug": "number-of-subarrays-with-gcd-equal-to-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, return the number of subarrays of nums where the greatest common divisor of the subarray's elements is k.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nThe greatest common divisor of an array is the largest integer that evenly divides all the array elements.\n\nExample 1:\n\nInput: nums = [9,3,1,2,6,3], k = 3\nOutput: 4\nExplanation: The subarrays of nums where 3 is the greatest common divisor of all the subarray's elements are:\n    - [9,3,1,2,6,3]\n    - [9,3,1,2,6,3]\n    - [9,3,1,2,6,3]\n    - [9,3,1,2,6,3]\n\nExample 2:\n\nInput: nums = [4], k = 7\nOutput: 0\nExplanation: There are no subarrays of nums where 7 is the greatest common divisor of all the subarray's elements.\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= nums[i], k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def subarrayGCD(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints on nums.length are small. It is possible to check every subarray.",
+    "To calculate GCD, you can use a built-in function or the Euclidean Algorithm."
+  ],
+  "testCases": [
+    [
+      "[9,3,1,2,6,3]",
+      "3"
+    ],
+    [
+      "[4]",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def subarrayGCD(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        from math import gcd\n        \n        count = 0\n        \n        for i in range(len(nums)):\n            current_gcd = 0\n            for j in range(i, len(nums)):\n                current_gcd = gcd(current_gcd, nums[j])\n                \n                if current_gcd == k:\n                    count += 1\n                elif current_gcd < k:\n                    # GCD can only decrease, stop if it's less than k\n                    break\n        \n        return count",
+    "explanation": "For each start position, extend right and compute GCD. Stop when GCD < k.",
+    "complexity": "Time: O(n² log(max(nums))). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Find Greatest Common Divisor of Array\", \"titleSlug\": \"find-greatest-common-divisor-of-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Number of Subarrays With LCM Equal to K\", \"titleSlug\": \"number-of-subarrays-with-lcm-equal-to-k\", \"difficulty\": \"Medium\"}]"
+}

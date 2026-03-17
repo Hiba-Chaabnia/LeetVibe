@@ -1,0 +1,46 @@
+{
+  "questionId": "2454",
+  "title": "Largest Local Values in a Matrix",
+  "titleSlug": "largest-local-values-in-a-matrix",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an n x n integer matrix grid.\n\nGenerate an integer matrix maxLocal of size (n - 2) x (n - 2) such that:\n\n• maxLocal[i][j] is equal to the largest value of the 3 x 3 matrix in grid centered around row i + 1 and column j + 1.\n\nIn other words, we want to find the largest value in every contiguous 3 x 3 matrix in grid.\n\nReturn the generated matrix.\n\nExample 1:\n\nInput: grid = [[9,9,8,1],[5,6,2,6],[8,2,6,4],[6,2,2,2]]\nOutput: [[9,9],[8,6]]\nExplanation: The diagram above shows the original matrix and the generated matrix.\n    Notice that each value in the generated matrix corresponds to the largest value of a contiguous 3 x 3 matrix in grid.\n\nExample 2:\n\nInput: grid = [[1,1,1,1,1],[1,1,1,1,1],[1,1,2,1,1],[1,1,1,1,1],[1,1,1,1,1]]\nOutput: [[2,2,2],[2,2,2],[2,2,2]]\nExplanation: Notice that the 2 is contained within every contiguous 3 x 3 matrix in grid.\n\nConstraints:\n\n• n == grid.length == grid[i].length\n\n• 3 <= n <= 100\n\n• 1 <= grid[i][j] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def largestLocal(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use nested loops to run through all possible 3 x 3 windows in the matrix.",
+    "For each 3 x 3 window, iterate through the values to get the maximum value within the window."
+  ],
+  "testCases": [
+    [
+      "[[9,9,8,1],[5,6,2,6],[8,2,6,4],[6,2,2,2]]"
+    ],
+    [
+      "[[1,1,1,1,1],[1,1,1,1,1],[1,1,2,1,1],[1,1,1,1,1],[1,1,1,1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[9,9],[8,6]]",
+    "[[2,2,2],[2,2,2],[2,2,2]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def largestLocal(self, grid):\n        n = len(grid)\n        result = []\n        for i in range(n - 2):\n            row = []\n            for j in range(n - 2):\n                max_val = max(grid[i+di][j+dj] for di in range(3) for dj in range(3))\n                row.append(max_val)\n            result.append(row)\n        return result",
+    "explanation": "For each 3x3 window, find max. Result is (n-2)x(n-2).\nTime: O(n² * 9)\nSpace: O((n-2)²)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "1274",
+  "title": "Number of Days Between Two Dates",
+  "titleSlug": "number-of-days-between-two-dates",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Write a program to count the number of days between two dates.\n\nThe two dates are given as strings, their format is YYYY-MM-DD as shown in the examples.\n\nExample 1:\n\nInput: date1 = \"2019-06-29\", date2 = \"2019-06-30\"\nOutput: 1\nExample 2:\n\nInput: date1 = \"2020-01-15\", date2 = \"2019-12-31\"\nOutput: 15\n\nConstraints:\n\n• The given dates are valid dates between the years 1971 and 2100.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def daysBetweenDates(self, date1, date2):\n        \"\"\"\n        :type date1: str\n        :type date2: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Create a function f(date) that counts the number of days from 1900-01-01 to date. How can we calculate the answer ?",
+    "The answer is just |f(date1) - f(date2)|.",
+    "How to construct f(date) ?",
+    "For each year from 1900 to year - 1 sum up 365 or 366 in case of leap years. Then sum up for each month the number of days, consider the case when the current year is leap, finally sum up the days."
+  ],
+  "testCases": [
+    [
+      "\"2019-06-29\"",
+      "\"2019-06-30\""
+    ],
+    [
+      "\"2020-01-15\"",
+      "\"2019-12-31\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "15"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def daysBetweenDates(self, date1, date2):\n        from datetime import datetime\n        d1 = datetime.strptime(date1, '%Y-%m-%d')\n        d2 = datetime.strptime(date2, '%Y-%m-%d')\n        return abs((d1 - d2).days)",
+    "explanation": "Parse dates using datetime. Calculate difference.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Count Days Spent Together\", \"titleSlug\": \"count-days-spent-together\", \"difficulty\": \"Easy\"}]"
+}

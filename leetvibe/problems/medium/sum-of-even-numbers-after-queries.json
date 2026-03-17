@@ -1,0 +1,41 @@
+{
+  "questionId": "1027",
+  "title": "Sum of Even Numbers After Queries",
+  "titleSlug": "sum-of-even-numbers-after-queries",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an integer array nums and an array queries where queries[i] = [vali, indexi].\n\nFor each query i, first, apply nums[indexi] = nums[indexi] + vali, then print the sum of the even values of nums.\n\nReturn an integer array answer where answer[i] is the answer to the ith query.\n\nExample 1:\n\nInput: nums = [1,2,3,4], queries = [[1,0],[-3,1],[-4,0],[2,3]]\nOutput: [8,6,2,4]\nExplanation: At the beginning, the array is [1,2,3,4].\n    After adding 1 to nums[0], the array is [2,2,3,4], and the sum of even values is 2 + 2 + 4 = 8.\n    After adding -3 to nums[1], the array is [2,-1,3,4], and the sum of even values is 2 + 4 = 6.\n    After adding -4 to nums[0], the array is [-2,-1,3,4], and the sum of even values is -2 + 4 = 2.\n    After adding 2 to nums[3], the array is [-2,-1,3,6], and the sum of even values is -2 + 6 = 4.\n\nExample 2:\n\nInput: nums = [1], queries = [[4,0]]\nOutput: [0]\n\nConstraints:\n\n• 1 <= nums.length <= 104\n\n• -104 <= nums[i] <= 104\n\n• 1 <= queries.length <= 104\n\n• -104 <= vali <= 104\n\n• 0 <= indexi < nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumEvenAfterQueries(self, nums, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4]",
+      "[[1,0],[-3,1],[-4,0],[2,3]]"
+    ],
+    [
+      "[1]",
+      "[[4,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[8,6,2,4]",
+    "[0]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

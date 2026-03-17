@@ -1,0 +1,57 @@
+{
+  "questionId": "3958",
+  "title": "Minimum Removals to Balance Array",
+  "titleSlug": "minimum-removals-to-balance-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k.\n\nAn array is considered balanced if the value of its maximum element is at most k times the minimum element.\n\nYou may remove any number of elements from nums​​​​​​​ without making it empty.\n\nReturn the minimum number of elements to remove so that the remaining array is balanced.\n\nNote: An array of size 1 is considered balanced as its maximum and minimum are equal, and the condition always holds true.\n\nExample 1:\n\nInput: nums = [2,1,5], k = 2\n\nOutput: 1\n\nExplanation:\n\n• Remove nums[2] = 5 to get nums = [2, 1].\n\n• Now max = 2, min = 1 and max <= min * k as 2 <= 1 * 2. Thus, the answer is 1.\n\nExample 2:\n\nInput: nums = [1,6,2,9], k = 3\n\nOutput: 2\n\nExplanation:\n\n• Remove nums[0] = 1 and nums[3] = 9 to get nums = [6, 2].\n\n• Now max = 6, min = 2 and max <= min * k as 6 <= 2 * 3. Thus, the answer is 2.\n\nExample 3:\n\nInput: nums = [4,6], k = 2\n\nOutput: 0\n\nExplanation:\n\n• Since nums is already balanced as 6 <= 4 * 2, no elements need to be removed.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 1 <= k <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minRemoval(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort nums and use two pointers i and j so that the window's minimum is nums[i] and maximum is nums[j].",
+    "Expand j while nums[j] <= k * nums[i] to maximize the balanced window; answer = n - (j - i + 1)."
+  ],
+  "testCases": [
+    [
+      "[2,1,5]",
+      "2"
+    ],
+    [
+      "[1,6,2,9]",
+      "3"
+    ],
+    [
+      "[4,6]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minRemoval(self, nums, k):\n        nums.sort()\n        n = len(nums)\n        ans = 0\n        j = 0\n        for i in range(n):\n            if j < i:\n                j = i\n            while j + 1 < n and nums[j + 1] <= k * nums[i]:\n                j += 1\n            ans = max(ans, j - i + 1)\n        return n - ans",
+    "explanation": "After sorting, a balanced subarray is a contiguous range [i, j] where nums[j] <= k * nums[i] (max/min ratio <= k). We want to maximize such a window's size and remove everything else. Two pointers: for each left endpoint i, advance j while nums[j] <= k * nums[i]. Track the maximum window size. Answer = n - max_window.\n\nTime: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "1092",
+  "title": "Maximum Difference Between Node and Ancestor",
+  "titleSlug": "maximum-difference-between-node-and-ancestor",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, find the maximum value v for which there exist different nodes a and b where v = |a.val - b.val| and a is an ancestor of b.\n\nA node a is an ancestor of b if either: any child of a is equal to b or any child of a is an ancestor of b.\n\nExample 1:\n\nInput: root = [8,3,10,1,6,null,14,null,null,4,7,13]\nOutput: 7\nExplanation: We have various ancestor-node differences, some of which are given below :\n    |8 - 3| = 5\n    |3 - 7| = 4\n    |8 - 1| = 7\n    |10 - 13| = 3\n    Among all possible differences, the maximum value of 7 is obtained by |8 - 1| = 7.\n\nExample 2:\n\nInput: root = [1,null,2,null,0,3]\nOutput: 3\n\nConstraints:\n\n• The number of nodes in the tree is in the range [2, 5000].\n\n• 0 <= Node.val <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def maxAncestorDiff(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each subtree, find the minimum value and maximum value of its descendants."
+  ],
+  "testCases": [
+    [
+      "[8,3,10,1,6,null,14,null,null,4,7,13]"
+    ],
+    [
+      "[1,null,2,null,0,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxAncestorDiff(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        def dfs(node, min_val, max_val):\n            if not node:\n                return max_val - min_val\n            \n            # Update min and max seen on path from root to node\n            min_val = min(min_val, node.val)\n            max_val = max(max_val, node.val)\n            \n            # Current max difference at this node\n            current_diff = max_val - min_val\n            \n            # Recurse to children\n            left_diff = dfs(node.left, min_val, max_val)\n            right_diff = dfs(node.right, min_val, max_val)\n            \n            return max(current_diff, left_diff, right_diff)\n        \n        return dfs(root, root.val, root.val)",
+    "explanation": "DFS tracking min and max values on path from root. Calculate diff at each node, return max.",
+    "complexity": "Time: O(n). Space: O(h)."
+  },
+  "similarQuestions": "[]"
+}

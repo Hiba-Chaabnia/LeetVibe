@@ -1,0 +1,48 @@
+{
+  "questionId": "2871",
+  "title": "Double a Number Represented as a Linked List",
+  "titleSlug": "double-a-number-represented-as-a-linked-list",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "You are given the head of a non-empty linked list representing a non-negative integer without leading zeroes.\n\nReturn the head of the linked list after doubling it.\n\nExample 1:\n\nInput: head = [1,8,9]\nOutput: [3,7,8]\nExplanation: The figure above corresponds to the given linked list which represents the number 189. Hence, the returned linked list represents the number 189 * 2 = 378.\n\nExample 2:\n\nInput: head = [9,9,9]\nOutput: [1,9,9,8]\nExplanation: The figure above corresponds to the given linked list which represents the number 999. Hence, the returned linked list reprersents the number 999 * 2 = 1998.\n\nConstraints:\n\n• The number of nodes in the list is in the range [1, 104]\n\n• 0 <= Node.val <= 9\n\n• The input is generated such that the list represents a number that does not have leading zeros, except the number 0 itself.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def doubleIt(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Traverse the linked list from the least significant digit to the most significant digit and multiply each node's value by 2",
+    "Handle any carry-over digits that may arise during the doubling process.",
+    "If there is a carry-over digit on the most significant digit, create a new node with that value and point it to the start of the given linked list and return it."
+  ],
+  "testCases": [
+    [
+      "[1,8,9]",
+      "[9,9,9]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,7,8]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def doubleIt(self, head):\n        def dfs(node):\n            if not node:\n                return 0\n            carry = dfs(node.next)\n            val = node.val * 2 + carry\n            node.val = val % 10\n            return val // 10\n        carry = dfs(head)\n        if carry:\n            new_head = ListNode(carry)\n            new_head.next = head\n            return new_head\n        return head",
+    "explanation": "Post-order DFS. Double each value, track carry, prepend if final carry.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[{\"title\": \"Add Two Numbers\", \"titleSlug\": \"add-two-numbers\", \"difficulty\": \"Medium\"}, {\"title\": \"Plus One Linked List\", \"titleSlug\": \"plus-one-linked-list\", \"difficulty\": \"Medium\"}]"
+}

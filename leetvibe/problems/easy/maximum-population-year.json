@@ -1,0 +1,50 @@
+{
+  "questionId": "1983",
+  "title": "Maximum Population Year",
+  "titleSlug": "maximum-population-year",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 2D integer array logs where each logs[i] = [birthi, deathi] indicates the birth and death years of the ith person.\n\nThe population of some year x is the number of people alive during that year. The ith person is counted in year x's population if x is in the inclusive range [birthi, deathi - 1]. Note that the person is not counted in the year that they die.\n\nReturn the earliest year with the maximum population.\n\nExample 1:\n\nInput: logs = [[1993,1999],[2000,2010]]\nOutput: 1993\nExplanation: The maximum population is 1, and 1993 is the earliest year with this population.\n\nExample 2:\n\nInput: logs = [[1950,1961],[1960,1971],[1970,1981]]\nOutput: 1960\nExplanation:\n    The maximum population is 2, and it had happened in years 1960 and 1970.\n    The earlier year between them is 1960.\n\nConstraints:\n\n• 1 <= logs.length <= 100\n\n• 1950 <= birthi < deathi <= 2050",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumPopulation(self, logs):\n        \"\"\"\n        :type logs: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each year find the number of people whose birth_i ≤ year and death_i > year.",
+    "Find the maximum value between all years."
+  ],
+  "testCases": [
+    [
+      "[[1993,1999],[2000,2010]]"
+    ],
+    [
+      "[[1950,1961],[1960,1971],[1970,1981]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1993",
+    "1960"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumPopulation(self, logs):\n        events = []\n        for birth, death in logs:\n            events.append((birth, 1))\n            events.append((death, -1))\n        events.sort()\n        max_pop = 0\n        curr_pop = 0\n        max_year = 0\n        for year, delta in events:\n            curr_pop += delta\n            if delta == 1 and curr_pop > max_pop:\n                max_pop = curr_pop\n                max_year = year\n        return max_year",
+    "explanation": "Use events (birth +1, death -1). Sort and track population. Return earliest year with max.\nTime: O(n*log(n))\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Shifting Letters II\", \"titleSlug\": \"shifting-letters-ii\", \"difficulty\": \"Medium\"}]"
+}

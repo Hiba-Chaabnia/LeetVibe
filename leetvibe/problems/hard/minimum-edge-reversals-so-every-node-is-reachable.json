@@ -1,0 +1,59 @@
+{
+  "questionId": "3105",
+  "title": "Minimum Edge Reversals So Every Node Is Reachable",
+  "titleSlug": "minimum-edge-reversals-so-every-node-is-reachable",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "There is a simple directed graph with n nodes labeled from 0 to n - 1. The graph would form a tree if its edges were bi-directional.\n\nYou are given an integer n and a 2D integer array edges, where edges[i] = [ui, vi] represents a directed edge going from node ui to node vi.\n\nAn edge reversal changes the direction of an edge, i.e., a directed edge going from node ui to node vi becomes a directed edge going from node vi to node ui.\n\nFor every node i in the range [0, n - 1], your task is to independently calculate the minimum number of edge reversals required so it is possible to reach any other node starting from node i through a sequence of directed edges.\n\nReturn an integer array answer, where answer[i] is the  minimum number of edge reversals required so it is possible to reach any other node starting from node i through a sequence of directed edges.\n\nExample 1:\n\nInput: n = 4, edges = [[2,0],[2,1],[1,3]]\nOutput: [1,1,0,2]\nExplanation: The image above shows the graph formed by the edges.\n    For node 0: after reversing the edge [2,0], it is possible to reach any other node starting from node 0.\n    So, answer[0] = 1.\n    For node 1: after reversing the edge [2,1], it is possible to reach any other node starting from node 1.\n    So, answer[1] = 1.\n    For node 2: it is already possible to reach any other node starting from node 2.\n    So, answer[2] = 0.\n    For node 3: after reversing the edges [1,3] and [2,1], it is possible to reach any other node starting from node 3.\n    So, answer[3] = 2.\n\nExample 2:\n\nInput: n = 3, edges = [[1,2],[2,0]]\nOutput: [2,0,1]\nExplanation: The image above shows the graph formed by the edges.\n    For node 0: after reversing the edges [2,0] and [1,2], it is possible to reach any other node starting from node 0.\n    So, answer[0] = 2.\n    For node 1: it is already possible to reach any other node starting from node 1.\n    So, answer[1] = 0.\n    For node 2: after reversing the edge [1, 2], it is possible to reach any other node starting from node 2.\n    So, answer[2] = 1.\n\nConstraints:\n\n• 2 <= n <= 105\n\n• edges.length == n - 1\n\n• edges[i].length == 2\n\n• 0 <= ui == edges[i][0] < n\n\n• 0 <= vi == edges[i][1] < n\n\n• ui != vi\n\n• The input is generated such that if the edges were bi-directional, the graph would be a tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minEdgeReversals(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The problem can be solved using tree DP.",
+    "Using node 0 as the root, let dp[x] be the minimum number of edge reversals so node x can reach every node in its subtree.",
+    "Using a DFS traversing the edges bidirectionally, we can compute dp.<br />\r\ndp[x] = dp[y] + (1 if the edge between x and y is going from y to x; 0 otherwise), where x is the parent of y.",
+    "Let answer[x] be the minimum number of edge reversals so it is possible to reach any other node starting from node x.",
+    "Using another DFS starting from node 0 and traversing the edges bidirectionally, we can compute answer.<br />\r\nanswer[0] = dp[0]<br />\r\nanswer[y] = answer[x] + (1 if the edge between x and y is going from x to y; -1 otherwise), where x is the parent of y."
+  ],
+  "testCases": [
+    [
+      "4",
+      "[[2,0],[2,1],[1,3]]"
+    ],
+    [
+      "3",
+      "[[1,2],[2,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,1,0,2]",
+    "[2,0,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minEdgeReversals(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        from collections import defaultdict\n        \n        # Build bidirectional graph with cost tracking\n        graph = defaultdict(list)\n        for u, v in edges:\n            graph[u].append((v, 0))  # Original direction costs 0\n            graph[v].append((u, 1))  # Reverse direction costs 1\n        \n        # First DFS: calculate reversals needed from node 0\n        def dfs1(node, parent, graph, cost):\n            reversals = cost\n            for neighbor, edge_cost in graph[node]:\n                if neighbor != parent:\n                    reversals += dfs1(neighbor, node, graph, edge_cost)\n            return reversals\n        \n        # Calculate answer[0]\n        answer = [0] * n\n        answer[0] = dfs1(0, -1, graph, 0)\n        \n        # Second DFS: re-root to calculate answers for all nodes\n        def dfs2(node, parent, graph, parent_cost, current_answer):\n            answer[node] = current_answer\n            \n            for neighbor, edge_cost in graph[node]:\n                if neighbor != parent:\n                    # When moving from node to neighbor\n                    # If edge_cost is 0 (original direction), reversing costs +1\n                    # If edge_cost is 1 (reverse direction), un-reversing costs -1\n                    new_cost = current_answer\n                    if edge_cost == 0:\n                        # Original direction, reversing for neighbor path adds 1\n                        new_cost += 1\n                    else:\n                        # Reverse direction, un-reversing for neighbor path removes 1\n                        new_cost -= 1\n                    \n                    dfs2(neighbor, node, graph, edge_cost, new_cost)\n        \n        dfs2(0, -1, graph, 0, answer[0])\n        return answer",
+    "explanation": "This solution uses tree DP with rerooting technique:\n\n1. **Problem Understanding**:\n   - Find minimum reversals needed from each node to reach all others\n   - A directed tree: use bidirectional edges with costs\n   - Original direction edge costs 0, reverse costs 1\n\n2. **Graph Representation**:\n   - For each edge (u, v):\n     - u → v costs 0 (original direction)\n     - v → u costs 1 (reversed direction)\n\n3. **First DFS (Calculate answer[0])**:\n   - Root tree at node 0\n   - Count minimum reversals needed from node 0 to reach all nodes\n   - Traverse: if we go in original direction (cost 0), no reversal; if reverse (cost 1), need reversal\n   - Sum all costs\n\n4. **Second DFS (Rerooting)**:\n   - For each child of current node, calculate its answer\n   - When moving from parent to child:\n     - If original edge direction (cost 0): child's answer = parent's answer + 1\n       (we need to reverse this edge for child to reach parent)\n     - If reverse direction (cost 1): child's answer = parent's answer - 1\n       (we don't need to reverse this edge for child to reach parent)\n\n5. **Why This Works**:\n   - As we re-root, the cost changes based on edge direction\n   - Original direction edges become obstacles when viewed from the other side\n   - Reversed direction edges become clear paths\n\nTime Complexity: O(N) for two DFS traversals\nSpace Complexity: O(N)"
+  },
+  "similarQuestions": "[{\"title\": \"Reorder Routes to Make All Paths Lead to the City Zero\", \"titleSlug\": \"reorder-routes-to-make-all-paths-lead-to-the-city-zero\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "2883",
+  "title": "Partition String Into Minimum Beautiful Substrings",
+  "titleSlug": "partition-string-into-minimum-beautiful-substrings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "Given a binary string s, partition the string into one or more substrings such that each substring is beautiful.\n\nA string is beautiful if:\n\n• It doesn't contain leading zeros.\n\n• It's the binary representation of a number that is a power of 5.\n\nReturn the minimum number of substrings in such partition. If it is impossible to partition the string s into beautiful substrings, return -1.\n\nA substring is a contiguous sequence of characters in a string.\n\nExample 1:\n\nInput: s = \"1011\"\nOutput: 2\nExplanation: We can paritition the given string into [\"101\", \"1\"].\n    - The string \"101\" does not contain leading zeros and is the binary representation of integer 51 = 5.\n    - The string \"1\" does not contain leading zeros and is the binary representation of integer 50 = 1.\n    It can be shown that 2 is the minimum number of beautiful substrings that s can be partitioned into.\n\nExample 2:\n\nInput: s = \"111\"\nOutput: 3\nExplanation: We can paritition the given string into [\"1\", \"1\", \"1\"].\n    - The string \"1\" does not contain leading zeros and is the binary representation of integer 50 = 1.\n    It can be shown that 3 is the minimum number of beautiful substrings that s can be partitioned into.\n\nExample 3:\n\nInput: s = \"0\"\nOutput: -1\nExplanation: We can not partition the given string into beautiful substrings.\n\nConstraints:\n\n• 1 <= s.length <= 15\n\n• s[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumBeautifulSubstrings(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "To check if number x is a power of 5 or not, we will divide x by 5 while x > 1 and x mod 5 == 0. After iteration if x == 1, then it was a power of 5.",
+    "Since the constraint of s.length is small, we can use recursion to find all the partitions."
+  ],
+  "testCases": [
+    [
+      "\"1011\""
+    ],
+    [
+      "\"111\""
+    ],
+    [
+      "\"0\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumBeautifulSubstrings(self, s):\n        # Precompute all binary representations of powers of 5 up to length 15\n        powers = set()\n        x = 1\n        while x < (1 << 15):\n            powers.add(bin(x)[2:])\n            x *= 5\n\n        n = len(s)\n        INF = float('inf')\n        dp = [INF] * (n + 1)\n        dp[0] = 0\n\n        for i in range(1, n + 1):\n            for j in range(i):\n                sub = s[j:i]\n                if sub[0] == '1' and sub in powers:\n                    if dp[j] != INF:\n                        dp[i] = min(dp[i], dp[j] + 1)\n\n        return dp[n] if dp[n] != INF else -1",
+    "explanation": "We precompute the set of binary representations of all powers of 5 that fit in 15 bits (since s.length <= 15): {1, 5, 25, 125, 625, 3125, 15625, ...} → {'1', '101', '11001', ...}.\n\nThen we run a standard interval DP: dp[i] = minimum number of beautiful substrings to cover s[0..i-1]. For each end position i, we try all start positions j and check if s[j:i] is in our precomputed set (no leading zeros is guaranteed since we only include strings starting with '1').\n\nTime complexity: O(n^2 * log(2^15)) = O(n^2) for n <= 15. Space complexity: O(n + |powers|)."
+  },
+  "similarQuestions": "[{\"title\": \"Partition Array for Maximum Sum\", \"titleSlug\": \"partition-array-for-maximum-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Substring Partition of Equal Character Frequency\", \"titleSlug\": \"minimum-substring-partition-of-equal-character-frequency\", \"difficulty\": \"Medium\"}]"
+}

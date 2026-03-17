@@ -1,0 +1,61 @@
+{
+  "questionId": "3214",
+  "title": "Maximize Area of Square Hole in Grid",
+  "titleSlug": "maximize-area-of-square-hole-in-grid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given the two integers, n and m and two integer arrays, hBars and vBars. The grid has n + 2 horizontal and m + 2 vertical bars, creating 1 x 1 unit cells. The bars are indexed starting from 1.\n\nYou can remove some of the bars in hBars from horizontal bars and some of the bars in vBars from vertical bars. Note that other bars are fixed and cannot be removed.\n\nReturn an integer denoting the maximum area of a square-shaped hole in the grid, after removing some bars (possibly none).\n\nExample 1:\n\nInput: n = 2, m = 1, hBars = [2,3], vBars = [2]\n\nOutput: 4\n\nExplanation: The left image shows the initial grid formed by the bars. The horizontal bars are [1,2,3,4], and the vertical bars are [1,2,3].\n\nOne way to get the maximum square-shaped hole is by removing horizontal bar 2 and vertical bar 2.\n\nExample 2:\n\nInput: n = 1, m = 1, hBars = [2], vBars = [2]\n\nOutput: 4\n\nExplanation: To get the maximum square-shaped hole, we remove horizontal bar 2 and vertical bar 2.\n\nExample 3:\n\nInput: n = 2, m = 3, hBars = [2,3], vBars = [2,4]\n\nOutput: 4\n\nExplanation: One way to get the maximum square-shaped hole is by removing horizontal bar 3, and vertical bar 4.\n\nConstraints:\n\n• 1 <= n <= 109\n\n• 1 <= m <= 109\n\n• 1 <= hBars.length <= 100\n\n• 2 <= hBars[i] <= n + 1\n\n• 1 <= vBars.length <= 100\n\n• 2 <= vBars[i] <= m + 1\n\n• All values in hBars are distinct.\n\n• All values in vBars are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximizeSquareHoleArea(self, n, m, hBars, vBars):\n        \"\"\"\n        :type n: int\n        :type m: int\n        :type hBars: List[int]\n        :type vBars: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort hBars and vBars and consider them separately.",
+    "Compute the longest sequence of consecutive integer values in each array, denoted as [hx, hy] and [vx, vy], respectively.",
+    "The maximum square length we can get is min(hy - hx + 2, vy - vx + 2).",
+    "Square the maximum square length to get the area."
+  ],
+  "testCases": [
+    [
+      "2",
+      "1",
+      "[2,3]",
+      "[2]"
+    ],
+    [
+      "1",
+      "1",
+      "[2]",
+      "[2]"
+    ],
+    [
+      "2",
+      "3",
+      "[2,3]",
+      "[2,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "4",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximizeSquareHoleArea(self, n, m, hBars, vBars):\n        def max_consecutive(bars):\n            bars = sorted(bars)\n            best = 1\n            cur = 1\n            for i in range(1, len(bars)):\n                if bars[i] == bars[i-1] + 1:\n                    cur += 1\n                    best = max(best, cur)\n                else:\n                    cur = 1\n            return best\n\n        h = max_consecutive(hBars) + 1  # +1 for the fixed boundaries\n        v = max_consecutive(vBars) + 1\n        side = min(h, v)\n        return side * side",
+    "explanation": "Sort hBars and vBars. Find the longest run of consecutive values in each (removing those bars creates a wider gap). The side length of the square = min(max_h_gap, max_v_gap) where gap = consecutive_run + 1 (the fixed boundary adds 1). Return side².\n\nTime: O(h log h + v log v). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximal Square\", \"titleSlug\": \"maximal-square\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Square Area by Removing Fences From a Field\", \"titleSlug\": \"maximum-square-area-by-removing-fences-from-a-field\", \"difficulty\": \"Medium\"}]"
+}

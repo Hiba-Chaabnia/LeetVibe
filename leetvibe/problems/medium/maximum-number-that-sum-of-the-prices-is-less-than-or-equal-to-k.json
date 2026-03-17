@@ -1,0 +1,52 @@
+{
+  "questionId": "3240",
+  "title": "Maximum Number That Sum of the Prices Is Less Than or Equal to K",
+  "titleSlug": "maximum-number-that-sum-of-the-prices-is-less-than-or-equal-to-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given an integer k and an integer x. The price of a number num is calculated by the count of set bits at positions x, 2x, 3x, etc., in its binary representation, starting from the least significant bit. The following table contains examples of how price is calculated.\n\n\t\t\t\tx\n\t\t\t\tnum\n\t\t\t\tBinary Representation\n\t\t\t\tPrice\n\n\t\t\t\t1\n\t\t\t\t13\n\t\t\t\t000001101\n\t\t\t\t3\n\n\t\t\t\t2\n\t\t\t\t13\n\t\t\t\t000001101\n\t\t\t\t1\n\n\t\t\t\t2\n\t\t\t\t233\n\t\t\t\t011101001\n\t\t\t\t3\n\n\t\t\t\t3\n\t\t\t\t13\n\t\t\t\t000001101\n\t\t\t\t1\n\n\t\t\t\t3\n\t\t\t\t362\n\t\t\t\t101101010\n\t\t\t\t2\n\nThe accumulated price of num is the total price of numbers from 1 to num. num is considered cheap if its accumulated price is less than or equal to k.\n\nReturn the greatest cheap number.\n\nExample 1:\n\nInput: k = 9, x = 1\n\nOutput: 6\n\nExplanation: As shown in the table below, 6 is the greatest cheap number.\n\n\t\t\t\tx\n\t\t\t\tnum\n\t\t\t\tBinary Representation\n\t\t\t\tPrice\n\t\t\t\tAccumulated Price\n\n\t\t\t\t1\n\t\t\t\t1\n\t\t\t\t001\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t1\n\t\t\t\t2\n\t\t\t\t010\n\t\t\t\t1\n\t\t\t\t2\n\n\t\t\t\t1\n\t\t\t\t3\n\t\t\t\t011\n\t\t\t\t2\n\t\t\t\t4\n\n\t\t\t\t1\n\t\t\t\t4\n\t\t\t\t100\n\t\t\t\t1\n\t\t\t\t5\n\n\t\t\t\t1\n\t\t\t\t5\n\t\t\t\t101\n\t\t\t\t2\n\t\t\t\t7\n\n\t\t\t\t1\n\t\t\t\t6\n\t\t\t\t110\n\t\t\t\t2\n\t\t\t\t9\n\n\t\t\t\t1\n\t\t\t\t7\n\t\t\t\t111\n\t\t\t\t3\n\t\t\t\t12\n\nExample 2:\n\nInput: k = 7, x = 2\n\nOutput: 9\n\nExplanation: As shown in the table below, 9 is the greatest cheap number.\n\n\t\t\t\tx\n\t\t\t\tnum\n\t\t\t\tBinary Representation\n\t\t\t\tPrice\n\t\t\t\tAccumulated Price\n\n\t\t\t\t2\n\t\t\t\t1\n\t\t\t\t0001\n\t\t\t\t0\n\t\t\t\t0\n\n\t\t\t\t2\n\t\t\t\t2\n\t\t\t\t0010\n\t\t\t\t1\n\t\t\t\t1\n\n\t\t\t\t2\n\t\t\t\t3\n\t\t\t\t0011\n\t\t\t\t1\n\t\t\t\t2\n\n\t\t\t\t2\n\t\t\t\t4\n\t\t\t\t0100\n\t\t\t\t0\n\t\t\t\t2\n\n\t\t\t\t2\n\t\t\t\t5\n\t\t\t\t0101\n\t\t\t\t0\n\t\t\t\t2\n\n\t\t\t\t2\n\t\t\t\t6\n\t\t\t\t0110\n\t\t\t\t1\n\t\t\t\t3\n\n\t\t\t\t2\n\t\t\t\t7\n\t\t\t\t0111\n\t\t\t\t1\n\t\t\t\t4\n\n\t\t\t\t2\n\t\t\t\t8\n\t\t\t\t1000\n\t\t\t\t1\n\t\t\t\t5\n\n\t\t\t\t2\n\t\t\t\t9\n\t\t\t\t1001\n\t\t\t\t1\n\t\t\t\t6\n\n\t\t\t\t2\n\t\t\t\t10\n\t\t\t\t1010\n\t\t\t\t2\n\t\t\t\t8\n\nConstraints:\n\n• 1 <= k <= 1015\n\n• 1 <= x <= 8",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findMaximumNumber(self, k, x):\n        \"\"\"\n        :type k: int\n        :type x: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Binary search the answer.",
+    "In each step of the binary search you should calculate the number of the set bits in the i<sup>th</sup> position. Then calculate the sum of them."
+  ],
+  "testCases": [
+    [
+      "9",
+      "1"
+    ],
+    [
+      "7",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "9"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

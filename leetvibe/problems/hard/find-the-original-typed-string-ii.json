@@ -1,0 +1,52 @@
+{
+  "questionId": "3618",
+  "title": "Find the Original Typed String II",
+  "titleSlug": "find-the-original-typed-string-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Alice is attempting to type a specific string on her computer. However, she tends to be clumsy and may press a key for too long, resulting in a character being typed multiple times.\n\nYou are given a string word, which represents the final output displayed on Alice's screen. You are also given a positive integer k.\n\nReturn the total number of possible original strings that Alice might have intended to type, if she was trying to type a string of size at least k.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: word = \"aabbccdd\", k = 7\n\nOutput: 5\n\nExplanation: The possible strings are: \"aabbccdd\", \"aabbccd\", \"aabbcdd\", \"aabccdd\", and \"abbccdd\".\n\nExample 2:\n\nInput: word = \"aabbccdd\", k = 8\n\nOutput: 1\n\nExplanation: The only possible string is \"aabbccdd\".\n\nExample 3:\n\nInput: word = \"aaabbb\", k = 3\n\nOutput: 8\n\nConstraints:\n\n• 1 <= word.length <= 5 * 105\n\n• word consists only of lowercase English letters.\n\n• 1 <= k <= 2000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def possibleStringCount(self, word, k):\n        \"\"\"\n        :type word: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Instead of solving for at least k, can we solve for at most k - 1 length?"
+  ],
+  "testCases": [
+    [
+      "\"aabbccdd\"",
+      "7"
+    ],
+    [
+      "\"aabbccdd\"",
+      "8"
+    ],
+    [
+      "\"aaabbb\"",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "1",
+    "8"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Keyboard Row\", \"titleSlug\": \"keyboard-row\", \"difficulty\": \"Easy\"}, {\"title\": \"Faulty Keyboard\", \"titleSlug\": \"faulty-keyboard\", \"difficulty\": \"Easy\"}]"
+}

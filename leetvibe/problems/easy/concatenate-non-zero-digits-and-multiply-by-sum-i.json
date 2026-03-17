@@ -1,0 +1,41 @@
+{
+  "questionId": "4135",
+  "title": "Concatenate Non-Zero Digits and Multiply by Sum I",
+  "titleSlug": "concatenate-non-zero-digits-and-multiply-by-sum-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given an integer n.\n\nForm a new integer x by concatenating all the non-zero digits of n in their original order. If there are no non-zero digits, x = 0.\n\nLet sum be the sum of digits in x.\n\nReturn an integer representing the value of x * sum.\n\nExample 1:\n\nInput: n = 10203004\n\nOutput: 12340\n\nExplanation:\n\n• The non-zero digits are 1, 2, 3, and 4. Thus, x = 1234.\n\n• The sum of digits is sum = 1 + 2 + 3 + 4 = 10.\n\n• Therefore, the answer is x * sum = 1234 * 10 = 12340.\n\nExample 2:\n\nInput: n = 1000\n\nOutput: 1\n\nExplanation:\n\n• The non-zero digit is 1, so x = 1 and sum = 1.\n\n• Therefore, the answer is x * sum = 1 * 1 = 1.\n\nConstraints:\n\n• 0 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumAndMultiply(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "10203004"
+    ],
+    [
+      "1000"
+    ]
+  ],
+  "expectedOutputs": [
+    "12340",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumAndMultiply(self, n):\n        digits = [d for d in str(n) if d != str(0)]\n        if not digits:\n            return 0\n        x = int(\"\".join(digits))\n        s = sum(int(d) for d in digits)\n        return x * s",
+    "explanation": "Concatenate non-zero digits; multiply result by their sum."
+  },
+  "similarQuestions": "[]"
+}

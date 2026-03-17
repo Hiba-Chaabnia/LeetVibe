@@ -1,0 +1,65 @@
+{
+  "questionId": "692",
+  "title": "Top K Frequent Words",
+  "titleSlug": "top-k-frequent-words",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Bucket Sort",
+      "slug": "bucket-sort"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an array of strings words and an integer k, return the k most frequent strings.\n\nReturn the answer sorted by the frequency from highest to lowest. Sort the words with the same frequency by their lexicographical order.\n\nExample 1:\n\nInput: words = [\"i\",\"love\",\"leetcode\",\"i\",\"love\",\"coding\"], k = 2\nOutput: [\"i\",\"love\"]\nExplanation: \"i\" and \"love\" are the two most frequent words.\n    Note that \"i\" comes before \"love\" due to a lower alphabetical order.\n\nExample 2:\n\nInput: words = [\"the\",\"day\",\"is\",\"sunny\",\"the\",\"the\",\"the\",\"sunny\",\"is\",\"is\"], k = 4\nOutput: [\"the\",\"is\",\"sunny\",\"day\"]\nExplanation: \"the\", \"is\", \"sunny\" and \"day\" are the four most frequent words, with the number of occurrence being 4, 3, 2 and 1 respectively.\n\nConstraints:\n\n• 1 <= words.length <= 500\n\n• 1 <= words[i].length <= 10\n\n• words[i] consists of lowercase English letters.\n\n• k is in the range [1, The number of unique words[i]]\n\nFollow-up: Could you solve it in O(n log(k)) time and O(n) extra space?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def topKFrequent(self, words, k):\n        \"\"\"\n        :type words: List[str]\n        :type k: int\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"i\",\"love\",\"leetcode\",\"i\",\"love\",\"coding\"]",
+      "2"
+    ],
+    [
+      "[\"the\",\"day\",\"is\",\"sunny\",\"the\",\"the\",\"the\",\"sunny\",\"is\",\"is\"]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"i\",\"love\"]",
+    "[\"the\",\"is\",\"sunny\",\"day\"]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Top K Frequent Elements\", \"titleSlug\": \"top-k-frequent-elements\", \"difficulty\": \"Medium\"}, {\"title\": \"K Closest Points to Origin\", \"titleSlug\": \"k-closest-points-to-origin\", \"difficulty\": \"Medium\"}, {\"title\": \"Sort Features by Popularity\", \"titleSlug\": \"sort-features-by-popularity\", \"difficulty\": \"Medium\"}, {\"title\": \"Sender With Largest Word Count\", \"titleSlug\": \"sender-with-largest-word-count\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Pairs in Array\", \"titleSlug\": \"maximum-number-of-pairs-in-array\", \"difficulty\": \"Easy\"}]"
+}

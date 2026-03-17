@@ -1,0 +1,48 @@
+{
+  "questionId": "1393",
+  "title": "Maximum Value of K Coins From Piles",
+  "titleSlug": "maximum-value-of-k-coins-from-piles",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "There are n piles of coins on a table. Each pile consists of a positive number of coins of assorted denominations.\n\nIn one move, you can choose any coin on top of any pile, remove it, and add it to your wallet.\n\nGiven a list piles, where piles[i] is a list of integers denoting the composition of the ith pile from top to bottom, and a positive integer k, return the maximum total value of coins you can have in your wallet if you choose exactly k coins optimally.\n\nExample 1:\n\nInput: piles = [[1,100,3],[7,8,9]], k = 2\nOutput: 101\nExplanation:\n    The above diagram shows the different ways we can choose k coins.\n    The maximum total we can obtain is 101.\n\nExample 2:\n\nInput: piles = [[100],[100],[100],[100],[100],[100],[1,1,1,1,1,1,700]], k = 7\nOutput: 706\nExplanation:\n    The maximum total can be obtained if we choose all coins from the last pile.\n\nConstraints:\n\n• n == piles.length\n\n• 1 <= n <= 1000\n\n• 1 <= piles[i][j] <= 105\n\n• 1 <= k <= sum(piles[i].length) <= 2000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxValueOfCoins(self, piles, k):\n        \"\"\"\n        :type piles: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each pile i, what will be the total value of coins we can collect if we choose the first j coins?",
+    "How can we use dynamic programming to combine the results from different piles to find the most optimal answer?"
+  ],
+  "testCases": [
+    [
+      "[[1,100,3],[7,8,9]]",
+      "2"
+    ],
+    [
+      "[[100],[100],[100],[100],[100],[100],[1,1,1,1,1,1,700]]",
+      "7"
+    ]
+  ],
+  "expectedOutputs": [
+    "101",
+    "706"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Coin Change\", \"titleSlug\": \"coin-change\", \"difficulty\": \"Medium\"}, {\"title\": \"Coin Change II\", \"titleSlug\": \"coin-change-ii\", \"difficulty\": \"Medium\"}]"
+}

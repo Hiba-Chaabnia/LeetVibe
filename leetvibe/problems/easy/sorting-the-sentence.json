@@ -1,0 +1,46 @@
+{
+  "questionId": "1970",
+  "title": "Sorting the Sentence",
+  "titleSlug": "sorting-the-sentence",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "A sentence is a list of words that are separated by a single space with no leading or trailing spaces. Each word consists of lowercase and uppercase English letters.\n\nA sentence can be shuffled by appending the 1-indexed word position to each word then rearranging the words in the sentence.\n\n• For example, the sentence \"This is a sentence\" can be shuffled as \"sentence4 a3 is2 This1\" or \"is2 sentence4 This1 a3\".\n\nGiven a shuffled sentence s containing no more than 9 words, reconstruct and return the original sentence.\n\nExample 1:\n\nInput: s = \"is2 sentence4 This1 a3\"\nOutput: \"This is a sentence\"\nExplanation: Sort the words in s to their original positions \"This1 is2 a3 sentence4\", then remove the numbers.\n\nExample 2:\n\nInput: s = \"Myself2 Me1 I4 and3\"\nOutput: \"Me Myself and I\"\nExplanation: Sort the words in s to their original positions \"Me1 Myself2 and3 I4\", then remove the numbers.\n\nConstraints:\n\n• 2 <= s.length <= 200\n\n• s consists of lowercase and uppercase English letters, spaces, and digits from 1 to 9.\n\n• The number of words in s is between 1 and 9.\n\n• The words in s are separated by a single space.\n\n• s contains no leading or trailing spaces.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sortSentence(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Divide the string into the words as an array of strings",
+    "Sort the words by removing the last character from each word and sorting according to it"
+  ],
+  "testCases": [
+    [
+      "\"is2 sentence4 This1 a3\""
+    ],
+    [
+      "\"Myself2 Me1 I4 and3\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"This is a sentence\"",
+    "\"Me Myself and I\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sortSentence(self, s):\n        words = s.split()\n        words.sort(key=lambda x: int(x[-1]))\n        return ' '.join(word[:-1] for word in words)",
+    "explanation": "Sort words by last digit. Remove digit suffix. Join.\nTime: O(n*log(n))\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Check if Numbers Are Ascending in a Sentence\", \"titleSlug\": \"check-if-numbers-are-ascending-in-a-sentence\", \"difficulty\": \"Easy\"}]"
+}

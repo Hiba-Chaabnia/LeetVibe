@@ -1,0 +1,62 @@
+{
+  "questionId": "3267",
+  "title": "Find Longest Special Substring That Occurs Thrice I",
+  "titleSlug": "find-longest-special-substring-that-occurs-thrice-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s that consists of lowercase English letters.\n\nA string is called special if it is made up of only a single character. For example, the string \"abc\" is not special, whereas the strings \"ddd\", \"zz\", and \"f\" are special.\n\nReturn the length of the longest special substring of s which occurs at least thrice, or -1 if no special substring occurs at least thrice.\n\nA substring is a contiguous non-empty sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"aaaa\"\nOutput: 2\nExplanation: The longest special substring which occurs thrice is \"aa\": substrings \"aaaa\", \"aaaa\", and \"aaaa\".\n    It can be shown that the maximum length achievable is 2.\n\nExample 2:\n\nInput: s = \"abcdef\"\nOutput: -1\nExplanation: There exists no special substring which occurs at least thrice. Hence return -1.\n\nExample 3:\n\nInput: s = \"abcaba\"\nOutput: 1\nExplanation: The longest special substring which occurs thrice is \"a\": substrings \"abcaba\", \"abcaba\", and \"abcaba\".\n    It can be shown that the maximum length achievable is 1.\n\nConstraints:\n\n• 3 <= s.length <= 50\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumLength(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints are small.",
+    "Brute force checking all substrings."
+  ],
+  "testCases": [
+    [
+      "\"aaaa\""
+    ],
+    [
+      "\"abcdef\""
+    ],
+    [
+      "\"abcaba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "-1",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def maximumLength(self, s):\n        n = len(s)\n        # Count all special substrings\n        freq = Counter()\n        for i in range(n):\n            for j in range(i+1, n+1):\n                sub = s[i:j]\n                if len(set(sub)) == 1:\n                    freq[sub] += 1\n        ans = -1\n        for sub, cnt in freq.items():\n            if cnt >= 3:\n                ans = max(ans, len(sub))\n        return ans",
+    "explanation": "Brute force (n ≤ 50): enumerate all substrings, check if single-character, count occurrences, return max length with count ≥ 3.\n\nTime: O(n³). Space: O(n²)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Substring Without Repeating Characters\", \"titleSlug\": \"longest-substring-without-repeating-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Substring with At Least K Repeating Characters\", \"titleSlug\": \"longest-substring-with-at-least-k-repeating-characters\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,58 @@
+{
+  "questionId": "1240",
+  "title": "Stone Game II",
+  "titleSlug": "stone-game-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "Alice and Bob continue their games with piles of stones. There are a number of piles arranged in a row, and each pile has a positive integer number of stones piles[i]. The objective of the game is to end with the most stones.\n\nAlice and Bob take turns, with Alice starting first.\n\nOn each player's turn, that player can take all the stones in the first X remaining piles, where 1 <= X <= 2M. Then, we set M = max(M, X). Initially, M = 1.\n\nThe game continues until all the stones have been taken.\n\nAssuming Alice and Bob play optimally, return the maximum number of stones Alice can get.\n\nExample 1:\n\nInput: piles = [2,7,9,4,4]\n\nOutput: 10\n\nExplanation:\n\n• If Alice takes one pile at the beginning, Bob takes two piles, then Alice takes 2 piles again. Alice can get 2 + 4 + 4 = 10 stones in total.\n\n• If Alice takes two piles at the beginning, then Bob can take all three piles left. In this case, Alice get 2 + 7 = 9 stones in total.\n\nSo we return 10 since it's larger.\n\nExample 2:\n\nInput: piles = [1,2,3,4,5,100]\n\nOutput: 104\n\nConstraints:\n\n• 1 <= piles.length <= 100\n\n• 1 <= piles[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def stoneGameII(self, piles):\n        \"\"\"\n        :type piles: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming: the states are (i, m) for the answer of piles[i:] and that given m."
+  ],
+  "testCases": [
+    [
+      "[2,7,9,4,4]"
+    ],
+    [
+      "[1,2,3,4,5,100]"
+    ]
+  ],
+  "expectedOutputs": [
+    "10",
+    "104"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def stoneGameII(self, piles):\n        \"\"\"\n        :type piles: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(piles)\n        memo = {}\n        suffix = [0] * (n + 1)\n        \n        # Compute suffix sums\n        for i in range(n - 1, -1, -1):\n            suffix[i] = suffix[i + 1] + piles[i]\n        \n        def dp(i, m):\n            if i >= n:\n                return 0\n            if 2 * m >= n - i:\n                return suffix[i]\n            \n            if (i, m) in memo:\n                return memo[(i, m)]\n            \n            result = 0\n            for x in range(1, 2 * m + 1):\n                result = max(result, suffix[i] - dp(i + x, max(m, x)))\n            \n            memo[(i, m)] = result\n            return result\n        \n        return dp(0, 1)",
+    "explanation": "DP: dp(i,m) = max stones from position i with max X=2m. Try all valid X values.",
+    "complexity": "Time: O(n³). Space: O(n²)."
+  },
+  "similarQuestions": "[{\"title\": \"Stone Game V\", \"titleSlug\": \"stone-game-v\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game VI\", \"titleSlug\": \"stone-game-vi\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VII\", \"titleSlug\": \"stone-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VIII\", \"titleSlug\": \"stone-game-viii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IX\", \"titleSlug\": \"stone-game-ix\", \"difficulty\": \"Medium\"}]"
+}

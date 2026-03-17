@@ -1,0 +1,55 @@
+{
+  "questionId": "1460",
+  "title": "Number of Substrings Containing All Three Characters",
+  "titleSlug": "number-of-substrings-containing-all-three-characters",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given a string s consisting only of characters a, b and c.\n\nReturn the number of substrings containing at least one occurrence of all these characters a, b and c.\n\nExample 1:\n\nInput: s = \"abcabc\"\nOutput: 10\nExplanation: The substrings containing at least one occurrence of the characters a, b and c are \"abc\", \"abca\", \"abcab\", \"abcabc\", \"bca\", \"bcab\", \"bcabc\", \"cab\", \"cabc\" and \"abc\" (again).\n\nExample 2:\n\nInput: s = \"aaacb\"\nOutput: 3\nExplanation: The substrings containing at least one occurrence of the characters a, b and c are \"aaacb\", \"aacb\" and \"acb\".\n\nExample 3:\n\nInput: s = \"abc\"\nOutput: 1\n\nConstraints:\n\n• 3 <= s.length <= 5 x 10^4\n\n• s only consists of a, b or c characters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfSubstrings(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each position we simply need to find the first occurrence of a/b/c on or after this position.",
+    "So we can pre-compute three link-list of indices of each a, b, and c."
+  ],
+  "testCases": [
+    [
+      "\"abcabc\""
+    ],
+    [
+      "\"aaacb\""
+    ],
+    [
+      "\"abc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "10",
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def numberOfSubstrings(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        last_pos = {'a': -1, 'b': -1, 'c': -1}\n        count = 0\n        \n        for i, ch in enumerate(s):\n            last_pos[ch] = i\n            # Count substrings ending at i with all three chars\n            # Min position where all chars appear at least once\n            min_pos = min(last_pos.values())\n            # All substrings [j, i] where j <= min_pos will work\n            count += min_pos + 1\n        \n        return count",
+    "explanation": "Track last position of each character. For each position, count substrings ending here with all chars.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Vowels of All Substrings\", \"titleSlug\": \"vowels-of-all-substrings\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Complete Substrings\", \"titleSlug\": \"count-complete-substrings\", \"difficulty\": \"Hard\"}]"
+}

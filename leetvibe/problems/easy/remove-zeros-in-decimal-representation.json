@@ -1,0 +1,45 @@
+{
+  "questionId": "4051",
+  "title": "Remove Zeros in Decimal Representation",
+  "titleSlug": "remove-zeros-in-decimal-representation",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a positive integer n.\n\nReturn the integer obtained by removing all zeros from the decimal representation of n.\n\nExample 1:\n\nInput: n = 1020030\n\nOutput: 123\n\nExplanation: After removing all zeros from 1020030, we get 123.\n\nExample 2:\n\nInput: n = 1\n\nOutput: 1\n\nExplanation: 1 has no zero in its decimal representation. Therefore, the answer is 1.\n\nConstraints:\n\n• 1 <= n <= 1015",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeZeros(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Convert to a string and filter out the '0' characters."
+  ],
+  "testCases": [
+    [
+      "1020030"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "123",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def removeZeros(self, n):\n        return int(str(n).replace('0', ''))",
+    "explanation": "Remove all '0' digit characters from the decimal representation and convert back to integer. O(d) time."
+  },
+  "similarQuestions": "[]"
+}

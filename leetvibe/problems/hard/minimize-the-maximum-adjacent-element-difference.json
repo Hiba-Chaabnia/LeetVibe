@@ -1,0 +1,52 @@
+{
+  "questionId": "3658",
+  "title": "Minimize the Maximum Adjacent Element Difference",
+  "titleSlug": "minimize-the-maximum-adjacent-element-difference",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an array of integers nums. Some values in nums are missing and are denoted by -1.\n\nYou must choose a pair of positive integers (x, y) exactly once and replace each missing element with either x or y.\n\nYou need to minimize the maximum absolute difference between adjacent elements of nums after replacements.\n\nReturn the minimum possible difference.\n\nExample 1:\n\nInput: nums = [1,2,-1,10,8]\n\nOutput: 4\n\nExplanation: By choosing the pair as (6, 7), nums can be changed to [1, 2, 6, 10, 8].\n\nThe absolute differences between adjacent elements are:\n\n• |1 - 2| == 1\n\n• |2 - 6| == 4\n\n• |6 - 10| == 4\n\n• |10 - 8| == 2\n\nExample 2:\n\nInput: nums = [-1,-1,-1]\n\nOutput: 0\n\nExplanation: By choosing the pair as (4, 4), nums can be changed to [4, 4, 4].\n\nExample 3:\n\nInput: nums = [-1,10,-1,8]\n\nOutput: 1\n\nExplanation: By choosing the pair as (11, 9), nums can be changed to [11, 10, 9, 8].\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• nums[i] is either -1 or in the range [1, 109].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDifference(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "More than 2 occurrences of -1 can be ignored.",
+    "We can add the first positive number to the beginning and the last positive number to the end so that any consecutive of -1s are surrounded by positive numbers.",
+    "Suppose the answer is d, it can be proved that for the optimal case we'll replace -1s with values 0 < x <= y and it's always optimal to select x = min(a) + d. So we only need to select y.",
+    "Binary search on d."
+  ],
+  "testCases": [
+    [
+      "[1,2,-1,10,8]"
+    ],
+    [
+      "[-1,-1,-1]"
+    ],
+    [
+      "[-1,10,-1,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Absolute Sum Difference\", \"titleSlug\": \"minimum-absolute-sum-difference\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimize the Maximum Adjacent Element Difference\", \"titleSlug\": \"minimize-the-maximum-adjacent-element-difference\", \"difficulty\": \"Hard\"}]"
+}

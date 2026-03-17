@@ -1,0 +1,54 @@
+{
+  "questionId": "1456",
+  "title": "Find the City With the Smallest Number of Neighbors at a Threshold Distance",
+  "titleSlug": "find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "There are n cities numbered from 0 to n-1. Given the array edges where edges[i] = [fromi, toi, weighti] represents a bidirectional and weighted edge between cities fromi and toi, and given the integer distanceThreshold.\n\nReturn the city with the smallest number of cities that are reachable through some path and whose distance is at most distanceThreshold, If there are multiple such cities, return the city with the greatest number.\n\nNotice that the distance of a path connecting cities i and j is equal to the sum of the edges' weights along that path.\n\nExample 1:\n\nInput: n = 4, edges = [[0,1,3],[1,2,1],[1,3,4],[2,3,1]], distanceThreshold = 4\nOutput: 3\nExplanation: The figure above describes the graph.\n    The neighboring cities at a distanceThreshold = 4 for each city are:\n    City 0 -> [City 1, City 2]\n    City 1 -> [City 0, City 2, City 3]\n    City 2 -> [City 0, City 1, City 3]\n    City 3 -> [City 1, City 2]\n    Cities 0 and 3 have 2 neighboring cities at a distanceThreshold = 4, but we have to return city 3 since it has the greatest number.\n\nExample 2:\n\nInput: n = 5, edges = [[0,1,2],[0,4,8],[1,2,3],[1,4,2],[2,3,1],[3,4,1]], distanceThreshold = 2\nOutput: 0\nExplanation: The figure above describes the graph.\n    The neighboring cities at a distanceThreshold = 2 for each city are:\n    City 0 -> [City 1]\n    City 1 -> [City 0, City 4]\n    City 2 -> [City 3, City 4]\n    City 3 -> [City 2, City 4]\n    City 4 -> [City 1, City 2, City 3]\n    The city 0 has 1 neighboring city at a distanceThreshold = 2.\n\nConstraints:\n\n• 2 <= n <= 100\n\n• 1 <= edges.length <= n * (n - 1) / 2\n\n• edges[i].length == 3\n\n• 0 <= fromi < toi < n\n\n• 1 <= weighti, distanceThreshold <= 10^4\n\n• All pairs (fromi, toi) are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findTheCity(self, n, edges, distanceThreshold):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :type distanceThreshold: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use Floyd-Warshall's algorithm to compute any-point to any-point distances. (Or can also do Dijkstra from every node due to the weights are non-negative).",
+    "For each city calculate the number of reachable cities within the threshold, then search for the optimal city."
+  ],
+  "testCases": [
+    [
+      "4",
+      "[[0,1,3],[1,2,1],[1,3,4],[2,3,1]]",
+      "4"
+    ],
+    [
+      "5",
+      "[[0,1,2],[0,4,8],[1,2,3],[1,4,2],[2,3,1],[3,4,1]]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findTheCity(n, edges, distanceThreshold):\n    distance = [[1e5] * n for _ in range(n)]\n\n    for edge in edges:\n        distance[edge[0]][edge[1]] = edge[2]\n        distance[edge[1]][edge[0]] = edge[2]\n\n    for i in range(n):\n        distance[i][i] = 0\n\n    for k in range(n):\n        for i in range(n):\n            for j in range(n):\n                distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j])\n\n    res, minReachable = 0, n\n    for i in range(n):\n        reachable = sum(1 for j in range(n) if distance[i][j] <= distanceThreshold)\n        if reachable <= minReachable:\n            minReachable = reachable\n            res = i\n    return res",
+    "explanation": "The problem can be solved using Floyd-Warshall algorithm for finding shortest paths between all pairs of cities. First, we initialize an `n x n` distance matrix with a value larger than the maximum distance, and set the distance of each edge given in the input. The initial distance from each city to themselves is set to 0.\n\nThen we iteratively update the distance matrix using the Floyd-Warshall algorithm. To do this, we iterate over all pairs of cities (i, j), and for each pair, check if the distance through an additional city k is shorter than the current distance between i and j. If yes, we update the distance matrix entry to the shorter distance.\n\nAfter the algorithm is done, we iterate through each city and count the number of cities that are reachable within the distance threshold. If the number of reachable cities is smaller than or equal to the current smallest count, we update the smallest count and set the resulting city index to the current city index.\n\nFinally, we return the result city index."
+  },
+  "similarQuestions": "[{\"title\": \"Second Minimum Time to Reach Destination\", \"titleSlug\": \"second-minimum-time-to-reach-destination\", \"difficulty\": \"Hard\"}]"
+}

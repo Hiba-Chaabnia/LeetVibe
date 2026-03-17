@@ -1,0 +1,51 @@
+{
+  "questionId": "342",
+  "title": "Power of Four",
+  "titleSlug": "power-of-four",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Given an integer n, return true if it is a power of four. Otherwise, return false.\n\nAn integer n is a power of four, if there exists an integer x such that n == 4x.\n\nExample 1:\n\nInput: n = 16\nOutput: true\nExample 2:\n\nInput: n = 5\nOutput: false\nExample 3:\n\nInput: n = 1\nOutput: true\n\nConstraints:\n\n• -231 <= n <= 231 - 1\n\nFollow up: Could you solve it without loops/recursion?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isPowerOfFour(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "16"
+    ],
+    [
+      "5"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def isPowerOfFour(n: int) -> bool:\n    if n <= 0:\n        return False\n    while n % 4 == 0:\n        n //= 4\n    return n == 1",
+    "explanation": "The algorithm checks if a given integer `n` is a power of 4 or not. If `n` is less than or equal to 0, it immediately returns `false`. Otherwise, it enters a loop that checks if `n` is divisible by 4. If it is, it keeps dividing the number by 4 until it is no longer divisible by 4. After the loop, the algorithm checks whether the final remainder is 1 or not. If the remainder is 1, the number was initially a power of 4, and it returns `true`. Otherwise, it returns `false`."
+  },
+  "similarQuestions": "[{\"title\": \"Power of Two\", \"titleSlug\": \"power-of-two\", \"difficulty\": \"Easy\"}, {\"title\": \"Power of Three\", \"titleSlug\": \"power-of-three\", \"difficulty\": \"Easy\"}]"
+}

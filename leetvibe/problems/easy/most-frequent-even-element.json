@@ -1,0 +1,54 @@
+{
+  "questionId": "2486",
+  "title": "Most Frequent Even Element",
+  "titleSlug": "most-frequent-even-element",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an integer array nums, return the most frequent even element.\n\nIf there is a tie, return the smallest one. If there is no such element, return -1.\n\nExample 1:\n\nInput: nums = [0,1,2,2,4,4,1]\nOutput: 2\nExplanation:\n    The even elements are 0, 2, and 4. Of these, 2 and 4 appear the most.\n    We return the smallest one, which is 2.\n\nExample 2:\n\nInput: nums = [4,4,4,9,2,4]\nOutput: 4\nExplanation: 4 is the even element appears the most.\n\nExample 3:\n\nInput: nums = [29,47,21,41,13,37,25,7]\nOutput: -1\nExplanation: There is no even element.\n\nConstraints:\n\n• 1 <= nums.length <= 2000\n\n• 0 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mostFrequentEven(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Could you count the frequency of each even element in the array?",
+    "Would a hashmap help?"
+  ],
+  "testCases": [
+    [
+      "[0,1,2,2,4,4,1]"
+    ],
+    [
+      "[4,4,4,9,2,4]"
+    ],
+    [
+      "[29,47,21,41,13,37,25,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def mostFrequentEven(self, nums):\n        from collections import Counter\n        even_count = Counter(n for n in nums if n % 2 == 0)\n        if not even_count:\n            return -1\n        max_freq = max(even_count.values())\n        return min(n for n, c in even_count.items() if c == max_freq)",
+    "explanation": "Count frequencies of even numbers. Return smallest with max frequency.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Majority Element\", \"titleSlug\": \"majority-element\", \"difficulty\": \"Easy\"}, {\"title\": \"Majority Element II\", \"titleSlug\": \"majority-element-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Top K Frequent Elements\", \"titleSlug\": \"top-k-frequent-elements\", \"difficulty\": \"Medium\"}, {\"title\": \"Sort Characters By Frequency\", \"titleSlug\": \"sort-characters-by-frequency\", \"difficulty\": \"Medium\"}]"
+}

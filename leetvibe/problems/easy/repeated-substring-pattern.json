@@ -1,0 +1,47 @@
+{
+  "questionId": "459",
+  "title": "Repeated Substring Pattern",
+  "titleSlug": "repeated-substring-pattern",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "Given a string s, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.\n\nExample 1:\n\nInput: s = \"abab\"\nOutput: true\nExplanation: It is the substring \"ab\" twice.\n\nExample 2:\n\nInput: s = \"aba\"\nOutput: false\n\nExample 3:\n\nInput: s = \"abcabcabcabc\"\nOutput: true\nExplanation: It is the substring \"abc\" four times or the substring \"abcabc\" twice.\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def repeatedSubstringPattern(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"abab\""
+    ],
+    [
+      "\"aba\""
+    ],
+    [
+      "\"abcabcabcabc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def repeatedSubstringPattern(self, s):\n        return s in (s + s)[1:-1]",
+    "explanation": "If s is repeated pattern, it appears in (s+s) without outer chars.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Find the Index of the First Occurrence in a String\", \"titleSlug\": \"find-the-index-of-the-first-occurrence-in-a-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Repeated String Match\", \"titleSlug\": \"repeated-string-match\", \"difficulty\": \"Medium\"}]"
+}

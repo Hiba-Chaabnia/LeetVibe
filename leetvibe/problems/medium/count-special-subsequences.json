@@ -1,0 +1,54 @@
+{
+  "questionId": "3699",
+  "title": "Count Special Subsequences",
+  "titleSlug": "count-special-subsequences",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an array nums consisting of positive integers.\n\nA special subsequence is defined as a subsequence of length 4, represented by indices (p, q, r, s), where p < q < r < s. This subsequence must satisfy the following conditions:\n\n• nums[p] * nums[r] == nums[q] * nums[s]\n\n• There must be at least one element between each pair of indices. In other words, q - p > 1, r - q > 1 and s - r > 1.\n\nReturn the number of different special subsequences in nums.\n\nExample 1:\n\nInput: nums = [1,2,3,4,3,6,1]\n\nOutput: 1\n\nExplanation: There is one special subsequence in nums.\n\n• (p, q, r, s) = (0, 2, 4, 6):\n\n• This corresponds to elements (1, 3, 3, 1).\n\n• nums[p] * nums[r] = nums[0] * nums[4] = 1 * 3 = 3\n\n• nums[q] * nums[s] = nums[2] * nums[6] = 3 * 1 = 3\n\nExample 2:\n\nInput: nums = [3,4,3,4,3,4,3,4]\n\nOutput: 3\n\nExplanation: There are three special subsequences in nums.\n\n• (p, q, r, s) = (0, 2, 4, 6):\n\n• This corresponds to elements (3, 3, 3, 3).\n\n• nums[p] * nums[r] = nums[0] * nums[4] = 3 * 3 = 9\n\n• nums[q] * nums[s] = nums[2] * nums[6] = 3 * 3 = 9\n\n• (p, q, r, s) = (1, 3, 5, 7):\n\n• This corresponds to elements (4, 4, 4, 4).\n\n• nums[p] * nums[r] = nums[1] * nums[5] = 4 * 4 = 16\n\n• nums[q] * nums[s] = nums[3] * nums[7] = 4 * 4 = 16\n\n• (p, q, r, s) = (0, 2, 5, 7):\n\n• This corresponds to elements (3, 3, 4, 4).\n\n• nums[p] * nums[r] = nums[0] * nums[5] = 3 * 4 = 12\n\n• nums[q] * nums[s] = nums[2] * nums[7] = 3 * 4 = 12\n\nConstraints:\n\n• 7 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfSubsequences(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count pairs where nums[p] / nums[q] equals nums[s] / nums[r], using GCD to handle ratios efficiently.",
+    "Try iterating over (p, q) pairs and efficiently count valid (r, s) pairs with the same ratio."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,3,6,1]"
+    ],
+    [
+      "[3,4,3,4,3,4,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from math import gcd\nfrom collections import defaultdict\n\nclass Solution(object):\n    def numberOfSubsequences(self, nums):\n        # Condition: nums[p]*nums[r] == nums[q]*nums[s]\n        # <=> nums[p]/nums[q] == nums[s]/nums[r] (as reduced fractions)\n        # p < q < r < s, gaps: q-p>1, r-q>1, s-r>1\n        # So p <= q-2, r >= q+2, s >= r+2\n        # For each pair (r, s) with s-r>1:\n        #   ratio = nums[s]/nums[r] as (nums[s]//g, nums[r]//g)\n        #   look up in map of (p,q) pairs with q < r-1 and ratio nums[p]/nums[q]\n        n = len(nums)\n        ans = 0\n        # ratio_count[(a,b)] = count of pairs (p,q) with q <= i-2 and nums[p]/nums[q] = a/b (reduced)\n        ratio_count = defaultdict(int)\n        # We iterate r from 2 to n-3, and for each r, first add pairs (p,q) with q = r-2\n        # Actually: iterate over middle index q from 2 to n-3\n        # For each q as the 'r' in (r,s) perspective... let me reframe:\n        # Iterate r (the third index). Before processing r, add all (p,q) with q = r-2.\n        # Then for each s > r+1, check ratio.\n        # But that still needs two nested loops.\n        # Better: for each pair (q, r) with r-q>1, lookup pre-built ratio table for (p,q) pairs\n        # and post-built for (r,s) pairs.\n        # Precompute: for each index as 'q', store normalized ratio nums[p]/nums[q] for p<q-1\n        # Then iterate over 'r', for each 's'>r+1, look up ratio nums[s]/nums[r] in the precomputed map at q=r-? \n        # Cleanest: fix the pair (q,r). Count (p,*) before q-1 and (*,s) after r+1.\n        # For fixed q and r (r >= q+2): need pairs (p, something) and (something, s)\n        # Actually the condition is nums[p]*nums[r] == nums[q]*nums[s]\n        # Fix r: for each s > r+1, ratio = (nums[s], nums[r]) normalized\n        # Need count of (p,q) pairs with q < r-1 and nums[p]/nums[q] = nums[s]/nums[r]\n        # Iterate r from left to right, maintaining ratio_count of (p,q) pairs with q <= r-2\n        for r in range(4, n):\n            # Add all (p,q) pairs with q = r-2 (so q < r-1 means q <= r-2)\n            q = r - 2\n            for p in range(q - 1):\n                g = gcd(nums[p], nums[q])\n                key = (nums[p]//g, nums[q]//g)\n                ratio_count[key] += 1\n            # Now count valid (r, s) pairs\n            for s in range(r + 2, n):\n                g = gcd(nums[s], nums[r])\n                key = (nums[s]//g, nums[r]//g)\n                ans += ratio_count[key]\n        return ans",
+    "explanation": "For each pair (r, s) with s-r>1, the ratio nums[s]/nums[r] (as reduced fraction) must equal nums[p]/nums[q] for some (p,q) with q ≤ r-2. Iterate r from left to right, adding (p,q) pairs with q=r-2 to a ratio frequency map, then count matching (r,s) pairs.\n\nTime: O(n³) worst case but practical for n≤1000. Space: O(n²)."
+  },
+  "similarQuestions": "[{\"title\": \"Max Points on a Line\", \"titleSlug\": \"max-points-on-a-line\", \"difficulty\": \"Hard\"}]"
+}

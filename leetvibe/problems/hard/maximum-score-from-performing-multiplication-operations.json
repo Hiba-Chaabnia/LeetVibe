@@ -1,0 +1,45 @@
+{
+  "questionId": "1896",
+  "title": "Maximum Score from Performing Multiplication Operations",
+  "titleSlug": "maximum-score-from-performing-multiplication-operations",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given two 0-indexed integer arrays nums and multipliers of size n and m respectively, where n >= m.\n\nYou begin with a score of 0. You want to perform exactly m operations. On the ith operation (0-indexed) you will:\n\n• Choose one integer x from either the start or the end of the array nums.\n\n• Add multipliers[i] * x to your score.\n\n• Note that multipliers[0] corresponds to the first operation, multipliers[1] to the second operation, and so on.\n\n• Remove x from nums.\n\nReturn the maximum score after performing m operations.\n\nExample 1:\n\nInput: nums = [1,2,3], multipliers = [3,2,1]\nOutput: 14\nExplanation: An optimal solution is as follows:\n    - Choose from the end, [1,2,3], adding 3 * 3 = 9 to the score.\n    - Choose from the end, [1,2], adding 2 * 2 = 4 to the score.\n    - Choose from the end, [1], adding 1 * 1 = 1 to the score.\n    The total score is 9 + 4 + 1 = 14.\n\nExample 2:\n\nInput: nums = [-5,-3,-3,-2,7,1], multipliers = [-10,-5,3,4,6]\nOutput: 102\nExplanation: An optimal solution is as follows:\n    - Choose from the start, [-5,-3,-3,-2,7,1], adding -5 * -10 = 50 to the score.\n    - Choose from the start, [-3,-3,-2,7,1], adding -3 * -5 = 15 to the score.\n    - Choose from the start, [-3,-2,7,1], adding -3 * 3 = -9 to the score.\n    - Choose from the end, [-2,7,1], adding 1 * 4 = 4 to the score.\n    - Choose from the end, [-2,7], adding 7 * 6 = 42 to the score.\n    The total score is 50 + 15 - 9 + 4 + 42 = 102.\n\nConstraints:\n\n• n == nums.length\n\n• m == multipliers.length\n\n• 1 <= m <= 300\n\n• m <= n <= 105\n\n• -1000 <= nums[i], multipliers[i] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumScore(self, nums, multipliers):\n        \"\"\"\n        :type nums: List[int]\n        :type multipliers: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "At first glance, the solution seems to be greedy, but if you try to greedily take the largest value from the beginning or the end, this will not be optimal.",
+    "You should try all scenarios but this will be costly.",
+    "Memoizing the pre-visited states while trying all the possible scenarios will reduce the complexity, and hence dp is a perfect choice here."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "[3,2,1]"
+    ],
+    [
+      "[-5,-3,-3,-2,7,1]",
+      "[-10,-5,3,4,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "14",
+    "102"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Points You Can Obtain from Cards\", \"titleSlug\": \"maximum-points-you-can-obtain-from-cards\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VII\", \"titleSlug\": \"stone-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Spending After Buying Items\", \"titleSlug\": \"maximum-spending-after-buying-items\", \"difficulty\": \"Hard\"}]"
+}

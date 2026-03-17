@@ -1,0 +1,58 @@
+{
+  "questionId": "2412",
+  "title": "Minimum Amount of Time to Fill Cups",
+  "titleSlug": "minimum-amount-of-time-to-fill-cups",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You have a water dispenser that can dispense cold, warm, and hot water. Every second, you can either fill up 2 cups with different types of water, or 1 cup of any type of water.\n\nYou are given a 0-indexed integer array amount of length 3 where amount[0], amount[1], and amount[2] denote the number of cold, warm, and hot water cups you need to fill respectively. Return the minimum number of seconds needed to fill up all the cups.\n\nExample 1:\n\nInput: amount = [1,4,2]\nOutput: 4\nExplanation: One way to fill up the cups is:\n    Second 1: Fill up a cold cup and a warm cup.\n    Second 2: Fill up a warm cup and a hot cup.\n    Second 3: Fill up a warm cup and a hot cup.\n    Second 4: Fill up a warm cup.\n    It can be proven that 4 is the minimum number of seconds needed.\n\nExample 2:\n\nInput: amount = [5,4,4]\nOutput: 7\nExplanation: One way to fill up the cups is:\n    Second 1: Fill up a cold cup, and a hot cup.\n    Second 2: Fill up a cold cup, and a warm cup.\n    Second 3: Fill up a cold cup, and a warm cup.\n    Second 4: Fill up a warm cup, and a hot cup.\n    Second 5: Fill up a cold cup, and a hot cup.\n    Second 6: Fill up a cold cup, and a warm cup.\n    Second 7: Fill up a hot cup.\n\nExample 3:\n\nInput: amount = [5,0,0]\nOutput: 5\nExplanation: Every second, we fill up a cold cup.\n\nConstraints:\n\n• amount.length == 3\n\n• 0 <= amount[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def fillCups(self, amount):\n        \"\"\"\n        :type amount: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "To minimize the amount of time needed, you want to fill up as many cups as possible in each second. This means that you want to maximize the number of seconds where you are filling up two cups.",
+    "You always want to fill up the two types of water with the most unfilled cups."
+  ],
+  "testCases": [
+    [
+      "[1,4,2]"
+    ],
+    [
+      "[5,4,4]"
+    ],
+    [
+      "[5,0,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "7",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def fillCups(self, amount):\n        total = sum(amount)\n        max_amount = max(amount)\n        return max((total + 1) // 2, max_amount)",
+    "explanation": "Max of (ceil(total/2), max_amount). Can pair different types or do singles.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Construct Target Array With Multiple Sums\", \"titleSlug\": \"construct-target-array-with-multiple-sums\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Score From Removing Stones\", \"titleSlug\": \"maximum-score-from-removing-stones\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Running Time of N Computers\", \"titleSlug\": \"maximum-running-time-of-n-computers\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Cost to Make Array Equal\", \"titleSlug\": \"minimum-cost-to-make-array-equal\", \"difficulty\": \"Hard\"}]"
+}

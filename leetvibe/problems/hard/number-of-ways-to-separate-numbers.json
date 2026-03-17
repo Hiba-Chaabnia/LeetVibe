@@ -1,0 +1,50 @@
+{
+  "questionId": "2091",
+  "title": "Number of Ways to Separate Numbers",
+  "titleSlug": "number-of-ways-to-separate-numbers",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Suffix Array",
+      "slug": "suffix-array"
+    }
+  ],
+  "content": "You wrote down many positive integers in a string called num. However, you realized that you forgot to add commas to seperate the different numbers. You remember that the list of integers was non-decreasing and that no integer had leading zeros.\n\nReturn the number of possible lists of integers that you could have written down to get the string num. Since the answer may be large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: num = \"327\"\nOutput: 2\nExplanation: You could have written down the numbers:\n    3, 27\n    327\n\nExample 2:\n\nInput: num = \"094\"\nOutput: 0\nExplanation: No numbers can have leading zeros and all numbers must be positive.\n\nExample 3:\n\nInput: num = \"0\"\nOutput: 0\nExplanation: No numbers can have leading zeros and all numbers must be positive.\n\nConstraints:\n\n• 1 <= num.length <= 3500\n\n• num consists of digits '0' through '9'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numberOfCombinations(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If we know the current number has d digits, how many digits can the previous number have?",
+    "Is there a quick way of calculating the number of possibilities for the previous number if we know that it must have less than or equal to d digits? Try to do some pre-processing."
+  ],
+  "testCases": [
+    [
+      "\"327\""
+    ],
+    [
+      "\"094\""
+    ],
+    [
+      "\"0\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Decode Ways\", \"titleSlug\": \"decode-ways\", \"difficulty\": \"Medium\"}, {\"title\": \"Decode Ways II\", \"titleSlug\": \"decode-ways-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Restore The Array\", \"titleSlug\": \"restore-the-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Beautiful Partitions\", \"titleSlug\": \"number-of-beautiful-partitions\", \"difficulty\": \"Hard\"}]"
+}

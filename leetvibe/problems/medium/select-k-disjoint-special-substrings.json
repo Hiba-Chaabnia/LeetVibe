@@ -1,0 +1,62 @@
+{
+  "questionId": "3771",
+  "title": "Select K Disjoint Special Substrings",
+  "titleSlug": "select-k-disjoint-special-substrings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given a string s of length n and an integer k, determine whether it is possible to select k disjoint special substrings.\n\nA special substring is a substring where:\n\n• Any character present inside the substring should not appear outside it in the string.\n\n• The substring is not the entire string s.\n\nNote that all k substrings must be disjoint, meaning they cannot overlap.\n\nReturn true if it is possible to select k such disjoint special substrings; otherwise, return false.\n\nExample 1:\n\nInput: s = \"abcdbaefab\", k = 2\n\nOutput: true\n\nExplanation:\n\n• We can select two disjoint special substrings: \"cd\" and \"ef\".\n\n• \"cd\" contains the characters 'c' and 'd', which do not appear elsewhere in s.\n\n• \"ef\" contains the characters 'e' and 'f', which do not appear elsewhere in s.\n\nExample 2:\n\nInput: s = \"cdefdc\", k = 3\n\nOutput: false\n\nExplanation: There can be at most 2 disjoint special substrings: \"e\" and \"f\". Since k = 3, the output is false.\n\nExample 3:\n\nInput: s = \"abeabe\", k = 0\n\nOutput: true\n\nConstraints:\n\n• 2 <= n == s.length <= 5 * 104\n\n• 0 <= k <= 26\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSubstringLength(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "There are at most 26 start points (which are the first occurrence of each letter) and at most 26 end points (which are the last occurrence of each letter) of the substring.",
+    "Starting from each character, build the smallest special substring interval containing it.",
+    "Use dynamic programming on the obtained intervals to check if it's possible to pick at least k disjoint intervals."
+  ],
+  "testCases": [
+    [
+      "\"abcdbaefab\"",
+      "2"
+    ],
+    [
+      "\"cdefdc\"",
+      "3"
+    ],
+    [
+      "\"abeabe\"",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Find Longest Self-Contained Substring\", \"titleSlug\": \"find-longest-self-contained-substring\", \"difficulty\": \"Hard\"}]"
+}

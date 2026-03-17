@@ -1,0 +1,62 @@
+{
+  "questionId": "1961",
+  "title": "Maximum Ice Cream Bars",
+  "titleSlug": "maximum-ice-cream-bars",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting Sort",
+      "slug": "counting-sort"
+    }
+  ],
+  "content": "It is a sweltering summer day, and a boy wants to buy some ice cream bars.\n\nAt the store, there are n ice cream bars. You are given an array costs of length n, where costs[i] is the price of the ith ice cream bar in coins. The boy initially has coins coins to spend, and he wants to buy as many ice cream bars as possible.\n\nNote: The boy can buy the ice cream bars in any order.\n\nReturn the maximum number of ice cream bars the boy can buy with coins coins.\n\nYou must solve the problem by counting sort.\n\nExample 1:\n\nInput: costs = [1,3,2,4,1], coins = 7\nOutput: 4\nExplanation: The boy can buy ice cream bars at indices 0,1,2,4 for a total price of 1 + 3 + 2 + 1 = 7.\n\nExample 2:\n\nInput: costs = [10,6,8,7,7,8], coins = 5\nOutput: 0\nExplanation: The boy cannot afford any of the ice cream bars.\n\nExample 3:\n\nInput: costs = [1,6,3,1,2,5], coins = 20\nOutput: 6\nExplanation: The boy can buy all the ice cream bars for a total price of 1 + 6 + 3 + 1 + 2 + 5 = 18.\n\nConstraints:\n\n• costs.length == n\n\n• 1 <= n <= 105\n\n• 1 <= costs[i] <= 105\n\n• 1 <= coins <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxIceCream(self, costs, coins):\n        \"\"\"\n        :type costs: List[int]\n        :type coins: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It is always optimal to buy the least expensive ice cream bar first.",
+    "Sort the prices so that the cheapest ice cream bar comes first."
+  ],
+  "testCases": [
+    [
+      "[1,3,2,4,1]",
+      "7"
+    ],
+    [
+      "[10,6,8,7,7,8]",
+      "5"
+    ],
+    [
+      "[1,6,3,1,2,5]",
+      "20"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxIceCream(self, costs, coins):\n        \"\"\"\n        :type costs: List[int]\n        :type coins: int\n        :rtype: int\n        \"\"\"\n        costs.sort()\n        count = 0\n        \n        for cost in costs:\n            if coins >= cost:\n                coins -= cost\n                count += 1\n            else:\n                break\n        \n        return count",
+    "explanation": "Greedy: sort costs, buy cheapest bars first until coins run out.",
+    "complexity": "Time: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

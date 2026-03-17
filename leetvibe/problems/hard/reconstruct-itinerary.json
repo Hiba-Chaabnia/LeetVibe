@@ -1,0 +1,63 @@
+{
+  "questionId": "332",
+  "title": "Reconstruct Itinerary",
+  "titleSlug": "reconstruct-itinerary",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Eulerian Circuit",
+      "slug": "eulerian-circuit"
+    }
+  ],
+  "content": "You are given a list of airline tickets where tickets[i] = [fromi, toi] represent the departure and the arrival airports of one flight. Reconstruct the itinerary in order and return it.\n\nAll of the tickets belong to a man who departs from \"JFK\", thus, the itinerary must begin with \"JFK\". If there are multiple valid itineraries, you should return the itinerary that has the smallest lexical order when read as a single string.\n\n• For example, the itinerary [\"JFK\", \"LGA\"] has a smaller lexical order than [\"JFK\", \"LGB\"].\n\nYou may assume all tickets form at least one valid itinerary. You must use all the tickets once and only once.\n\nExample 1:\n\nInput: tickets = [[\"MUC\",\"LHR\"],[\"JFK\",\"MUC\"],[\"SFO\",\"SJC\"],[\"LHR\",\"SFO\"]]\nOutput: [\"JFK\",\"MUC\",\"LHR\",\"SFO\",\"SJC\"]\n\nExample 2:\n\nInput: tickets = [[\"JFK\",\"SFO\"],[\"JFK\",\"ATL\"],[\"SFO\",\"ATL\"],[\"ATL\",\"JFK\"],[\"ATL\",\"SFO\"]]\nOutput: [\"JFK\",\"ATL\",\"JFK\",\"SFO\",\"ATL\",\"SFO\"]\nExplanation: Another possible reconstruction is [\"JFK\",\"SFO\",\"ATL\",\"JFK\",\"ATL\",\"SFO\"] but it is larger in lexical order.\n\nConstraints:\n\n• 1 <= tickets.length <= 300\n\n• tickets[i].length == 2\n\n• fromi.length == 3\n\n• toi.length == 3\n\n• fromi and toi consist of uppercase English letters.\n\n• fromi != toi",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findItinerary(self, tickets):\n        \"\"\"\n        :type tickets: List[List[str]]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[\"MUC\",\"LHR\"],[\"JFK\",\"MUC\"],[\"SFO\",\"SJC\"],[\"LHR\",\"SFO\"]]"
+    ],
+    [
+      "[[\"JFK\",\"SFO\"],[\"JFK\",\"ATL\"],[\"SFO\",\"ATL\"],[\"ATL\",\"JFK\"],[\"ATL\",\"SFO\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"JFK\",\"MUC\",\"LHR\",\"SFO\",\"SJC\"]",
+    "[\"JFK\",\"ATL\",\"JFK\",\"SFO\",\"ATL\",\"SFO\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\ndef findItinerary(tickets):\n    flights = defaultdict(list)\n    itinerary = []\n\n    for ticket in tickets:\n        flights[ticket[0]].append(ticket[1])\n        flights[ticket[0]].sort(reverse=True)\n\n    def dfs(airport):\n        while flights[airport]:\n            dfs(flights[airport].pop())\n        itinerary.append(airport)\n\n    dfs(\"JFK\")\n    \n    return itinerary[::-1]",
+    "explanation": "1. Create a data structure to store our itinerary as well as the flights to be taken.\n2. Iterate over the given list of airline tickets and create a mapping of departure airports to possible arrival airports in sorted order.\n3. Implement a depth-first search (DFS) helper function to traverse through the airports following the mentioned constraints.\n4. Start the DFS traversal with the departure airport \"JFK.\"\n5. After the traversal is complete, reverse the reconstructed itinerary and return it as the result."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Common Subpath\", \"titleSlug\": \"longest-common-subpath\", \"difficulty\": \"Hard\"}, {\"title\": \"Valid Arrangement of Pairs\", \"titleSlug\": \"valid-arrangement-of-pairs\", \"difficulty\": \"Hard\"}]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "3166",
+  "title": "Minimum Number of Groups to Create a Valid Assignment",
+  "titleSlug": "minimum-number-of-groups-to-create-a-valid-assignment",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a collection of numbered balls and instructed to sort them into boxes for a nearly balanced distribution. There are two rules you must follow:\n\n• Balls with the same box must have the same value. But, if you have more than one ball with the same number, you can put them in different boxes.\n\n• The biggest box can only have one more ball than the smallest box.\n\n​Return the fewest number of boxes to sort these balls following these rules.\n\nExample 1:\n\nInput:   balls = [3,2,3,2,3]\n\nOutput:   2\n\nExplanation: We can sort balls into boxes as follows:\n\n• [3,3,3]\n\n• [2,2]\n\nThe size difference between the two boxes doesn't exceed one.\n\nExample 2:\n\nInput:   balls = [10,10,10,3,1,1]\n\nOutput:   4\n\nExplanation: We can sort balls into boxes as follows:\n\n• [10]\n\n• [10,10]\n\n• [3]\n\n• [1,1]\n\nYou can't use fewer than four boxes while still following the rules. For example, putting all three balls numbered 10 in one box would break the rule about the maximum size difference between boxes.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minGroupsForValidAssignment(self, balls):\n        \"\"\"\n        :type balls: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Calculate the frequency of each number.",
+    "For each x in the range [1, minimum_frequency], try to create groups with either x or x + 1 indices assigned to them while minimizing the total number of groups.",
+    "For each distinct number, using its frequency, check that all its occurrences can be assigned to groups of size x or x + 1 while minimizing the number of groups used.",
+    "To get the minimum number of groups needed for a number having frequency f to be assigned to groups of size x or x + 1, let a = f / (x + 1) and b = f % (x + 1). <ul> <li>If b == 0, then we can simply create a groups of size x + 1.</li> <li>If x - b <= a, we can have a - (x - b) groups of size x + 1 and x - b + 1 groups of size x. So, in total, we have a + 1 groups.</li> <li>Otherwise, it's impossible.</li> </ul>",
+    "The minimum number of groups needed for some x is the total minimized number of groups needed for each distinct number.",
+    "The answer is the minimum number of groups needed for each x in the range [1, minimum_frequency]."
+  ],
+  "testCases": [
+    [
+      "[3,2,3,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def minGroupsForValidAssignment(self, balls):\n        freq = Counter(Counter(balls).values())  # freq of each ball-value's count\n        counts = list(freq.keys())               # distinct frequency values\n        min_freq = min(counts)\n\n        def groups_for_x(x):\n            # Try group sizes x and x+1\n            total = 0\n            for f, cnt in freq.items():\n                # Distribute f occurrences of this value into groups of size x or x+1\n                a = f // (x + 1)\n                b = f % (x + 1)\n                if b == 0:\n                    total += a * cnt\n                elif x - b <= a:\n                    total += (a + 1) * cnt\n                else:\n                    return float('inf')  # impossible for this x\n            return total\n\n        ans = float('inf')\n        for x in range(1, min_freq + 1):\n            ans = min(ans, groups_for_x(x))\n        return ans",
+    "explanation": "For each candidate group size x (where groups have size x or x+1), compute the minimum number of groups needed across all ball values.\n\nFor a value appearing f times with group size x: let a = f//(x+1), b = f%(x+1). If b==0: a groups of size x+1. If x-b<=a: a+1 groups (a-(x-b) of size x+1 and x-b+1 of size x). Otherwise impossible.\n\nWe try all x from 1 to min_frequency (the tightest constraint) and return the minimum total groups.\n\nTime: O(n + min_freq * distinct_values). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

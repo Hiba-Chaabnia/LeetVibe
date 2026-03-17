@@ -1,0 +1,49 @@
+{
+  "questionId": "1113",
+  "title": "Moving Stones Until Consecutive II",
+  "titleSlug": "moving-stones-until-consecutive-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "There are some stones in different positions on the X-axis. You are given an integer array stones, the positions of the stones.\n\nCall a stone an endpoint stone if it has the smallest or largest position. In one move, you pick up an endpoint stone and move it to an unoccupied position so that it is no longer an endpoint stone.\n\n• In particular, if the stones are at say, stones = [1,2,5], you cannot move the endpoint stone at position 5, since moving it to any position (such as 0, or 3) will still keep that stone as an endpoint stone.\n\nThe game ends when you cannot make any more moves (i.e., the stones are in three consecutive positions).\n\nReturn an integer array answer of length 2 where:\n\n• answer[0] is the minimum number of moves you can play, and\n\n• answer[1] is the maximum number of moves you can play.\n\nExample 1:\n\nInput: stones = [7,4,9]\nOutput: [1,2]\nExplanation: We can move 4 -> 8 for one move to finish the game.\n    Or, we can move 9 -> 5, 4 -> 6 for two moves to finish the game.\n\nExample 2:\n\nInput: stones = [6,5,4,3,10]\nOutput: [2,3]\nExplanation: We can move 3 -> 8 then 10 -> 7 to finish the game.\n    Or, we can move 3 -> 7, 4 -> 8, 5 -> 9 to finish the game.\n    Notice we cannot move 10 -> 2 to finish the game, because that would be an illegal move.\n\nConstraints:\n\n• 3 <= stones.length <= 104\n\n• 1 <= stones[i] <= 109\n\n• All the values of stones are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numMovesStonesII(self, stones):\n        \"\"\"\n        :type stones: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For the minimum, how many stones are already in place?\r\nFor the maximum, we have to lose either the gap A[1] - A[0] or A[N-1] - A[N-2]  (where N = A.length), but every other space can be occupied."
+  ],
+  "testCases": [
+    [
+      "[7,4,9]"
+    ],
+    [
+      "[6,5,4,3,10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2]",
+    "[2,3]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Number of Operations to Make Array Continuous\", \"titleSlug\": \"minimum-number-of-operations-to-make-array-continuous\", \"difficulty\": \"Hard\"}]"
+}

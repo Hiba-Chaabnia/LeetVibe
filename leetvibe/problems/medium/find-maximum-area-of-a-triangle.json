@@ -1,0 +1,63 @@
+{
+  "questionId": "3868",
+  "title": "Find Maximum Area of a Triangle",
+  "titleSlug": "find-maximum-area-of-a-triangle",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a 2D array coords of size n x 2, representing the coordinates of n points in an infinite Cartesian plane.\n\nFind twice the maximum area of a triangle with its corners at any three elements from coords, such that at least one side of this triangle is parallel to the x-axis or y-axis. Formally, if the maximum area of such a triangle is A, return 2 * A.\n\nIf no such triangle exists, return -1.\n\nNote that a triangle cannot have zero area.\n\nExample 1:\n\nInput: coords = [[1,1],[1,2],[3,2],[3,3]]\n\nOutput: 2\n\nExplanation: The triangle shown in the image has a base 1 and height 2. Hence its area is 1/2 * base * height = 1.\n\nExample 2:\n\nInput: coords = [[1,1],[2,2],[3,3]]\n\nOutput: -1\n\nExplanation: The only possible triangle has corners (1, 1), (2, 2), and (3, 3). None of its sides are parallel to the x-axis or the y-axis.\n\nConstraints:\n\n• 1 <= n == coords.length <= 105\n\n• 1 <= coords[i][0], coords[i][1] <= 106\n\n• All coords[i] are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxArea(self, coords):\n        \"\"\"\n        :type coords: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "area * 2 = base * height",
+    "Let the base be parallel to the x‑axis or y‑axis",
+    "Sort to find the maximum base for each fixed x (or y), then the maximum height comes from the extreme values of the other coordinate."
+  ],
+  "testCases": [
+    [
+      "[[1,1],[1,2],[3,2],[3,3]]"
+    ],
+    [
+      "[[1,1],[2,2],[3,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def maxArea(self, coords):\n        # Case 1: base parallel to x-axis (same y, different x)\n        # For each y, find max and min x. Base = max_x - min_x.\n        # Height = max |y' - y| over all other y' values.\n        # 2*Area = base * height\n        # Case 2: base parallel to y-axis (same x, different y)\n        # For each x, find max and min y. Base = max_y - min_y.\n        # Height = max |x' - x| over all other x values.\n\n        by_y = defaultdict(lambda: [float('inf'), float('-inf')])  # y -> [min_x, max_x]\n        by_x = defaultdict(lambda: [float('inf'), float('-inf')])  # x -> [min_y, max_y]\n        all_x = set()\n        all_y = set()\n        for x, y in coords:\n            by_y[y][0] = min(by_y[y][0], x)\n            by_y[y][1] = max(by_y[y][1], x)\n            by_x[x][0] = min(by_x[x][0], y)\n            by_x[x][1] = max(by_x[x][1], y)\n            all_x.add(x)\n            all_y.add(y)\n\n        global_min_x = min(all_x)\n        global_max_x = max(all_x)\n        global_min_y = min(all_y)\n        global_max_y = max(all_y)\n\n        ans = -1\n        # Case 1: horizontal base at y, base = max_x - min_x for that y\n        for y, (mn, mx) in by_y.items():\n            if mn == mx:\n                continue  # no base\n            base = mx - mn\n            # height = max |y' - y| where y' is any y-coordinate\n            height = max(abs(global_min_y - y), abs(global_max_y - y))\n            ans = max(ans, base * height)\n\n        # Case 2: vertical base at x, base = max_y - min_y for that x\n        for x, (mn, mx) in by_x.items():\n            if mn == mx:\n                continue\n            base = mx - mn\n            height = max(abs(global_min_x - x), abs(global_max_x - x))\n            ans = max(ans, base * height)\n\n        return ans",
+    "explanation": "For horizontal bases: group by y-coordinate, find max base (max_x - min_x), height = max distance to any other y-coordinate. For vertical bases: group by x-coordinate, find max base, height = max distance to any other x-coordinate. 2*Area = base * height.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

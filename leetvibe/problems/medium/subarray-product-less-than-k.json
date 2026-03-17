@@ -1,0 +1,55 @@
+{
+  "questionId": "713",
+  "title": "Subarray Product Less Than K",
+  "titleSlug": "subarray-product-less-than-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.\n\nExample 1:\n\nInput: nums = [10,5,2,6], k = 100\nOutput: 8\nExplanation: The 8 subarrays that have product less than 100 are:\n    [10], [5], [2], [6], [10, 5], [5, 2], [2, 6], [5, 2, 6]\n    Note that [10, 5, 2] is not included as the product of 100 is not strictly less than k.\n\nExample 2:\n\nInput: nums = [1,2,3], k = 0\nOutput: 0\n\nConstraints:\n\n• 1 <= nums.length <= 3 * 104\n\n• 1 <= nums[i] <= 1000\n\n• 0 <= k <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSubarrayProductLessThanK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each j, let opt(j) be the smallest i so that nums[i] * nums[i+1] * ... * nums[j] is less than k.  opt is an increasing function."
+  ],
+  "testCases": [
+    [
+      "[10,5,2,6]",
+      "100"
+    ],
+    [
+      "[1,2,3]",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "8",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numSubarrayProductLessThanK(nums, k):\n    if k <= 1:\n        return 0\n    prod = 1\n    count = 0\n    left = 0\n    for right in range(len(nums)):\n        prod *= nums[right]\n        while prod >= k:\n            prod /= nums[left]\n            left += 1\n        count += right - left + 1\n    return count",
+    "explanation": "The algorithm uses a sliding window approach to find the contiguous subarrays with the product less than k. It initializes a product variable to 1, and count variable to 0.  We also have left and right pointers for our sliding window.\n\nFor each number in the array, we multiply the product by the current number. Inside a loop, we check if the product is greater than or equal to k; if it is, we divide the product by the number at the left pointer and move the left pointer to the right.\n\nAfter adjusting the product and the left pointer, we can calculate the length of the current window. We increment the count by the length of the window.\n\nAt the end, we return the total count of subarrays with product less than k."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Product Subarray\", \"titleSlug\": \"maximum-product-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Size Subarray Sum Equals k\", \"titleSlug\": \"maximum-size-subarray-sum-equals-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Subarray Sum Equals K\", \"titleSlug\": \"subarray-sum-equals-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Two Sum Less Than K\", \"titleSlug\": \"two-sum-less-than-k\", \"difficulty\": \"Easy\"}, {\"title\": \"Number of Smooth Descent Periods of a Stock\", \"titleSlug\": \"number-of-smooth-descent-periods-of-a-stock\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Subarrays With Score Less Than K\", \"titleSlug\": \"count-subarrays-with-score-less-than-k\", \"difficulty\": \"Hard\"}]"
+}

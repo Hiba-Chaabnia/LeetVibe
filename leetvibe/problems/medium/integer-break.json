@@ -1,0 +1,47 @@
+{
+  "questionId": "343",
+  "title": "Integer Break",
+  "titleSlug": "integer-break",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given an integer n, break it into the sum of k positive integers, where k >= 2, and maximize the product of those integers.\n\nReturn the maximum product you can get.\n\nExample 1:\n\nInput: n = 2\nOutput: 1\nExplanation: 2 = 1 + 1, 1 × 1 = 1.\n\nExample 2:\n\nInput: n = 10\nOutput: 36\nExplanation: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36.\n\nConstraints:\n\n• 2 <= n <= 58",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def integerBreak(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "There is a simple O(n) solution to this problem.",
+    "You may check the breaking results of <i>n</i> ranging from 7 to 10 to discover the regularities."
+  ],
+  "testCases": [
+    [
+      "2"
+    ],
+    [
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "36"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def integerBreak(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        if n <= 3:\n            return n - 1\n        \n        if n % 3 == 0:\n            return 3 ** (n // 3)\n        elif n % 3 == 1:\n            return 3 ** (n // 3 - 1) * 4\n        else:  # n % 3 == 2\n            return 3 ** (n // 3) * 2",
+    "explanation": "Mathematical: break into 3s, with special handling for remainders.",
+    "complexity": "Time: O(log n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximize Number of Nice Divisors\", \"titleSlug\": \"maximize-number-of-nice-divisors\", \"difficulty\": \"Hard\"}]"
+}

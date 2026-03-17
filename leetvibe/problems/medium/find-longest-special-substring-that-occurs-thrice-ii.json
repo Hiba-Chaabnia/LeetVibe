@@ -1,0 +1,65 @@
+{
+  "questionId": "3266",
+  "title": "Find Longest Special Substring That Occurs Thrice II",
+  "titleSlug": "find-longest-special-substring-that-occurs-thrice-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s that consists of lowercase English letters.\n\nA string is called special if it is made up of only a single character. For example, the string \"abc\" is not special, whereas the strings \"ddd\", \"zz\", and \"f\" are special.\n\nReturn the length of the longest special substring of s which occurs at least thrice, or -1 if no special substring occurs at least thrice.\n\nA substring is a contiguous non-empty sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"aaaa\"\nOutput: 2\nExplanation: The longest special substring which occurs thrice is \"aa\": substrings \"aaaa\", \"aaaa\", and \"aaaa\".\n    It can be shown that the maximum length achievable is 2.\n\nExample 2:\n\nInput: s = \"abcdef\"\nOutput: -1\nExplanation: There exists no special substring which occurs at least thrice. Hence return -1.\n\nExample 3:\n\nInput: s = \"abcaba\"\nOutput: 1\nExplanation: The longest special substring which occurs thrice is \"a\": substrings \"abcaba\", \"abcaba\", and \"abcaba\".\n    It can be shown that the maximum length achievable is 1.\n\nConstraints:\n\n• 3 <= s.length <= 5 * 105\n\n• s consists of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumLength(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let len[i] be the length of the longest special string ending with s[i].",
+    "If i > 0 and s[i] == s[i - 1], len[i] = len[i - 1] + 1. Otherwise len[i] == 1.",
+    "Group all the len[i] by s[i]. We have at most 26 groups.",
+    "The maximum value of the third largest len[i] in each group is the answer.",
+    "We only need to maintain the top three values for each group. You can use sorting, heap, or brute-force comparison to find the third largest value in each group."
+  ],
+  "testCases": [
+    [
+      "\"aaaa\""
+    ],
+    [
+      "\"abcdef\""
+    ],
+    [
+      "\"abcaba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "-1",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumLength(self, s):\n        # For each char, collect run lengths\n        # A special substring of char c with length L appears in a run of length R\n        # exactly (R - L + 1) times within that run.\n        # Total occurrences across all runs summed.\n        # For each char, keep top-3 run lengths and compute answer.\n        from collections import defaultdict\n        import heapq\n        runs = defaultdict(list)  # char -> list of run lengths\n        i = 0\n        while i < len(s):\n            j = i\n            while j < len(s) and s[j] == s[i]:\n                j += 1\n            runs[s[i]].append(j - i)\n            i = j\n\n        ans = -1\n        for c, run_list in runs.items():\n            run_list.sort(reverse=True)\n            # For length L to appear >= 3 times:\n            # Use top 3 runs: if run[0] >= L+2, run[0] alone contributes >=3 times\n            # Or run[0] and run[1] together, etc.\n            # Binary search or direct check on candidates\n            # Candidates from top 3 runs: L = run[0], run[0]-1, run[0]-2, run[1], run[1]-1, run[2]\n            candidates = set()\n            for r in run_list[:3]:\n                for delta in range(3):\n                    if r - delta > 0:\n                        candidates.add(r - delta)\n            for L in candidates:\n                count = sum(max(0, r - L + 1) for r in run_list)\n                if count >= 3:\n                    ans = max(ans, L)\n        return ans",
+    "explanation": "For each character, collect run lengths. A special substring of length L within a run of length R appears (R-L+1) times. Binary search or check O(1) candidates from top 3 runs for each character.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Substring Without Repeating Characters\", \"titleSlug\": \"longest-substring-without-repeating-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Substring with At Least K Repeating Characters\", \"titleSlug\": \"longest-substring-with-at-least-k-repeating-characters\", \"difficulty\": \"Medium\"}]"
+}

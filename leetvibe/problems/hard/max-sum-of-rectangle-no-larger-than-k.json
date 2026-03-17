@@ -1,0 +1,57 @@
+{
+  "questionId": "363",
+  "title": "Max Sum of Rectangle No Larger Than K",
+  "titleSlug": "max-sum-of-rectangle-no-larger-than-k",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "Given an m x n matrix matrix and an integer k, return the max sum of a rectangle in the matrix such that its sum is no larger than k.\n\nIt is guaranteed that there will be a rectangle with a sum no larger than k.\n\nExample 1:\n\nInput: matrix = [[1,0,1],[0,-2,3]], k = 2\nOutput: 2\nExplanation: Because the sum of the blue rectangle [[0, 1], [-2, 3]] is 2, and 2 is the max number no larger than k (k = 2).\n\nExample 2:\n\nInput: matrix = [[2,2,-1]], k = 3\nOutput: 3\n\nConstraints:\n\n• m == matrix.length\n\n• n == matrix[i].length\n\n• 1 <= m, n <= 100\n\n• -100 <= matrix[i][j] <= 100\n\n• -105 <= k <= 105\n\nFollow up: What if the number of rows is much larger than the number of columns?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxSumSubmatrix(self, matrix, k):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,0,1],[0,-2,3]]",
+      "2"
+    ],
+    [
+      "[[2,2,-1]]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from sortedcontainers import SortedList\n\ndef maxSumSubmatrix(matrix, k):\n    rows = len(matrix)\n    cols = len(matrix[0])\n    max_sum = float('-inf')\n\n    for l in range(cols):\n        sums = [0] * rows\n        for r in range(l, cols):\n            for i in range(rows):\n                sums[i] += matrix[i][r]\n\n            sorted_sums = SortedList()\n            sorted_sums.add(0)\n            curr_sum = 0\n            for sum in sums:\n                curr_sum += sum\n                it = sorted_sums.bisect_left(curr_sum - k)\n                if it != len(sorted_sums):\n                    max_sum = max(max_sum, curr_sum - sorted_sums[it])\n                sorted_sums.add(curr_sum)\n\n    return max_sum",
+    "explanation": "1. Initialize variables to iterate over all possible column pairs (left and right).\n2. For each column pair, calculate the cumulative sum of elements within the column range for each row.\n3. Initialize a sorted set (e.g., `set` in C++, `TreeSet` in Java, `SortedList` in Python, and an array in JavaScript) to store the prefix sums.\n4. Iterate through the cumulative sums, updating the current sum and finding the lower bound of (currSum - k) in the sorted set.\n5. If the iterator is not pointing to the end, update the maxSum using the current sum minus the value pointed by the iterator.\n6. Insert the current sum into the sorted set.\n7. After all iterations are done, return the maxSum."
+  },
+  "similarQuestions": "[]"
+}

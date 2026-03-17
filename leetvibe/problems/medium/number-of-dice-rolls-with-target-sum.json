@@ -1,0 +1,51 @@
+{
+  "questionId": "1263",
+  "title": "Number of Dice Rolls With Target Sum",
+  "titleSlug": "number-of-dice-rolls-with-target-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You have n dice, and each dice has k faces numbered from 1 to k.\n\nGiven three integers n, k, and target, return the number of possible ways (out of the kn total ways) to roll the dice, so the sum of the face-up numbers equals target. Since the answer may be too large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: n = 1, k = 6, target = 3\nOutput: 1\nExplanation: You throw one die with 6 faces.\n    There is only one way to get a sum of 3.\n\nExample 2:\n\nInput: n = 2, k = 6, target = 7\nOutput: 6\nExplanation: You throw two dice, each with 6 faces.\n    There are 6 ways to get a sum of 7: 1+6, 2+5, 3+4, 4+3, 5+2, 6+1.\n\nExample 3:\n\nInput: n = 30, k = 30, target = 500\nOutput: 222616187\nExplanation: The answer must be returned modulo 109 + 7.\n\nConstraints:\n\n• 1 <= n, k <= 30\n\n• 1 <= target <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numRollsToTarget(self, n, k, target):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.  The states are how many dice are remaining, and what sum total you have rolled so far."
+  ],
+  "testCases": [
+    [
+      "1",
+      "6",
+      "3"
+    ],
+    [
+      "2",
+      "6",
+      "7"
+    ],
+    [
+      "30",
+      "30",
+      "500"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "6",
+    "222616187"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numRollsToTarget(n, k, target):\n    MOD = 1000000007\n    dp = [[0 for _ in range(target + 1)] for _ in range(n + 1)]\n    dp[0][0] = 1\n    for i in range(1, n + 1):\n        for j in range(i, target + 1):\n            for d in range(1, k + 1):\n                if j - d >= 0:\n                    dp[i][j] = (dp[i][j] + dp[i - 1][j - d]) % MOD\n    return dp[n][target]",
+    "explanation": "The problem can be solved using dynamic programming. We first initialize a `n+1`by `target+1` matrix `dp` where `dp[i][j]` represents the number of ways to get a sum `j` using `i` dice. The matrix is initialized with 0s, and the base case (no dice and no target) is set as 1 (`dp[0][0]=1`).\n\nWe iterate through the matrix with two nested loops over the number of dice `i` and the target sum `j`. In each iteration, we also have another loop iterating through the possible numbers on a die, from `1` to `k`. This checks if the target has not been exceeded and, if possible, calculates the cumulative sum of the possible ways to get a sum equal to the current target using one less die (`dp[i - 1][j - d]`). This sum is then taken modulo `1e9 + 7`.\n\nFinally, we return the number of ways found in the last cell of the matrix, `dp[n][target]`."
+  },
+  "similarQuestions": "[{\"title\": \"Equal Sum Arrays With Minimum Number of Operations\", \"titleSlug\": \"equal-sum-arrays-with-minimum-number-of-operations\", \"difficulty\": \"Medium\"}, {\"title\": \"Find Missing Observations\", \"titleSlug\": \"find-missing-observations\", \"difficulty\": \"Medium\"}]"
+}

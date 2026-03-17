@@ -1,0 +1,58 @@
+{
+  "questionId": "2337",
+  "title": "Remove Digit From Number to Maximize Result",
+  "titleSlug": "remove-digit-from-number-to-maximize-result",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a string number representing a positive integer and a character digit.\n\nReturn the resulting string after removing exactly one occurrence of digit from number such that the value of the resulting string in decimal form is maximized. The test cases are generated such that digit occurs at least once in number.\n\nExample 1:\n\nInput: number = \"123\", digit = \"3\"\nOutput: \"12\"\nExplanation: There is only one '3' in \"123\". After removing '3', the result is \"12\".\n\nExample 2:\n\nInput: number = \"1231\", digit = \"1\"\nOutput: \"231\"\nExplanation: We can remove the first '1' to get \"231\" or remove the second '1' to get \"123\".\n    Since 231 > 123, we return \"231\".\n\nExample 3:\n\nInput: number = \"551\", digit = \"5\"\nOutput: \"51\"\nExplanation: We can remove either the first or second '5' from \"551\".\n    Both result in the string \"51\".\n\nConstraints:\n\n• 2 <= number.length <= 100\n\n• number consists of digits from '1' to '9'.\n\n• digit is a digit from '1' to '9'.\n\n• digit occurs at least once in number.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeDigit(self, number, digit):\n        \"\"\"\n        :type number: str\n        :type digit: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The maximum length of number is really small.",
+    "Iterate through the digits of number and every time we see digit, try removing it.",
+    "To remove a character at index i, concatenate the substring from index 0 to i - 1 and the substring from index i + 1 to number.length - 1."
+  ],
+  "testCases": [
+    [
+      "\"123\"",
+      "\"3\""
+    ],
+    [
+      "\"1231\"",
+      "\"1\""
+    ],
+    [
+      "\"551\"",
+      "\"5\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"12\"",
+    "\"231\"",
+    "\"51\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def removeDigit(self, number, digit):\n        max_result = \"\"\n        for i in range(len(number)):\n            if number[i] == digit:\n                candidate = number[:i] + number[i+1:]\n                if candidate > max_result:\n                    max_result = candidate\n        return max_result",
+    "explanation": "Try removing each occurrence of digit. Keep maximum result using string comparison.\nTime: O(n²)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Remove K Digits\", \"titleSlug\": \"remove-k-digits\", \"difficulty\": \"Medium\"}, {\"title\": \"Remove Vowels from a String\", \"titleSlug\": \"remove-vowels-from-a-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Second Largest Digit in a String\", \"titleSlug\": \"second-largest-digit-in-a-string\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Operations to Make a Special Number\", \"titleSlug\": \"minimum-operations-to-make-a-special-number\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,55 @@
+{
+  "questionId": "1065",
+  "title": "Binary String With Substrings Representing 1 To N",
+  "titleSlug": "binary-string-with-substrings-representing-1-to-n",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given a binary string s and a positive integer n, return true if the binary representation of all the integers in the range [1, n] are substrings of s, or false otherwise.\n\nA substring is a contiguous sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"0110\", n = 3\nOutput: true\nExample 2:\n\nInput: s = \"0110\", n = 4\nOutput: false\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s[i] is either '0' or '1'.\n\n• 1 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def queryString(self, s, n):\n        \"\"\"\n        :type s: str\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We only need to check substrings of length at most 30, because 10^9 has 30 bits."
+  ],
+  "testCases": [
+    [
+      "\"0110\"",
+      "3"
+    ],
+    [
+      "\"0110\"",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def queryString(self, s, n):\n        needed = set(bin(i)[2:] for i in range(1, n + 1))\n        for i in range(len(s) - max(len(bin(j)[2:]) for j in range(1, n + 1)) + 1):\n            for length in range(1, 31):\n                if i + length > len(s):\n                    break\n                substr = s[i:i+length]\n                needed.discard(substr)\n        return len(needed) == 0",
+    "explanation": "Generate binary codes 1..n. Check if all exist as substrings.\nTime: O(n*log n)\nSpace: O(n*log n)"
+  },
+  "similarQuestions": "[]"
+}

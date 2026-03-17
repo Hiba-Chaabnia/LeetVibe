@@ -1,0 +1,45 @@
+{
+  "questionId": "697",
+  "title": "Degree of an Array",
+  "titleSlug": "degree-of-an-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "Given a non-empty array of non-negative integers nums, the degree of this array is defined as the maximum frequency of any one of its elements.\n\nYour task is to find the smallest possible length of a (contiguous) subarray of nums, that has the same degree as nums.\n\nExample 1:\n\nInput: nums = [1,2,2,3,1]\nOutput: 2\nExplanation:\n    The input array has a degree of 2 because both elements 1 and 2 appear twice.\n    Of the subarrays that have the same degree:\n    [1, 2, 2, 3, 1], [1, 2, 2, 3], [2, 2, 3, 1], [1, 2, 2], [2, 2, 3], [2, 2]\n    The shortest length is 2. So return 2.\n\nExample 2:\n\nInput: nums = [1,2,2,3,1,4,2]\nOutput: 6\nExplanation:\n    The degree is 3 because the element 2 is repeated 3 times.\n    So [2,2,3,1,4,2] is the shortest subarray, therefore returning 6.\n\nConstraints:\n\n• nums.length will be between 1 and 50,000.\n\n• nums[i] will be an integer between 0 and 49,999.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findShortestSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Say 5 is the only element that occurs the most number of times - for example, nums = [1, 5, 2, 3, 5, 4, 5, 6].  What is the answer?"
+  ],
+  "testCases": [
+    [
+      "[1,2,2,3,1]"
+    ],
+    [
+      "[1,2,2,3,1,4,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findShortestSubArray(nums):\n    freq_map, start_map = {}, {}\n    max_freq, min_length = 0, len(nums)\n\n    for i, num in enumerate(nums):\n        if num not in start_map:\n            start_map[num] = i\n        freq_map[num] = freq_map.get(num, 0) + 1\n\n        freq = freq_map[num]\n        if freq > max_freq:\n            max_freq = freq\n            min_length = i - start_map[num] + 1\n        elif freq == max_freq:\n            min_length = min(min_length, i - start_map[num] + 1)\n\n    return min_length",
+    "explanation": "The algorithm first initializes two hash maps: `freq_map` to store the frequency count of each element and `start_map` to store the starting index of each unique element in the array. The max frequency `max_freq` and the minimum length `min_length` are initialized to 0 and the length of the input array, respectively.\n\nThen, iterate through the input array, updating the frequency count of each element in `freq_map` and storing the starting index of each unique element in `start_map`.\n\nFor each index, update `max_freq` if a higher frequency is found. If the frequency is equal to `max_freq`, update `min_length` with the minimum length of the subarray having same degree as `nums`.\n\nFinally, the algorithm returns the smallest length of a subarray with the maximum frequency. This approach has a time complexity of O(n), where n is the length of the input array."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Subarray\", \"titleSlug\": \"maximum-subarray\", \"difficulty\": \"Medium\"}]"
+}

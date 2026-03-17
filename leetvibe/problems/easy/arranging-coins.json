@@ -1,0 +1,43 @@
+{
+  "questionId": "441",
+  "title": "Arranging Coins",
+  "titleSlug": "arranging-coins",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "You have n coins and you want to build a staircase with these coins. The staircase consists of k rows where the ith row has exactly i coins. The last row of the staircase may be incomplete.\n\nGiven the integer n, return the number of complete rows of the staircase you will build.\n\nExample 1:\n\nInput: n = 5\nOutput: 2\nExplanation: Because the 3rd row is incomplete, we return 2.\n\nExample 2:\n\nInput: n = 8\nOutput: 3\nExplanation: Because the 4th row is incomplete, we return 3.\n\nConstraints:\n\n• 1 <= n <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def arrangeCoins(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "5"
+    ],
+    [
+      "8"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def arrangeCoins(self, n):\n        return int((-1 + (1 + 8.0 * n) ** 0.5) / 2)",
+    "explanation": "Math: k rows need k*(k+1)/2 coins. Solve k*(k+1)/2 <= n using quadratic formula."
+  },
+  "similarQuestions": "[]"
+}

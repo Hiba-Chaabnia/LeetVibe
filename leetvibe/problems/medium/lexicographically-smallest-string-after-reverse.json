@@ -1,0 +1,53 @@
+{
+  "questionId": "4073",
+  "title": "Lexicographically Smallest String After Reverse",
+  "titleSlug": "lexicographically-smallest-string-after-reverse",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a string s of length n consisting of lowercase English letters.\n\nYou must perform exactly one operation by choosing any integer k such that 1 <= k <= n and either:\n\n• reverse the first k characters of s, or\n\n• reverse the last k characters of s.\n\nReturn the lexicographically smallest string that can be obtained after exactly one such operation.\n\nExample 1:\n\nInput: s = \"dcab\"\n\nOutput: \"acdb\"\n\nExplanation:\n\n• Choose k = 3, reverse the first 3 characters.\n\n• Reverse \"dca\" to \"acd\", resulting string s = \"acdb\", which is the lexicographically smallest string achievable.\n\nExample 2:\n\nInput: s = \"abba\"\n\nOutput: \"aabb\"\n\nExplanation:\n\n• Choose k = 3, reverse the last 3 characters.\n\n• Reverse \"bba\" to \"abb\", so the resulting string is \"aabb\", which is the lexicographically smallest string achievable.\n\nExample 3:\n\nInput: s = \"zxy\"\n\nOutput: \"xzy\"\n\nExplanation:\n\n• Choose k = 2, reverse the first 2 characters.\n\n• Reverse \"zx\" to \"xz\", so the resulting string is \"xzy\", which is the lexicographically smallest string achievable.\n\nConstraints:\n\n• 1 <= n == s.length <= 1000\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lexSmallest(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use bruteforce"
+  ],
+  "testCases": [
+    [
+      "\"dcab\""
+    ],
+    [
+      "\"abba\""
+    ],
+    [
+      "\"zxy\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"acdb\"",
+    "\"aabb\"",
+    "\"xzy\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def lexSmallest(self, s):\n        n = len(s)\n        best = s\n        for k in range(1, n + 1):\n            # Reverse first k chars\n            cand = s[:k][::-1] + s[k:]\n            best = min(best, cand)\n            # Reverse last k chars\n            cand = s[:n-k] + s[n-k:][::-1]\n            best = min(best, cand)\n        return best",
+    "explanation": "Brute force all 2n possible operations (reverse first k or last k chars for k=1..n). With n≤1000, this is O(n²) total.\n\nTime: O(n²). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

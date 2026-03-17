@@ -1,0 +1,60 @@
+{
+  "questionId": "2784",
+  "title": "Power of Heroes",
+  "titleSlug": "power-of-heroes",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums representing the strength of some heroes. The power of a group of heroes is defined as follows:\n\n• Let i0, i1, ... ,ik be the indices of the heroes in a group. Then, the power of this group is max(nums[i0], nums[i1], ... ,nums[ik])2 * min(nums[i0], nums[i1], ... ,nums[ik]).\n\nReturn the sum of the power of all non-empty groups of heroes possible. Since the sum could be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: nums = [2,1,4]\nOutput: 141\nExplanation:\n    1st group: [2] has power = 22 * 2 = 8.\n    2nd group: [1] has power = 12 * 1 = 1.\n    3rd group: [4] has power = 42 * 4 = 64.\n    4th group: [2,1] has power = 22 * 1 = 4.\n    5th group: [2,4] has power = 42 * 2 = 32.\n    6th group: [1,4] has power = 42 * 1 = 16.\n    ​​​​​​​7th group: [2,1,4] has power = 42​​​​​​​ * 1 = 16.\n    The sum of powers of all groups is 8 + 1 + 64 + 4 + 32 + 16 + 16 = 141.\n\nExample 2:\n\nInput: nums = [1,1,1]\nOutput: 7\nExplanation: A total of 7 groups are possible, and the power of each group will be 1. Therefore, the sum of the powers of all groups is 7.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumOfPower(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try something with sorting the array.",
+    "For a pair of array elements nums[i] and nums[j] (i < j), the power would be nums[i]*nums[j]^2 regardless of how many elements in between are included.",
+    "The number of subsets with the above as power will correspond to 2^(j-i-1).",
+    "Try collecting the terms for nums[0], nums[1], …, nums[j-1] when computing the power of heroes ending at index j to get the power in a single pass."
+  ],
+  "testCases": [
+    [
+      "[2,1,4]"
+    ],
+    [
+      "[1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "141",
+    "7"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumOfPower(self, nums):\n        MOD = 10**9 + 7\n        nums.sort()\n        n = len(nums)\n        # After sorting, for a group with max=nums[j] and min=nums[i] (i<=j):\n        # power = nums[j]^2 * nums[i]\n        # Number of subsets with max=nums[j] and min=nums[i] = 2^(j-i-1) (choose any of middle elements)\n        # Total = sum_{j} nums[j]^2 * sum_{i<=j} nums[i] * 2^(j-i-1)\n        # For j fixed: sum_{i=0}^{j-1} nums[i] * 2^(j-i-1) + nums[j] (singleton)\n        # Let S_j = sum_{i=0}^{j-1} nums[i] * 2^(j-i-1)\n        # S_j = nums[j-1] + 2 * S_{j-1}  (when we go from j-1 to j, each old term doubles)\n        # Contribution of j: nums[j]^2 * (S_j + nums[j])  (singleton: nums[j]^3)\n        ans = 0\n        S = 0  # running sum\n        for j in range(n):\n            ans = (ans + nums[j] * nums[j] % MOD * (S + nums[j])) % MOD\n            S = (2 * S + nums[j]) % MOD\n        return ans",
+    "explanation": "Sort nums. For each j as the maximum element: contribution = nums[j]^2 * (sum over min choices). The running sum S = sum_{i<j} nums[i] * 2^(j-i-1) satisfies S_j = 2*S_{j-1} + nums[j-1]. Contribution of j = nums[j]^2 * (S + nums[j]) (including singleton).\n\nTime: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

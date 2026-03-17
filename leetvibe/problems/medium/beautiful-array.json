@@ -1,0 +1,43 @@
+{
+  "questionId": "968",
+  "title": "Beautiful Array",
+  "titleSlug": "beautiful-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    }
+  ],
+  "content": "An array nums of length n is beautiful if:\n\n• nums is a permutation of the integers in the range [1, n].\n\n• For every 0 <= i < j < n, there is no index k with i < k < j where 2 * nums[k] == nums[i] + nums[j].\n\nGiven the integer n, return any beautiful array nums of length n. There will be at least one valid answer for the given n.\n\nExample 1:\n\nInput: n = 4\nOutput: [2,1,4,3]\nExample 2:\n\nInput: n = 5\nOutput: [3,1,2,5,4]\n\nConstraints:\n\n• 1 <= n <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def beautifulArray(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "4"
+    ],
+    [
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,1,4,3]",
+    "[3,1,2,5,4]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

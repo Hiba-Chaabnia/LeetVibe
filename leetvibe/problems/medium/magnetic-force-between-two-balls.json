@@ -1,0 +1,54 @@
+{
+  "questionId": "1675",
+  "title": "Magnetic Force Between Two Balls",
+  "titleSlug": "magnetic-force-between-two-balls",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "In the universe Earth C-137, Rick discovered a special form of magnetic force between two balls if they are put in his new invented basket. Rick has n empty baskets, the ith basket is at position[i], Morty has m balls and needs to distribute the balls into the baskets such that the minimum magnetic force between any two balls is maximum.\n\nRick stated that magnetic force between two different balls at positions x and y is |x - y|.\n\nGiven the integer array position and the integer m. Return the required force.\n\nExample 1:\n\nInput: position = [1,2,3,4,7], m = 3\nOutput: 3\nExplanation: Distributing the 3 balls into baskets 1, 4 and 7 will make the magnetic force between ball pairs [3, 3, 6]. The minimum magnetic force is 3. We cannot achieve a larger minimum magnetic force than 3.\n\nExample 2:\n\nInput: position = [5,4,3,2,1,1000000000], m = 2\nOutput: 999999999\nExplanation: We can use baskets 1 and 1000000000.\n\nConstraints:\n\n• n == position.length\n\n• 2 <= n <= 105\n\n• 1 <= position[i] <= 109\n\n• All integers in position are distinct.\n\n• 2 <= m <= position.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxDistance(self, position, m):\n        \"\"\"\n        :type position: List[int]\n        :type m: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If you can place balls such that the answer is x then you can do it for y where y < x.",
+    "Similarly if you cannot place balls such that the answer is x then you can do it for y where y > x.",
+    "Binary search on the answer and greedily see if it is possible."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,7]",
+      "3"
+    ],
+    [
+      "[5,4,3,2,1,1000000000]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "999999999"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxDistance(self, position, m):\n        \"\"\"\n        :type position: List[int]\n        :type m: int\n        :rtype: int\n        \"\"\"\n        position.sort()\n        \n        def canPlace(min_dist):\n            # Check if we can place m balls with minimum distance min_dist\n            count = 1\n            last_pos = position[0]\n            for i in range(1, len(position)):\n                if position[i] - last_pos >= min_dist:\n                    count += 1\n                    last_pos = position[i]\n                    if count == m:\n                        return True\n            return False\n        \n        left, right = 1, position[-1] - position[0]\n        result = 1\n        \n        while left <= right:\n            mid = (left + right) // 2\n            if canPlace(mid):\n                result = mid\n                left = mid + 1\n            else:\n                right = mid - 1\n        \n        return result",
+    "explanation": "Binary search on answer. For each candidate min distance, check if we can place all m balls greedily.",
+    "complexity": "Time: O(n log(max-min)). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimized Maximum of Products Distributed to Any Store\", \"titleSlug\": \"minimized-maximum-of-products-distributed-to-any-store\", \"difficulty\": \"Medium\"}]"
+}

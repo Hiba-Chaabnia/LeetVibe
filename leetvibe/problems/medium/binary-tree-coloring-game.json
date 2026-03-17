@@ -1,0 +1,54 @@
+{
+  "questionId": "1248",
+  "title": "Binary Tree Coloring Game",
+  "titleSlug": "binary-tree-coloring-game",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Two players play a turn based game on a binary tree. We are given the root of this binary tree, and the number of nodes n in the tree. n is odd, and each node has a distinct value from 1 to n.\n\nInitially, the first player names a value x with 1 <= x <= n, and the second player names a value y with 1 <= y <= n and y != x. The first player colors the node with value x red, and the second player colors the node with value y blue.\n\nThen, the players take turns starting with the first player. In each turn, that player chooses a node of their color (red if player 1, blue if player 2) and colors an uncolored neighbor of the chosen node (either the left child, right child, or parent of the chosen node.)\n\nIf (and only if) a player cannot choose such a node in this way, they must pass their turn. If both players pass their turn, the game ends, and the winner is the player that colored more nodes.\n\nYou are the second player. If it is possible to choose such a y to ensure you win the game, return true. If it is not possible, return false.\n\nExample 1:\n\nInput: root = [1,2,3,4,5,6,7,8,9,10,11], n = 11, x = 3\nOutput: true\nExplanation: The second player can choose the node with value 2.\n\nExample 2:\n\nInput: root = [1,2,3], n = 3, x = 1\nOutput: false\n\nConstraints:\n\n• The number of nodes in the tree is n.\n\n• 1 <= x <= n <= 100\n\n• n is odd.\n\n• 1 <= Node.val <= n\n\n• All the values of the tree are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def btreeGameWinningMove(self, root, n, x):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type n: int\n        :type x: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The best move y must be immediately adjacent to x, since it locks out that subtree.",
+    "Can you count each of (up to) 3 different subtrees neighboring x?"
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6,7,8,9,10,11]",
+      "11",
+      "3"
+    ],
+    [
+      "[1,2,3]",
+      "3",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def btreeGameWinningMove(self, root, n, x):\n        def find_and_count(node, target):\n            if not node:\n                return None, 0\n            if node.val == target:\n                left_count = count_nodes(node.left)\n                right_count = count_nodes(node.right)\n                parent_count = n - 1 - left_count - right_count\n                return (left_count, right_count, parent_count), 0\n            left_result, _ = find_and_count(node.left, target)\n            if left_result:\n                return left_result, 0\n            return find_and_count(node.right, target)\n        def count_nodes(node):\n            if not node:\n                return 0\n            return 1 + count_nodes(node.left) + count_nodes(node.right)\n        counts, _ = find_and_count(root, x)\n        left, right, parent = counts\n        return max(left, right, parent) > n // 2",
+    "explanation": "Find node x. Count subtrees. One must have > n/2 nodes for player 2 to win.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[]"
+}

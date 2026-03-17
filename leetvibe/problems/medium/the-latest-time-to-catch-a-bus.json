@@ -1,0 +1,54 @@
+{
+  "questionId": "2417",
+  "title": "The Latest Time to Catch a Bus",
+  "titleSlug": "the-latest-time-to-catch-a-bus",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array buses of length n, where buses[i] represents the departure time of the ith bus. You are also given a 0-indexed integer array passengers of length m, where passengers[j] represents the arrival time of the jth passenger. All bus departure times are unique. All passenger arrival times are unique.\n\nYou are given an integer capacity, which represents the maximum number of passengers that can get on each bus.\n\nWhen a passenger arrives, they will wait in line for the next available bus. You can get on a bus that departs at x minutes if you arrive at y minutes where y <= x, and the bus is not full. Passengers with the earliest arrival times get on the bus first.\n\nMore formally when a bus arrives, either:\n\n• If capacity or fewer passengers are waiting for a bus, they will all get on the bus, or\n\n• The capacity passengers with the earliest arrival times will get on the bus.\n\nReturn the latest time you may arrive at the bus station to catch a bus. You cannot arrive at the same time as another passenger.\n\nNote: The arrays buses and passengers are not necessarily sorted.\n\nExample 1:\n\nInput: buses = [10,20], passengers = [2,17,18,19], capacity = 2\nOutput: 16\nExplanation: Suppose you arrive at time 16.\n    At time 10, the first bus departs with the 0th passenger.\n    At time 20, the second bus departs with you and the 1st passenger.\n    Note that you may not arrive at the same time as another passenger, which is why you must arrive before the 1st passenger to catch the bus.\n\nExample 2:\n\nInput: buses = [20,30,10], passengers = [19,13,26,4,25,11,21], capacity = 2\nOutput: 20\nExplanation: Suppose you arrive at time 20.\n    At time 10, the first bus departs with the 3rd passenger.\n    At time 20, the second bus departs with the 5th and 1st passengers.\n    At time 30, the third bus departs with the 0th passenger and you.\n    Notice if you had arrived any later, then the 6th passenger would have taken your seat on the third bus.\n\nConstraints:\n\n• n == buses.length\n\n• m == passengers.length\n\n• 1 <= n, m, capacity <= 105\n\n• 2 <= buses[i], passengers[i] <= 109\n\n• Each element in buses is unique.\n\n• Each element in passengers is unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def latestTimeCatchTheBus(self, buses, passengers, capacity):\n        \"\"\"\n        :type buses: List[int]\n        :type passengers: List[int]\n        :type capacity: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the buses and passengers arrays.",
+    "Use 2 pointers to traverse buses and passengers with a simulation of passengers getting on a particular bus."
+  ],
+  "testCases": [
+    [
+      "[10,20]",
+      "[2,17,18,19]",
+      "2"
+    ],
+    [
+      "[20,30,10]",
+      "[19,13,26,4,25,11,21]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "16",
+    "20"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Speed to Arrive on Time\", \"titleSlug\": \"minimum-speed-to-arrive-on-time\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Matching of Players With Trainers\", \"titleSlug\": \"maximum-matching-of-players-with-trainers\", \"difficulty\": \"Medium\"}, {\"title\": \"Time Taken to Cross the Door\", \"titleSlug\": \"time-taken-to-cross-the-door\", \"difficulty\": \"Hard\"}, {\"title\": \"Time to Cross a Bridge\", \"titleSlug\": \"time-to-cross-a-bridge\", \"difficulty\": \"Hard\"}, {\"title\": \"Rearranging Fruits\", \"titleSlug\": \"rearranging-fruits\", \"difficulty\": \"Hard\"}]"
+}

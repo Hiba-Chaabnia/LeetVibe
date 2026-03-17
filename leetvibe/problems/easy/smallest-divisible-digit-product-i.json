@@ -1,0 +1,48 @@
+{
+  "questionId": "3626",
+  "title": "Smallest Divisible Digit Product I",
+  "titleSlug": "smallest-divisible-digit-product-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given two integers n and t. Return the smallest number greater than or equal to n such that the product of its digits is divisible by t.\n\nExample 1:\n\nInput: n = 10, t = 2\n\nOutput: 10\n\nExplanation: The digit product of 10 is 0, which is divisible by 2, making it the smallest number greater than or equal to 10 that satisfies the condition.\n\nExample 2:\n\nInput: n = 15, t = 3\n\nOutput: 16\n\nExplanation: The digit product of 16 is 6, which is divisible by 3, making it the smallest number greater than or equal to 15 that satisfies the condition.\n\nConstraints:\n\n• 1 <= n <= 100\n\n• 1 <= t <= 10",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestNumber(self, n, t):\n        \"\"\"\n        :type n: int\n        :type t: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You have to check at most 10 numbers.",
+    "Apply a brute-force approach by checking each possible number."
+  ],
+  "testCases": [
+    [
+      "10",
+      "2"
+    ],
+    [
+      "15",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "10",
+    "16"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def smallestNumber(self, n, t):\n        def digit_product(x):\n            p = 1\n            for d in str(x):\n                p *= int(d)\n            return p\n        x = n\n        while digit_product(x) % t != 0:\n            x += 1\n        return x",
+    "explanation": "Iterate from n upward; return the first integer whose digit product (including zeros) is divisible by t. O(n*d) time."
+  },
+  "similarQuestions": "[{\"title\": \"Smallest Number With Given Digit Product\", \"titleSlug\": \"smallest-number-with-given-digit-product\", \"difficulty\": \"Medium\"}]"
+}

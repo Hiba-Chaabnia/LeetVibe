@@ -1,0 +1,49 @@
+{
+  "questionId": "4063",
+  "title": "Count Distinct Subarrays Divisible by K in Sorted Array",
+  "titleSlug": "count-distinct-subarrays-divisible-by-k-in-sorted-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums sorted in non-descending order and a positive integer k.\n\nA subarray of nums is good if the sum of its elements is divisible by k.\n\nReturn an integer denoting the number of distinct good subarrays of nums.\n\nSubarrays are distinct if their sequences of values are. For example, there are 3 distinct subarrays in [1, 1, 1], namely [1], [1, 1], and [1, 1, 1].\n\nExample 1:\n\nInput: nums = [1,2,3], k = 3\n\nOutput: 3\n\nExplanation: The good subarrays are [1, 2], [3], and [1, 2, 3]. For example, [1, 2, 3] is good because the sum of its elements is 1 + 2 + 3 = 6, and 6 % k = 6 % 3 = 0.\n\nExample 2:\n\nInput: nums = [2,2,2,2,2,2], k = 6\n\nOutput: 2\n\nExplanation: The good subarrays are [2, 2, 2] and [2, 2, 2, 2, 2, 2]. For example, [2, 2, 2] is good because the sum of its elements is 2 + 2 + 2 = 6, and 6 % k = 6 % 6 = 0.\n\nNote that [2, 2, 2] is counted only once.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• nums is sorted in non-descending order.\n\n• 1 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numGoodSubarrays(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use prefix sums.",
+    "Any subarray with >= 2 distinct values has a unique strict-increase boundary (i, j), so the value sequence is identified by that boundary and how many elements you take from each edge.",
+    "Count single-value sequences per run by testing (L*val) % k == 0."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]",
+      "3"
+    ],
+    [
+      "[2,2,2,2,2,2]",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

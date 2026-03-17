@@ -1,0 +1,59 @@
+{
+  "questionId": "2919",
+  "title": "Maximum Number of Groups With Increasing Length",
+  "titleSlug": "maximum-number-of-groups-with-increasing-length",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed array usageLimits of length n.\n\nYour task is to create groups using numbers from 0 to n - 1, ensuring that each number, i, is used no more than usageLimits[i] times in total across all groups. You must also satisfy the following conditions:\n\n• Each group must consist of distinct numbers, meaning that no duplicate numbers are allowed within a single group.\n\n• Each group (except the first one) must have a length strictly greater than the previous group.\n\nReturn an integer denoting the maximum number of groups you can create while satisfying these conditions.\n\nExample 1:\n\nInput: usageLimits = [1,2,5]\nOutput: 3\nExplanation: In this example, we can use 0 at most once, 1 at most twice, and 2 at most five times.\n    One way of creating the maximum number of groups while satisfying the conditions is:\n    Group 1 contains the number [2].\n    Group 2 contains the numbers [1,2].\n    Group 3 contains the numbers [0,1,2].\n    It can be shown that the maximum number of groups is 3.\n    So, the output is 3.\n\nExample 2:\n\nInput: usageLimits = [2,1,2]\nOutput: 2\nExplanation: In this example, we can use 0 at most twice, 1 at most once, and 2 at most twice.\n    One way of creating the maximum number of groups while satisfying the conditions is:\n    Group 1 contains the number [0].\n    Group 2 contains the numbers [1,2].\n    It can be shown that the maximum number of groups is 2.\n    So, the output is 2.\n\nExample 3:\n\nInput: usageLimits = [1,1]\nOutput: 1\nExplanation: In this example, we can use both 0 and 1 at most once.\n    One way of creating the maximum number of groups while satisfying the conditions is:\n    Group 1 contains the number [0].\n    It can be shown that the maximum number of groups is 1.\n    So, the output is 1.\n\nConstraints:\n\n• 1 <= usageLimits.length <= 105\n\n• 1 <= usageLimits[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxIncreasingGroups(self, usageLimits):\n        \"\"\"\n        :type usageLimits: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we solve this problem using sorting and binary search?",
+    "Sort the array in increasing order and run a binary search on the number of groups, x.",
+    "To determine if a value x is feasible, greedily distribute the numbers such that each group receives 1, 2, 3, ..., x numbers."
+  ],
+  "testCases": [
+    [
+      "[1,2,5]"
+    ],
+    [
+      "[2,1,2]"
+    ],
+    [
+      "[1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "2",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Group the People Given the Group Size They Belong To\", \"titleSlug\": \"group-the-people-given-the-group-size-they-belong-to\", \"difficulty\": \"Medium\"}]"
+}

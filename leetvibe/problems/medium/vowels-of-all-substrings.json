@@ -1,0 +1,59 @@
+{
+  "questionId": "2187",
+  "title": "Vowels of All Substrings",
+  "titleSlug": "vowels-of-all-substrings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Combinatorics",
+      "slug": "combinatorics"
+    }
+  ],
+  "content": "Given a string word, return the sum of the number of vowels ('a', 'e', 'i', 'o', and 'u') in every substring of word.\n\nA substring is a contiguous (non-empty) sequence of characters within a string.\n\nNote: Due to the large constraints, the answer may not fit in a signed 32-bit integer. Please be careful during the calculations.\n\nExample 1:\n\nInput: word = \"aba\"\nOutput: 6\nExplanation:\n    All possible substrings are: \"a\", \"ab\", \"aba\", \"b\", \"ba\", and \"a\".\n    - \"b\" has 0 vowels in it\n    - \"a\", \"ab\", \"ba\", and \"a\" have 1 vowel each\n    - \"aba\" has 2 vowels in it\n    Hence, the total sum of vowels = 0 + 1 + 1 + 1 + 1 + 2 = 6.\n\nExample 2:\n\nInput: word = \"abc\"\nOutput: 3\nExplanation:\n    All possible substrings are: \"a\", \"ab\", \"abc\", \"b\", \"bc\", and \"c\".\n    - \"a\", \"ab\", and \"abc\" have 1 vowel each\n    - \"b\", \"bc\", and \"c\" have 0 vowels each\n    Hence, the total sum of vowels = 1 + 1 + 1 + 0 + 0 + 0 = 3.\n\nExample 3:\n\nInput: word = \"ltcd\"\nOutput: 0\nExplanation: There are no vowels in any substring of \"ltcd\".\n\nConstraints:\n\n• 1 <= word.length <= 105\n\n• word consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countVowels(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since generating substrings is not an option, can we count the number of substrings a vowel appears in?",
+    "How much does each vowel contribute to the total sum?"
+  ],
+  "testCases": [
+    [
+      "\"aba\""
+    ],
+    [
+      "\"abc\""
+    ],
+    [
+      "\"ltcd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def countVowels(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        vowels = set('aeiou')\n        total = 0\n        \n        # For each vowel at position i, it contributes to (i+1)*(n-i) substrings\n        for i in range(len(word)):\n            if word[i] in vowels:\n                total += (i + 1) * (len(word) - i)\n        \n        return total",
+    "explanation": "Each vowel at position i appears in (i+1)*(n-i) substrings.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Substrings Containing All Three Characters\", \"titleSlug\": \"number-of-substrings-containing-all-three-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Total Appeal of A String\", \"titleSlug\": \"total-appeal-of-a-string\", \"difficulty\": \"Hard\"}]"
+}

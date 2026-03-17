@@ -1,0 +1,52 @@
+{
+  "questionId": "3522",
+  "title": "Find the Power of K-Size Subarrays I",
+  "titleSlug": "find-the-power-of-k-size-subarrays-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an array of integers nums of length n and a positive integer k.\n\nThe power of an array is defined as:\n\n• Its maximum element if all of its elements are consecutive and sorted in ascending order.\n\n• -1 otherwise.\n\nYou need to find the power of all subarrays of nums of size k.\n\nReturn an integer array results of size n - k + 1, where results[i] is the power of nums[i..(i + k - 1)].\n\nExample 1:\n\nInput: nums = [1,2,3,4,3,2,5], k = 3\n\nOutput: [3,4,-1,-1,-1]\n\nExplanation: There are 5 subarrays of nums of size 3:\n\n• [1, 2, 3] with the maximum element 3.\n\n• [2, 3, 4] with the maximum element 4.\n\n• [3, 4, 3] whose elements are not consecutive.\n\n• [4, 3, 2] whose elements are not sorted.\n\n• [3, 2, 5] whose elements are not consecutive.\n\nExample 2:\n\nInput: nums = [2,2,2,2,2], k = 4\n\nOutput: [-1,-1]\n\nExample 3:\n\nInput: nums = [3,2,3,2,3,2], k = 2\n\nOutput: [-1,3,-1,3,-1]\n\nConstraints:\n\n• 1 <= n == nums.length <= 500\n\n• 1 <= nums[i] <= 105\n\n• 1 <= k <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def resultsArray(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we use a brute force solution with nested loops and HashSet?"
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4,3,2,5]",
+      "3"
+    ],
+    [
+      "[2,2,2,2,2]",
+      "4"
+    ],
+    [
+      "[3,2,3,2,3,2]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,4,-1,-1,-1]",
+    "[-1,-1]",
+    "[-1,3,-1,3,-1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def resultsArray(self, nums, k):\n        n = len(nums)\n        result = []\n        for i in range(n - k + 1):\n            sub = nums[i:i+k]\n            if all(sub[j] == sub[j-1] + 1 for j in range(1, k)):\n                result.append(sub[-1])\n            else:\n                result.append(-1)\n        return result",
+    "explanation": "Brute force: for each window of size k, check if elements are consecutive and ascending. If yes, return max (last element); else -1. n ≤ 500 so O(n*k) is fine.\n\nTime: O(n*k). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Sum of Distinct Subarrays With Length K\", \"titleSlug\": \"maximum-sum-of-distinct-subarrays-with-length-k\", \"difficulty\": \"Medium\"}]"
+}

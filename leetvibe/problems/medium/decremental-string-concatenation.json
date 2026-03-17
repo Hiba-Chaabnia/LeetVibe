@@ -1,0 +1,55 @@
+{
+  "questionId": "2854",
+  "title": "Decremental String Concatenation",
+  "titleSlug": "decremental-string-concatenation",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a 0-indexed array words containing n strings.\n\nLet's define a join operation join(x, y) between two strings x and y as concatenating them into xy. However, if the last character of x is equal to the first character of y, one of them is deleted.\n\nFor example join(\"ab\", \"ba\") = \"aba\" and join(\"ab\", \"cde\") = \"abcde\".\n\nYou are to perform n - 1 join operations. Let str0 = words[0]. Starting from i = 1 up to i = n - 1, for the ith operation, you can do one of the following:\n\n• Make stri = join(stri - 1, words[i])\n\n• Make stri = join(words[i], stri - 1)\n\nYour task is to minimize the length of strn - 1.\n\nReturn an integer denoting the minimum possible length of strn - 1.\n\nExample 1:\n\nInput: words = [\"aa\",\"ab\",\"bc\"]\nOutput: 4\nExplanation: In this example, we can perform join operations in the following order to minimize the length of str2:\n    str0 = \"aa\"\n    str1 = join(str0, \"ab\") = \"aab\"\n    str2 = join(str1, \"bc\") = \"aabc\"\n    It can be shown that the minimum possible length of str2 is 4.\n\nExample 2:\n\nInput: words = [\"ab\",\"b\"]\nOutput: 2\nExplanation: In this example, str0 = \"ab\", there are two ways to get str1:\n    join(str0, \"b\") = \"ab\" or join(\"b\", str0) = \"bab\".\n    The first string, \"ab\", has the minimum length. Hence, the answer is 2.\n\nExample 3:\n\nInput: words = [\"aaa\",\"c\",\"aba\"]\nOutput: 6\nExplanation: In this example, we can perform join operations in the following order to minimize the length of str2:\n    str0 = \"aaa\"\n    str1 = join(str0, \"c\") = \"aaac\"\n    str2 = join(\"aba\", str1) = \"abaaac\"\n    It can be shown that the minimum possible length of str2 is 6.\n\nConstraints:\n\n• 1 <= words.length <= 1000\n\n• 1 <= words[i].length <= 50\n\n• Each character in words[i] is an English lowercase letter",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimizeConcatenatedLength(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming with memoization.",
+    "Notice that the first and last characters of a string are sufficient to determine the length of its concatenation with any other string.",
+    "Define dp[i][first][last] as the shortest concatenation length of the first i words starting with a character first and ending with a character last. Convert characters to their ASCII codes if your programming language cannot implicitly convert them to array indices."
+  ],
+  "testCases": [
+    [
+      "[\"aa\",\"ab\",\"bc\"]"
+    ],
+    [
+      "[\"ab\",\"b\"]"
+    ],
+    [
+      "[\"aaa\",\"c\",\"aba\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from functools import lru_cache\n\nclass Solution(object):\n    def minimizeConcatenatedLength(self, words):\n        total = sum(len(w) for w in words)\n        n = len(words)\n        # dp[i][first][last] = min extra chars saved when processing words[0..i]\n        # where first/last are first/last chars of the result\n        # Saving = number of merges = chars eliminated\n        # Maximize savings, then answer = total - max_savings\n        @lru_cache(maxsize=None)\n        def dp(i, first, last):\n            # min length of join(words[0..i]) with given first and last chars\n            if i == 0:\n                if words[0][0] == first and words[0][-1] == last:\n                    return len(words[0])\n                return float('inf')\n            w = words[i]\n            wf, wl = w[0], w[-1]\n            wlen = len(w)\n            best = float('inf')\n            # Option 1: join(prev, w)\n            # first stays first, last becomes wl\n            # saves 1 if prev_last == wf\n            if last == wl:  # this means we need prev_last = last of prev result\n                # prev result ends with 'last', w starts with wf\n                # join(prev, w): new_last = wl = last... wait\n                pass\n            # Let me redo: dp(i, f, l) = min length with result starting with f, ending with l\n            # Transition from dp(i-1, ?, ?):\n            # Option A: join(str_{i-1}, words[i])\n            #   new_first = f, new_last = wl\n            #   length = dp(i-1, f, ?) + wlen - (1 if ? == wf else 0)\n            #   We want to minimize, so if wf exists as last of prev, save 1\n            for prev_last in 'abcdefghijklmnopqrstuvwxyz':\n                prev_len = dp(i-1, first, prev_last)\n                save = 1 if prev_last == wf else 0\n                # join(prev, w) has last = wl\n                if wl == last:\n                    best = min(best, prev_len + wlen - save)\n            # Option B: join(words[i], str_{i-1})\n            #   new_first = wf, new_last = l (from prev)\n            #   length = dp(i-1, ?, last) + wlen - (1 if wl == ? else 0)\n            for prev_first in 'abcdefghijklmnopqrstuvwxyz':\n                prev_len = dp(i-1, prev_first, last)\n                save = 1 if wl == prev_first else 0\n                if wf == first:\n                    best = min(best, prev_len + wlen - save)\n            return best\n        # Better approach: dp[first][last] after i words\n        # Start with words[0]\n        INF = float('inf')\n        # dp maps (first_char, last_char) -> min_length\n        f0, l0 = words[0][0], words[0][-1]\n        curr = {(f0, l0): len(words[0])}\n        for i in range(1, n):\n            w = words[i]\n            wf, wl, wlen = w[0], w[-1], len(w)\n            nxt = {}\n            for (pf, pl), plen in curr.items():\n                # Option A: join(prev, w): new = (pf, wl)\n                save = 1 if pl == wf else 0\n                key = (pf, wl)\n                val = plen + wlen - save\n                if key not in nxt or nxt[key] > val:\n                    nxt[key] = val\n                # Option B: join(w, prev): new = (wf, pl)\n                save = 1 if wl == pf else 0\n                key = (wf, pl)\n                val = plen + wlen - save\n                if key not in nxt or nxt[key] > val:\n                    nxt[key] = val\n            curr = nxt\n        return min(curr.values())",
+    "explanation": "DP: state = (first_char, last_char) of accumulated string -> minimum length. For each new word, try prepending or appending (saving 1 char if boundary characters match). At most 26×26 = 676 states.\n\nTime: O(n * 676). Space: O(676)."
+  },
+  "similarQuestions": "[{\"title\": \"Largest Merge Of Two Strings\", \"titleSlug\": \"largest-merge-of-two-strings\", \"difficulty\": \"Medium\"}]"
+}

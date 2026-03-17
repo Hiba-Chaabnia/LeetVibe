@@ -1,0 +1,49 @@
+{
+  "questionId": "2109",
+  "title": "Find Array Given Subset Sums",
+  "titleSlug": "find-array-given-subset-sums",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    }
+  ],
+  "content": "You are given an integer n representing the length of an unknown array that you are trying to recover. You are also given an array sums containing the values of all 2n subset sums of the unknown array (in no particular order).\n\nReturn the array ans of length n representing the unknown array. If multiple answers exist, return any of them.\n\nAn array sub is a subset of an array arr if sub can be obtained from arr by deleting some (possibly zero or all) elements of arr. The sum of the elements in sub is one possible subset sum of arr. The sum of an empty array is considered to be 0.\n\nNote: Test cases are generated such that there will always be at least one correct answer.\n\nExample 1:\n\nInput: n = 3, sums = [-3,-2,-1,0,0,1,2,3]\nOutput: [1,2,-3]\nExplanation: [1,2,-3] is able to achieve the given subset sums:\n    - []: sum is 0\n    - [1]: sum is 1\n    - [2]: sum is 2\n    - [1,2]: sum is 3\n    - [-3]: sum is -3\n    - [1,-3]: sum is -2\n    - [2,-3]: sum is -1\n    - [1,2,-3]: sum is 0\n    Note that any permutation of [1,2,-3] and also any permutation of [-1,-2,3] will also be accepted.\n\nExample 2:\n\nInput: n = 2, sums = [0,0,0,0]\nOutput: [0,0]\nExplanation: The only correct answer is [0,0].\n\nExample 3:\n\nInput: n = 4, sums = [0,0,5,5,4,-1,4,9,9,-1,4,3,4,8,3,8]\nOutput: [0,-1,4,5]\nExplanation: [0,-1,4,5] is able to achieve the given subset sums.\n\nConstraints:\n\n• 1 <= n <= 15\n\n• sums.length == 2n\n\n• -104 <= sums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def recoverArray(self, n, sums):\n        \"\"\"\n        :type n: int\n        :type sums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "What information do the two largest elements tell us?",
+    "Can we use recursion to check all possible states?"
+  ],
+  "testCases": [
+    [
+      "3",
+      "[-3,-2,-1,0,0,1,2,3]"
+    ],
+    [
+      "2",
+      "[0,0,0,0]"
+    ],
+    [
+      "4",
+      "[0,0,5,5,4,-1,4,9,9,-1,4,3,4,8,3,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,-3]",
+    "[0,0]",
+    "[0,-1,4,5]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Subsets\", \"titleSlug\": \"subsets\", \"difficulty\": \"Medium\"}, {\"title\": \"Subsets II\", \"titleSlug\": \"subsets-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Recover the Original Array\", \"titleSlug\": \"recover-the-original-array\", \"difficulty\": \"Hard\"}]"
+}

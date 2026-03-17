@@ -1,0 +1,61 @@
+{
+  "questionId": "3640",
+  "title": "Maximum Frequency of an Element After Performing Operations II",
+  "titleSlug": "maximum-frequency-of-an-element-after-performing-operations-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums and two integers k and numOperations.\n\nYou must perform an operation numOperations times on nums, where in each operation you:\n\n• Select an index i that was not selected in any previous operations.\n\n• Add an integer in the range [-k, k] to nums[i].\n\nReturn the maximum possible frequency of any element in nums after performing the operations.\n\nExample 1:\n\nInput: nums = [1,4,5], k = 1, numOperations = 2\n\nOutput: 2\n\nExplanation: We can achieve a maximum frequency of two by:\n\n• Adding 0 to nums[1], after which nums becomes [1, 4, 5].\n\n• Adding -1 to nums[2], after which nums becomes [1, 4, 4].\n\nExample 2:\n\nInput: nums = [5,11,20,20], k = 5, numOperations = 1\n\nOutput: 2\n\nExplanation: We can achieve a maximum frequency of two by:\n\n• Adding 0 to nums[1].\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• 0 <= k <= 109\n\n• 0 <= numOperations <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxFrequency(self, nums, k, numOperations):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type numOperations: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The optimal values to check are nums[i] - k, nums[i], and nums[i] + k."
+  ],
+  "testCases": [
+    [
+      "[1,4,5]",
+      "1",
+      "2"
+    ],
+    [
+      "[5,11,20,20]",
+      "5",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxFrequency(self, nums, k, numOperations):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type numOperations: int\n        :rtype: int\n        \"\"\"\n        from collections import Counter\n        \n        count = Counter(nums)\n        max_freq = 0\n        \n        # Try all candidate target values\n        candidates = set()\n        for num in nums:\n            candidates.add(num - k)\n            candidates.add(num)\n            candidates.add(num + k)\n        \n        for target in candidates:\n            # Count how many numbers can be converted to target\n            convertible = 0\n            for num in nums:\n                # Can convert num to target if it's within range [num-k, num+k]\n                if num - k <= target <= num + k:\n                    convertible += 1\n            \n            # We can use at most numOperations modifications\n            # and already have count[target] of target values\n            freq = count[target] + min(numOperations, convertible - count[target])\n            max_freq = max(max_freq, freq)\n        \n        return max_freq",
+    "explanation": "This solution uses a candidate-based approach:\n\n1. **Problem Understanding**:\n   - Can modify at most numOperations elements by adding value in [-k, k]\n   - Find maximum frequency of any element\n\n2. **Key Insight - Candidate Values**:\n   - Only three types of values matter: nums[i] - k, nums[i], nums[i] + k\n   - Any optimal target value is one of these\n   - Why? If a number x can be converted to target, then |x - target| <= k\n\n3. **Algorithm**:\n   - For each candidate target value:\n     - Count how many numbers can be converted to it (within distance k)\n     - Count how many already equal target\n     - Maximum frequency = existing + min(numOperations, convertible - existing)\n\n4. **Why This Works**:\n   - Existing instances of target don't need modification\n   - Can modify up to numOperations other convertible numbers\n   - The limiting factors are: numOperations budget and convertible count\n\nTime Complexity: O(n² + m*n) where m = number of candidates ≤ 3n\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Frequency of the Most Frequent Element\", \"titleSlug\": \"frequency-of-the-most-frequent-element\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Elements With Maximum Frequency\", \"titleSlug\": \"count-elements-with-maximum-frequency\", \"difficulty\": \"Easy\"}]"
+}

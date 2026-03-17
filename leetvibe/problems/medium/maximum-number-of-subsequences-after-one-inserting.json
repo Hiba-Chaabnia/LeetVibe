@@ -1,0 +1,59 @@
+{
+  "questionId": "3948",
+  "title": "Maximum Number of Subsequences After One Inserting",
+  "titleSlug": "maximum-number-of-subsequences-after-one-inserting",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a string s consisting of uppercase English letters.\n\nYou are allowed to insert at most one uppercase English letter at any position (including the beginning or end) of the string.\n\nReturn the maximum number of \"LCT\" subsequences that can be formed in the resulting string after at most one insertion.\n\nExample 1:\n\nInput: s = \"LMCT\"\n\nOutput: 2\n\nExplanation: We can insert a \"L\" at the beginning of the string s to make \"LLMCT\", which has 2 subsequences, at indices [0, 3, 4] and [1, 3, 4].\n\nExample 2:\n\nInput: s = \"LCCT\"\n\nOutput: 4\n\nExplanation: We can insert a \"L\" at the beginning of the string s to make \"LLCCT\", which has 4 subsequences, at indices [0, 2, 4], [0, 3, 4], [1, 2, 4] and [1, 3, 4].\n\nExample 3:\n\nInput: s = \"L\"\n\nOutput: 0\n\nExplanation: Since it is not possible to obtain the subsequence \"LCT\" by inserting a single letter, the result is 0.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of uppercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numOfSubsequences(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Precompute preL, preLC, sufT, and sufCT arrays to count L’s, LC’s, T’s, and CT’s at each position.",
+    "Compute base as the sum over all i of preLC[i] * sufT[i].",
+    "For each insert position i, compute gains sufCT[i] for ‘L’, preL[i] * sufT[i] for ‘C’, and preLC[i] for ‘T’, and take the maximum of base and base + gain."
+  ],
+  "testCases": [
+    [
+      "\"LMCT\""
+    ],
+    [
+      "\"LCCT\""
+    ],
+    [
+      "\"L\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numOfSubsequences(self, s):\n        n = len(s)\n        # Precompute prefix counts of L, LC pairs and suffix counts of T, CT pairs\n        preL = [0] * (n + 1)   # preL[i] = number of L's in s[0..i-1]\n        preLC = [0] * (n + 1)  # preLC[i] = number of LC subsequences in s[0..i-1]\n        sufT = [0] * (n + 2)   # sufT[i] = number of T's in s[i..n-1]\n        sufCT = [0] * (n + 2)  # sufCT[i] = number of CT subsequences in s[i..n-1]\n\n        for i in range(n):\n            preL[i+1] = preL[i] + (1 if s[i] == 'L' else 0)\n            preLC[i+1] = preLC[i] + (preL[i] if s[i] == 'C' else 0)\n\n        for i in range(n-1, -1, -1):\n            sufT[i] = sufT[i+1] + (1 if s[i] == 'T' else 0)\n            sufCT[i] = sufCT[i+1] + (sufT[i+1] if s[i] == 'C' else 0)\n\n        # Base count without insertion\n        base = sum(preLC[i] for i in range(n) if s[i] == 'T')\n        # Equivalently: base = sum(preLC[i+1] - preLC[i] ... ) = preLC at each T\n        # Better: base = sum over i where s[i]=='T' of preLC[i]\n        # But that's O(n). Let's recompute:\n        base = 0\n        for i in range(n):\n            if s[i] == 'T':\n                base += preLC[i]\n\n        # Try inserting each character at each position i (before position i)\n        ans = base\n        for i in range(n + 1):\n            # Insert 'L' at position i: gain = sufCT[i] (new L pairs with all CT after)\n            ans = max(ans, base + sufCT[i])\n            # Insert 'C' at position i: gain = preL[i] * sufT[i]\n            ans = max(ans, base + preL[i] * sufT[i])\n            # Insert 'T' at position i: gain = preLC[i]\n            ans = max(ans, base + preLC[i])\n\n        return ans",
+    "explanation": "Precompute: preL[i] = # L's before position i, preLC[i] = # LC subsequences before i, sufT[i] = # T's from i onward, sufCT[i] = # CT subsequences from i onward.\n\nBase = count of existing LCT subsequences. For each insertion position i:\n- Insert 'L': gains sufCT[i] new subsequences (new L + existing CT after)\n- Insert 'C': gains preL[i] * sufT[i] (existing L's * existing T's after)\n- Insert 'T': gains preLC[i] (existing LC before * new T)\n\nReturn max over all positions and characters.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

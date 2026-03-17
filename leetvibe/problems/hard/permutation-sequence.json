@@ -1,0 +1,50 @@
+{
+  "questionId": "60",
+  "title": "Permutation Sequence",
+  "titleSlug": "permutation-sequence",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "The set [1, 2, 3, ..., n] contains a total of n! unique permutations.\n\nBy listing and labeling all of the permutations in order, we get the following sequence for n = 3:\n\n• \"123\"\n\n• \"132\"\n\n• \"213\"\n\n• \"231\"\n\n• \"312\"\n\n• \"321\"\n\nGiven n and k, return the kth permutation sequence.\n\nExample 1:\n\nInput: n = 3, k = 3\nOutput: \"213\"\nExample 2:\n\nInput: n = 4, k = 9\nOutput: \"2314\"\nExample 3:\n\nInput: n = 3, k = 1\nOutput: \"123\"\n\nConstraints:\n\n• 1 <= n <= 9\n\n• 1 <= k <= n!",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getPermutation(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3",
+      "3"
+    ],
+    [
+      "4",
+      "9"
+    ],
+    [
+      "3",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"213\"",
+    "\"2314\"",
+    "\"123\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def getPermutation(n, k):\n    factorials = [1]\n    nums = list(range(1, n + 1))\n    result = []\n\n    for i in range(1, n):\n        factorials.append(factorials[-1] * i)\n\n    k -= 1\n\n    for i in range(n, 0, -1):\n        index = k // factorials[i - 1]\n        k %= factorials[i - 1]\n        result.append(str(nums.pop(index)))\n\n    return ''.join(result)",
+    "explanation": "The algorithm uses factorials and a list of available numbers to construct the kth permutation. \n\nFirst, we precompute the factorials up to n using a loop.\n\nNext, we initialize an array or list of available numbers, from 1 to n.\n\nThen, we iterate from n down to 1, calculating the index of the current number in the available list to be included in the resulting permutation. We can calculate it as follows: `index = (k - 1) // factorials[i - 1]`. \n\nAfter, we update the value of k to: `k %= factorials[i - 1]`.\n\nAt each step, we append or concatenate the chosen number to the result and remove it from the list of available numbers.\n\nFinally, we return the result as a string."
+  },
+  "similarQuestions": "[{\"title\": \"Next Permutation\", \"titleSlug\": \"next-permutation\", \"difficulty\": \"Medium\"}, {\"title\": \"Permutations\", \"titleSlug\": \"permutations\", \"difficulty\": \"Medium\"}]"
+}

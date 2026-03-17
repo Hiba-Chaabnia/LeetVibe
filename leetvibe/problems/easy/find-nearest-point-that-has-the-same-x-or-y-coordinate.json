@@ -1,0 +1,51 @@
+{
+  "questionId": "1888",
+  "title": "Find Nearest Point That Has the Same X or Y Coordinate",
+  "titleSlug": "find-nearest-point-that-has-the-same-x-or-y-coordinate",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "You are given two integers, x and y, which represent your current location on a Cartesian grid: (x, y). You are also given an array points where each points[i] = [ai, bi] represents that a point exists at (ai, bi). A point is valid if it shares the same x-coordinate or the same y-coordinate as your location.\n\nReturn the index (0-indexed) of the valid point with the smallest Manhattan distance from your current location. If there are multiple, return the valid point with the smallest index. If there are no valid points, return -1.\n\nThe Manhattan distance between two points (x1, y1) and (x2, y2) is abs(x1 - x2) + abs(y1 - y2).\n\nExample 1:\n\nInput: x = 3, y = 4, points = [[1,2],[3,1],[2,4],[2,3],[4,4]]\nOutput: 2\nExplanation: Of all the points, only [3,1], [2,4] and [4,4] are valid. Of the valid points, [2,4] and [4,4] have the smallest Manhattan distance from your current location, with a distance of 1. [2,4] has the smallest index, so return 2.\n\nExample 2:\n\nInput: x = 3, y = 4, points = [[3,4]]\nOutput: 0\nExplanation: The answer is allowed to be on the same location as your current location.\n\nExample 3:\n\nInput: x = 3, y = 4, points = [[2,3]]\nOutput: -1\nExplanation: There are no valid points.\n\nConstraints:\n\n• 1 <= points.length <= 104\n\n• points[i].length == 2\n\n• 1 <= x, y, ai, bi <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nearestValidPoint(self, x, y, points):\n        \"\"\"\n        :type x: int\n        :type y: int\n        :type points: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate through each point, and keep track of the current point with the smallest Manhattan distance from your current location."
+  ],
+  "testCases": [
+    [
+      "3",
+      "4",
+      "[[1,2],[3,1],[2,4],[2,3],[4,4]]"
+    ],
+    [
+      "3",
+      "4",
+      "[[3,4]]"
+    ],
+    [
+      "3",
+      "4",
+      "[[2,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def nearestValidPoint(x: int, y: int, points: List[List[int]]) -> int:\n    min_distance = float(\"inf\")\n    index = -1\n    for i, point in enumerate(points):\n        if x == point[0] or y == point[1]:\n            distance = abs(x - point[0]) + abs(y - point[1])\n            if distance < min_distance:\n                min_distance = distance\n                index = i\n    return index",
+    "explanation": "Iterate through each point in the `points` array, checking if its x or y coordinate is the same as the input x or y coordinate, making the point a valid point. If the point is valid, calculate the Manhattan distance between the input point and the current point. If the calculated distance is smaller than the current minimum distance, update the minimum distance and store the index of the current point. After iterating through all points, return the index of the point with the smallest Manhattan distance. If no point is valid, return -1."
+  },
+  "similarQuestions": "[{\"title\": \"K Closest Points to Origin\", \"titleSlug\": \"k-closest-points-to-origin\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,45 @@
+{
+  "questionId": "812",
+  "title": "Rotate String",
+  "titleSlug": "rotate-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "Given two strings s and goal, return true if and only if s can become goal after some number of shifts on s.\n\nA shift on s consists of moving the leftmost character of s to the rightmost position.\n\n• For example, if s = \"abcde\", then it will be \"bcdea\" after one shift.\n\nExample 1:\n\nInput: s = \"abcde\", goal = \"cdeab\"\nOutput: true\nExample 2:\n\nInput: s = \"abcde\", goal = \"abced\"\nOutput: false\n\nConstraints:\n\n• 1 <= s.length, goal.length <= 100\n\n• s and goal consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rotateString(self, s, goal):\n        \"\"\"\n        :type s: str\n        :type goal: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"abcde\"",
+      "\"cdeab\""
+    ],
+    [
+      "\"abcde\"",
+      "\"abced\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def rotateString(self, s, goal):\n        if len(s) != len(goal):\n            return False\n        return goal in s + s",
+    "explanation": "Lengths must match. Goal appears in s+s if s is rotation of goal.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

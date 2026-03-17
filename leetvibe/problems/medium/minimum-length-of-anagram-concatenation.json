@@ -1,0 +1,54 @@
+{
+  "questionId": "3395",
+  "title": "Minimum Length of Anagram Concatenation",
+  "titleSlug": "minimum-length-of-anagram-concatenation",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given a string s, which is known to be a concatenation of anagrams of some string t.\n\nReturn the minimum possible length of the string t.\n\nAn anagram is formed by rearranging the letters of a string. For example, \"aab\", \"aba\", and, \"baa\" are anagrams of \"aab\".\n\nExample 1:\n\nInput: s = \"abba\"\n\nOutput: 2\n\nExplanation: One possible string t could be \"ba\".\n\nExample 2:\n\nInput: s = \"cdef\"\n\nOutput: 4\n\nExplanation: One possible string t could be \"cdef\", notice that t can be equal to s.\n\nExample 2:\n\nInput: s = \"abcbcacabbaccba\"\n\nOutput: 3\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consist only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minAnagramLength(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The answer should be a divisor of s.length.",
+    "Check each candidate naively."
+  ],
+  "testCases": [
+    [
+      "\"abba\""
+    ],
+    [
+      "\"cdef\""
+    ],
+    [
+      "\"abcbcacabbaccba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def minAnagramLength(self, s):\n        n = len(s)\n        total_freq = Counter(s)\n\n        # Try each divisor of n as candidate length\n        for length in range(1, n + 1):\n            if n % length != 0:\n                continue\n            # Check if s is a concatenation of n//length anagrams of length\n            # Each chunk must have the same character multiset\n            # The multiset of any chunk must divide evenly into total_freq\n            reps = n // length\n            chunk_freq = Counter(s[:length])\n            # Verify chunk_freq * reps == total_freq\n            valid = True\n            for c, cnt in chunk_freq.items():\n                if total_freq[c] != cnt * reps:\n                    valid = False\n                    break\n            if valid and len(chunk_freq) == len(total_freq):\n                # Also verify all chunks are anagrams of the first chunk\n                for i in range(0, n, length):\n                    if Counter(s[i:i+length]) != chunk_freq:\n                        valid = False\n                        break\n            else:\n                valid = False\n            if valid:\n                return length\n        return n",
+    "explanation": "The answer must be a divisor of len(s). For each divisor d (smallest first), check if s can be split into n/d chunks of length d that are all anagrams of each other.\n\nOptimized check: the chunk frequency multiset must be total_frequency / (n/d). If total_freq[c] is not divisible by (n/d) for every character c, skip. Otherwise verify all chunks are anagrams of the first.\n\nTime: O(n * d(n)) where d(n) is number of divisors. Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,50 @@
+{
+  "questionId": "889",
+  "title": "Buddy Strings",
+  "titleSlug": "buddy-strings",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given two strings s and goal, return true if you can swap two letters in s so the result is equal to goal, otherwise, return false.\n\nSwapping letters is defined as taking two indices i and j (0-indexed) such that i != j and swapping the characters at s[i] and s[j].\n\n• For example, swapping at indices 0 and 2 in \"abcd\" results in \"cbad\".\n\nExample 1:\n\nInput: s = \"ab\", goal = \"ba\"\nOutput: true\nExplanation: You can swap s[0] = 'a' and s[1] = 'b' to get \"ba\", which is equal to goal.\n\nExample 2:\n\nInput: s = \"ab\", goal = \"ab\"\nOutput: false\nExplanation: The only letters you can swap are s[0] = 'a' and s[1] = 'b', which results in \"ba\" != goal.\n\nExample 3:\n\nInput: s = \"aa\", goal = \"aa\"\nOutput: true\nExplanation: You can swap s[0] = 'a' and s[1] = 'a' to get \"aa\", which is equal to goal.\n\nConstraints:\n\n• 1 <= s.length, goal.length <= 2 * 104\n\n• s and goal consist of lowercase letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def buddyStrings(self, s, goal):\n        \"\"\"\n        :type s: str\n        :type goal: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"ab\"",
+      "\"ba\""
+    ],
+    [
+      "\"ab\"",
+      "\"ab\""
+    ],
+    [
+      "\"aa\"",
+      "\"aa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def buddyStrings(self, s, goal):\n        if len(s) != len(goal):\n            return False\n        if s == goal:\n            return len(set(s)) < len(s)\n        diff = [(i, s[i], goal[i]) for i in range(len(s)) if s[i] != goal[i]]\n        return len(diff) == 2 and diff[0][1] == diff[1][2] and diff[0][2] == diff[1][1]",
+    "explanation": "If equal: need duplicate. If different: exactly 2 positions, swapping fixes both."
+  },
+  "similarQuestions": "[{\"title\": \"Determine if Two Strings Are Close\", \"titleSlug\": \"determine-if-two-strings-are-close\", \"difficulty\": \"Medium\"}, {\"title\": \"Check if One String Swap Can Make Strings Equal\", \"titleSlug\": \"check-if-one-string-swap-can-make-strings-equal\", \"difficulty\": \"Easy\"}, {\"title\": \"Make Number of Distinct Characters Equal\", \"titleSlug\": \"make-number-of-distinct-characters-equal\", \"difficulty\": \"Medium\"}]"
+}

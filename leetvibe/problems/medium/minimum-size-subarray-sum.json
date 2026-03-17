@@ -1,0 +1,58 @@
+{
+  "questionId": "209",
+  "title": "Minimum Size Subarray Sum",
+  "titleSlug": "minimum-size-subarray-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given an array of positive integers nums and a positive integer target, return the minimal length of a subarray whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.\n\nExample 1:\n\nInput: target = 7, nums = [2,3,1,2,4,3]\nOutput: 2\nExplanation: The subarray [4,3] has the minimal length under the problem constraint.\n\nExample 2:\n\nInput: target = 4, nums = [1,4,4]\nOutput: 1\n\nExample 3:\n\nInput: target = 11, nums = [1,1,1,1,1,1,1,1]\nOutput: 0\n\nConstraints:\n\n• 1 <= target <= 109\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 104\n\nFollow up: If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log(n)).",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSubArrayLen(self, target, nums):\n        \"\"\"\n        :type target: int\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "7",
+      "[2,3,1,2,4,3]"
+    ],
+    [
+      "4",
+      "[1,4,4]"
+    ],
+    [
+      "11",
+      "[1,1,1,1,1,1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minSubArrayLen(target: int, nums: List[int]) -> int:\n    left, cur_sum, min_len = 0, 0, float('inf')\n    for right in range(len(nums)):\n        cur_sum += nums[right]\n        while cur_sum >= target:\n            min_len = min(min_len, right - left + 1)\n            cur_sum -= nums[left]\n            left += 1\n    return min_len if min_len != float('inf') else 0",
+    "explanation": "The algorithm initializes pointers left and right, sum cur_sum, and minimum length min_len. The right pointer traverses nums. During traversal, update cur_sum by adding nums[right]. Then check if cur_sum is greater than or equal to target. If so, update min_len by comparing min_len and the length of the current subarray (right - left + 1). Then update cur_sum by subtracting nums[left] and increment the left pointer. Continue this process until the end of nums is reached. If min_len is still at its max value at the end, return 0. Otherwise, return min_len.\n\nThis algorithm uses a sliding window technique to iterate through the array while maintaining subarray sums greater than or equal to the target."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Window Substring\", \"titleSlug\": \"minimum-window-substring\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Size Subarray Sum Equals k\", \"titleSlug\": \"maximum-size-subarray-sum-equals-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Length of Repeated Subarray\", \"titleSlug\": \"maximum-length-of-repeated-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Reduce X to Zero\", \"titleSlug\": \"minimum-operations-to-reduce-x-to-zero\", \"difficulty\": \"Medium\"}, {\"title\": \"K Radius Subarray Averages\", \"titleSlug\": \"k-radius-subarray-averages\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Product After K Increments\", \"titleSlug\": \"maximum-product-after-k-increments\", \"difficulty\": \"Medium\"}, {\"title\": \"Shortest Subarray With OR at Least K I\", \"titleSlug\": \"shortest-subarray-with-or-at-least-k-i\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Positive Sum Subarray \", \"titleSlug\": \"minimum-positive-sum-subarray\", \"difficulty\": \"Easy\"}]"
+}

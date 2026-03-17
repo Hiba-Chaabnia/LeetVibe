@@ -1,0 +1,62 @@
+{
+  "questionId": "959",
+  "title": "3Sum With Multiplicity",
+  "titleSlug": "3sum-with-multiplicity",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an integer array arr, and an integer target, return the number of tuples i, j, k such that i < j < k and arr[i] + arr[j] + arr[k] == target.\n\nAs the answer can be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: arr = [1,1,2,2,3,3,4,4,5,5], target = 8\nOutput: 20\nExplanation:\n    Enumerating by the values (arr[i], arr[j], arr[k]):\n    (1, 2, 5) occurs 8 times;\n    (1, 3, 4) occurs 8 times;\n    (2, 2, 4) occurs 2 times;\n    (2, 3, 3) occurs 2 times.\n\nExample 2:\n\nInput: arr = [1,1,2,2,2,2], target = 5\nOutput: 12\nExplanation:\n    arr[i] = 1, arr[j] = arr[k] = 2 occurs 12 times:\n    We choose one 1 from [1,1] in 2 ways,\n    and two 2s from [2,2,2,2] in 6 ways.\n\nExample 3:\n\nInput: arr = [2,1,3], target = 6\nOutput: 1\nExplanation: (1, 2, 3) occured one time in the array so we return 1.\n\nConstraints:\n\n• 3 <= arr.length <= 3000\n\n• 0 <= arr[i] <= 100\n\n• 0 <= target <= 300",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def threeSumMulti(self, arr, target):\n        \"\"\"\n        :type arr: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,1,2,2,3,3,4,4,5,5]",
+      "8"
+    ],
+    [
+      "[1,1,2,2,2,2]",
+      "5"
+    ],
+    [
+      "[2,1,3]",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "20",
+    "12",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def threeSumMulti(self, arr, target):\n        from collections import Counter\n        freq = Counter(arr)\n        result = 0\n        MOD = 10**9 + 7\n        for i in freq:\n            for j in freq:\n                k = target - i - j\n                if k < i or k not in freq:\n                    continue\n                if i == j == k:\n                    result += freq[i] * (freq[i] - 1) * (freq[i] - 2) // 6\n                elif i == j < k:\n                    result += freq[i] * (freq[i] - 1) // 2 * freq[k]\n                elif i < j == k:\n                    result += freq[i] * freq[j] * (freq[j] - 1) // 2\n                elif i < j < k:\n                    result += freq[i] * freq[j] * freq[k]\n                result %= MOD\n        return result",
+    "explanation": "Count frequencies. For each unique triplet, calculate combinations based on counts.\nTime: O(n + V²) where V=101\nSpace: O(V)"
+  },
+  "similarQuestions": "[]"
+}

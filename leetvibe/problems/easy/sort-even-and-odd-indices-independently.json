@@ -1,0 +1,47 @@
+{
+  "questionId": "2283",
+  "title": "Sort Even and Odd Indices Independently",
+  "titleSlug": "sort-even-and-odd-indices-independently",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. Rearrange the values of nums according to the following rules:\n\n• Sort the values at odd indices of nums in non-increasing order.\n\n• For example, if nums = [4,1,2,3] before this step, it becomes [4,3,2,1] after. The values at odd indices 1 and 3 are sorted in non-increasing order.\n\n• Sort the values at even indices of nums in non-decreasing order.\n\n• For example, if nums = [4,1,2,3] before this step, it becomes [2,1,4,3] after. The values at even indices 0 and 2 are sorted in non-decreasing order.\n\nReturn the array formed after rearranging the values of nums.\n\nExample 1:\n\nInput: nums = [4,1,2,3]\nOutput: [2,3,4,1]\nExplanation:\n    First, we sort the values present at odd indices (1 and 3) in non-increasing order.\n    So, nums changes from [4,1,2,3] to [4,3,2,1].\n    Next, we sort the values present at even indices (0 and 2) in non-decreasing order.\n    So, nums changes from [4,1,2,3] to [2,3,4,1].\n    Thus, the array formed after rearranging the values is [2,3,4,1].\n\nExample 2:\n\nInput: nums = [2,1]\nOutput: [2,1]\nExplanation:\n    Since there is exactly one odd index and one even index, no rearrangement of values takes place.\n    The resultant array formed is [2,1], which is the same as the initial array.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sortEvenOdd(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to separate the elements at odd indices from the elements at even indices.",
+    "Sort the two groups of elements individually.",
+    "Combine them to form the resultant array."
+  ],
+  "testCases": [
+    [
+      "[4,1,2,3]"
+    ],
+    [
+      "[2,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3,4,1]",
+    "[2,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sortEvenOdd(self, nums):\n        even = sorted([nums[i] for i in range(0, len(nums), 2)])\n        odd = sorted([nums[i] for i in range(1, len(nums), 2)], reverse=True)\n        result = []\n        for i in range(len(even)):\n            result.append(even[i])\n            if i < len(odd):\n                result.append(odd[i])\n        return result",
+    "explanation": "Extract even-indexed (ascending), odd-indexed (descending). Interleave.\nTime: O(n*log(n))\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Sort Array By Parity\", \"titleSlug\": \"sort-array-by-parity\", \"difficulty\": \"Easy\"}, {\"title\": \"Sort Array By Parity II\", \"titleSlug\": \"sort-array-by-parity-ii\", \"difficulty\": \"Easy\"}]"
+}

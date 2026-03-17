@@ -1,0 +1,45 @@
+{
+  "questionId": "4194",
+  "title": "Count Monobit Integers",
+  "titleSlug": "count-monobit-integers",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an integer n.\n\nAn integer is called Monobit if all bits in its binary representation are the same.\n\nReturn the count of Monobit integers in the range [0, n] (inclusive).\n\nExample 1:\n\nInput: n = 1\n\nOutput: 2\n\nExplanation:\n\n• The integers in the range [0, 1] have binary representations \"0\" and \"1\".\n\n• Each representation consists of identical bits. Thus, the answer is 2.\n\nExample 2:\n\nInput: n = 4\n\nOutput: 3\n\nExplanation:\n\n• The integers in the range [0, 4] include binaries \"0\", \"1\", \"10\", \"11\", and \"100\".\n\n• Only 0, 1 and 3 satisfy the Monobit condition. Thus, the answer is 3.\n\nConstraints:\n\n• 0 <= n <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countMonobit(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Go through all the integers in the range [0, n] and count the monobit integers"
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countMonobit(self, n):\n        count = 1\n        x = 1\n        while x <= n:\n            count += 1\n            x = (x << 1) | 1\n        return count",
+    "explanation": "Count 0 plus all-ones binary numbers up to n."
+  },
+  "similarQuestions": "[]"
+}

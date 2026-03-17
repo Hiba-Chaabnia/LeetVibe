@@ -1,0 +1,58 @@
+{
+  "questionId": "780",
+  "title": "Max Chunks To Make Sorted",
+  "titleSlug": "max-chunks-to-make-sorted",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given an integer array arr of length n that represents a permutation of the integers in the range [0, n - 1].\n\nWe split arr into some number of chunks (i.e., partitions), and individually sort each chunk. After concatenating them, the result should equal the sorted array.\n\nReturn the largest number of chunks we can make to sort the array.\n\nExample 1:\n\nInput: arr = [4,3,2,1,0]\nOutput: 1\nExplanation:\n    Splitting into two or more chunks will not return the required result.\n    For example, splitting into [4, 3], [2, 1, 0] will result in [3, 4, 0, 1, 2], which isn't sorted.\n\nExample 2:\n\nInput: arr = [1,0,2,3,4]\nOutput: 4\nExplanation:\n    We can split into two chunks, such as [1, 0], [2, 3, 4].\n    However, splitting into [1, 0], [2], [3], [4] is the highest number of chunks possible.\n\nConstraints:\n\n• n == arr.length\n\n• 1 <= n <= 10\n\n• 0 <= arr[i] < n\n\n• All the elements of arr are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxChunksToSorted(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The first chunk can be found as the smallest k for which A[:k+1] == [0, 1, 2, ...k]; then we repeat this process."
+  ],
+  "testCases": [
+    [
+      "[4,3,2,1,0]"
+    ],
+    [
+      "[1,0,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maxChunksToSorted(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        chunks = 0\n        max_so_far = -1\n        \n        for i in range(len(arr)):\n            # Track max element seen so far\n            max_so_far = max(max_so_far, arr[i])\n            \n            # If max so far equals index, we can make a chunk\n            # Because elements 0..i should be 0..i in sorted order\n            if max_so_far == i:\n                chunks += 1\n        \n        return chunks",
+    "explanation": "Track max element seen. When max equals current index, all elements in this range are in correct positions relative to later elements.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Max Chunks To Make Sorted II\", \"titleSlug\": \"max-chunks-to-make-sorted-ii\", \"difficulty\": \"Hard\"}]"
+}

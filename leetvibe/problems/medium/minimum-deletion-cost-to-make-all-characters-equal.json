@@ -1,0 +1,60 @@
+{
+  "questionId": "4138",
+  "title": "Minimum Deletion Cost to Make All Characters Equal",
+  "titleSlug": "minimum-deletion-cost-to-make-all-characters-equal",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given a string s of length n and an integer array cost of the same length, where cost[i] is the cost to delete the ith character of s.\n\nYou may delete any number of characters from s (possibly none), such that the resulting string is non-empty and consists of equal characters.\n\nReturn an integer denoting the minimum total deletion cost required.\n\nExample 1:\n\nInput: s = \"aabaac\", cost = [1,2,3,4,1,10]\n\nOutput: 11\n\nExplanation: Deleting the characters at indices 0, 1, 2, 3, 4 results in the string \"c\", which consists of equal characters, and the total cost is cost[0] + cost[1] + cost[2] + cost[3] + cost[4] = 1 + 2 + 3 + 4 + 1 = 11.\n\nExample 2:\n\nInput: s = \"abc\", cost = [10,5,8]\n\nOutput: 13\n\nExplanation: Deleting the characters at indices 1 and 2 results in the string \"a\", which consists of equal characters, and the total cost is cost[1] + cost[2] = 5 + 8 = 13.\n\nExample 3:\n\nInput: s = \"zzzzz\", cost = [67,67,67,67,67]\n\nOutput: 0\n\nExplanation: All characters in s are equal, so the deletion cost is 0.\n\nConstraints:\n\n• n == s.length == cost.length\n\n• 1 <= n <= 105\n\n• 1 <= cost[i] <= 109\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCost(self, s, cost):\n        \"\"\"\n        :type s: str\n        :type cost: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep the character whose total deletion cost is maximum"
+  ],
+  "testCases": [
+    [
+      "\"aabaac\"",
+      "[1,2,3,4,1,10]"
+    ],
+    [
+      "\"abc\"",
+      "[10,5,8]"
+    ],
+    [
+      "\"zzzzz\"",
+      "[67,67,67,67,67]"
+    ]
+  ],
+  "expectedOutputs": [
+    "11",
+    "13",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minCost(self, s, cost):\n        # For each final character choice c, cost = total_cost - max_cost_of_c\n        # But we want any single character in the final string.\n        # For each group of consecutive same characters: no cost.\n        # For consecutive different characters: we must keep one character for the whole string.\n        # Actually: we want to keep exactly one character c everywhere.\n        # For each position with s[i] != c: delete it (add cost[i]).\n        # = total_cost - sum(cost[i] where s[i] == c)\n        # For each c: sum(cost[i] where s[i]==c) should be maximized.\n\n        # Wait: we need the resulting string to consist of equal chars.\n        # So we keep exactly one character value; delete everything else.\n        # For each possible kept character c:\n        # deletion cost = sum(cost[i]) for s[i] != c\n        # = total - sum(cost[i] for s[i] == c)\n        # Minimize over all c.\n\n        # BUT: for groups of identical chars, we only delete all but the max-cost one.\n        # E.g., 'aaa' with costs [1,2,3]: keep the one with cost 3, delete 1+2=3.\n        # The formula above gives total - max_group_cost, but we should subtract\n        # the TOTAL cost of all 'a's minus the MAX within consecutive groups... no wait:\n        # We want to keep one 'a' total? No, we keep one CHARACTER VALUE.\n        # All remaining characters of that value stay; only different ones deleted.\n        # 'aabaac' keeping 'a': delete indices with 'b' and 'c' (costs 3 and 10) = 13.\n        # Hmm but example answer is 11 (keeping 'c').\n        # keeping 'c': delete all 'a' and 'b' = 1+2+3+4+1 = 11. Yes.\n\n        from collections import defaultdict\n        total = sum(cost)\n        char_total = defaultdict(int)\n        for c, w in zip(s, cost):\n            char_total[c] += w\n        # Keep character c: deletion cost = total - char_total[c]\n        return min(total - char_total[c] for c in char_total)",
+    "explanation": "To make all remaining characters equal to some character c, delete all occurrences of other characters. Cost = total_cost - sum_of_costs_for_character_c. Minimize over all possible kept characters.\n\nTime: O(n). Space: O(26)."
+  },
+  "similarQuestions": "[]"
+}

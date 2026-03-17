@@ -1,0 +1,57 @@
+{
+  "questionId": "3569",
+  "title": "Count of Substrings Containing Every Vowel and K Consonants II",
+  "titleSlug": "count-of-substrings-containing-every-vowel-and-k-consonants-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given a string word and a non-negative integer k.\n\nReturn the total number of substrings of word that contain every vowel ('a', 'e', 'i', 'o', and 'u') at least once and exactly k consonants.\n\nExample 1:\n\nInput: word = \"aeioqq\", k = 1\n\nOutput: 0\n\nExplanation: There is no substring with every vowel.\n\nExample 2:\n\nInput: word = \"aeiou\", k = 0\n\nOutput: 1\n\nExplanation: The only substring with every vowel and zero consonants is word[0..4], which is \"aeiou\".\n\nExample 3:\n\nInput: word = \"ieaouqqieaouqq\", k = 1\n\nOutput: 3\n\nExplanation: The substrings with every vowel and one consonant are:\n\n• word[0..5], which is \"ieaouq\".\n\n• word[6..11], which is \"qieaou\".\n\n• word[7..12], which is \"ieaouq\".\n\nConstraints:\n\n• 5 <= word.length <= 2 * 105\n\n• word consists only of lowercase English letters.\n\n• 0 <= k <= word.length - 5",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countOfSubstrings(self, word, k):\n        \"\"\"\n        :type word: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can use sliding window and binary search.",
+    "For each index r, find the maximum l such that both conditions are satisfied using binary search."
+  ],
+  "testCases": [
+    [
+      "\"aeioqq\"",
+      "1"
+    ],
+    [
+      "\"aeiou\"",
+      "0"
+    ],
+    [
+      "\"ieaouqqieaouqq\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "1",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def countOfSubstrings(self, word, k):\n        vowels = set('aeiou')\n        def at_least(min_cons):\n            n = len(word)\n            ans = 0\n            v_cnt = defaultdict(int)\n            cons = 0\n            left = 0\n            for right in range(n):\n                c = word[right]\n                if c in vowels:\n                    v_cnt[c] += 1\n                else:\n                    cons += 1\n                while len(v_cnt) == 5 and cons >= min_cons:\n                    ans += n - right\n                    lc = word[left]\n                    if lc in vowels:\n                        v_cnt[lc] -= 1\n                        if v_cnt[lc] == 0:\n                            del v_cnt[lc]\n                    else:\n                        cons -= 1\n                    left += 1\n            return ans\n        return at_least(k) - at_least(k + 1)",
+    "explanation": "Exact k consonants = at_least(k) - at_least(k+1). Sliding window: once all 5 vowels present and consonants >= threshold, add (n-right) valid endings and shrink left.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Substring Of All Vowels in Order\", \"titleSlug\": \"longest-substring-of-all-vowels-in-order\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Vowel Substrings of a String\", \"titleSlug\": \"count-vowel-substrings-of-a-string\", \"difficulty\": \"Easy\"}]"
+}

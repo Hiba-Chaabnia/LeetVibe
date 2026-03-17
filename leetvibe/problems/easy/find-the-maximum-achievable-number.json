@@ -1,0 +1,43 @@
+{
+  "questionId": "2812",
+  "title": "Find the Maximum Achievable Number",
+  "titleSlug": "find-the-maximum-achievable-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given two integers, num and t. A number x is achievable if it can become equal to num after applying the following operation at most t times:\n\n• Increase or decrease x by 1, and simultaneously increase or decrease num by 1.\n\nReturn the maximum possible value of x.\n\nExample 1:\n\nInput: num = 4, t = 1\n\nOutput: 6\n\nExplanation: Apply the following operation once to make the maximum achievable number equal to num:\n\n• Decrease the maximum achievable number by 1, and increase num by 1.\n\nExample 2:\n\nInput: num = 3, t = 2\n\nOutput: 7\n\nExplanation: Apply the following operation twice to make the maximum achievable number equal to num:\n\n• Decrease the maximum achievable number by 1, and increase num by 1.\n\nConstraints:\n\n• 1 <= num, t <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def theMaximumAchievableX(self, num, t):\n        \"\"\"\n        :type num: int\n        :type t: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let x be the answer, it’s always optimal to decrease x in each operation and increase nums."
+  ],
+  "testCases": [
+    [
+      "4",
+      "1"
+    ],
+    [
+      "3",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "7"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def theMaximumAchievableX(self, num, t):\n        return num + 2 * t",
+    "explanation": "Each operation can increase x by 1 and decrease num by 1 (closing the gap by 2); after t operations the max achievable x is num + 2*t. O(1) time."
+  },
+  "similarQuestions": "[]"
+}

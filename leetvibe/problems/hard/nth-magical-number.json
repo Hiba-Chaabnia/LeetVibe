@@ -1,0 +1,43 @@
+{
+  "questionId": "910",
+  "title": "Nth Magical Number",
+  "titleSlug": "nth-magical-number",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    }
+  ],
+  "content": "A positive integer is magical if it is divisible by either a or b.\n\nGiven the three integers n, a, and b, return the nth magical number. Since the answer may be very large, return it modulo 109 + 7.\n\nExample 1:\n\nInput: n = 1, a = 2, b = 3\nOutput: 2\n\nExample 2:\n\nInput: n = 4, a = 2, b = 3\nOutput: 6\n\nConstraints:\n\n• 1 <= n <= 109\n\n• 2 <= a, b <= 4 * 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def nthMagicalNumber(self, n, a, b):\n        \"\"\"\n        :type n: int\n        :type a: int\n        :type b: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "1",
+      "2",
+      "3"
+    ],
+    [
+      "4",
+      "2",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "6"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

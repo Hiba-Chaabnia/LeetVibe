@@ -1,0 +1,74 @@
+{
+  "questionId": "1758",
+  "title": "Distribute Repeating Integers",
+  "titleSlug": "distribute-repeating-integers",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given an array of n integers, nums, where there are at most 50 unique values in the array. You are also given an array of m customer order quantities, quantity, where quantity[i] is the amount of integers the ith customer ordered. Determine if it is possible to distribute nums such that:\n\n• The ith customer gets exactly quantity[i] integers,\n\n• The integers the ith customer gets are all equal, and\n\n• Every customer is satisfied.\n\nReturn true if it is possible to distribute nums according to the above conditions.\n\nExample 1:\n\nInput: nums = [1,2,3,4], quantity = [2]\nOutput: false\nExplanation: The 0th customer cannot be given two different integers.\n\nExample 2:\n\nInput: nums = [1,2,3,3], quantity = [2]\nOutput: true\nExplanation: The 0th customer is given [3,3]. The integers [1,2] are not used.\n\nExample 3:\n\nInput: nums = [1,1,2,2], quantity = [2,2]\nOutput: true\nExplanation: The 0th customer is given [1,1], and the 1st customer is given [2,2].\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 105\n\n• 1 <= nums[i] <= 1000\n\n• m == quantity.length\n\n• 1 <= m <= 10\n\n• 1 <= quantity[i] <= 105\n\n• There are at most 50 unique values in nums.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def canDistribute(self, nums, quantity):\n        \"\"\"\n        :type nums: List[int]\n        :type quantity: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the frequencies of each number. For example, if nums = [4,4,5,5,5], frequencies = [2,3].",
+    "Each customer wants all of their numbers to be the same. This means that each customer will be assigned to one number.",
+    "Use dynamic programming. Iterate through the numbers' frequencies, and choose some subset of customers to be assigned to this number."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4]",
+      "[2]"
+    ],
+    [
+      "[1,2,3,3]",
+      "[2]"
+    ],
+    [
+      "[1,1,2,2]",
+      "[2,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\ndef canDistribute(nums, quantity):\n    counts = Counter(nums)\n    values = list(counts.values())\n    quantity.sort(reverse=True)\n\n    def dfs(index, values):\n        if index == len(quantity):\n            return True\n        for i in range(len(values)):\n            if values[i] >= quantity[index]:\n                values[i] -= quantity[index]\n                if dfs(index + 1, values):\n                    return True\n                values[i] += quantity[index]\n        return False\n\n    return dfs(0, values)",
+    "explanation": "The algorithm first calculates the frequency count of each unique number in the input `nums` and store the counts in a list/array `values`. Then it sorts the `quantity` in decreasing order so that we try to satisfy the customers with the largest order first.\n\nThe main part of the algorithm is the `dfs` function. It performs a depth first search on the counts (in `values`), trying to satisfy each customer in order as given in the `quantity` array. It backtracks when it is not possible to satisfy a customer with the remaining counts. The base case is when all the customers have been satisfied. In this case, the function returns `true`. If we cannot satisfy any customer, the function returns `false`.\n\nFinally, the main function `canDistribute` returns the result of the `dfs` function starting from the first customer.\n\nThe algorithm works for any of the four languages: C++, Java, Python, or JavaScript."
+  },
+  "similarQuestions": "[]"
+}

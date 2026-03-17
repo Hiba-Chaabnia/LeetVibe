@@ -1,0 +1,51 @@
+{
+  "questionId": "984",
+  "title": "Most Stones Removed with Same Row or Column",
+  "titleSlug": "most-stones-removed-with-same-row-or-column",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "On a 2D plane, we place n stones at some integer coordinate points. Each coordinate point may have at most one stone.\n\nA stone can be removed if it shares either the same row or the same column as another stone that has not been removed.\n\nGiven an array stones of length n where stones[i] = [xi, yi] represents the location of the ith stone, return the largest possible number of stones that can be removed.\n\nExample 1:\n\nInput: stones = [[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]\nOutput: 5\nExplanation: One way to remove 5 stones is as follows:\n    1. Remove stone [2,2] because it shares the same row as [2,1].\n    2. Remove stone [2,1] because it shares the same column as [0,1].\n    3. Remove stone [1,2] because it shares the same row as [1,0].\n    4. Remove stone [1,0] because it shares the same column as [0,0].\n    5. Remove stone [0,1] because it shares the same row as [0,0].\n    Stone [0,0] cannot be removed since it does not share a row/column with another stone still on the plane.\n\nExample 2:\n\nInput: stones = [[0,0],[0,2],[1,1],[2,0],[2,2]]\nOutput: 3\nExplanation: One way to make 3 moves is as follows:\n    1. Remove stone [2,2] because it shares the same row as [2,0].\n    2. Remove stone [2,0] because it shares the same column as [0,0].\n    3. Remove stone [0,2] because it shares the same row as [0,0].\n    Stones [0,0] and [1,1] cannot be removed since they do not share a row/column with another stone still on the plane.\n\nExample 3:\n\nInput: stones = [[0,0]]\nOutput: 0\nExplanation: [0,0] is the only stone on the plane, so you cannot remove it.\n\nConstraints:\n\n• 1 <= stones.length <= 1000\n\n• 0 <= xi, yi <= 104\n\n• No two stones are at the same coordinate point.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeStones(self, stones):\n        \"\"\"\n        :type stones: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]"
+    ],
+    [
+      "[[0,0],[0,2],[1,1],[2,0],[2,2]]"
+    ],
+    [
+      "[[0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "3",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Moves to Get a Peaceful Board\", \"titleSlug\": \"minimum-moves-to-get-a-peaceful-board\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "1437",
+  "title": "Minimum Insertion Steps to Make a String Palindrome",
+  "titleSlug": "minimum-insertion-steps-to-make-a-string-palindrome",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given a string s. In one step you can insert any character at any index of the string.\n\nReturn the minimum number of steps to make s palindrome.\n\nA Palindrome String is one that reads the same backward as well as forward.\n\nExample 1:\n\nInput: s = \"zzazz\"\nOutput: 0\nExplanation: The string \"zzazz\" is already palindrome we do not need any insertions.\n\nExample 2:\n\nInput: s = \"mbadm\"\nOutput: 2\nExplanation: String can be \"mbdadbm\" or \"mdbabdm\".\n\nExample 3:\n\nInput: s = \"leetcode\"\nOutput: 5\nExplanation: Inserting 5 characters the string becomes \"leetcodocteel\".\n\nConstraints:\n\n• 1 <= s.length <= 500\n\n• s consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minInsertions(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Is dynamic programming suitable for this problem ?",
+    "If we know the longest palindromic sub-sequence is x and the length of the string is n then, what is the answer to this problem? It is n - x as we need n - x insertions to make the remaining characters also palindrome."
+  ],
+  "testCases": [
+    [
+      "\"zzazz\""
+    ],
+    [
+      "\"mbadm\""
+    ],
+    [
+      "\"leetcode\""
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "2",
+    "5"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Number of Moves to Make Palindrome\", \"titleSlug\": \"minimum-number-of-moves-to-make-palindrome\", \"difficulty\": \"Hard\"}]"
+}

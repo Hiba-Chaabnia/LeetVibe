@@ -1,0 +1,62 @@
+{
+  "questionId": "1663",
+  "title": "Detect Cycles in 2D Grid",
+  "titleSlug": "detect-cycles-in-2d-grid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given a 2D array of characters grid of size m x n, you need to find if there exists any cycle consisting of the same value in grid.\n\nA cycle is a path of length 4 or more in the grid that starts and ends at the same cell. From a given cell, you can move to one of the cells adjacent to it - in one of the four directions (up, down, left, or right), if it has the same value of the current cell.\n\nAlso, you cannot move to the cell that you visited in your last move. For example, the cycle (1, 1) -> (1, 2) -> (1, 1) is invalid because from (1, 2) we visited (1, 1) which was the last visited cell.\n\nReturn true if any cycle of the same value exists in grid, otherwise, return false.\n\nExample 1:\n\nInput: grid = [[\"a\",\"a\",\"a\",\"a\"],[\"a\",\"b\",\"b\",\"a\"],[\"a\",\"b\",\"b\",\"a\"],[\"a\",\"a\",\"a\",\"a\"]]\nOutput: true\nExplanation: There are two valid cycles shown in different colors in the image below:\n\nExample 2:\n\nInput: grid = [[\"c\",\"c\",\"c\",\"a\"],[\"c\",\"d\",\"c\",\"c\"],[\"c\",\"c\",\"e\",\"c\"],[\"f\",\"c\",\"c\",\"c\"]]\nOutput: true\nExplanation: There is only one valid cycle highlighted in the image below:\n\nExample 3:\n\nInput: grid = [[\"a\",\"b\",\"b\"],[\"b\",\"z\",\"b\"],[\"b\",\"b\",\"a\"]]\nOutput: false\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 500\n\n• grid consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def containsCycle(self, grid):\n        \"\"\"\n        :type grid: List[List[str]]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep track of the parent (previous position) to avoid considering an invalid path.",
+    "Use DFS or BFS and keep track of visited cells to see if there is a cycle."
+  ],
+  "testCases": [
+    [
+      "[[\"a\",\"a\",\"a\",\"a\"],[\"a\",\"b\",\"b\",\"a\"],[\"a\",\"b\",\"b\",\"a\"],[\"a\",\"a\",\"a\",\"a\"]]"
+    ],
+    [
+      "[[\"c\",\"c\",\"c\",\"a\"],[\"c\",\"d\",\"c\",\"c\"],[\"c\",\"c\",\"e\",\"c\"],[\"f\",\"c\",\"c\",\"c\"]]"
+    ],
+    [
+      "[[\"a\",\"b\",\"b\"],[\"b\",\"z\",\"b\"],[\"b\",\"b\",\"a\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def containsCycle(self, grid):\n        m, n = len(grid), len(grid[0])\n        visited = set()\n        def dfs(r, c, pr, pc):\n            if (r, c) in visited:\n                return True\n            visited.add((r, c))\n            for dr, dc in [(0,1), (1,0), (0,-1), (-1,0)]:\n                nr, nc = r + dr, c + dc\n                if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] == grid[r][c]:\n                    if (nr, nc) != (pr, pc):\n                        if dfs(nr, nc, r, c):\n                            return True\n            return False\n        for i in range(m):\n            for j in range(n):\n                if (i, j) not in visited:\n                    if dfs(i, j, -1, -1):\n                        return True\n        return False",
+    "explanation": "DFS with parent tracking. Cycle if visit non-parent cell with same value.\nTime: O(m*n)\nSpace: O(m*n)"
+  },
+  "similarQuestions": "[]"
+}

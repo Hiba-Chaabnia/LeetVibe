@@ -1,0 +1,54 @@
+{
+  "questionId": "1341",
+  "title": "Split a String in Balanced Strings",
+  "titleSlug": "split-a-string-in-balanced-strings",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Balanced strings are those that have an equal quantity of 'L' and 'R' characters.\n\nGiven a balanced string s, split it into some number of substrings such that:\n\n• Each substring is balanced.\n\nReturn the maximum number of balanced strings you can obtain.\n\nExample 1:\n\nInput: s = \"RLRRLLRLRL\"\nOutput: 4\nExplanation: s can be split into \"RL\", \"RRLL\", \"RL\", \"RL\", each substring contains same number of 'L' and 'R'.\n\nExample 2:\n\nInput: s = \"RLRRRLLRLL\"\nOutput: 2\nExplanation: s can be split into \"RL\", \"RRRLLRLL\", each substring contains same number of 'L' and 'R'.\n    Note that s cannot be split into \"RL\", \"RR\", \"RL\", \"LR\", \"LL\", because the 2nd and 5th substrings are not balanced.\n\nExample 3:\n\nInput: s = \"LLLLRRRR\"\nOutput: 1\nExplanation: s can be split into \"LLLLRRRR\".\n\nConstraints:\n\n• 2 <= s.length <= 1000\n\n• s[i] is either 'L' or 'R'.\n\n• s is a balanced string.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def balancedStringSplit(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Loop from left to right maintaining a balance variable when it gets an L increase it by one otherwise decrease it by one.",
+    "Whenever the balance variable reaches zero then we increase the answer by one."
+  ],
+  "testCases": [
+    [
+      "\"RLRRLLRLRL\""
+    ],
+    [
+      "\"RLRRRLLRLL\""
+    ],
+    [
+      "\"LLLLRRRR\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def balancedStringSplit(self, s):\n        balance = 0\n        count = 0\n        for char in s:\n            balance += 1 if char == 'R' else -1\n            if balance == 0:\n                count += 1\n        return count",
+    "explanation": "Track R/L balance. Increment count whenever balance reaches 0.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Split Strings by Separator\", \"titleSlug\": \"split-strings-by-separator\", \"difficulty\": \"Easy\"}]"
+}

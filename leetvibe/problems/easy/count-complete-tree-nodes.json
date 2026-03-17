@@ -1,0 +1,49 @@
+{
+  "questionId": "222",
+  "title": "Count Complete Tree Nodes",
+  "titleSlug": "count-complete-tree-nodes",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a complete binary tree, return the number of the nodes in the tree.\n\nAccording to Wikipedia, every level, except possibly the last, is completely filled in a complete binary tree, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.\n\nDesign an algorithm that runs in less than O(n) time complexity.\n\nExample 1:\n\nInput: root = [1,2,3,4,5,6]\nOutput: 6\n\nExample 2:\n\nInput: root = []\nOutput: 0\n\nExample 3:\n\nInput: root = [1]\nOutput: 1\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 5 * 104].\n\n• 0 <= Node.val <= 5 * 104\n\n• The tree is guaranteed to be complete.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countNodes(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,4,5,6]",
+      "[]",
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countNodes(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        if not root:\n            return 0\n        \n        # Count height from left edge and right edge\n        left_height = 0\n        right_height = 0\n        \n        left = root\n        while left:\n            left_height += 1\n            left = left.left\n        \n        right = root\n        while right:\n            right_height += 1\n            right = right.right\n        \n        # If heights equal, tree is perfect\n        if left_height == right_height:\n            return (1 << left_height) - 1  # 2^h - 1\n        \n        # Otherwise, recurse on left and right\n        return 1 + self.countNodes(root.left) + self.countNodes(root.right)",
+    "explanation": "Binary search on tree height:\n\n1. **Perfect vs Complete**:\n   - If left_height == right_height: perfect tree\n   - Count = 2^height - 1\n\n2. **Otherwise**: Recurse\n   - Left subtree is perfect\n   - Right may not be\n\n3. **Optimization**: O(log²n) instead of O(n)\n   - Use height counting instead of traversal\n\nTime: O(log²n)\nSpace: O(log n) for recursion"
+  },
+  "similarQuestions": "[{\"title\": \"Closest Binary Search Tree Value\", \"titleSlug\": \"closest-binary-search-tree-value\", \"difficulty\": \"Easy\"}]"
+}

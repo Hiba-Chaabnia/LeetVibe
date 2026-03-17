@@ -1,0 +1,51 @@
+{
+  "questionId": "2311",
+  "title": "Minimum White Tiles After Covering With Carpets",
+  "titleSlug": "minimum-white-tiles-after-covering-with-carpets",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed binary string floor, which represents the colors of tiles on a floor:\n\n• floor[i] = '0' denotes that the ith tile of the floor is colored black.\n\n• On the other hand, floor[i] = '1' denotes that the ith tile of the floor is colored white.\n\nYou are also given numCarpets and carpetLen. You have numCarpets black carpets, each of length carpetLen tiles. Cover the tiles with the given carpets such that the number of white tiles still visible is minimum. Carpets may overlap one another.\n\nReturn the minimum number of white tiles still visible.\n\nExample 1:\n\nInput: floor = \"10110101\", numCarpets = 2, carpetLen = 2\nOutput: 2\nExplanation:\n    The figure above shows one way of covering the tiles with the carpets such that only 2 white tiles are visible.\n    No other way of covering the tiles with the carpets can leave less than 2 white tiles visible.\n\nExample 2:\n\nInput: floor = \"11111\", numCarpets = 2, carpetLen = 3\nOutput: 0\nExplanation:\n    The figure above shows one way of covering the tiles with the carpets such that no white tiles are visible.\n    Note that the carpets are able to overlap one another.\n\nConstraints:\n\n• 1 <= carpetLen <= floor.length <= 1000\n\n• floor[i] is either '0' or '1'.\n\n• 1 <= numCarpets <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumWhiteTiles(self, floor, numCarpets, carpetLen):\n        \"\"\"\n        :type floor: str\n        :type numCarpets: int\n        :type carpetLen: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can you think of a DP solution?",
+    "Let DP[i][j] denote the minimum number of white tiles still visible from indices i to floor.length-1 after covering with at most j carpets.",
+    "The transition will be whether to put down the carpet at position i (if possible), or not."
+  ],
+  "testCases": [
+    [
+      "\"10110101\"",
+      "2",
+      "2"
+    ],
+    [
+      "\"11111\"",
+      "2",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Edit Distance\", \"titleSlug\": \"edit-distance\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "1045",
+  "title": "Check If Word Is Valid After Substitutions",
+  "titleSlug": "check-if-word-is-valid-after-substitutions",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    }
+  ],
+  "content": "Given a string s, determine if it is valid.\n\nA string s is valid if, starting with an empty string t = \"\", you can transform t into s after performing the following operation any number of times:\n\n• Insert string \"abc\" into any position in t. More formally, t becomes tleft + \"abc\" + tright, where t == tleft + tright. Note that tleft and tright may be empty.\n\nReturn true if s is a valid string, otherwise, return false.\n\nExample 1:\n\nInput: s = \"aabcbc\"\nOutput: true\nExplanation:\n    \"\" -> \"abc\" -> \"aabcbc\"\n    Thus, \"aabcbc\" is valid.\n\nExample 2:\n\nInput: s = \"abcabcababcc\"\nOutput: true\nExplanation:\n    \"\" -> \"abc\" -> \"abcabc\" -> \"abcabcabc\" -> \"abcabcababcc\"\n    Thus, \"abcabcababcc\" is valid.\n\nExample 3:\n\nInput: s = \"abccba\"\nOutput: false\nExplanation: It is impossible to get \"abccba\" using the operation.\n\nConstraints:\n\n• 1 <= s.length <= 2 * 104\n\n• s consists of letters 'a', 'b', and 'c'",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isValid(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"aabcbc\""
+    ],
+    [
+      "\"abcabcababcc\""
+    ],
+    [
+      "\"abccba\""
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isValid(self, s):\n        stack = []\n        for c in s:\n            stack.append(c)\n            if len(stack) >= 3 and stack[-3:] == ['a', 'b', 'c']:\n                stack.pop()\n                stack.pop()\n                stack.pop()\n        return len(stack) == 0",
+    "explanation": "Stack-based. Keep removing 'abc' patterns. Valid if empty at end.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Valid Parentheses\", \"titleSlug\": \"valid-parentheses\", \"difficulty\": \"Easy\"}]"
+}

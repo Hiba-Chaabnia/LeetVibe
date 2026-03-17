@@ -1,0 +1,49 @@
+{
+  "questionId": "94",
+  "title": "Binary Tree Inorder Traversal",
+  "titleSlug": "binary-tree-inorder-traversal",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the inorder traversal of its nodes' values.\n\nExample 1:\n\nInput: root = [1,null,2,3]\n\nOutput: [1,3,2]\n\nExplanation: Example 2:\n\nInput: root = [1,2,3,4,5,null,8,null,null,6,7,9]\n\nOutput: [4,2,6,5,7,1,3,9,8]\n\nExplanation: Example 3:\n\nInput: root = []\n\nOutput: []\n\nExample 4:\n\nInput: root = [1]\n\nOutput: [1]\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 100].\n\n• -100 <= Node.val <= 100\n\nFollow up: Recursive solution is trivial, could you do it iteratively?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def inorderTraversal(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,null,2,3]",
+      "[1,2,3,4,5,null,8,null,null,6,7,9]",
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,3,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def inorderTraversal(self, root):\n        result = []\n        stack = []\n        node = root\n        while node or stack:\n            while node:\n                stack.append(node)\n                node = node.left\n            node = stack.pop()\n            result.append(node.val)\n            node = node.right\n        return result",
+    "explanation": "Iterative inorder: Left -> Root -> Right using stack."
+  },
+  "similarQuestions": "[{\"title\": \"Validate Binary Search Tree\", \"titleSlug\": \"validate-binary-search-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Binary Tree Preorder Traversal\", \"titleSlug\": \"binary-tree-preorder-traversal\", \"difficulty\": \"Easy\"}, {\"title\": \"Binary Tree Postorder Traversal\", \"titleSlug\": \"binary-tree-postorder-traversal\", \"difficulty\": \"Easy\"}, {\"title\": \"Binary Search Tree Iterator\", \"titleSlug\": \"binary-search-tree-iterator\", \"difficulty\": \"Medium\"}, {\"title\": \"Kth Smallest Element in a BST\", \"titleSlug\": \"kth-smallest-element-in-a-bst\", \"difficulty\": \"Medium\"}, {\"title\": \"Closest Binary Search Tree Value II\", \"titleSlug\": \"closest-binary-search-tree-value-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Inorder Successor in BST\", \"titleSlug\": \"inorder-successor-in-bst\", \"difficulty\": \"Medium\"}, {\"title\": \"Convert Binary Search Tree to Sorted Doubly Linked List\", \"titleSlug\": \"convert-binary-search-tree-to-sorted-doubly-linked-list\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Distance Between BST Nodes\", \"titleSlug\": \"minimum-distance-between-bst-nodes\", \"difficulty\": \"Easy\"}]"
+}

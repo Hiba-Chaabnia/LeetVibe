@@ -1,0 +1,41 @@
+{
+  "questionId": "482",
+  "title": "License Key Formatting",
+  "titleSlug": "license-key-formatting",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a license key represented as a string s that consists of only alphanumeric characters and dashes. The string is separated into n + 1 groups by n dashes. You are also given an integer k.\n\nWe want to reformat the string s such that each group contains exactly k characters, except for the first group, which could be shorter than k but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.\n\nReturn the reformatted license key.\n\nExample 1:\n\nInput: s = \"5F3Z-2e-9-w\", k = 4\nOutput: \"5F3Z-2E9W\"\nExplanation: The string s has been split into two parts, each part has 4 characters.\n    Note that the two extra dashes are not needed and can be removed.\n\nExample 2:\n\nInput: s = \"2-5g-3-J\", k = 2\nOutput: \"2-5G-3J\"\nExplanation: The string s has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of English letters, digits, and dashes '-'.\n\n• 1 <= k <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def licenseKeyFormatting(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"5F3Z-2e-9-w\"",
+      "4"
+    ],
+    [
+      "\"2-5g-3-J\"",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"5F3Z-2E9W\"",
+    "\"2-5G-3J\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def licenseKeyFormatting(self, s, k):\n        s = s.replace('-', '').upper()\n        if not s:\n            return ''\n        n = len(s)\n        first = n % k or k\n        groups = [s[:first]]\n        i = first\n        while i < n:\n            groups.append(s[i:i+k])\n            i += k\n        return '-'.join(groups)",
+    "explanation": "Remove dashes, uppercase. First group may be shorter; remaining groups have exactly k chars.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

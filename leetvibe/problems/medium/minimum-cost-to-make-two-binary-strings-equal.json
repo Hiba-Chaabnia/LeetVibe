@@ -1,0 +1,66 @@
+{
+  "questionId": "4156",
+  "title": "Minimum Cost to Make Two Binary Strings Equal",
+  "titleSlug": "minimum-cost-to-make-two-binary-strings-equal",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given two binary strings s and t, both of length n, and three positive integers flipCost, swapCost, and crossCost.\n\nYou are allowed to apply the following operations any number of times (in any order) to the strings s and t:\n\n• Choose any index i and flip s[i] or t[i] (change '0' to '1' or '1' to '0'). The cost of this operation is flipCost.\n\n• Choose two distinct indices i and j, and swap either s[i] and s[j] or t[i] and t[j]. The cost of this operation is swapCost.\n\n• Choose an index i and swap s[i] with t[i]. The cost of this operation is crossCost.\n\nReturn an integer denoting the minimum total cost needed to make the strings s and t equal.\n\nExample 1:\n\nInput: s = \"01000\", t = \"10111\", flipCost = 10, swapCost = 2, crossCost = 2\n\nOutput: 16\n\nExplanation: We can perform the following operations:\n\n• Swap s[0] and s[1] (swapCost = 2). After this operation, s = \"10000\" and t = \"10111\".\n\n• Cross swap s[2] and t[2] (crossCost = 2). After this operation, s = \"10100\" and t = \"10011\".\n\n• Swap s[2] and s[3] (swapCost = 2). After this operation, s = \"10010\" and t = \"10011\".\n\n• Flip s[4] (flipCost = 10). After this operation, s = t = \"10011\".\n\nThe total cost is 2 + 2 + 2 + 10 = 16.\n\nExample 2:\n\nInput: s = \"001\", t = \"110\", flipCost = 2, swapCost = 100, crossCost = 100\n\nOutput: 6\n\nExplanation: Flipping all the bits of s makes the strings equal, and the total cost is 3 * flipCost = 3 * 2 = 6.\n\nExample 3:\n\nInput: s = \"1010\", t = \"1010\", flipCost = 5, swapCost = 5, crossCost = 5\n\nOutput: 0\n\nExplanation: The strings are already equal, so no operations are required.\n\nConstraints:\n\n• n == s.length == t.length\n\n• 1 <= n <= 105​​​​​​​\n\n• 1 <= flipCost, swapCost, crossCost <= 109\n\n• s and t consist only of the characters '0' and '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumCost(self, s, t, flipCost, swapCost, crossCost):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :type flipCost: int\n        :type swapCost: int\n        :type crossCost: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count mismatches: a = #(s = '0' , t = '1' ) , b = #(s = '1' , t = '0').",
+    "Pair opposite mismatches: p = min( a , b). Fix each pair with cost min(swapCost , 2 * flipCost).",
+    "Update counts: a = a - p, b = b - p. Let r = abs( a - b).",
+    "Fix remaining mismatches in pairs: each pair costs min(crossCost + swapCost , 2 * flipCost).",
+    "If one mismatch remains (r % 2 == 1), pay flipCost.",
+    "Sum all costs for the answer."
+  ],
+  "testCases": [
+    [
+      "\"01000\"",
+      "\"10111\"",
+      "10",
+      "2",
+      "2"
+    ],
+    [
+      "\"001\"",
+      "\"110\"",
+      "2",
+      "100",
+      "100"
+    ],
+    [
+      "\"1010\"",
+      "\"1010\"",
+      "5",
+      "5",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "16",
+    "6",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumCost(self, s, t, flipCost, swapCost, crossCost):\n        # Count mismatches: a = positions where s='0',t='1'; b = positions where s='1',t='0'\n        a = sum(1 for si, ti in zip(s, t) if si == '0' and ti == '1')\n        b = sum(1 for si, ti in zip(s, t) if si == '1' and ti == '0')\n\n        # Fix min(a,b) opposite pairs: each pair costs min(swapCost, 2*flipCost)\n        p = min(a, b)\n        cost = p * min(swapCost, 2 * flipCost)\n        a -= p\n        b -= p\n\n        # Remaining: r = a + b mismatches of the same type\n        r = a + b\n        # Fix them in pairs (cross-swap + in-string swap, or 2 flips)\n        pairs = r // 2\n        cost += pairs * min(crossCost + swapCost, 2 * flipCost)\n        # One leftover mismatch (if r is odd)\n        if r % 2 == 1:\n            cost += flipCost\n\n        return cost",
+    "explanation": "Classify positions: type-A (s='0',t='1'), type-B (s='1',t='0').\n\n1. Pair opposite-type mismatches (one A + one B): fix each pair with min(swapCost, 2*flipCost). In-string swap brings the two closer then one flip each, or just 2 flips.\n\n2. Remaining same-type mismatches (only A's or only B's): pair them up. Each pair costs min(crossCost + swapCost, 2*flipCost): cross-swap creates two opposite-type, then in-string swap fixes them; or just 2 flips.\n\n3. If odd remaining: one flip.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

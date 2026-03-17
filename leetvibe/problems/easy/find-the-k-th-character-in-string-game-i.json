@@ -1,0 +1,53 @@
+{
+  "questionId": "3600",
+  "title": "Find the K-th Character in String Game I",
+  "titleSlug": "find-the-k-th-character-in-string-game-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Alice and Bob are playing a game. Initially, Alice has a string word = \"a\".\n\nYou are given a positive integer k.\n\nNow Bob will ask Alice to perform the following operation forever:\n\n• Generate a new string by changing each character in word to its next character in the English alphabet, and append it to the original word.\n\nFor example, performing the operation on \"c\" generates \"cd\" and performing the operation on \"zb\" generates \"zbac\".\n\nReturn the value of the kth character in word, after enough operations have been done for word to have at least k characters.\n\nExample 1:\n\nInput: k = 5\n\nOutput: \"b\"\n\nExplanation: Initially, word = \"a\". We need to do the operation three times:\n\n• Generated string is \"b\", word becomes \"ab\".\n\n• Generated string is \"bc\", word becomes \"abbc\".\n\n• Generated string is \"bccd\", word becomes \"abbcbccd\".\n\nExample 2:\n\nInput: k = 10\n\nOutput: \"c\"\n\nConstraints:\n\n• 1 <= k <= 500",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kthCharacter(self, k):\n        \"\"\"\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The constraints are small. Construct the string by simulating the operations."
+  ],
+  "testCases": [
+    [
+      "5"
+    ],
+    [
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"b\"",
+    "\"c\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def kthCharacter(self, k):\n        return chr(ord('a') + bin(k - 1).count('1'))",
+    "explanation": "The k-th character is 'a' shifted by the number of 1-bits in (k-1), since each operation increments characters. O(log k) time."
+  },
+  "similarQuestions": "[{\"title\": \"Shifting Letters\", \"titleSlug\": \"shifting-letters\", \"difficulty\": \"Medium\"}]"
+}

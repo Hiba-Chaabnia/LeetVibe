@@ -1,0 +1,51 @@
+{
+  "questionId": "2264",
+  "title": "Minimum Sum of Four Digit Number After Splitting Digits",
+  "titleSlug": "minimum-sum-of-four-digit-number-after-splitting-digits",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a positive integer num consisting of exactly four digits. Split num into two new integers new1 and new2 by using the digits found in num. Leading zeros are allowed in new1 and new2, and all the digits found in num must be used.\n\n• For example, given num = 2932, you have the following digits: two 2's, one 9 and one 3. Some of the possible pairs [new1, new2] are [22, 93], [23, 92], [223, 9] and [2, 329].\n\nReturn the minimum possible sum of new1 and new2.\n\nExample 1:\n\nInput: num = 2932\nOutput: 52\nExplanation: Some possible pairs [new1, new2] are [29, 23], [223, 9], etc.\n    The minimum sum can be obtained by the pair [29, 23]: 29 + 23 = 52.\n\nExample 2:\n\nInput: num = 4009\nOutput: 13\nExplanation: Some possible pairs [new1, new2] are [0, 49], [490, 0], etc.\n    The minimum sum can be obtained by the pair [4, 9]: 4 + 9 = 13.\n\nConstraints:\n\n• 1000 <= num <= 9999",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumSum(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Notice that the most optimal way to obtain the minimum possible sum using 4 digits is by summing up two 2-digit numbers.",
+    "We can use the two smallest digits out of the four as the digits found in the tens place respectively.",
+    "Similarly, we use the final 2 larger digits as the digits found in the ones place."
+  ],
+  "testCases": [
+    [
+      "2932"
+    ],
+    [
+      "4009"
+    ]
+  ],
+  "expectedOutputs": [
+    "52",
+    "13"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumSum(self, num):\n        digits = sorted([int(d) for d in str(num)])\n        return (digits[0] * 10 + digits[2]) + (digits[1] * 10 + digits[3])",
+    "explanation": "Sort digits. Pair smallest two in tens place, largest two in ones place.\nTime: O(log(num))\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Add Digits\", \"titleSlug\": \"add-digits\", \"difficulty\": \"Easy\"}, {\"title\": \"Difference Between Element Sum and Digit Sum of an Array\", \"titleSlug\": \"difference-between-element-sum-and-digit-sum-of-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Alternating Digit Sum\", \"titleSlug\": \"alternating-digit-sum\", \"difficulty\": \"Easy\"}]"
+}

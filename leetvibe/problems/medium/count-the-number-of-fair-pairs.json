@@ -1,0 +1,55 @@
+{
+  "questionId": "2699",
+  "title": "Count the Number of Fair Pairs",
+  "titleSlug": "count-the-number-of-fair-pairs",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given a 0-indexed integer array nums of size n and two integers lower and upper, return the number of fair pairs.\n\nA pair (i, j) is fair if:\n\n• 0 <= i < j < n, and\n\n• lower <= nums[i] + nums[j] <= upper\n\nExample 1:\n\nInput: nums = [0,1,7,4,4,5], lower = 3, upper = 6\nOutput: 6\nExplanation: There are 6 fair pairs: (0,3), (0,4), (0,5), (1,3), (1,4), and (1,5).\n\nExample 2:\n\nInput: nums = [1,7,9,2,5], lower = 11, upper = 11\nOutput: 1\nExplanation: There is a single fair pair: (2,3).\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• nums.length == n\n\n• -109 <= nums[i] <= 109\n\n• -109 <= lower <= upper <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countFairPairs(self, nums, lower, upper):\n        \"\"\"\n        :type nums: List[int]\n        :type lower: int\n        :type upper: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the array in ascending order.",
+    "For each number in the array, keep track of the smallest and largest numbers in the array that can form a fair pair with this number.",
+    "As you move to larger number, both boundaries move down."
+  ],
+  "testCases": [
+    [
+      "[0,1,7,4,4,5]",
+      "3",
+      "6"
+    ],
+    [
+      "[1,7,9,2,5]",
+      "11",
+      "11"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count of Range Sum\", \"titleSlug\": \"count-of-range-sum\", \"difficulty\": \"Hard\"}, {\"title\": \"Finding Pairs With a Certain Sum\", \"titleSlug\": \"finding-pairs-with-a-certain-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Number of Pairs With Absolute Difference K\", \"titleSlug\": \"count-number-of-pairs-with-absolute-difference-k\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Pairs Whose Sum is Less than Target\", \"titleSlug\": \"count-pairs-whose-sum-is-less-than-target\", \"difficulty\": \"Easy\"}]"
+}

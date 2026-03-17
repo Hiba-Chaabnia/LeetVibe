@@ -1,0 +1,57 @@
+{
+  "questionId": "2134",
+  "title": "Maximize the Confusion of an Exam",
+  "titleSlug": "maximize-the-confusion-of-an-exam",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "A teacher is writing a test with n true/false questions, with 'T' denoting true and 'F' denoting false. He wants to confuse the students by maximizing the number of consecutive questions with the same answer (multiple trues or multiple falses in a row).\n\nYou are given a string answerKey, where answerKey[i] is the original answer to the ith question. In addition, you are given an integer k, the maximum number of times you may perform the following operation:\n\n• Change the answer key for any question to 'T' or 'F' (i.e., set answerKey[i] to 'T' or 'F').\n\nReturn the maximum number of consecutive 'T's or 'F's in the answer key after performing the operation at most k times.\n\nExample 1:\n\nInput: answerKey = \"TTFF\", k = 2\nOutput: 4\nExplanation: We can replace both the 'F's with 'T's to make answerKey = \"TTTT\".\n    There are four consecutive 'T's.\n\nExample 2:\n\nInput: answerKey = \"TFFT\", k = 1\nOutput: 3\nExplanation: We can replace the first 'T' with an 'F' to make answerKey = \"FFFT\".\n    Alternatively, we can replace the second 'T' with an 'F' to make answerKey = \"TFFF\".\n    In both cases, there are three consecutive 'F's.\n\nExample 3:\n\nInput: answerKey = \"TTFTTFTT\", k = 1\nOutput: 5\nExplanation: We can replace the first 'F' to make answerKey = \"TTTTTFTT\"\n    Alternatively, we can replace the second 'F' to make answerKey = \"TTFTTTTT\".\n    In both cases, there are five consecutive 'T's.\n\nConstraints:\n\n• n == answerKey.length\n\n• 1 <= n <= 5 * 104\n\n• answerKey[i] is either 'T' or 'F'\n\n• 1 <= k <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxConsecutiveAnswers(self, answerKey, k):\n        \"\"\"\n        :type answerKey: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we use the maximum length at the previous position to help us find the answer for the current position?",
+    "Can we use binary search to find the maximum consecutive same answer at every position?"
+  ],
+  "testCases": [
+    [
+      "\"TTFF\"",
+      "2"
+    ],
+    [
+      "\"TFFT\"",
+      "1"
+    ],
+    [
+      "\"TTFTTFTT\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "3",
+    "5"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Substring with At Most K Distinct Characters\", \"titleSlug\": \"longest-substring-with-at-most-k-distinct-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Repeating Character Replacement\", \"titleSlug\": \"longest-repeating-character-replacement\", \"difficulty\": \"Medium\"}, {\"title\": \"Max Consecutive Ones III\", \"titleSlug\": \"max-consecutive-ones-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Days to Make m Bouquets\", \"titleSlug\": \"minimum-number-of-days-to-make-m-bouquets\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Nice Subarray\", \"titleSlug\": \"longest-nice-subarray\", \"difficulty\": \"Medium\"}]"
+}

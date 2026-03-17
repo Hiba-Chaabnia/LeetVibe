@@ -1,0 +1,50 @@
+{
+  "questionId": "3646",
+  "title": "Sum of Good Subsequences",
+  "titleSlug": "sum-of-good-subsequences",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums. A good subsequence is defined as a subsequence of nums where the absolute difference between any two consecutive elements in the subsequence is exactly 1.\n\nReturn the sum of all possible good subsequences of nums.\n\nSince the answer may be very large, return it modulo 109 + 7.\n\nNote that a subsequence of size 1 is considered good by definition.\n\nExample 1:\n\nInput: nums = [1,2,1]\n\nOutput: 14\n\nExplanation:\n\n• Good subsequences are: [1], [2], [1], [1,2], [2,1], [1,2,1].\n\n• The sum of elements in these subsequences is 14.\n\nExample 2:\n\nInput: nums = [3,4,5]\n\nOutput: 40\n\nExplanation:\n\n• Good subsequences are: [3], [4], [5], [3,4], [4,5], [3,4,5].\n\n• The sum of elements in these subsequences is 40.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 0 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumOfGoodSubsequences(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider counting how many times each element occurs in all possible good subsequences. This can help you derive the final answer more easily.",
+    "Use dynamic programming to track both the count and the sum of subsequences where the last element is nums[i]."
+  ],
+  "testCases": [
+    [
+      "[1,2,1]"
+    ],
+    [
+      "[3,4,5]"
+    ]
+  ],
+  "expectedOutputs": [
+    "14",
+    "40"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumOfGoodSubsequences(self, nums):\n        MOD = 10**9 + 7\n        dp_cnt = {}  # dp_cnt[v] = count of good subsequences ending with v\n        dp_sum = {}  # dp_sum[v] = sum of all elements in all good subsequences ending with v\n        for v in nums:\n            cnt_adj = (dp_cnt.get(v-1, 0) + dp_cnt.get(v+1, 0)) % MOD\n            sum_adj = (dp_sum.get(v-1, 0) + dp_sum.get(v+1, 0)) % MOD\n            new_cnt = (1 + cnt_adj) % MOD\n            new_sum = (v * new_cnt + sum_adj) % MOD\n            dp_cnt[v] = (dp_cnt.get(v, 0) + new_cnt) % MOD\n            dp_sum[v] = (dp_sum.get(v, 0) + new_sum) % MOD\n        return sum(dp_sum.values()) % MOD",
+    "explanation": "DP: dp_cnt[v] = number of good subsequences ending at v; dp_sum[v] = sum of elements in all those subsequences. When processing element v: can extend subsequences ending at v-1 or v+1 (diff=1). new_cnt = 1 + cnt[v-1] + cnt[v+1]; new_sum = v*new_cnt + sum[v-1] + sum[v+1]. Add to existing values.\n\nTime: O(n). Space: O(max_val)."
+  },
+  "similarQuestions": "[]"
+}

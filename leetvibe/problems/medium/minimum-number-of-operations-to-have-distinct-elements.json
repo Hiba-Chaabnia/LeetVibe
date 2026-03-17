@@ -1,0 +1,51 @@
+{
+  "questionId": "4162",
+  "title": "Minimum Number of Operations to Have Distinct Elements",
+  "titleSlug": "minimum-number-of-operations-to-have-distinct-elements",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nIn one operation, you remove the first three elements of the current array. If there are fewer than three elements remaining, all remaining elements are removed.\n\nRepeat this operation until the array is empty or contains no duplicate values.\n\nReturn an integer denoting the number of operations required.\n\nExample 1:\n\nInput: nums = [3,8,3,6,5,8]\n\nOutput: 1\n\nExplanation: In the first operation, we remove the first three elements. The remaining elements [6, 5, 8] are all distinct, so we stop. Only one operation is needed.\n\nExample 2:\n\nInput: nums = [2,2]\n\nOutput: 1\n\nExplanation: After one operation, the array becomes empty, which meets the stopping condition.\n\nExample 3:\n\nInput: nums = [4,3,5,1,2]\n\nOutput: 0\n\nExplanation: All elements in the array are distinct, therefore no operations are needed.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the operations as described using a map that is initially filled.",
+    "While the map does not contain all distinct elements, delete the first three values using a pointer.",
+    "Repeat until the map contains all distinct elements or becomes empty."
+  ],
+  "testCases": [
+    [
+      "[3,8,3,6,5,8]"
+    ],
+    [
+      "[2,2]"
+    ],
+    [
+      "[4,3,5,1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def minOperations(self, nums):\n        ptr = 0\n        ops = 0\n        while True:\n            remaining = nums[ptr:]\n            if not remaining:\n                break\n            if len(Counter(remaining)) == len(remaining):\n                break\n            ptr += 3\n            ops += 1\n        return ops",
+    "explanation": "Simulate removing the first 3 elements by advancing a pointer. After each removal, check if the remaining subarray has all distinct elements. Stop when it does or the array is empty.\n\nTime: O(n^2/3) worst case. Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

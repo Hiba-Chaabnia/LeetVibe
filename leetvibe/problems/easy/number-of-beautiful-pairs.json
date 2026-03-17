@@ -1,0 +1,58 @@
+{
+  "questionId": "2831",
+  "title": "Number of Beautiful Pairs",
+  "titleSlug": "number-of-beautiful-pairs",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums. A pair of indices i, j where 0 <= i < j < nums.length is called beautiful if the first digit of nums[i] and the last digit of nums[j] are coprime.\n\nReturn the total number of beautiful pairs in nums.\n\nTwo integers x and y are coprime if there is no integer greater than 1 that divides both of them. In other words, x and y are coprime if gcd(x, y) == 1, where gcd(x, y) is the greatest common divisor of x and y.\n\nExample 1:\n\nInput: nums = [2,5,1,4]\nOutput: 5\nExplanation: There are 5 beautiful pairs in nums:\n    When i = 0 and j = 1: the first digit of nums[0] is 2, and the last digit of nums[1] is 5. We can confirm that 2 and 5 are coprime, since gcd(2,5) == 1.\n    When i = 0 and j = 2: the first digit of nums[0] is 2, and the last digit of nums[2] is 1. Indeed, gcd(2,1) == 1.\n    When i = 1 and j = 2: the first digit of nums[1] is 5, and the last digit of nums[2] is 1. Indeed, gcd(5,1) == 1.\n    When i = 1 and j = 3: the first digit of nums[1] is 5, and the last digit of nums[3] is 4. Indeed, gcd(5,4) == 1.\n    When i = 2 and j = 3: the first digit of nums[2] is 1, and the last digit of nums[3] is 4. Indeed, gcd(1,4) == 1.\n    Thus, we return 5.\n\nExample 2:\n\nInput: nums = [11,21,12]\nOutput: 2\nExplanation: There are 2 beautiful pairs:\n    When i = 0 and j = 1: the first digit of nums[0] is 1, and the last digit of nums[1] is 1. Indeed, gcd(1,1) == 1.\n    When i = 0 and j = 2: the first digit of nums[0] is 1, and the last digit of nums[2] is 2. Indeed, gcd(1,2) == 1.\n    Thus, we return 2.\n\nConstraints:\n\n• 2 <= nums.length <= 100\n\n• 1 <= nums[i] <= 9999\n\n• nums[i] % 10 != 0",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countBeautifulPairs(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since nums.length is small, you can find all pairs of indices and check if each pair is beautiful.",
+    "Use integer to string conversion to get the first and last digit of each number."
+  ],
+  "testCases": [
+    [
+      "[2,5,1,4]"
+    ],
+    [
+      "[11,21,12]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countBeautifulPairs(self, nums):\n        from math import gcd\n        count = 0\n        for i in range(len(nums)):\n            for j in range(i + 1, len(nums)):\n                first = int(str(nums[i])[0])\n                last = nums[j] % 10\n                if gcd(first, last) == 1:\n                    count += 1\n        return count",
+    "explanation": "For each pair i<j check if the first digit of nums[i] and last digit of nums[j] are coprime; count qualifying pairs. O(n^2) time."
+  },
+  "similarQuestions": "[]"
+}

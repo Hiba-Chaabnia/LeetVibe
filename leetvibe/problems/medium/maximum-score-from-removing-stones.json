@@ -1,0 +1,56 @@
+{
+  "questionId": "1879",
+  "title": "Maximum Score From Removing Stones",
+  "titleSlug": "maximum-score-from-removing-stones",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    }
+  ],
+  "content": "You are playing a solitaire game with three piles of stones of sizes a​​​​​​, b,​​​​​​ and c​​​​​​ respectively. Each turn you choose two different non-empty piles, take one stone from each, and add 1 point to your score. The game stops when there are fewer than two non-empty piles (meaning there are no more available moves).\n\nGiven three integers a​​​​​, b,​​​​​ and c​​​​​, return the maximum score you can get.\n\nExample 1:\n\nInput: a = 2, b = 4, c = 6\nOutput: 6\nExplanation: The starting state is (2, 4, 6). One optimal set of moves is:\n    - Take from 1st and 3rd piles, state is now (1, 4, 5)\n    - Take from 1st and 3rd piles, state is now (0, 4, 4)\n    - Take from 2nd and 3rd piles, state is now (0, 3, 3)\n    - Take from 2nd and 3rd piles, state is now (0, 2, 2)\n    - Take from 2nd and 3rd piles, state is now (0, 1, 1)\n    - Take from 2nd and 3rd piles, state is now (0, 0, 0)\n    There are fewer than two non-empty piles, so the game ends. Total: 6 points.\n\nExample 2:\n\nInput: a = 4, b = 4, c = 6\nOutput: 7\nExplanation: The starting state is (4, 4, 6). One optimal set of moves is:\n    - Take from 1st and 2nd piles, state is now (3, 3, 6)\n    - Take from 1st and 3rd piles, state is now (2, 3, 5)\n    - Take from 1st and 3rd piles, state is now (1, 3, 4)\n    - Take from 1st and 3rd piles, state is now (0, 3, 3)\n    - Take from 2nd and 3rd piles, state is now (0, 2, 2)\n    - Take from 2nd and 3rd piles, state is now (0, 1, 1)\n    - Take from 2nd and 3rd piles, state is now (0, 0, 0)\n    There are fewer than two non-empty piles, so the game ends. Total: 7 points.\n\nExample 3:\n\nInput: a = 1, b = 8, c = 8\nOutput: 8\nExplanation: One optimal set of moves is to take from the 2nd and 3rd piles for 8 turns until they are empty.\n    After that, there are fewer than two non-empty piles, so the game ends.\n\nConstraints:\n\n• 1 <= a, b, c <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumScore(self, a, b, c):\n        \"\"\"\n        :type a: int\n        :type b: int\n        :type c: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It's optimal to always remove one stone from the biggest 2 piles",
+    "Note that the limits are small enough for simulation"
+  ],
+  "testCases": [
+    [
+      "2",
+      "4",
+      "6"
+    ],
+    [
+      "4",
+      "4",
+      "6"
+    ],
+    [
+      "1",
+      "8",
+      "8"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "7",
+    "8"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Amount of Time to Fill Cups\", \"titleSlug\": \"minimum-amount-of-time-to-fill-cups\", \"difficulty\": \"Easy\"}]"
+}

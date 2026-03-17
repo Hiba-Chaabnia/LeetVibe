@@ -1,0 +1,45 @@
+{
+  "questionId": "495",
+  "title": "Teemo Attacking",
+  "titleSlug": "teemo-attacking",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Our hero Teemo is attacking an enemy Ashe with poison attacks! When Teemo attacks Ashe, Ashe gets poisoned for a exactly duration seconds. More formally, an attack at second t will mean Ashe is poisoned during the inclusive time interval [t, t + duration - 1]. If Teemo attacks again before the poison effect ends, the timer for it is reset, and the poison effect will end duration seconds after the new attack.\n\nYou are given a non-decreasing integer array timeSeries, where timeSeries[i] denotes that Teemo attacks Ashe at second timeSeries[i], and an integer duration.\n\nReturn the total number of seconds that Ashe is poisoned.\n\nExample 1:\n\nInput: timeSeries = [1,4], duration = 2\nOutput: 4\nExplanation: Teemo's attacks on Ashe go as follows:\n    - At second 1, Teemo attacks, and Ashe is poisoned for seconds 1 and 2.\n    - At second 4, Teemo attacks, and Ashe is poisoned for seconds 4 and 5.\n    Ashe is poisoned for seconds 1, 2, 4, and 5, which is 4 seconds in total.\n\nExample 2:\n\nInput: timeSeries = [1,2], duration = 2\nOutput: 3\nExplanation: Teemo's attacks on Ashe go as follows:\n    - At second 1, Teemo attacks, and Ashe is poisoned for seconds 1 and 2.\n    - At second 2 however, Teemo attacks again and resets the poison timer. Ashe is poisoned for seconds 2 and 3.\n    Ashe is poisoned for seconds 1, 2, and 3, which is 3 seconds in total.\n\nConstraints:\n\n• 1 <= timeSeries.length <= 104\n\n• 0 <= timeSeries[i], duration <= 107\n\n• timeSeries is sorted in non-decreasing order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findPoisonedDuration(self, timeSeries, duration):\n        \"\"\"\n        :type timeSeries: List[int]\n        :type duration: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,4]",
+      "2"
+    ],
+    [
+      "[1,2]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findPoisonedDuration(self, timeSeries, duration):\n        total = 0\n        for i in range(len(timeSeries) - 1):\n            gap = timeSeries[i+1] - timeSeries[i]\n            total += min(gap, duration)\n        total += duration\n        return total",
+    "explanation": "For each attack, add min(gap, duration). Add full duration for last attack.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Merge Intervals\", \"titleSlug\": \"merge-intervals\", \"difficulty\": \"Medium\"}, {\"title\": \"Can Place Flowers\", \"titleSlug\": \"can-place-flowers\", \"difficulty\": \"Easy\"}, {\"title\": \"Dota2 Senate\", \"titleSlug\": \"dota2-senate\", \"difficulty\": \"Medium\"}]"
+}

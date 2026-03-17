@@ -1,0 +1,54 @@
+{
+  "questionId": "2552",
+  "title": "Maximum Sum of Distinct Subarrays With Length K",
+  "titleSlug": "maximum-sum-of-distinct-subarrays-with-length-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an integer array nums and an integer k. Find the maximum subarray sum of all the subarrays of nums that meet the following conditions:\n\n• The length of the subarray is k, and\n\n• All the elements of the subarray are distinct.\n\nReturn the maximum subarray sum of all the subarrays that meet the conditions. If no subarray meets the conditions, return 0.\n\nA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [1,5,4,2,9,9,9], k = 3\nOutput: 15\nExplanation: The subarrays of nums with length 3 are:\n    - [1,5,4] which meets the requirements and has a sum of 10.\n    - [5,4,2] which meets the requirements and has a sum of 11.\n    - [4,2,9] which meets the requirements and has a sum of 15.\n    - [2,9,9] which does not meet the requirements because the element 9 is repeated.\n    - [9,9,9] which does not meet the requirements because the element 9 is repeated.\n    We return 15 because it is the maximum subarray sum of all the subarrays that meet the conditions\n\nExample 2:\n\nInput: nums = [4,4,4], k = 3\nOutput: 0\nExplanation: The subarrays of nums with length 3 are:\n    - [4,4,4] which does not meet the requirements because the element 4 is repeated.\n    We return 0 because no subarrays meet the conditions.\n\nConstraints:\n\n• 1 <= k <= nums.length <= 105\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumSubarraySum(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Which elements change when moving from the subarray of size k that ends at index i to the subarray of size k that ends at index i + 1?",
+    "Only two elements change, the element at i + 1 is added into the subarray, and the element at i - k + 1 gets removed from the subarray.",
+    "Iterate through each subarray of size k and keep track of the sum of the subarray and the frequency of each element."
+  ],
+  "testCases": [
+    [
+      "[1,5,4,2,9,9,9]",
+      "3"
+    ],
+    [
+      "[4,4,4]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "15",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def maximumSubarraySum(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        window_sum = 0\n        max_sum = 0\n        char_count = {}\n        \n        for i in range(len(nums)):\n            # Add current number\n            window_sum += nums[i]\n            char_count[nums[i]] = char_count.get(nums[i], 0) + 1\n            \n            # Remove left element if window exceeds size k\n            if i >= k:\n                removed = nums[i - k]\n                window_sum -= removed\n                char_count[removed] -= 1\n                if char_count[removed] == 0:\n                    del char_count[removed]\n            \n            # Update max if window size is k and all elements are distinct\n            if i >= k - 1 and len(char_count) == k:\n                max_sum = max(max_sum, window_sum)\n        \n        return max_sum",
+    "explanation": "Sliding window with frequency tracking. Only update max when window has k distinct elements.",
+    "complexity": "Time: O(n). Space: O(k)."
+  },
+  "similarQuestions": "[{\"title\": \"Max Consecutive Ones III\", \"titleSlug\": \"max-consecutive-ones-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Nice Subarray\", \"titleSlug\": \"longest-nice-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Optimal Partition of String\", \"titleSlug\": \"optimal-partition-of-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Count the Number of Good Subarrays\", \"titleSlug\": \"count-the-number-of-good-subarrays\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Good Subarray Sum\", \"titleSlug\": \"maximum-good-subarray-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Power of K-Size Subarrays I\", \"titleSlug\": \"find-the-power-of-k-size-subarrays-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Power of K-Size Subarrays II\", \"titleSlug\": \"find-the-power-of-k-size-subarrays-ii\", \"difficulty\": \"Medium\"}]"
+}

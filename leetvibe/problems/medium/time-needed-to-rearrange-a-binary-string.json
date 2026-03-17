@@ -1,0 +1,46 @@
+{
+  "questionId": "2464",
+  "title": "Time Needed to Rearrange a Binary String",
+  "titleSlug": "time-needed-to-rearrange-a-binary-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a binary string s. In one second, all occurrences of \"01\" are simultaneously replaced with \"10\". This process repeats until no occurrences of \"01\" exist.\n\nReturn the number of seconds needed to complete this process.\n\nExample 1:\n\nInput: s = \"0110101\"\nOutput: 4\nExplanation:\n    After one second, s becomes \"1011010\".\n    After another second, s becomes \"1101100\".\n    After the third second, s becomes \"1110100\".\n    After the fourth second, s becomes \"1111000\".\n    No occurrence of \"01\" exists any longer, and the process needed 4 seconds to complete,\n    so we return 4.\n\nExample 2:\n\nInput: s = \"11100\"\nOutput: 0\nExplanation:\n    No occurrence of \"01\" exists in s, and the processes needed 0 seconds to complete,\n    so we return 0.\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s[i] is either '0' or '1'.\n\nFollow up:\n\nCan you solve this problem in O(n) time complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def secondsToRemoveOccurrences(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try replicating the steps from the problem statement.",
+    "Perform the replacements simultaneously, and return the number of times the process repeats."
+  ],
+  "testCases": [
+    [
+      "\"0110101\""
+    ],
+    [
+      "\"11100\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Swaps to Group All 1's Together\", \"titleSlug\": \"minimum-swaps-to-group-all-1s-together\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Swaps to Group All 1's Together II\", \"titleSlug\": \"minimum-swaps-to-group-all-1s-together-ii\", \"difficulty\": \"Medium\"}]"
+}

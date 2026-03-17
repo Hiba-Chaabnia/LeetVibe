@@ -1,0 +1,51 @@
+{
+  "questionId": "127",
+  "title": "Word Ladder",
+  "titleSlug": "word-ladder",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:\n\n• Every adjacent pair of words differs by a single letter.\n\n• Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.\n\n• sk == endWord\n\nGiven two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.\n\nExample 1:\n\nInput: beginWord = \"hit\", endWord = \"cog\", wordList = [\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]\nOutput: 5\nExplanation: One shortest transformation sequence is \"hit\" -> \"hot\" -> \"dot\" -> \"dog\" -> cog\", which is 5 words long.\n\nExample 2:\n\nInput: beginWord = \"hit\", endWord = \"cog\", wordList = [\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]\nOutput: 0\nExplanation: The endWord \"cog\" is not in wordList, therefore there is no valid transformation sequence.\n\nConstraints:\n\n• 1 <= beginWord.length <= 10\n\n• endWord.length == beginWord.length\n\n• 1 <= wordList.length <= 5000\n\n• wordList[i].length == beginWord.length\n\n• beginWord, endWord, and wordList[i] consist of lowercase English letters.\n\n• beginWord != endWord\n\n• All the words in wordList are unique.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def ladderLength(self, beginWord, endWord, wordList):\n        \"\"\"\n        :type beginWord: str\n        :type endWord: str\n        :type wordList: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"hit\"",
+      "\"cog\"",
+      "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]"
+    ],
+    [
+      "\"hit\"",
+      "\"cog\"",
+      "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\ndef ladderLength(beginWord, endWord, wordList):\n    word_set = set(wordList)\n    if endWord not in word_set:\n        return 0\n\n    q = deque([beginWord])\n    steps = 1\n\n    while q:\n        size = len(q)\n        current_level = set()\n        \n        for _ in range(size):\n            current_word = q.popleft()\n            if current_word == endWord:\n                return steps\n\n            word_chars = list(current_word)\n            for i in range(len(word_chars)):\n                original_char = word_chars[i]\n                for j in range(26):\n                    word_chars[i] = chr(ord('a') + j)\n                    new_word = ''.join(word_chars)\n                    if new_word in word_set:\n                        q.append(new_word)\n                        current_level.add(new_word)\n                        \n                word_chars[i] = original_char\n        \n        word_set -= current_level\n        steps += 1\n        \n    return 0",
+    "explanation": "In this problem, we use a breadth-first search (BFS) algorithm to find the shortest transformation sequence from `beginWord` to `endWord`:\n\n1. Create an unordered set `dict` or `word_set` with all the words from `wordList` for fast look-up, and check if it contains the `endWord`.\n2. Create a queue for BFS, initialize it with `beginWord`, and initialize `steps` variable to 1.\n3. Repeat the following steps while the queue is not empty:\n   a) For each level of BFS, store the current level size, and create an empty set for `current_level` (only in Python & JavaScript).\n   b) Iterate for each word in the current BFS level:\n      - Dequeue the next `currentWord`, and check for `endWord`; if found return the current `steps` value.\n      - Iterate through each character of the `currentWord`; for every character, replace it with 26 possible lowercase alphabets.\n        - If the new word is in the `dict` or `word_set`, enqueue it in the queue, and remove it. In Python and JavaScript, also add it to the `current_level` set.\n      - Revert the character back to the original character.\n   c) Increment the `steps` value by 1, and in Python/javascript, update the `word_set` by removing words present in `current_level`.\n4. If the queue is empty and no sequence is found, return 0."
+  },
+  "similarQuestions": "[{\"title\": \"Word Ladder II\", \"titleSlug\": \"word-ladder-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Genetic Mutation\", \"titleSlug\": \"minimum-genetic-mutation\", \"difficulty\": \"Medium\"}, {\"title\": \"Words Within Two Edits of Dictionary\", \"titleSlug\": \"words-within-two-edits-of-dictionary\", \"difficulty\": \"Medium\"}]"
+}

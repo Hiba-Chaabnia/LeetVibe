@@ -1,0 +1,47 @@
+{
+  "questionId": "712",
+  "title": "Minimum ASCII Delete Sum for Two Strings",
+  "titleSlug": "minimum-ascii-delete-sum-for-two-strings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given two strings s1 and s2, return the lowest ASCII sum of deleted characters to make two strings equal.\n\nExample 1:\n\nInput: s1 = \"sea\", s2 = \"eat\"\nOutput: 231\nExplanation: Deleting \"s\" from \"sea\" adds the ASCII value of \"s\" (115) to the sum.\n    Deleting \"t\" from \"eat\" adds 116 to the sum.\n    At the end, both strings are equal, and 115 + 116 = 231 is the minimum sum possible to achieve this.\n\nExample 2:\n\nInput: s1 = \"delete\", s2 = \"leet\"\nOutput: 403\nExplanation: Deleting \"dee\" from \"delete\" to turn the string into \"let\",\n    adds 100[d] + 101[e] + 101[e] to the sum.\n    Deleting \"e\" from \"leet\" adds 101[e] to the sum.\n    At the end, both strings are equal to \"let\", and the answer is 100+101+101+101 = 403.\n    If instead we turned both strings into \"lee\" or \"eet\", we would get answers of 433 or 417, which are higher.\n\nConstraints:\n\n• 1 <= s1.length, s2.length <= 1000\n\n• s1 and s2 consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumDeleteSum(self, s1, s2):\n        \"\"\"\n        :type s1: str\n        :type s2: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let dp(i, j) be the answer for inputs s1[i:] and s2[j:]."
+  ],
+  "testCases": [
+    [
+      "\"sea\"",
+      "\"eat\""
+    ],
+    [
+      "\"delete\"",
+      "\"leet\""
+    ]
+  ],
+  "expectedOutputs": [
+    "231",
+    "403"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minimumDeleteSum(s1: str, s2: str) -> int:\n    dp = [[0] * (len(s2) + 1) for _ in range(len(s1) + 1)]\n    for i in range(1, len(s1) + 1):\n        dp[i][0] = dp[i - 1][0] + ord(s1[i - 1])\n    for j in range(1, len(s2) + 1):\n        dp[0][j] = dp[0][j - 1] + ord(s2[j - 1])\n    for i in range(1, len(s1) + 1):\n        for j in range(1, len(s2) + 1):\n            if s1[i - 1] == s2[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1]\n            else:\n                dp[i][j] = min(dp[i - 1][j] + ord(s1[i - 1]), dp[i][j - 1] + ord(s2[j - 1]))\n    return dp[len(s1)][len(s2)]",
+    "explanation": "For this problem, we use dynamic programming. First, we create a 2D array `dp` to store the intermediate results. Each cell dp[i][j] in the `dp` array represents the lowest ASCII sum of deleted characters to make the first i characters of s1 and the first j characters of s2 equal.\n\nWe initialize the first column of the `dp` array to the ASCII sum of s1 characters and the first row to the ASCII sum of s2 characters. Then, we loop through the entire `dp` array, updating the values lexicographically. If the characters at the respective indexes of s1 and s2 are the same, we just copy the value of dp[i-1][j-1] to dp[i][j]. If they are different, we calculate the minimum between deleting the character from s1 (dp[i-1][j] + ASCII value of the character) and deleting the character from s2 (dp[i][j-1] + ASCII value of the character).\n\nFinally, we return the value at the bottom-right corner of the `dp` array, which represents the lowest ASCII sum needed to make s1 and s2 equal."
+  },
+  "similarQuestions": "[{\"title\": \"Edit Distance\", \"titleSlug\": \"edit-distance\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Increasing Subsequence\", \"titleSlug\": \"longest-increasing-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Delete Operation for Two Strings\", \"titleSlug\": \"delete-operation-for-two-strings\", \"difficulty\": \"Medium\"}]"
+}

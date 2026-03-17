@@ -1,0 +1,55 @@
+{
+  "questionId": "828",
+  "title": "Chalkboard XOR Game",
+  "titleSlug": "chalkboard-xor-game",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Brainteaser",
+      "slug": "brainteaser"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "You are given an array of integers nums represents the numbers written on a chalkboard.\n\nAlice and Bob take turns erasing exactly one number from the chalkboard, with Alice starting first. If erasing a number causes the bitwise XOR of all the elements of the chalkboard to become 0, then that player loses. The bitwise XOR of one element is that element itself, and the bitwise XOR of no elements is 0.\n\nAlso, if any player starts their turn with the bitwise XOR of all the elements of the chalkboard equal to 0, then that player wins.\n\nReturn true if and only if Alice wins the game, assuming both players play optimally.\n\nExample 1:\n\nInput: nums = [1,1,2]\nOutput: false\nExplanation:\n    Alice has two choices: erase 1 or erase 2.\n    If she erases 1, the nums array becomes [1, 2]. The bitwise XOR of all the elements of the chalkboard is 1 XOR 2 = 3. Now Bob can remove any element he wants, because Alice will be the one to erase the last element and she will lose.\n    If Alice erases 2 first, now nums become [1, 1]. The bitwise XOR of all the elements of the chalkboard is 1 XOR 1 = 0. Alice will lose.\n\nExample 2:\n\nInput: nums = [0,1]\nOutput: true\n\nExample 3:\n\nInput: nums = [1,2,3]\nOutput: true\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 0 <= nums[i] < 216",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def xorGame(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,1,2]"
+    ],
+    [
+      "[0,1]"
+    ],
+    [
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "true",
+    "true"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

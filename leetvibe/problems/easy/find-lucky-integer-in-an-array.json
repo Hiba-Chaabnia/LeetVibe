@@ -1,0 +1,54 @@
+{
+  "questionId": "1510",
+  "title": "Find Lucky Integer in an Array",
+  "titleSlug": "find-lucky-integer-in-an-array",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an array of integers arr, a lucky integer is an integer that has a frequency in the array equal to its value.\n\nReturn the largest lucky integer in the array. If there is no lucky integer return -1.\n\nExample 1:\n\nInput: arr = [2,2,3,4]\nOutput: 2\nExplanation: The only lucky number in the array is 2 because frequency[2] == 2.\n\nExample 2:\n\nInput: arr = [1,2,2,3,3,3]\nOutput: 3\nExplanation: 1, 2 and 3 are all lucky numbers, return the largest of them.\n\nExample 3:\n\nInput: arr = [2,2,2,3,3]\nOutput: -1\nExplanation: There are no lucky numbers in the array.\n\nConstraints:\n\n• 1 <= arr.length <= 500\n\n• 1 <= arr[i] <= 500",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findLucky(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Count the frequency of each integer in the array.",
+    "Get all lucky numbers and return the largest of them."
+  ],
+  "testCases": [
+    [
+      "[2,2,3,4]"
+    ],
+    [
+      "[1,2,2,3,3,3]"
+    ],
+    [
+      "[2,2,2,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findLucky(self, arr):\n        from collections import Counter\n        freq = Counter(arr)\n        lucky = [num for num, count in freq.items() if num == count]\n        return max(lucky) if lucky else -1",
+    "explanation": "Find all numbers where value equals frequency. Return maximum.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

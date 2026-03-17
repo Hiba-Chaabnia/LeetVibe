@@ -1,0 +1,45 @@
+{
+  "questionId": "783",
+  "title": "Search in a Binary Search Tree",
+  "titleSlug": "search-in-a-binary-search-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "You are given the root of a binary search tree (BST) and an integer val.\n\nFind the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.\n\nExample 1:\n\nInput: root = [4,2,7,1,3], val = 2\nOutput: [2,1,3]\n\nExample 2:\n\nInput: root = [4,2,7,1,3], val = 5\nOutput: []\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 5000].\n\n• 1 <= Node.val <= 107\n\n• root is a binary search tree.\n\n• 1 <= val <= 107",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def searchBST(self, root, val):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type val: int\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,2,7,1,3]",
+      "2",
+      "[4,2,7,1,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,1,3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def searchBST(self, root, val):\n        if not root:\n            return None\n        if root.val == val:\n            return root\n        if val < root.val:\n            return self.searchBST(root.left, val)\n        return self.searchBST(root.right, val)",
+    "explanation": "DFS with BST property: go left if val smaller, right if larger.\nTime: O(log n) avg, O(n) worst\nSpace: O(h)"
+  },
+  "similarQuestions": "[{\"title\": \"Closest Binary Search Tree Value\", \"titleSlug\": \"closest-binary-search-tree-value\", \"difficulty\": \"Easy\"}, {\"title\": \"Insert into a Binary Search Tree\", \"titleSlug\": \"insert-into-a-binary-search-tree\", \"difficulty\": \"Medium\"}, {\"title\": \"Closest Nodes Queries in a Binary Search Tree\", \"titleSlug\": \"closest-nodes-queries-in-a-binary-search-tree\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "2298",
+  "title": "Count Integers With Even Digit Sum",
+  "titleSlug": "count-integers-with-even-digit-sum",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given a positive integer num, return the number of positive integers less than or equal to num whose digit sums are even.\n\nThe digit sum of a positive integer is the sum of all its digits.\n\nExample 1:\n\nInput: num = 4\nOutput: 2\nExplanation:\n    The only integers less than or equal to 4 whose digit sums are even are 2 and 4.\n\nExample 2:\n\nInput: num = 30\nOutput: 14\nExplanation:\n    The 14 integers less than or equal to 30 whose digit sums are even are\n    2, 4, 6, 8, 11, 13, 15, 17, 19, 20, 22, 24, 26, and 28.\n\nConstraints:\n\n• 1 <= num <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countEven(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate through all integers from 1 to num.",
+    "For any integer, extract the individual digits to compute their sum and check if it is even."
+  ],
+  "testCases": [
+    [
+      "4"
+    ],
+    [
+      "30"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "14"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countEven(self, num):\n        count = 0\n        for i in range(1, num + 1):\n            digit_sum = sum(int(d) for d in str(i))\n            if digit_sum % 2 == 0:\n                count += 1\n        return count",
+    "explanation": "Iterate 1 to num, sum digits, count if even.\nTime: O(n * log n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Sum of Numbers With Units Digit K\", \"titleSlug\": \"sum-of-numbers-with-units-digit-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Sum of Digits of String After Convert\", \"titleSlug\": \"sum-of-digits-of-string-after-convert\", \"difficulty\": \"Easy\"}, {\"title\": \"Number of Ways to Buy Pens and Pencils\", \"titleSlug\": \"number-of-ways-to-buy-pens-and-pencils\", \"difficulty\": \"Medium\"}, {\"title\": \"Separate the Digits in an Array\", \"titleSlug\": \"separate-the-digits-in-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Find if Digit Game Can Be Won\", \"titleSlug\": \"find-if-digit-game-can-be-won\", \"difficulty\": \"Easy\"}]"
+}

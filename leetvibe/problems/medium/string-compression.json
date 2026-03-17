@@ -1,0 +1,45 @@
+{
+  "questionId": "443",
+  "title": "String Compression",
+  "titleSlug": "string-compression",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given an array of characters chars, compress it using the following algorithm:\n\nBegin with an empty string s. For each group of consecutive repeating characters in chars:\n\n• If the group's length is 1, append the character to s.\n\n• Otherwise, append the character followed by the group's length.\n\nThe compressed string s should not be returned separately, but instead, be stored in the input character array chars. Note that group lengths that are 10 or longer will be split into multiple characters in chars.\n\nAfter you are done modifying the input array, return the new length of the array.\n\nYou must write an algorithm that uses only constant extra space.\n\nNote: The characters in the array beyond the returned length do not matter and should be ignored.\n\nExample 1:\n\nInput: chars = [\"a\",\"a\",\"b\",\"b\",\"c\",\"c\",\"c\"]\nOutput: Return 6, and the first 6 characters of the input array should be: [\"a\",\"2\",\"b\",\"2\",\"c\",\"3\"]\nExplanation: The groups are \"aa\", \"bb\", and \"ccc\". This compresses to \"a2b2c3\".\n\nExample 2:\n\nInput: chars = [\"a\"]\nOutput: Return 1, and the first character of the input array should be: [\"a\"]\nExplanation: The only group is \"a\", which remains uncompressed since it's a single character.\n\nExample 3:\n\nInput: chars = [\"a\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\"]\nOutput: Return 4, and the first 4 characters of the input array should be: [\"a\",\"b\",\"1\",\"2\"].\nExplanation: The groups are \"a\" and \"bbbbbbbbbbbb\". This compresses to \"ab12\".\n\nConstraints:\n\n• 1 <= chars.length <= 2000\n\n• chars[i] is a lowercase English letter, uppercase English letter, digit, or symbol.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def compress(self, chars):\n        \"\"\"\n        :type chars: List[str]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How do you know if you are at the end of a consecutive group of characters?"
+  ],
+  "testCases": [
+    [
+      "[\"a\",\"a\",\"b\",\"b\",\"c\",\"c\",\"c\"]"
+    ],
+    [
+      "[\"a\"]"
+    ],
+    [
+      "[\"a\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "Return 6, and the first 6 characters of the input array should be: [\"a\",\"2\",\"b\",\"2\",\"c\",\"3\"]",
+    "Return 1, and the first character of the input array should be: [\"a\"]",
+    "Return 4, and the first 4 characters of the input array should be: [\"a\",\"b\",\"1\",\"2\"]."
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count and Say\", \"titleSlug\": \"count-and-say\", \"difficulty\": \"Medium\"}, {\"title\": \"Encode and Decode Strings\", \"titleSlug\": \"encode-and-decode-strings\", \"difficulty\": \"Medium\"}, {\"title\": \"Design Compressed String Iterator\", \"titleSlug\": \"design-compressed-string-iterator\", \"difficulty\": \"Easy\"}, {\"title\": \"Decompress Run-Length Encoded List\", \"titleSlug\": \"decompress-run-length-encoded-list\", \"difficulty\": \"Easy\"}, {\"title\": \"String Compression III\", \"titleSlug\": \"string-compression-iii\", \"difficulty\": \"Medium\"}, {\"title\": \"Better Compression of String\", \"titleSlug\": \"better-compression-of-string\", \"difficulty\": \"Medium\"}]"
+}

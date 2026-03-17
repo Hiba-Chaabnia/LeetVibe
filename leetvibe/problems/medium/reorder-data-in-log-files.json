@@ -1,0 +1,48 @@
+{
+  "questionId": "974",
+  "title": "Reorder Data in Log Files",
+  "titleSlug": "reorder-data-in-log-files",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an array of logs. Each log is a space-delimited string of words, where the first word is the identifier.\n\nThere are two types of logs:\n\n• Letter-logs: All words (except the identifier) consist of lowercase English letters.\n\n• Digit-logs: All words (except the identifier) consist of digits.\n\nReorder these logs so that:\n\n• The letter-logs come before all digit-logs.\n\n• The letter-logs are sorted lexicographically by their contents. If their contents are the same, then sort them lexicographically by their identifiers.\n\n• The digit-logs maintain their relative ordering.\n\nReturn the final order of the logs.\n\nExample 1:\n\nInput: logs = [\"dig1 8 1 5 1\",\"let1 art can\",\"dig2 3 6\",\"let2 own kit dig\",\"let3 art zero\"]\nOutput: [\"let1 art can\",\"let3 art zero\",\"let2 own kit dig\",\"dig1 8 1 5 1\",\"dig2 3 6\"]\nExplanation:\n    The letter-log contents are all different, so their ordering is \"art can\", \"art zero\", \"own kit dig\".\n    The digit-logs have a relative order of \"dig1 8 1 5 1\", \"dig2 3 6\".\n\nExample 2:\n\nInput: logs = [\"a1 9 2 3 1\",\"g1 act car\",\"zo4 4 7\",\"ab1 off key dog\",\"a8 act zoo\"]\nOutput: [\"g1 act car\",\"a8 act zoo\",\"ab1 off key dog\",\"a1 9 2 3 1\",\"zo4 4 7\"]\n\nConstraints:\n\n• 1 <= logs.length <= 100\n\n• 3 <= logs[i].length <= 100\n\n• All the tokens of logs[i] are separated by a single space.\n\n• logs[i] is guaranteed to have an identifier and at least one word after the identifier.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reorderLogFiles(self, logs):\n        \"\"\"\n        :type logs: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"dig1 8 1 5 1\",\"let1 art can\",\"dig2 3 6\",\"let2 own kit dig\",\"let3 art zero\"]"
+    ],
+    [
+      "[\"a1 9 2 3 1\",\"g1 act car\",\"zo4 4 7\",\"ab1 off key dog\",\"a8 act zoo\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"let1 art can\",\"let3 art zero\",\"let2 own kit dig\",\"dig1 8 1 5 1\",\"dig2 3 6\"]",
+    "[\"g1 act car\",\"a8 act zoo\",\"ab1 off key dog\",\"a1 9 2 3 1\",\"zo4 4 7\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def reorderLogFiles(self, logs):\n        \"\"\"\n        :type logs: List[str]\n        :rtype: List[str]\n        \"\"\"\n        def sort_key(log):\n            identifier, content = log.split(' ', 1)\n            if content[0].isdigit():\n                return (1, '')  # Digit logs come last\n            else:\n                return (0, content, identifier)  # Letter logs: sort by content then ID\n        \n        return sorted(logs, key=sort_key)",
+    "explanation": "Custom sort: letter-logs by content then ID, digit-logs maintain order.",
+    "complexity": "Time: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

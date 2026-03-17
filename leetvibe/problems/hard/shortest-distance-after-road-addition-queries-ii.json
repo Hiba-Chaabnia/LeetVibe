@@ -1,0 +1,53 @@
+{
+  "questionId": "3514",
+  "title": "Shortest Distance After Road Addition Queries II",
+  "titleSlug": "shortest-distance-after-road-addition-queries-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Ordered Set",
+      "slug": "ordered-set"
+    }
+  ],
+  "content": "You are given an integer n and a 2D integer array queries.\n\nThere are n cities numbered from 0 to n - 1. Initially, there is a unidirectional road from city i to city i + 1 for all 0 <= i < n - 1.\n\nqueries[i] = [ui, vi] represents the addition of a new unidirectional road from city ui to city vi. After each query, you need to find the length of the shortest path from city 0 to city n - 1.\n\nThere are no two queries such that queries[i][0] < queries[j][0] < queries[i][1] < queries[j][1].\n\nReturn an array answer where for each i in the range [0, queries.length - 1], answer[i] is the length of the shortest path from city 0 to city n - 1 after processing the first i + 1 queries.\n\nExample 1:\n\nInput: n = 5, queries = [[2,4],[0,2],[0,4]]\n\nOutput: [3,2,1]\n\nExplanation: After the addition of the road from 2 to 4, the length of the shortest path from 0 to 4 is 3.\n\nAfter the addition of the road from 0 to 2, the length of the shortest path from 0 to 4 is 2.\n\nAfter the addition of the road from 0 to 4, the length of the shortest path from 0 to 4 is 1.\n\nExample 2:\n\nInput: n = 4, queries = [[0,3],[0,2]]\n\nOutput: [1,1]\n\nExplanation: After the addition of the road from 0 to 3, the length of the shortest path from 0 to 3 is 1.\n\nAfter the addition of the road from 0 to 2, the length of the shortest path remains 1.\n\nConstraints:\n\n• 3 <= n <= 105\n\n• 1 <= queries.length <= 105\n\n• queries[i].length == 2\n\n• 0 <= queries[i][0] < queries[i][1] < n\n\n• 1 < queries[i][1] - queries[i][0]\n\n• There are no repeated roads among the queries.\n\n• There are no two queries such that i != j and queries[i][0] < queries[j][0] < queries[i][1] < queries[j][1].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestDistanceAfterQueries(self, n, queries):\n        \"\"\"\n        :type n: int\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "5",
+      "[[2,4],[0,2],[0,4]]"
+    ],
+    [
+      "4",
+      "[[0,3],[0,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,2,1]",
+    "[1,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def shortestDistanceAfterQueries(self, n, queries):\n        # Non-crossing queries: for any two queries, they don't interleave\n        # This means the added edges form a laminar family\n        # Shortest path = minimum number of edges from 0 to n-1\n        # Use a union-find / linked list approach:\n        # Maintain nxt[i] = next node on the shortest path from i\n        # Initially nxt[i] = i+1\n        # When edge (u, v) is added: for each node in [u+1, v-1], merge with v\n        # The path length = number of hops from 0 to n-1\n        # Use a set of remaining nodes\n        # Alternatively: use sorted set / skip list\n        # nxt[i] = smallest j > i that's still a 'breakpoint'\n        # When (u, v) added: if nxt[u] < v, we need to remove nodes between u+1..v-1\n        # Use a sorted set with a pointer structure\n        # Use SortedList or a simple 'next' array\n        # next_node[i] = next active node after i on the path\n        next_node = list(range(1, n)) + [n]  # next_node[i] = i+1 initially (for i in 0..n-1)\n        # But we need efficient range skipping. Use a simple linked list:\n        nxt = list(range(1, n + 1))  # nxt[i] = next hop from i; nxt[n-1] = n (dummy)\n        result = []\n        # Count current path length\n        path_len = n - 1\n        for u, v in queries:\n            # Add edge u -> v; if nxt[u] < v, we can skip nodes\n            if nxt[u] < v:\n                # Remove nodes nxt[u]..v-1 from path\n                cur = nxt[u]\n                while cur < v:\n                    next_cur = nxt[cur]\n                    path_len -= 1\n                    nxt[cur] = v  # optional: update to avoid revisiting\n                    cur = next_cur\n                nxt[u] = v\n            result.append(path_len)\n        return result",
+    "explanation": "Maintain a linked list nxt[i] = next hop from node i on the shortest path. Initially nxt[i] = i+1. When edge (u,v) is added: traverse from nxt[u] to v, removing intermediate nodes from the path (decrement path_len) and updating nxt pointers. Each node is removed at most once, so total time is O(n + q).\n\nTime: O(n + q). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

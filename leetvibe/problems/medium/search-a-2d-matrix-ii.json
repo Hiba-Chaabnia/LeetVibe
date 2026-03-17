@@ -1,0 +1,53 @@
+{
+  "questionId": "240",
+  "title": "Search a 2D Matrix II",
+  "titleSlug": "search-a-2d-matrix-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:\n\n• Integers in each row are sorted in ascending from left to right.\n\n• Integers in each column are sorted in ascending from top to bottom.\n\nExample 1:\n\nInput: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5\nOutput: true\n\nExample 2:\n\nInput: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20\nOutput: false\n\nConstraints:\n\n• m == matrix.length\n\n• n == matrix[i].length\n\n• 1 <= n, m <= 300\n\n• -109 <= matrix[i][j] <= 109\n\n• All the integers in each row are sorted in ascending order.\n\n• All the integers in each column are sorted in ascending order.\n\n• -109 <= target <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def searchMatrix(self, matrix, target):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :type target: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]",
+      "5"
+    ],
+    [
+      "[[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]",
+      "20"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def searchMatrix(matrix, target):\n    row, col = len(matrix) - 1, 0\n    while row >= 0 and col < len(matrix[0]):\n        if matrix[row][col] > target:\n            row -= 1\n        elif matrix[row][col] < target:\n            col += 1\n        else:\n            return True\n    return False",
+    "explanation": "The algorithm starts at the bottom-left corner of the matrix. Then it follows these rules:\n1. If the current value is bigger than the target, then move up in the matrix (because all values above will be smaller).\n2. If the current value is smaller than the target, then move to the right in the matrix (because all values to the right will be bigger).\n3. If the current value is equal to the target, return true.\n\nThis algorithm is efficient as it reduces the search space in every step by either eliminating a row or a column. At most, it will take m + n steps."
+  },
+  "similarQuestions": "[{\"title\": \"Search a 2D Matrix\", \"titleSlug\": \"search-a-2d-matrix\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,59 @@
+{
+  "questionId": "229",
+  "title": "Majority Element II",
+  "titleSlug": "majority-element-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times.\n\nExample 1:\n\nInput: nums = [3,2,3]\nOutput: [3]\n\nExample 2:\n\nInput: nums = [1]\nOutput: [1]\n\nExample 3:\n\nInput: nums = [1,2]\nOutput: [1,2]\n\nConstraints:\n\n• 1 <= nums.length <= 5 * 104\n\n• -109 <= nums[i] <= 109\n\nFollow up: Could you solve the problem in linear time and in O(1) space?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think about the possible number of elements that can appear more than ⌊ n/3 ⌋ times in the array.",
+    "It can be at most two. Why?",
+    "Consider using Boyer-Moore Voting Algorithm, which is efficient for finding elements that appear more than a certain threshold."
+  ],
+  "testCases": [
+    [
+      "[3,2,3]"
+    ],
+    [
+      "[1]"
+    ],
+    [
+      "[1,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3]",
+    "[1]",
+    "[1,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def majorityElement(nums):\n    n = len(nums)\n    count = {}\n    result = []\n\n    for num in nums:\n        if num not in count:\n            count[num] = 1\n        else:\n            count[num] += 1\n        if count[num] > n / 3 and num not in result:\n            result.append(num)\n\n    return result",
+    "explanation": "The algorithm maintains a count of occurrences of each element in the given array using a hash table. For each element, it increments its count in the hash table. If the count for the current element exceeds `n/3`, and the element is not already in the result array, it adds the element to the result array. The result array will contain all elements that appear more than `n/3` times.\n\nThis solution has linear time complexity, but requires additional space for the hashmap. A truly optimal solution in `O(1)` space can be found using the Boyer-Moore Majority Vote Algorithm. However, this algorithm may be more challenging to understand and implement."
+  },
+  "similarQuestions": "[{\"title\": \"Majority Element\", \"titleSlug\": \"majority-element\", \"difficulty\": \"Easy\"}, {\"title\": \"Check If a Number Is Majority Element in a Sorted Array\", \"titleSlug\": \"check-if-a-number-is-majority-element-in-a-sorted-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Most Frequent Even Element\", \"titleSlug\": \"most-frequent-even-element\", \"difficulty\": \"Easy\"}]"
+}

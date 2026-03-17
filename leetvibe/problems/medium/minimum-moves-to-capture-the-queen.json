@@ -1,0 +1,56 @@
+{
+  "questionId": "3270",
+  "title": "Minimum Moves to Capture The Queen",
+  "titleSlug": "minimum-moves-to-capture-the-queen",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "There is a 1-indexed 8 x 8 chessboard containing 3 pieces.\n\nYou are given 6 integers a, b, c, d, e, and f where:\n\n• (a, b) denotes the position of the white rook.\n\n• (c, d) denotes the position of the white bishop.\n\n• (e, f) denotes the position of the black queen.\n\nGiven that you can only move the white pieces, return the minimum number of moves required to capture the black queen.\n\nNote that:\n\n• Rooks can move any number of squares either vertically or horizontally, but cannot jump over other pieces.\n\n• Bishops can move any number of squares diagonally, but cannot jump over other pieces.\n\n• A rook or a bishop can capture the queen if it is located in a square that they can move to.\n\n• The queen does not move.\n\nExample 1:\n\nInput: a = 1, b = 1, c = 8, d = 8, e = 2, f = 3\nOutput: 2\nExplanation: We can capture the black queen in two moves by moving the white rook to (1, 3) then to (2, 3).\n    It is impossible to capture the black queen in less than two moves since it is not being attacked by any of the pieces at the beginning.\n\nExample 2:\n\nInput: a = 5, b = 3, c = 3, d = 4, e = 5, f = 2\nOutput: 1\nExplanation: We can capture the black queen in a single move by doing one of the following:\n    - Move the white rook to (5, 2).\n    - Move the white bishop to (5, 2).\n\nConstraints:\n\n• 1 <= a, b, c, d, e, f <= 8\n\n• No two pieces are on the same square.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMovesToCaptureTheQueen(self, a, b, c, d, e, f):\n        \"\"\"\n        :type a: int\n        :type b: int\n        :type c: int\n        :type d: int\n        :type e: int\n        :type f: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The minimum number of moves can be either 1 or 2.",
+    "The answer will be 1 if the queen is on the path of the rook or bishop and none of them is in between."
+  ],
+  "testCases": [
+    [
+      "1",
+      "1",
+      "8",
+      "8",
+      "2",
+      "3"
+    ],
+    [
+      "5",
+      "3",
+      "3",
+      "4",
+      "5",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minMovesToCaptureTheQueen(self, a, b, c, d, e, f):\n        # Check if rook can capture queen in 1 move (same row or col, bishop not blocking)\n        def rook_captures_in_1():\n            if a == e:  # same row\n                # Bishop blocks if it's on same row between rook and queen\n                if c == a and min(b, f) < d < max(b, f):\n                    return False\n                return True\n            if b == f:  # same col\n                if d == f and min(a, e) < c < max(a, e):\n                    return False\n                return True\n            return False\n\n        # Check if bishop can capture queen in 1 move (same diagonal, rook not blocking)\n        def bishop_captures_in_1():\n            # Same diagonal: |c-e| == |d-f|\n            if abs(c - e) != abs(d - f):\n                return False\n            # Check if rook is on the path between bishop and queen\n            # Direction from bishop to queen\n            dr = 1 if e > c else -1\n            dc = 1 if f > d else -1\n            r, col = c + dr, d + dc\n            while (r, col) != (e, f):\n                if (r, col) == (a, b):  # rook blocks\n                    return False\n                r += dr\n                col += dc\n            return True\n\n        if rook_captures_in_1() or bishop_captures_in_1():\n            return 1\n        return 2",
+    "explanation": "The answer is always 1 or 2. It's 1 if either piece can directly capture the queen without the other piece blocking.\n\nRook captures in 1 move: rook is on same row or column as queen, with no bishop in between.\nBishop captures in 1 move: bishop is on same diagonal as queen, with no rook in between.\n\nOtherwise, 2 moves always suffice (move rook to queen's row/column, then capture).\n\nTime: O(1). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Available Captures for Rook\", \"titleSlug\": \"available-captures-for-rook\", \"difficulty\": \"Easy\"}, {\"title\": \"Queens That Can Attack the King\", \"titleSlug\": \"queens-that-can-attack-the-king\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "171",
+  "title": "Excel Sheet Column Number",
+  "titleSlug": "excel-sheet-column-number",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string columnTitle that represents the column title as appears in an Excel sheet, return its corresponding column number.\n\nFor example:\n\n    A -> 1\n    B -> 2\n    C -> 3\n    ...\n    Z -> 26\n    AA -> 27\n    AB -> 28\n    ...\n\nExample 1:\n\nInput: columnTitle = \"A\"\nOutput: 1\n\nExample 2:\n\nInput: columnTitle = \"AB\"\nOutput: 28\n\nExample 3:\n\nInput: columnTitle = \"ZY\"\nOutput: 701\n\nConstraints:\n\n• 1 <= columnTitle.length <= 7\n\n• columnTitle consists only of uppercase English letters.\n\n• columnTitle is in the range [\"A\", \"FXSHRXW\"].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def titleToNumber(self, columnTitle):\n        \"\"\"\n        :type columnTitle: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"A\""
+    ],
+    [
+      "\"AB\""
+    ],
+    [
+      "\"ZY\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "28",
+    "701"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def titleToNumber(self, columnTitle):\n        result = 0\n        for char in columnTitle:\n            result = result * 26 + (ord(char) - ord('A') + 1)\n        return result",
+    "explanation": "Base-26 conversion: each char is digit. A=1, Z=26, AA=27.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Excel Sheet Column Title\", \"titleSlug\": \"excel-sheet-column-title\", \"difficulty\": \"Easy\"}, {\"title\": \"Cells in a Range on an Excel Sheet\", \"titleSlug\": \"cells-in-a-range-on-an-excel-sheet\", \"difficulty\": \"Easy\"}]"
+}

@@ -1,0 +1,65 @@
+{
+  "questionId": "1321",
+  "title": "Get Equal Substrings Within Budget",
+  "titleSlug": "get-equal-substrings-within-budget",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given two strings s and t of the same length and an integer maxCost.\n\nYou want to change s to t. Changing the ith character of s to ith character of t costs |s[i] - t[i]| (i.e., the absolute difference between the ASCII values of the characters).\n\nReturn the maximum length of a substring of s that can be changed to be the same as the corresponding substring of t with a cost less than or equal to maxCost. If there is no substring from s that can be changed to its corresponding substring from t, return 0.\n\nExample 1:\n\nInput: s = \"abcd\", t = \"bcdf\", maxCost = 3\nOutput: 3\nExplanation: \"abc\" of s can change to \"bcd\".\n    That costs 3, so the maximum length is 3.\n\nExample 2:\n\nInput: s = \"abcd\", t = \"cdef\", maxCost = 3\nOutput: 1\nExplanation: Each character in s costs 2 to change to character in t,  so the maximum length is 1.\n\nExample 3:\n\nInput: s = \"abcd\", t = \"acde\", maxCost = 0\nOutput: 1\nExplanation: You cannot make any change, so the maximum length is 1.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• t.length == s.length\n\n• 0 <= maxCost <= 106\n\n• s and t consist of only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def equalSubstring(self, s, t, maxCost):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :type maxCost: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Calculate the differences between s[i] and t[i].",
+    "Use a sliding window to track the longest valid substring."
+  ],
+  "testCases": [
+    [
+      "\"abcd\"",
+      "\"bcdf\"",
+      "3"
+    ],
+    [
+      "\"abcd\"",
+      "\"cdef\"",
+      "3"
+    ],
+    [
+      "\"abcd\"",
+      "\"acde\"",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def equalSubstring(self, s, t, maxCost):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :type maxCost: int\n        :rtype: int\n        \"\"\"\n        left = 0\n        cost = 0\n        max_len = 0\n        \n        for right in range(len(s)):\n            cost += abs(ord(s[right]) - ord(t[right]))\n            \n            while cost > maxCost:\n                cost -= abs(ord(s[left]) - ord(t[left]))\n                left += 1\n            \n            max_len = max(max_len, right - left + 1)\n        \n        return max_len",
+    "explanation": "Sliding window tracking total cost. Expand right, contract left when cost exceeds budget.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Nice Subarray\", \"titleSlug\": \"longest-nice-subarray\", \"difficulty\": \"Medium\"}]"
+}

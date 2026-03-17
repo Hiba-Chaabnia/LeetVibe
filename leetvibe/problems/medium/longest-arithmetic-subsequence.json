@@ -1,0 +1,51 @@
+{
+  "questionId": "1087",
+  "title": "Longest Arithmetic Subsequence",
+  "titleSlug": "longest-arithmetic-subsequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given an array nums of integers, return the length of the longest arithmetic subsequence in nums.\n\nNote that:\n\n• A subsequence is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.\n\n• A sequence seq is arithmetic if seq[i + 1] - seq[i] are all the same value (for 0 <= i < seq.length - 1).\n\nExample 1:\n\nInput: nums = [3,6,9,12]\nOutput: 4\nExplanation:  The whole array is an arithmetic sequence with steps of length = 3.\n\nExample 2:\n\nInput: nums = [9,4,7,2,10]\nOutput: 3\nExplanation:  The longest arithmetic subsequence is [4,7,10].\n\nExample 3:\n\nInput: nums = [20,1,15,3,10,5,8]\nOutput: 4\nExplanation:  The longest arithmetic subsequence is [20,15,10,5].\n\nConstraints:\n\n• 2 <= nums.length <= 1000\n\n• 0 <= nums[i] <= 500",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestArithSeqLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,6,9,12]"
+    ],
+    [
+      "[9,4,7,2,10]"
+    ],
+    [
+      "[20,1,15,3,10,5,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "3",
+    "4"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Destroy Sequential Targets\", \"titleSlug\": \"destroy-sequential-targets\", \"difficulty\": \"Medium\"}]"
+}

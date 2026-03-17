@@ -1,0 +1,59 @@
+{
+  "questionId": "3362",
+  "title": "Find the Median of the Uniqueness Array",
+  "titleSlug": "find-the-median-of-the-uniqueness-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an integer array nums. The uniqueness array of nums is the sorted array that contains the number of distinct elements of all the subarrays of nums. In other words, it is a sorted array consisting of distinct(nums[i..j]), for all 0 <= i <= j < nums.length.\n\nHere, distinct(nums[i..j]) denotes the number of distinct elements in the subarray that starts at index i and ends at index j.\n\nReturn the median of the uniqueness array of nums.\n\nNote that the median of an array is defined as the middle element of the array when it is sorted in non-decreasing order. If there are two choices for a median, the smaller of the two values is taken.\n\nExample 1:\n\nInput: nums = [1,2,3]\n\nOutput: 1\n\nExplanation: The uniqueness array of nums is [distinct(nums[0..0]), distinct(nums[1..1]), distinct(nums[2..2]), distinct(nums[0..1]), distinct(nums[1..2]), distinct(nums[0..2])] which is equal to [1, 1, 1, 2, 2, 3]. The uniqueness array has a median of 1. Therefore, the answer is 1.\n\nExample 2:\n\nInput: nums = [3,4,3,4,5]\n\nOutput: 2\n\nExplanation: The uniqueness array of nums is [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3]. The uniqueness array has a median of 2. Therefore, the answer is 2.\n\nExample 3:\n\nInput: nums = [4,3,5,4]\n\nOutput: 2\n\nExplanation: The uniqueness array of nums is [1, 1, 1, 1, 2, 2, 2, 3, 3, 3]. The uniqueness array has a median of 2. Therefore, the answer is 2.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def medianOfUniquenessArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Binary search over the answer.",
+    "For a given x, you need to check if x is the median, to the left of the median, or to the right of the median. You can do that by counting the number of sub-arrays nums[i…j] such that distinct(num[i…j]) <= x.",
+    "Use the sliding window to solve the counting problem in the hint above."
+  ],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[3,4,3,4,5]"
+    ],
+    [
+      "[4,3,5,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def medianOfUniquenessArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        n = len(nums)\n        total_subarrays = n * (n + 1) // 2\n        median_pos = (total_subarrays + 1) // 2\n        \n        def count_subarrays_with_distinctness_at_most(x):\n            \"\"\"Count subarrays with distinct count <= x\"\"\"\n            count = 0\n            left = 0\n            char_freq = {}\n            \n            for right in range(n):\n                char = nums[right]\n                char_freq[char] = char_freq.get(char, 0) + 1\n                \n                # Shrink window while distinct count > x\n                while len(char_freq) > x:\n                    left_char = nums[left]\n                    char_freq[left_char] -= 1\n                    if char_freq[left_char] == 0:\n                        del char_freq[left_char]\n                    left += 1\n                \n                # All subarrays ending at right with start >= left are valid\n                count += right - left + 1\n            \n            return count\n        \n        # Binary search on the answer\n        answer = 1\n        left, right = 1, n\n        \n        while left <= right:\n            mid = (left + right) // 2\n            count = count_subarrays_with_distinctness_at_most(mid)\n            \n            if count < median_pos:\n                left = mid + 1\n            else:\n                answer = mid\n                right = mid - 1\n        \n        return answer",
+    "explanation": "This solution uses binary search with sliding window:\n\n1. **Problem Understanding**:\n   - Uniqueness array: sorted count of distinct elements in all subarrays\n   - Find median of this array\n   - Total subarrays: n*(n+1)/2\n\n2. **Binary Search Approach**:\n   - Search for minimum distinct count that satisfies median condition\n   - For value x: count subarrays with distinctness <= x\n   - If count >= median_position, x could be answer\n\n3. **Counting Subarrays**:\n   - Use sliding window with two pointers\n   - Expand right pointer to add element\n   - Shrink left pointer when distinct count exceeds x\n   - When window has <= x distinct:\n     - All subarrays [l..r], [l+1..r], ..., [r..r] are valid\n     - Add (r - l + 1) to count\n\n4. **Character Frequency Tracking**:\n   - Use dictionary to count character frequencies\n   - Remove character when count becomes 0\n   - len(char_freq) gives distinct count\n\n5. **Median Calculation**:\n   - Total subarrays: n*(n+1)/2\n   - Median position: (total+1)//2 (rounds down for ties)\n   - Binary search finds smallest x where count >= median_pos\n\nTime Complexity: O(n log n) for binary search + O(n) per sliding window\nSpace Complexity: O(n) for character frequency map"
+  },
+  "similarQuestions": "[{\"title\": \"Find K-th Smallest Pair Distance\", \"titleSlug\": \"find-k-th-smallest-pair-distance\", \"difficulty\": \"Hard\"}, {\"title\": \"Total Appeal of A String\", \"titleSlug\": \"total-appeal-of-a-string\", \"difficulty\": \"Hard\"}]"
+}

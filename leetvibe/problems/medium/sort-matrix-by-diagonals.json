@@ -1,0 +1,54 @@
+{
+  "questionId": "3748",
+  "title": "Sort Matrix by Diagonals",
+  "titleSlug": "sort-matrix-by-diagonals",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an n x n square matrix of integers grid. Return the matrix such that:\n\n• The diagonals in the bottom-left triangle (including the middle diagonal) are sorted in non-increasing order.\n\n• The diagonals in the top-right triangle are sorted in non-decreasing order.\n\nExample 1:\n\nInput: grid = [[1,7,3],[9,8,2],[4,5,6]]\n\nOutput: [[8,2,3],[9,6,7],[4,5,1]]\n\nExplanation: The diagonals with a black arrow (bottom-left triangle) should be sorted in non-increasing order:\n\n• [1, 8, 6] becomes [8, 6, 1].\n\n• [9, 5] and [4] remain unchanged.\n\nThe diagonals with a blue arrow (top-right triangle) should be sorted in non-decreasing order:\n\n• [7, 2] becomes [2, 7].\n\n• [3] remains unchanged.\n\nExample 2:\n\nInput: grid = [[0,1],[1,2]]\n\nOutput: [[2,1],[1,0]]\n\nExplanation: The diagonals with a black arrow must be non-increasing, so [0, 2] is changed to [2, 0]. The other diagonals are already in the correct order.\n\nExample 3:\n\nInput: grid = [[1]]\n\nOutput: [[1]]\n\nExplanation: Diagonals with exactly one element are already in order, so no changes are needed.\n\nConstraints:\n\n• grid.length == grid[i].length == n\n\n• 1 <= n <= 10\n\n• -105 <= grid[i][j] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sortMatrix(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a data structure to store all values in each diagonal.",
+    "Sort and replace them in the matrix."
+  ],
+  "testCases": [
+    [
+      "[[1,7,3],[9,8,2],[4,5,6]]"
+    ],
+    [
+      "[[0,1],[1,2]]"
+    ],
+    [
+      "[[1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[8,2,3],[9,6,7],[4,5,1]]",
+    "[[2,1],[1,0]]",
+    "[[1]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sortMatrix(self, grid):\n        from collections import defaultdict\n        n = len(grid)\n        diags = defaultdict(list)\n\n        for i in range(n):\n            for j in range(n):\n                diags[i - j].append(grid[i][j])\n\n        # Sort: bottom-left triangle (i-j >= 0) non-increasing; top-right (i-j < 0) non-decreasing\n        for key in diags:\n            if key >= 0:\n                diags[key].sort(reverse=True)\n            else:\n                diags[key].sort()\n\n        # Refill: diagonals go from top-left to bottom-right\n        # For key = i-j, the diagonal cells are visited in order of increasing i (and j)\n        # We need to assign sorted values back in the same top-to-bottom traversal order\n        idx = defaultdict(int)\n        for i in range(n):\n            for j in range(n):\n                key = i - j\n                grid[i][j] = diags[key][idx[key]]\n                idx[key] += 1\n\n        return grid",
+    "explanation": "Each diagonal of the matrix can be identified by the key (i - j), which is constant for all cells on the same diagonal.\n\n- Diagonals with key >= 0 are in the bottom-left triangle (including the main diagonal) and should be sorted in non-increasing order.\n- Diagonals with key < 0 are in the top-right triangle and should be sorted in non-decreasing order.\n\nWe collect all values per diagonal key, sort them with the appropriate order, then write them back into the matrix. The cells on each diagonal are visited in row-major order (increasing i, increasing j), so the first sorted value goes to the topmost cell of that diagonal.\n\nTime complexity: O(n^2 log n). Space complexity: O(n^2)."
+  },
+  "similarQuestions": "[{\"title\": \"Sort the Matrix Diagonally\", \"titleSlug\": \"sort-the-matrix-diagonally\", \"difficulty\": \"Medium\"}]"
+}

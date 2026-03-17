@@ -1,0 +1,55 @@
+{
+  "questionId": "3416",
+  "title": "Sum of Digit Differences of All Pairs",
+  "titleSlug": "sum-of-digit-differences-of-all-pairs",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "You are given an array nums consisting of positive integers where all integers have the same number of digits.\n\nThe digit difference between two integers is the count of different digits that are in the same position in the two integers.\n\nReturn the sum of the digit differences between all pairs of integers in nums.\n\nExample 1:\n\nInput: nums = [13,23,12]\n\nOutput: 4\n\nExplanation: We have the following:\n\n- The digit difference between 13 and 23 is 1.\n\n- The digit difference between 13 and 12 is 1.\n\n- The digit difference between 23 and 12 is 2.\n\nSo the total sum of digit differences between all pairs of integers is 1 + 1 + 2 = 4.\n\nExample 2:\n\nInput: nums = [10,10,10,10]\n\nOutput: 0\n\nExplanation: All the integers in the array are the same. So the total sum of digit differences between all pairs of integers will be 0.\n\nConstraints:\n\n• 2 <= nums.length <= 105\n\n• 1 <= nums[i] < 109\n\n• All integers in nums have the same number of digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def sumDigitDifferences(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "You can solve the problem for digits that are on the same position separately, and then sum up all the answers.",
+    "For each position, count the number of occurences of each digit from 0 to 9 that appear on that position.",
+    "Let c be the number of occurences of a digit on a position, that will contribute with c * (n - c) to the final answer, where n is the number of integers in nums."
+  ],
+  "testCases": [
+    [
+      "[13,23,12]"
+    ],
+    [
+      "[10,10,10,10]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def sumDigitDifferences(self, nums):\n        n = len(nums)\n        strs = [str(x) for x in nums]\n        num_digits = len(strs[0])\n        total = 0\n        for pos in range(num_digits):\n            freq = [0] * 10\n            for s in strs:\n                freq[int(s[pos])] += 1\n            for c in freq:\n                total += c * (n - c)\n        # Each pair (i, j) with i < j is counted twice (once for i and once for j)\n        return total // 2",
+    "explanation": "For each digit position, we count how many numbers have each digit (0-9). For a digit that appears c times, it differs from the (n-c) numbers that don't have that digit at this position. So it contributes c * (n - c) to the sum over ordered pairs.\n\nSumming over all digits and positions gives the total for ordered pairs (i, j) including i > j. Dividing by 2 gives unordered pairs.\n\nTime complexity: O(n * D) where D is the number of digits. Space complexity: O(n * D)."
+  },
+  "similarQuestions": "[{\"title\": \"Total Hamming Distance\", \"titleSlug\": \"total-hamming-distance\", \"difficulty\": \"Medium\"}]"
+}

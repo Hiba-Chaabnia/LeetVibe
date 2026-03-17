@@ -1,0 +1,51 @@
+{
+  "questionId": "813",
+  "title": "All Paths From Source to Target",
+  "titleSlug": "all-paths-from-source-to-target",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find all possible paths from node 0 to node n - 1 and return them in any order.\n\nThe graph is given as follows: graph[i] is a list of all nodes you can visit from node i (i.e., there is a directed edge from node i to node graph[i][j]).\n\nExample 1:\n\nInput: graph = [[1,2],[3],[3],[]]\nOutput: [[0,1,3],[0,2,3]]\nExplanation: There are two paths: 0 -> 1 -> 3 and 0 -> 2 -> 3.\n\nExample 2:\n\nInput: graph = [[4,3,1],[3,2,4],[3],[4],[]]\nOutput: [[0,4],[0,3,4],[0,1,3,4],[0,1,2,3,4],[0,1,4]]\n\nConstraints:\n\n• n == graph.length\n\n• 2 <= n <= 15\n\n• 0 <= graph[i][j] < n\n\n• graph[i][j] != i (i.e., there will be no self-loops).\n\n• All the elements of graph[i] are unique.\n\n• The input graph is guaranteed to be a DAG.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def allPathsSourceTarget(self, graph):\n        \"\"\"\n        :type graph: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2],[3],[3],[]]"
+    ],
+    [
+      "[[4,3,1],[3,2,4],[3],[4],[]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[0,1,3],[0,2,3]]",
+    "[[0,4],[0,3,4],[0,1,3,4],[0,1,2,3,4],[0,1,4]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def allPathsSourceTarget(self, graph):\n        result = []\n        def dfs(node, path):\n            if node == len(graph) - 1:\n                result.append(path)\n                return\n            for neighbor in graph[node]:\n                dfs(neighbor, path + [neighbor])\n        dfs(0, [0])\n        return result",
+    "explanation": "DFS from 0. When reaching n-1, add path to result. Explore all neighbors.\nTime: O(2^n * n)\nSpace: O(2^n * n)"
+  },
+  "similarQuestions": "[{\"title\": \"Number of Ways to Arrive at Destination\", \"titleSlug\": \"number-of-ways-to-arrive-at-destination\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Increasing Paths in a Grid\", \"titleSlug\": \"number-of-increasing-paths-in-a-grid\", \"difficulty\": \"Hard\"}]"
+}

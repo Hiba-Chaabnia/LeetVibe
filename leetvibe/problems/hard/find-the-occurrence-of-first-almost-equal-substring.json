@@ -1,0 +1,55 @@
+{
+  "questionId": "3580",
+  "title": "Find the Occurrence of First Almost Equal Substring",
+  "titleSlug": "find-the-occurrence-of-first-almost-equal-substring",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    }
+  ],
+  "content": "You are given two strings s and pattern.\n\nA string x is called almost equal to y if you can change at most one character in x to make it identical to y.\n\nReturn the smallest starting index of a substring in s that is almost equal to pattern. If no such index exists, return -1.\n\nA substring is a contiguous non-empty sequence of characters within a string.\n\nExample 1:\n\nInput: s = \"abcdefg\", pattern = \"bcdffg\"\n\nOutput: 1\n\nExplanation: The substring s[1..6] == \"bcdefg\" can be converted to \"bcdffg\" by changing s[4] to \"f\".\n\nExample 2:\n\nInput: s = \"ababbababa\", pattern = \"bacaba\"\n\nOutput: 4\n\nExplanation: The substring s[4..9] == \"bababa\" can be converted to \"bacaba\" by changing s[6] to \"c\".\n\nExample 3:\n\nInput: s = \"abcd\", pattern = \"dba\"\n\nOutput: -1\n\nExample 4:\n\nInput: s = \"dde\", pattern = \"d\"\n\nOutput: 0\n\nConstraints:\n\n• 1 <= pattern.length < s.length <= 105\n\n• s and pattern consist only of lowercase English letters.\n\nFollow-up: Could you solve the problem if at most k consecutive characters can be changed?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minStartingIndex(self, s, pattern):\n        \"\"\"\n        :type s: str\n        :type pattern: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let dp1[i] represent the maximum length of a substring of s starting at index i that is also a prefix of pattern.",
+    "Let dp2[i] represent the maximum length of a substring of s ending at index i that is also a suffix of pattern.",
+    "Consider a window of size pattern.length. If dp1[i] + i == i + pattern.length - 1 - dp2[i + pattern.length - 1], what does this signify?"
+  ],
+  "testCases": [
+    [
+      "\"abcdefg\"",
+      "\"bcdffg\""
+    ],
+    [
+      "\"ababbababa\"",
+      "\"bacaba\""
+    ],
+    [
+      "\"abcd\"",
+      "\"dba\""
+    ],
+    [
+      "\"dde\"",
+      "\"d\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "4",
+    "-1",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Check Whether Two Strings are Almost Equivalent\", \"titleSlug\": \"check-whether-two-strings-are-almost-equivalent\", \"difficulty\": \"Easy\"}, {\"title\": \"Count Almost Equal Pairs II\", \"titleSlug\": \"count-almost-equal-pairs-ii\", \"difficulty\": \"Hard\"}]"
+}

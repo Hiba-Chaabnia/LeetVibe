@@ -1,0 +1,49 @@
+{
+  "questionId": "2212",
+  "title": "Removing Minimum and Maximum From Array",
+  "titleSlug": "removing-minimum-and-maximum-from-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given a 0-indexed array of distinct integers nums.\n\nThere is an element in nums that has the lowest value and an element that has the highest value. We call them the minimum and maximum respectively. Your goal is to remove both these elements from the array.\n\nA deletion is defined as either removing an element from the front of the array or removing an element from the back of the array.\n\nReturn the minimum number of deletions it would take to remove both the minimum and maximum element from the array.\n\nExample 1:\n\nInput: nums = [2,10,7,5,4,1,8,6]\nOutput: 5\nExplanation:\n    The minimum element in the array is nums[5], which is 1.\n    The maximum element in the array is nums[1], which is 10.\n    We can remove both the minimum and maximum by removing 2 elements from the front and 3 elements from the back.\n    This results in 2 + 3 = 5 deletions, which is the minimum number possible.\n\nExample 2:\n\nInput: nums = [0,-4,19,1,8,-2,-3,5]\nOutput: 3\nExplanation:\n    The minimum element in the array is nums[1], which is -4.\n    The maximum element in the array is nums[2], which is 19.\n    We can remove both the minimum and maximum by removing 3 elements from the front.\n    This results in only 3 deletions, which is the minimum number possible.\n\nExample 3:\n\nInput: nums = [101]\nOutput: 1\nExplanation:\n    There is only one element in the array, which makes it both the minimum and maximum element.\n    We can remove it with 1 deletion.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -105 <= nums[i] <= 105\n\n• The integers in nums are distinct.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumDeletions(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "There can only be three scenarios for deletions such that both minimum and maximum elements are removed:",
+    "Scenario 1: Both elements are removed by only deleting from the front.",
+    "Scenario 2: Both elements are removed by only deleting from the back.",
+    "Scenario 3: Delete from the front to remove one of the elements, and delete from the back to remove the other element.",
+    "Compare which of the three scenarios results in the minimum number of moves."
+  ],
+  "testCases": [
+    [
+      "[2,10,7,5,4,1,8,6]"
+    ],
+    [
+      "[0,-4,19,1,8,-2,-3,5]"
+    ],
+    [
+      "[101]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "3",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Points You Can Obtain from Cards\", \"titleSlug\": \"maximum-points-you-can-obtain-from-cards\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Deletions to Make Character Frequencies Unique\", \"titleSlug\": \"minimum-deletions-to-make-character-frequencies-unique\", \"difficulty\": \"Medium\"}]"
+}

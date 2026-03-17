@@ -1,0 +1,54 @@
+{
+  "questionId": "3847",
+  "title": "Minimum Swaps to Sort by Digit Sum",
+  "titleSlug": "minimum-swaps-to-sort-by-digit-sum",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an array nums of distinct positive integers. You need to sort the array in increasing order based on the sum of the digits of each number. If two numbers have the same digit sum, the smaller number appears first in the sorted order.\n\nReturn the minimum number of swaps required to rearrange nums into this sorted order.\n\nA swap is defined as exchanging the values at two distinct positions in the array.\n\nExample 1:\n\nInput: nums = [37,100]\n\nOutput: 1\n\nExplanation:\n\n• Compute the digit sum for each integer: [3 + 7 = 10, 1 + 0 + 0 = 1] → [10, 1]\n\n• Sort the integers based on digit sum: [100, 37]. Swap 37 with 100 to obtain the sorted order.\n\n• Thus, the minimum number of swaps required to rearrange nums is 1.\n\nExample 2:\n\nInput: nums = [22,14,33,7]\n\nOutput: 0\n\nExplanation:\n\n• Compute the digit sum for each integer: [2 + 2 = 4, 1 + 4 = 5, 3 + 3 = 6, 7 = 7] → [4, 5, 6, 7]\n\n• Sort the integers based on digit sum: [22, 14, 33, 7]. The array is already sorted.\n\n• Thus, the minimum number of swaps required to rearrange nums is 0.\n\nExample 3:\n\nInput: nums = [18,43,34,16]\n\nOutput: 2\n\nExplanation:\n\n• Compute the digit sum for each integer: [1 + 8 = 9, 4 + 3 = 7, 3 + 4 = 7, 1 + 6 = 7] → [9, 7, 7, 7]\n\n• Sort the integers based on digit sum: [16, 34, 43, 18]. Swap 18 with 16, and swap 43 with 34 to obtain the sorted order.\n\n• Thus, the minimum number of swaps required to rearrange nums is 2.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109\n\n• nums consists of distinct positive integers.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSwaps(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "First, sort the array based on digit sum (and value as a tiebreaker). Then, map each original value to its index in the sorted array.",
+    "Now, the problem reduces to finding the minimum number of swaps to sort this mapped array. The answer is n - number_of_cycles in the permutation."
+  ],
+  "testCases": [
+    [
+      "[37,100]"
+    ],
+    [
+      "[22,14,33,7]"
+    ],
+    [
+      "[18,43,34,16]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minSwaps(self, nums):\n        def digit_sum(x):\n            s = 0\n            while x:\n                s += x % 10\n                x //= 10\n            return s\n\n        n = len(nums)\n        sorted_nums = sorted(nums, key=lambda x: (digit_sum(x), x))\n        pos = {v: i for i, v in enumerate(sorted_nums)}\n\n        visited = [False] * n\n        cycles = 0\n        for i in range(n):\n            if not visited[i]:\n                cycles += 1\n                j = i\n                while not visited[j]:\n                    visited[j] = True\n                    j = pos[nums[j]]\n        return n - cycles",
+    "explanation": "Sort by (digit_sum, value) to get the target ordering, which defines a permutation: nums[i] must move to pos[nums[i]]. Minimum swaps to sort a permutation = n - (number of cycles). Each cycle of length L needs L-1 swaps. We trace cycles by following the mapping until returning to the start.\n\nTime: O(n log n + n * log(max_num)). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

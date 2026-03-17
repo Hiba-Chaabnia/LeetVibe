@@ -1,0 +1,51 @@
+{
+  "questionId": "491",
+  "title": "Non-decreasing Subsequences",
+  "titleSlug": "non-decreasing-subsequences",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given an integer array nums, return all the different possible non-decreasing subsequences of the given array with at least two elements. You may return the answer in any order.\n\nExample 1:\n\nInput: nums = [4,6,7,7]\nOutput: [[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]\n\nExample 2:\n\nInput: nums = [4,4,3,2,1]\nOutput: [[4,4]]\n\nConstraints:\n\n• 1 <= nums.length <= 15\n\n• -100 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findSubsequences(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,6,7,7]"
+    ],
+    [
+      "[4,4,3,2,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]",
+    "[[4,4]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from typing import List\n\ndef findSubsequences(nums: List[int]) -> List[List[int]]:\n    res = set()\n    dfs(nums, 0, [], res)\n    return list(res)\n\ndef dfs(nums, start, path, res):\n    if len(path) >= 2:\n        res.add(tuple(path))\n    for i in range(start, len(nums)):\n        if path and path[-1] > nums[i]:\n            continue\n        dfs(nums, i + 1, path + [nums[i]], res)",
+    "explanation": "We can solve this problem using Depth-First Search (DFS) approach. To generate all the possible subsequences, start by iterating through the array, for each element of the array perform DFS and insert it into the path.\n\nDuring DFS:\n\n1. If the path has at least 2 elements, consider this path as a valid increasing subsequence, and insert it into the set to avoid duplicates.\n2. For each element, skip the current element if its index is greater than equal to the current array size or its value is smaller than the last element in the path.\n3. Add the current element to the path, then perform DFS on the remaining array elements by incrementing the start index.\n4. Remove the current element from the path before backtracking.\n\nAfter completing the DFS traversal, convert the set of subsequences into the required format (vector or list) and return it."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Length of Pair Chain\", \"titleSlug\": \"maximum-length-of-pair-chain\", \"difficulty\": \"Medium\"}]"
+}

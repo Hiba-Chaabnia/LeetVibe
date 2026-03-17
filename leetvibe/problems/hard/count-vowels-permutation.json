@@ -1,0 +1,39 @@
+{
+  "questionId": "1332",
+  "title": "Count Vowels Permutation",
+  "titleSlug": "count-vowels-permutation",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given an integer n, your task is to count how many strings of length n can be formed under the following rules:\n\n• Each character is a lower case vowel ('a', 'e', 'i', 'o', 'u')\n\n• Each vowel 'a' may only be followed by an 'e'.\n\n• Each vowel 'e' may only be followed by an 'a' or an 'i'.\n\n• Each vowel 'i' may not be followed by another 'i'.\n\n• Each vowel 'o' may only be followed by an 'i' or a 'u'.\n\n• Each vowel 'u' may only be followed by an 'a'.\n\nSince the answer may be too large, return it modulo 10^9 + 7.\n\nExample 1:\n\nInput: n = 1\nOutput: 5\nExplanation: All possible strings are: \"a\", \"e\", \"i\" , \"o\" and \"u\".\n\nExample 2:\n\nInput: n = 2\nOutput: 10\nExplanation: All possible strings are: \"ae\", \"ea\", \"ei\", \"ia\", \"ie\", \"io\", \"iu\", \"oi\", \"ou\" and \"ua\".\n\nExample 3:\n\nInput: n = 5\nOutput: 68\n\nConstraints:\n\n• 1 <= n <= 2 * 10^4",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countVowelPermutation(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "Let dp[i][j] be the number of strings of length i that ends with the j-th vowel.",
+    "Deduce the recurrence from the given relations between vowels."
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "10"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Number of Strings Which Can Be Rearranged to Contain Substring\", \"titleSlug\": \"number-of-strings-which-can-be-rearranged-to-contain-substring\", \"difficulty\": \"Medium\"}]"
+}

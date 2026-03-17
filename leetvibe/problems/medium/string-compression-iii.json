@@ -1,0 +1,41 @@
+{
+  "questionId": "3451",
+  "title": "String Compression III",
+  "titleSlug": "string-compression-iii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string word, compress it using the following algorithm:\n\n• Begin with an empty string comp. While word is not empty, use the following operation:\n\n• Remove a maximum length prefix of word made of a single character c repeating at most 9 times.\n\n• Append the length of the prefix followed by c to comp.\n\nReturn the string comp.\n\nExample 1:\n\nInput: word = \"abcde\"\n\nOutput: \"1a1b1c1d1e\"\n\nExplanation: Initially, comp = \"\". Apply the operation 5 times, choosing \"a\", \"b\", \"c\", \"d\", and \"e\" as the prefix in each operation.\n\nFor each prefix, append \"1\" followed by the character to comp.\n\nExample 2:\n\nInput: word = \"aaaaaaaaaaaaaabb\"\n\nOutput: \"9a5a2b\"\n\nExplanation: Initially, comp = \"\". Apply the operation 3 times, choosing \"aaaaaaaaa\", \"aaaaa\", and \"bb\" as the prefix in each operation.\n\n• For prefix \"aaaaaaaaa\", append \"9\" followed by \"a\" to comp.\n\n• For prefix \"aaaaa\", append \"5\" followed by \"a\" to comp.\n\n• For prefix \"bb\", append \"2\" followed by \"b\" to comp.\n\nConstraints:\n\n• 1 <= word.length <= 2 * 105\n\n• word consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def compressedString(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Each time, just cut the same character in prefix up to at max 9 times. It’s always better to cut a bigger prefix."
+  ],
+  "testCases": [
+    [
+      "\"abcde\""
+    ],
+    [
+      "\"aaaaaaaaaaaaaabb\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"1a1b1c1d1e\"",
+    "\"9a5a2b\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def compressedString(self, word):\n        res = []\n        i = 0\n        while i < len(word):\n            c = word[i]\n            count = 0\n            while i < len(word) and word[i] == c and count < 9:\n                count += 1\n                i += 1\n            res.append(str(count) + c)\n        return ''.join(res)",
+    "explanation": "We use a simple greedy scan. Starting from the current position, we greedily consume as many consecutive copies of the current character as possible, capping at 9. We append the count and character to the result, then move on.\n\nThis is optimal because taking the maximum allowed prefix at each step minimizes the number of groups, which aligns with the compression algorithm's definition.\n\nTime complexity: O(n). Space complexity: O(n) for the result."
+  },
+  "similarQuestions": "[{\"title\": \"String Compression\", \"titleSlug\": \"string-compression\", \"difficulty\": \"Medium\"}, {\"title\": \"String Compression II\", \"titleSlug\": \"string-compression-ii\", \"difficulty\": \"Hard\"}]"
+}

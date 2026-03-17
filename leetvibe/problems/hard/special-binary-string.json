@@ -1,0 +1,49 @@
+{
+  "questionId": "763",
+  "title": "Special Binary String",
+  "titleSlug": "special-binary-string",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Special binary strings are binary strings with the following two properties:\n\n• The number of 0's is equal to the number of 1's.\n\n• Every prefix of the binary string has at least as many 1's as 0's.\n\nYou are given a special binary string s.\n\nA move consists of choosing two consecutive, non-empty, special substrings of s, and swapping them. Two strings are consecutive if the last character of the first string is exactly one index before the first character of the second string.\n\nReturn the lexicographically largest resulting string possible after applying the mentioned operations on the string.\n\nExample 1:\n\nInput: s = \"11011000\"\nOutput: \"11100100\"\nExplanation: The strings \"10\" [occuring at s[1]] and \"1100\" [at s[3]] are swapped.\n    This is the lexicographically largest string possible after some number of swaps.\n\nExample 2:\n\nInput: s = \"10\"\nOutput: \"10\"\n\nConstraints:\n\n• 1 <= s.length <= 50\n\n• s[i] is either '0' or '1'.\n\n• s is a special binary string.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def makeLargestSpecial(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Draw a line from (x, y) to (x+1, y+1) if we see a \"1\", else to (x+1, y-1).\r\nA special substring is just a line that starts and ends at the same y-coordinate, and that is the lowest y-coordinate reached.\r\nCall a mountain a special substring with no special prefixes - ie. only at the beginning and end is the lowest y-coordinate reached.\r\nIf F is the answer function, and S has mountain decomposition M1,M2,M3,...,Mk,  then the answer is:\r\nreverse_sorted(F(M1), F(M2), ..., F(Mk)).\r\nHowever, you'll also need to deal with the case that S is a mountain, such as 11011000 -> 11100100."
+  ],
+  "testCases": [
+    [
+      "\"11011000\""
+    ],
+    [
+      "\"10\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"11100100\"",
+    "\"10\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def makeLargestSpecial(s: str) -> str:\n    count, i = 0, 0\n    subs = []\n\n    for j in range(len(s)):\n        if s[j] == '1':\n            count += 1\n        else:\n            count -= 1\n\n        if count == 0:\n            subs.append(\"1\" + makeLargestSpecial(s[i+1:j]) + \"0\")\n            i = j + 1\n\n    subs.sort(reverse=True)\n    return \"\".join(subs)",
+    "explanation": "The algorithm starts by initializing some variables. `count` tracks the balance of 1's and 0's in the special binary string, and `i` tracks the starting index for extracting subproblems.\n\nIterating through the input string `s`, the algorithm updates `count`, incrementing it if the current character is '1' and decrementing if it's '0'. Whenever `count` becomes zero, it means that the current substring from index `i + 1` to index `j` is a valid special binary string. We proceed with the following steps:\n\n1. Extract the substring from index `i + 1` to index `j`.\n2. Recursively apply the function `makeLargestSpecial()` on the extracted substring.\n3. Concatenate the string \"1\" before and the string \"0\" after the result and add the resulting string into a list of substrings called `subs`.\n4. Update the `i` variable to the next index after `j`.\n\nAfter processing the entire input string in this way, we have several special binary substrings in `subs`. We sort the substrings in decreasing (non-ascending) order and concatenate them together to form the largest lexicographically possible string as the final result."
+  },
+  "similarQuestions": "[{\"title\": \"Valid Parenthesis String\", \"titleSlug\": \"valid-parenthesis-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Good Binary Strings\", \"titleSlug\": \"number-of-good-binary-strings\", \"difficulty\": \"Medium\"}]"
+}

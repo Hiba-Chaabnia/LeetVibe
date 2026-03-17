@@ -1,0 +1,35 @@
+{
+  "questionId": "1187",
+  "title": "Print FooBar Alternately",
+  "titleSlug": "print-foobar-alternately",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Concurrency",
+      "slug": "concurrency"
+    }
+  ],
+  "content": "Suppose you are given the following code:\n\n    class FooBar {\n      public void foo() {\n        for (int i = 0; i The same instance of FooBar will be passed to two different threads:\n\n• thread A will call foo(), while\n\n• thread B will call bar().\n\nModify the given program to output \"foobar\" n times.\n\nExample 1:\n\nInput: n = 1\nOutput: \"foobar\"\nExplanation: There are two threads being fired asynchronously. One of them calls foo(), while the other calls bar().\n    \"foobar\" is being output 1 time.\n\nExample 2:\n\nInput: n = 2\nOutput: \"foobarfoobar\"\nExplanation: \"foobar\" is being output 2 times.\n\nConstraints:\n\n• 1 <= n <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class FooBar(object):\n    def __init__(self, n):\n        self.n = n\n\n\n    def foo(self, printFoo):\n        \"\"\"\n        :type printFoo: method\n        :rtype: void\n        \"\"\"\n        for i in xrange(self.n):\n            \n            # printFoo() outputs \"foo\". Do not change or remove this line.\n        \tprintFoo()\n\n\n    def bar(self, printBar):\n        \"\"\"\n        :type printBar: method\n        :rtype: void\n        \"\"\"\n        for i in xrange(self.n):\n            \n            # printBar() outputs \"bar\". Do not change or remove this line.\n        \tprintBar()"
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"foobar\"",
+    "\"foobarfoobar\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Print in Order\", \"titleSlug\": \"print-in-order\", \"difficulty\": \"Easy\"}, {\"title\": \"Print Zero Even Odd\", \"titleSlug\": \"print-zero-even-odd\", \"difficulty\": \"Medium\"}]"
+}

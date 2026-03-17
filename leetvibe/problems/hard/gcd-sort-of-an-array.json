@@ -1,0 +1,58 @@
+{
+  "questionId": "2125",
+  "title": "GCD Sort of an Array",
+  "titleSlug": "gcd-sort-of-an-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given an integer array nums, and you can perform the following operation any number of times on nums:\n\n• Swap the positions of two elements nums[i] and nums[j] if gcd(nums[i], nums[j]) > 1 where gcd(nums[i], nums[j]) is the greatest common divisor of nums[i] and nums[j].\n\nReturn true if it is possible to sort nums in non-decreasing order using the above swap method, or false otherwise.\n\nExample 1:\n\nInput: nums = [7,21,3]\nOutput: true\nExplanation: We can sort [7,21,3] by performing the following operations:\n    - Swap 7 and 21 because gcd(7,21) = 7. nums = [21,7,3]\n    - Swap 21 and 3 because gcd(21,3) = 3. nums = [3,7,21]\n\nExample 2:\n\nInput: nums = [5,2,6,2]\nOutput: false\nExplanation: It is impossible to sort the array because 5 cannot be swapped with any other element.\n\nExample 3:\n\nInput: nums = [10,5,9,3,15]\nOutput: true\n    We can sort [10,5,9,3,15] by performing the following operations:\n    - Swap 10 and 15 because gcd(10,15) = 5. nums = [15,5,9,3,10]\n    - Swap 15 and 3 because gcd(15,3) = 3. nums = [3,5,9,15,10]\n    - Swap 10 and 15 because gcd(10,15) = 5. nums = [3,5,9,10,15]\n\nConstraints:\n\n• 1 <= nums.length <= 3 * 104\n\n• 2 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def gcdSort(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we build a graph with all the prime numbers and the original array?",
+    "We can use union-find to determine which indices are connected (i.e., which indices can be swapped)."
+  ],
+  "testCases": [
+    [
+      "[7,21,3]"
+    ],
+    [
+      "[5,2,6,2]"
+    ],
+    [
+      "[10,5,9,3,15]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Rank Transform of a Matrix\", \"titleSlug\": \"rank-transform-of-a-matrix\", \"difficulty\": \"Hard\"}]"
+}

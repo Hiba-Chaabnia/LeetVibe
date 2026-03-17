@@ -1,0 +1,46 @@
+{
+  "questionId": "1361",
+  "title": "Tiling a Rectangle with the Fewest Squares",
+  "titleSlug": "tiling-a-rectangle-with-the-fewest-squares",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "Given a rectangle of size n x m, return the minimum number of integer-sided squares that tile the rectangle.\n\nExample 1:\n\nInput: n = 2, m = 3\nOutput: 3\nExplanation: 3 squares are necessary to cover the rectangle.\n    2 (squares of 1x1)\n    1 (square of 2x2)\n\nExample 2:\n\nInput: n = 5, m = 8\nOutput: 5\n\nExample 3:\n\nInput: n = 11, m = 13\nOutput: 6\n\nConstraints:\n\n• 1 <= n, m <= 13",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def tilingRectangle(self, n, m):\n        \"\"\"\n        :type n: int\n        :type m: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can you use backtracking to solve this problem ?.",
+    "Suppose you've placed a bunch of squares. Where is the natural spot to place the next square ?.",
+    "The maximum number of squares to be placed will be ≤ max(n,m)."
+  ],
+  "testCases": [
+    [
+      "2",
+      "3"
+    ],
+    [
+      "5",
+      "8"
+    ],
+    [
+      "11",
+      "13"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5",
+    "6"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Selling Pieces of Wood\", \"titleSlug\": \"selling-pieces-of-wood\", \"difficulty\": \"Hard\"}]"
+}

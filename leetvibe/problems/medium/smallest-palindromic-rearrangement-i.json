@@ -1,0 +1,54 @@
+{
+  "questionId": "3812",
+  "title": "Smallest Palindromic Rearrangement I",
+  "titleSlug": "smallest-palindromic-rearrangement-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting Sort",
+      "slug": "counting-sort"
+    }
+  ],
+  "content": "You are given a palindromic string s.\n\nReturn the lexicographically smallest palindromic permutation of s.\n\nExample 1:\n\nInput: s = \"z\"\n\nOutput: \"z\"\n\nExplanation: A string of only one character is already the lexicographically smallest palindrome.\n\nExample 2:\n\nInput: s = \"babab\"\n\nOutput: \"abbba\"\n\nExplanation: Rearranging \"babab\" → \"abbba\" gives the smallest lexicographic palindrome.\n\nExample 3:\n\nInput: s = \"daccad\"\n\nOutput: \"acddca\"\n\nExplanation: Rearranging \"daccad\" → \"acddca\" gives the smallest lexicographic palindrome.\n\nConstraints:\n\n• 1 <= s.length <= 105\n\n• s consists of lowercase English letters.\n\n• s is guaranteed to be palindromic.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider a palindrome as composed of two mirror-image halves.",
+    "Construct one half (using s), and then the other half is its reverse to obtain the lexicographically smallest permutation."
+  ],
+  "testCases": [
+    [
+      "\"z\""
+    ],
+    [
+      "\"babab\""
+    ],
+    [
+      "\"daccad\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"z\"",
+    "\"abbba\"",
+    "\"acddca\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def smallestPalindrome(self, s):\n        cnt = Counter(s)\n        mid = \"\"\n        half_chars = []\n        for c in sorted(cnt.keys()):\n            if cnt[c] % 2 == 1:\n                mid = c  # at most one odd-count char (guaranteed palindrome input)\n            half_chars.append(c * (cnt[c] // 2))\n        half = ''.join(half_chars)\n        return half + mid + half[::-1]",
+    "explanation": "Since the input is already palindromic, at most one character has an odd frequency (the center). To form the lexicographically smallest palindrome:\n1. Count character frequencies.\n2. Build the first half using half of each character's count, sorted in ascending alphabetical order.\n3. If any character has an odd count, place one copy in the middle.\n4. The second half is the reverse of the first.\n\nSorting the characters for the first half ensures lexicographic minimality.\n\nTime complexity: O(n + 26 log 26) = O(n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Shortest Palindrome\", \"titleSlug\": \"shortest-palindrome\", \"difficulty\": \"Hard\"}]"
+}

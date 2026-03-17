@@ -1,0 +1,47 @@
+{
+  "questionId": "1884",
+  "title": "Minimum Changes To Make Alternating Binary String",
+  "titleSlug": "minimum-changes-to-make-alternating-binary-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string s consisting only of the characters '0' and '1'. In one operation, you can change any '0' to '1' or vice versa.\n\nThe string is called alternating if no two adjacent characters are equal. For example, the string \"010\" is alternating, while the string \"0100\" is not.\n\nReturn the minimum number of operations needed to make s alternating.\n\nExample 1:\n\nInput: s = \"0100\"\nOutput: 1\nExplanation: If you change the last character to '1', s will be \"0101\", which is alternating.\n\nExample 2:\n\nInput: s = \"10\"\nOutput: 0\nExplanation: s is already alternating.\n\nExample 3:\n\nInput: s = \"1111\"\nOutput: 2\nExplanation: You need two operations to reach \"0101\" or \"1010\".\n\nConstraints:\n\n• 1 <= s.length <= 104\n\n• s[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think about how the final string will look like.",
+    "It will either start with a '0' and be like '010101010..' or with a '1' and be like '10101010..'",
+    "Try both ways, and check for each way, the number of changes needed to reach it from the given string. The answer is the minimum of both ways."
+  ],
+  "testCases": [
+    [
+      "\"0100\""
+    ],
+    [
+      "\"10\""
+    ],
+    [
+      "\"1111\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, s):\n        pattern1 = sum(1 for i, c in enumerate(s) if int(c) != i % 2)\n        pattern2 = sum(1 for i, c in enumerate(s) if int(c) != (i + 1) % 2)\n        return min(pattern1, pattern2)",
+    "explanation": "Try two patterns: '0101...' and '1010...'. Count changes. Return min.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Remove Adjacent Almost-Equal Characters\", \"titleSlug\": \"remove-adjacent-almost-equal-characters\", \"difficulty\": \"Medium\"}]"
+}

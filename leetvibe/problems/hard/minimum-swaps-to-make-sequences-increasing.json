@@ -1,0 +1,41 @@
+{
+  "questionId": "819",
+  "title": "Minimum Swaps To Make Sequences Increasing",
+  "titleSlug": "minimum-swaps-to-make-sequences-increasing",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given two integer arrays of the same length nums1 and nums2. In one operation, you are allowed to swap nums1[i] with nums2[i].\n\n• For example, if nums1 = [1,2,3,8], and nums2 = [5,6,7,4], you can swap the element at i = 3 to obtain nums1 = [1,2,3,4] and nums2 = [5,6,7,8].\n\nReturn the minimum number of needed operations to make nums1 and nums2 strictly increasing. The test cases are generated so that the given input always makes it possible.\n\nAn array arr is strictly increasing if and only if arr[0] < arr[1] < arr[2] < ... < arr[arr.length - 1].\n\nExample 1:\n\nInput: nums1 = [1,3,5,4], nums2 = [1,2,3,7]\nOutput: 1\nExplanation:\n    Swap nums1[3] and nums2[3]. Then the sequences are:\n    nums1 = [1, 3, 5, 7] and nums2 = [1, 2, 3, 4]\n    which are both strictly increasing.\n\nExample 2:\n\nInput: nums1 = [0,3,5,8,9], nums2 = [2,1,4,6,9]\nOutput: 1\n\nConstraints:\n\n• 2 <= nums1.length <= 105\n\n• nums2.length == nums1.length\n\n• 0 <= nums1[i], nums2[i] <= 2 * 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minSwap(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,3,5,4]",
+      "[1,2,3,7]"
+    ],
+    [
+      "[0,3,5,8,9]",
+      "[2,1,4,6,9]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "1"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Minimum Operations to Make the Array K-Increasing\", \"titleSlug\": \"minimum-operations-to-make-the-array-k-increasing\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Operations to Maximize Last Elements in Arrays\", \"titleSlug\": \"minimum-operations-to-maximize-last-elements-in-arrays\", \"difficulty\": \"Medium\"}]"
+}

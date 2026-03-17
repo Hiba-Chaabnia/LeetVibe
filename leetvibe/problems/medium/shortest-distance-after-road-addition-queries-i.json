@@ -1,0 +1,52 @@
+{
+  "questionId": "3517",
+  "title": "Shortest Distance After Road Addition Queries I",
+  "titleSlug": "shortest-distance-after-road-addition-queries-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    }
+  ],
+  "content": "You are given an integer n and a 2D integer array queries.\n\nThere are n cities numbered from 0 to n - 1. Initially, there is a unidirectional road from city i to city i + 1 for all 0 <= i < n - 1.\n\nqueries[i] = [ui, vi] represents the addition of a new unidirectional road from city ui to city vi. After each query, you need to find the length of the shortest path from city 0 to city n - 1.\n\nReturn an array answer where for each i in the range [0, queries.length - 1], answer[i] is the length of the shortest path from city 0 to city n - 1 after processing the first i + 1 queries.\n\nExample 1:\n\nInput: n = 5, queries = [[2,4],[0,2],[0,4]]\n\nOutput: [3,2,1]\n\nExplanation: After the addition of the road from 2 to 4, the length of the shortest path from 0 to 4 is 3.\n\nAfter the addition of the road from 0 to 2, the length of the shortest path from 0 to 4 is 2.\n\nAfter the addition of the road from 0 to 4, the length of the shortest path from 0 to 4 is 1.\n\nExample 2:\n\nInput: n = 4, queries = [[0,3],[0,2]]\n\nOutput: [1,1]\n\nExplanation: After the addition of the road from 0 to 3, the length of the shortest path from 0 to 3 is 1.\n\nAfter the addition of the road from 0 to 2, the length of the shortest path remains 1.\n\nConstraints:\n\n• 3 <= n <= 500\n\n• 1 <= queries.length <= 500\n\n• queries[i].length == 2\n\n• 0 <= queries[i][0] < queries[i][1] < n\n\n• 1 < queries[i][1] - queries[i][0]\n\n• There are no repeated roads among the queries.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def shortestDistanceAfterQueries(self, n, queries):\n        \"\"\"\n        :type n: int\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Maintain the graph and use an efficient shortest path algorithm after each update.",
+    "We use BFS/Dijkstra for each query."
+  ],
+  "testCases": [
+    [
+      "5",
+      "[[2,4],[0,2],[0,4]]"
+    ],
+    [
+      "4",
+      "[[0,3],[0,2]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,2,1]",
+    "[1,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict, deque\n\nclass Solution(object):\n    def shortestDistanceAfterQueries(self, n, queries):\n        adj = defaultdict(list)\n        for i in range(n - 1):\n            adj[i].append(i + 1)\n\n        def bfs():\n            dist = [-1] * n\n            dist[0] = 0\n            q = deque([0])\n            while q:\n                node = q.popleft()\n                for nb in adj[node]:\n                    if dist[nb] == -1:\n                        dist[nb] = dist[node] + 1\n                        if nb == n - 1:\n                            return dist[nb]\n                        q.append(nb)\n            return dist[n - 1]\n\n        ans = []\n        for u, v in queries:\n            adj[u].append(v)\n            ans.append(bfs())\n        return ans",
+    "explanation": "We maintain an adjacency list initialized with the default chain edges 0->1->2->...->n-1. After each query adds a new edge, we run BFS from node 0 to find the shortest path to node n-1.\n\nWith n, q <= 500, the total work is O(q * (n + q)) = O(500 * 1000) = 500,000 operations, well within limits.\n\nEarly termination once we reach n-1 further speeds up BFS.\n\nTime complexity: O(q * (n + q)). Space complexity: O(n + q)."
+  },
+  "similarQuestions": "[]"
+}

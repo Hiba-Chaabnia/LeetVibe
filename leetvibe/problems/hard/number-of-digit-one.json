@@ -1,0 +1,49 @@
+{
+  "questionId": "233",
+  "title": "Number of Digit One",
+  "titleSlug": "number-of-digit-one",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    }
+  ],
+  "content": "Given an integer n, count the total number of digit 1 appearing in all non-negative integers less than or equal to n.\n\nExample 1:\n\nInput: n = 13\nOutput: 6\n\nExample 2:\n\nInput: n = 0\nOutput: 0\n\nConstraints:\n\n• 0 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countDigitOne(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Beware of overflow."
+  ],
+  "testCases": [
+    [
+      "13"
+    ],
+    [
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def countDigitOne(n):\n    count = 0\n    i = 1\n    while i <= n:\n        divider = i * 10\n        count += (n // divider) * i + min(max(n % divider - i + 1, 0), i)\n        i *= 10\n    return count",
+    "explanation": "1. The algorithm uses a loop that iterates from the digit 1 to the highest digit in the given number, starting with 1 and incrementing by multiplying by 10 each iteration (1, 10, 100...).\n2. On each iteration, the algorithm checks how many times 1's appear in the current digit:\n   a. Calculates the occurrences of digit 1 contributed by the higher digits (n / divider) * i.\n   b. Counts the remaining occurrences in the current digit using the formula min(max(n % divider - i + 1, 0), i).\n3. It sums up the occurrences for each digit in a variable called `count`.\n4. When the loop ends, all occurrences of digit 1 have been considered, and `count` has the final sum of all occurrences.\n\nThe algorithm runs in O(log10(n)) time complexity since the loop runs for however many digits there are in the input number."
+  },
+  "similarQuestions": "[{\"title\": \"Factorial Trailing Zeroes\", \"titleSlug\": \"factorial-trailing-zeroes\", \"difficulty\": \"Medium\"}, {\"title\": \"Digit Count in Range\", \"titleSlug\": \"digit-count-in-range\", \"difficulty\": \"Hard\"}]"
+}

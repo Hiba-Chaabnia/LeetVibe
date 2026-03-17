@@ -1,0 +1,56 @@
+{
+  "questionId": "3399",
+  "title": "Find the Integer Added to Array II",
+  "titleSlug": "find-the-integer-added-to-array-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given two integer arrays nums1 and nums2.\n\nFrom nums1 two elements have been removed, and all other elements have been increased (or decreased in the case of negative) by an integer, represented by the variable x.\n\nAs a result, nums1 becomes equal to nums2. Two arrays are considered equal when they contain the same integers with the same frequencies.\n\nReturn the minimum possible integer x that achieves this equivalence.\n\nExample 1:\n\nInput: nums1 = [4,20,16,12,8], nums2 = [14,18,10]\n\nOutput: -2\n\nExplanation: After removing elements at indices [0,4] and adding -2, nums1 becomes [18,14,10].\n\nExample 2:\n\nInput: nums1 = [3,5,5,3], nums2 = [7,7]\n\nOutput: 2\n\nExplanation: After removing elements at indices [0,3] and adding 2, nums1 becomes [7,7].\n\nConstraints:\n\n• 3 <= nums1.length <= 200\n\n• nums2.length == nums1.length - 2\n\n• 0 <= nums1[i], nums2[i] <= 1000\n\n• The test cases are generated in a way that there is an integer x such that nums1 can become equal to nums2 by removing two elements and adding x to each element of nums1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumAddedInteger(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try all possibilities to remove 2 elements from nums1.",
+    "x should be equal to min(nums2) - min(nums1), check it naively."
+  ],
+  "testCases": [
+    [
+      "[4,20,16,12,8]",
+      "[14,18,10]"
+    ],
+    [
+      "[3,5,5,3]",
+      "[7,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "-2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import Counter\n\nclass Solution(object):\n    def minimumAddedInteger(self, nums1, nums2):\n        nums1.sort()\n        nums2.sort()\n        # x = min(nums2) - candidate from nums1 after removing 2 elements\n        # The minimum of remaining nums1 must equal min(nums2) - x\n        # Try x = nums2[0] - nums1[i] for i in 0,1,2 (removing elements before min)\n        ans = float('inf')\n        for i in range(3):  # remove at most 2 elements before min\n            x = nums2[0] - nums1[i]\n            # Check if nums1 with +x matches nums2 (removing exactly 2 elements)\n            j = 0  # pointer into nums2\n            skipped = i  # already skipped i elements\n            ok = True\n            for idx in range(len(nums1)):\n                if idx < i:\n                    continue  # skip first i elements\n                if j < len(nums2) and nums1[idx] + x == nums2[j]:\n                    j += 1\n                else:\n                    skipped += 1\n                    if skipped > 2:\n                        ok = False\n                        break\n            if ok and j == len(nums2):\n                ans = min(ans, x)\n        return ans",
+    "explanation": "Sort both arrays. x = nums2[0] - (some element of nums1 after removing 0, 1, or 2 elements). Try the 3 candidates for minimum of remaining nums1 (nums1[0], nums1[1], nums1[2]). For each candidate x, greedily match nums1+x against nums2 allowing at most 2 skips.\n\nTime: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

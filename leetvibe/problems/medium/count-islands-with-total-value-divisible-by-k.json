@@ -1,0 +1,59 @@
+{
+  "questionId": "3823",
+  "title": "Count Islands With Total Value Divisible by K",
+  "titleSlug": "count-islands-with-total-value-divisible-by-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n matrix grid and a positive integer k. An island is a group of positive integers (representing land) that are 4-directionally connected (horizontally or vertically).\n\nThe total value of an island is the sum of the values of all cells in the island.\n\nReturn the number of islands with a total value divisible by k.\n\nExample 1:\n\nInput: grid = [[0,2,1,0,0],[0,5,0,0,5],[0,0,1,0,0],[0,1,4,7,0],[0,2,0,0,8]], k = 5\n\nOutput: 2\n\nExplanation: The grid contains four islands. The islands highlighted in blue have a total value that is divisible by 5, while the islands highlighted in red do not.\n\nExample 2:\n\nInput: grid = [[3,0,3,0], [0,3,0,3], [3,0,3,0]], k = 3\n\nOutput: 6\n\nExplanation: The grid contains six islands, each with a total value that is divisible by 3.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 1000\n\n• 1 <= m * n <= 105\n\n• 0 <= grid[i][j] <= 106\n\n• 1 <= k <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countIslands(self, grid, k):\n        \"\"\"\n        :type grid: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a BFS/DFS to find connected components."
+  ],
+  "testCases": [
+    [
+      "[[0,2,1,0,0],[0,5,0,0,5],[0,0,1,0,0],[0,1,4,7,0],[0,2,0,0,8]]",
+      "5"
+    ],
+    [
+      "[[3,0,3,0],[0,3,0,3],[3,0,3,0]]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import deque\n\nclass Solution(object):\n    def countIslands(self, grid, k):\n        m, n = len(grid), len(grid[0])\n        visited = [[False]*n for _ in range(m)]\n        ans = 0\n        for i in range(m):\n            for j in range(n):\n                if grid[i][j] > 0 and not visited[i][j]:\n                    total = 0\n                    q = deque([(i, j)])\n                    visited[i][j] = True\n                    while q:\n                        r, c = q.popleft()\n                        total += grid[r][c]\n                        for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:\n                            nr, nc = r+dr, c+dc\n                            if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] > 0 and not visited[nr][nc]:\n                                visited[nr][nc] = True\n                                q.append((nr, nc))\n                    if total % k == 0:\n                        ans += 1\n        return ans",
+    "explanation": "BFS/DFS to find connected components of positive cells. Sum values in each component. Count components with sum divisible by k.\n\nTime: O(m*n). Space: O(m*n)."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Islands\", \"titleSlug\": \"number-of-islands\", \"difficulty\": \"Medium\"}]"
+}

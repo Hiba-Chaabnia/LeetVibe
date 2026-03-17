@@ -1,0 +1,46 @@
+{
+  "questionId": "2401",
+  "title": "Count Asterisks",
+  "titleSlug": "count-asterisks",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string s, where every two consecutive vertical bars '|' are grouped into a pair. In other words, the 1st and 2nd '|' make a pair, the 3rd and 4th '|' make a pair, and so forth.\n\nReturn the number of '*' in s, excluding the '*' between each pair of '|'.\n\nNote that each '|' will belong to exactly one pair.\n\nExample 1:\n\nInput: s = \"l|*e*et|c**o|*de|\"\nOutput: 2\nExplanation: The considered characters are underlined: \"l|*e*et|c**o|*de|\".\n    The characters between the first and second '|' are excluded from the answer.\n    Also, the characters between the third and fourth '|' are excluded from the answer.\n    There are 2 asterisks considered. Therefore, we return 2.\n\nExample 2:\n\nInput: s = \"iamprogrammer\"\nOutput: 0\nExplanation: In this example, there are no asterisks in s. Therefore, we return 0.\n\nExample 3:\n\nInput: s = \"yo|uar|e**|b|e***au|tifu|l\"\nOutput: 5\nExplanation: The considered characters are underlined: \"yo|uar|e**|b|e***au|tifu|l\". There are 5 asterisks considered. Therefore, we return 5.\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s consists of lowercase English letters, vertical bars '|', and asterisks '*'.\n\n• s contains an even number of vertical bars '|'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countAsterisks(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate through each character, while maintaining whether we are currently between a pair of ‘|’ or not.",
+    "If we are not in between a pair of ‘|’ and there is a ‘*’, increment the answer by 1."
+  ],
+  "testCases": [
+    [
+      "\"l|*e*et|c**o|*de|\""
+    ],
+    [
+      "\"iamprogrammer\""
+    ],
+    [
+      "\"yo|uar|e**|b|e***au|tifu|l\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countAsterisks(self, s):\n        count = 0\n        in_pair = False\n        for char in s:\n            if char == '|':\n                in_pair = not in_pair\n            elif char == '*' and not in_pair:\n                count += 1\n        return count",
+    "explanation": "Toggle state when seeing '|'. Only count '*' when not between pair.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[]"
+}

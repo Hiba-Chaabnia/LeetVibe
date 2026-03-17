@@ -1,0 +1,54 @@
+{
+  "questionId": "2119",
+  "title": "Minimum Number of Operations to Make Array Continuous",
+  "titleSlug": "minimum-number-of-operations-to-make-array-continuous",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "You are given an integer array nums. In one operation, you can replace any element in nums with any integer.\n\nnums is considered continuous if both of the following conditions are fulfilled:\n\n• All elements in nums are unique.\n\n• The difference between the maximum element and the minimum element in nums equals nums.length - 1.\n\nFor example, nums = [4, 2, 5, 3] is continuous, but nums = [1, 2, 3, 5, 6] is not continuous.\n\nReturn the minimum number of operations to make nums continuous.\n\nExample 1:\n\nInput: nums = [4,2,5,3]\nOutput: 0\nExplanation: nums is already continuous.\n\nExample 2:\n\nInput: nums = [1,2,3,5,6]\nOutput: 1\nExplanation: One possible solution is to change the last element to 4.\n    The resulting array is [1,2,3,5,4], which is continuous.\n\nExample 3:\n\nInput: nums = [1,10,100,1000]\nOutput: 3\nExplanation: One possible solution is to:\n    - Change the second element to 2.\n    - Change the third element to 3.\n    - Change the fourth element to 4.\n    The resulting array is [1,2,3,4], which is continuous.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the array.",
+    "For every index do a binary search to get the possible right end of the window and calculate the possible answer."
+  ],
+  "testCases": [
+    [
+      "[4,2,5,3]"
+    ],
+    [
+      "[1,2,3,5,6]"
+    ],
+    [
+      "[1,10,100,1000]"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "1",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Longest Repeating Character Replacement\", \"titleSlug\": \"longest-repeating-character-replacement\", \"difficulty\": \"Medium\"}, {\"title\": \"Continuous Subarray Sum\", \"titleSlug\": \"continuous-subarray-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Moving Stones Until Consecutive II\", \"titleSlug\": \"moving-stones-until-consecutive-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum One Bit Operations to Make Integers Zero\", \"titleSlug\": \"minimum-one-bit-operations-to-make-integers-zero\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Adjacent Swaps for K Consecutive Ones\", \"titleSlug\": \"minimum-adjacent-swaps-for-k-consecutive-ones\", \"difficulty\": \"Hard\"}]"
+}

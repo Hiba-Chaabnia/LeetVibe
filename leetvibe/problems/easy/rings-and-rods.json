@@ -1,0 +1,50 @@
+{
+  "questionId": "2226",
+  "title": "Rings and Rods",
+  "titleSlug": "rings-and-rods",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "There are n rings and each ring is either red, green, or blue. The rings are distributed across ten rods labeled from 0 to 9.\n\nYou are given a string rings of length 2n that describes the n rings that are placed onto the rods. Every two characters in rings forms a color-position pair that is used to describe each ring where:\n\n• The first character of the ith pair denotes the ith ring's color ('R', 'G', 'B').\n\n• The second character of the ith pair denotes the rod that the ith ring is placed on ('0' to '9').\n\nFor example, \"R3G2B1\" describes n == 3 rings: a red ring placed onto the rod labeled 3, a green ring placed onto the rod labeled 2, and a blue ring placed onto the rod labeled 1.\n\nReturn the number of rods that have all three colors of rings on them.\n\nExample 1:\n\nInput: rings = \"B0B6G0R6R0R6G9\"\nOutput: 1\nExplanation:\n    - The rod labeled 0 holds 3 rings with all colors: red, green, and blue.\n    - The rod labeled 6 holds 3 rings, but it only has red and blue.\n    - The rod labeled 9 holds only a green ring.\n    Thus, the number of rods with all three colors is 1.\n\nExample 2:\n\nInput: rings = \"B0R0G0R9R0B0G0\"\nOutput: 1\nExplanation:\n    - The rod labeled 0 holds 6 rings with all colors: red, green, and blue.\n    - The rod labeled 9 holds only a red ring.\n    Thus, the number of rods with all three colors is 1.\n\nExample 3:\n\nInput: rings = \"G4\"\nOutput: 0\nExplanation:\n    Only one ring is given. Thus, no rods have all three colors.\n\nConstraints:\n\n• rings.length == 2 * n\n\n• 1 <= n <= 100\n\n• rings[i] where i is even is either 'R', 'G', or 'B' (0-indexed).\n\n• rings[i] where i is odd is a digit from '0' to '9' (0-indexed).",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPoints(self, rings):\n        \"\"\"\n        :type rings: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For every rod, look through ‘rings’ to see if the rod contains all colors.",
+    "Create 3 booleans, 1 for each color, to store if that color is present for the current rod. If all 3 are true after looking through the string, then the rod contains all the colors."
+  ],
+  "testCases": [
+    [
+      "\"B0B6G0R6R0R6G9\""
+    ],
+    [
+      "\"B0R0G0R9R0B0G0\""
+    ],
+    [
+      "\"G4\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countPoints(self, rings):\n        rods = [set() for _ in range(10)]\n        for i in range(0, len(rings), 2):\n            color = rings[i]\n            rod = int(rings[i+1])\n            rods[rod].add(color)\n        return sum(1 for rod in rods if len(rod) == 3)",
+    "explanation": "Track colors on each rod. Count rods with all 3 colors.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Check if All Characters Have Equal Number of Occurrences\", \"titleSlug\": \"check-if-all-characters-have-equal-number-of-occurrences\", \"difficulty\": \"Easy\"}]"
+}

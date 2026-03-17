@@ -1,0 +1,61 @@
+{
+  "questionId": "3732",
+  "title": "Calculate Score After Performing Instructions",
+  "titleSlug": "calculate-score-after-performing-instructions",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given two arrays, instructions and values, both of size n.\n\nYou need to simulate a process based on the following rules:\n\n• You start at the first instruction at index i = 0 with an initial score of 0.\n\n• If instructions[i] is \"add\":\n\n• Add values[i] to your score.\n\n• Move to the next instruction (i + 1).\n\n• If instructions[i] is \"jump\":\n\n• Move to the instruction at index (i + values[i]) without modifying your score.\n\nThe process ends when you either:\n\n• Go out of bounds (i.e., i < 0 or i >= n), or\n\n• Attempt to revisit an instruction that has been previously executed. The revisited instruction is not executed.\n\nReturn your score at the end of the process.\n\nExample 1:\n\nInput: instructions = [\"jump\",\"add\",\"add\",\"jump\",\"add\",\"jump\"], values = [2,1,3,1,-2,-3]\n\nOutput: 1\n\nExplanation: Simulate the process starting at instruction 0:\n\n• At index 0: Instruction is \"jump\", move to index 0 + 2 = 2.\n\n• At index 2: Instruction is \"add\", add values[2] = 3 to your score and move to index 3. Your score becomes 3.\n\n• At index 3: Instruction is \"jump\", move to index 3 + 1 = 4.\n\n• At index 4: Instruction is \"add\", add values[4] = -2 to your score and move to index 5. Your score becomes 1.\n\n• At index 5: Instruction is \"jump\", move to index 5 + (-3) = 2.\n\n• At index 2: Already visited. The process ends.\n\nExample 2:\n\nInput: instructions = [\"jump\",\"add\",\"add\"], values = [3,1,1]\n\nOutput: 0\n\nExplanation: Simulate the process starting at instruction 0:\n\n• At index 0: Instruction is \"jump\", move to index 0 + 3 = 3.\n\n• At index 3: Out of bounds. The process ends.\n\nExample 3:\n\nInput: instructions = [\"jump\"], values = [0]\n\nOutput: 0\n\nExplanation: Simulate the process starting at instruction 0:\n\n• At index 0: Instruction is \"jump\", move to index 0 + 0 = 0.\n\n• At index 0: Already visited. The process ends.\n\nConstraints:\n\n• n == instructions.length == values.length\n\n• 1 <= n <= 105\n\n• instructions[i] is either \"add\" or \"jump\".\n\n• -105 <= values[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def calculateScore(self, instructions, values):\n        \"\"\"\n        :type instructions: List[str]\n        :type values: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the process step by step, following the rules for each instruction.",
+    "Use a data structure to track which instructions have already been executed to detect revisits."
+  ],
+  "testCases": [
+    [
+      "[\"jump\",\"add\",\"add\",\"jump\",\"add\",\"jump\"]",
+      "[2,1,3,1,-2,-3]"
+    ],
+    [
+      "[\"jump\",\"add\",\"add\"]",
+      "[3,1,1]"
+    ],
+    [
+      "[\"jump\"]",
+      "[0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "0",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def calculateScore(self, instructions, values):\n        n = len(instructions)\n        visited = set()\n        score = 0\n        i = 0\n        while 0 <= i < n and i not in visited:\n            visited.add(i)\n            if instructions[i] == 'add':\n                score += values[i]\n                i += 1\n            else:\n                i += values[i]\n        return score",
+    "explanation": "Simulate: track visited indices; stop when out-of-bounds or revisiting; add accumulates score, jump moves index. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

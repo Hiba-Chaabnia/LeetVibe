@@ -1,0 +1,57 @@
+{
+  "questionId": "1629",
+  "title": "Minimum Possible Integer After at Most K Adjacent Swaps On Digits",
+  "titleSlug": "minimum-possible-integer-after-at-most-k-adjacent-swaps-on-digits",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "You are given a string num representing the digits of a very large integer and an integer k. You are allowed to swap any two adjacent digits of the integer at most k times.\n\nReturn the minimum integer you can obtain also as a string.\n\nExample 1:\n\nInput: num = \"4321\", k = 4\nOutput: \"1342\"\nExplanation: The steps to obtain the minimum integer from 4321 with 4 adjacent swaps are shown.\n\nExample 2:\n\nInput: num = \"100\", k = 1\nOutput: \"010\"\nExplanation: It's ok for the output to have leading zeros, but the input is guaranteed not to have any leading zeros.\n\nExample 3:\n\nInput: num = \"36789\", k = 1000\nOutput: \"36789\"\nExplanation: We can keep the number without any swaps.\n\nConstraints:\n\n• 1 <= num.length <= 3 * 104\n\n• num consists of only digits and does not contain leading zeros.\n\n• 1 <= k <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minInteger(self, num, k):\n        \"\"\"\n        :type num: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We want to make the smaller digits the most significant digits in the number.",
+    "For each index i, check the smallest digit in a window of size k and append it to the answer. Update the indices of all digits in this range accordingly."
+  ],
+  "testCases": [
+    [
+      "\"4321\"",
+      "4"
+    ],
+    [
+      "\"100\"",
+      "1"
+    ],
+    [
+      "\"36789\"",
+      "1000"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"1342\"",
+    "\"010\"",
+    "\"36789\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

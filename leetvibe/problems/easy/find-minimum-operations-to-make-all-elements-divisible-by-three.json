@@ -1,0 +1,46 @@
+{
+  "questionId": "3476",
+  "title": "Find Minimum Operations to Make All Elements Divisible by Three",
+  "titleSlug": "find-minimum-operations-to-make-all-elements-divisible-by-three",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "You are given an integer array nums. In one operation, you can add or subtract 1 from any element of nums.\n\nReturn the minimum number of operations to make all elements of nums divisible by 3.\n\nExample 1:\n\nInput: nums = [1,2,3,4]\n\nOutput: 3\n\nExplanation: All array elements can be made divisible by 3 using 3 operations:\n\n• Subtract 1 from 1.\n\n• Add 1 to 2.\n\n• Subtract 1 from 4.\n\nExample 2:\n\nInput: nums = [3,6,9]\n\nOutput: 0\n\nConstraints:\n\n• 1 <= nums.length <= 50\n\n• 1 <= nums[i] <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If x % 3 != 0 we can always increment or decrement x such that we only need 1 operation.",
+    "Add min(nums[i] % 3, 3 - (nums[i] % 3)) to the count of operations."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4]"
+    ],
+    [
+      "[3,6,9]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumOperations(self, nums):\n        total = 0\n        for x in nums:\n            r = x % 3\n            total += min(r, 3 - r)\n        return total",
+    "explanation": "Each element needs min(r, 3-r) operations where r = element mod 3. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Moves to Equal Array Elements\", \"titleSlug\": \"minimum-moves-to-equal-array-elements\", \"difficulty\": \"Medium\"}]"
+}

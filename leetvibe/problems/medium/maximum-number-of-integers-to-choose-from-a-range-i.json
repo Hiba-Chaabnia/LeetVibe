@@ -1,0 +1,65 @@
+{
+  "questionId": "2640",
+  "title": "Maximum Number of Integers to Choose From a Range I",
+  "titleSlug": "maximum-number-of-integers-to-choose-from-a-range-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer array banned and two integers n and maxSum. You are choosing some number of integers following the below rules:\n\n• The chosen integers have to be in the range [1, n].\n\n• Each integer can be chosen at most once.\n\n• The chosen integers should not be in the array banned.\n\n• The sum of the chosen integers should not exceed maxSum.\n\nReturn the maximum number of integers you can choose following the mentioned rules.\n\nExample 1:\n\nInput: banned = [1,6,5], n = 5, maxSum = 6\nOutput: 2\nExplanation: You can choose the integers 2 and 4.\n    2 and 4 are from the range [1, 5], both did not appear in banned, and their sum is 6, which did not exceed maxSum.\n\nExample 2:\n\nInput: banned = [1,2,3,4,5,6,7], n = 8, maxSum = 1\nOutput: 0\nExplanation: You cannot choose any integer while following the mentioned conditions.\n\nExample 3:\n\nInput: banned = [11], n = 7, maxSum = 50\nOutput: 7\nExplanation: You can choose the integers 1, 2, 3, 4, 5, 6, and 7.\n    They are from the range [1, 7], all did not appear in banned, and their sum is 28, which did not exceed maxSum.\n\nConstraints:\n\n• 1 <= banned.length <= 104\n\n• 1 <= banned[i], n <= 104\n\n• 1 <= maxSum <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxCount(self, banned, n, maxSum):\n        \"\"\"\n        :type banned: List[int]\n        :type n: int\n        :type maxSum: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep the banned numbers that are less than or equal to n in a set.",
+    "Loop over the numbers from 1 to n and if the number is not banned, use it.",
+    "Keep adding numbers while they are not banned, and their sum is less than or equal to k."
+  ],
+  "testCases": [
+    [
+      "[1,6,5]",
+      "5",
+      "6"
+    ],
+    [
+      "[1,2,3,4,5,6,7]",
+      "8",
+      "1"
+    ],
+    [
+      "[11]",
+      "7",
+      "50"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "0",
+    "7"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"First Missing Positive\", \"titleSlug\": \"first-missing-positive\", \"difficulty\": \"Hard\"}, {\"title\": \"Find All Numbers Disappeared in an Array\", \"titleSlug\": \"find-all-numbers-disappeared-in-an-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Append K Integers With Minimal Sum\", \"titleSlug\": \"append-k-integers-with-minimal-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Replace Elements in an Array\", \"titleSlug\": \"replace-elements-in-an-array\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Integers to Choose From a Range II\", \"titleSlug\": \"maximum-number-of-integers-to-choose-from-a-range-ii\", \"difficulty\": \"Medium\"}]"
+}

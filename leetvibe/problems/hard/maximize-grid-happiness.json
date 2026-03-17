@@ -1,0 +1,64 @@
+{
+  "questionId": "1778",
+  "title": "Maximize Grid Happiness",
+  "titleSlug": "maximize-grid-happiness",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "You are given four integers, m, n, introvertsCount, and extrovertsCount. You have an m x n grid, and there are two types of people: introverts and extroverts. There are introvertsCount introverts and extrovertsCount extroverts.\n\nYou should decide how many people you want to live in the grid and assign each of them one grid cell. Note that you do not have to have all the people living in the grid.\n\nThe happiness of each person is calculated as follows:\n\n• Introverts start with 120 happiness and lose 30 happiness for each neighbor (introvert or extrovert).\n\n• Extroverts start with 40 happiness and gain 20 happiness for each neighbor (introvert or extrovert).\n\nNeighbors live in the directly adjacent cells north, east, south, and west of a person's cell.\n\nThe grid happiness is the sum of each person's happiness. Return the maximum possible grid happiness.\n\nExample 1:\n\nInput: m = 2, n = 3, introvertsCount = 1, extrovertsCount = 2\nOutput: 240\nExplanation: Assume the grid is 1-indexed with coordinates (row, column).\n    We can put the introvert in cell (1,1) and put the extroverts in cells (1,3) and (2,3).\n    - Introvert at (1,1) happiness: 120 (starting happiness) - (0 * 30) (0 neighbors) = 120\n    - Extrovert at (1,3) happiness: 40 (starting happiness) + (1 * 20) (1 neighbor) = 60\n    - Extrovert at (2,3) happiness: 40 (starting happiness) + (1 * 20) (1 neighbor) = 60\n    The grid happiness is 120 + 60 + 60 = 240.\n    The above figure shows the grid in this example with each person's happiness. The introvert stays in the light green cell while the extroverts live on the light purple cells.\n\nExample 2:\n\nInput: m = 3, n = 1, introvertsCount = 2, extrovertsCount = 1\nOutput: 260\nExplanation: Place the two introverts in (1,1) and (3,1) and the extrovert at (2,1).\n    - Introvert at (1,1) happiness: 120 (starting happiness) - (1 * 30) (1 neighbor) = 90\n    - Extrovert at (2,1) happiness: 40 (starting happiness) + (2 * 20) (2 neighbors) = 80\n    - Introvert at (3,1) happiness: 120 (starting happiness) - (1 * 30) (1 neighbor) = 90\n    The grid happiness is 90 + 80 + 90 = 260.\n\nExample 3:\n\nInput: m = 2, n = 2, introvertsCount = 4, extrovertsCount = 0\nOutput: 240\n\nConstraints:\n\n• 1 <= m, n <= 5\n\n• 0 <= introvertsCount, extrovertsCount <= min(m * n, 6)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getMaxGridHappiness(self, m, n, introvertsCount, extrovertsCount):\n        \"\"\"\n        :type m: int\n        :type n: int\n        :type introvertsCount: int\n        :type extrovertsCount: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each cell, it has 3 options, either it is empty, or contains an introvert, or an extrovert.",
+    "You can do DP where you maintain the state of the previous row, the number of remaining introverts and extroverts, the current row and column, and try the 3 options for each cell.",
+    "Assume that the previous columns in the current row already belong to the previous row."
+  ],
+  "testCases": [
+    [
+      "2",
+      "3",
+      "1",
+      "2"
+    ],
+    [
+      "3",
+      "1",
+      "2",
+      "1"
+    ],
+    [
+      "2",
+      "2",
+      "4",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "240",
+    "260",
+    "240"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

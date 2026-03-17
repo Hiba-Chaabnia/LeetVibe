@@ -1,0 +1,46 @@
+{
+  "questionId": "2457",
+  "title": "Count Special Integers",
+  "titleSlug": "count-special-integers",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "We call a positive integer special if all of its digits are distinct.\n\nGiven a positive integer n, return the number of special integers that belong to the interval [1, n].\n\nExample 1:\n\nInput: n = 20\nOutput: 19\nExplanation: All the integers from 1 to 20, except 11, are special. Thus, there are 19 special integers.\n\nExample 2:\n\nInput: n = 5\nOutput: 5\nExplanation: All the integers from 1 to 5 are special.\n\nExample 3:\n\nInput: n = 135\nOutput: 110\nExplanation: There are 110 integers from 1 to 135 that are special.\n    Some of the integers that are not special are: 22, 114, and 131.\n\nConstraints:\n\n• 1 <= n <= 2 * 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countSpecialNumbers(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to think of dynamic programming.",
+    "Use the idea of digit dynamic programming to build the numbers, in addition to a bitmask that will tell which digits you have used so far on the number that you are building."
+  ],
+  "testCases": [
+    [
+      "20"
+    ],
+    [
+      "5"
+    ],
+    [
+      "135"
+    ]
+  ],
+  "expectedOutputs": [
+    "19",
+    "5",
+    "110"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Count Numbers with Unique Digits\", \"titleSlug\": \"count-numbers-with-unique-digits\", \"difficulty\": \"Medium\"}, {\"title\": \"K-th Smallest in Lexicographical Order\", \"titleSlug\": \"k-th-smallest-in-lexicographical-order\", \"difficulty\": \"Hard\"}]"
+}

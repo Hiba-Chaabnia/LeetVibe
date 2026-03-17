@@ -1,0 +1,65 @@
+{
+  "questionId": "2686",
+  "title": "Minimum Cost of a Path With Special Roads",
+  "titleSlug": "minimum-cost-of-a-path-with-special-roads",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "You are given an array start where start = [startX, startY] represents your initial position (startX, startY) in a 2D space. You are also given the array target where target = [targetX, targetY] represents your target position (targetX, targetY).\n\nThe cost of going from a position (x1, y1) to any other position in the space (x2, y2) is |x2 - x1| + |y2 - y1|.\n\nThere are also some special roads. You are given a 2D array specialRoads where specialRoads[i] = [x1i, y1i, x2i, y2i, costi] indicates that the ith special road goes in one direction from (x1i, y1i) to (x2i, y2i) with a cost equal to costi. You can use each special road any number of times.\n\nReturn the minimum cost required to go from (startX, startY) to (targetX, targetY).\n\nExample 1:\n\nInput: start = [1,1], target = [4,5], specialRoads = [[1,2,3,3,2],[3,4,4,5,1]]\n\nOutput: 5\n\nExplanation:\n\n• (1,1) to (1,2) with a cost of |1 - 1| + |2 - 1| = 1.\n\n• (1,2) to (3,3). Use specialRoads[0] with the cost 2.\n\n• (3,3) to (3,4) with a cost of |3 - 3| + |4 - 3| = 1.\n\n• (3,4) to (4,5). Use specialRoads[1] with the cost 1.\n\nSo the total cost is 1 + 2 + 1 + 1 = 5.\n\nExample 2:\n\nInput: start = [3,2], target = [5,7], specialRoads = [[5,7,3,2,1],[3,2,3,4,4],[3,3,5,5,5],[3,4,5,6,6]]\n\nOutput: 7\n\nExplanation: It is optimal not to use any special edges and go directly from the starting to the ending position with a cost |5 - 3| + |7 - 2| = 7.\n\nNote that the specialRoads[0] is directed from (5,7) to (3,2).\n\nExample 3:\n\nInput: start = [1,1], target = [10,4], specialRoads = [[4,2,1,1,3],[1,2,7,4,4],[10,3,6,1,2],[6,1,1,2,3]]\n\nOutput: 8\n\nExplanation:\n\n• (1,1) to (1,2) with a cost of |1 - 1| + |2 - 1| = 1.\n\n• (1,2) to (7,4). Use specialRoads[1] with the cost 4.\n\n• (7,4) to (10,4) with a cost of |10 - 7| + |4 - 4| = 3.\n\nConstraints:\n\n• start.length == target.length == 2\n\n• 1 <= startX <= targetX <= 105\n\n• 1 <= startY <= targetY <= 105\n\n• 1 <= specialRoads.length <= 200\n\n• specialRoads[i].length == 5\n\n• startX <= x1i, x2i <= targetX\n\n• startY <= y1i, y2i <= targetY\n\n• 1 <= costi <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumCost(self, start, target, specialRoads):\n        \"\"\"\n        :type start: List[int]\n        :type target: List[int]\n        :type specialRoads: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It can be proven that it is optimal to go only to the positions that are either the start or the end of a special road or the target position.",
+    "Consider all positions given to you as nodes in a graph, and the edges of the graph are the special roads.",
+    "Now the problem is equivalent to finding the shortest path in a directed graph."
+  ],
+  "testCases": [
+    [
+      "[1,1]",
+      "[4,5]",
+      "[[1,2,3,3,2],[3,4,4,5,1]]"
+    ],
+    [
+      "[3,2]",
+      "[5,7]",
+      "[[5,7,3,2,1],[3,2,3,4,4],[3,3,5,5,5],[3,4,5,6,6]]"
+    ],
+    [
+      "[1,1]",
+      "[10,4]",
+      "[[4,2,1,1,3],[1,2,7,4,4],[10,3,6,1,2],[6,1,1,2,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "7",
+    "8"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\n\nclass Solution(object):\n    def minimumCost(self, start, target, specialRoads):\n        # Dijkstra on key points: start, target, and endpoints of special roads\n        def manhattan(p1, p2):\n            return abs(p1[0]-p2[0]) + abs(p1[1]-p2[1])\n\n        # Nodes: start + all special road endpoints + target\n        sx, sy = start\n        tx, ty = target\n\n        # dist[node] = min cost to reach node\n        dist = {}\n        dist[(sx, sy)] = 0\n        heap = [(0, sx, sy)]\n\n        while heap:\n            d, x, y = heapq.heappop(heap)\n            if (x, y) in dist and dist[(x, y)] < d:\n                continue\n            dist[(x, y)] = d\n\n            # Go directly to target\n            nd = d + manhattan((x, y), (tx, ty))\n            if (tx, ty) not in dist or dist[(tx, ty)] > nd:\n                dist[(tx, ty)] = nd\n                heapq.heappush(heap, (nd, tx, ty))\n\n            # Use each special road\n            for x1, y1, x2, y2, cost in specialRoads:\n                # Travel to (x1,y1) then take special road to (x2,y2)\n                nd = d + manhattan((x, y), (x1, y1)) + cost\n                if (x2, y2) not in dist or dist[(x2, y2)] > nd:\n                    dist[(x2, y2)] = nd\n                    heapq.heappush(heap, (nd, x2, y2))\n\n        return dist.get((tx, ty), manhattan(start, target))",
+    "explanation": "Dijkstra on a sparse graph. Key insight: optimal paths only need to visit endpoints of special roads (and start/target). From any point, we can walk directly to a special road's start (manhattan cost), take it, then continue.\n\nFrom each node, we add edges: (1) walk directly to target, (2) walk to each special road's start then take it. Dijkstra finds shortest path.\n\nTime: O((n + E) log n) where E = number of special roads. Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Path Sum\", \"titleSlug\": \"minimum-path-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Restricted Paths From First to Last Node\", \"titleSlug\": \"number-of-restricted-paths-from-first-to-last-node\", \"difficulty\": \"Medium\"}]"
+}

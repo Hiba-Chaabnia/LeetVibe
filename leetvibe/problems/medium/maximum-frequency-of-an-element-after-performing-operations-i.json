@@ -1,0 +1,61 @@
+{
+  "questionId": "3622",
+  "title": "Maximum Frequency of an Element After Performing Operations I",
+  "titleSlug": "maximum-frequency-of-an-element-after-performing-operations-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given an integer array nums and two integers k and numOperations.\n\nYou must perform an operation numOperations times on nums, where in each operation you:\n\n• Select an index i that was not selected in any previous operations.\n\n• Add an integer in the range [-k, k] to nums[i].\n\nReturn the maximum possible frequency of any element in nums after performing the operations.\n\nExample 1:\n\nInput: nums = [1,4,5], k = 1, numOperations = 2\n\nOutput: 2\n\nExplanation: We can achieve a maximum frequency of two by:\n\n• Adding 0 to nums[1]. nums becomes [1, 4, 5].\n\n• Adding -1 to nums[2]. nums becomes [1, 4, 4].\n\nExample 2:\n\nInput: nums = [5,11,20,20], k = 5, numOperations = 1\n\nOutput: 2\n\nExplanation: We can achieve a maximum frequency of two by:\n\n• Adding 0 to nums[1].\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105\n\n• 0 <= k <= 105\n\n• 0 <= numOperations <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxFrequency(self, nums, k, numOperations):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type numOperations: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort the array and try each value in range as a candidate."
+  ],
+  "testCases": [
+    [
+      "[1,4,5]",
+      "1",
+      "2"
+    ],
+    [
+      "[5,11,20,20]",
+      "5",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import bisect\n\nclass Solution(object):\n    def maxFrequency(self, nums, k, numOperations):\n        nums.sort()\n        n = len(nums)\n        # For a target value t, count elements that can reach t:\n        # elements in [t-k, t+k]. Among these, existing elements equal to t\n        # don't need an operation; others need one.\n        # Max frequency = (count of nums[i]==t) + min(numOperations, count in [t-k,t+k] - count of t)\n        # Candidate targets: each unique value in nums, and each nums[i]+k, nums[i]-k.\n        from collections import Counter\n        freq = Counter(nums)\n        candidates = set()\n        for v in nums:\n            candidates.add(v)\n            candidates.add(v + k)\n            candidates.add(v - k)\n\n        ans = 0\n        for t in candidates:\n            # Count elements in [t-k, t+k]\n            lo = bisect.bisect_left(nums, t - k)\n            hi = bisect.bisect_right(nums, t + k)\n            in_range = hi - lo\n            exact = freq.get(t, 0)\n            need_ops = in_range - exact\n            ans = max(ans, exact + min(numOperations, need_ops))\n        return ans",
+    "explanation": "For each candidate target t, count elements already equal to t (free) and elements in [t-k, t+k] that need an operation to become t. Use binary search on the sorted array. Candidate targets are existing values ± k (optimal targets are always at these boundaries).\n\nTime: O(n log n). Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Frequency of the Most Frequent Element\", \"titleSlug\": \"frequency-of-the-most-frequent-element\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Elements With Maximum Frequency\", \"titleSlug\": \"count-elements-with-maximum-frequency\", \"difficulty\": \"Easy\"}]"
+}

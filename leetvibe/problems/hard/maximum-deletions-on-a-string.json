@@ -1,0 +1,60 @@
+{
+  "questionId": "2510",
+  "title": "Maximum Deletions on a String",
+  "titleSlug": "maximum-deletions-on-a-string",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are given a string s consisting of only lowercase English letters. In one operation, you can:\n\n• Delete the entire string s, or\n\n• Delete the first i letters of s if the first i letters of s are equal to the following i letters in s, for any i in the range 1 <= i <= s.length / 2.\n\nFor example, if s = \"ababc\", then in one operation, you could delete the first two letters of s to get \"abc\", since the first two letters of s and the following two letters of s are both equal to \"ab\".\n\nReturn the maximum number of operations needed to delete all of s.\n\nExample 1:\n\nInput: s = \"abcabcdabc\"\nOutput: 2\nExplanation:\n    - Delete the first 3 letters (\"abc\") since the next 3 letters are equal. Now, s = \"abcdabc\".\n    - Delete all the letters.\n    We used 2 operations so return 2. It can be proven that 2 is the maximum number of operations needed.\n    Note that in the second operation we cannot delete \"abc\" again because the next occurrence of \"abc\" does not happen in the next 3 letters.\n\nExample 2:\n\nInput: s = \"aaabaab\"\nOutput: 4\nExplanation:\n    - Delete the first letter (\"a\") since the next letter is equal. Now, s = \"aabaab\".\n    - Delete the first 3 letters (\"aab\") since the next 3 letters are equal. Now, s = \"aab\".\n    - Delete the first letter (\"a\") since the next letter is equal. Now, s = \"ab\".\n    - Delete all the letters.\n    We used 4 operations so return 4. It can be proven that 4 is the maximum number of operations needed.\n\nExample 3:\n\nInput: s = \"aaaaa\"\nOutput: 5\nExplanation: In each operation, we can delete the first letter of s.\n\nConstraints:\n\n• 1 <= s.length <= 4000\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def deleteString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We can use dynamic programming to find the answer. Create a 0-indexed dp array where dp[i] represents the maximum number of moves needed to remove the first i + 1 letters from s.",
+    "What should we do if there is an i where it is impossible to remove the first i + 1 letters?",
+    "Use a sentinel value such as -1 to show that it is impossible.",
+    "How can we quickly determine if two substrings of s are equal? We can use hashing."
+  ],
+  "testCases": [
+    [
+      "\"abcabcdabc\""
+    ],
+    [
+      "\"aaabaab\""
+    ],
+    [
+      "\"aaaaa\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "5"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Shortest Palindrome\", \"titleSlug\": \"shortest-palindrome\", \"difficulty\": \"Hard\"}, {\"title\": \"Longest Happy Prefix\", \"titleSlug\": \"longest-happy-prefix\", \"difficulty\": \"Hard\"}, {\"title\": \"Remove All Occurrences of a Substring\", \"titleSlug\": \"remove-all-occurrences-of-a-substring\", \"difficulty\": \"Medium\"}]"
+}

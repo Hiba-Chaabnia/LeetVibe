@@ -1,0 +1,51 @@
+{
+  "questionId": "1938",
+  "title": "Minimum Operations to Make the Array Increasing",
+  "titleSlug": "minimum-operations-to-make-the-array-increasing",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an integer array nums (0-indexed). In one operation, you can choose an element of the array and increment it by 1.\n\n• For example, if nums = [1,2,3], you can choose to increment nums[1] to make nums = [1,3,3].\n\nReturn the minimum number of operations needed to make nums strictly increasing.\n\nAn array nums is strictly increasing if nums[i] < nums[i+1] for all 0 <= i < nums.length - 1. An array of length 1 is trivially strictly increasing.\n\nExample 1:\n\nInput: nums = [1,1,1]\nOutput: 3\nExplanation: You can do the following operations:\n    1) Increment nums[2], so nums becomes [1,1,2].\n    2) Increment nums[1], so nums becomes [1,2,2].\n    3) Increment nums[2], so nums becomes [1,2,3].\n\nExample 2:\n\nInput: nums = [1,5,2,4,1]\nOutput: 14\n\nExample 3:\n\nInput: nums = [8]\nOutput: 0\n\nConstraints:\n\n• 1 <= nums.length <= 5000\n\n• 1 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minOperations(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "nums[i+1] must be at least equal to nums[i] + 1.",
+    "Think greedily. You don't have to increase nums[i+1] beyond nums[i]+1.",
+    "Iterate on i and set nums[i] = max(nums[i-1]+1, nums[i]) ."
+  ],
+  "testCases": [
+    [
+      "[1,1,1]"
+    ],
+    [
+      "[1,5,2,4,1]"
+    ],
+    [
+      "[8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "14",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minOperations(self, nums):\n        operations = 0\n        for i in range(1, len(nums)):\n            if nums[i] <= nums[i-1]:\n                operations += nums[i-1] + 1 - nums[i]\n                nums[i] = nums[i-1] + 1\n        return operations",
+    "explanation": "For each element, ensure it's > previous. Increment if needed.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Increment to Make Array Unique\", \"titleSlug\": \"minimum-increment-to-make-array-unique\", \"difficulty\": \"Medium\"}, {\"title\": \"Make Array Non-decreasing or Non-increasing\", \"titleSlug\": \"make-array-non-decreasing-or-non-increasing\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Product After K Increments\", \"titleSlug\": \"maximum-product-after-k-increments\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Replacements to Sort the Array\", \"titleSlug\": \"minimum-replacements-to-sort-the-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Operations to Make Columns Strictly Increasing\", \"titleSlug\": \"minimum-operations-to-make-columns-strictly-increasing\", \"difficulty\": \"Easy\"}]"
+}

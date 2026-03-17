@@ -1,0 +1,50 @@
+{
+  "questionId": "330",
+  "title": "Patching Array",
+  "titleSlug": "patching-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given a sorted integer array nums and an integer n, add/patch elements to the array such that any number in the range [1, n] inclusive can be formed by the sum of some elements in the array.\n\nReturn the minimum number of patches required.\n\nExample 1:\n\nInput: nums = [1,3], n = 6\nOutput: 1\nExplanation:\n    Combinations of nums are [1], [3], [1,3], which form possible sums of: 1, 3, 4.\n    Now if we add/patch 2 to nums, the combinations are: [1], [2], [3], [1,3], [2,3], [1,2,3].\n    Possible sums are 1, 2, 3, 4, 5, 6, which now covers the range [1, 6].\n    So we only need 1 patch.\n\nExample 2:\n\nInput: nums = [1,5,10], n = 20\nOutput: 2\nExplanation: The two patches can be [2, 4].\n\nExample 3:\n\nInput: nums = [1,2,2], n = 5\nOutput: 0\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 104\n\n• nums is sorted in ascending order.\n\n• 1 <= n <= 231 - 1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minPatches(self, nums, n):\n        \"\"\"\n        :type nums: List[int]\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,3]",
+      "6"
+    ],
+    [
+      "[1,5,10]",
+      "20"
+    ],
+    [
+      "[1,2,2]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minPatches(nums, n):\n    max_sum = 0\n    patches = 0\n    i = 0\n\n    while max_sum < n:\n        if i < len(nums) and nums[i] <= max_sum + 1:\n            max_sum += nums[i]\n            i += 1\n        else:\n            max_sum += max_sum + 1\n            patches += 1\n\n    return patches",
+    "explanation": "The algorithm maintains a variable `maxSum` which stores the maximum sum that can be obtained using the current elements in the nums array. Initially, `maxSum` is set to 0, and we iterate through the array until `maxSum` is greater than or equal to the given `n`.\n\nDuring the iteration, if the current element (nums[i]) is less than or equal to `maxSum + 1`, we can extend our sum range by updating `maxSum += nums[i]`. This means that the current element can be used to form a sum in the target range.\n\nHowever, if the current nums[i] is greater than `maxSum + 1`, a patch would be needed. To minimize the number of patches, the best element to add would be `maxSum + 1`, as it extends the current maxSum twice as much without gaps. So, we update `maxSum += maxSum + 1`, and increment the patches count.\n\nWe repeat this process until `maxSum` reaches or exceeds the given `n`. Finally, we return the number of patches used."
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Number of Consecutive Values You Can Make\", \"titleSlug\": \"maximum-number-of-consecutive-values-you-can-make\", \"difficulty\": \"Medium\"}]"
+}

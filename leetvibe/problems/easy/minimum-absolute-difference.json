@@ -1,0 +1,50 @@
+{
+  "questionId": "1306",
+  "title": "Minimum Absolute Difference",
+  "titleSlug": "minimum-absolute-difference",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an array of distinct integers arr, find all pairs of elements with the minimum absolute difference of any two elements.\n\nReturn a list of pairs in ascending order(with respect to pairs), each pair [a, b] follows\n\n• a, b are from arr\n\n• a < b\n\n• b - a equals to the minimum absolute difference of any two elements in arr\n\nExample 1:\n\nInput: arr = [4,2,1,3]\nOutput: [[1,2],[2,3],[3,4]]\nExplanation: The minimum absolute difference is 1. List all pairs with difference equal to 1 in ascending order.\n\nExample 2:\n\nInput: arr = [1,3,6,10,15]\nOutput: [[1,3]]\n\nExample 3:\n\nInput: arr = [3,8,-10,23,19,-4,-14,27]\nOutput: [[-14,-10],[19,23],[23,27]]\n\nConstraints:\n\n• 2 <= arr.length <= 105\n\n• -106 <= arr[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumAbsDifference(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the minimum absolute difference between two elements in the array.",
+    "The minimum absolute difference must be a difference between two consecutive elements in the sorted array."
+  ],
+  "testCases": [
+    [
+      "[4,2,1,3]"
+    ],
+    [
+      "[1,3,6,10,15]"
+    ],
+    [
+      "[3,8,-10,23,19,-4,-14,27]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,2],[2,3],[3,4]]",
+    "[[1,3]]",
+    "[[-14,-10],[19,23],[23,27]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from typing import List\n\ndef minimumAbsDifference(arr: List[int]) -> List[List[int]]:\n    arr.sort()\n    min_diff = min(arr[i] - arr[i - 1] for i in range(1, len(arr)))\n\n    result = []\n    for i in range(1, len(arr)):\n        if arr[i] - arr[i - 1] == min_diff:\n            result.append([arr[i - 1], arr[i]])\n\n    return result",
+    "explanation": "1. Sort the input array in ascending order.\n2. Iterate through the sorted array and find the minimum absolute difference between adjacent elements. This value will be the minimum difference between any two elements in the array.\n3. Iterate through the sorted array again and construct the output list by adding pairs of elements with an absolute difference equal to the minimum difference found in step 2."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Cost of Buying Candies With Discount\", \"titleSlug\": \"minimum-cost-of-buying-candies-with-discount\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimize the Maximum Difference of Pairs\", \"titleSlug\": \"minimize-the-maximum-difference-of-pairs\", \"difficulty\": \"Medium\"}]"
+}

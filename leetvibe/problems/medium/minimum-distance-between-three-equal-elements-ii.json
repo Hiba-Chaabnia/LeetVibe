@@ -1,0 +1,51 @@
+{
+  "questionId": "4119",
+  "title": "Minimum Distance Between Three Equal Elements II",
+  "titleSlug": "minimum-distance-between-three-equal-elements-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nA tuple (i, j, k) of 3 distinct indices is good if nums[i] == nums[j] == nums[k].\n\nThe distance of a good tuple is abs(i - j) + abs(j - k) + abs(k - i), where abs(x) denotes the absolute value of x.\n\nReturn an integer denoting the minimum possible distance of a good tuple. If no good tuples exist, return -1.\n\nExample 1:\n\nInput: nums = [1,2,1,1,3]\n\nOutput: 6\n\nExplanation: The minimum distance is achieved by the good tuple (0, 2, 3).\n\n(0, 2, 3) is a good tuple because nums[0] == nums[2] == nums[3] == 1. Its distance is abs(0 - 2) + abs(2 - 3) + abs(3 - 0) = 2 + 1 + 3 = 6.\n\nExample 2:\n\nInput: nums = [1,1,2,3,2,1,2]\n\nOutput: 8\n\nExplanation: The minimum distance is achieved by the good tuple (2, 4, 6).\n\n(2, 4, 6) is a good tuple because nums[2] == nums[4] == nums[6] == 2. Its distance is abs(2 - 4) + abs(4 - 6) + abs(6 - 2) = 2 + 2 + 4 = 8.\n\nExample 3:\n\nInput: nums = [1]\n\nOutput: -1\n\nExplanation: There are no good tuples. Therefore, the answer is -1.\n\nConstraints:\n\n• 1 <= n == nums.length <= 105\n\n• 1 <= nums[i] <= n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumDistance(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The distance formula abs(i - j) + abs(j - k) + abs(k - i) simplifies to 2 * (max(i, j, k) - min(i, j, k)).",
+    "Group the indices for each unique number. For a number to form a good tuple, it must appear at least 3 times.",
+    "For each number that appears at least 3 times, we want to find three of its indices p < q < r that minimize r - p. This is achieved by considering every three consecutive indices in the sorted list of indices."
+  ],
+  "testCases": [
+    [
+      "[1,2,1,1,3]"
+    ],
+    [
+      "[1,1,2,3,2,1,2]"
+    ],
+    [
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "8",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def minimumDistance(self, nums):\n        # distance(i,j,k) = abs(i-j) + abs(j-k) + abs(k-i) = 2*(max-min)\n        # For three sorted indices p < q < r: distance = 2*(r-p)\n        # Minimize by choosing consecutive triples in sorted index list per value.\n        positions = defaultdict(list)\n        for i, v in enumerate(nums):\n            positions[v].append(i)\n\n        ans = float('inf')\n        for v, idxs in positions.items():\n            if len(idxs) < 3:\n                continue\n            for i in range(len(idxs) - 2):\n                ans = min(ans, 2 * (idxs[i + 2] - idxs[i]))\n\n        return ans if ans != float('inf') else -1",
+    "explanation": "The distance formula abs(i-j) + abs(j-k) + abs(k-i) simplifies to 2*(max-min) for any three indices. To minimize this, group indices by value and consider all consecutive triples (idxs[i], idxs[i+1], idxs[i+2]) — these have the smallest spread.\n\nTime: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,51 @@
+{
+  "questionId": "300",
+  "title": "Longest Increasing Subsequence",
+  "titleSlug": "longest-increasing-subsequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given an integer array nums, return the length of the longest strictly increasing subsequence.\n\nExample 1:\n\nInput: nums = [10,9,2,5,3,7,101,18]\nOutput: 4\nExplanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.\n\nExample 2:\n\nInput: nums = [0,1,0,3,2,3]\nOutput: 4\n\nExample 3:\n\nInput: nums = [7,7,7,7,7,7,7]\nOutput: 1\n\nConstraints:\n\n• 1 <= nums.length <= 2500\n\n• -104 <= nums[i] <= 104\n\nFollow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lengthOfLIS(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[10,9,2,5,3,7,101,18]"
+    ],
+    [
+      "[0,1,0,3,2,3]"
+    ],
+    [
+      "[7,7,7,7,7,7,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "4",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def lengthOfLIS(nums):\n    dp = [1] * len(nums)\n    max_length = 1\n    for i in range(1, len(nums)):\n        for j in range(i):\n            if nums[i] > nums[j]:\n                dp[i] = max(dp[i], dp[j] + 1)\n        max_length = max(max_length, dp[i])\n    return max_length",
+    "explanation": "The algorithm employs dynamic programming to solve the problem. The algorithm initializes an array `dp` of the same length as the input array `nums`, and initializes all its elements with the value 1, indicating that at least a single element can be part of the longest increasing subsequence.\n\nThen, it employs a nested loop to iterate over the input array from the second element onwards. In the inner loop, we compare each element from the 0th index to `i-1` with the current element at `i`. If the current element is greater than the previous element, we update the `dp[i]` value by taking the maximum of the current `dp[i]` value and the `dp[j]` value of the previous element + 1, which indicates the length of the increasing subsequence.\n\nFinally, we update the max_length variable after each outer loop by taking its maximum from the array `dp`. After completing the iterations, we return the length of the longest increasing subsequence."
+  },
+  "similarQuestions": "[{\"title\": \"Increasing Triplet Subsequence\", \"titleSlug\": \"increasing-triplet-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Russian Doll Envelopes\", \"titleSlug\": \"russian-doll-envelopes\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Length of Pair Chain\", \"titleSlug\": \"maximum-length-of-pair-chain\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of Longest Increasing Subsequence\", \"titleSlug\": \"number-of-longest-increasing-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum ASCII Delete Sum for Two Strings\", \"titleSlug\": \"minimum-ascii-delete-sum-for-two-strings\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Number of Removals to Make Mountain Array\", \"titleSlug\": \"minimum-number-of-removals-to-make-mountain-array\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Longest Valid Obstacle Course at Each Position\", \"titleSlug\": \"find-the-longest-valid-obstacle-course-at-each-position\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Operations to Make the Array K-Increasing\", \"titleSlug\": \"minimum-operations-to-make-the-array-k-increasing\", \"difficulty\": \"Hard\"}, {\"title\": \"Longest Ideal Subsequence\", \"titleSlug\": \"longest-ideal-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Number of Books You Can Take\", \"titleSlug\": \"maximum-number-of-books-you-can-take\", \"difficulty\": \"Hard\"}, {\"title\": \"Longest Increasing Subsequence II\", \"titleSlug\": \"longest-increasing-subsequence-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Maximum Length of a Good Subsequence II\", \"titleSlug\": \"find-the-maximum-length-of-a-good-subsequence-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Find the Maximum Length of a Good Subsequence I\", \"titleSlug\": \"find-the-maximum-length-of-a-good-subsequence-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Maximum Length of Valid Subsequence I\", \"titleSlug\": \"find-the-maximum-length-of-valid-subsequence-i\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Maximum Length of Valid Subsequence II\", \"titleSlug\": \"find-the-maximum-length-of-valid-subsequence-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Subsequence With Decreasing Adjacent Difference\", \"titleSlug\": \"longest-subsequence-with-decreasing-adjacent-difference\", \"difficulty\": \"Medium\"}]"
+}

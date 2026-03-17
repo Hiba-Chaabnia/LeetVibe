@@ -1,0 +1,64 @@
+{
+  "questionId": "2712",
+  "title": "Find the Maximum Number of Marked Indices",
+  "titleSlug": "find-the-maximum-number-of-marked-indices",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums.\n\nInitially, all of the indices are unmarked. You are allowed to make this operation any number of times:\n\n• Pick two different unmarked indices i and j such that 2 * nums[i] <= nums[j], then mark i and j.\n\nReturn the maximum possible number of marked indices in nums using the above operation any number of times.\n\nExample 1:\n\nInput: nums = [3,5,2,4]\nOutput: 2\nExplanation: In the first operation: pick i = 2 and j = 1, the operation is allowed because 2 * nums[2] Example 2:\n\nInput: nums = [9,2,5,4]\nOutput: 4\nExplanation: In the first operation: pick i = 3 and j = 0, the operation is allowed because 2 * nums[3] Example 3:\n\nInput: nums = [7,6,8]\nOutput: 0\nExplanation: There is no valid operation to do, so the answer is 0.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• 1 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxNumOfMarkedIndices(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Think about how to check that performing k operations is possible.",
+    "To perform k operations, it’s optimal to use the smallest k elements and the largest k elements and think about how to match them.",
+    "It’s optimal to match the ith smallest number with the k-i + 1 largest number.",
+    "Now we need to binary search on the answer and find the greatest possible valid k."
+  ],
+  "testCases": [
+    [
+      "[3,5,2,4]"
+    ],
+    [
+      "[9,2,5,4]"
+    ],
+    [
+      "[7,6,8]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxNumOfMarkedIndices(self, nums):\n        nums.sort()\n        n = len(nums)\n\n        def feasible(k):\n            # Match nums[0..k-1] with nums[n-k..n-1]\n            for i in range(k):\n                if 2 * nums[i] > nums[n - k + i]:\n                    return False\n            return True\n\n        lo, hi = 0, n // 2\n        while lo < hi:\n            mid = (lo + hi + 1) // 2\n            if feasible(mid):\n                lo = mid\n            else:\n                hi = mid - 1\n        return lo * 2",
+    "explanation": "Sort the array. Binary search on k (number of pairs). To perform k operations: pair the k smallest with the k largest in order (nums[i] with nums[n-k+i]). Check all pairs satisfy 2*nums[i] ≤ nums[n-k+i].\n\nTime: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Array Length After Pair Removals\", \"titleSlug\": \"minimum-array-length-after-pair-removals\", \"difficulty\": \"Medium\"}]"
+}

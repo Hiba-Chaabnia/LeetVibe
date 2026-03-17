@@ -1,0 +1,55 @@
+{
+  "questionId": "1353",
+  "title": "Find Resultant Array After Removing Anagrams",
+  "titleSlug": "find-resultant-array-after-removing-anagrams",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a 0-indexed string array words, where words[i] consists of lowercase English letters.\n\nIn one operation, select any index i such that 0 < i < words.length and words[i - 1] and words[i] are anagrams, and delete words[i] from words. Keep performing this operation as long as you can select an index that satisfies the conditions.\n\nReturn words after performing all operations. It can be shown that selecting the indices for each operation in any arbitrary order will lead to the same result.\n\nAn Anagram is a word or phrase formed by rearranging the letters of a different word or phrase using all the original letters exactly once. For example, \"dacb\" is an anagram of \"abdc\".\n\nExample 1:\n\nInput: words = [\"abba\",\"baba\",\"bbaa\",\"cd\",\"cd\"]\nOutput: [\"abba\",\"cd\"]\nExplanation:\n    One of the ways we can obtain the resultant array is by using the following operations:\n    - Since words[2] = \"bbaa\" and words[1] = \"baba\" are anagrams, we choose index 2 and delete words[2].\n      Now words = [\"abba\",\"baba\",\"cd\",\"cd\"].\n    - Since words[1] = \"baba\" and words[0] = \"abba\" are anagrams, we choose index 1 and delete words[1].\n      Now words = [\"abba\",\"cd\",\"cd\"].\n    - Since words[2] = \"cd\" and words[1] = \"cd\" are anagrams, we choose index 2 and delete words[2].\n      Now words = [\"abba\",\"cd\"].\n    We can no longer perform any operations, so [\"abba\",\"cd\"] is the final answer.\n\nExample 2:\n\nInput: words = [\"a\",\"b\",\"c\",\"d\",\"e\"]\nOutput: [\"a\",\"b\",\"c\",\"d\",\"e\"]\nExplanation:\n    No two adjacent strings in words are anagrams of each other, so no operations are performed.\n\nConstraints:\n\n• 1 <= words.length <= 100\n\n• 1 <= words[i].length <= 10\n\n• words[i] consists of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeAnagrams(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Instead of removing each repeating anagram, try to find all the strings in words which will not be present in the final answer.",
+    "For every index i, find the largest index j < i such that words[j] will be present in the final answer.",
+    "Check if words[i] and words[j] are anagrams. If they are, then it can be confirmed that words[i] will not be present in the final answer."
+  ],
+  "testCases": [
+    [
+      "[\"abba\",\"baba\",\"bbaa\",\"cd\",\"cd\"]"
+    ],
+    [
+      "[\"a\",\"b\",\"c\",\"d\",\"e\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"abba\",\"cd\"]",
+    "[\"a\",\"b\",\"c\",\"d\",\"e\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def removeAnagrams(self, words):\n        result = [words[0]]\n        for i in range(1, len(words)):\n            if sorted(words[i]) != sorted(words[i-1]):\n                result.append(words[i])\n        return result",
+    "explanation": "Keep word if its sorted form differs from previous. Consecutive anagrams removed.\nTime: O(n*m*log(m))\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Group Anagrams\", \"titleSlug\": \"group-anagrams\", \"difficulty\": \"Medium\"}, {\"title\": \"Valid Anagram\", \"titleSlug\": \"valid-anagram\", \"difficulty\": \"Easy\"}]"
+}

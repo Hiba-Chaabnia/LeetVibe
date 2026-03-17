@@ -1,0 +1,52 @@
+{
+  "questionId": "4177",
+  "title": "Reverse String Prefix",
+  "titleSlug": "reverse-string-prefix",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "You are given a string s and an integer k.\n\nReverse the first k characters of s and return the resulting string.\n\nExample 1:\n\nInput: s = \"abcd\", k = 2\n\nOutput: \"bacd\"\n\nExplanation:​​​​​​​\n\nThe first k = 2 characters \"ab\" are reversed to \"ba\". The final resulting string is \"bacd\".\n\nExample 2:\n\nInput: s = \"xyz\", k = 3\n\nOutput: \"zyx\"\n\nExplanation: The first k = 3 characters \"xyz\" are reversed to \"zyx\". The final resulting string is \"zyx\".\n\nExample 3:\n\nInput: s = \"hey\", k = 1\n\nOutput: \"hey\"\n\nExplanation: The first k = 1 character \"h\" remains unchanged on reversal. The final resulting string is \"hey\".\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consists of lowercase English letters.\n\n• 1 <= k <= s.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def reversePrefix(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate as described"
+  ],
+  "testCases": [
+    [
+      "\"abcd\"",
+      "2"
+    ],
+    [
+      "\"xyz\"",
+      "3"
+    ],
+    [
+      "\"hey\"",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"bacd\"",
+    "\"zyx\"",
+    "\"hey\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def reversePrefix(self, s, k):\n        return s[:k][::-1] + s[k:]",
+    "explanation": "Reverse the first k characters and concatenate the rest unchanged. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

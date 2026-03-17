@@ -1,0 +1,48 @@
+{
+  "questionId": "2345",
+  "title": "Minimum Number of Operations to Convert Time",
+  "titleSlug": "minimum-number-of-operations-to-convert-time",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given two strings current and correct representing two 24-hour times.\n\n24-hour times are formatted as \"HH:MM\", where HH is between 00 and 23, and MM is between 00 and 59. The earliest 24-hour time is 00:00, and the latest is 23:59.\n\nIn one operation you can increase the time current by 1, 5, 15, or 60 minutes. You can perform this operation any number of times.\n\nReturn the minimum number of operations needed to convert current to correct.\n\nExample 1:\n\nInput: current = \"02:30\", correct = \"04:35\"\nOutput: 3\nExplanation:\n    We can convert current to correct in 3 operations as follows:\n    - Add 60 minutes to current. current becomes \"03:30\".\n    - Add 60 minutes to current. current becomes \"04:30\".\n    - Add 5 minutes to current. current becomes \"04:35\".\n    It can be proven that it is not possible to convert current to correct in fewer than 3 operations.\n\nExample 2:\n\nInput: current = \"11:00\", correct = \"11:01\"\nOutput: 1\nExplanation: We only have to add one minute to current, so the minimum number of operations needed is 1.\n\nConstraints:\n\n• current and correct are in the format \"HH:MM\"\n\n• current <= correct",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def convertTime(self, current, correct):\n        \"\"\"\n        :type current: str\n        :type correct: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Convert the times to minutes.",
+    "Use the operation with the biggest value possible at each step."
+  ],
+  "testCases": [
+    [
+      "\"02:30\"",
+      "\"04:35\""
+    ],
+    [
+      "\"11:00\"",
+      "\"11:01\""
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def convertTime(self, current, correct):\n        def to_minutes(time_str):\n            h, m = map(int, time_str.split(':'))\n            return h * 60 + m\n        curr_min = to_minutes(current)\n        correct_min = to_minutes(correct)\n        diff = correct_min - curr_min\n        moves = 0\n        for increment in [60, 15, 5, 1]:\n            moves += diff // increment\n            diff %= increment\n        return moves",
+    "explanation": "Convert to minutes. Greedy: use largest increments first.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Coin Change\", \"titleSlug\": \"coin-change\", \"difficulty\": \"Medium\"}, {\"title\": \"Design an ATM Machine\", \"titleSlug\": \"design-an-atm-machine\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Days Spent Together\", \"titleSlug\": \"count-days-spent-together\", \"difficulty\": \"Easy\"}]"
+}

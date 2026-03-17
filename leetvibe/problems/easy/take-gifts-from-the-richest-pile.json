@@ -1,0 +1,54 @@
+{
+  "questionId": "2692",
+  "title": "Take Gifts From the Richest Pile",
+  "titleSlug": "take-gifts-from-the-richest-pile",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given an integer array gifts denoting the number of gifts in various piles. Every second, you do the following:\n\n• Choose the pile with the maximum number of gifts.\n\n• If there is more than one pile with the maximum number of gifts, choose any.\n\n• Reduce the number of gifts in the pile to the floor of the square root of the original number of gifts in the pile.\n\nReturn the number of gifts remaining after k seconds.\n\nExample 1:\n\nInput: gifts = [25,64,9,4,100], k = 4\nOutput: 29\nExplanation:\n    The gifts are taken in the following way:\n    - In the first second, the last pile is chosen and 10 gifts are left behind.\n    - Then the second pile is chosen and 8 gifts are left behind.\n    - After that the first pile is chosen and 5 gifts are left behind.\n    - Finally, the last pile is chosen again and 3 gifts are left behind.\n    The final remaining gifts are [5,8,9,4,3], so the total number of gifts remaining is 29.\n\nExample 2:\n\nInput: gifts = [1,1,1,1], k = 4\nOutput: 4\nExplanation:\n    In this case, regardless which pile you choose, you have to leave behind 1 gift in each pile.\n    That is, you can't take any pile with you.\n    So, the total gifts remaining are 4.\n\nConstraints:\n\n• 1 <= gifts.length <= 103\n\n• 1 <= gifts[i] <= 109\n\n• 1 <= k <= 103",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def pickGifts(self, gifts, k):\n        \"\"\"\n        :type gifts: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "How can you keep track of the largest gifts in the array",
+    "What is an efficient way to find the square root of a number?",
+    "Can you keep adding up the values of the gifts while ensuring they are in a certain order?",
+    "Can we use a priority queue or heap here?"
+  ],
+  "testCases": [
+    [
+      "[25,64,9,4,100]",
+      "4"
+    ],
+    [
+      "[1,1,1,1]",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "29",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def pickGifts(self, gifts, k):\n        import heapq\n        heap = [-g for g in gifts]\n        heapq.heapify(heap)\n        for _ in range(k):\n            max_gift = -heapq.heappop(heap)\n            new_gift = int(max_gift ** 0.5)\n            heapq.heappush(heap, -new_gift)\n        return -sum(heap)",
+    "explanation": "Max heap. Pop max, replace with floor(sqrt(max)). Sum remaining.\nTime: O(k*log n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Remove Stones to Minimize the Total\", \"titleSlug\": \"remove-stones-to-minimize-the-total\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,75 @@
+{
+  "questionId": "2697",
+  "title": "Minimum Number of Visited Cells in a Grid",
+  "titleSlug": "minimum-number-of-visited-cells-in-a-grid",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "You are given a 0-indexed m x n integer matrix grid. Your initial position is at the top-left cell (0, 0).\n\nStarting from the cell (i, j), you can move to one of the following cells:\n\n• Cells (i, k) with j < k <= grid[i][j] + j (rightward movement), or\n\n• Cells (k, j) with i < k <= grid[i][j] + i (downward movement).\n\nReturn the minimum number of cells you need to visit to reach the bottom-right cell (m - 1, n - 1). If there is no valid path, return -1.\n\nExample 1:\n\nInput: grid = [[3,4,2,1],[4,2,3,1],[2,1,0,0],[2,4,0,0]]\nOutput: 4\nExplanation: The image above shows one of the paths that visits exactly 4 cells.\n\nExample 2:\n\nInput: grid = [[3,4,2,1],[4,2,1,1],[2,1,1,0],[3,4,1,0]]\nOutput: 3\nExplanation: The image above shows one of the paths that visits exactly 3 cells.\n\nExample 3:\n\nInput: grid = [[2,1,0],[1,0,0]]\nOutput: -1\nExplanation: It can be proven that no path exists.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 105\n\n• 1 <= m * n <= 105\n\n• 0 <= grid[i][j] < m * n\n\n• grid[m - 1][n - 1] == 0",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumVisitedCells(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each cell (i,j), it is critical to find out the minimum number of steps to reach (i,j), denoted dis[i][j], quickly, given the tight constraint.",
+    "Calculate dis[i][j] going left to right, top to bottom.",
+    "Suppose we want to calculate dis[i][j], keep track of a priority queue that stores (dis[i][k], i, k) for all k ≤ j, and another priority queue that stores (dis[k][j], k, j) for all k ≤ i."
+  ],
+  "testCases": [
+    [
+      "[[3,4,2,1],[4,2,3,1],[2,1,0,0],[2,4,0,0]]"
+    ],
+    [
+      "[[3,4,2,1],[4,2,1,1],[2,1,1,0],[3,4,1,0]]"
+    ],
+    [
+      "[[2,1,0],[1,0,0]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "3",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumVisitedCells(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        import heapq\n        from collections import defaultdict\n        \n        m, n = len(grid), len(grid[0])\n        \n        # BFS with priority queue\n        # State: (distance, row, col)\n        pq = [(1, 0, 0)]  # Start at (0,0) with distance 1\n        visited = set([(0, 0)])\n        \n        while pq:\n            dist, r, c = heapq.heappop(pq)\n            \n            if r == m - 1 and c == n - 1:\n                return dist\n            \n            # Try moving right\n            for nc in range(c + 1, min(c + grid[r][c] + 1, n)):\n                if (r, nc) not in visited:\n                    visited.add((r, nc))\n                    heapq.heappush(pq, (dist + 1, r, nc))\n            \n            # Try moving down\n            for nr in range(r + 1, min(r + grid[r][c] + 1, m)):\n                if (nr, c) not in visited:\n                    visited.add((nr, c))\n                    heapq.heappush(pq, (dist + 1, nr, c))\n        \n        return -1",
+    "explanation": "This solution uses BFS with priority queue optimization:\n\n1. **Problem Understanding**:\n   - From (i, j) with value v: can reach any (i, k) where j < k <= j+v\n   - Or any (k, j) where i < k <= i+v\n   - Find minimum cells visited to reach (m-1, n-1)\n\n2. **BFS Approach**:\n   - Use priority queue to explore in order of distance\n   - Distance = number of cells visited so far\n   - Explore cells reachable from current cell\n\n3. **State Representation**:\n   - (distance, row, col) in priority queue\n   - Visited set to avoid revisiting cells\n   - Distance is number of moves taken\n\n4. **Transitions**:\n   - From (r, c), grid[r][c] determines jump distance\n   - Can reach right: columns c+1 to min(c+grid[r][c], n-1)\n   - Can reach down: rows r+1 to min(r+grid[r][c], m-1)\n   - Each reachable cell has distance = current distance + 1\n\n5. **Optimization Issues**:\n   - Naive approach might explore too many cells\n   - For large jump distances, could timeout\n   - Need to use data structure to efficiently track reachable cells\n\n6. **Better Optimization** (Optional):\n   - Use sorted containers to track unvisited cells by row/column\n   - Binary search to find reachable cells\n   - Remove visited cells efficiently\n\nTime Complexity: O(M*N log(M*N)) in worst case, better with optimizations\nSpace Complexity: O(M*N)"
+  },
+  "similarQuestions": "[{\"title\": \"Jump Game II\", \"titleSlug\": \"jump-game-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Jump Game\", \"titleSlug\": \"jump-game\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,45 @@
+{
+  "questionId": "3484",
+  "title": "Lexicographically Smallest String After a Swap",
+  "titleSlug": "lexicographically-smallest-string-after-a-swap",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given a string s containing only digits, return the lexicographically smallest string that can be obtained after swapping adjacent digits in s with the same parity at most once.\n\nDigits have the same parity if both are odd or both are even. For example, 5 and 9, as well as 2 and 4, have the same parity, while 6 and 9 do not.\n\nExample 1:\n\nInput: s = \"45320\"\n\nOutput: \"43520\"\n\nExplanation: s[1] == '5' and s[2] == '3' both have the same parity, and swapping them results in the lexicographically smallest string.\n\nExample 2:\n\nInput: s = \"001\"\n\nOutput: \"001\"\n\nExplanation: There is no need to perform a swap because s is already the lexicographically smallest.\n\nConstraints:\n\n• 2 <= s.length <= 100\n\n• s consists only of digits.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getSmallestString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try all possible swaps satisfying the constraints and find the one that results in the lexicographically smallest string."
+  ],
+  "testCases": [
+    [
+      "\"45320\""
+    ],
+    [
+      "\"001\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"43520\"",
+    "\"001\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getSmallestString(self, s):\n        s = list(s)\n        for i in range(len(s) - 1):\n            if int(s[i]) % 2 == int(s[i + 1]) % 2 and s[i] > s[i + 1]:\n                s[i], s[i + 1] = s[i + 1], s[i]\n                break\n        return \"\".join(s)",
+    "explanation": "Scan left to right for the first adjacent pair with the same parity where the left digit is larger; swap it for the lexicographically smallest result. O(n) time."
+  },
+  "similarQuestions": "[{\"title\": \"Lexicographically Smallest String After Applying Operations\", \"titleSlug\": \"lexicographically-smallest-string-after-applying-operations\", \"difficulty\": \"Medium\"}]"
+}

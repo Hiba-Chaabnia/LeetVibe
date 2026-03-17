@@ -1,0 +1,44 @@
+{
+  "questionId": "481",
+  "title": "Magical String",
+  "titleSlug": "magical-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "A magical string s consists of only '1' and '2' and obeys the following rule:\n\n• Concatenating the sequence of lengths of its consecutive groups of identical characters '1' and '2' generates the string s itself.\n\nThe first few elements of s is s = \"1221121221221121122……\". If we group the consecutive 1's and 2's in s, it will be \"1 22 11 2 1 22 1 22 11 2 11 22 ......\" and counting the occurrences of 1's or 2's in each group yields the sequence \"1 2 2 1 1 2 1 2 2 1 2 2 ......\".\n\nYou can see that concatenating the occurrence sequence gives us s itself.\n\nGiven an integer n, return the number of 1's in the first n number in the magical string s.\n\nExample 1:\n\nInput: n = 6\nOutput: 3\nExplanation: The first 6 elements of magical string s is \"122112\" and it contains three 1's, so return 3.\n\nExample 2:\n\nInput: n = 1\nOutput: 1\n\nConstraints:\n\n• 1 <= n <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def magicalString(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "6"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def magicalString(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        s = [1, 2, 2]\n        i = 2\n        while len(s) < n:\n            # The current value tells how many times to add the next number\n            count = s[i]\n            next_num = 3 - s[-1]  # Toggle between 1 and 2\n            s.extend([next_num] * count)\n            i += 1\n        \n        # Count 1's in first n elements\n        return sum(1 for j in range(n) if s[j] == 1)",
+    "explanation": "Build magical string iteratively. Each element tells how many times to repeat next distinct value. Use index to track current instruction.",
+    "complexity": "Time: O(n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

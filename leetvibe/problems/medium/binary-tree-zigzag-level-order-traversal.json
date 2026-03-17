@@ -1,0 +1,45 @@
+{
+  "questionId": "103",
+  "title": "Binary Tree Zigzag Level Order Traversal",
+  "titleSlug": "binary-tree-zigzag-level-order-traversal",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given the root of a binary tree, return the zigzag level order traversal of its nodes' values. (i.e., from left to right, then right to left for the next level and alternate between).\n\nExample 1:\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: [[3],[20,9],[15,7]]\n\nExample 2:\n\nInput: root = [1]\nOutput: [[1]]\n\nExample 3:\n\nInput: root = []\nOutput: []\n\nConstraints:\n\n• The number of nodes in the tree is in the range [0, 2000].\n\n• -100 <= Node.val <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def zigzagLevelOrder(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[3,9,20,null,null,15,7]",
+      "[1]",
+      "[]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[3],[20,9],[15,7]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def zigzagLevelOrder(self, root):\n        from collections import deque\n        if not root:\n            return []\n        result = []\n        queue = deque([root])\n        left_to_right = True\n        while queue:\n            level = []\n            for _ in range(len(queue)):\n                node = queue.popleft()\n                level.append(node.val)\n                if node.left:\n                    queue.append(node.left)\n                if node.right:\n                    queue.append(node.right)\n            if not left_to_right:\n                level.reverse()\n            result.append(level)\n            left_to_right = not left_to_right\n        return result",
+    "explanation": "BFS level by level. Alternate direction: reverse even levels.\nTime: O(n)\nSpace: O(w)"
+  },
+  "similarQuestions": "[{\"title\": \"Binary Tree Level Order Traversal\", \"titleSlug\": \"binary-tree-level-order-traversal\", \"difficulty\": \"Medium\"}, {\"title\": \"Zigzag Grid Traversal With Skip\", \"titleSlug\": \"zigzag-grid-traversal-with-skip\", \"difficulty\": \"Easy\"}]"
+}

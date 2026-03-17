@@ -1,0 +1,62 @@
+{
+  "questionId": "3534",
+  "title": "Count Almost Equal Pairs I",
+  "titleSlug": "count-almost-equal-pairs-i",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    }
+  ],
+  "content": "You are given an array nums consisting of positive integers.\n\nWe call two integers x and y in this problem almost equal if both integers can become equal after performing the following operation at most once:\n\n• Choose either x or y and swap any two digits within the chosen number.\n\nReturn the number of indices i and j in nums where i < j such that nums[i] and nums[j] are almost equal.\n\nNote that it is allowed for an integer to have leading zeros after performing an operation.\n\nExample 1:\n\nInput: nums = [3,12,30,17,21]\n\nOutput: 2\n\nExplanation: The almost equal pairs of elements are:\n\n• 3 and 30. By swapping 3 and 0 in 30, you get 3.\n\n• 12 and 21. By swapping 1 and 2 in 12, you get 21.\n\nExample 2:\n\nInput: nums = [1,1,1,1,1]\n\nOutput: 10\n\nExplanation: Every two elements in the array are almost equal.\n\nExample 3:\n\nInput: nums = [123,231]\n\nOutput: 0\n\nExplanation: We cannot swap any two digits of 123 or 231 to reach the other.\n\nConstraints:\n\n• 2 <= nums.length <= 100\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countPairs(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Since the constraint on the number of elements is small, you can check all pairs in the array.",
+    "For each pair, perform an operation on one of the elements and check if it becomes equal to the other."
+  ],
+  "testCases": [
+    [
+      "[3,12,30,17,21]"
+    ],
+    [
+      "[1,1,1,1,1]"
+    ],
+    [
+      "[123,231]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "10",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countPairs(self, nums):\n        def neighbors(x):\n            s = list(str(x))\n            res = set([x])\n            for i in range(len(s)):\n                for j in range(i + 1, len(s)):\n                    s[i], s[j] = s[j], s[i]\n                    res.add(int(\"\".join(s)))\n                    s[i], s[j] = s[j], s[i]\n            return res\n        count = {}\n        ans = 0\n        for x in nums:\n            for nb in neighbors(x):\n                if nb in count:\n                    ans += count[nb]\n            count[x] = count.get(x, 0) + 1\n        return ans",
+    "explanation": "Generate all single digit-swap variants; count previous numbers matching any variant."
+  },
+  "similarQuestions": "[{\"title\": \"Check if One String Swap Can Make Strings Equal\", \"titleSlug\": \"check-if-one-string-swap-can-make-strings-equal\", \"difficulty\": \"Easy\"}]"
+}

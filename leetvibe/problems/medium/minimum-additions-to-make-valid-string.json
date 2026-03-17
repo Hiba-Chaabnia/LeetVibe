@@ -1,0 +1,58 @@
+{
+  "questionId": "2736",
+  "title": "Minimum Additions to Make Valid String",
+  "titleSlug": "minimum-additions-to-make-valid-string",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given a string word to which you can insert letters \"a\", \"b\" or \"c\" anywhere and any number of times, return the minimum number of letters that must be inserted so that word becomes valid.\n\nA string is called valid if it can be formed by concatenating the string \"abc\" several times.\n\nExample 1:\n\nInput: word = \"b\"\nOutput: 2\nExplanation: Insert the letter \"a\" right before \"b\", and the letter \"c\" right next to \"b\" to obtain the valid string \"abc\".\n\nExample 2:\n\nInput: word = \"aaa\"\nOutput: 6\nExplanation: Insert letters \"b\" and \"c\" next to each \"a\" to obtain the valid string \"abcabcabc\".\n\nExample 3:\n\nInput: word = \"abc\"\nOutput: 0\nExplanation: word is already valid. No modifications are needed.\n\nConstraints:\n\n• 1 <= word.length <= 50\n\n• word consists of letters \"a\", \"b\" and \"c\" only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def addMinimum(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Maintain a pointer on word and another pointer on string “abc”.",
+    "If the two characters that are being pointed to differ, Increment the answer and the pointer to the string “abc” by one."
+  ],
+  "testCases": [
+    [
+      "\"b\""
+    ],
+    [
+      "\"aaa\""
+    ],
+    [
+      "\"abc\""
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "6",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def addMinimum(self, word):\n        abc = \"abc\"\n        j = 0  # pointer into \"abc\"\n        additions = 0\n        for c in word:\n            # Advance j until it matches c, counting skipped positions\n            while abc[j] != c:\n                additions += 1\n                j = (j + 1) % 3\n            j = (j + 1) % 3  # move past matched character\n        # After processing, if j != 0, we need to finish the last \"abc\" group\n        if j != 0:\n            additions += (3 - j)\n        return additions",
+    "explanation": "Maintain a pointer j into 'abc'. For each character in word, advance j (counting skips as additions) until it matches, then move j forward. After the loop, if j != 0, the last group is incomplete and needs (3 - j) more characters.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Merge Strings Alternately\", \"titleSlug\": \"merge-strings-alternately\", \"difficulty\": \"Easy\"}]"
+}

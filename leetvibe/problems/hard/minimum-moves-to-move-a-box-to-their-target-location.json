@@ -1,0 +1,54 @@
+{
+  "questionId": "1389",
+  "title": "Minimum Moves to Move a Box to Their Target Location",
+  "titleSlug": "minimum-moves-to-move-a-box-to-their-target-location",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "A storekeeper is a game in which the player pushes boxes around in a warehouse trying to get them to target locations.\n\nThe game is represented by an m x n grid of characters grid where each element is a wall, floor, or box.\n\nYour task is to move the box 'B' to the target position 'T' under the following rules:\n\n• The character 'S' represents the player. The player can move up, down, left, right in grid if it is a floor (empty cell).\n\n• The character '.' represents the floor which means a free cell to walk.\n\n• The character '#' represents the wall which means an obstacle (impossible to walk there).\n\n• There is only one box 'B' and one target cell 'T' in the grid.\n\n• The box can be moved to an adjacent free cell by standing next to the box and then moving in the direction of the box. This is a push.\n\n• The player cannot walk through the box.\n\nReturn the minimum number of pushes to move the box to the target. If there is no way to reach the target, return -1.\n\nExample 1:\n\nInput: grid = [[\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"],\n                   [\"#\",\"T\",\"#\",\"#\",\"#\",\"#\"],\n                   [\"#\",\".\",\".\",\"B\",\".\",\"#\"],\n                   [\"#\",\".\",\"#\",\"#\",\".\",\"#\"],\n                   [\"#\",\".\",\".\",\".\",\"S\",\"#\"],\n                   [\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"]]\nOutput: 3\nExplanation: We return only the number of times the box is pushed.\n\nExample 2:\n\nInput: grid = [[\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"],\n                   [\"#\",\"T\",\"#\",\"#\",\"#\",\"#\"],\n                   [\"#\",\".\",\".\",\"B\",\".\",\"#\"],\n                   [\"#\",\"#\",\"#\",\"#\",\".\",\"#\"],\n                   [\"#\",\".\",\".\",\".\",\"S\",\"#\"],\n                   [\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"]]\nOutput: -1\n\nExample 3:\n\nInput: grid = [[\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"],\n                   [\"#\",\"T\",\".\",\".\",\"#\",\"#\"],\n                   [\"#\",\".\",\"#\",\"B\",\".\",\"#\"],\n                   [\"#\",\".\",\".\",\".\",\".\",\"#\"],\n                   [\"#\",\".\",\".\",\".\",\"S\",\"#\"],\n                   [\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"]]\nOutput: 5\nExplanation: push the box down, left, left, up and up.\n\nConstraints:\n\n• m == grid.length\n\n• n == grid[i].length\n\n• 1 <= m, n <= 20\n\n• grid contains only characters '.', '#', 'S', 'T', or 'B'.\n\n• There is only one character 'S', 'B', and 'T' in the grid.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minPushBox(self, grid):\n        \"\"\"\n        :type grid: List[List[str]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We represent the search state as (player_row, player_col, box_row, box_col).",
+    "You need to count only the number of pushes. Then inside of your BFS check if the box could be pushed (in any direction) given the current position of the player."
+  ],
+  "testCases": [
+    [
+      "[[\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"],[\"#\",\"T\",\"#\",\"#\",\"#\",\"#\"],[\"#\",\".\",\".\",\"B\",\".\",\"#\"],[\"#\",\".\",\"#\",\"#\",\".\",\"#\"],[\"#\",\".\",\".\",\".\",\"S\",\"#\"],[\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"]]"
+    ],
+    [
+      "[[\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"],[\"#\",\"T\",\"#\",\"#\",\"#\",\"#\"],[\"#\",\".\",\".\",\"B\",\".\",\"#\"],[\"#\",\"#\",\"#\",\"#\",\".\",\"#\"],[\"#\",\".\",\".\",\".\",\"S\",\"#\"],[\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"]]"
+    ],
+    [
+      "[[\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"],[\"#\",\"T\",\".\",\".\",\"#\",\"#\"],[\"#\",\".\",\"#\",\"B\",\".\",\"#\"],[\"#\",\".\",\".\",\".\",\".\",\"#\"],[\"#\",\".\",\".\",\".\",\"S\",\"#\"],[\"#\",\"#\",\"#\",\"#\",\"#\",\"#\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "-1",
+    "5"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,67 @@
+{
+  "questionId": "1501",
+  "title": "Circle and Rectangle Overlapping",
+  "titleSlug": "circle-and-rectangle-overlapping",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    }
+  ],
+  "content": "You are given a circle represented as (radius, xCenter, yCenter) and an axis-aligned rectangle represented as (x1, y1, x2, y2), where (x1, y1) are the coordinates of the bottom-left corner, and (x2, y2) are the coordinates of the top-right corner of the rectangle.\n\nReturn true if the circle and rectangle are overlapped otherwise return false. In other words, check if there is any point (xi, yi) that belongs to the circle and the rectangle at the same time.\n\nExample 1:\n\nInput: radius = 1, xCenter = 0, yCenter = 0, x1 = 1, y1 = -1, x2 = 3, y2 = 1\nOutput: true\nExplanation: Circle and rectangle share the point (1,0).\n\nExample 2:\n\nInput: radius = 1, xCenter = 1, yCenter = 1, x1 = 1, y1 = -3, x2 = 2, y2 = -1\nOutput: false\n\nExample 3:\n\nInput: radius = 1, xCenter = 0, yCenter = 0, x1 = -1, y1 = 0, x2 = 0, y2 = 1\nOutput: true\n\nConstraints:\n\n• 1 <= radius <= 2000\n\n• -104 <= xCenter, yCenter <= 104\n\n• -104 <= x1 < x2 <= 104\n\n• -104 <= y1 < y2 <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def checkOverlap(self, radius, xCenter, yCenter, x1, y1, x2, y2):\n        \"\"\"\n        :type radius: int\n        :type xCenter: int\n        :type yCenter: int\n        :type x1: int\n        :type y1: int\n        :type x2: int\n        :type y2: int\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Locate the closest point of the square to the circle, you can then find the distance from this point to the center of the circle and check if this is less than or equal to the radius."
+  ],
+  "testCases": [
+    [
+      "1",
+      "0",
+      "0",
+      "1",
+      "-1",
+      "3",
+      "1"
+    ],
+    [
+      "1",
+      "1",
+      "1",
+      "1",
+      "-3",
+      "2",
+      "-1"
+    ],
+    [
+      "1",
+      "0",
+      "0",
+      "-1",
+      "0",
+      "0",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false",
+    "true"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def checkOverlap(radius, xCenter, yCenter, x1, y1, x2, y2):\n    xClosest = max(x1, min(xCenter, x2))\n    yClosest = max(y1, min(yCenter, y2))\n    return (xCenter - xClosest) ** 2 + (yCenter - yClosest) ** 2 <= radius ** 2",
+    "explanation": "The algorithm finds the closest point from the center of the circle to the rectangle. First, it determines the x-coordinate and y-coordinate of this point `xClosest` and `yClosest`, by finding the minimum and maximum values of x and y coordinates between the center of the circle and the bounds of the rectangle, respectively.\n\nThen, check if the distance squared between the circle's center `(xCenter, yCenter)` and the closest point `(xClosest, yClosest)` is less than or equal to the square of the radius of the circle. If it is, then the circle and the rectangle are overlapping, otherwise they are not."
+  },
+  "similarQuestions": "[]"
+}

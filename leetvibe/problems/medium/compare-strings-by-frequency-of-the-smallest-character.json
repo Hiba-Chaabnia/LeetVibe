@@ -1,0 +1,60 @@
+{
+  "questionId": "1273",
+  "title": "Compare Strings by Frequency of the Smallest Character",
+  "titleSlug": "compare-strings-by-frequency-of-the-smallest-character",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Let the function f(s) be the frequency of the lexicographically smallest character in a non-empty string s. For example, if s = \"dcce\" then f(s) = 2 because the lexicographically smallest character is 'c', which has a frequency of 2.\n\nYou are given an array of strings words and another array of query strings queries. For each query queries[i], count the number of words in words such that f(queries[i]) < f(W) for each W in words.\n\nReturn an integer array answer, where each answer[i] is the answer to the ith query.\n\nExample 1:\n\nInput: queries = [\"cbd\"], words = [\"zaaaz\"]\nOutput: [1]\nExplanation: On the first query we have f(\"cbd\") = 1, f(\"zaaaz\") = 3 so f(\"cbd\") Example 2:\n\nInput: queries = [\"bbb\",\"cc\"], words = [\"a\",\"aa\",\"aaa\",\"aaaa\"]\nOutput: [1,2]\nExplanation: On the first query only f(\"bbb\")  f(\"cc\").\n\nConstraints:\n\n• 1 <= queries.length <= 2000\n\n• 1 <= words.length <= 2000\n\n• 1 <= queries[i].length, words[i].length <= 10\n\n• queries[i][j], words[i][j] consist of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numSmallerByFrequency(self, queries, words):\n        \"\"\"\n        :type queries: List[str]\n        :type words: List[str]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "For each string from words calculate the leading count and store it in an array, then sort the integer array.",
+    "For each string from queries calculate the leading count \"p\" and in base of the sorted array calculated on the step 1 do a binary search to count the number of items greater than \"p\"."
+  ],
+  "testCases": [
+    [
+      "[\"cbd\"]",
+      "[\"zaaaz\"]"
+    ],
+    [
+      "[\"bbb\",\"cc\"]",
+      "[\"a\",\"aa\",\"aaa\",\"aaaa\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1]",
+    "[1,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def numSmallerByFrequency(self, queries, words):\n        def f(s):\n            return s.count(min(s))\n        word_freq = sorted([f(w) for w in words])\n        result = []\n        for q in queries:\n            freq = f(q)\n            count = 0\n            for wf in word_freq:\n                if wf > freq:\n                    count += 1\n            result.append(count)\n        return result",
+    "explanation": "Compute f for all words. For each query, count words with higher f using binary search.\nTime: O(w*m + q*log w)\nSpace: O(w)"
+  },
+  "similarQuestions": "[]"
+}

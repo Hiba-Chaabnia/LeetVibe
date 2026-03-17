@@ -1,0 +1,51 @@
+{
+  "questionId": "1441",
+  "title": "Minimum Flips to Make a OR b Equal to c",
+  "titleSlug": "minimum-flips-to-make-a-or-b-equal-to-c",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "Given 3 positives numbers a, b and c. Return the minimum flips required in some bits of a and b to make ( a OR b == c ). (bitwise OR operation).\n\nFlip operation consists of change any single bit 1 to 0 or change the bit 0 to 1 in their binary representation.\n\nExample 1:\n\nInput: a = 2, b = 6, c = 5\nOutput: 3\nExplanation: After flips a = 1 , b = 4 , c = 5 such that (a OR b == c)\n\nExample 2:\n\nInput: a = 4, b = 2, c = 7\nOutput: 1\n\nExample 3:\n\nInput: a = 1, b = 2, c = 3\nOutput: 0\n\nConstraints:\n\n• 1 <= a <= 10^9\n\n• 1 <= b <= 10^9\n\n• 1 <= c <= 10^9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minFlips(self, a, b, c):\n        \"\"\"\n        :type a: int\n        :type b: int\n        :type c: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Check the bits one by one whether they need to be flipped."
+  ],
+  "testCases": [
+    [
+      "2",
+      "6",
+      "5"
+    ],
+    [
+      "4",
+      "2",
+      "7"
+    ],
+    [
+      "1",
+      "2",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def minFlips(a: int, b: int, c: int) -> int:\n    count = 0\n    for i in range(32):\n        bitA = (a >> i) & 1\n        bitB = (b >> i) & 1\n        bitC = (c >> i) & 1\n        if bitC == 0:\n            count += bitA + bitB\n        else:\n            count += 1 - (bitA | bitB)\n    return count",
+    "explanation": "We iterate through all 32 bits since the maximum number is 10^9, which requires 30 bits to represent in binary. For each bit, we determine the bits for `a`, `b`, and `c`, at the current position. If the bit in `c` is 0, we increment the counter by the sum of the bits of `a` and `b` at that position. This is because we need to flip any 1s in `a` and `b` to make the OR result 0. If the bit in `c` is 1, we increment the counter by 1 minus the OR result of `a` and `b`. This is because either `a` or `b` (or both) need to have a 1 at this position, so 1 minus the OR result gives us the necessary flips."
+  },
+  "similarQuestions": "[{\"title\": \"Minimum Bit Flips to Convert Number\", \"titleSlug\": \"minimum-bit-flips-to-convert-number\", \"difficulty\": \"Easy\"}]"
+}

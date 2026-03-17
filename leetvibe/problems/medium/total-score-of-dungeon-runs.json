@@ -1,0 +1,56 @@
+{
+  "questionId": "4146",
+  "title": "Total Score of Dungeon Runs",
+  "titleSlug": "total-score-of-dungeon-runs",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a positive integer hp and two positive 1-indexed integer arrays damage and requirement.\n\nThere is a dungeon with n trap rooms numbered from 1 to n. Entering room i reduces your health points by damage[i]. After that reduction, if your remaining health points are at least requirement[i], you earn 1 point for that room.\n\nLet score(j) be the number of points you get if you start with hp health points and enter the rooms j, j + 1, ..., n in this order.\n\nReturn the integer score(1) + score(2) + ... + score(n), the sum of scores over all starting rooms.\n\nNote: You cannot skip rooms. You can finish your journey even if your health points become non-positive.\n\nExample 1:\n\nInput: hp = 11, damage = [3,6,7], requirement = [4,2,5]\n\nOutput: 3\n\nExplanation: score(1) = 2, score(2) = 1, score(3) = 0. The total score is 2 + 1 + 0 = 3.\n\nAs an example, score(1) = 2 because you get 2 points if you start from room 1.\n\n• You start with 11 health points.\n\n• Enter room 1. Your health points are now 11 - 3 = 8. You get 1 point because 8 >= 4.\n\n• Enter room 2. Your health points are now 8 - 6 = 2. You get 1 point because 2 >= 2.\n\n• Enter room 3. Your health points are now 2 - 7 = -5. You do not get any points because -5 < 5.\n\nExample 2:\n\nInput: hp = 2, damage = [10000,1], requirement = [1,1]\n\nOutput: 1\n\nExplanation: score(1) = 0, score(2) = 1. The total score is 0 + 1 = 1.\n\nscore(1) = 0 because you do not get any points if you start from room 1.\n\n• You start with 2 health points.\n\n• Enter room 1. Your health points are now 2 - 10000 = -9998. You do not get any points because -9998 < 1.\n\n• Enter room 2. Your health points are now -9998 - 1 = -9999. You do not get any points because -9999 < 1.\n\nscore(2) = 1 because you get 1 point if you start from room 2.\n\n• You start with 2 health points.\n\n• Enter room 2. Your health points are now 2 - 1 = 1. You get 1 point because 1 >= 1.\n\nConstraints:\n\n• 1 <= hp <= 109\n\n• 1 <= n == damage.length == requirement.length <= 105\n\n• 1 <= damage[i], requirement[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def totalScore(self, hp, damage, requirement):\n        \"\"\"\n        :type hp: int\n        :type damage: List[int]\n        :type requirement: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use prefix sums on the damage. Create pref with the prefix sums.",
+    "Initially, the total points/score is the total number of subarrays n * (n + 1) / 2.",
+    "We need to subtract subarrays [i, j] that do not satisfy hp - (pref[j] - pref[i-1]) >= requirement[j]. The inequality is equivalent to pref[i-1] >= requirement[j] - hp + pref[j].",
+    "For each j, count the previous is with pref[i-1] < requirement[j] - hp + pref[j] using binary search or an ordered data structure."
+  ],
+  "testCases": [
+    [
+      "11",
+      "[3,6,7]",
+      "[4,2,5]"
+    ],
+    [
+      "2",
+      "[10000,1]",
+      "[1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import bisect\n\nclass Solution(object):\n    def totalScore(self, hp, damage, requirement):\n        n = len(damage)\n        pref = [0] * (n + 1)\n        for i in range(n):\n            pref[i + 1] = pref[i] + damage[i]\n\n        total = n * (n + 1) // 2\n        invalid = 0\n        sorted_prefs = []\n\n        for i in range(n):\n            bisect.insort(sorted_prefs, pref[i])\n            threshold = requirement[i] + pref[i + 1] - hp\n            invalid += bisect.bisect_left(sorted_prefs, threshold)\n\n        return total - invalid",
+    "explanation": "The total possible (start, room) pairs is n*(n+1)/2. We subtract invalid pairs where the health check fails.\n\nStarting at room j and reaching room i: remaining HP = hp - (pref[i+1] - pref[j]). This fails when pref[j] < requirement[i] + pref[i+1] - hp.\n\nFor each room i (0-indexed), we compute a threshold and count how many starting points j (0..i) have pref[j] below that threshold. We maintain a sorted list of prefix sums seen so far and use binary search (bisect_left) for O(log n) counting per room.\n\nTime complexity: O(n log n). Space complexity: O(n)."
+  },
+  "similarQuestions": "[]"
+}

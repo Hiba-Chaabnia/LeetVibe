@@ -1,0 +1,51 @@
+{
+  "questionId": "3140",
+  "title": "Count Visited Nodes in a Directed Graph",
+  "titleSlug": "count-visited-nodes-in-a-directed-graph",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "There is a directed graph consisting of n nodes numbered from 0 to n - 1 and n directed edges.\n\nYou are given a 0-indexed array edges where edges[i] indicates that there is an edge from node i to node edges[i].\n\nConsider the following process on the graph:\n\n• You start from a node x and keep visiting other nodes through edges until you reach a node that you have already visited before on this same process.\n\nReturn an array answer where answer[i] is the number of different nodes that you will visit if you perform the process starting from node i.\n\nExample 1:\n\nInput: edges = [1,2,0,0]\nOutput: [3,3,3,4]\nExplanation: We perform the process starting from each node in the following way:\n    - Starting from node 0, we visit the nodes 0 -> 1 -> 2 -> 0. The number of different nodes we visit is 3.\n    - Starting from node 1, we visit the nodes 1 -> 2 -> 0 -> 1. The number of different nodes we visit is 3.\n    - Starting from node 2, we visit the nodes 2 -> 0 -> 1 -> 2. The number of different nodes we visit is 3.\n    - Starting from node 3, we visit the nodes 3 -> 0 -> 1 -> 2 -> 0. The number of different nodes we visit is 4.\n\nExample 2:\n\nInput: edges = [1,2,3,4,0]\nOutput: [5,5,5,5,5]\nExplanation: Starting from any node we can visit every node in the graph in the process.\n\nConstraints:\n\n• n == edges.length\n\n• 2 <= n <= 105\n\n• 0 <= edges[i] <= n - 1\n\n• edges[i] != i",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countVisitedNodes(self, edges):\n        \"\"\"\n        :type edges: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider if the graph was only one cycle, what will be the answer for each node?",
+    "The actual graph will always consist of at least one cycle and some other nodes.",
+    "Calculate the answer for nodes in cycles the same way as in hint 1. How do you calculate the answer for the remaining nodes?"
+  ],
+  "testCases": [
+    [
+      "[1,2,0,0]"
+    ],
+    [
+      "[1,2,3,4,0]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,3,3,4]",
+    "[5,5,5,5,5]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countVisitedNodes(self, edges):\n        \"\"\"\n        :type edges: List[int]\n        :rtype: List[int]\n        \"\"\"\n        n = len(edges)\n        visited = [False] * n\n        result = [0] * n\n        \n        for start in range(n):\n            if visited[start]:\n                continue\n            \n            path = []\n            node = start\n            node_to_path_idx = {}\n            \n            # Follow the path until cycle found\n            while node not in node_to_path_idx and not visited[node]:\n                node_to_path_idx[node] = len(path)\n                path.append(node)\n                node = edges[node]\n            \n            if visited[node]:\n                # Reached previously processed node\n                cycle_len = result[node]\n                for i in range(len(path)):\n                    visited[path[i]] = True\n                    result[path[i]] = cycle_len + len(path) - i\n            else:\n                # Found a cycle\n                cycle_start_idx = node_to_path_idx[node]\n                cycle_len = len(path) - cycle_start_idx\n                \n                # Nodes in cycle\n                for i in range(cycle_start_idx, len(path)):\n                    visited[path[i]] = True\n                    result[path[i]] = cycle_len\n                \n                # Nodes before cycle\n                for i in range(cycle_start_idx):\n                    visited[path[i]] = True\n                    result[path[i]] = cycle_len + cycle_start_idx - i\n        \n        return result",
+    "explanation": "Cycle detection with path tracking:\n\n1. **Graph Property**: Each node has exactly one outgoing edge\n   - Following edges always leads to a cycle\n   - Some nodes lead to cycles, others are in cycles\n\n2. **Path Following**:\n   - From each unvisited node, follow edges\n   - Track path until cycle detected\n   - Detect via seeing node in current path or visited marker\n\n3. **Counting Visits**:\n   - Nodes in cycle: visit all cycle_length nodes\n   - Nodes before cycle: visit cycle + remaining path to cycle\n\n4. **Optimization**: Memoize to avoid recomputation\n\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

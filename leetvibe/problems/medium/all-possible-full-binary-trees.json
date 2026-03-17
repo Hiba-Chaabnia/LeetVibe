@@ -1,0 +1,51 @@
+{
+  "questionId": "930",
+  "title": "All Possible Full Binary Trees",
+  "titleSlug": "all-possible-full-binary-trees",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Recursion",
+      "slug": "recursion"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given an integer n, return a list of all possible full binary trees with n nodes. Each node of each tree in the answer must have Node.val == 0.\n\nEach element of the answer is the root node of one possible tree. You may return the final list of trees in any order.\n\nA full binary tree is a binary tree where each node has exactly 0 or 2 children.\n\nExample 1:\n\nInput: n = 7\nOutput: [[0,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,null,null,null,null,0,0],[0,0,0,0,0,null,null,0,0]]\n\nExample 2:\n\nInput: n = 3\nOutput: [[0,0,0]]\n\nConstraints:\n\n• 1 <= n <= 20",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def allPossibleFBT(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[Optional[TreeNode]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "7"
+    ],
+    [
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[0,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,null,null,null,null,0,0],[0,0,0,0,0,null,null,0,0]]",
+    "[[0,0,0]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

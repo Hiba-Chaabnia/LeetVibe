@@ -1,0 +1,60 @@
+{
+  "questionId": "2751",
+  "title": "Sliding Subarray Beauty",
+  "titleSlug": "sliding-subarray-beauty",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given an integer array nums containing n integers, find the beauty of each subarray of size k.\n\nThe beauty of a subarray is the xth smallest integer in the subarray if it is negative, or 0 if there are fewer than x negative integers.\n\nReturn an integer array containing n - k + 1 integers, which denote the beauty of the subarrays in order from the first index in the array.\n\n•\n\tA subarray is a contiguous non-empty sequence of elements within an array.\n\nExample 1:\n\nInput: nums = [1,-1,-3,-2,3], k = 3, x = 2\nOutput: [-1,-2,-2]\nExplanation: There are 3 subarrays with size k = 3.\n    The first subarray is [1, -1, -3] and the 2nd smallest negative integer is -1.\n    The second subarray is [-1, -3, -2] and the 2nd smallest negative integer is -2.\n    The third subarray is [-3, -2, 3] and the 2nd smallest negative integer is -2.\n\nExample 2:\n\nInput: nums = [-1,-2,-3,-4,-5], k = 2, x = 2\nOutput: [-1,-2,-3,-4]\nExplanation: There are 4 subarrays with size k = 2.\n    For [-1, -2], the 2nd smallest negative integer is -1.\n    For [-2, -3], the 2nd smallest negative integer is -2.\n    For [-3, -4], the 2nd smallest negative integer is -3.\n    For [-4, -5], the 2nd smallest negative integer is -4.\n\nExample 3:\n\nInput: nums = [-3,1,2,-3,0,-3], k = 2, x = 1\nOutput: [-3,0,-3,-3,-3]\nExplanation: There are 5 subarrays with size k = 2.\n    For [-3, 1], the 1st smallest negative integer is -3.\n    For [1, 2], there is no negative integer so the beauty is 0.\n    For [2, -3], the 1st smallest negative integer is -3.\n    For [-3, 0], the 1st smallest negative integer is -3.\n    For [0, -3], the 1st smallest negative integer is -3.\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= n <= 105\n\n• 1 <= k <= n\n\n• 1 <= x <= k\n\n• -50 <= nums[i] <= 50",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getSubarrayBeauty(self, nums, k, x):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :type x: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to maintain the frequency of negative numbers in the current window of size k.",
+    "The x^th smallest negative integer can be gotten by iterating through the frequencies of the numbers in order."
+  ],
+  "testCases": [
+    [
+      "[1,-1,-3,-2,3]",
+      "3",
+      "2"
+    ],
+    [
+      "[-1,-2,-3,-4,-5]",
+      "2",
+      "2"
+    ],
+    [
+      "[-3,1,2,-3,0,-3]",
+      "2",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[-1,-2,-2]",
+    "[-1,-2,-3,-4]",
+    "[-3,0,-3,-3,-3]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def getSubarrayBeauty(self, nums, k, x):\n        # Values are in [-50, 50]; offset by 50 for array indexing\n        freq = [0] * 101\n\n        def xth_smallest_neg():\n            count = 0\n            for v in range(0, 50):  # v represents value v-50 (i.e., -50 to -1)\n                count += freq[v]\n                if count >= x:\n                    return v - 50\n            return 0\n\n        result = []\n        for i in range(len(nums)):\n            freq[nums[i] + 50] += 1\n            if i >= k:\n                freq[nums[i - k] + 50] -= 1\n            if i >= k - 1:\n                result.append(xth_smallest_neg())\n        return result",
+    "explanation": "Since all values are in [-50, 50], we use a frequency array of size 101 (indexed by value + 50) as a compact sorted structure.\n\nWe slide a window of size k: add the incoming element and remove the outgoing one. To find the xth smallest negative, scan from index 0 (value -50) upward, accumulating frequencies until we reach count >= x. If fewer than x negatives exist in the window, return 0.\n\nTime complexity: O(n * 50) = O(n). Space complexity: O(101) = O(1)."
+  },
+  "similarQuestions": "[]"
+}

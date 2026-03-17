@@ -1,0 +1,52 @@
+{
+  "questionId": "3867",
+  "title": "Lexicographically Smallest String After Adjacent Removals",
+  "titleSlug": "lexicographically-smallest-string-after-adjacent-removals",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given a string s consisting of lowercase English letters.\n\nYou can perform the following operation any number of times (including zero):\n\n• Remove any pair of adjacent characters in the string that are consecutive in the alphabet, in either order (e.g., 'a' and 'b', or 'b' and 'a').\n\n• Shift the remaining characters to the left to fill the gap.\n\nReturn the lexicographically smallest string that can be obtained after performing the operations optimally.\n\nNote: Consider the alphabet as circular, thus 'a' and 'z' are consecutive.\n\nExample 1:\n\nInput: s = \"abc\"\n\nOutput: \"a\"\n\nExplanation:\n\n• Remove \"bc\" from the string, leaving \"a\" as the remaining string.\n\n• No further operations are possible. Thus, the lexicographically smallest string after all possible removals is \"a\".\n\nExample 2:\n\nInput: s = \"bcda\"\n\nOutput: \"\"\n\nExplanation:\n\n• ​​​​​​​Remove \"cd\" from the string, leaving \"ba\" as the remaining string.\n\n• Remove \"ba\" from the string, leaving \"\" as the remaining string.\n\n• No further operations are possible. Thus, the lexicographically smallest string after all possible removals is \"\".\n\nExample 3:\n\nInput: s = \"zdce\"\n\nOutput: \"zdce\"\n\nExplanation:\n\n• Remove \"dc\" from the string, leaving \"ze\" as the remaining string.\n\n• No further operations are possible on \"ze\".\n\n• However, since \"zdce\" is lexicographically smaller than \"ze\", the smallest string after all possible removals is \"zdce\".\n\nConstraints:\n\n• 1 <= s.length <= 250\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lexicographicallySmallestString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "As a result of the operation, some of the substrings can be removed",
+    "Find out using DP, which substrings can we remove",
+    "Now, try to build the ans using this DP",
+    "Define ans[i] = lex smallest string that can be made in [i, n - 1], then ans[i] = lex_smallest of { choose one char s[j] in [i, n - 1] + ans[j + 1] }"
+  ],
+  "testCases": [
+    [
+      "\"abc\""
+    ],
+    [
+      "\"bcda\""
+    ],
+    [
+      "\"zdce\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"a\"",
+    "\"\"",
+    "\"zdce\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def lexicographicallySmallestString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        n = len(s)\n        \n        def is_consecutive(a, b):\n            \"\"\"Check if characters are consecutive (circular alphabet)\"\"\"\n            return abs(ord(a) - ord(b)) == 1 or (a == 'z' and b == 'a') or (a == 'a' and b == 'z')\n        \n        # DP: can_remove[i][j] = can all characters in s[i:j+1] be removed?\n        can_remove = [[False] * n for _ in range(n)]\n        \n        # Fill DP table\n        for length in range(2, n + 1):\n            for i in range(n - length + 1):\n                j = i + length - 1\n                if is_consecutive(s[i], s[j]):\n                    if length == 2:\n                        can_remove[i][j] = True\n                    elif can_remove[i+1][j-1]:\n                        can_remove[i][j] = True\n        \n        # DP: dp[i] = lexicographically smallest string from position i onwards\n        memo = {}\n        \n        def dp(i):\n            \"\"\"Return lex smallest string starting from position i\"\"\"\n            if i == n:\n                return \"\"\n            \n            if i in memo:\n                return memo[i]\n            \n            # Option 1: Keep s[i]\n            result = s[i] + dp(i + 1)\n            \n            # Option 2: Remove substring s[i:j+1] if possible\n            for j in range(i + 1, n):\n                if can_remove[i][j]:\n                    candidate = dp(j + 1)\n                    if candidate < result:\n                        result = candidate\n            \n            memo[i] = result\n            return result\n        \n        return dp(0)",
+    "explanation": "This solution uses DP with interval removal:\n\n1. **Problem Understanding**:\n   - Can remove adjacent consecutive characters (a-b, b-a, a-z, z-a)\n   - Alphabet is circular (a adjacent to z)\n   - Find lexicographically smallest result after all removals\n\n2. **Can Remove Substrings**:\n   - First, precompute which substrings can be completely removed\n   - A substring s[i:j+1] can be removed if:\n     - s[i] and s[j] are consecutive\n     - Middle part s[i+1:j] can be completely removed (recursively)\n\n3. **DP Table Construction**:\n   - can_remove[i][j] = true if substring s[i..j] can be removed\n   - Base: length 2 if ends are consecutive\n   - Recursive: if ends consecutive AND middle can be removed\n\n4. **Greedy DP**:\n   - dp(i) = lexicographically smallest string from position i\n   - Option 1: Keep s[i] and solve rest\n   - Option 2: Remove some substring s[i:j] and solve from j+1\n   - Take minimum (lexicographically smallest)\n\n5. **Why It Works**:\n   - Precomputing removable substrings is key\n   - Then greedy selection of smallest substring gives result\n   - Memoization avoids redundant computation\n\nTime Complexity: O(n³) for DP table + O(n²) for solution\nSpace Complexity: O(n²) for DP table and memoization"
+  },
+  "similarQuestions": "[]"
+}

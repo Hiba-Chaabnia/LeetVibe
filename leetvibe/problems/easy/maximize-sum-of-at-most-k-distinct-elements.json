@@ -1,0 +1,60 @@
+{
+  "questionId": "3997",
+  "title": "Maximize Sum of At Most K Distinct Elements",
+  "titleSlug": "maximize-sum-of-at-most-k-distinct-elements",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given a positive integer array nums and an integer k.\n\nChoose at most k elements from nums so that their sum is maximized. However, the chosen numbers must be distinct.\n\nReturn an array containing the chosen numbers in strictly descending order.\n\nExample 1:\n\nInput: nums = [84,93,100,77,90], k = 3\n\nOutput: [100,93,90]\n\nExplanation: The maximum sum is 283, which is attained by choosing 93, 100 and 90. We rearrange them in strictly descending order as [100, 93, 90].\n\nExample 2:\n\nInput: nums = [84,93,100,77,93], k = 3\n\nOutput: [100,93,84]\n\nExplanation: The maximum sum is 277, which is attained by choosing 84, 93 and 100. We rearrange them in strictly descending order as [100, 93, 84]. We cannot choose 93, 100 and 93 because the chosen numbers must be distinct.\n\nExample 3:\n\nInput: nums = [1,1,1,2,2,2], k = 6\n\nOutput: [2,1]\n\nExplanation: The maximum sum is 3, which is attained by choosing 1 and 2. We rearrange them in strictly descending order as [2, 1].\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 109\n\n• 1 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxKDistinct(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a set to dedupe then sort descending and pick top k."
+  ],
+  "testCases": [
+    [
+      "[84,93,100,77,90]",
+      "3"
+    ],
+    [
+      "[84,93,100,77,93]",
+      "3"
+    ],
+    [
+      "[1,1,1,2,2,2]",
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "[100,93,90]",
+    "[100,93,84]",
+    "[2,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxKDistinct(self, nums, k):\n        unique = sorted(set(nums), reverse=True)\n        return unique[:k]",
+    "explanation": "Collect unique values sorted descending; return the top min(k, distinct_count) of them. O(n log n) time."
+  },
+  "similarQuestions": "[]"
+}

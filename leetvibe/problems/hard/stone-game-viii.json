@@ -1,0 +1,58 @@
+{
+  "questionId": "2002",
+  "title": "Stone Game VIII",
+  "titleSlug": "stone-game-viii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    },
+    {
+      "name": "Game Theory",
+      "slug": "game-theory"
+    }
+  ],
+  "content": "Alice and Bob take turns playing a game, with Alice starting first.\n\nThere are n stones arranged in a row. On each player's turn, while the number of stones is more than one, they will do the following:\n\n• Choose an integer x > 1, and remove the leftmost x stones from the row.\n\n• Add the sum of the removed stones' values to the player's score.\n\n• Place a new stone, whose value is equal to that sum, on the left side of the row.\n\nThe game stops when only one stone is left in the row.\n\nThe score difference between Alice and Bob is (Alice's score - Bob's score). Alice's goal is to maximize the score difference, and Bob's goal is the minimize the score difference.\n\nGiven an integer array stones of length n where stones[i] represents the value of the ith stone from the left, return the score difference between Alice and Bob if they both play optimally.\n\nExample 1:\n\nInput: stones = [-1,2,-3,4,-5]\nOutput: 5\nExplanation:\n    - Alice removes the first 4 stones, adds (-1) + 2 + (-3) + 4 = 2 to her score, and places a stone of\n      value 2 on the left. stones = [2,-5].\n    - Bob removes the first 2 stones, adds 2 + (-5) = -3 to his score, and places a stone of value -3 on\n      the left. stones = [-3].\n    The difference between their scores is 2 - (-3) = 5.\n\nExample 2:\n\nInput: stones = [7,-6,5,10,5,-2,-6]\nOutput: 13\nExplanation:\n    - Alice removes all stones, adds 7 + (-6) + 5 + 10 + 5 + (-2) + (-6) = 13 to her score, and places a\n      stone of value 13 on the left. stones = [13].\n    The difference between their scores is 13 - 0 = 13.\n\nExample 3:\n\nInput: stones = [-10,-12]\nOutput: -22\nExplanation:\n    - Alice can only make one move, which is to remove both stones. She adds (-10) + (-12) = -22 to her\n      score and places a stone of value -22 on the left. stones = [-22].\n    The difference between their scores is (-22) - 0 = -22.\n\nConstraints:\n\n• n == stones.length\n\n• 2 <= n <= 105\n\n• -104 <= stones[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def stoneGameVIII(self, stones):\n        \"\"\"\n        :type stones: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let's note that the only thing that matters is how many stones were removed so we can maintain dp[numberOfRemovedStones]",
+    "dp[x] = max(sum of all elements up to y - dp[y]) for all y > x"
+  ],
+  "testCases": [
+    [
+      "[-1,2,-3,4,-5]"
+    ],
+    [
+      "[7,-6,5,10,5,-2,-6]"
+    ],
+    [
+      "[-10,-12]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "13",
+    "-22"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Stone Game\", \"titleSlug\": \"stone-game\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game II\", \"titleSlug\": \"stone-game-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game III\", \"titleSlug\": \"stone-game-iii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IV\", \"titleSlug\": \"stone-game-iv\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game V\", \"titleSlug\": \"stone-game-v\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game VI\", \"titleSlug\": \"stone-game-vi\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VII\", \"titleSlug\": \"stone-game-vii\", \"difficulty\": \"Medium\"}, {\"title\": \"Stone Game VIII\", \"titleSlug\": \"stone-game-viii\", \"difficulty\": \"Hard\"}, {\"title\": \"Stone Game IX\", \"titleSlug\": \"stone-game-ix\", \"difficulty\": \"Medium\"}]"
+}

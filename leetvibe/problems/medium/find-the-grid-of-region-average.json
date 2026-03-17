@@ -1,0 +1,54 @@
+{
+  "questionId": "3272",
+  "title": "Find the Grid of Region Average",
+  "titleSlug": "find-the-grid-of-region-average",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given m x n grid image which represents a grayscale image, where image[i][j] represents a pixel with intensity in the range [0..255]. You are also given a non-negative integer threshold.\n\nTwo pixels are adjacent if they share an edge.\n\nA region is a 3 x 3 subgrid where the absolute difference in intensity between any two adjacent pixels is less than or equal to threshold.\n\nAll pixels in a region belong to that region, note that a pixel can belong to multiple regions.\n\nYou need to calculate a m x n grid result, where result[i][j] is the average intensity of the regions to which image[i][j] belongs, rounded down to the nearest integer. If image[i][j] belongs to multiple regions, result[i][j] is the average of the rounded-down average intensities of these regions, rounded down to the nearest integer. If image[i][j] does not belong to any region, result[i][j] is equal to image[i][j].\n\nReturn the grid result.\n\nExample 1:\n\nInput: image = [[5,6,7,10],[8,9,10,10],[11,12,13,10]], threshold = 3\n\nOutput: [[9,9,9,9],[9,9,9,9],[9,9,9,9]]\n\nExplanation: There are two regions as illustrated above. The average intensity of the first region is 9, while the average intensity of the second region is 9.67 which is rounded down to 9. The average intensity of both of the regions is (9 + 9) / 2 = 9. As all the pixels belong to either region 1, region 2, or both of them, the intensity of every pixel in the result is 9.\n\nPlease note that the rounded-down values are used when calculating the average of multiple regions, hence the calculation is done using 9 as the average intensity of region 2, not 9.67.\n\nExample 2:\n\nInput: image = [[10,20,30],[15,25,35],[20,30,40],[25,35,45]], threshold = 12\n\nOutput: [[25,25,25],[27,27,27],[27,27,27],[30,30,30]]\n\nExplanation: There are two regions as illustrated above. The average intensity of the first region is 25, while the average intensity of the second region is 30. The average intensity of both of the regions is (25 + 30) / 2 = 27.5 which is rounded down to 27.\n\nAll the pixels in row 0 of the image belong to region 1, hence all the pixels in row 0 in the result are 25. Similarly, all the pixels in row 3 in the result are 30. The pixels in rows 1 and 2 of the image belong to region 1 and region 2, hence their assigned value is 27 in the result.\n\nExample 3:\n\nInput: image = [[5,6,7],[8,9,10],[11,12,13]], threshold = 1\n\nOutput: [[5,6,7],[8,9,10],[11,12,13]]\n\nExplanation: There is only one 3 x 3 subgrid, while it does not have the condition on difference of adjacent pixels, for example, the difference between image[0][0] and image[1][0] is |5 - 8| = 3 > threshold = 1. None of them belong to any valid regions, so the result should be the same as image.\n\nConstraints:\n\n• 3 <= n, m <= 500\n\n• 0 <= image[i][j] <= 255\n\n• 0 <= threshold <= 255",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def resultGrid(self, image, threshold):\n        \"\"\"\n        :type image: List[List[int]]\n        :type threshold: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try all the 3 * 3 sub-grids to find all the regions.",
+    "Keep two 2-D arrays sum and num, for each position (x, y) in a region, increase sum[x][y] by the average sum of the region and increase num[x][y] by 1.",
+    "For each position (x, y), sum[x][y] / num[x][y] is the answer. Note when num[x][y] == 0, we use the original value in image instead."
+  ],
+  "testCases": [
+    [
+      "[[5,6,7,10],[8,9,10,10],[11,12,13,10]]",
+      "3"
+    ],
+    [
+      "[[10,20,30],[15,25,35],[20,30,40],[25,35,45]]",
+      "12"
+    ],
+    [
+      "[[5,6,7],[8,9,10],[11,12,13]]",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[9,9,9,9],[9,9,9,9],[9,9,9,9]]",
+    "[[25,25,25],[27,27,27],[27,27,27],[30,30,30]]",
+    "[[5,6,7],[8,9,10],[11,12,13]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def resultGrid(self, image, threshold):\n        m, n = len(image), len(image[0])\n        region_sum = [[0]*n for _ in range(m)]\n        region_cnt = [[0]*n for _ in range(m)]\n\n        # Check each 3x3 subgrid\n        for i in range(m - 2):\n            for j in range(n - 2):\n                # Check all adjacent pairs in this 3x3\n                valid = True\n                for r in range(i, i+3):\n                    for c in range(j, j+3):\n                        if c+1 < j+3 and abs(image[r][c] - image[r][c+1]) > threshold:\n                            valid = False\n                            break\n                        if r+1 < i+3 and abs(image[r][c] - image[r+1][c]) > threshold:\n                            valid = False\n                            break\n                    if not valid:\n                        break\n                if valid:\n                    avg = sum(image[r][c] for r in range(i, i+3) for c in range(j, j+3)) // 9\n                    for r in range(i, i+3):\n                        for c in range(j, j+3):\n                            region_sum[r][c] += avg\n                            region_cnt[r][c] += 1\n\n        result = [[0]*n for _ in range(m)]\n        for r in range(m):\n            for c in range(n):\n                if region_cnt[r][c] == 0:\n                    result[r][c] = image[r][c]\n                else:\n                    result[r][c] = region_sum[r][c] // region_cnt[r][c]\n        return result",
+    "explanation": "For each valid 3×3 region, compute its floor average and accumulate into region_sum/region_cnt for all 9 pixels. Final result is sum//count or original if not in any region.\n\nTime: O(m*n). Space: O(m*n)."
+  },
+  "similarQuestions": "[{\"title\": \"Range Sum Query 2D - Immutable\", \"titleSlug\": \"range-sum-query-2d-immutable\", \"difficulty\": \"Medium\"}, {\"title\": \"K Radius Subarray Averages\", \"titleSlug\": \"k-radius-subarray-averages\", \"difficulty\": \"Medium\"}]"
+}

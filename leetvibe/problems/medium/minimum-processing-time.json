@@ -1,0 +1,52 @@
+{
+  "questionId": "3151",
+  "title": "Minimum Processing Time",
+  "titleSlug": "minimum-processing-time",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You have a certain number of processors, each having 4 cores. The number of tasks to be executed is four times the number of processors. Each task must be assigned to a unique core, and each core can only be used once.\n\nYou are given an array processorTime representing the time each processor becomes available and an array tasks representing how long each task takes to complete. Return the minimum time needed to complete all tasks.\n\nExample 1:\n\nInput: processorTime = [8,10], tasks = [2,2,3,1,8,7,4,5]\n\nOutput: 16\n\nExplanation: Assign the tasks at indices 4, 5, 6, 7 to the first processor which becomes available at time = 8, and the tasks at indices 0, 1, 2, 3 to the second processor which becomes available at time = 10.\n\nThe time taken by the first processor to finish the execution of all tasks is max(8 + 8, 8 + 7, 8 + 4, 8 + 5) = 16.\n\nThe time taken by the second processor to finish the execution of all tasks is max(10 + 2, 10 + 2, 10 + 3, 10 + 1) = 13.\n\nExample 2:\n\nInput: processorTime = [10,20], tasks = [2,3,1,2,5,8,4,3]\n\nOutput: 23\n\nExplanation: Assign the tasks at indices 1, 4, 5, 6 to the first processor and the others to the second processor.\n\nThe time taken by the first processor to finish the execution of all tasks is max(10 + 3, 10 + 5, 10 + 8, 10 + 4) = 18.\n\nThe time taken by the second processor to finish the execution of all tasks is max(20 + 2, 20 + 1, 20 + 2, 20 + 3) = 23.\n\nConstraints:\n\n• 1 <= n == processorTime.length <= 25000\n\n• 1 <= tasks.length <= 105\n\n• 0 <= processorTime[i] <= 109\n\n• 1 <= tasks[i] <= 109\n\n• tasks.length == 4 * n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minProcessingTime(self, processorTime, tasks):\n        \"\"\"\n        :type processorTime: List[int]\n        :type tasks: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It’s optimal to make the processor with earlier process time run 4 longer tasks.****",
+    "The largest processTime[i] + tasks[j] (when matched) is the answer."
+  ],
+  "testCases": [
+    [
+      "[8,10]",
+      "[2,2,3,1,8,7,4,5]"
+    ],
+    [
+      "[10,20]",
+      "[2,3,1,2,5,8,4,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "16",
+    "23"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minProcessingTime(self, processorTime, tasks):\n        processorTime.sort()\n        tasks.sort(reverse=True)\n        ans = 0\n        for i, pt in enumerate(processorTime):\n            finish = pt + tasks[4 * i]\n            ans = max(ans, finish)\n        return ans",
+    "explanation": "Each processor handles exactly 4 tasks in parallel; its completion time = availability + longest assigned task. Greedy: pair the earliest-available processor with the 4 longest tasks, next processor with the next 4 longest, etc. Sort processorTime ascending and tasks descending. Processor i handles tasks[4i..4i+3]; its completion time = processorTime[i] + tasks[4i]. Answer is the maximum over all processors.\n\nTime: O(n log n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

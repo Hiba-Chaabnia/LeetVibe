@@ -1,0 +1,49 @@
+{
+  "questionId": "1016",
+  "title": "Subarray Sums Divisible by K",
+  "titleSlug": "subarray-sums-divisible-by-k",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.\n\nA subarray is a contiguous part of an array.\n\nExample 1:\n\nInput: nums = [4,5,0,-2,-3,1], k = 5\nOutput: 7\nExplanation: There are 7 subarrays with a sum divisible by k = 5:\n    [4, 5, 0, -2, -3, 1], [5], [5, 0], [5, 0, -2, -3], [0], [0, -2, -3], [-2, -3]\n\nExample 2:\n\nInput: nums = [5], k = 9\nOutput: 0\n\nConstraints:\n\n• 1 <= nums.length <= 3 * 104\n\n• -104 <= nums[i] <= 104\n\n• 2 <= k <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def subarraysDivByK(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[4,5,0,-2,-3,1]",
+      "5"
+    ],
+    [
+      "[5]",
+      "9"
+    ]
+  ],
+  "expectedOutputs": [
+    "7",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def subarraysDivByK(nums, k):\n    prefix_sums_mod_k = [0] * k\n    prefix_sums_mod_k[0] = 1\n    running_sum = 0\n    count = 0\n    \n    for num in nums:\n        running_sum += num\n        mod = (running_sum % k + k) % k\n        count += prefix_sums_mod_k[mod]\n        prefix_sums_mod_k[mod] += 1\n    \n    return count",
+    "explanation": "1. Initialize a list (or array) called `prefixSumsModK` with a size `k` and value 0. Set the first element of `prefixSumsModK` to 1.\n2. Initialize variables `runningSum` and `count` both equal to 0.\n3. Iterate through the input array `nums`.\n4. For each element, add it to `runningSum`.\n5. Calculate the modulus of `runningSum` divided by `k`. To ensure the result is positive, add `k` to the result and calculate the modulus again.\n6. Increment the count by the value at the index `mod` in the `prefixSumsModK` list.\n7. Increment the value at the index `mod` in the `prefixSumsModK` list.\n8. Return `count` after the loop.\n\nThis algorithm uses the prefix sum with mod k to efficiently count the subarrays with a sum divisible by k."
+  },
+  "similarQuestions": "[{\"title\": \"Subarray Sum Equals K\", \"titleSlug\": \"subarray-sum-equals-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Make Sum Divisible by P\", \"titleSlug\": \"make-sum-divisible-by-p\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Number of Bad Pairs\", \"titleSlug\": \"count-number-of-bad-pairs\", \"difficulty\": \"Medium\"}, {\"title\": \"Find the Divisibility Array of a String\", \"titleSlug\": \"find-the-divisibility-array-of-a-string\", \"difficulty\": \"Medium\"}, {\"title\": \"Count of Interesting Subarrays\", \"titleSlug\": \"count-of-interesting-subarrays\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Subarray Sum With Length Divisible by K\", \"titleSlug\": \"maximum-subarray-sum-with-length-divisible-by-k\", \"difficulty\": \"Medium\"}]"
+}

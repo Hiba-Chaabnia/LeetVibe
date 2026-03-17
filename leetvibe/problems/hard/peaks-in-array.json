@@ -1,0 +1,54 @@
+{
+  "questionId": "3438",
+  "title": "Peaks in Array",
+  "titleSlug": "peaks-in-array",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Indexed Tree",
+      "slug": "binary-indexed-tree"
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree"
+    }
+  ],
+  "content": "A peak in an array arr is an element that is greater than its previous and next element in arr.\n\nYou are given an integer array nums and a 2D integer array queries.\n\nYou have to process queries of two types:\n\n• queries[i] = [1, li, ri], determine the count of peak elements in the subarray nums[li..ri].\n\n• queries[i] = [2, indexi, vali], change nums[indexi] to vali.\n\nReturn an array answer containing the results of the queries of the first type in order.\n\nNotes:\n\n• The first and the last element of an array or a subarray cannot be a peak.\n\nExample 1:\n\nInput: nums = [3,1,4,2,5], queries = [[2,3,4],[1,0,4]]\n\nOutput: [0]\n\nExplanation: First query: We change nums[3] to 4 and nums becomes [3,1,4,4,5].\n\nSecond query: The number of peaks in the [3,1,4,4,5] is 0.\n\nExample 2:\n\nInput: nums = [4,1,4,2,1,5], queries = [[2,2,4],[1,0,2],[1,0,4]]\n\nOutput: [0,1]\n\nExplanation: First query: nums[2] should become 4, but it is already set to 4.\n\nSecond query: The number of peaks in the [4,1,4] is 0.\n\nThird query: The second 4 is a peak in the [4,1,4,2,1].\n\nConstraints:\n\n• 3 <= nums.length <= 105\n\n• 1 <= nums[i] <= 105\n\n• 1 <= queries.length <= 105\n\n• queries[i][0] == 1 or queries[i][0] == 2\n\n• For all i that:\n\n• queries[i][0] == 1: 0 <= queries[i][1] <= queries[i][2] <= nums.length - 1\n\n• queries[i][0] == 2: 0 <= queries[i][1] <= nums.length - 1, 1 <= queries[i][2] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countOfPeaks(self, nums, queries):\n        \"\"\"\n        :type nums: List[int]\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Let p[i] be whether nums[i] is a peak in the original array. Namely p[i] = nums[i] > nums[i - 1] && nums[i] > nums[i + 1].",
+    "Updating nums[i], only affects p[i], p[i - 1] and p[i + 1]. We can recalculate the 3 values in constant time.",
+    "The answer for [l<sub>i</sub>, r<sub>i</sub>] is p[l<sub>i</sub> + 1] + p[l<sub>i</sub> + 2] + … + p[r<sub>i</sub> - 1] (note that l<sub>i</sub> and r<sub>i</sub> are not included).",
+    "Use some data structures (i.e. segment tree or binary indexed tree) to maintain the subarray sum efficiently."
+  ],
+  "testCases": [
+    [
+      "[3,1,4,2,5]",
+      "[[2,3,4],[1,0,4]]"
+    ],
+    [
+      "[4,1,4,2,1,5]",
+      "[[2,2,4],[1,0,2],[1,0,4]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[0]",
+    "[0,1]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countOfPeaks(self, nums, queries):\n        n = len(nums)\n        # BIT for prefix sums of peak indicator array\n        peak = [0] * n  # peak[i] = 1 if nums[i] is a peak\n        def is_peak(i):\n            return 1 if 0 < i < n-1 and nums[i] > nums[i-1] and nums[i] > nums[i+1] else 0\n        for i in range(1, n-1):\n            peak[i] = is_peak(i)\n        bit = [0] * (n + 1)\n        def update(i, delta):\n            i += 1\n            while i <= n:\n                bit[i] += delta\n                i += i & (-i)\n        def query(i):\n            i += 1\n            s = 0\n            while i > 0:\n                s += bit[i]\n                i -= i & (-i)\n            return s\n        def range_query(l, r):\n            if l > r: return 0\n            return query(r) - (query(l-1) if l > 0 else 0)\n        for i in range(1, n-1):\n            if peak[i]: update(i, 1)\n        result = []\n        for q in queries:\n            if q[0] == 1:\n                l, r = q[1], q[2]\n                result.append(range_query(l+1, r-1))\n            else:\n                idx, val = q[1], q[2]\n                nums[idx] = val\n                for i in range(max(1, idx-1), min(n-1, idx+1+1)):\n                    new_p = is_peak(i)\n                    if peak[i] != new_p:\n                        update(i, new_p - peak[i])\n                        peak[i] = new_p\n        return result",
+    "explanation": "Binary Indexed Tree over peak indicator array. Update query: change nums[idx] and recompute peak status for indices idx-1, idx, idx+1 (with BIT updates). Range query [l,r]: count peaks in [l+1, r-1] (endpoints can't be peaks).\n\nTime: O((n + q) log n). Space: O(n)."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,47 @@
+{
+  "questionId": "1642",
+  "title": "Water Bottles",
+  "titleSlug": "water-bottles",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "There are numBottles water bottles that are initially full of water. You can exchange numExchange empty water bottles from the market with one full water bottle.\n\nThe operation of drinking a full water bottle turns it into an empty bottle.\n\nGiven the two integers numBottles and numExchange, return the maximum number of water bottles you can drink.\n\nExample 1:\n\nInput: numBottles = 9, numExchange = 3\nOutput: 13\nExplanation: You can exchange 3 empty bottles to get 1 full water bottle.\n    Number of water bottles you can drink: 9 + 3 + 1 = 13.\n\nExample 2:\n\nInput: numBottles = 15, numExchange = 4\nOutput: 19\nExplanation: You can exchange 4 empty bottles to get 1 full water bottle.\n    Number of water bottles you can drink: 15 + 3 + 1 = 19.\n\nConstraints:\n\n• 1 <= numBottles <= 100\n\n• 2 <= numExchange <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def numWaterBottles(self, numBottles, numExchange):\n        \"\"\"\n        :type numBottles: int\n        :type numExchange: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simulate the process until there are not enough empty bottles for even one full bottle of water."
+  ],
+  "testCases": [
+    [
+      "9",
+      "3"
+    ],
+    [
+      "15",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "19"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def numWaterBottles(numBottles: int, numExchange: int) -> int:\n    totalBottles = numBottles\n    while numBottles >= numExchange:\n        newBottles = numBottles // numExchange\n        totalBottles += newBottles\n        numBottles = newBottles + numBottles % numExchange\n    return totalBottles",
+    "explanation": "The algorithm initializes the totalBottles variable with the value of numBottles. It then uses a while loop to repeatedly calculate the number of new full bottles the person can get by exchanging the current number of empty bottles.\n\nIn each iteration, the loop calculates the new number of full bottles by dividing numBottles by numExchange and flooring the result. It then adds these new bottles to the totalBottles variable. The loop also updates the number of empty bottles by adding the new full bottles and the remainder of numBottles divided by numExchange.\n\nOnce the number of empty bottles is less than the required numExchange, the loop terminates, and the function returns the value of totalBottles as the maximum number of water bottles the person can drink."
+  },
+  "similarQuestions": "[{\"title\": \"Water Bottles II\", \"titleSlug\": \"water-bottles-ii\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,43 @@
+{
+  "questionId": "462",
+  "title": "Minimum Moves to Equal Array Elements II",
+  "titleSlug": "minimum-moves-to-equal-array-elements-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "Given an integer array nums of size n, return the minimum number of moves required to make all array elements equal.\n\nIn one move, you can increment or decrement an element of the array by 1.\n\nTest cases are designed so that the answer will fit in a 32-bit integer.\n\nExample 1:\n\nInput: nums = [1,2,3]\nOutput: 2\nExplanation:\n    Only two moves are needed (remember each move increments or decrements one element):\n    [1,2,3]  =>  [2,2,3]  =>  [2,2,2]\n\nExample 2:\n\nInput: nums = [1,10,2,9]\nOutput: 16\n\nConstraints:\n\n• n == nums.length\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMoves2(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3]"
+    ],
+    [
+      "[1,10,2,9]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "16"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Best Meeting Point\", \"titleSlug\": \"best-meeting-point\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Moves to Equal Array Elements\", \"titleSlug\": \"minimum-moves-to-equal-array-elements\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Make a Uni-Value Grid\", \"titleSlug\": \"minimum-operations-to-make-a-uni-value-grid\", \"difficulty\": \"Medium\"}, {\"title\": \"Removing Minimum Number of Magic Beans\", \"titleSlug\": \"removing-minimum-number-of-magic-beans\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Cost to Make Array Equal\", \"titleSlug\": \"minimum-cost-to-make-array-equal\", \"difficulty\": \"Hard\"}, {\"title\": \"Minimum Operations to Make All Array Elements Equal\", \"titleSlug\": \"minimum-operations-to-make-all-array-elements-equal\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Cost to Make Array Equalindromic\", \"titleSlug\": \"minimum-cost-to-make-array-equalindromic\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Make Subarray Elements Equal\", \"titleSlug\": \"minimum-operations-to-make-subarray-elements-equal\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Operations to Make Elements Within K Subarrays Equal\", \"titleSlug\": \"minimum-operations-to-make-elements-within-k-subarrays-equal\", \"difficulty\": \"Hard\"}]"
+}

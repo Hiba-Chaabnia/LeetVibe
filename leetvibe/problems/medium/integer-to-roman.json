@@ -1,0 +1,52 @@
+{
+  "questionId": "12",
+  "title": "Integer to Roman",
+  "titleSlug": "integer-to-roman",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Seven different symbols represent Roman numerals with the following values:\n\n\t\t\t\tSymbol\n\t\t\t\tValue\n\n\t\t\t\tI\n\t\t\t\t1\n\n\t\t\t\tV\n\t\t\t\t5\n\n\t\t\t\tX\n\t\t\t\t10\n\n\t\t\t\tL\n\t\t\t\t50\n\n\t\t\t\tC\n\t\t\t\t100\n\n\t\t\t\tD\n\t\t\t\t500\n\n\t\t\t\tM\n\t\t\t\t1000\n\nRoman numerals are formed by appending the conversions of decimal place values from highest to lowest. Converting a decimal place value into a Roman numeral has the following rules:\n\n• If the value does not start with 4 or 9, select the symbol of the maximal value that can be subtracted from the input, append that symbol to the result, subtract its value, and convert the remainder to a Roman numeral.\n\n• If the value starts with 4 or 9 use the subtractive form representing one symbol subtracted from the following symbol, for example, 4 is 1 (I) less than 5 (V): IV and 9 is 1 (I) less than 10 (X): IX. Only the following subtractive forms are used: 4 (IV), 9 (IX), 40 (XL), 90 (XC), 400 (CD) and 900 (CM).\n\n• Only powers of 10 (I, X, C, M) can be appended consecutively at most 3 times to represent multiples of 10. You cannot append 5 (V), 50 (L), or 500 (D) multiple times. If you need to append a symbol 4 times use the subtractive form.\n\nGiven an integer, convert it to a Roman numeral.\n\nExample 1:\n\nInput: num = 3749\n\nOutput: \"MMMDCCXLIX\"\n\nExplanation:     3000 = MMM as 1000 (M) + 1000 (M) + 1000 (M)\n     700 = DCC as 500 (D) + 100 (C) + 100 (C)\n      40 = XL as 10 (X) less of 50 (L)\n       9 = IX as 1 (I) less of 10 (X)\n    Note: 49 is not 1 (I) less of 50 (L) because the conversion is based on decimal places\n\nExample 2:\n\nInput: num = 58\n\nOutput: \"LVIII\"\n\nExplanation:     50 = L\n     8 = VIII\n\nExample 3:\n\nInput: num = 1994\n\nOutput: \"MCMXCIV\"\n\nExplanation:     1000 = M\n     900 = CM\n      90 = XC\n       4 = IV\n\nConstraints:\n\n• 1 <= num <= 3999",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def intToRoman(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3749"
+    ],
+    [
+      "58"
+    ],
+    [
+      "1994"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"MMMDCCXLIX\"",
+    "\"LVIII\"",
+    "\"MCMXCIV\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def intToRoman(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: str\n        \"\"\"\n        values = [\n            (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),\n            (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),\n            (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I')\n        ]\n        \n        result = []\n        \n        for val, roman in values:\n            count = num // val\n            if count:\n                result.append(roman * count)\n                num -= val * count\n        \n        return ''.join(result)",
+    "explanation": "Greedy: use largest possible values first, including subtractive forms.",
+    "complexity": "Time: O(1) - max 13 denominations. Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Roman to Integer\", \"titleSlug\": \"roman-to-integer\", \"difficulty\": \"Easy\"}, {\"title\": \"Integer to English Words\", \"titleSlug\": \"integer-to-english-words\", \"difficulty\": \"Hard\"}]"
+}

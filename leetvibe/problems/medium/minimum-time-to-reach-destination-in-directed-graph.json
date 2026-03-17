@@ -1,0 +1,58 @@
+{
+  "questionId": "3916",
+  "title": "Minimum Time to Reach Destination in Directed Graph",
+  "titleSlug": "minimum-time-to-reach-destination-in-directed-graph",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Graph Theory",
+      "slug": "graph"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Shortest Path",
+      "slug": "shortest-path"
+    }
+  ],
+  "content": "You are given an integer n and a directed graph with n nodes labeled from 0 to n - 1. This is represented by a 2D array edges, where edges[i] = [ui, vi, starti, endi] indicates an edge from node ui to vi that can only be used at any integer time t such that starti <= t <= endi.\n\nYou start at node 0 at time 0.\n\nIn one unit of time, you can either:\n\n• Wait at your current node without moving, or\n\n• Travel along an outgoing edge from your current node if the current time t satisfies starti <= t <= endi.\n\nReturn the minimum time required to reach node n - 1. If it is impossible, return -1.\n\nExample 1:\n\nInput: n = 3, edges = [[0,1,0,1],[1,2,2,5]]\n\nOutput: 3\n\nExplanation: The optimal path is:\n\n• At time t = 0, take the edge (0 → 1) which is available from 0 to 1. You arrive at node 1 at time t = 1, then wait until t = 2.\n\n• At time t = 2, take the edge (1 → 2) which is available from 2 to 5. You arrive at node 2 at time 3.\n\nHence, the minimum time to reach node 2 is 3.\n\nExample 2:\n\nInput: n = 4, edges = [[0,1,0,3],[1,3,7,8],[0,2,1,5],[2,3,4,7]]\n\nOutput: 5\n\nExplanation: The optimal path is:\n\n• Wait at node 0 until time t = 1, then take the edge (0 → 2) which is available from 1 to 5. You arrive at node 2 at t = 2.\n\n• Wait at node 2 until time t = 4, then take the edge (2 → 3) which is available from 4 to 7. You arrive at node 3 at t = 5.\n\nHence, the minimum time to reach node 3 is 5.\n\nExample 3:\n\nInput: n = 3, edges = [[1,0,1,3],[1,2,3,5]]\n\nOutput: -1\n\nExplanation:\n\n• Since there is no outgoing edge from node 0, it is impossible to reach node 2. Hence, the output is -1.\n\nConstraints:\n\n• 1 <= n <= 105\n\n• 0 <= edges.length <= 105\n\n• edges[i] == [ui, vi, starti, endi]\n\n• 0 <= ui, vi <= n - 1\n\n• ui != vi\n\n• 0 <= starti <= endi <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minTime(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use the Dijkstra algorithm over states (node, time).",
+    "At node u with current time t, you can only use an edge [u, v, start, end] if t <= end.",
+    "If t < start, wait until start, then traverse (arriving at start + 1)."
+  ],
+  "testCases": [
+    [
+      "3",
+      "[[0,1,0,1],[1,2,2,5]]"
+    ],
+    [
+      "4",
+      "[[0,1,0,3],[1,3,7,8],[0,2,1,5],[2,3,4,7]]"
+    ],
+    [
+      "3",
+      "[[1,0,1,3],[1,2,3,5]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5",
+    "-1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "import heapq\nfrom collections import defaultdict\n\nclass Solution(object):\n    def minTime(self, n, edges):\n        adj = defaultdict(list)\n        for u, v, s, e in edges:\n            adj[u].append((v, s, e))\n\n        dist = [float('inf')] * n\n        dist[0] = 0\n        heap = [(0, 0)]  # (time, node)\n\n        while heap:\n            t, u = heapq.heappop(heap)\n            if t > dist[u]:\n                continue\n            if u == n - 1:\n                return t\n            for v, s, e in adj[u]:\n                if t > e:\n                    continue  # missed the window\n                arrive = max(t, s) + 1  # wait if needed, then traverse\n                if arrive < dist[v]:\n                    dist[v] = arrive\n                    heapq.heappush(heap, (arrive, v))\n\n        return -1",
+    "explanation": "We use Dijkstra's algorithm where the 'distance' is the earliest arrival time at each node.\n\nFrom node u at time t, for each edge (u, v, start, end):\n- If t > end: the window has closed, skip this edge.\n- Otherwise: wait until max(t, start) then traverse, arriving at max(t, start) + 1.\n\nStandard Dijkstra with (arrival_time, node) heap ensures we always process the earliest-arriving state first.\n\nTime complexity: O((n + E) log n). Space complexity: O(n + E)."
+  },
+  "similarQuestions": "[]"
+}

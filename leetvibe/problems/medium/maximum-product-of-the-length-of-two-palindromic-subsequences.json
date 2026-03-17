@@ -1,0 +1,58 @@
+{
+  "questionId": "2130",
+  "title": "Maximum Product of the Length of Two Palindromic Subsequences",
+  "titleSlug": "maximum-product-of-the-length-of-two-palindromic-subsequences",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Bitmask",
+      "slug": "bitmask"
+    }
+  ],
+  "content": "Given a string s, find two disjoint palindromic subsequences of s such that the product of their lengths is maximized. The two subsequences are disjoint if they do not both pick a character at the same index.\n\nReturn the maximum possible product of the lengths of the two palindromic subsequences.\n\nA subsequence is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters. A string is palindromic if it reads the same forward and backward.\n\nExample 1:\n\nInput: s = \"leetcodecom\"\nOutput: 9\nExplanation: An optimal solution is to choose \"ete\" for the 1st subsequence and \"cdc\" for the 2nd subsequence.\n    The product of their lengths is: 3 * 3 = 9.\n\nExample 2:\n\nInput: s = \"bb\"\nOutput: 1\nExplanation: An optimal solution is to choose \"b\" (the first character) for the 1st subsequence and \"b\" (the second character) for the 2nd subsequence.\n    The product of their lengths is: 1 * 1 = 1.\n\nExample 3:\n\nInput: s = \"accbcaxxcxx\"\nOutput: 25\nExplanation: An optimal solution is to choose \"accca\" for the 1st subsequence and \"xxcxx\" for the 2nd subsequence.\n    The product of their lengths is: 5 * 5 = 25.\n\nConstraints:\n\n• 2 <= s.length <= 12\n\n• s consists of lowercase English letters only.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxProduct(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Could you generate all possible pairs of disjoint subsequences?",
+    "Could you find the maximum length palindrome in each subsequence for a pair of disjoint subsequences?"
+  ],
+  "testCases": [
+    [
+      "\"leetcodecom\""
+    ],
+    [
+      "\"bb\""
+    ],
+    [
+      "\"accbcaxxcxx\""
+    ]
+  ],
+  "expectedOutputs": [
+    "9",
+    "1",
+    "25"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Valid Palindrome\", \"titleSlug\": \"valid-palindrome\", \"difficulty\": \"Easy\"}, {\"title\": \"Longest Palindromic Subsequence\", \"titleSlug\": \"longest-palindromic-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Product of the Length of Two Palindromic Substrings\", \"titleSlug\": \"maximum-product-of-the-length-of-two-palindromic-substrings\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Points in an Archery Competition\", \"titleSlug\": \"maximum-points-in-an-archery-competition\", \"difficulty\": \"Medium\"}]"
+}

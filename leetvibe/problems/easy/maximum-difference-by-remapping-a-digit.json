@@ -1,0 +1,46 @@
+{
+  "questionId": "2704",
+  "title": "Maximum Difference by Remapping a Digit",
+  "titleSlug": "maximum-difference-by-remapping-a-digit",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "You are given an integer num. You know that Bob will sneakily remap one of the 10 possible digits (0 to 9) to another digit.\n\nReturn the difference between the maximum and minimum values Bob can make by remapping exactly one digit in num.\n\nNotes:\n\n• When Bob remaps a digit d1 to another digit d2, Bob replaces all occurrences of d1 in num with d2.\n\n• Bob can remap a digit to itself, in which case num does not change.\n\n• Bob can remap different digits for obtaining minimum and maximum values respectively.\n\n• The resulting number after remapping can contain leading zeroes.\n\nExample 1:\n\nInput: num = 11891\nOutput: 99009\nExplanation:\n    To achieve the maximum value, Bob can remap the digit 1 to the digit 9 to yield 99899.\n    To achieve the minimum value, Bob can remap the digit 1 to the digit 0, yielding 890.\n    The difference between these two numbers is 99009.\n\nExample 2:\n\nInput: num = 90\nOutput: 99\nExplanation:\n    The maximum value that can be returned by the function is 99 (if 0 is replaced by 9) and the minimum value that can be returned by the function is 0 (if 9 is replaced by 0).\n    Thus, we return 99.\n\nConstraints:\n\n• 1 <= num <= 108",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minMaxDifference(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to remap the first non-nine digit to 9 to obtain the maximum number.",
+    "Try to remap the first non-zero digit to 0 to obtain the minimum number."
+  ],
+  "testCases": [
+    [
+      "11891"
+    ],
+    [
+      "90"
+    ]
+  ],
+  "expectedOutputs": [
+    "99009",
+    "99"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minMaxDifference(self, num):\n        s = str(num)\n        first_non_nine = next((c for c in s if c != '9'), None)\n        max_val = int(s.replace(first_non_nine, '9')) if first_non_nine else num\n        min_val = int(s.replace(s[0], '0'))\n        return max_val - min_val",
+    "explanation": "Max: replace first non-9 digit with 9. Min: replace first digit with 0.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,48 @@
+{
+  "questionId": "2192",
+  "title": "Minimum Cost Homecoming of a Robot in a Grid",
+  "titleSlug": "minimum-cost-homecoming-of-a-robot-in-a-grid",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "There is an m x n grid, where (0, 0) is the top-left cell and (m - 1, n - 1) is the bottom-right cell. You are given an integer array startPos where startPos = [startrow, startcol] indicates that initially, a robot is at the cell (startrow, startcol). You are also given an integer array homePos where homePos = [homerow, homecol] indicates that its home is at the cell (homerow, homecol).\n\nThe robot needs to go to its home. It can move one cell in four directions: left, right, up, or down, and it can not move outside the boundary. Every move incurs some cost. You are further given two 0-indexed integer arrays: rowCosts of length m and colCosts of length n.\n\n• If the robot moves up or down into a cell whose row is r, then this move costs rowCosts[r].\n\n• If the robot moves left or right into a cell whose column is c, then this move costs colCosts[c].\n\nReturn the minimum total cost for this robot to return home.\n\nExample 1:\n\nInput: startPos = [1, 0], homePos = [2, 3], rowCosts = [5, 4, 3], colCosts = [8, 2, 6, 7]\nOutput: 18\nExplanation: One optimal path is that:\n    Starting from (1, 0)\n    -> It goes down to (2, 0). This move costs rowCosts[2] = 3.\n    -> It goes right to (2, 1). This move costs colCosts[1] = 2.\n    -> It goes right to (2, 2). This move costs colCosts[2] = 6.\n    -> It goes right to (2, 3). This move costs colCosts[3] = 7.\n    The total cost is 3 + 2 + 6 + 7 = 18\n\nExample 2:\n\nInput: startPos = [0, 0], homePos = [0, 0], rowCosts = [5], colCosts = [26]\nOutput: 0\nExplanation: The robot is already at its home. Since no moves occur, the total cost is 0.\n\nConstraints:\n\n• m == rowCosts.length\n\n• n == colCosts.length\n\n• 1 <= m, n <= 105\n\n• 0 <= rowCosts[r], colCosts[c] <= 104\n\n• startPos.length == 2\n\n• homePos.length == 2\n\n• 0 <= startrow, homerow < m\n\n• 0 <= startcol, homecol < n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minCost(self, startPos, homePos, rowCosts, colCosts):\n        \"\"\"\n        :type startPos: List[int]\n        :type homePos: List[int]\n        :type rowCosts: List[int]\n        :type colCosts: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Irrespective of what path the robot takes, it will have to traverse all the rows between startRow and homeRow and all the columns between startCol and homeCol.",
+    "Hence, making any other move other than traversing the required rows and columns will potentially incur more cost which can be avoided."
+  ],
+  "testCases": [
+    [
+      "[1,0]",
+      "[2,3]",
+      "[5,4,3]",
+      "[8,2,6,7]"
+    ],
+    [
+      "[0,0]",
+      "[0,0]",
+      "[5]",
+      "[26]"
+    ]
+  ],
+  "expectedOutputs": [
+    "18",
+    "0"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Unique Paths\", \"titleSlug\": \"unique-paths\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Path Sum\", \"titleSlug\": \"minimum-path-sum\", \"difficulty\": \"Medium\"}, {\"title\": \"Bomb Enemy\", \"titleSlug\": \"bomb-enemy\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Square Submatrices with All Ones\", \"titleSlug\": \"count-square-submatrices-with-all-ones\", \"difficulty\": \"Medium\"}, {\"title\": \"Paths in Matrix Whose Sum Is Divisible by K\", \"titleSlug\": \"paths-in-matrix-whose-sum-is-divisible-by-k\", \"difficulty\": \"Hard\"}, {\"title\": \"Check if There is a Path With Equal Number of 0's And 1's\", \"titleSlug\": \"check-if-there-is-a-path-with-equal-number-of-0s-and-1s\", \"difficulty\": \"Medium\"}]"
+}

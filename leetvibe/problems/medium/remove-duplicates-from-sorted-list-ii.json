@@ -1,0 +1,36 @@
+{
+  "questionId": "82",
+  "title": "Remove Duplicates from Sorted List II",
+  "titleSlug": "remove-duplicates-from-sorted-list-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Linked List",
+      "slug": "linked-list"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "Given the head of a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list. Return the linked list sorted as well.\n\nExample 1:\n\nInput: head = [1,2,3,3,4,4,5]\nOutput: [1,2,5]\n\nExample 2:\n\nInput: head = [1,1,1,2,3]\nOutput: [2,3]\n\nConstraints:\n\n• The number of nodes in the list is in the range [0, 300].\n\n• -100 <= Node.val <= 100\n\n• The list is guaranteed to be sorted in ascending order.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def deleteDuplicates(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,2,3,3,4,4,5]",
+      "[1,1,1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[1,2,5]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Remove Duplicates from Sorted List\", \"titleSlug\": \"remove-duplicates-from-sorted-list\", \"difficulty\": \"Easy\"}, {\"title\": \"Remove Duplicates From an Unsorted Linked List\", \"titleSlug\": \"remove-duplicates-from-an-unsorted-linked-list\", \"difficulty\": \"Medium\"}]"
+}

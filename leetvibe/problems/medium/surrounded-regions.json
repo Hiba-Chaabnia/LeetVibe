@@ -1,0 +1,55 @@
+{
+  "questionId": "130",
+  "title": "Surrounded Regions",
+  "titleSlug": "surrounded-regions",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an m x n matrix board containing letters 'X' and 'O', capture regions that are surrounded:\n\n• Connect: A cell is connected to adjacent cells horizontally or vertically.\n\n• Region: To form a region connect every 'O' cell.\n\n• Surround: A region is surrounded if none of the 'O' cells in that region are on the edge of the board. Such regions are completely enclosed by 'X' cells.\n\nTo capture a surrounded region, replace all 'O's with 'X's in-place within the original board. You do not need to return anything.\n\nExample 1:\n\nInput: board = [[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"X\"],[\"X\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"X\",\"X\"]]\n\nOutput: [[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"X\",\"X\"]]\n\nExplanation: In the above diagram, the bottom region is not captured because it is on the edge of the board and cannot be surrounded.\n\nExample 2:\n\nInput: board = [[\"X\"]]\n\nOutput: [[\"X\"]]\n\nConstraints:\n\n• m == board.length\n\n• n == board[i].length\n\n• 1 <= m, n <= 200\n\n• board[i][j] is 'X' or 'O'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def solve(self, board):\n        \"\"\"\n        :type board: List[List[str]]\n        :rtype: None Do not return anything, modify board in-place instead.\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"X\"],[\"X\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"X\",\"X\"]]"
+    ],
+    [
+      "[[\"X\"]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"X\",\"X\"]]",
+    "[[\"X\"]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def solve(self, board: List[List[str]]) -> None:\n        if not board:\n            return\n        m, n = len(board), len(board[0])\n\n        def dfs(x, y):\n            if x < 0 or x >= m or y < 0 or y >= n or board[x][y] != 'O':\n                return\n            board[x][y] = '#'\n            dfs(x - 1, y)\n            dfs(x + 1, y)\n            dfs(x, y - 1)\n            dfs(x, y + 1)\n\n        for i in range(m):\n            dfs(i, 0)\n            dfs(i, n - 1)\n        for i in range(n):\n            dfs(0, i)\n            dfs(m - 1, i)\n\n        for i in range(m):\n            for j in range(n):\n                if board[i][j] == '#':\n                    board[i][j] = 'O'\n                elif board[i][j] == 'O':\n                    board[i][j] = 'X'",
+    "explanation": "1. Use DFS to find all 'O's next to the border and mark them with a temporary marker '#'.\n2. Replace all remaining 'O's with 'X's.\n3. Replace all '#'s back to 'O's."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Islands\", \"titleSlug\": \"number-of-islands\", \"difficulty\": \"Medium\"}, {\"title\": \"Walls and Gates\", \"titleSlug\": \"walls-and-gates\", \"difficulty\": \"Medium\"}]"
+}

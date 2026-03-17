@@ -1,0 +1,45 @@
+{
+  "questionId": "1206",
+  "title": "Corporate Flight Bookings",
+  "titleSlug": "corporate-flight-bookings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "There are n flights that are labeled from 1 to n.\n\nYou are given an array of flight bookings bookings, where bookings[i] = [firsti, lasti, seatsi] represents a booking for flights firsti through lasti (inclusive) with seatsi seats reserved for each flight in the range.\n\nReturn an array answer of length n, where answer[i] is the total number of seats reserved for flight i.\n\nExample 1:\n\nInput: bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5\nOutput: [10,55,45,25,25]\nExplanation:\n    Flight labels:        1   2   3   4   5\n    Booking 1 reserved:  10  10\n    Booking 2 reserved:      20  20\n    Booking 3 reserved:      25  25  25  25\n    Total seats:         10  55  45  25  25\n    Hence, answer = [10,55,45,25,25]\n\nExample 2:\n\nInput: bookings = [[1,2,10],[2,2,15]], n = 2\nOutput: [10,25]\nExplanation:\n    Flight labels:        1   2\n    Booking 1 reserved:  10  10\n    Booking 2 reserved:      15\n    Total seats:         10  25\n    Hence, answer = [10,25]\n\nConstraints:\n\n• 1 <= n <= 2 * 104\n\n• 1 <= bookings.length <= 2 * 104\n\n• bookings[i].length == 3\n\n• 1 <= firsti <= lasti <= n\n\n• 1 <= seatsi <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def corpFlightBookings(self, bookings, n):\n        \"\"\"\n        :type bookings: List[List[int]]\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2,10],[2,3,20],[2,5,25]]",
+      "5"
+    ],
+    [
+      "[[1,2,10],[2,2,15]]",
+      "2"
+    ]
+  ],
+  "expectedOutputs": [
+    "[10,55,45,25,25]",
+    "[10,25]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def corpFlightBookings(bookings, n):\n    seats = [0] * n\n    for booking in bookings:\n        seats[booking[0] - 1] += booking[2]\n        if booking[1] < n:\n            seats[booking[1]] -= booking[2]\n    for i in range(1, n):\n        seats[i] += seats[i - 1]\n    return seats",
+    "explanation": "The algorithm initializes an array of `n` elements with all elements set to `0`. Then it iterates through the `bookings` array and for each booking, it adds the `seats` at the position `first_i - 1` and subtracts the `seats` at `last_i` if `last_i` is within the range of the array. This process gives us an initial array representing the change in seats for each flight. Finally, it iterates through the array adjusting the count for each flight by summing the previous flight count to get the total count. This gives the desired output with a time complexity of `O(n)` where `n` is the number of flights."
+  },
+  "similarQuestions": "[{\"title\": \"Zero Array Transformation II\", \"titleSlug\": \"zero-array-transformation-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Zero Array Transformation III\", \"titleSlug\": \"zero-array-transformation-iii\", \"difficulty\": \"Medium\"}]"
+}

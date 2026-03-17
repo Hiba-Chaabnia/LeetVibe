@@ -1,0 +1,50 @@
+{
+  "questionId": "1637",
+  "title": "String Compression II",
+  "titleSlug": "string-compression-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Run-length encoding is a string compression method that works by replacing consecutive identical characters (repeated 2 or more times) with the concatenation of the character and the number marking the count of the characters (length of the run). For example, to compress the string \"aabccc\" we replace \"aa\" by \"a2\" and replace \"ccc\" by \"c3\". Thus the compressed string becomes \"a2bc3\".\n\nNotice that in this problem, we are not adding '1' after single characters.\n\nGiven a string s and an integer k. You need to delete at most k characters from s such that the run-length encoded version of s has minimum length.\n\nFind the minimum length of the run-length encoded version of s after deleting at most k characters.\n\nExample 1:\n\nInput: s = \"aaabcccd\", k = 2\nOutput: 4\nExplanation: Compressing s without deleting anything will give us \"a3bc3d\" of length 6. Deleting any of the characters 'a' or 'c' would at most decrease the length of the compressed string to 5, for instance delete 2 'a' then we will have s = \"abcccd\" which compressed is abc3d. Therefore, the optimal way is to delete 'b' and 'd', then the compressed version of s will be \"a3c3\" of length 4.\n\nExample 2:\n\nInput: s = \"aabbaa\", k = 2\nOutput: 2\nExplanation: If we delete both 'b' characters, the resulting compressed string would be \"a4\" of length 2.\n\nExample 3:\n\nInput: s = \"aaaaaaaaaaa\", k = 0\nOutput: 3\nExplanation: Since k is zero, we cannot delete anything. The compressed string is \"a11\" of length 3.\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• 0 <= k <= s.length\n\n• s contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getLengthOfOptimalCompression(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use dynamic programming.",
+    "The state of the DP can be the current index and the remaining characters to delete.",
+    "Having a prefix sum for each character can help you determine for a certain character c in some specific range, how many characters you need to delete to merge all occurrences of c in that range."
+  ],
+  "testCases": [
+    [
+      "\"aaabcccd\"",
+      "2"
+    ],
+    [
+      "\"aabbaa\"",
+      "2"
+    ],
+    [
+      "\"aaaaaaaaaaa\"",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2",
+    "3"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"String Compression III\", \"titleSlug\": \"string-compression-iii\", \"difficulty\": \"Medium\"}]"
+}

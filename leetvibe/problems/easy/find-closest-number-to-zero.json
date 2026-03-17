@@ -1,0 +1,42 @@
+{
+  "questionId": "2350",
+  "title": "Find Closest Number to Zero",
+  "titleSlug": "find-closest-number-to-zero",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "Given an integer array nums of size n, return the number with the value closest to 0 in nums. If there are multiple answers, return the number with the largest value.\n\nExample 1:\n\nInput: nums = [-4,-2,1,4,8]\nOutput: 1\nExplanation:\n    The distance from -4 to 0 is |-4| = 4.\n    The distance from -2 to 0 is |-2| = 2.\n    The distance from 1 to 0 is |1| = 1.\n    The distance from 4 to 0 is |4| = 4.\n    The distance from 8 to 0 is |8| = 8.\n    Thus, the closest number to 0 in the array is 1.\n\nExample 2:\n\nInput: nums = [2,-1,1]\nOutput: 1\nExplanation: 1 and -1 are both the closest numbers to 0, so 1 being larger is returned.\n\nConstraints:\n\n• 1 <= n <= 1000\n\n• -105 <= nums[i] <= 105",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findClosestNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Keep track of the number closest to 0 as you iterate through the array.",
+    "Ensure that if multiple numbers are closest to 0, you store the one with the largest value."
+  ],
+  "testCases": [
+    [
+      "[-4,-2,1,4,8]"
+    ],
+    [
+      "[2,-1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findClosestNumber(self, nums):\n        closest = nums[0]\n        for num in nums:\n            if abs(num) < abs(closest) or (abs(num) == abs(closest) and num > closest):\n                closest = num\n        return closest",
+    "explanation": "Track closest to 0. If tie, prefer larger value.\nTime: O(n)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Find K Closest Elements\", \"titleSlug\": \"find-k-closest-elements\", \"difficulty\": \"Medium\"}]"
+}

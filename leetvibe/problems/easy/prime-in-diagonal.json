@@ -1,0 +1,54 @@
+{
+  "questionId": "2722",
+  "title": "Prime In Diagonal",
+  "titleSlug": "prime-in-diagonal",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given a 0-indexed two-dimensional integer array nums.\n\nReturn the largest prime number that lies on at least one of the diagonals of nums. In case, no prime is present on any of the diagonals, return 0.\n\nNote that:\n\n• An integer is prime if it is greater than 1 and has no positive integer divisors other than 1 and itself.\n\n• An integer val is on one of the diagonals of nums if there exists an integer i for which nums[i][i] = val or an i for which nums[i][nums.length - i - 1] = val.\n\nIn the above diagram, one diagonal is [1,5,9] and another diagonal is [3,5,7].\n\nExample 1:\n\nInput: nums = [[1,2,3],[5,6,7],[9,10,11]]\nOutput: 11\nExplanation: The numbers 1, 3, 6, 9, and 11 are the only numbers present on at least one of the diagonals. Since 11 is the largest prime, we return 11.\n\nExample 2:\n\nInput: nums = [[1,2,3],[5,17,7],[9,11,10]]\nOutput: 17\nExplanation: The numbers 1, 3, 9, 10, and 17 are all present on at least one of the diagonals. 17 is the largest prime, so we return 17.\n\nConstraints:\n\n• 1 <= nums.length <= 300\n\n• nums.length == numsi.length\n\n• 1 <= nums[i][j] <= 4*106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def diagonalPrime(self, nums):\n        \"\"\"\n        :type nums: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Iterate over the diagonals of the matrix and check for each element.",
+    "Check if the element is prime or not in O(sqrt(n)) time."
+  ],
+  "testCases": [
+    [
+      "[[1,2,3],[5,6,7],[9,10,11]]"
+    ],
+    [
+      "[[1,2,3],[5,17,7],[9,11,10]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "11",
+    "17"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def diagonalPrime(self, nums):\n        def is_prime(x):\n            if x < 2: return False\n            if x == 2: return True\n            if x % 2 == 0: return False\n            for i in range(3, int(x**0.5) + 1, 2):\n                if x % i == 0: return False\n            return True\n        n = len(nums)\n        best = 0\n        for i in range(n):\n            for v in (nums[i][i], nums[i][n - 1 - i]):\n                if is_prime(v):\n                    best = max(best, v)\n        return best",
+    "explanation": "Check both diagonals; for each diagonal element test primality and track the largest prime found. O(n*sqrt(max)) time."
+  },
+  "similarQuestions": "[]"
+}

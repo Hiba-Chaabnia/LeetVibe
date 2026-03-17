@@ -1,0 +1,46 @@
+{
+  "questionId": "401",
+  "title": "Binary Watch",
+  "titleSlug": "binary-watch",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "A binary watch has 4 LEDs on the top to represent the hours (0-11), and 6 LEDs on the bottom to represent the minutes (0-59). Each LED represents a zero or one, with the least significant bit on the right.\n\n• For example, the below binary watch reads \"4:51\".\n\nGiven an integer turnedOn which represents the number of LEDs that are currently on (ignoring the PM), return all possible times the watch could represent. You may return the answer in any order.\n\nThe hour must not contain a leading zero.\n\n• For example, \"01:00\" is not valid. It should be \"1:00\".\n\nThe minute must consist of two digits and may contain a leading zero.\n\n• For example, \"10:2\" is not valid. It should be \"10:02\".\n\nExample 1:\n\nInput: turnedOn = 1\nOutput: [\"0:01\",\"0:02\",\"0:04\",\"0:08\",\"0:16\",\"0:32\",\"1:00\",\"2:00\",\"4:00\",\"8:00\"]\nExample 2:\n\nInput: turnedOn = 9\nOutput: []\n\nConstraints:\n\n• 0 <= turnedOn <= 10",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def readBinaryWatch(self, turnedOn):\n        \"\"\"\n        :type turnedOn: int\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Simplify by seeking for solutions that involve comparing bit counts.",
+    "Consider calculating all possible times for comparison purposes."
+  ],
+  "testCases": [
+    [
+      "1"
+    ],
+    [
+      "9"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"0:01\",\"0:02\",\"0:04\",\"0:08\",\"0:16\",\"0:32\",\"1:00\",\"2:00\",\"4:00\",\"8:00\"]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def readBinaryWatch(turnedOn: int):\n    def count_bits(n):\n        return bin(n).count('1')\n\n    times = []\n    for h in range(12):\n        for m in range(60):\n            if count_bits(h) + count_bits(m) == turnedOn:\n                times.append(f\"{h}:{m:02d}\")\n    return times",
+    "explanation": "The algorithm consists of enumerating all possible hour values (0-11) and minute values (0-59), and checking the number of bits set in both. We have a helper function `count_bits` (or named similarly) in each language to count the number of bits set in the binary representation of a given value. The function either uses the built-in bit counting function (__builtin_popcount in C++, Integer.bitCount in Java), or in Python and JavaScript, we convert the numbers to binary strings and count the number of '1's. \n\nFor each pair (h, m), if the total number of turned-on LEDs is equal to the given integer `turnedOn`, we add the corresponding formatted string to the result list. In the end, we return the list of all possible times."
+  },
+  "similarQuestions": "[{\"title\": \"Letter Combinations of a Phone Number\", \"titleSlug\": \"letter-combinations-of-a-phone-number\", \"difficulty\": \"Medium\"}, {\"title\": \"Number of 1 Bits\", \"titleSlug\": \"number-of-1-bits\", \"difficulty\": \"Easy\"}]"
+}

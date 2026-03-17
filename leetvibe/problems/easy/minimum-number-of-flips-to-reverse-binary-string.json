@@ -1,0 +1,53 @@
+{
+  "questionId": "4126",
+  "title": "Minimum Number of Flips to Reverse Binary String",
+  "titleSlug": "minimum-number-of-flips-to-reverse-binary-string",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a positive integer n.\n\nLet s be the binary representation of n without leading zeros.\n\nThe reverse of a binary string s is obtained by writing the characters of s in the opposite order.\n\nYou may flip any bit in s (change 0 → 1 or 1 → 0). Each flip affects exactly one bit.\n\nReturn the minimum number of flips required to make s equal to the reverse of its original form.\n\nExample 1:\n\nInput: n = 7\n\nOutput: 0\n\nExplanation: The binary representation of 7 is \"111\". Its reverse is also \"111\", which is the same. Hence, no flips are needed.\n\nExample 2:\n\nInput: n = 10\n\nOutput: 4\n\nExplanation: The binary representation of 10 is \"1010\". Its reverse is \"0101\". All four bits must be flipped to make them equal. Thus, the minimum number of flips required is 4.\n\nConstraints:\n\n• 1 <= n <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumFlips(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Generate the reverse of the binary string and use two pointers from the ends to determine where flips are needed."
+  ],
+  "testCases": [
+    [
+      "7"
+    ],
+    [
+      "10"
+    ]
+  ],
+  "expectedOutputs": [
+    "0",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumFlips(self, n):\n        b = bin(n)[2:]\n        rev_int = int(b[::-1], 2)\n        return bin(n ^ rev_int).count('1')",
+    "explanation": "Reverse the binary representation of n; the flips needed equals the popcount of XOR(n, reversed_n). O(log n) time."
+  },
+  "similarQuestions": "[]"
+}

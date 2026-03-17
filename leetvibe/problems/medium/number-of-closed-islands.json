@@ -1,0 +1,62 @@
+{
+  "questionId": "1380",
+  "title": "Number of Closed Islands",
+  "titleSlug": "number-of-closed-islands",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given a 2D grid consists of 0s (land) and 1s (water).  An island is a maximal 4-directionally connected group of 0s and a closed island is an island totally (all left, top, right, bottom) surrounded by 1s.\n\nReturn the number of closed islands.\n\nExample 1:\n\nInput: grid = [[1,1,1,1,1,1,1,0],[1,0,0,0,0,1,1,0],[1,0,1,0,1,1,1,0],[1,0,0,0,0,1,0,1],[1,1,1,1,1,1,1,0]]\nOutput: 2\nExplanation:\n    Islands in gray are closed because they are completely surrounded by water (group of 1s).\n\nExample 2:\n\nInput: grid = [[0,0,1,0,0],[0,1,0,1,0],[0,1,1,1,0]]\nOutput: 1\n\nExample 3:\n\nInput: grid = [[1,1,1,1,1,1,1],\n                   [1,0,0,0,0,0,1],\n                   [1,0,1,1,1,0,1],\n                   [1,0,1,0,1,0,1],\n                   [1,0,1,1,1,0,1],\n                   [1,0,0,0,0,0,1],\n                   [1,1,1,1,1,1,1]]\nOutput: 2\n\nConstraints:\n\n• 1 <= grid.length, grid[0].length <= 100\n\n• 0 <= grid[i][j] <=1",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def closedIsland(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Exclude connected group of 0s on the corners because they are not closed island.",
+    "Return number of connected component of 0s on the grid."
+  ],
+  "testCases": [
+    [
+      "[[1,1,1,1,1,1,1,0],[1,0,0,0,0,1,1,0],[1,0,1,0,1,1,1,0],[1,0,0,0,0,1,0,1],[1,1,1,1,1,1,1,0]]"
+    ],
+    [
+      "[[0,0,1,0,0],[0,1,0,1,0],[0,1,1,1,0]]"
+    ],
+    [
+      "[[1,1,1,1,1,1,1],[1,0,0,0,0,0,1],[1,0,1,1,1,0,1],[1,0,1,0,1,0,1],[1,0,1,1,1,0,1],[1,0,0,0,0,0,1],[1,1,1,1,1,1,1]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def closedIsland(grid):\n    def dfs(grid, i, j):\n        if i < 0 or j < 0 or i >= len(grid) or j >= len(grid[0]):\n            return False\n\n        if grid[i][j] == 1:\n            return True\n\n        grid[i][j] = 1\n\n        up = dfs(grid, i - 1, j)\n        down = dfs(grid, i + 1, j)\n        left = dfs(grid, i, j - 1)\n        right = dfs(grid, i, j + 1)\n\n        return up and down and left and right\n\n    count = 0\n    for i in range(len(grid)):\n        for j in range(len(grid[0])):\n            if grid[i][j] == 0 and dfs(grid, i, j):\n                count += 1\n\n    return count",
+    "explanation": "The algorithm uses Depth-first Search (DFS) to traverse islands of 0s (land). If the DFS function returns false, then the current cell is on the edge and it is not a closed island. If the DFS function returns true, then the current cell is surrounded by 1s (water), and the current island is a closed island.\n\nFor each cell that contains a 0 (land), we call the DFS function to explore the island. If the DFS function returns true for all directions (up, down, left, and right), then it is a closed island. We increment the count for each closed island found.\n\nFinally, we return the total count of closed islands."
+  },
+  "similarQuestions": "[]"
+}

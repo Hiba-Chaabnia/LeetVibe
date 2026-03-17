@@ -1,0 +1,53 @@
+{
+  "questionId": "1516",
+  "title": "The k-th Lexicographical String of All Happy Strings of Length n",
+  "titleSlug": "the-k-th-lexicographical-string-of-all-happy-strings-of-length-n",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    }
+  ],
+  "content": "A happy string is a string that:\n\n• consists only of letters of the set ['a', 'b', 'c'].\n\n• s[i] != s[i + 1] for all values of i from 1 to s.length - 1 (string is 1-indexed).\n\nFor example, strings \"abc\", \"ac\", \"b\" and \"abcbabcbcb\" are all happy strings and strings \"aa\", \"baa\" and \"ababbc\" are not happy strings.\n\nGiven two integers n and k, consider a list of all happy strings of length n sorted in lexicographical order.\n\nReturn the kth string of this list or return an empty string if there are less than k happy strings of length n.\n\nExample 1:\n\nInput: n = 1, k = 3\nOutput: \"c\"\nExplanation: The list [\"a\", \"b\", \"c\"] contains all happy strings of length 1. The third string is \"c\".\n\nExample 2:\n\nInput: n = 1, k = 4\nOutput: \"\"\nExplanation: There are only 3 happy strings of length 1.\n\nExample 3:\n\nInput: n = 3, k = 9\nOutput: \"cab\"\nExplanation: There are 12 different happy string of length 3 [\"aba\", \"abc\", \"aca\", \"acb\", \"bab\", \"bac\", \"bca\", \"bcb\", \"cab\", \"cac\", \"cba\", \"cbc\"]. You will find the 9th string = \"cab\"\n\nConstraints:\n\n• 1 <= n <= 10\n\n• 1 <= k <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def getHappyString(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Generate recursively all the happy strings of length n.",
+    "Sort them in lexicographical order and return the kth string if it exists."
+  ],
+  "testCases": [
+    [
+      "1",
+      "3"
+    ],
+    [
+      "1",
+      "4"
+    ],
+    [
+      "3",
+      "9"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"c\"",
+    "\"\"",
+    "\"cab\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def generate_strings(self, n: int, current: str, strings: list) -> None:\n        if n == 0:\n            strings.append(current)\n            return\n        for c in \"abc\":\n            if not current or current[-1] != c:\n                self.generate_strings(n - 1, current + c, strings)\n\n    def getHappyString(self, n: int, k: int) -> str:\n        strings = []\n        self.generate_strings(n, \"\", strings)\n        return strings[k - 1] if k <= len(strings) else \"\"",
+    "explanation": "We can create all the happy strings of length `n` by iterating through `'a'`, `'b'`, and `'c'`, and recursively generating the happy strings for the remaining length. During the process, we can ensure that the string remains valid by checking that the last letter appended does not equal the one being appended. Once our recursion reaches length 0, push this valid string into a list of strings.\n\nFinally, after generating all possible happy strings, we simply need to find the kth string in the list. If `k` is larger than the list's length, we return an empty string.\n\nThis algorithm will work for the given constraint where n is at most 10."
+  },
+  "similarQuestions": "[]"
+}

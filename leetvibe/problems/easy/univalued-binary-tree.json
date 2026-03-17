@@ -1,0 +1,51 @@
+{
+  "questionId": "1005",
+  "title": "Univalued Binary Tree",
+  "titleSlug": "univalued-binary-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "A binary tree is uni-valued if every node in the tree has the same value.\n\nGiven the root of a binary tree, return true if the given tree is uni-valued, or false otherwise.\n\nExample 1:\n\nInput: root = [1,1,1,1,1,null,1]\nOutput: true\n\nExample 2:\n\nInput: root = [2,2,2,5,2]\nOutput: false\n\nConstraints:\n\n• The number of nodes in the tree is in the range [1, 100].\n\n• 0 <= Node.val < 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isUnivalTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,1,1,1,1,null,1]"
+    ],
+    [
+      "[2,2,2,5,2]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isUnivalTree(self, root):\n        def dfs(node):\n            if not node:\n                return True\n            if node.left and node.left.val != node.val:\n                return False\n            if node.right and node.right.val != node.val:\n                return False\n            return dfs(node.left) and dfs(node.right)\n        return dfs(root)",
+    "explanation": "DFS. Check if each node equals children values.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[{\"title\": \"Find All The Lonely Nodes\", \"titleSlug\": \"find-all-the-lonely-nodes\", \"difficulty\": \"Easy\"}]"
+}

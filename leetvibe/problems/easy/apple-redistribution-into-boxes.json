@@ -1,0 +1,52 @@
+{
+  "questionId": "3334",
+  "title": "Apple Redistribution into Boxes",
+  "titleSlug": "apple-redistribution-into-boxes",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an array apple of size n and an array capacity of size m.\n\nThere are n packs where the ith pack contains apple[i] apples. There are m boxes as well, and the ith box has a capacity of capacity[i] apples.\n\nReturn the minimum number of boxes you need to select to redistribute these n packs of apples into boxes.\n\nNote that, apples from the same pack can be distributed into different boxes.\n\nExample 1:\n\nInput: apple = [1,3,2], capacity = [4,3,1,5,2]\nOutput: 2\nExplanation: We will use boxes with capacities 4 and 5.\n    It is possible to distribute the apples as the total capacity is greater than or equal to the total number of apples.\n\nExample 2:\n\nInput: apple = [5,5,5], capacity = [2,4,2,7]\nOutput: 4\nExplanation: We will need to use all the boxes.\n\nConstraints:\n\n• 1 <= n == apple.length <= 50\n\n• 1 <= m == capacity.length <= 50\n\n• 1 <= apple[i], capacity[i] <= 50\n\n• The input is generated such that it's possible to redistribute packs of apples into boxes.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumBoxes(self, apple, capacity):\n        \"\"\"\n        :type apple: List[int]\n        :type capacity: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Sort array capacity in non-decreasing order.",
+    "Greedily select boxes with the largest capacities to redistribute apples optimally."
+  ],
+  "testCases": [
+    [
+      "[1,3,2]",
+      "[4,3,1,5,2]"
+    ],
+    [
+      "[5,5,5]",
+      "[2,4,2,7]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "4"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumBoxes(self, apple, capacity):\n        total = sum(apple)\n        capacity.sort(reverse=True)\n        used = 0\n        for i, c in enumerate(capacity):\n            used += c\n            if used >= total:\n                return i + 1\n        return len(capacity)",
+    "explanation": "Sort boxes by capacity desc; greedily fill until total apples fit."
+  },
+  "similarQuestions": "[]"
+}

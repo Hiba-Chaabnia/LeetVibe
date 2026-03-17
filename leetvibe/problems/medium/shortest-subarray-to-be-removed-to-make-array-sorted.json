@@ -1,0 +1,62 @@
+{
+  "questionId": "1679",
+  "title": "Shortest Subarray to be Removed to Make Array Sorted",
+  "titleSlug": "shortest-subarray-to-be-removed-to-make-array-sorted",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Stack",
+      "slug": "stack"
+    },
+    {
+      "name": "Monotonic Stack",
+      "slug": "monotonic-stack"
+    }
+  ],
+  "content": "Given an integer array arr, remove a subarray (can be empty) from arr such that the remaining elements in arr are non-decreasing.\n\nReturn the length of the shortest subarray to remove.\n\nA subarray is a contiguous subsequence of the array.\n\nExample 1:\n\nInput: arr = [1,2,3,10,4,2,3,5]\nOutput: 3\nExplanation: The shortest subarray we can remove is [10,4,2] of length 3. The remaining elements after that will be [1,2,3,3,5] which are sorted.\n    Another correct solution is to remove the subarray [3,10,4].\n\nExample 2:\n\nInput: arr = [5,4,3,2,1]\nOutput: 4\nExplanation: Since the array is strictly decreasing, we can only keep a single element. Therefore we need to remove a subarray of length 4, either [5,4,3,2] or [4,3,2,1].\n\nExample 3:\n\nInput: arr = [1,2,3]\nOutput: 0\nExplanation: The array is already non-decreasing. We do not need to remove any elements.\n\nConstraints:\n\n• 1 <= arr.length <= 105\n\n• 0 <= arr[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findLengthOfShortestSubarray(self, arr):\n        \"\"\"\n        :type arr: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "The key is to find the longest non-decreasing subarray starting with the first element or ending with the last element, respectively.",
+    "After removing some subarray, the result is the concatenation of a sorted prefix and a sorted suffix, where the last element of the prefix is smaller than the first element of the suffix."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,10,4,2,3,5]"
+    ],
+    [
+      "[5,4,3,2,1]"
+    ],
+    [
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "4",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def findLengthOfShortestSubarray(arr):\n    n = len(arr)\n    left, right = 0, n - 1\n    while left < n - 1 and arr[left] <= arr[left + 1]:\n        left += 1\n    if left == n - 1:\n        return 0\n    while right > 0 and arr[right] >= arr[right - 1]:\n        right -= 1\n    result = min(n - left - 1, right)\n    i, j = 0, right\n    while i <= left and j < n:\n        if arr[i] <= arr[j]:\n            result = min(result, j - i - 1)\n            i += 1\n        else:\n            j += 1\n    return result",
+    "explanation": "The algorithm starts by finding the longest non-decreasing subarray from both ends (left and right) of the array. If the left index reaches the end of the array, it means the array is already non-decreasing and we can return 0.\n\nThen, we initialize the result as the minimum of the remaining subarray lengths on the left side and the right side. We use two pointers i and j starting from the left index and the right index, respectively.\n\nWe iterate through the array and compare the values of arr[i] and arr[j]. If arr[i] <= arr[j], it means the subarray from i to j can be non-decreasing, so we update the result with the minimum length of this subarray. If arr[i] > arr[j], we increment j.\n\nWhen the loop finishes, the result is the length of the shortest subarray to remove to make the remaining elements non-decreasing."
+  },
+  "similarQuestions": "[{\"title\": \"Count the Number of Incremovable Subarrays II\", \"titleSlug\": \"count-the-number-of-incremovable-subarrays-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Count the Number of Incremovable Subarrays I\", \"titleSlug\": \"count-the-number-of-incremovable-subarrays-i\", \"difficulty\": \"Easy\"}]"
+}

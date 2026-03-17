@@ -1,0 +1,51 @@
+{
+  "questionId": "3453",
+  "title": "Generate Binary Strings Without Adjacent Zeros",
+  "titleSlug": "generate-binary-strings-without-adjacent-zeros",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    }
+  ],
+  "content": "You are given a positive integer n.\n\nA binary string x is valid if all substrings of x of length 2 contain at least one \"1\".\n\nReturn all valid strings with length n, in any order.\n\nExample 1:\n\nInput: n = 3\n\nOutput: [\"010\",\"011\",\"101\",\"110\",\"111\"]\n\nExplanation: The valid strings of length 3 are: \"010\", \"011\", \"101\", \"110\", and \"111\".\n\nExample 2:\n\nInput: n = 1\n\nOutput: [\"0\",\"1\"]\n\nExplanation: The valid strings of length 1 are: \"0\" and \"1\".\n\nConstraints:\n\n• 1 <= n <= 18",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def validStrings(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "If we have a string s of length x, we can generate all strings of length x + 1.",
+    "If s has 0 as the last character, we can only append 1, whereas if the last character is 1, we can append both 0 and 1.",
+    "We can use recursion and backtracking to generate all such strings."
+  ],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"010\",\"011\",\"101\",\"110\",\"111\"]",
+    "[\"0\",\"1\"]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def validStrings(self, n):\n        result = []\n        def backtrack(s):\n            if len(s) == n:\n                result.append(s)\n                return\n            # Can always append '1'\n            backtrack(s + '1')\n            # Can only append '0' if last char is '1' (or string is empty)\n            if not s or s[-1] == '1':\n                backtrack(s + '0')\n        backtrack('')\n        return result",
+    "explanation": "Backtracking: append '1' always, append '0' only if the last character is '1' (preventing adjacent zeros). Collect all valid strings of length n.\n\nTime: O(Fib(n+2)) outputs. Space: O(n)."
+  },
+  "similarQuestions": "[{\"title\": \"Non-negative Integers without Consecutive Ones\", \"titleSlug\": \"non-negative-integers-without-consecutive-ones\", \"difficulty\": \"Hard\"}]"
+}

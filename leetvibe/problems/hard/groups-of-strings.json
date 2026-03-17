@@ -1,0 +1,55 @@
+{
+  "questionId": "2276",
+  "title": "Groups of Strings",
+  "titleSlug": "groups-of-strings",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Bit Manipulation",
+      "slug": "bit-manipulation"
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find"
+    }
+  ],
+  "content": "You are given a 0-indexed array of strings words. Each string consists of lowercase English letters only. No letter occurs more than once in any string of words.\n\nTwo strings s1 and s2 are said to be connected if the set of letters of s2 can be obtained from the set of letters of s1 by any one of the following operations:\n\n• Adding exactly one letter to the set of the letters of s1.\n\n• Deleting exactly one letter from the set of the letters of s1.\n\n• Replacing exactly one letter from the set of the letters of s1 with any letter, including itself.\n\nThe array words can be divided into one or more non-intersecting groups. A string belongs to a group if any one of the following is true:\n\n• It is connected to at least one other string of the group.\n\n• It is the only string present in the group.\n\nNote that the strings in words should be grouped in such a manner that a string belonging to a group cannot be connected to a string present in any other group. It can be proved that such an arrangement is always unique.\n\nReturn an array ans of size 2 where:\n\n• ans[0] is the maximum number of groups words can be divided into, and\n\n• ans[1] is the size of the largest group.\n\nExample 1:\n\nInput: words = [\"a\",\"b\",\"ab\",\"cde\"]\nOutput: [2,3]\nExplanation:\n    - words[0] can be used to obtain words[1] (by replacing 'a' with 'b'), and words[2] (by adding 'b'). So words[0] is connected to words[1] and words[2].\n    - words[1] can be used to obtain words[0] (by replacing 'b' with 'a'), and words[2] (by adding 'a'). So words[1] is connected to words[0] and words[2].\n    - words[2] can be used to obtain words[0] (by deleting 'b'), and words[1] (by deleting 'a'). So words[2] is connected to words[0] and words[1].\n    - words[3] is not connected to any string in words.\n    Thus, words can be divided into 2 groups [\"a\",\"b\",\"ab\"] and [\"cde\"]. The size of the largest group is 3.\n\nExample 2:\n\nInput: words = [\"a\",\"ab\",\"abc\"]\nOutput: [1,3]\nExplanation:\n    - words[0] is connected to words[1].\n    - words[1] is connected to words[0] and words[2].\n    - words[2] is connected to words[1].\n    Since all strings are connected to each other, they should be grouped together.\n    Thus, the size of the largest group is 3.\n\nConstraints:\n\n• 1 <= words.length <= 2 * 104\n\n• 1 <= words[i].length <= 26\n\n• words[i] consists of lowercase English letters only.\n\n• No letter occurs more than once in words[i].",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def groupStrings(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we build a graph from words, where there exists an edge between nodes i and j if words[i] and words[j] are connected?",
+    "The problem now boils down to finding the total number of components and the size of the largest component in the graph.",
+    "How can we use bit masking to reduce the search space while adding edges to node i?"
+  ],
+  "testCases": [
+    [
+      "[\"a\",\"b\",\"ab\",\"cde\"]"
+    ],
+    [
+      "[\"a\",\"ab\",\"abc\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,3]",
+    "[1,3]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Word Ladder II\", \"titleSlug\": \"word-ladder-ii\", \"difficulty\": \"Hard\"}, {\"title\": \"Similar String Groups\", \"titleSlug\": \"similar-string-groups\", \"difficulty\": \"Hard\"}, {\"title\": \"Largest Component Size by Common Factor\", \"titleSlug\": \"largest-component-size-by-common-factor\", \"difficulty\": \"Hard\"}]"
+}

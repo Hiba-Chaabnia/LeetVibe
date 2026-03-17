@@ -1,0 +1,51 @@
+{
+  "questionId": "546",
+  "title": "Remove Boxes",
+  "titleSlug": "remove-boxes",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Memoization",
+      "slug": "memoization"
+    }
+  ],
+  "content": "You are given several boxes with different colors represented by different positive numbers.\n\nYou may experience several rounds to remove boxes until there is no box left. Each time you can choose some continuous boxes with the same color (i.e., composed of k boxes, k >= 1), remove them and get k * k points.\n\nReturn the maximum points you can get.\n\nExample 1:\n\nInput: boxes = [1,3,2,2,2,3,4,3,1]\nOutput: 23\nExplanation:\n    [1, 3, 2, 2, 2, 3, 4, 3, 1]\n    ----> [1, 3, 3, 4, 3, 1] (3*3=9 points)\n    ----> [1, 3, 3, 3, 1] (1*1=1 points)\n    ----> [1, 1] (3*3=9 points)\n    ----> [] (2*2=4 points)\n\nExample 2:\n\nInput: boxes = [1,1,1]\nOutput: 9\n\nExample 3:\n\nInput: boxes = [1]\nOutput: 1\n\nConstraints:\n\n• 1 <= boxes.length <= 100\n\n• 1 <= boxes[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def removeBoxes(self, boxes):\n        \"\"\"\n        :type boxes: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,3,2,2,2,3,4,3,1]"
+    ],
+    [
+      "[1,1,1]"
+    ],
+    [
+      "[1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "23",
+    "9",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def removeBoxes(boxes):\n    def dfs(l, r, k):\n        if l > r: return 0\n        if dp[l][r][k] != 0: return dp[l][r][k]\n\n        while r > l and boxes[r] == boxes[r - 1]:\n            r -= 1\n            k += 1\n            \n        dp[l][r][k] = (k + 1) * (k + 1) + dfs(l, r - 1, 0)\n\n        for i in range(l, r):\n            if boxes[i] == boxes[r]:\n                dp[l][r][k] = max(dp[l][r][k], dfs(l, i, k + 1) + dfs(i + 1, r - 1, 0))\n                \n        return dp[l][r][k]\n\n    dp = [[[0] * 100 for _ in range(100)] for _ in range(100)]\n    return dfs(0, len(boxes) - 1, 0)",
+    "explanation": "The problem can be solved using dynamic programming. We can define a 3D DP table where `dp[l][r][k]` will be the maximum points we can get for the boxes in the range `[l, r]`, where there are `k` boxes with the same color as `boxes[r]` to the right of `boxes[r]`. \n\nWe'll use a DFS approach to fill our DP table. \n1. First, we check whether our current range `l > r`, in which case we return 0.\n2. If `dp[l][r][k]` already has a non-zero value, we return `dp[l][r][k]`.\n3. Then, we remove all continuous boxes with the same color as `boxes[r]` on the right side of `boxes[r]` to calculate the initial value of `dp[l][r][k]`.\n4. We iterate from `l` to `r` and whenever we find a box with the same color as `boxes[r]`, we update `dp[l][r][k]` with the maximum of the current value and the sum of the result we get in the current split and the result that we have found for the next continuous split.\n\nFinally, we return the value in `dp[0][boxes.length - 1][0]`, which gives us the maximum points that can be obtained for the given input."
+  },
+  "similarQuestions": "[{\"title\": \"Strange Printer\", \"titleSlug\": \"strange-printer\", \"difficulty\": \"Hard\"}, {\"title\": \"Number of Unique Flavors After Sharing K Candies\", \"titleSlug\": \"number-of-unique-flavors-after-sharing-k-candies\", \"difficulty\": \"Medium\"}]"
+}

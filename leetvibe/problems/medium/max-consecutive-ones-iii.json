@@ -1,0 +1,59 @@
+{
+  "questionId": "1046",
+  "title": "Max Consecutive Ones III",
+  "titleSlug": "max-consecutive-ones-iii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.\n\nExample 1:\n\nInput: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2\nOutput: 6\nExplanation: [1,1,1,0,0,1,1,1,1,1,1]\n    Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.\n\nExample 2:\n\nInput: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3\nOutput: 10\nExplanation: [0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1]\n    Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• nums[i] is either 0 or 1.\n\n• 0 <= k <= nums.length",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestOnes(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "One thing's for sure, we will only flip a zero if it extends an existing window of 1s. Otherwise, there's no point in doing it, right? Think Sliding Window!",
+    "Since we know this problem can be solved using the sliding window construct, we might as well focus in that direction for hints. Basically, in a given window, we can never have > K zeros, right?",
+    "We don't have a fixed size window in this case. The window size can grow and shrink depending upon the number of zeros we have (we don't actually have to flip the zeros here!).",
+    "The way to shrink or expand a window would be based on the number of zeros that can still be flipped and so on."
+  ],
+  "testCases": [
+    [
+      "[1,1,1,0,0,0,1,1,1,1,0]",
+      "2"
+    ],
+    [
+      "[0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1]",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "6",
+    "10"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def longestOnes(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        left = 0\n        zeros = 0\n        max_len = 0\n        \n        for right in range(len(nums)):\n            if nums[right] == 0:\n                zeros += 1\n            \n            # Shrink window if more than k zeros\n            while zeros > k:\n                if nums[left] == 0:\n                    zeros -= 1\n                left += 1\n            \n            max_len = max(max_len, right - left + 1)\n        \n        return max_len",
+    "explanation": "Sliding window. Track zeros in window. Expand right, shrink left when zeros exceed k.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Substring with At Most K Distinct Characters\", \"titleSlug\": \"longest-substring-with-at-most-k-distinct-characters\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Repeating Character Replacement\", \"titleSlug\": \"longest-repeating-character-replacement\", \"difficulty\": \"Medium\"}, {\"title\": \"Max Consecutive Ones\", \"titleSlug\": \"max-consecutive-ones\", \"difficulty\": \"Easy\"}, {\"title\": \"Max Consecutive Ones II\", \"titleSlug\": \"max-consecutive-ones-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Subarray of 1's After Deleting One Element\", \"titleSlug\": \"longest-subarray-of-1s-after-deleting-one-element\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximize the Confusion of an Exam\", \"titleSlug\": \"maximize-the-confusion-of-an-exam\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Recolors to Get K Consecutive Black Blocks\", \"titleSlug\": \"minimum-recolors-to-get-k-consecutive-black-blocks\", \"difficulty\": \"Easy\"}, {\"title\": \"Longest Nice Subarray\", \"titleSlug\": \"longest-nice-subarray\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Sum of Distinct Subarrays With Length K\", \"titleSlug\": \"maximum-sum-of-distinct-subarrays-with-length-k\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Enemy Forts That Can Be Captured\", \"titleSlug\": \"maximum-enemy-forts-that-can-be-captured\", \"difficulty\": \"Easy\"}]"
+}

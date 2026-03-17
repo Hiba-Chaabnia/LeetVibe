@@ -1,0 +1,47 @@
+{
+  "questionId": "1230",
+  "title": "Maximum of Absolute Value Expression",
+  "titleSlug": "maximum-of-absolute-value-expression",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    }
+  ],
+  "content": "Given two arrays of integers with equal lengths, return the maximum value of:\n\n|arr1[i] - arr1[j]| + |arr2[i] - arr2[j]| + |i - j|\n\nwhere the maximum is taken over all 0 <= i, j < arr1.length.\n\nExample 1:\n\nInput: arr1 = [1,2,3,4], arr2 = [-1,4,5,6]\nOutput: 13\n\nExample 2:\n\nInput: arr1 = [1,-2,-5,0,10], arr2 = [0,-2,-1,-7,-4]\nOutput: 20\n\nConstraints:\n\n• 2 <= arr1.length == arr2.length <= 40000\n\n• -10^6 <= arr1[i], arr2[i] <= 10^6",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxAbsValExpr(self, arr1, arr2):\n        \"\"\"\n        :type arr1: List[int]\n        :type arr2: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use the idea that abs(A) + abs(B) = max(A+B, A-B, -A+B, -A-B)."
+  ],
+  "testCases": [
+    [
+      "[1,2,3,4]",
+      "[-1,4,5,6]"
+    ],
+    [
+      "[1,-2,-5,0,10]",
+      "[0,-2,-1,-7,-4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "13",
+    "20"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def maxAbsValExpr(arr1, arr2):\n    result = 0\n    max_sum = [float('-inf')] * 4\n\n    for i in range(len(arr1)):\n        max_sum[0] = max(max_sum[0], arr1[i] + arr2[i] + i)\n        max_sum[1] = max(max_sum[1], arr1[i] - arr2[i] + i)\n        max_sum[2] = max(max_sum[2], -arr1[i] + arr2[i] + i)\n        max_sum[3] = max(max_sum[3], -arr1[i] - arr2[i] + i)\n\n    for i in range(len(arr1)):\n        result = max(result, max_sum[0] - arr1[i] - arr2[i] - i)\n        result = max(result, max_sum[1] - arr1[i] + arr2[i] - i)\n        result = max(result, max_sum[2] + arr1[i] - arr2[i] - i)\n        result = max(result, max_sum[3] + arr1[i] + arr2[i] - i)\n\n    return result",
+    "explanation": "The problem asks to find the maximum value of the given expression, and since we have the absolute values involved, we can simplify this expression using 4 different combinations. These combinations are formed by considering both positive and negative variations of `arr1` and `arr2` components in the expression. So, we calculate the maximum values of these 4 expressions for the whole range of indices.\n\nNow, for each index, we take the difference of the calculated max values and the newly calculated expressions. After this step, we find the maximum of these 4 differences and update the result variable, which ultimately gives the required result after iterating through the entire index range."
+  },
+  "similarQuestions": "[]"
+}

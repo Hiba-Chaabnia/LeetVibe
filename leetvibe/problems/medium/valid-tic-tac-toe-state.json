@@ -1,0 +1,43 @@
+{
+  "questionId": "810",
+  "title": "Valid Tic-Tac-Toe State",
+  "titleSlug": "valid-tic-tac-toe-state",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "Given a Tic-Tac-Toe board as a string array board, return true if and only if it is possible to reach this board position during the course of a valid tic-tac-toe game.\n\nThe board is a 3 x 3 array that consists of characters ' ', 'X', and 'O'. The ' ' character represents an empty square.\n\nHere are the rules of Tic-Tac-Toe:\n\n• Players take turns placing characters into empty squares ' '.\n\n• The first player always places 'X' characters, while the second player always places 'O' characters.\n\n• 'X' and 'O' characters are always placed into empty squares, never filled ones.\n\n• The game ends when there are three of the same (non-empty) character filling any row, column, or diagonal.\n\n• The game also ends if all squares are non-empty.\n\n• No more moves can be played if the game is over.\n\nExample 1:\n\nInput: board = [\"O  \",\"   \",\"   \"]\nOutput: false\nExplanation: The first player always plays \"X\".\n\nExample 2:\n\nInput: board = [\"XOX\",\" X \",\"   \"]\nOutput: false\nExplanation: Players take turns making moves.\n\nExample 3:\n\nInput: board = [\"XOX\",\"O O\",\"XOX\"]\nOutput: true\n\nConstraints:\n\n• board.length == 3\n\n• board[i].length == 3\n\n• board[i][j] is either 'X', 'O', or ' '.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def validTicTacToe(self, board):\n        \"\"\"\n        :type board: List[str]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[\"O  \",\"   \",\"   \"]"
+    ],
+    [
+      "[\"XOX\",\" X \",\"   \"]"
+    ],
+    [
+      "[\"XOX\",\"O O\",\"XOX\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "false",
+    "false",
+    "true"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Design Tic-Tac-Toe\", \"titleSlug\": \"design-tic-tac-toe\", \"difficulty\": \"Medium\"}]"
+}

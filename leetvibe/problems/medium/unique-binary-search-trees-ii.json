@@ -1,0 +1,51 @@
+{
+  "questionId": "95",
+  "title": "Unique Binary Search Trees II",
+  "titleSlug": "unique-binary-search-trees-ii",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given an integer n, return all the structurally unique BST's (binary search trees), which has exactly n nodes of unique values from 1 to n. Return the answer in any order.\n\nExample 1:\n\nInput: n = 3\nOutput: [[1,null,2,null,3],[1,null,3,2],[2,1,3],[3,1,null,null,2],[3,2,null,1]]\n\nExample 2:\n\nInput: n = 1\nOutput: [[1]]\n\nConstraints:\n\n• 1 <= n <= 8",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def generateTrees(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[Optional[TreeNode]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "3"
+    ],
+    [
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,null,2,null,3],[1,null,3,2],[2,1,3],[3,1,null,null,2],[3,2,null,1]]",
+    "[[1]]"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Unique Binary Search Trees\", \"titleSlug\": \"unique-binary-search-trees\", \"difficulty\": \"Medium\"}, {\"title\": \"Different Ways to Add Parentheses\", \"titleSlug\": \"different-ways-to-add-parentheses\", \"difficulty\": \"Medium\"}]"
+}

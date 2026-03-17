@@ -1,0 +1,46 @@
+{
+  "questionId": "2491",
+  "title": "Smallest Even Multiple",
+  "titleSlug": "smallest-even-multiple",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "Given a positive integer n, return the smallest positive integer that is a multiple of both 2 and n.\n\nExample 1:\n\nInput: n = 5\nOutput: 10\nExplanation: The smallest multiple of both 5 and 2 is 10.\n\nExample 2:\n\nInput: n = 6\nOutput: 6\nExplanation: The smallest multiple of both 6 and 2 is 6. Note that a number is a multiple of itself.\n\nConstraints:\n\n• 1 <= n <= 150",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def smallestEvenMultiple(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "A guaranteed way to find a multiple of 2 and n is to multiply them together. When is this the answer, and when is there a smaller answer?",
+    "There is a smaller answer when n is even."
+  ],
+  "testCases": [
+    [
+      "5"
+    ],
+    [
+      "6"
+    ]
+  ],
+  "expectedOutputs": [
+    "10",
+    "6"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def smallestEvenMultiple(self, n):\n        return n if n % 2 == 0 else 2 * n",
+    "explanation": "LCM of 2 and n: n if even, else 2*n.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Greatest Common Divisor of Strings\", \"titleSlug\": \"greatest-common-divisor-of-strings\", \"difficulty\": \"Easy\"}, {\"title\": \"Three Divisors\", \"titleSlug\": \"three-divisors\", \"difficulty\": \"Easy\"}, {\"title\": \"Find Greatest Common Divisor of Array\", \"titleSlug\": \"find-greatest-common-divisor-of-array\", \"difficulty\": \"Easy\"}, {\"title\": \"Convert the Temperature\", \"titleSlug\": \"convert-the-temperature\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Cuts to Divide a Circle\", \"titleSlug\": \"minimum-cuts-to-divide-a-circle\", \"difficulty\": \"Easy\"}]"
+}

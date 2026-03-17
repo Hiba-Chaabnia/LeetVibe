@@ -1,0 +1,54 @@
+{
+  "questionId": "1586",
+  "title": "Longest Subarray of 1's After Deleting One Element",
+  "titleSlug": "longest-subarray-of-1s-after-deleting-one-element",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Sliding Window",
+      "slug": "sliding-window"
+    }
+  ],
+  "content": "Given a binary array nums, you should delete one element from it.\n\nReturn the size of the longest non-empty subarray containing only 1's in the resulting array. Return 0 if there is no such subarray.\n\nExample 1:\n\nInput: nums = [1,1,0,1]\nOutput: 3\nExplanation: After deleting the number in position 2, [1,1,1] contains 3 numbers with value of 1's.\n\nExample 2:\n\nInput: nums = [0,1,1,1,0,1,1,0,1]\nOutput: 5\nExplanation: After deleting the number in position 4, [0,1,1,1,1,1,0,1] longest subarray with value of 1's is [1,1,1,1,1].\n\nExample 3:\n\nInput: nums = [1,1,1]\nOutput: 2\nExplanation: You must delete one element.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• nums[i] is either 0 or 1.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestSubarray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Maintain a sliding window where there is at most one zero in it."
+  ],
+  "testCases": [
+    [
+      "[1,1,0,1]"
+    ],
+    [
+      "[0,1,1,1,0,1,1,0,1]"
+    ],
+    [
+      "[1,1,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def longestSubarray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        left = 0\n        zeros = 0\n        max_len = 0\n        \n        for right in range(len(nums)):\n            if nums[right] == 0:\n                zeros += 1\n            \n            # Shrink window if more than one zero\n            while zeros > 1:\n                if nums[left] == 0:\n                    zeros -= 1\n                left += 1\n            \n            # Window has at most one zero, minus 1 for the deleted element\n            max_len = max(max_len, right - left)\n        \n        return max_len",
+    "explanation": "Sliding window with at most one zero. Track window size. One zero is removed, so return window size - 1.",
+    "complexity": "Time: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Max Consecutive Ones III\", \"titleSlug\": \"max-consecutive-ones-iii\", \"difficulty\": \"Medium\"}]"
+}

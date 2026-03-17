@@ -1,0 +1,43 @@
+{
+  "questionId": "516",
+  "title": "Longest Palindromic Subsequence",
+  "titleSlug": "longest-palindromic-subsequence",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "Given a string s, find the longest palindromic subsequence's length in s.\n\nA subsequence is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.\n\nExample 1:\n\nInput: s = \"bbbab\"\nOutput: 4\nExplanation: One possible longest palindromic subsequence is \"bbbb\".\n\nExample 2:\n\nInput: s = \"cbbd\"\nOutput: 2\nExplanation: One possible longest palindromic subsequence is \"bb\".\n\nConstraints:\n\n• 1 <= s.length <= 1000\n\n• s consists only of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def longestPalindromeSubseq(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"bbbab\""
+    ],
+    [
+      "\"cbbd\""
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "2"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def longestPalindromeSubseq(s: str) -> int:\n    n = len(s)\n    dp = [[0] * n for _ in range(n)]\n    \n    for i in range(n - 1, -1, -1):\n        dp[i][i] = 1\n        for j in range(i + 1, n):\n            if s[i] == s[j]:\n                dp[i][j] = 2 + dp[i + 1][j - 1]\n            else:\n                dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])\n                \n    return dp[0][n - 1]",
+    "explanation": "The algorithm uses dynamic programming to find the longest palindromic subsequence's length. It initializes a 2D table (dp) of size nxn, where n is the length of the string. The entries `dp[i][j]` represent the length of the longest palindromic subsequence in the string for the substring starting from index i and ending at index j.\n\nThe algorithm first fills the diagonal creating a single character palindrome. Then, it iterates through the string comparing the characters. When equal, the length of the longest palindromic subsequence increases by 2 plus the length of the longest palindrome found inside of these characters. If unequal, the longer subsequence length between the substrings not containing those characters is taken. \n\nFinally, the function returns the length of the longest palindromic subsequence found in the entire string (`dp[0][n-1]`)."
+  },
+  "similarQuestions": "[{\"title\": \"Longest Palindromic Substring\", \"titleSlug\": \"longest-palindromic-substring\", \"difficulty\": \"Medium\"}, {\"title\": \"Palindromic Substrings\", \"titleSlug\": \"palindromic-substrings\", \"difficulty\": \"Medium\"}, {\"title\": \"Count Different Palindromic Subsequences\", \"titleSlug\": \"count-different-palindromic-subsequences\", \"difficulty\": \"Hard\"}, {\"title\": \"Longest Common Subsequence\", \"titleSlug\": \"longest-common-subsequence\", \"difficulty\": \"Medium\"}, {\"title\": \"Longest Palindromic Subsequence II\", \"titleSlug\": \"longest-palindromic-subsequence-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximize Palindrome Length From Subsequences\", \"titleSlug\": \"maximize-palindrome-length-from-subsequences\", \"difficulty\": \"Hard\"}, {\"title\": \"Maximum Product of the Length of Two Palindromic Subsequences\", \"titleSlug\": \"maximum-product-of-the-length-of-two-palindromic-subsequences\", \"difficulty\": \"Medium\"}]"
+}

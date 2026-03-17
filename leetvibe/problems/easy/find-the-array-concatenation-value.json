@@ -1,0 +1,51 @@
+{
+  "questionId": "2698",
+  "title": "Find the Array Concatenation Value",
+  "titleSlug": "find-the-array-concatenation-value",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums.\n\nThe concatenation of two numbers is the number formed by concatenating their numerals.\n\n• For example, the concatenation of 15, 49 is 1549.\n\nThe concatenation value of nums is initially equal to 0. Perform this operation until nums becomes empty:\n\n• If nums has a size greater than one, add the value of the concatenation of the first and the last element to the concatenation value of nums, and remove those two elements from nums. For example, if the nums was [1, 2, 4, 5, 6], add 16 to the concatenation value.\n\n• If only one element exists in nums, add its value to the concatenation value of nums, then remove it.\n\nReturn the concatenation value of nums.\n\nExample 1:\n\nInput: nums = [7,52,2,4]\nOutput: 596\nExplanation: Before performing any operation, nums is [7,52,2,4] and concatenation value is 0.\n     - In the first operation:\n    We pick the first element, 7, and the last element, 4.\n    Their concatenation is 74, and we add it to the concatenation value, so it becomes equal to 74.\n    Then we delete them from nums, so nums becomes equal to [52,2].\n     - In the second operation:\n    We pick the first element, 52, and the last element, 2.\n    Their concatenation is 522, and we add it to the concatenation value, so it becomes equal to 596.\n    Then we delete them from the nums, so nums becomes empty.\n    Since the concatenation value is 596 so the answer is 596.\n\nExample 2:\n\nInput: nums = [5,14,13,8,12]\nOutput: 673\nExplanation: Before performing any operation, nums is [5,14,13,8,12] and concatenation value is 0.\n     - In the first operation:\n    We pick the first element, 5, and the last element, 12.\n    Their concatenation is 512, and we add it to the concatenation value, so it becomes equal to 512.\n    Then we delete them from the nums, so nums becomes equal to [14,13,8].\n     - In the second operation:\n    We pick the first element, 14, and the last element, 8.\n    Their concatenation is 148, and we add it to the concatenation value, so it becomes equal to 660.\n    Then we delete them from the nums, so nums becomes equal to [13].\n     - In the third operation:\n    nums has only one element, so we pick 13 and add it to the concatenation value, so it becomes equal to 673.\n    Then we delete it from nums, so nums become empty.\n    Since the concatenation value is 673 so the answer is 673.\n\nConstraints:\n\n• 1 <= nums.length <= 1000\n\n• 1 <= nums[i] <= 104",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def findTheArrayConcVal(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Consider simulating the process to calculate the answer",
+    "iterate until the array becomes empty. In each iteration, concatenate the first element to the last element and add their concatenation value to the answer.",
+    "Don’t forget to handle cases when one element is left in the end, not two elements."
+  ],
+  "testCases": [
+    [
+      "[7,52,2,4]"
+    ],
+    [
+      "[5,14,13,8,12]"
+    ]
+  ],
+  "expectedOutputs": [
+    "596",
+    "673"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def findTheArrayConcVal(self, nums):\n        result = 0\n        while nums:\n            if len(nums) == 1:\n                result += nums[0]\n                break\n            first = nums.pop(0)\n            last = nums.pop()\n            result += int(str(first) + str(last))\n        return result",
+    "explanation": "Repeatedly take first and last. Concatenate them. Add to result. Process middle element alone.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

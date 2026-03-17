@@ -1,0 +1,53 @@
+{
+  "questionId": "106",
+  "title": "Construct Binary Tree from Inorder and Postorder Traversal",
+  "titleSlug": "construct-binary-tree-from-inorder-and-postorder-traversal",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Divide and Conquer",
+      "slug": "divide-and-conquer"
+    },
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree"
+    }
+  ],
+  "content": "Given two integer arrays inorder and postorder where inorder is the inorder traversal of a binary tree and postorder is the postorder traversal of the same tree, construct and return the binary tree.\n\nExample 1:\n\nInput: inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]\nOutput: [3,9,20,null,null,15,7]\n\nExample 2:\n\nInput: inorder = [-1], postorder = [-1]\nOutput: [-1]\n\nConstraints:\n\n• 1 <= inorder.length <= 3000\n\n• postorder.length == inorder.length\n\n• -3000 <= inorder[i], postorder[i] <= 3000\n\n• inorder and postorder consist of unique values.\n\n• Each value of postorder also appears in inorder.\n\n• inorder is guaranteed to be the inorder traversal of the tree.\n\n• postorder is guaranteed to be the postorder traversal of the tree.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def buildTree(self, inorder, postorder):\n        \"\"\"\n        :type inorder: List[int]\n        :type postorder: List[int]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[9,3,15,20,7]",
+      "[9,15,7,20,3]",
+      "[-1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[3,9,20,null,null,15,7]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def buildTree(self, inorder, postorder):\n        inorder_map = {v: i for i, v in enumerate(inorder)}\n        def build(in_left, in_right, post_left, post_right):\n            if in_left > in_right:\n                return None\n            root_val = postorder[post_right]\n            root = TreeNode(root_val)\n            root_idx = inorder_map[root_val]\n            left_size = root_idx - in_left\n            root.left = build(in_left, root_idx - 1, post_left, post_left + left_size - 1)\n            root.right = build(root_idx + 1, in_right, post_left + left_size, post_right - 1)\n            return root\n        return build(0, len(inorder) - 1, 0, len(postorder) - 1)",
+    "explanation": "Last postorder element is root. Find in inorder. Recursive left/right subtrees.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Construct Binary Tree from Preorder and Inorder Traversal\", \"titleSlug\": \"construct-binary-tree-from-preorder-and-inorder-traversal\", \"difficulty\": \"Medium\"}]"
+}

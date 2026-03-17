@@ -1,0 +1,71 @@
+{
+  "questionId": "3781",
+  "title": "Maximize the Distance Between Points on a Square",
+  "titleSlug": "maximize-the-distance-between-points-on-a-square",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Geometry",
+      "slug": "geometry"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    }
+  ],
+  "content": "You are given an integer side, representing the edge length of a square with corners at (0, 0), (0, side), (side, 0), and (side, side) on a Cartesian plane.\n\nYou are also given a positive integer k and a 2D integer array points, where points[i] = [xi, yi] represents the coordinate of a point lying on the boundary of the square.\n\nYou need to select k elements among points such that the minimum Manhattan distance between any two points is maximized.\n\nReturn the maximum possible minimum Manhattan distance between the selected k points.\n\nThe Manhattan Distance between two cells (xi, yi) and (xj, yj) is |xi - xj| + |yi - yj|.\n\nExample 1:\n\nInput: side = 2, points = [[0,2],[2,0],[2,2],[0,0]], k = 4\n\nOutput: 2\n\nExplanation: Select all four points.\n\nExample 2:\n\nInput: side = 2, points = [[0,0],[1,2],[2,0],[2,2],[2,1]], k = 4\n\nOutput: 1\n\nExplanation: Select the points (0, 0), (2, 0), (2, 2), and (2, 1).\n\nExample 3:\n\nInput: side = 2, points = [[0,0],[0,1],[0,2],[1,2],[2,0],[2,2],[2,1]], k = 5\n\nOutput: 1\n\nExplanation: Select the points (0, 0), (0, 1), (0, 2), (1, 2), and (2, 2).\n\nConstraints:\n\n• 1 <= side <= 109\n\n• 4 <= points.length <= min(4 * side, 15 * 103)\n\n• points[i] == [xi, yi]\n\n• The input is generated such that:\n\n• points[i] lies on the boundary of the square.\n\n• All points[i] are unique.\n\n• 4 <= k <= min(25, points.length)",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maxDistance(self, side, points, k):\n        \"\"\"\n        :type side: int\n        :type points: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Can we use binary search for this problem?",
+    "Think of the coordinates on a straight line in clockwise order.",
+    "Binary search on the minimum Manhattan distance x.",
+    "During the binary search, for each coordinate, find the immediate next coordinate with distance >= x.",
+    "Greedily select up to k coordinates."
+  ],
+  "testCases": [
+    [
+      "2",
+      "[[0,2],[2,0],[2,2],[0,0]]",
+      "4"
+    ],
+    [
+      "2",
+      "[[0,0],[1,2],[2,0],[2,2],[2,1]]",
+      "4"
+    ],
+    [
+      "2",
+      "[[0,0],[0,1],[0,2],[1,2],[2,0],[2,2],[2,1]]",
+      "5"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "1",
+    "1"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxDistance(self, side, points, k):\n        \"\"\"\n        :type side: int\n        :type points: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        def to_distance_on_perimeter(x, y):\n            \"\"\"Convert (x,y) to distance along perimeter (clockwise from (0,0))\"\"\"\n            perimeter = 4 * side\n            if y == 0:  # Bottom edge\n                return x\n            elif x == side:  # Right edge\n                return side + y\n            elif y == side:  # Top edge\n                return 3 * side - x\n            else:  # Left edge (x == 0)\n                return 4 * side - y\n        \n        def manhattan_distance_cyclic(pos1, pos2, perimeter):\n            \"\"\"Manhattan distance considering cyclic nature\"\"\"\n            direct = abs(pos1 - pos2)\n            around = perimeter - direct\n            return min(direct, around)\n        \n        # Convert points to positions on perimeter\n        positions = [to_distance_on_perimeter(x, y) for x, y in points]\n        positions.sort()\n        \n        perimeter = 4 * side\n        \n        def can_select_k(min_dist):\n            \"\"\"Check if we can select k points with min distance >= min_dist\"\"\"\n            selected = []\n            \n            for pos in positions:\n                if not selected:\n                    selected.append(pos)\n                else:\n                    # Check distance to last selected\n                    valid = True\n                    for sel_pos in selected:\n                        dist = manhattan_distance_cyclic(pos, sel_pos, perimeter)\n                        if dist < min_dist:\n                            valid = False\n                            break\n                    \n                    if valid and len(selected) < k:\n                        selected.append(pos)\n            \n            # Also check cyclic distance between first and last\n            if len(selected) == k and len(selected) > 1:\n                dist_wrap = manhattan_distance_cyclic(selected[0], selected[-1], perimeter)\n                if dist_wrap < min_dist:\n                    return False\n            \n            return len(selected) == k\n        \n        # Binary search on minimum distance\n        left, right = 0, perimeter // 2\n        result = 0\n        \n        while left <= right:\n            mid = (left + right) // 2\n            if can_select_k(mid):\n                result = mid\n                left = mid + 1\n            else:\n                right = mid - 1\n        \n        return result",
+    "explanation": "This solution uses perimeter unwinding with binary search:\n\n1. **Problem Understanding**:\n   - Select k points on square boundary\n   - Maximize minimum Manhattan distance between any two\n   - Points stay on boundary (not interior)\n\n2. **Key Transformation**:\n   - \"Unwrap\" square perimeter into 1D line\n   - Each point gets position from 0 to 4*side\n   - Clockwise from (0,0): right edge, top edge, left edge, bottom edge\n   - Position calculation:\n     - Bottom (y=0): x\n     - Right (x=side): side + y\n     - Top (y=side): 3*side - x\n     - Left (x=0): 4*side - y\n\n3. **Cyclic Distance**:\n   - On unwrapped line, distance = |pos1 - pos2|\n   - On cyclic boundary: min(direct, perimeter - direct)\n   - Consider wrapping around\n\n4. **Binary Search**:\n   - Search for maximum minimum distance\n   - For each candidate distance:\n     - Check if we can select k points with that minimum spacing\n\n5. **Greedy Selection**:\n   - Sort positions\n   - Greedily select points: each new point must be far from all selected\n   - Check wraparound distance between first and last\n\n6. **Complexity**:\n   - O(n log(perimeter/2) * n²) for binary search and validation\n   - With k ≤ 25, feasible\n\nTime Complexity: O(n log(side) * k²)\nSpace Complexity: O(n)"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Number of Integers to Choose From a Range II\", \"titleSlug\": \"maximum-number-of-integers-to-choose-from-a-range-ii\", \"difficulty\": \"Medium\"}, {\"title\": \"Maximum Points Inside the Square\", \"titleSlug\": \"maximum-points-inside-the-square\", \"difficulty\": \"Medium\"}]"
+}

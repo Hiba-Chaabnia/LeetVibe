@@ -1,0 +1,48 @@
+{
+  "questionId": "1133",
+  "title": "Last Substring in Lexicographical Order",
+  "titleSlug": "last-substring-in-lexicographical-order",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s, return the last substring of s in lexicographical order.\n\nExample 1:\n\nInput: s = \"abab\"\nOutput: \"bab\"\nExplanation: The substrings are [\"a\", \"ab\", \"aba\", \"abab\", \"b\", \"ba\", \"bab\"]. The lexicographically maximum substring is \"bab\".\n\nExample 2:\n\nInput: s = \"leetcode\"\nOutput: \"tcode\"\n\nConstraints:\n\n• 1 <= s.length <= 4 * 105\n\n• s contains only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def lastSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Assume that the answer is a sub-string from index i to j. If you add the character at index j+1 you get a better answer.",
+    "The answer is always a suffix of the given string.",
+    "Since the limits are high, we need an efficient data structure.",
+    "Use suffix array."
+  ],
+  "testCases": [
+    [
+      "\"abab\""
+    ],
+    [
+      "\"leetcode\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"bab\"",
+    "\"tcode\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def lastSubstring(s: str) -> str:\n    maxIndex = 0\n    curIndex = 1\n    while curIndex < len(s):\n        i = 0\n        while curIndex + i < len(s) and s[maxIndex + i] == s[curIndex + i]:\n            i += 1\n        if curIndex + i == len(s):\n            break\n        if s[maxIndex + i] < s[curIndex + i]:\n            maxIndex = curIndex\n        curIndex += 1\n    return s[maxIndex:]",
+    "explanation": "The algorithm initializes two indices, `maxIndex` and `curIndex`, both starting at the beginning of the string. We use a while loop to scan the input string until `curIndex` reaches the end.\n\nInside the loop, we check if both substrings - made with the current `maxIndex` and current `curIndex` - are lexicographically equal. If they are, we increment the \"equality\" index, `i`, until they are no longer equal or the end of the string is encountered. If the endIndex (curIndex + i) reaches the string's length, the loop ends since it's the end of the string.\n\nOtherwise, we compare `s[maxIndex + i]` and `s[curIndex + i]`. If `s[curIndex + i]` is lexicographically greater, we update `maxIndex` to the value of `curIndex`. Then, increment `curIndex`.\n\nFinally, we return the last lexicographically greater substring using the `maxIndex`.\n\nThe complexity of this solution is O(N) where N is the length of the input string."
+  },
+  "similarQuestions": "[{\"title\": \"Find the Lexicographically Largest String From the Box I\", \"titleSlug\": \"find-the-lexicographically-largest-string-from-the-box-i\", \"difficulty\": \"Medium\"}]"
+}

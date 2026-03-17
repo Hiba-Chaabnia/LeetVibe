@@ -1,0 +1,41 @@
+{
+  "questionId": "1026",
+  "title": "String Without AAA or BBB",
+  "titleSlug": "string-without-aaa-or-bbb",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "Given two integers a and b, return any string s such that:\n\n• s has length a + b and contains exactly a 'a' letters, and exactly b 'b' letters,\n\n• The substring 'aaa' does not occur in s, and\n\n• The substring 'bbb' does not occur in s.\n\nExample 1:\n\nInput: a = 1, b = 2\nOutput: \"abb\"\nExplanation: \"abb\", \"bab\" and \"bba\" are all correct answers.\n\nExample 2:\n\nInput: a = 4, b = 1\nOutput: \"aabaa\"\n\nConstraints:\n\n• 0 <= a, b <= 100\n\n• It is guaranteed such an s exists for the given a and b.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def strWithout3a3b(self, a, b):\n        \"\"\"\n        :type a: int\n        :type b: int\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "1",
+      "2"
+    ],
+    [
+      "4",
+      "1"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"abb\"",
+    "\"aabaa\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

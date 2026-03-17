@@ -1,0 +1,53 @@
+{
+  "questionId": "3947",
+  "title": "Balanced K-Factor Decomposition",
+  "titleSlug": "balanced-k-factor-decomposition",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Backtracking",
+      "slug": "backtracking"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "Given two integers n and k, split the number n into exactly k positive integers such that the product of these integers is equal to n.\n\nReturn any one split in which the maximum difference between any two numbers is minimized. You may return the result in any order.\n\nExample 1:\n\nInput: n = 100, k = 2\n\nOutput: [10,10]\n\nExplanation: The split [10, 10] yields 10 * 10 = 100 and a max-min difference of 0, which is minimal.\n\nExample 2:\n\nInput: n = 44, k = 3\n\nOutput: [2,2,11]\n\nExplanation:\n\n• Split [1, 1, 44] yields a difference of 43\n\n• Split [1, 2, 22] yields a difference of 21\n\n• Split [1, 4, 11] yields a difference of 10\n\n• Split [2, 2, 11] yields a difference of 9\n\nTherefore, [2, 2, 11] is the optimal split with the smallest difference 9.\n\nConstraints:\n\n• 4 <= n <= 105\n\n• 2 <= k <= 5\n\n• k is strictly less than the total number of positive divisors of n.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minDifference(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "First, compute all positive divisors of n and sort them into a list divs.",
+    "Use a recursive search dfs(start, picked, prod, path) that picks the next divisor from divs[start...], multiplies it into prod, and appends to path until you have k factors whose product is n.",
+    "During the search, keep track of the best path that minimizes max(path) – min(path) and return it."
+  ],
+  "testCases": [
+    [
+      "100",
+      "2"
+    ],
+    [
+      "44",
+      "3"
+    ]
+  ],
+  "expectedOutputs": [
+    "[10,10]",
+    "[2,2,11]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minDifference(self, n, k):\n        divs = [f for f in range(1, int(n**0.5) + 1) if n % f == 0]\n        full_divs = []\n        for f in divs:\n            full_divs.append(f)\n            if f != n // f:\n                full_divs.append(n // f)\n        full_divs.sort()\n        best_diff = [float('inf')]\n        best_parts = [None]\n        def dfs(rem_n, rem_k, parts, lo_idx):\n            if rem_k == 1:\n                parts.append(rem_n)\n                d = max(parts) - min(parts)\n                if d < best_diff[0]:\n                    best_diff[0] = d\n                    best_parts[0] = sorted(parts[:])\n                parts.pop()\n                return\n            for i in range(lo_idx, len(full_divs)):\n                f = full_divs[i]\n                if f > rem_n:\n                    break\n                if rem_n % f == 0:\n                    parts.append(f)\n                    dfs(rem_n // f, rem_k - 1, parts, i)\n                    parts.pop()\n        dfs(n, k, [], 0)\n        return best_parts[0]",
+    "explanation": "DFS over divisors in non-decreasing order; try all k-factor splits of n minimizing max-min difference. O(d^k) time."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,54 @@
+{
+  "questionId": "3195",
+  "title": "Separate Black and White Balls",
+  "titleSlug": "separate-black-and-white-balls",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "There are n balls on a table, each ball has a color black or white.\n\nYou are given a 0-indexed binary string s of length n, where 1 and 0 represent black and white balls, respectively.\n\nIn each step, you can choose two adjacent balls and swap them.\n\nReturn the minimum number of steps to group all the black balls to the right and all the white balls to the left.\n\nExample 1:\n\nInput: s = \"101\"\nOutput: 1\nExplanation: We can group all the black balls to the right in the following way:\n    - Swap s[0] and s[1], s = \"011\".\n    Initially, 1s are not grouped together, requiring at least 1 step to group them to the right.\n\nExample 2:\n\nInput: s = \"100\"\nOutput: 2\nExplanation: We can group all the black balls to the right in the following way:\n    - Swap s[0] and s[1], s = \"010\".\n    - Swap s[1] and s[2], s = \"001\".\n    It can be proven that the minimum number of steps needed is 2.\n\nExample 3:\n\nInput: s = \"0111\"\nOutput: 0\nExplanation: All the black balls are already grouped to the right.\n\nConstraints:\n\n• 1 <= n == s.length <= 105\n\n• s[i] is either '0' or '1'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumSteps(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Every 1 in the string s should be swapped with every 0 on its right side.",
+    "Iterate right to left and count the number of 0 that have already occurred, whenever you iterate on 1 add that counter to the answer."
+  ],
+  "testCases": [
+    [
+      "\"101\""
+    ],
+    [
+      "\"100\""
+    ],
+    [
+      "\"0111\""
+    ]
+  ],
+  "expectedOutputs": [
+    "1",
+    "2",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumSteps(self, s):\n        ans = 0\n        ones = 0\n        for c in s:\n            if c == '1':\n                ones += 1\n            else:\n                ans += ones\n        return ans",
+    "explanation": "Each '0' needs to pass over every '1' that appears to its left. As we scan left to right, we maintain a count of '1's seen so far. When we encounter a '0', it must swap past all those '1's, so we add the running count to the answer.\n\nThis counts the total number of inversions (1 before 0), which equals the minimum swaps needed.\n\nTime complexity: O(n). Space complexity: O(1)."
+  },
+  "similarQuestions": "[]"
+}

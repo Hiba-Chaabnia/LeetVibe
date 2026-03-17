@@ -1,0 +1,61 @@
+{
+  "questionId": "1140",
+  "title": "Distant Barcodes",
+  "titleSlug": "distant-barcodes",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Sorting",
+      "slug": "sorting"
+    },
+    {
+      "name": "Heap (Priority Queue)",
+      "slug": "heap-priority-queue"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "In a warehouse, there is a row of barcodes, where the ith barcode is barcodes[i].\n\nRearrange the barcodes so that no two adjacent barcodes are equal. You may return any answer, and it is guaranteed an answer exists.\n\nExample 1:\n\nInput: barcodes = [1,1,1,2,2,2]\nOutput: [2,1,2,1,2,1]\nExample 2:\n\nInput: barcodes = [1,1,1,1,2,2,3,3]\nOutput: [1,3,1,3,1,2,1,2]\n\nConstraints:\n\n• 1 <= barcodes.length <= 10000\n\n• 1 <= barcodes[i] <= 10000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rearrangeBarcodes(self, barcodes):\n        \"\"\"\n        :type barcodes: List[int]\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "We want to always choose the most common or second most common element to write next.  What data structure allows us to query this effectively?"
+  ],
+  "testCases": [
+    [
+      "[1,1,1,2,2,2]"
+    ],
+    [
+      "[1,1,1,1,2,2,3,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[2,1,2,1,2,1]",
+    "[1,3,1,3,1,2,1,2]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def rearrangeBarcodes(self, barcodes):\n        import heapq\n        from collections import Counter\n        count = Counter(barcodes)\n        pq = [(-c, code) for code, c in count.items()]\n        heapq.heapify(pq)\n        result = []\n        while pq:\n            c1, code1 = heapq.heappop(pq)\n            if result and result[-1] == code1:\n                if not pq:\n                    return []\n                c2, code2 = heapq.heappop(pq)\n                result.append(code2)\n                if c2 < -1:\n                    heapq.heappush(pq, (c2 + 1, code2))\n                heapq.heappush(pq, (c1, code1))\n            else:\n                result.append(code1)\n                if c1 < -1:\n                    heapq.heappush(pq, (c1 + 1, code1))\n        return result",
+    "explanation": "Max heap by frequency. Alternate with 2nd most frequent when needed.\nTime: O(n*log n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

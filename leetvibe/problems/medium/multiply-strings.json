@@ -1,0 +1,45 @@
+{
+  "questionId": "43",
+  "title": "Multiply Strings",
+  "titleSlug": "multiply-strings",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Simulation",
+      "slug": "simulation"
+    }
+  ],
+  "content": "Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.\n\nNote: You must not use any built-in BigInteger library or convert the inputs to integer directly.\n\nExample 1:\n\nInput: num1 = \"2\", num2 = \"3\"\nOutput: \"6\"\nExample 2:\n\nInput: num1 = \"123\", num2 = \"456\"\nOutput: \"56088\"\n\nConstraints:\n\n• 1 <= num1.length, num2.length <= 200\n\n• num1 and num2 consist of digits only.\n\n• Both num1 and num2 do not contain any leading zero, except the number 0 itself.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def multiply(self, num1, num2):\n        \"\"\"\n        :type num1: str\n        :type num2: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "\"2\"",
+      "\"3\""
+    ],
+    [
+      "\"123\"",
+      "\"456\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"6\"",
+    "\"56088\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Add Two Numbers\", \"titleSlug\": \"add-two-numbers\", \"difficulty\": \"Medium\"}, {\"title\": \"Plus One\", \"titleSlug\": \"plus-one\", \"difficulty\": \"Easy\"}, {\"title\": \"Add Binary\", \"titleSlug\": \"add-binary\", \"difficulty\": \"Easy\"}, {\"title\": \"Add Strings\", \"titleSlug\": \"add-strings\", \"difficulty\": \"Easy\"}, {\"title\": \"Apply Discount to Prices\", \"titleSlug\": \"apply-discount-to-prices\", \"difficulty\": \"Medium\"}]"
+}

@@ -1,0 +1,45 @@
+{
+  "questionId": "3154",
+  "title": "Maximum Value of an Ordered Triplet I",
+  "titleSlug": "maximum-value-of-an-ordered-triplet-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "You are given a 0-indexed integer array nums.\n\nReturn the maximum value over all triplets of indices (i, j, k) such that i < j < k. If all such triplets have a negative value, return 0.\n\nThe value of a triplet of indices (i, j, k) is equal to (nums[i] - nums[j]) * nums[k].\n\nExample 1:\n\nInput: nums = [12,6,1,2,7]\nOutput: 77\nExplanation: The value of the triplet (0, 2, 4) is (nums[0] - nums[2]) * nums[4] = 77.\n    It can be shown that there are no ordered triplets of indices with a value greater than 77.\n\nExample 2:\n\nInput: nums = [1,10,3,4,19]\nOutput: 133\nExplanation: The value of the triplet (1, 2, 4) is (nums[1] - nums[2]) * nums[4] = 133.\n    It can be shown that there are no ordered triplets of indices with a value greater than 133.\n\nExample 3:\n\nInput: nums = [1,2,3]\nOutput: 0\nExplanation: The only ordered triplet of indices (0, 1, 2) has a negative value of (nums[0] - nums[1]) * nums[2] = -3. Hence, the answer would be 0.\n\nConstraints:\n\n• 3 <= nums.length <= 100\n\n• 1 <= nums[i] <= 106",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def maximumTripletValue(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use three nested loops to find all the triplets."
+  ],
+  "testCases": [
+    [
+      "[12,6,1,2,7]"
+    ],
+    [
+      "[1,10,3,4,19]"
+    ],
+    [
+      "[1,2,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "77",
+    "133",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maximumTripletValue(self, nums):\n        n = len(nums)\n        best = 0\n        for i in range(n):\n            for j in range(i + 1, n):\n                for k in range(j + 1, n):\n                    best = max(best, (nums[i] - nums[j]) * nums[k])\n        return best",
+    "explanation": "Brute-force all ordered triplets (i<j<k); return the maximum value of (nums[i]-nums[j])*nums[k], defaulting to 0 if all are negative. O(n^3) time."
+  },
+  "similarQuestions": "[{\"title\": \"Number of Arithmetic Triplets\", \"titleSlug\": \"number-of-arithmetic-triplets\", \"difficulty\": \"Easy\"}, {\"title\": \"Minimum Sum of Mountain Triplets I\", \"titleSlug\": \"minimum-sum-of-mountain-triplets-i\", \"difficulty\": \"Easy\"}]"
+}

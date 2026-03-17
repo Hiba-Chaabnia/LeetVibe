@@ -1,0 +1,49 @@
+{
+  "questionId": "3421",
+  "title": "Count Pairs That Form a Complete Day I",
+  "titleSlug": "count-pairs-that-form-a-complete-day-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    }
+  ],
+  "content": "Given an integer array hours representing times in hours, return an integer denoting the number of pairs i, j where i < j and hours[i] + hours[j] forms a complete day.\n\nA complete day is defined as a time duration that is an exact multiple of 24 hours.\n\nFor example, 1 day is 24 hours, 2 days is 48 hours, 3 days is 72 hours, and so on.\n\nExample 1:\n\nInput: hours = [12,12,30,24,24]\n\nOutput: 2\n\nExplanation: The pairs of indices that form a complete day are (0, 1) and (3, 4).\n\nExample 2:\n\nInput: hours = [72,48,24,3]\n\nOutput: 3\n\nExplanation: The pairs of indices that form a complete day are (0, 1), (0, 2), and (1, 2).\n\nConstraints:\n\n• 1 <= hours.length <= 100\n\n• 1 <= hours[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def countCompleteDayPairs(self, hours):\n        \"\"\"\n        :type hours: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Brute force all pairs (i, j) and check if they form a valid complete day. It is considered a complete day if (hours[i] + hours[j]) % 24 == 0."
+  ],
+  "testCases": [
+    [
+      "[12,12,30,24,24]"
+    ],
+    [
+      "[72,48,24,3]"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def countCompleteDayPairs(self, hours):\n        count = 0\n        for i in range(len(hours)):\n            for j in range(i + 1, len(hours)):\n                if (hours[i] + hours[j]) % 24 == 0:\n                    count += 1\n        return count",
+    "explanation": "Check all pairs; sum divisible by 24."
+  },
+  "similarQuestions": "[{\"title\": \"Check If Array Pairs Are Divisible by k\", \"titleSlug\": \"check-if-array-pairs-are-divisible-by-k\", \"difficulty\": \"Medium\"}]"
+}

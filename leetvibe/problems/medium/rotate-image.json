@@ -1,0 +1,47 @@
+{
+  "questionId": "48",
+  "title": "Rotate Image",
+  "titleSlug": "rotate-image",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).\n\nYou have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.\n\nExample 1:\n\nInput: matrix = [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [[7,4,1],[8,5,2],[9,6,3]]\n\nExample 2:\n\nInput: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]\nOutput: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]\n\nConstraints:\n\n• n == matrix.length == matrix[i].length\n\n• 1 <= n <= 20\n\n• -1000 <= matrix[i][j] <= 1000",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def rotate(self, matrix):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :rtype: None Do not return anything, modify matrix in-place instead.\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[[1,2,3],[4,5,6],[7,8,9]]"
+    ],
+    [
+      "[[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[7,4,1],[8,5,2],[9,6,3]]",
+    "[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "def rotate(matrix):\n    n = len(matrix)\n    for i in range(n // 2):\n        for j in range(i, n - i - 1):\n            temp = matrix[i][j]\n            matrix[i][j] = matrix[n - j - 1][i]\n            matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1]\n            matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1]\n            matrix[j][n - i - 1] = temp",
+    "explanation": "The algorithm iterates over each layer of the matrix gradually working inwards. For each element in the current layer, it performs a 4-way swap (moving elements from left -> top, bottom -> left, right -> bottom, and top -> right). This moves each element in the layer to its new position after rotation without using any additional memory. The algorithm proceeds with this strategy until it reaches the center of the matrix, ensuring that all elements are correctly rotated."
+  },
+  "similarQuestions": "[{\"title\": \"Determine Whether Matrix Can Be Obtained By Rotation\", \"titleSlug\": \"determine-whether-matrix-can-be-obtained-by-rotation\", \"difficulty\": \"Easy\"}]"
+}

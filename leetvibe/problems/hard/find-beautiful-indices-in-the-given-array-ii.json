@@ -1,0 +1,67 @@
+{
+  "questionId": "3303",
+  "title": "Find Beautiful Indices in the Given Array II",
+  "titleSlug": "find-beautiful-indices-in-the-given-array-ii",
+  "difficulty": "Hard",
+  "topicTags": [
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Rolling Hash",
+      "slug": "rolling-hash"
+    },
+    {
+      "name": "String Matching",
+      "slug": "string-matching"
+    },
+    {
+      "name": "Hash Function",
+      "slug": "hash-function"
+    }
+  ],
+  "content": "You are given a 0-indexed string s, a string a, a string b, and an integer k.\n\nAn index i is beautiful if:\n\n• 0 <= i <= s.length - a.length\n\n• s[i..(i + a.length - 1)] == a\n\n• There exists an index j such that:\n\n• 0 <= j <= s.length - b.length\n\n• s[j..(j + b.length - 1)] == b\n\n• |j - i| <= k\n\nReturn the array that contains beautiful indices in sorted order from smallest to largest.\n\nExample 1:\n\nInput: s = \"isawsquirrelnearmysquirrelhouseohmy\", a = \"my\", b = \"squirrel\", k = 15\nOutput: [16,33]\nExplanation: There are 2 beautiful indices: [16,33].\n    - The index 16 is beautiful as s[16..17] == \"my\" and there exists an index 4 with s[4..11] == \"squirrel\" and |16 - 4| Example 2:\n\nInput: s = \"abcd\", a = \"a\", b = \"a\", k = 4\nOutput: [0]\nExplanation: There is 1 beautiful index: [0].\n    - The index 0 is beautiful as s[0..0] == \"a\" and there exists an index 0 with s[0..0] == \"a\" and |0 - 0|\n\nConstraints:\n\n• 1 <= k <= s.length <= 5 * 105\n\n• 1 <= a.length, b.length <= 5 * 105\n\n• s, a, and b contain only lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def beautifulIndices(self, s, a, b, k):\n        \"\"\"\n        :type s: str\n        :type a: str\n        :type b: str\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use KMP or string hashing."
+  ],
+  "testCases": [
+    [
+      "\"isawsquirrelnearmysquirrelhouseohmy\"",
+      "\"my\"",
+      "\"squirrel\"",
+      "15"
+    ],
+    [
+      "\"abcd\"",
+      "\"a\"",
+      "\"a\"",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "[16,33]",
+    "[0]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def beautifulIndices(self, s, a, b, k):\n        \"\"\"\n        :type s: str\n        :type a: str\n        :type b: str\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        def kmp_search(text, pattern):\n            \"\"\"Find all occurrences using KMP\"\"\"\n            n, m = len(text), len(pattern)\n            lps = [0] * m\n            j = 0\n            for i in range(1, m):\n                while j > 0 and pattern[i] != pattern[j]:\n                    j = lps[j - 1]\n                if pattern[i] == pattern[j]:\n                    j += 1\n                lps[i] = j\n            \n            indices = []\n            j = 0\n            for i in range(n):\n                while j > 0 and text[i] != pattern[j]:\n                    j = lps[j - 1]\n                if text[i] == pattern[j]:\n                    j += 1\n                if j == m:\n                    indices.append(i - m + 1)\n                    j = lps[j - 1]\n            return indices\n        \n        a_indices = kmp_search(s, a)\n        b_indices = kmp_search(s, b)\n        \n        result = []\n        for i in a_indices:\n            for j in b_indices:\n                if abs(j - i) <= k:\n                    result.append(i)\n                    break\n        \n        return result",
+    "explanation": "KMP-based string matching solution:\n\n1. **KMP Algorithm**: Finds all pattern occurrences in O(n+m) time\n2. **LPS Array**: Longest Proper Prefix which is also Suffix\n3. **For Each Pattern a**: Store indices where it occurs\n4. **For Each Pattern b**: Store indices where it occurs\n5. **Beautiful Index Check**: For each a_index, verify b_index exists within distance k\n\nTime: O(|s| + |a| + |b|)\nSpace: O(occurrences)"
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,53 @@
+{
+  "questionId": "2715",
+  "title": "K Items With the Maximum Sum",
+  "titleSlug": "k-items-with-the-maximum-sum",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    }
+  ],
+  "content": "There is a bag that consists of items, each item has a number 1, 0, or -1 written on it.\n\nYou are given four non-negative integers numOnes, numZeros, numNegOnes, and k.\n\nThe bag initially contains:\n\n• numOnes items with 1s written on them.\n\n• numZeroes items with 0s written on them.\n\n• numNegOnes items with -1s written on them.\n\nWe want to pick exactly k items among the available items. Return the maximum possible sum of numbers written on the items.\n\nExample 1:\n\nInput: numOnes = 3, numZeros = 2, numNegOnes = 0, k = 2\nOutput: 2\nExplanation: We have a bag of items with numbers written on them {1, 1, 1, 0, 0}. We take 2 items with 1 written on them and get a sum in a total of 2.\n    It can be proven that 2 is the maximum possible sum.\n\nExample 2:\n\nInput: numOnes = 3, numZeros = 2, numNegOnes = 0, k = 4\nOutput: 3\nExplanation: We have a bag of items with numbers written on them {1, 1, 1, 0, 0}. We take 3 items with 1 written on them, and 1 item with 0 written on it, and get a sum in a total of 3.\n    It can be proven that 3 is the maximum possible sum.\n\nConstraints:\n\n• 0 <= numOnes, numZeros, numNegOnes <= 50\n\n• 0 <= k <= numOnes + numZeros + numNegOnes",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def kItemsWithMaximumSum(self, numOnes, numZeros, numNegOnes, k):\n        \"\"\"\n        :type numOnes: int\n        :type numZeros: int\n        :type numNegOnes: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "It is always optimal to take items with the number 1 written on them as much as possible.",
+    "If k > numOnes, after taking all items with the number 1, it is always optimal to take items with the number 0 written on them as much as possible.",
+    "If k > numOnes + numZeroes we are forced to take k - numOnes - numZeroes -1s."
+  ],
+  "testCases": [
+    [
+      "3",
+      "2",
+      "0",
+      "2"
+    ],
+    [
+      "3",
+      "2",
+      "0",
+      "4"
+    ]
+  ],
+  "expectedOutputs": [
+    "2",
+    "3"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def kItemsWithMaximumSum(self, numOnes, numZeros, numNegOnes, k):\n        take_ones = min(k, numOnes)\n        k -= take_ones\n        take_zeros = min(k, numZeros)\n        k -= take_zeros\n        take_negones = k\n        return take_ones - take_negones",
+    "explanation": "Greedy: take all 1s, then 0s, then -1s up to k items.\nTime: O(1)\nSpace: O(1)"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Subarray\", \"titleSlug\": \"maximum-subarray\", \"difficulty\": \"Medium\"}]"
+}

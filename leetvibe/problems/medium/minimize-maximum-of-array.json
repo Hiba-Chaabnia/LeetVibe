@@ -1,0 +1,55 @@
+{
+  "questionId": "2530",
+  "title": "Minimize Maximum of Array",
+  "titleSlug": "minimize-maximum-of-array",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    },
+    {
+      "name": "Greedy",
+      "slug": "greedy"
+    },
+    {
+      "name": "Prefix Sum",
+      "slug": "prefix-sum"
+    }
+  ],
+  "content": "You are given a 0-indexed array nums comprising of n non-negative integers.\n\nIn one operation, you must:\n\n• Choose an integer i such that 1 <= i < n and nums[i] > 0.\n\n• Decrease nums[i] by 1.\n\n• Increase nums[i - 1] by 1.\n\nReturn the minimum possible value of the maximum integer of nums after performing any number of operations.\n\nExample 1:\n\nInput: nums = [3,7,1,6]\nOutput: 5\nExplanation:\n    One set of optimal operations is as follows:\n    1. Choose i = 1, and nums becomes [4,6,1,6].\n    2. Choose i = 3, and nums becomes [4,6,2,5].\n    3. Choose i = 1, and nums becomes [5,5,2,5].\n    The maximum integer of nums is 5. It can be shown that the maximum number cannot be less than 5.\n    Therefore, we return 5.\n\nExample 2:\n\nInput: nums = [10,1]\nOutput: 10\nExplanation:\n    It is optimal to leave nums as is, and since 10 is the maximum value, we return 10.\n\nConstraints:\n\n• n == nums.length\n\n• 2 <= n <= 105\n\n• 0 <= nums[i] <= 109",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimizeArrayValue(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try a binary search approach.",
+    "Perform a binary search over the minimum value that can be achieved for the maximum number of the array.",
+    "In each binary search iteration, iterate through the array backwards, greedily decreasing the current element until it is within the limit."
+  ],
+  "testCases": [
+    [
+      "[3,7,1,6]"
+    ],
+    [
+      "[10,1]"
+    ]
+  ],
+  "expectedOutputs": [
+    "5",
+    "10"
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[{\"title\": \"Maximum Candies Allocated to K Children\", \"titleSlug\": \"maximum-candies-allocated-to-k-children\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Speed to Arrive on Time\", \"titleSlug\": \"minimum-speed-to-arrive-on-time\", \"difficulty\": \"Medium\"}, {\"title\": \"Minimum Time to Complete Trips\", \"titleSlug\": \"minimum-time-to-complete-trips\", \"difficulty\": \"Medium\"}]"
+}

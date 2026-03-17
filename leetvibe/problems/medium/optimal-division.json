@@ -1,0 +1,43 @@
+{
+  "questionId": "553",
+  "title": "Optimal Division",
+  "titleSlug": "optimal-division",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Dynamic Programming",
+      "slug": "dynamic-programming"
+    }
+  ],
+  "content": "You are given an integer array nums. The adjacent integers in nums will perform the float division.\n\n• For example, for nums = [2,3,4], we will evaluate the expression \"2/3/4\".\n\nHowever, you can add any number of parenthesis at any position to change the priority of operations. You want to add these parentheses such the value of the expression after the evaluation is maximum.\n\nReturn the corresponding expression that has the maximum value in string format.\n\nNote: your expression should not contain redundant parenthesis.\n\nExample 1:\n\nInput: nums = [1000,100,10,2]\nOutput: \"1000/(100/10/2)\"\nExplanation: 1000/(100/10/2) = 1000/((100/10)/2) = 200\n    However, the bold parenthesis in \"1000/((100/10)/2)\" are redundant since they do not influence the operation priority.\n    So you should return \"1000/(100/10/2)\".\n    Other cases:\n    1000/(100/10)/2 = 50\n    1000/(100/(10/2)) = 50\n    1000/100/10/2 = 0.5\n    1000/100/(10/2) = 2\n\nExample 2:\n\nInput: nums = [2,3,4]\nOutput: \"2/(3/4)\"\nExplanation: (2/(3/4)) = 8/3 = 2.667\n    It can be shown that after trying all possibilities, we cannot get an expression with evaluation greater than 2.667\n\nConstraints:\n\n• 1 <= nums.length <= 10\n\n• 2 <= nums[i] <= 1000\n\n• There is only one optimal division for the given input.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def optimalDivision(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1000,100,10,2]"
+    ],
+    [
+      "[2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "\"1000/(100/10/2)\"",
+    "\"2/(3/4)\""
+  ],
+  "has_solutions": false,
+  "similarQuestions": "[]"
+}

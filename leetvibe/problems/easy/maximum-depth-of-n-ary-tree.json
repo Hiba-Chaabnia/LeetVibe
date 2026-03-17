@@ -1,0 +1,47 @@
+{
+  "questionId": "774",
+  "title": "Maximum Depth of N-ary Tree",
+  "titleSlug": "maximum-depth-of-n-ary-tree",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Tree",
+      "slug": "tree"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    }
+  ],
+  "content": "Given a n-ary tree, find its maximum depth.\n\nThe maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.\n\nNary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value (See examples).\n\nExample 1:\n\nInput: root = [1,null,3,2,4,null,5,6]\nOutput: 3\n\nExample 2:\n\nInput: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]\nOutput: 5\n\nConstraints:\n\n• The total number of nodes is in the range [0, 104].\n\n• The depth of the n-ary tree is less than or equal to 1000.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "\"\"\"\n# Definition for a Node.\nclass Node(object):\n    def __init__(self, val=None, children=None):\n        self.val = val\n        self.children = children\n\"\"\"\n\nclass Solution(object):\n    def maxDepth(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [],
+  "testCases": [
+    [
+      "[1,null,3,2,4,null,5,6]"
+    ],
+    [
+      "[1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]"
+    ]
+  ],
+  "expectedOutputs": [
+    "3",
+    "5"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def maxDepth(self, root):\n        if not root:\n            return 0\n        if not root.children:\n            return 1\n        return 1 + max(self.maxDepth(child) for child in root.children)",
+    "explanation": "Recursively find max depth among all children.\nTime: O(n)\nSpace: O(h)"
+  },
+  "similarQuestions": "[{\"title\": \"Maximum Depth of Binary Tree\", \"titleSlug\": \"maximum-depth-of-binary-tree\", \"difficulty\": \"Easy\"}, {\"title\": \"The Time When the Network Becomes Idle\", \"titleSlug\": \"the-time-when-the-network-becomes-idle\", \"difficulty\": \"Medium\"}, {\"title\": \"Count the Number of Good Nodes\", \"titleSlug\": \"count-the-number-of-good-nodes\", \"difficulty\": \"Medium\"}]"
+}

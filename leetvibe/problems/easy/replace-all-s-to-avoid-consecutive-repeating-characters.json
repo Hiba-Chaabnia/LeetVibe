@@ -1,0 +1,42 @@
+{
+  "questionId": "1698",
+  "title": "Replace All ?'s to Avoid Consecutive Repeating Characters",
+  "titleSlug": "replace-all-s-to-avoid-consecutive-repeating-characters",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "String",
+      "slug": "string"
+    }
+  ],
+  "content": "Given a string s containing only lowercase English letters and the '?' character, convert all the '?' characters into lowercase letters such that the final string does not contain any consecutive repeating characters. You cannot modify the non '?' characters.\n\nIt is guaranteed that there are no consecutive repeating characters in the given string except for '?'.\n\nReturn the final string after all the conversions (possibly zero) have been made. If there is more than one solution, return any of them. It can be shown that an answer is always possible with the given constraints.\n\nExample 1:\n\nInput: s = \"?zs\"\nOutput: \"azs\"\nExplanation: There are 25 solutions for this problem. From \"azs\" to \"yzs\", all are valid. Only \"z\" is an invalid modification as the string will consist of consecutive repeating characters in \"zzs\".\n\nExample 2:\n\nInput: s = \"ubv?w\"\nOutput: \"ubvaw\"\nExplanation: There are 24 solutions for this problem. Only \"v\" and \"w\" are invalid modifications as the strings will consist of consecutive repeating characters in \"ubvvw\" and \"ubvww\".\n\nConstraints:\n\n• 1 <= s.length <= 100\n\n• s consist of lowercase English letters and '?'.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def modifyString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Processing string from left to right, whenever you get a ‘?’, check left character and right character, and select a character not equal to either of them",
+    "Do take care to compare with replaced occurrence of ‘?’ when checking the left character."
+  ],
+  "testCases": [
+    [
+      "\"?zs\""
+    ],
+    [
+      "\"ubv?w\""
+    ]
+  ],
+  "expectedOutputs": [
+    "\"azs\"",
+    "\"ubvaw\""
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def modifyString(self, s):\n        s_list = list(s)\n        for i in range(len(s)):\n            if s_list[i] == '?':\n                for char in 'abc':\n                    if (i == 0 or s_list[i-1] != char) and (i == len(s)-1 or s_list[i+1] != char):\n                        s_list[i] = char\n                        break\n        return ''.join(s_list)",
+    "explanation": "For each '?', find char not matching neighbors. Try 'a', 'b', 'c'.\nTime: O(n)\nSpace: O(n)"
+  },
+  "similarQuestions": "[]"
+}

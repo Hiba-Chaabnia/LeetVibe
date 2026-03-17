@@ -1,0 +1,69 @@
+{
+  "questionId": "3314",
+  "title": "Most Frequent Prime",
+  "titleSlug": "most-frequent-prime",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Math",
+      "slug": "math"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    },
+    {
+      "name": "Counting",
+      "slug": "counting"
+    },
+    {
+      "name": "Enumeration",
+      "slug": "enumeration"
+    },
+    {
+      "name": "Number Theory",
+      "slug": "number-theory"
+    }
+  ],
+  "content": "You are given a m x n 0-indexed 2D matrix mat. From every cell, you can create numbers in the following way:\n\n• There could be at most 8 paths from the cells namely: east, south-east, south, south-west, west, north-west, north, and north-east.\n\n• Select a path from them and append digits in this path to the number being formed by traveling in this direction.\n\n• Note that numbers are generated at every step, for example, if the digits along the path are 1, 9, 1, then there will be three numbers generated along the way: 1, 19, 191.\n\nReturn the most frequent prime number greater than 10 out of all the numbers created by traversing the matrix or -1 if no such prime number exists. If there are multiple prime numbers with the highest frequency, then return the largest among them.\n\nNote: It is invalid to change the direction during the move.\n\nExample 1:\n\nInput: mat = [[1,1],[9,9],[1,1]]\nOutput: 19\nExplanation:\n    From cell (0,0) there are 3 possible directions and the numbers greater than 10 which can be created in those directions are:\n    East: [11], South-East: [19], South: [19,191].\n    Numbers greater than 10 created from the cell (0,1) in all possible directions are: [19,191,19,11].\n    Numbers greater than 10 created from the cell (1,0) in all possible directions are: [99,91,91,91,91].\n    Numbers greater than 10 created from the cell (1,1) in all possible directions are: [91,91,99,91,91].\n    Numbers greater than 10 created from the cell (2,0) in all possible directions are: [11,19,191,19].\n    Numbers greater than 10 created from the cell (2,1) in all possible directions are: [11,19,19,191].\n    The most frequent prime number among all the created numbers is 19.\n\nExample 2:\n\nInput: mat = [[7]]\nOutput: -1\nExplanation: The only number which can be formed is 7. It is a prime number however it is not greater than 10, so return -1.\n\nExample 3:\n\nInput: mat = [[9,7,8],[4,6,5],[2,8,6]]\nOutput: 97\nExplanation:\n    Numbers greater than 10 created from the cell (0,0) in all possible directions are: [97,978,96,966,94,942].\n    Numbers greater than 10 created from the cell (0,1) in all possible directions are: [78,75,76,768,74,79].\n    Numbers greater than 10 created from the cell (0,2) in all possible directions are: [85,856,86,862,87,879].\n    Numbers greater than 10 created from the cell (1,0) in all possible directions are: [46,465,48,42,49,47].\n    Numbers greater than 10 created from the cell (1,1) in all possible directions are: [65,66,68,62,64,69,67,68].\n    Numbers greater than 10 created from the cell (1,2) in all possible directions are: [56,58,56,564,57,58].\n    Numbers greater than 10 created from the cell (2,0) in all possible directions are: [28,286,24,249,26,268].\n    Numbers greater than 10 created from the cell (2,1) in all possible directions are: [86,82,84,86,867,85].\n    Numbers greater than 10 created from the cell (2,2) in all possible directions are: [68,682,66,669,65,658].\n    The most frequent prime number among all the created numbers is 97.\n\nConstraints:\n\n• m == mat.length\n\n• n == mat[i].length\n\n• 1 <= m, n <= 6\n\n• 1 <= mat[i][j] <= 9",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mostFrequentPrime(self, mat):\n        \"\"\"\n        :type mat: List[List[int]]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use recursion to find all possible numbers for each cell and then check for prime."
+  ],
+  "testCases": [
+    [
+      "[[1,1],[9,9],[1,1]]"
+    ],
+    [
+      "[[7]]"
+    ],
+    [
+      "[[9,7,8],[4,6,5],[2,8,6]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "19",
+    "-1",
+    "97"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "from collections import defaultdict\n\nclass Solution(object):\n    def mostFrequentPrime(self, mat):\n        def is_prime(x):\n            if x < 2: return False\n            if x < 4: return True\n            if x % 2 == 0 or x % 3 == 0: return False\n            i = 5\n            while i * i <= x:\n                if x % i == 0 or x % (i + 2) == 0:\n                    return False\n                i += 6\n            return True\n\n        m, n = len(mat), len(mat[0])\n        dirs = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]\n        freq = defaultdict(int)\n\n        for r in range(m):\n            for c in range(n):\n                for dr, dc in dirs:\n                    num = 0\n                    nr, nc = r, c\n                    while 0 <= nr < m and 0 <= nc < n:\n                        num = num * 10 + mat[nr][nc]\n                        if num > 10 and is_prime(num):\n                            freq[num] += 1\n                        nr += dr\n                        nc += dc\n\n        if not freq:\n            return -1\n        max_freq = max(freq.values())\n        return max(k for k, v in freq.items() if v == max_freq)",
+    "explanation": "For each cell (r, c) and each of the 8 directions, we walk outward building numbers digit by digit. At each step, if the current number exceeds 10 and is prime, we count it.\n\nWith a 6x6 grid and max path length 6, numbers are at most 6 digits (≤ 999999). Primality check by trial division up to sqrt(n) is fast for such small numbers.\n\nAfter collecting all prime frequencies, we return the prime with maximum frequency (largest among ties).\n\nTime complexity: O(m * n * 8 * max_path * sqrt(max_num)). Space complexity: O(distinct primes found)."
+  },
+  "similarQuestions": "[]"
+}

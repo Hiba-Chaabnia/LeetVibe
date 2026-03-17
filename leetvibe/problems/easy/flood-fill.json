@@ -1,0 +1,59 @@
+{
+  "questionId": "733",
+  "title": "Flood Fill",
+  "titleSlug": "flood-fill",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search"
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search"
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix"
+    }
+  ],
+  "content": "You are given an image represented by an m x n grid of integers image, where image[i][j] represents the pixel value of the image. You are also given three integers sr, sc, and color. Your task is to perform a flood fill on the image starting from the pixel image[sr][sc].\n\nTo perform a flood fill:\n\n• Begin with the starting pixel and change its color to color.\n\n• Perform the same process for each pixel that is directly adjacent (pixels that share a side with the original pixel, either horizontally or vertically) and shares the same color as the starting pixel.\n\n• Keep repeating this process by checking neighboring pixels of the updated pixels and modifying their color if it matches the original color of the starting pixel.\n\n• The process stops when there are no more adjacent pixels of the original color to update.\n\nReturn the modified image after performing the flood fill.\n\nExample 1:\n\nInput: image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, color = 2\n\nOutput: [[2,2,2],[2,2,0],[2,0,1]]\n\nExplanation: From the center of the image with position (sr, sc) = (1, 1) (i.e., the red pixel), all pixels connected by a path of the same color as the starting pixel (i.e., the blue pixels) are colored with the new color.\n\nNote the bottom corner is not colored 2, because it is not horizontally or vertically connected to the starting pixel.\n\nExample 2:\n\nInput: image = [[0,0,0],[0,0,0]], sr = 0, sc = 0, color = 0\n\nOutput: [[0,0,0],[0,0,0]]\n\nExplanation: The starting pixel is already colored with 0, which is the same as the target color. Therefore, no changes are made to the image.\n\nConstraints:\n\n• m == image.length\n\n• n == image[i].length\n\n• 1 <= m, n <= 50\n\n• 0 <= image[i][j], color < 216\n\n• 0 <= sr < m\n\n• 0 <= sc < n",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def floodFill(self, image, sr, sc, color):\n        \"\"\"\n        :type image: List[List[int]]\n        :type sr: int\n        :type sc: int\n        :type color: int\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Write a recursive function that paints the pixel if it's the correct color, then recurses on neighboring pixels."
+  ],
+  "testCases": [
+    [
+      "[[1,1,1],[1,1,0],[1,0,1]]",
+      "1",
+      "1",
+      "2"
+    ],
+    [
+      "[[0,0,0],[0,0,0]]",
+      "0",
+      "0",
+      "0"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[2,2,2],[2,2,0],[2,0,1]]",
+    "[[0,0,0],[0,0,0]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def floodFill(self, image, sr, sc, newColor):\n        original = image[sr][sc]\n        if original == newColor:\n            return image\n        def dfs(i, j):\n            if i < 0 or i >= len(image) or j < 0 or j >= len(image[0]) or image[i][j] != original:\n                return\n            image[i][j] = newColor\n            dfs(i+1, j)\n            dfs(i-1, j)\n            dfs(i, j+1)\n            dfs(i, j-1)\n        dfs(sr, sc)\n        return image",
+    "explanation": "DFS from start. Change all connected cells with original color.\nTime: O(m*n)\nSpace: O(m*n)"
+  },
+  "similarQuestions": "[{\"title\": \"Island Perimeter\", \"titleSlug\": \"island-perimeter\", \"difficulty\": \"Easy\"}]"
+}

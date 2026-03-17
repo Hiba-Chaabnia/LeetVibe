@@ -1,0 +1,45 @@
+{
+  "questionId": "3429",
+  "title": "Special Array I",
+  "titleSlug": "special-array-i",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "An array is considered special if the parity of every pair of adjacent elements is different. In other words, one element in each pair must be even, and the other must be odd.\n\nYou are given an array of integers nums. Return true if nums is a special array, otherwise, return false.\n\nExample 1:\n\nInput: nums = [1]\n\nOutput: true\n\nExplanation: There is only one element. So the answer is true.\n\nExample 2:\n\nInput: nums = [2,1,4]\n\nOutput: true\n\nExplanation: There is only two pairs: (2,1) and (1,4), and both of them contain numbers with different parity. So the answer is true.\n\nExample 3:\n\nInput: nums = [4,3,1,6]\n\nOutput: false\n\nExplanation: nums[1] and nums[2] are both odd. So the answer is false.\n\nConstraints:\n\n• 1 <= nums.length <= 100\n\n• 1 <= nums[i] <= 100",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def isArraySpecial(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try to check the parity of each element and its previous element."
+  ],
+  "testCases": [
+    [
+      "[1]"
+    ],
+    [
+      "[2,1,4]"
+    ],
+    [
+      "[4,3,1,6]"
+    ]
+  ],
+  "expectedOutputs": [
+    "true",
+    "true",
+    "false"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def isArraySpecial(self, nums):\n        return all(nums[i] % 2 != nums[i + 1] % 2 for i in range(len(nums) - 1))",
+    "explanation": "An array is special if every pair of adjacent elements has different parity; check all consecutive pairs. O(n) time."
+  },
+  "similarQuestions": "[]"
+}

@@ -1,0 +1,46 @@
+{
+  "questionId": "4199",
+  "title": "Minimum Prefix Removal to Make Array Strictly Increasing",
+  "titleSlug": "minimum-prefix-removal-to-make-array-strictly-increasing",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    }
+  ],
+  "content": "You are given an integer array nums.\n\nYou need to remove exactly one prefix (possibly empty) from nums.\n\nReturn an integer denoting the minimum length of the removed prefix such that the remaining array is strictly increasing.\n\nExample 1:\n\nInput: nums = [1,-1,2,3,3,4,5]\n\nOutput: 4\n\nExplanation: Removing the prefix = [1, -1, 2, 3] leaves the remaining array [3, 4, 5] which is strictly increasing.\n\nExample 2:\n\nInput: nums = [4,3,-2,-5]\n\nOutput: 3\n\nExplanation: Removing the prefix = [4, 3, -2] leaves the remaining array [-5] which is strictly increasing.\n\nExample 3:\n\nInput: nums = [1,2,3,4]\n\nOutput: 0\n\nExplanation: The array nums = [1, 2, 3, 4] is already strictly increasing so removing an empty prefix is sufficient.\n\nConstraints:\n\n• 1 <= nums.length <= 105\n\n• -109 <= nums[i] <= 109​​​​​​​",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def minimumPrefixLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Find the first index i from the right such that nums[i] >= nums[i + 1].",
+    "If such an index exists, the answer is i + 1; otherwise, the array is already strictly increasing."
+  ],
+  "testCases": [
+    [
+      "[1,-1,2,3,3,4,5]"
+    ],
+    [
+      "[4,3,-2,-5]"
+    ],
+    [
+      "[1,2,3,4]"
+    ]
+  ],
+  "expectedOutputs": [
+    "4",
+    "3",
+    "0"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def minimumPrefixLength(self, nums):\n        n = len(nums)\n        last_violation = -1\n        for i in range(n - 1):\n            if nums[i] >= nums[i + 1]:\n                last_violation = i\n        return last_violation + 1",
+    "explanation": "A 'violation' at index i means nums[i] >= nums[i+1]. To keep a strictly increasing suffix starting at index j, all pairs from j onward must be strictly increasing, so j must be strictly after the last violation. We scan once to find the rightmost violation index i; the answer is i+1. If no violations exist, return 0.\n\nTime: O(n). Space: O(1)."
+  },
+  "similarQuestions": "[]"
+}

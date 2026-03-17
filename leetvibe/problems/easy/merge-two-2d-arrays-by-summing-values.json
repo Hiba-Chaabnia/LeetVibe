@@ -1,0 +1,51 @@
+{
+  "questionId": "2707",
+  "title": "Merge Two 2D Arrays by Summing Values",
+  "titleSlug": "merge-two-2d-arrays-by-summing-values",
+  "difficulty": "Easy",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table"
+    },
+    {
+      "name": "Two Pointers",
+      "slug": "two-pointers"
+    }
+  ],
+  "content": "You are given two 2D integer arrays nums1 and nums2.\n\n• nums1[i] = [idi, vali] indicate that the number with the id idi has a value equal to vali.\n\n• nums2[i] = [idi, vali] indicate that the number with the id idi has a value equal to vali.\n\nEach array contains unique ids and is sorted in ascending order by id.\n\nMerge the two arrays into one array that is sorted in ascending order by id, respecting the following conditions:\n\n• Only ids that appear in at least one of the two arrays should be included in the resulting array.\n\n• Each id should be included only once and its value should be the sum of the values of this id in the two arrays. If the id does not exist in one of the two arrays, then assume its value in that array to be 0.\n\nReturn the resulting array. The returned array must be sorted in ascending order by id.\n\nExample 1:\n\nInput: nums1 = [[1,2],[2,3],[4,5]], nums2 = [[1,4],[3,2],[4,1]]\nOutput: [[1,6],[2,3],[3,2],[4,6]]\nExplanation: The resulting array contains the following:\n    - id = 1, the value of this id is 2 + 4 = 6.\n    - id = 2, the value of this id is 3.\n    - id = 3, the value of this id is 2.\n    - id = 4, the value of this id is 5 + 1 = 6.\n\nExample 2:\n\nInput: nums1 = [[2,4],[3,6],[5,5]], nums2 = [[1,3],[4,3]]\nOutput: [[1,3],[2,4],[3,6],[4,3],[5,5]]\nExplanation: There are no common ids, so we just include each id with its value in the resulting list.\n\nConstraints:\n\n• 1 <= nums1.length, nums2.length <= 200\n\n• nums1[i].length == nums2[j].length == 2\n\n• 1 <= idi, vali <= 1000\n\n• Both arrays contain unique ids.\n\n• Both arrays are in strictly ascending order by id.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def mergeArrays(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[List[int]]\n        :type nums2: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Use a dictionary/hash map to keep track of the indices and their sum\r\nvalues."
+  ],
+  "testCases": [
+    [
+      "[[1,2],[2,3],[4,5]]",
+      "[[1,4],[3,2],[4,1]]"
+    ],
+    [
+      "[[2,4],[3,6],[5,5]]",
+      "[[1,3],[4,3]]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[[1,6],[2,3],[3,2],[4,6]]",
+    "[[1,3],[2,4],[3,6],[4,3],[5,5]]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution(object):\n    def mergeArrays(self, items1, items2):\n        from collections import defaultdict\n        values = defaultdict(int)\n        for id_val, weight in items1 + items2:\n            values[id_val] += weight\n        return sorted(values.items())",
+    "explanation": "Combine both arrays. Sum weights by id. Sort by id.\nTime: O((n+m)*log(n+m))\nSpace: O(n+m)"
+  },
+  "similarQuestions": "[{\"title\": \"Merge Two Sorted Lists\", \"titleSlug\": \"merge-two-sorted-lists\", \"difficulty\": \"Easy\"}, {\"title\": \"Meeting Scheduler\", \"titleSlug\": \"meeting-scheduler\", \"difficulty\": \"Medium\"}, {\"title\": \"Merge Similar Items\", \"titleSlug\": \"merge-similar-items\", \"difficulty\": \"Easy\"}]"
+}

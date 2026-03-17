@@ -1,0 +1,54 @@
+{
+  "questionId": "2550",
+  "title": "Words Within Two Edits of Dictionary",
+  "titleSlug": "words-within-two-edits-of-dictionary",
+  "difficulty": "Medium",
+  "topicTags": [
+    {
+      "name": "Array",
+      "slug": "array"
+    },
+    {
+      "name": "String",
+      "slug": "string"
+    },
+    {
+      "name": "Trie",
+      "slug": "trie"
+    }
+  ],
+  "content": "You are given two string arrays, queries and dictionary. All words in each array comprise of lowercase English letters and have the same length.\n\nIn one edit you can take a word from queries, and change any letter in it to any other letter. Find all words from queries that, after a maximum of two edits, equal some word from dictionary.\n\nReturn a list of all words from queries, that match with some word from dictionary after a maximum of two edits. Return the words in the same order they appear in queries.\n\nExample 1:\n\nInput: queries = [\"word\",\"note\",\"ants\",\"wood\"], dictionary = [\"wood\",\"joke\",\"moat\"]\nOutput: [\"word\",\"note\",\"wood\"]\nExplanation:\n    - Changing the 'r' in \"word\" to 'o' allows it to equal the dictionary word \"wood\".\n    - Changing the 'n' to 'j' and the 't' to 'k' in \"note\" changes it to \"joke\".\n    - It would take more than 2 edits for \"ants\" to equal a dictionary word.\n    - \"wood\" can remain unchanged (0 edits) and match the corresponding dictionary word.\n    Thus, we return [\"word\",\"note\",\"wood\"].\n\nExample 2:\n\nInput: queries = [\"yes\"], dictionary = [\"not\"]\nOutput: []\nExplanation:\n    Applying any two edits to \"yes\" cannot make it equal to \"not\". Thus, we return an empty array.\n\nConstraints:\n\n• 1 <= queries.length, dictionary.length <= 100\n\n• n == queries[i].length == dictionary[j].length\n\n• 1 <= n <= 100\n\n• All queries[i] and dictionary[j] are composed of lowercase English letters.",
+  "codeSnippets": [
+    {
+      "lang": "Python",
+      "langSlug": "python",
+      "code": "class Solution(object):\n    def twoEditWords(self, queries, dictionary):\n        \"\"\"\n        :type queries: List[str]\n        :type dictionary: List[str]\n        :rtype: List[str]\n        \"\"\"\n        "
+    }
+  ],
+  "hints": [
+    "Try brute-forcing the problem.",
+    "For each word in queries, try comparing to each word in dictionary.",
+    "If there is a maximum of two edit differences, the word should be present in answer."
+  ],
+  "testCases": [
+    [
+      "[\"word\",\"note\",\"ants\",\"wood\"]",
+      "[\"wood\",\"joke\",\"moat\"]"
+    ],
+    [
+      "[\"yes\"]",
+      "[\"not\"]"
+    ]
+  ],
+  "expectedOutputs": [
+    "[\"word\",\"note\",\"wood\"]",
+    "[]"
+  ],
+  "has_solutions": true,
+  "solutions": {
+    "python": "class Solution:\n    def twoEditWords(self, queries, dictionary):\n        \"\"\"\n        :type queries: List[str]\n        :type dictionary: List[str]\n        :rtype: List[str]\n        \"\"\"\n        def editDistance(a, b):\n            count = 0\n            for i in range(len(a)):\n                if a[i] != b[i]:\n                    count += 1\n            return count\n        \n        result = []\n        for query in queries:\n            for word in dictionary:\n                if editDistance(query, word) <= 2:\n                    result.append(query)\n                    break\n        \n        return result",
+    "explanation": "For each query, check if any dict word has distance ≤2.",
+    "complexity": "Time: O(q*d*m) where m=word length. Space: O(1)."
+  },
+  "similarQuestions": "[{\"title\": \"Word Ladder\", \"titleSlug\": \"word-ladder\", \"difficulty\": \"Hard\"}]"
+}
