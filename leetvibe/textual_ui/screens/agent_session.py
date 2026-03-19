@@ -12,9 +12,9 @@ from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalGroup, VerticalScroll
 from textual.widgets import Button, Input, Static
 
-from ...challenge_loader import Challenge
+from ...problem_loader import Problem
 from ..theme import FIRE, GRADIENT, GREEN, RED, SHIMMER
-from ..widgets.challenge_card import ChallengeCard
+from ..widgets.problem_card import ProblemCard
 from ..widgets.status_bar import StatusBar
 from .base import BaseScreen
 
@@ -746,12 +746,12 @@ class AgentSessionScreen(BaseScreen):
 
     def __init__(
         self,
-        challenge: Challenge,
+        problem: Problem,
         mode: str = "learn",
         user_code: str = "",
     ) -> None:
         super().__init__()
-        self._challenge = challenge
+        self._problem = problem
         self._mode = mode
         self._user_code = user_code
         self._running = False
@@ -774,7 +774,7 @@ class AgentSessionScreen(BaseScreen):
     # ── Layout ────────────────────────────────────────────────────────
 
     def compose(self) -> ComposeResult:
-        ch = self._challenge
+        ch = self._problem
         diff_color = {"easy": GREEN, "medium": "#FFB300", "hard": RED}.get(
             ch.difficulty.lower(), "#888888"
         )
@@ -792,7 +792,7 @@ class AgentSessionScreen(BaseScreen):
 
         with Horizontal(id="session-body"):
             with VerticalScroll(id="description-panel"):
-                yield ChallengeCard(ch)
+                yield ProblemCard(ch)
                 yield Static("", id="interview-opening", markup=True)
             with ChatScroll(id="chat-scroll"):
                 with VerticalGroup(id="prior-history"):
@@ -827,7 +827,7 @@ class AgentSessionScreen(BaseScreen):
     # ── Lifecycle ─────────────────────────────────────────────────────
 
     def on_mount(self) -> None:
-        ch = self._challenge
+        ch = self._problem
         diff_color = {"easy": GREEN, "medium": "#FFB300", "hard": RED}.get(
             ch.difficulty.lower(), "#888888"
         )
@@ -858,7 +858,7 @@ class AgentSessionScreen(BaseScreen):
         self._running = True
         # Interview mode has no numbered steps — use plain AssistantBlock throughout
         self._step_mode = self._mode != "interview"
-        self._run_agent(self._challenge, self._mode, self._user_code)
+        self._run_agent(self._problem, self._mode, self._user_code)
 
     def on_unmount(self) -> None:
         """Stop any in-progress audio when the screen is closed."""
@@ -913,15 +913,15 @@ class AgentSessionScreen(BaseScreen):
     # ── Worker ────────────────────────────────────────────────────────
 
     @work(thread=True)
-    def _run_agent(self, challenge: Challenge, mode: str, user_code: str) -> None:
+    def _run_agent(self, problem: Problem, mode: str, user_code: str) -> None:
         """Background thread: streams agent output into step widgets."""
         from ...session_log import SessionLog
         from ...cloud.db import load_messages, save_messages, upsert_session
 
-        session_log = SessionLog(challenge, mode, user_code)
+        session_log = SessionLog(problem, mode, user_code)
         error_msg: str | None = None
 
-        problem_slug = getattr(challenge, "title_slug", None) or challenge.title
+        problem_slug = getattr(problem, "title_slug", None) or problem.title
 
         try:
             from ...config import load_config
@@ -931,7 +931,7 @@ class AgentSessionScreen(BaseScreen):
 
             # Establish (or retrieve) the cloud session row
             self._cloud_session_id = upsert_session(
-                problem_slug, challenge.difficulty, mode
+                problem_slug, problem.difficulty, mode
             )
 
             # Check for a prior conversation to resume
@@ -964,7 +964,7 @@ class AgentSessionScreen(BaseScreen):
                 )
             else:
                 # Fresh session: run the full solve workflow
-                for chunk in self._agent.solve_streaming(challenge, mode, user_code):
+                for chunk in self._agent.solve_streaming(problem, mode, user_code):
                     if not self._running:
                         break
                     session_log.record_chunk(chunk)
@@ -1150,14 +1150,14 @@ class AgentSessionScreen(BaseScreen):
             return
         threading.Thread(
             target=self._post_session_worker,
-            args=(self, self._challenge, self._agent, step7_text),
+            args=(self, self._problem, self._agent, step7_text),
             daemon=True,
         ).start()
 
     @staticmethod
     def _post_session_worker(
         screen: "AgentSessionScreen",
-        challenge: object,
+        problem: object,
         agent: object,
         step7_text: str,
     ) -> None:
@@ -1182,7 +1182,7 @@ class AgentSessionScreen(BaseScreen):
 
             # ── Recap ─────────────────────────────────────────────────
             log_data = AgentSessionScreen._extract_log_session_data(agent)
-            recap = AgentSessionScreen._generate_recap_text(challenge, log_data)
+            recap = AgentSessionScreen._generate_recap_text(problem, log_data)
             if recap:
                 items.append(("Session Recap", recap, "mentor"))
 
@@ -1312,10 +1312,10 @@ class AgentSessionScreen(BaseScreen):
         }
 
     @staticmethod
-    def _generate_recap_text(challenge: object, log_data: dict) -> str:
+    def _generate_recap_text(problem: object, log_data: dict) -> str:
         """Call Mistral to write a 2-sentence podcast recap; template on failure."""
-        title = log_data.get("problem_title") or getattr(challenge, "title", "the problem")
-        difficulty = (log_data.get("difficulty") or getattr(challenge, "difficulty", "")).capitalize()
+        title = log_data.get("problem_title") or getattr(problem, "title", "the problem")
+        difficulty = (log_data.get("difficulty") or getattr(problem, "difficulty", "")).capitalize()
         time_s = int(log_data.get("time_seconds") or 0)
         complexity = log_data.get("final_complexity", "")
         solved = log_data.get("solved", True)
@@ -1488,7 +1488,7 @@ class AgentSessionScreen(BaseScreen):
     def _do_reset(self) -> None:
         """Delete cloud messages then switch to a fresh session screen."""
         from ...cloud.db import reset_session
-        ch = self._challenge
+        ch = self._problem
         problem_slug = getattr(ch, "title_slug", None) or ch.title
         reset_session(problem_slug, self._mode)
         self.app.call_from_thread(

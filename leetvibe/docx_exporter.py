@@ -1,4 +1,4 @@
-"""DOCX export for the LeetVibe Concepts Reference Guide.
+"""DOCX export for the LeetVibe Playbook Reference Guide.
 
 Requires python-docx (listed in project dependencies).
 Call export_reference_docx(topics, notes) → returns the output file path string.
@@ -109,11 +109,18 @@ def export_reference_docx(topics: list[dict], notes: dict[str, str]) -> str:
         _run(p, topic["space"], Pt(10), color=RGBColor(*_AMBER))
 
         # Classic problems
-        _section_label(doc, "Classic Problems", Pt, RGBColor(*_GOLD))
-        for prob in topic["problems"]:
-            bp = doc.add_paragraph(style="List Bullet")
-            bp.add_run(prob).font.size = Pt(10)
-            _set_para_spacing(bp, before=0, after=1)
+        if topic.get("problems"):
+            _section_label(doc, "Classic Problems", Pt, RGBColor(*_GOLD))
+            _DIFF_FULL = {"E": "Easy", "M": "Medium", "H": "Hard"}
+            for prob in topic["problems"]:
+                if isinstance(prob, tuple):
+                    name, diff = prob
+                    label = f"{name}  [{_DIFF_FULL.get(diff, diff)}]"
+                else:
+                    label = str(prob)
+                bp = doc.add_paragraph(style="List Bullet")
+                bp.add_run(label).font.size = Pt(10)
+                _set_para_spacing(bp, before=0, after=1)
 
         # Notes
         if note:
@@ -140,7 +147,7 @@ def _cover(doc, WD_ALIGN, Pt, RGBColor) -> None:
 
     p2 = doc.add_paragraph()
     p2.alignment = WD_ALIGN.CENTER
-    r2 = p2.add_run("Concepts Reference Guide")
+    r2 = p2.add_run("Playbook Reference Guide")
     r2.bold = True
     r2.font.size = Pt(18)
     r2.font.color.rgb = RGBColor(*_GOLD)

@@ -1,4 +1,4 @@
-"""ChallengeDetailScreen — LeetCode-style two-panel layout with custom top bar."""
+"""ProblemDetailScreen — LeetCode-style two-panel layout with custom top bar."""
 
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ from textual.widgets import (
     TabPane,
     TextArea,
 )
+from textual.worker import Worker, WorkerState
 
 
 class CodeEditor(TextArea):
@@ -24,12 +25,11 @@ class CodeEditor(TextArea):
     BINDINGS = [
         Binding("ctrl+a", "select_all", "Select All", show=False, priority=True),
     ]
-from textual.worker import Worker, WorkerState
 
-from ...challenge_loader import Challenge
+from ...problem_loader import Problem
 from ...cloud.auth import is_logged_in
 from ...code_runner import CaseResult, run_tests
-from ..widgets.challenge_card import ChallengeCard
+from ..widgets.problem_card import ProblemCard
 from ..widgets.status_bar import StatusBar
 from .base import BaseScreen
 
@@ -55,14 +55,14 @@ class _DetailTopBar(Horizontal):
 
     def __init__(
         self,
-        challenge: Challenge,
+        problem: Problem,
         index: int,
         total: int,
         logged_in: bool,
         **kwargs,
     ) -> None:
         super().__init__(**kwargs)
-        self._ch = challenge
+        self._ch = problem
         self._index = index
         self._total = total
         self._logged_in = logged_in
@@ -90,16 +90,16 @@ class _DetailTopBar(Horizontal):
 class _DetailBody(Horizontal):
     """Two-panel body: scrollable description (left) + editor and tabs (right)."""
 
-    def __init__(self, challenge: Challenge, **kwargs) -> None:
+    def __init__(self, problem: Problem, **kwargs) -> None:
         super().__init__(**kwargs)
-        self._ch = challenge
+        self._ch = problem
 
     def compose(self) -> ComposeResult:
         ch = self._ch
 
         with Vertical(id="left-panel"):
             with VerticalScroll(id="left-scroll"):
-                yield ChallengeCard(ch, id="challenge-card")
+                yield ProblemCard(ch, id="problem-card")
 
         with Vertical(id="right-panel"):
             with Vertical(id="editor-panel"):
@@ -124,54 +124,56 @@ class _DetailBody(Horizontal):
                             yield Static(ch.solution_explanation or "", id="solution-explanation")
                         else:
                             yield Static(
-                                "No solution available for this challenge.",
+                                "No solution available for this problem.",
                                 id="no-solution-msg",
                             )
 
 
-class ChallengeDetailScreen(BaseScreen):
+class ProblemDetailScreen(BaseScreen):
     """Full problem view: top bar, description panel, code editor, tabs."""
 
     BINDINGS = [
-        Binding("escape",  "pop_screen",     "Problem List"),
-        Binding("ctrl+q",  "quit_app",       "Exit LeetVibe"),
-        Binding("ctrl+p",  "open_palette",   "Palette",       show=False),
-        Binding("left",    "prev_challenge", "Prev",          show=False),
-        Binding("right",   "next_challenge", "Next",          show=False),
-        Binding("h",       "toggle_hints",   "Hints"),
-        Binding("l",       "start_session",  "Learn with LeetVibe", show=False),
-        Binding("p",       "start_session",  "Pair with LeetVibe",  show=False),
+        Binding("escape",  "pop_screen",          "Problem List"),
+        Binding("ctrl+q",  "quit_app",            "Exit LeetVibe"),
+        Binding("ctrl+p",  "open_palette",        "Palette",            show=False),
+        Binding("left",    "prev_problem",      "Prev",               show=False),
+        Binding("right",   "next_problem",      "Next",               show=False),
+        Binding("h",       "toggle_hints",        "Hints"),
+        Binding("l",       "start_learn_session", "Learn with LeetVibe", show=False),
+        Binding("p",       "start_pair_session",  "Pair with LeetVibe",  show=False),
     ]
 
     def __init__(
         self,
-        challenge: Challenge,
-        challenges: list[Challenge],
+        problem: Problem,
+        problems: list[Problem],
         index: int,
         mode: str = "learn",
+        drafts: dict[str, str] | None = None,
     ) -> None:
         super().__init__()
-        self._challenge = challenge
-        self._challenges = challenges
+        self._problem = problem
+        self._problems = problems
         self._index = index
         self._mode = mode
+        self._drafts: dict[str, str] = drafts if drafts is not None else {}
         self._solution_shown = False
         self._logged_in = is_logged_in()
         self._cloud_session_id: str | None = None
 
     def compose(self) -> ComposeResult:
         yield _DetailTopBar(
-            self._challenge,
+            self._problem,
             self._index,
-            len(self._challenges),
+            len(self._problems),
             self._logged_in,
             id="top-bar",
         )
-        yield _DetailBody(self._challenge, id="detail-body")
+        yield _DetailBody(self._problem, id="detail-body")
         if self._mode == "learn":
-            session_hint = ("L", "Learn with LeetVibe", self.action_start_session, True)
+            session_hint = ("L", "Learn with AI", self.action_start_learn_session, True)
         else:
-            session_hint = ("P", "Pair with LeetVibe", self.action_start_session, True)
+            session_hint = ("P", "Pair with AI",  self.action_start_pair_session,  True)
         yield StatusBar(
             hints=[
                 session_hint,
@@ -192,13 +194,17 @@ class ChallengeDetailScreen(BaseScreen):
         )
         self._populate_testcase_table()
         self._setup_result_table()
-        if not self._challenge.hints:
+        if not self._problem.hints:
             self.query_one("#detail-status", StatusBar).set_hint_visible(1, False)
+        # Restore draft if one exists for this problem
+        draft = self._drafts.get(self._problem.id)
+        if draft is not None:
+            self._load_editor(draft)
 
     # ── Helpers ────────────────────────────────────────────────────────
 
     def _populate_testcase_table(self) -> None:
-        ch = self._challenge
+        ch = self._problem
         table = self.query_one("#testcase-table", DataTable)
         table.add_columns("#", "Input", "Expected Output")
         for i, inputs in enumerate(ch.test_cases[:5], 1):
@@ -213,8 +219,17 @@ class ChallengeDetailScreen(BaseScreen):
     def _load_editor(self, code: str) -> None:
         self.query_one("#code-editor", TextArea).load_text(code)
 
+    def _save_draft(self) -> None:
+        """Persist current editor content to the shared drafts dict."""
+        code = self.query_one("#code-editor", TextArea).text
+        default = self._problem.python_snippet or _DEFAULT_PYTHON
+        if code != default:
+            self._drafts[self._problem.id] = code
+        else:
+            self._drafts.pop(self._problem.id, None)
+
     def _toggle_solution(self) -> None:
-        ch = self._challenge
+        ch = self._problem
         tabs = self.query_one("#testcase-tabs", TabbedContent)
         if self._solution_shown:
             tabs.hide_tab("tab-solution-explanation")
@@ -223,7 +238,7 @@ class ChallengeDetailScreen(BaseScreen):
         else:
             if not ch.has_solutions:
                 self.notify(
-                    "No solution available for this challenge.",
+                    "No solution available for this problem.",
                     severity="warning",
                 )
                 return
@@ -241,28 +256,32 @@ class ChallengeDetailScreen(BaseScreen):
             self.app.pop_screen()
 
         elif btn == "btn-prev" and self._index > 0:
+            self._save_draft()
             self.app.switch_screen(
-                ChallengeDetailScreen(
-                    self._challenges[self._index - 1],
-                    self._challenges,
+                ProblemDetailScreen(
+                    self._problems[self._index - 1],
+                    self._problems,
                     self._index - 1,
                     self._mode,
+                    self._drafts,
                 )
             )
 
-        elif btn == "btn-next" and self._index < len(self._challenges) - 1:
+        elif btn == "btn-next" and self._index < len(self._problems) - 1:
+            self._save_draft()
             self.app.switch_screen(
-                ChallengeDetailScreen(
-                    self._challenges[self._index + 1],
-                    self._challenges,
+                ProblemDetailScreen(
+                    self._problems[self._index + 1],
+                    self._problems,
                     self._index + 1,
                     self._mode,
+                    self._drafts,
                 )
             )
 
         elif btn == "btn-run":
             code = self.query_one("#code-editor", TextArea).text
-            ch = self._challenge
+            ch = self._problem
             snippet = ch.python_snippet or _DEFAULT_PYTHON
             self.query_one("#btn-run", Button).disabled = True
             self.query_one("#result-table", DataTable).clear()
@@ -272,7 +291,7 @@ class ChallengeDetailScreen(BaseScreen):
 
         elif btn == "btn-submit":
             code = self.query_one("#code-editor", TextArea).text
-            ch = self._challenge
+            ch = self._problem
             snippet = ch.python_snippet or _DEFAULT_PYTHON
             self.query_one("#btn-submit", Button).disabled = True
             self._submit_code(code, snippet, ch.test_cases, ch.expected_outputs)
@@ -281,7 +300,7 @@ class ChallengeDetailScreen(BaseScreen):
             from .feedback import FeedbackModal
             self.app.push_screen(
                 FeedbackModal(
-                    problem_slug=self._challenge.id,
+                    problem_slug=self._problem.id,
                     session_id=self._cloud_session_id,
                 ),
                 self._on_feedback_result,
@@ -342,17 +361,16 @@ class ChallengeDetailScreen(BaseScreen):
         passed = sum(1 for r in results if r.passed is True)
         total = len(results)
 
+        self._display_results(results)
+        self.query_one("#testcase-tabs", TabbedContent).active = "tab-result"
+
         if passed == total:
-            self._display_results(results)
-            self.query_one("#testcase-tabs", TabbedContent).active = "tab-result"
             from ...cloud.auth import is_logged_in
             body = f"All {total} test case(s) passed! Saving solution…" if is_logged_in() else f"All {total} test case(s) passed!"
             self.notify(body, title="Accepted", severity="information")
             code = self.query_one("#code-editor", TextArea).text
             self._save_solution(code)
         else:
-            self._display_results(results)
-            self.query_one("#testcase-tabs", TabbedContent).active = "tab-result"
             self.notify(
                 f"{passed}/{total} test case(s) passed. Keep going!",
                 title="Wrong Answer",
@@ -363,15 +381,27 @@ class ChallengeDetailScreen(BaseScreen):
     def _save_solution(self, code: str) -> None:
         from ...cloud.auth import is_logged_in
         if not is_logged_in():
-            return  # not signed in — skip cloud save silently
+            return
         from ...cloud.db import mark_solved
-        ch = self._challenge
+        ch = self._problem
         ok = mark_solved(ch.id, ch.difficulty, code)
         self.app.call_from_thread(self._on_solution_saved, ok)
+
 
     def _on_solution_saved(self, ok: bool) -> None:
         if ok:
             self.notify("Solution saved to your profile!", title="Solved", severity="information")
+            # Optimistically update the problem list screen so the solved badge
+            # appears immediately without waiting for a Firestore re-read.
+            from .problem_list import ProblemListScreen
+            for screen in self.app.screen_stack:
+                if isinstance(screen, ProblemListScreen) and screen.is_mounted:
+                    if screen._solved_slugs is None:
+                        screen._solved_slugs = set()
+                    screen._solved_slugs = screen._solved_slugs | {self._problem.id}
+                    if screen._all_problems:
+                        screen._repopulate()
+                    break
         else:
             self.notify(
                 "Solved locally, but couldn't save to cloud.",
@@ -411,36 +441,50 @@ class ChallengeDetailScreen(BaseScreen):
 
     # ── Actions ────────────────────────────────────────────────────────
 
+    def action_pop_screen(self) -> None:
+        self._save_draft()
+        self.app.pop_screen()
+
     def action_toggle_hints(self) -> None:
-        self.query_one("#challenge-card", ChallengeCard).show_hints ^= True
+        self.query_one("#problem-card", ProblemCard).show_hints ^= True
 
-    def action_start_session(self) -> None:
+    def action_start_learn_session(self) -> None:
         from .agent_session import AgentSessionScreen
-
         user_code = self.query_one("#code-editor", TextArea).text
         self.app.push_screen(
-            AgentSessionScreen(self._challenge, mode=self._mode, user_code=user_code)
+            AgentSessionScreen(self._problem, mode="learn", user_code=user_code)
         )
 
-    def action_prev_challenge(self) -> None:
+    def action_start_pair_session(self) -> None:
+        from .agent_session import AgentSessionScreen
+        user_code = self.query_one("#code-editor", TextArea).text
+        self.app.push_screen(
+            AgentSessionScreen(self._problem, mode="coach", user_code=user_code)
+        )
+
+    def action_prev_problem(self) -> None:
         if self._index > 0:
+            self._save_draft()
             self.app.switch_screen(
-                ChallengeDetailScreen(
-                    self._challenges[self._index - 1],
-                    self._challenges,
+                ProblemDetailScreen(
+                    self._problems[self._index - 1],
+                    self._problems,
                     self._index - 1,
                     self._mode,
+                    self._drafts,
                 )
             )
 
-    def action_next_challenge(self) -> None:
-        if self._index < len(self._challenges) - 1:
+    def action_next_problem(self) -> None:
+        if self._index < len(self._problems) - 1:
+            self._save_draft()
             self.app.switch_screen(
-                ChallengeDetailScreen(
-                    self._challenges[self._index + 1],
-                    self._challenges,
+                ProblemDetailScreen(
+                    self._problems[self._index + 1],
+                    self._problems,
                     self._index + 1,
                     self._mode,
+                    self._drafts,
                 )
             )
 

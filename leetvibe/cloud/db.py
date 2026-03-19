@@ -123,7 +123,7 @@ def _req(method: str, url: str, headers: dict, **kwargs) -> _requests.Response:
 
 
 def _now() -> str:
-    return datetime.datetime.utcnow().isoformat()
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 
 # ── Low-level Firestore helpers ───────────────────────────────────────────────
@@ -403,6 +403,80 @@ def get_solved_slugs() -> set[str]:
         return {d["problem_slug"] for d in docs}
     except Exception:
         return set()
+
+
+# ── Streak ────────────────────────────────────────────────────────────────────
+
+def get_streak_stats() -> dict:
+    """Return solve-streak stats computed from user_solutions timestamps.
+
+    Returns a dict with:
+      - ``current_streak``: consecutive days ending today (or yesterday if today
+        has no solve yet — the day isn't over).
+      - ``longest_streak``: longest ever consecutive-day run.
+      - ``last_solve_date``: YYYY-MM-DD string of the most recent solve, or None.
+
+    Safe to call when not logged in — returns zero values.
+    """
+    headers, user_id = _get_context()
+    if headers is None:
+        return {"current_streak": 0, "longest_streak": 0, "last_solve_date": None}
+
+    try:
+        docs = _query("user_solutions", [{"field": "user_id", "value": user_id}], headers)
+        if not docs:
+            return {"current_streak": 0, "longest_streak": 0, "last_solve_date": None}
+
+        # Collect unique UTC solve dates (YYYY-MM-DD)
+        date_strs: set[str] = set()
+        for doc in docs:
+            updated = doc.get("updated_at", "")
+            if updated:
+                date_strs.add(updated[:10])
+
+        if not date_strs:
+            return {"current_streak": 0, "longest_streak": 0, "last_solve_date": None}
+
+        last_solve_date = max(date_strs)
+
+        today = datetime.datetime.now(datetime.timezone.utc).date()
+        yesterday = today - datetime.timedelta(days=1)
+
+        # Current streak: count backward from today (or yesterday if today is
+        # unsolved — the day is still in progress so the streak isn't broken yet).
+        if today.isoformat() in date_strs:
+            start = today
+        elif yesterday.isoformat() in date_strs:
+            start = yesterday
+        else:
+            start = None
+
+        current_streak = 0
+        if start is not None:
+            check = start
+            while check.isoformat() in date_strs:
+                current_streak += 1
+                check -= datetime.timedelta(days=1)
+
+        # Longest streak: walk sorted dates and find the longest consecutive run.
+        sorted_dates = sorted(datetime.date.fromisoformat(d) for d in date_strs)
+        longest_streak = 1
+        run = 1
+        for i in range(1, len(sorted_dates)):
+            if (sorted_dates[i] - sorted_dates[i - 1]).days == 1:
+                run += 1
+            else:
+                run = 1
+            if run > longest_streak:
+                longest_streak = run
+
+        return {
+            "current_streak": current_streak,
+            "longest_streak": longest_streak,
+            "last_solve_date": last_solve_date,
+        }
+    except Exception:
+        return {"current_streak": 0, "longest_streak": 0, "last_solve_date": None}
 
 
 # ── Feedback ──────────────────────────────────────────────────────────────────

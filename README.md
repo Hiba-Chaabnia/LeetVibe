@@ -117,7 +117,7 @@ His opening monologue plays as speech via ElevenLabs so the session feels live f
 
 ## ✨ More Features
 
-- 📚 **Challenge browser** — filter by difficulty, topic, or solved status; free-text search across hundreds of LeetCode problems
+- 📚 **Problem browser** — filter by difficulty, topic, or solved status; free-text search across hundreds of LeetCode problems
 - ✏️ **Inline code editor** — write Python in the terminal with syntax highlighting and run it against the problem's test cases without leaving the app
 - 📋 **Live test results** — pass/fail output per test case shown immediately
 - 💡 **Solution tab** — reference solutions when they exist in the problem data
@@ -189,18 +189,18 @@ flowchart TD
 
     Onboard --> Home["🏠 Home"]
 
-    Home -- "1 · Learn" --> LL["Challenge List"]
-    Home -- "2 · Pair" --> CL["Challenge List"]
-    Home -- "3 · Interview" --> IL["Challenge List"]
+    Home -- "1 · Learn" --> LL["Problem List"]
+    Home -- "2 · Pair" --> CL["Problem List"]
+    Home -- "3 · Interview" --> IL["Problem List"]
     Home -- "4 · Stats" --> Stats["📊 Statistics"]
     Home -- "5 · Account" --> Login["🔐 Login / Sign Up"]
     Login -- result --> Home
 
-    LL & CL --> Detail["Challenge Detail\ncode editor + tests"]
+    LL & CL --> Detail["Problem Detail\ncode editor + tests"]
     Detail -- "Submit" --> Session["💬 Agent Session\nstreaming chat"]
     IL --> Session
 
-    Session -- "Esc" --> CL2["Challenge List"]
+    Session -- "Esc" --> CL2["Problem List"]
     Detail -- "Esc" --> CL2
     CL2 -- "Esc" --> Home
 ```
@@ -227,8 +227,8 @@ graph TD
 
     subgraph TUI["Textual TUI"]
         Home["🏠 Home"]
-        ChallengeList["📋 Challenge List"]
-        Detail["✏️ Challenge Detail"]
+        ProblemList["📋 Problem List"]
+        Detail["✏️ Problem Detail"]
         AgentSession["💬 Agent Session"]
         Stats["📊 Statistics"]
         Login["🔐 Login"]
@@ -255,8 +255,8 @@ graph TD
     Audio["🔊 System Audio"]
 
     User --> Home
-    Home --> ChallengeList & Stats & Login
-    ChallengeList --> Detail & AgentSession
+    Home --> ProblemList & Stats & Login
+    ProblemList --> Detail & AgentSession
     Detail --> AgentSession
 
     AgentSession --> VibeAgent
@@ -264,8 +264,8 @@ graph TD
     VibeAgent --> TestRunner & Complexity & Teaching & Voice
 
     Voice --> ElevenLabsAPI --> Audio
-    Login & Stats & ChallengeList --> FirestoreDB
-    ChallengeList --> Problems
+    Login & Stats & ProblemList --> FirestoreDB
+    ProblemList --> Problems
 ```
 
 **Project layout:**
@@ -275,15 +275,15 @@ leetvibe/
 ├── cli.py                    Entry point
 ├── config.py                 Loads config.yaml + .env
 ├── vibe_agent.py             Mistral agent — streaming tool-calling loop
-├── challenge_loader.py       Reads problem JSONs from problems/
+├── problem_loader.py       Reads problem JSONs from problems/
 ├── code_runner.py            Sandboxed Python test execution
 ├── cloud/
 │   ├── auth.py               Firebase auth (email + Google OAuth)
 │   └── db.py                 Cloud sync — solved slugs, sessions
 └── textual_ui/
-    ├── screens/              home, challenge_list, challenge_detail,
+    ├── screens/              home, problem_list, problem_detail,
     │                         agent_session, stats, login
-    └── widgets/              banner, challenge_table, status_bar
+    └── widgets/              banner, problem_table, status_bar
 
 skills/
 ├── test_runner/              Execute code against test cases
@@ -292,7 +292,7 @@ skills/
 └── voice_narrator/           ElevenLabs TTS playback
 
 problems/
-├── easy/ · medium/ · hard/   Challenge JSON files
+├── easy/ · medium/ · hard/   Problem JSON files
 ```
 
 ---
@@ -305,7 +305,7 @@ Every session runs through `VibeAgent` — a hand-rolled tool-calling loop built
 
 ```mermaid
 flowchart TD
-    Start(["solve_streaming(challenge, mode)"])
+    Start(["solve_streaming(problem, mode)"])
 
     Start --> SelectPrompt{mode?}
     SelectPrompt -- "learn" --> SP["📜 SYSTEM_PROMPT\n7-step workflow"]
@@ -359,8 +359,8 @@ sequenceDiagram
     participant S as MCP Skills
     participant EL as ElevenLabs
 
-    U->>UI: Select challenge (Learn mode)
-    UI->>A: solve_streaming(challenge, mode="learn")
+    U->>UI: Select problem (Learn mode)
+    UI->>A: solve_streaming(problem, mode="learn")
     A->>M: chat.stream(messages, tools=_TOOLS)
 
     loop Streaming

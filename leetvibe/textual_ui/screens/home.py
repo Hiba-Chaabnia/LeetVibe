@@ -66,6 +66,7 @@ class HomeScreen(BaseScreen):
     def on_mount(self) -> None:
         self.query_one("#main-menu", OptionList).focus()
         self._refresh_auth()
+        self.set_timer(0.5, self._refresh_auth)
 
     # ── Auth helpers ────────────────────────────────────────────────────
 
@@ -100,10 +101,12 @@ class HomeScreen(BaseScreen):
             self.app.exit()
         elif oid == "stats":
             self.app.push_screen("stats")
+        elif oid == "concepts":
+            self.app.push_screen("concepts")
         elif oid == "account":
             self._handle_account()
         elif oid in ("learn", "coach", "interview"):
-            self._go_challenges(oid)
+            self._go_problems(oid)
 
     def _handle_account(self) -> None:
         from ...cloud.auth import clear_session
@@ -120,6 +123,6 @@ class HomeScreen(BaseScreen):
             self._refresh_auth()
             self.notify(f"Signed in as {result.email}", severity="information")
 
-    def _go_challenges(self, mode: str) -> None:
-        from .challenge_list import ChallengeListScreen
-        self.app.push_screen(ChallengeListScreen(mode=mode))
+    def _go_problems(self, mode: str) -> None:
+        from .problem_list import ProblemListScreen
+        self.app.push_screen(ProblemListScreen(mode=mode))

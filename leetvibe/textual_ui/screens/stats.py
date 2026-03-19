@@ -52,7 +52,7 @@ class StatsScreen(BaseScreen):
         margin-bottom: 1;
     }}
     #mid-row {{
-        height: 9;
+        height: 11;
         margin-bottom: 1;
     }}
     #sessions-card {{
@@ -83,7 +83,10 @@ class StatsScreen(BaseScreen):
                 yield Static(id="account-card",  classes="stat-card")
             yield Static(id="library-card", classes="stat-card")
         yield StatusBar(
-            hints=[("Esc", "go back", None)],
+            hints=[
+                ("Esc",    "go back",      self.action_pop_screen),
+                ("Ctrl+Q", "Exit LeetVibe", self.action_quit_app),
+            ],
             id="stats-status",
         )
 
@@ -103,7 +106,7 @@ class StatsScreen(BaseScreen):
             f"[bold {GOLD}]Your Progress[/bold {GOLD}]\n\n  [dim]Loading…[/dim]"
         )
         self.query_one("#sessions-card", Static).update(
-            f"[bold {FIRE}]Sessions[/bold {FIRE}]\n\n  [dim]Loading…[/dim]"
+            f"[bold {FIRE}]Sessions  ·  Streak[/bold {FIRE}]\n\n  [dim]Loading…[/dim]"
         )
         self.query_one("#account-card", Static).update(
             f"[bold {EMBER}]Account[/bold {EMBER}]\n\n  [dim]Loading…[/dim]"
@@ -116,30 +119,31 @@ class StatsScreen(BaseScreen):
 
     @work(thread=True)
     def _load_stats(self) -> None:
-        from ...challenge_loader import load_all_challenges
+        from ...problem_loader import load_all_problems
         from ...cloud.auth import load_session
-        from ...cloud.db import get_session_stats, get_solved_slugs
+        from ...cloud.db import get_session_stats, get_solved_slugs, get_streak_stats
 
-        challenges   = load_all_challenges()
-        easy_total   = sum(1 for c in challenges if c.difficulty == "easy")
-        medium_total = sum(1 for c in challenges if c.difficulty == "medium")
-        hard_total   = sum(1 for c in challenges if c.difficulty == "hard")
-        lib_total    = len(challenges)
+        problems   = load_all_problems()
+        easy_total   = sum(1 for c in problems if c.difficulty == "easy")
+        medium_total = sum(1 for c in problems if c.difficulty == "medium")
+        hard_total   = sum(1 for c in problems if c.difficulty == "hard")
+        lib_total    = len(problems)
 
         solved        = get_solved_slugs()
-        easy_solved   = sum(1 for c in challenges if c.difficulty == "easy"   and c.id in solved)
-        medium_solved = sum(1 for c in challenges if c.difficulty == "medium" and c.id in solved)
-        hard_solved   = sum(1 for c in challenges if c.difficulty == "hard"   and c.id in solved)
+        easy_solved   = sum(1 for c in problems if c.difficulty == "easy"   and c.id in solved)
+        medium_solved = sum(1 for c in problems if c.difficulty == "medium" and c.id in solved)
+        hard_solved   = sum(1 for c in problems if c.difficulty == "hard"   and c.id in solved)
         total_solved  = len(solved)
 
         session = load_session()
         stats   = get_session_stats() if session else None
+        streak  = get_streak_stats()  if session else None
 
         self.app.call_from_thread(
             self._render_all,
             lib_total, easy_total, medium_total, hard_total,
             total_solved, easy_solved, medium_solved, hard_solved,
-            session, stats,
+            session, stats, streak,
         )
 
     # ── Renderers ──────────────────────────────────────────────────────
@@ -148,18 +152,21 @@ class StatsScreen(BaseScreen):
         self,
         lib_total: int, easy_total: int, medium_total: int, hard_total: int,
         total_solved: int, easy_solved: int, medium_solved: int, hard_solved: int,
-        session: dict | None, stats: dict | None,
+        session: dict | None, stats: dict | None, streak: dict | None,
     ) -> None:
-        try:
-            self._render_progress(
+        for fn in (
+            lambda: self._render_progress(
                 lib_total, easy_total, medium_total, hard_total,
                 total_solved, easy_solved, medium_solved, hard_solved,
-            )
-            self._render_sessions(stats)
-            self._render_account(session, stats)
-            self._render_library(lib_total, easy_total, medium_total, hard_total)
-        except Exception:
-            pass  # screen may have been unmounted
+            ),
+            lambda: self._render_sessions(stats, streak),
+            lambda: self._render_account(session, stats),
+            lambda: self._render_library(lib_total, easy_total, medium_total, hard_total),
+        ):
+            try:
+                fn()
+            except Exception:
+                pass  # screen may have been unmounted before this card rendered
 
     def _render_progress(
         self,
@@ -178,14 +185,35 @@ class StatsScreen(BaseScreen):
         )
         self.query_one("#progress-card", Static).update(text)
 
-    def _render_sessions(self, stats: dict | None) -> None:
+    def _render_sessions(self, stats: dict | None, streak: dict | None) -> None:
         count    = stats.get("session_count", 0) if stats else 0
         last     = stats.get("last_updated")      if stats else None
         last_str = last[:10] if last else "—"
+
+        current  = streak.get("current_streak", 0)  if streak else 0
+        longest  = streak.get("longest_streak", 0)  if streak else 0
+
+        # Flame emoji-free indicator using fire gradient colors
+        if current >= 7:
+            streak_color = LAVA
+        elif current >= 3:
+            streak_color = FIRE
+        elif current >= 1:
+            streak_color = AMBER
+        else:
+            streak_color = "dim"
+
+        streak_display = (
+            f"[{streak_color}]{current} day{'s' if current != 1 else ''}[/{streak_color}]"
+            if current > 0 else "[dim]—[/dim]"
+        )
+
         text = (
             f"[bold {FIRE}]Sessions[/bold {FIRE}]\n\n"
-            f"  Total   [bold white]{count}[/bold white]\n"
-            f"  Last    [bold white]{last_str}[/bold white]\n"
+            f"  Total    [bold white]{count}[/bold white]\n"
+            f"  Last     [bold white]{last_str}[/bold white]\n"
+            f"  Streak   {streak_display}\n"
+            f"  Best     [bold white]{longest} day{'s' if longest != 1 else ''}[/bold white]\n"
         )
         self.query_one("#sessions-card", Static).update(text)
 

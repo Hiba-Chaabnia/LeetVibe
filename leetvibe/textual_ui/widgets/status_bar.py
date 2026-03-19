@@ -63,7 +63,7 @@ class HintLabel(Static):
 
 
 class StatusBar(Horizontal):
-    """Bottom bar with clickable key hints, optional challenge count, and version.
+    """Bottom bar with clickable key hints, optional problem count, and version.
 
     Layout modes
     ─────────────

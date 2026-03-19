@@ -1,4 +1,4 @@
-"""Challenge detail card widget — left panel content."""
+"""Problem detail card widget — left panel content."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from textual.reactive import reactive
 from textual.widget import Widget
 from textual.widgets import Static
 
-from ...challenge_loader import Challenge
+from ...problem_loader import Problem
 
 _DIFF_ICONS = {"easy": "●", "medium": "◆", "hard": "★", "trading": "₿"}
 _DIFF_STYLES = {
@@ -20,28 +20,28 @@ _DIFF_STYLES = {
 }
 
 
-class ChallengeCard(Widget):
-    """Displays challenge title, tags, description, and toggleable hints."""
+class ProblemCard(Widget):
+    """Displays problem title, tags, description, and toggleable hints."""
 
     show_hints: reactive[bool] = reactive(False)
 
     DEFAULT_CSS = """
-    ChallengeCard {
+    ProblemCard {
         height: auto;
         text-align: left;
     }
-    ChallengeCard #card-title {
+    ProblemCard #card-title {
         height: auto;
         padding: 0 0 1 0;
         color: white;
         text-style: bold;
         text-align: left;
     }
-    ChallengeCard #tags-row {
+    ProblemCard #tags-row {
         height: auto;
         padding: 0 0 0 0;
     }
-    ChallengeCard .badge {
+    ProblemCard .badge {
         height: 1;
         width: auto;
         padding: 0 1;
@@ -49,12 +49,12 @@ class ChallengeCard(Widget):
         background: #2a2a2a;
         color: #aaaaaa;
     }
-    ChallengeCard .badge-easy   { background: #1a3a1a; color: #00C44F; }
-    ChallengeCard .badge-medium { background: #3a2a00; color: #FFB300; }
-    ChallengeCard .badge-hard   { background: #3a1010; color: #E53935; }
-    ChallengeCard .badge-trading { background: #0a2a2a; color: #00BCD4; }
-    ChallengeCard .badge-topic  { background: #252525; color: #aaaaaa; }
-    ChallengeCard #card-description {
+    ProblemCard .badge-easy   { background: #1a3a1a; color: #00C44F; }
+    ProblemCard .badge-medium { background: #3a2a00; color: #FFB300; }
+    ProblemCard .badge-hard   { background: #3a1010; color: #E53935; }
+    ProblemCard .badge-trading { background: #0a2a2a; color: #00BCD4; }
+    ProblemCard .badge-topic  { background: #252525; color: #aaaaaa; }
+    ProblemCard #card-description {
         height: auto;
         color: #e0e0e0;
         padding: 1 0;
@@ -62,31 +62,31 @@ class ChallengeCard(Widget):
         margin-top: 1;
         text-align: left;
     }
-    ChallengeCard #hints-placeholder {
+    ProblemCard #hints-placeholder {
         color: #888888;
         text-style: italic;
         padding: 1 0;
         border-top: solid #333333;
         margin-top: 1;
     }
-    ChallengeCard #hints-content {
+    ProblemCard #hints-content {
         height: auto;
         color: #FFB300;
         padding: 1 0;
         border-top: solid #333333;
         margin-top: 1;
     }
-    ChallengeCard .hidden {
+    ProblemCard .hidden {
         display: none;
     }
     """
 
-    def __init__(self, challenge: Challenge, **kwargs) -> None:
+    def __init__(self, problem: Problem, **kwargs) -> None:
         super().__init__(**kwargs)
-        self._challenge = challenge
+        self._problem = problem
 
     def compose(self) -> ComposeResult:
-        ch = self._challenge
+        ch = self._problem
         diff_icon = _DIFF_ICONS.get(ch.difficulty, "·")
 
         # Title
@@ -117,7 +117,7 @@ class ChallengeCard(Widget):
             yield Static("", id="hints-content", classes="hidden")
 
     def watch_show_hints(self, show: bool) -> None:
-        ch = self._challenge
+        ch = self._problem
         if not ch.hints:
             return
 

@@ -12,7 +12,7 @@ from textual.screen import Screen
 from textual.system_commands import SystemCommandsProvider
 from textual.widget import Widget
 
-from .screens import HomeScreen, ChallengeListScreen, StatsScreen
+from .screens import HomeScreen, ProblemListScreen, StatsScreen
 from .screens.reference_guide import ReferenceGuideScreen
 
 

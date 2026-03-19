@@ -1,9 +1,9 @@
 """
-Challenge loader for LeetVibe.
-Reads problem JSON files from the challenges/ directory.
+Problem loader for LeetVibe.
+Reads problem JSON files from the problems/ directory.
 
 Handles two on-disk formats transparently:
-  Formatted (created by expand_challenges.py):
+  Formatted (created by expand_problems.py):
     { "id", "title", "difficulty" (lowercase), "description", "python_solution",
       "hints", "topics", "test_cases" }
   Raw HuggingFace (greengerong/leetcode dataset):
@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Optional
 
 
-CHALLENGES_DIR = Path(__file__).parent / "problems"
+PROBLEMS_DIR = Path(__file__).parent / "problems"
 
 DIFFICULTY_ORDER = {"easy": 0, "medium": 1, "hard": 2, "trading": 3}
 DIFFICULTY_COLORS = {
@@ -46,7 +46,7 @@ def _strip_html(text: str) -> str:
 
 
 @dataclass
-class Challenge:
+class Problem:
     id: str
     title: str
     difficulty: str
@@ -61,7 +61,7 @@ class Challenge:
     has_solutions: bool = False
 
     @classmethod
-    def from_file(cls, path: Path) -> "Challenge":
+    def from_file(cls, path: Path) -> "Problem":
         with open(path, encoding="utf-8") as f:
             data = json.load(f)
 
@@ -143,50 +143,50 @@ class Challenge:
         return len(self.hints)
 
 
-_challenges_cache: list[Challenge] | None = None
+_problems_cache: list[Problem] | None = None
 
 
-def load_all_challenges() -> list[Challenge]:
-    """Load every challenge JSON from the challenges/ tree, sorted by difficulty then title.
+def load_all_problems() -> list[Problem]:
+    """Load every problem JSON from the problems/ tree, sorted by difficulty then title.
 
     Result is cached in memory so repeated calls (e.g. from load_by_difficulty,
     load_by_id) do not re-parse the 3,000+ JSON files each time.
     """
-    global _challenges_cache
-    if _challenges_cache is not None:
-        return _challenges_cache
+    global _problems_cache
+    if _problems_cache is not None:
+        return _problems_cache
 
-    challenges: list[Challenge] = []
+    problems: list[Problem] = []
     seen_ids: set[str] = set()
-    if not CHALLENGES_DIR.exists():
-        return challenges
+    if not PROBLEMS_DIR.exists():
+        return problems
 
-    for json_file in CHALLENGES_DIR.rglob("*.json"):
+    for json_file in PROBLEMS_DIR.rglob("*.json"):
         try:
-            ch = Challenge.from_file(json_file)
+            ch = Problem.from_file(json_file)
             if ch.id not in seen_ids:
                 seen_ids.add(ch.id)
-                challenges.append(ch)
+                problems.append(ch)
         except (json.JSONDecodeError, KeyError):
             continue  # skip malformed files
 
-    challenges.sort(key=lambda c: (DIFFICULTY_ORDER.get(c.difficulty, 99), c.title))
-    _challenges_cache = challenges
-    return challenges
+    problems.sort(key=lambda c: (DIFFICULTY_ORDER.get(c.difficulty, 99), c.title))
+    _problems_cache = problems
+    return problems
 
 
-def load_by_difficulty(difficulty: str) -> list[Challenge]:
-    return [c for c in load_all_challenges() if c.difficulty == difficulty.lower()]
+def load_by_difficulty(difficulty: str) -> list[Problem]:
+    return [c for c in load_all_problems() if c.difficulty == difficulty.lower()]
 
 
-def load_by_id(challenge_id: str) -> Optional[Challenge]:
-    for challenge in load_all_challenges():
-        if challenge.id == challenge_id:
-            return challenge
+def load_by_id(problem_id: str) -> Optional[Problem]:
+    for problem in load_all_problems():
+        if problem.id == problem_id:
+            return problem
     return None
 
 
-def get_random_challenge(difficulty: Optional[str] = None) -> Optional[Challenge]:
+def get_random_problem(difficulty: Optional[str] = None) -> Optional[Problem]:
     import random
-    pool = load_by_difficulty(difficulty) if difficulty else load_all_challenges()
+    pool = load_by_difficulty(difficulty) if difficulty else load_all_problems()
     return random.choice(pool) if pool else None

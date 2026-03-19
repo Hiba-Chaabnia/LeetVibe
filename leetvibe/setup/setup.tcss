@@ -1,0 +1,174 @@
+/* ── Onboarding app — global ── */
+
+Screen {
+    background: #0f0f0f;
+    align: center middle;
+}
+
+/* ── Shared card container ── */
+
+#api-container,
+#auth-container,
+#form-container {
+    width: 64;
+    height: auto;
+    padding: 2 4;
+    border: round #333333;
+    background: #0e0e0e;
+}
+
+/* ── Welcome ── */
+
+#hint {
+    color: #888888;
+    text-align: center;
+    width: 100%;
+    margin-top: 2;
+}
+
+/* ── API key / ElevenLabs key ── */
+
+#api-title {
+    color: #FF8205;
+    text-style: bold;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+}
+
+#api-description {
+    color: #cccccc;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+    height: auto;
+}
+
+#link-hint {
+    color: #888888;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1;
+}
+
+#api-key-input {
+    width: 100%;
+    border: tall #444444;
+    background: #1a1a1a;
+    color: #ffffff;
+    margin-bottom: 1;
+}
+
+#api-key-input:focus {
+    border: tall #FF8205;
+}
+
+#error-label {
+    color: #ff4444;
+    text-align: center;
+    width: 100%;
+    height: 1;
+}
+
+#submit-hint {
+    dock: bottom;
+    text-align: center;
+    width: 100%;
+    padding: 1 0;
+    color: #888888;
+}
+
+/* ── Auth choice ── */
+
+#auth-title {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1;
+}
+
+#auth-subtitle {
+    color: #888888;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+    height: auto;
+}
+
+.auth-btn {
+    width: 100%;
+    height: 3;
+    margin-bottom: 1;
+    border: round #444444;
+    background: transparent;
+    color: #cccccc;
+}
+
+.auth-btn:hover {
+    border: round #FF8205;
+    background: transparent;
+    color: #FF8205;
+}
+
+.auth-btn:focus {
+    border: round #FF8205;
+    background: transparent;
+    color: #FF8205;
+}
+
+.auth-btn.-active {
+    border: round #FF8205;
+    background: transparent;
+    color: #FF8205;
+}
+
+#auth-note {
+    width: 100%;
+    height: auto;
+    margin-top: 1;
+    color: #888888;
+    text-align: center;
+}
+
+#auth-hint {
+    dock: bottom;
+    text-align: center;
+    width: 100%;
+    padding: 1 0;
+    color: #888888;
+}
+
+/* ── Login / Signup / Google auth ── */
+
+#form-title {
+    color: #FF8205;
+    text-style: bold;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+}
+
+.form-input {
+    width: 100%;
+    border: tall #444444;
+    background: #1a1a1a;
+    color: #ffffff;
+    margin-bottom: 1;
+}
+
+.form-input:focus {
+    border: tall #FF8205;
+}
+
+#form-error {
+    color: #ff4444;
+    text-align: center;
+    width: 100%;
+    height: 1;
+}
+
+#form-hint {
+    color: #888888;
+    text-align: center;
+    width: 100%;
+    margin-top: 1;
+}

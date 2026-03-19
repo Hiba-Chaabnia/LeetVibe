@@ -88,7 +88,7 @@ Screen {
 
 
 /* ============================================================
-   ChallengeListScreen
+   ProblemListScreen
    ============================================================ */
 
 /* ── filters and search bar container ── */
@@ -186,30 +186,30 @@ Screen {
     color: $text;
 }
 
-/* ── Challenge Table── */
+/* ── Problem Table── */
 
-ChallengeTable {
+ProblemTable {
     height: 1fr;
     background: transparent;
     border: round $muted;
     overflow-x: auto;
 }
 
-ChallengeTable > .datatable--header {
+ProblemTable > .datatable--header {
     background: #1e1e1e;
 }
 
-ChallengeTable > .datatable--cursor {
+ProblemTable > .datatable--cursor {
     background: $brand;
     color: #000000;
     text-style: bold;
 }
 
-ChallengeTable > .datatable--even-row {
+ProblemTable > .datatable--even-row {
     background: transparent;
 }
 
-ChallengeTable > .datatable--odd-row {
+ProblemTable > .datatable--odd-row {
     background: transparent;
 }
 
@@ -223,7 +223,7 @@ ChallengeTable > .datatable--odd-row {
 
 
 /* ============================================================
-   ChallengeDetailScreen
+   ProblemDetailScreen
    ============================================================ */
 
 /* ── Top bar ── */

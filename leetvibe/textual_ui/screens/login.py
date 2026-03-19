@@ -156,10 +156,6 @@ class LoginScreen(BaseScreen):
             yield Input(placeholder="Email", id="email-input")
             yield Input(placeholder="Password", password=True, id="password-input")
             yield Input(placeholder="Confirm Password", password=True, id="confirm-input")
-            yield Static(
-                "💡 Signing in with Google is faster and more secure.",
-                id="google-note",
-            )
             yield Button("Sign In", id="btn-submit")
             yield Static("", id="login-error")
             yield Static("", id="login-info")

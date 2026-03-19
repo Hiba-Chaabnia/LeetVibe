@@ -6,26 +6,16 @@ import os
 from pathlib import Path
 
 from dotenv import set_key
-from rich.text import Text
 from textual import work
 from textual.app import ComposeResult
+from textual.events import Key
 from textual.screen import Screen
-from textual.widgets import Input, Label, Static
+from textual.widgets import Input, Label, Static  # Static used as container
+
+from ._utils import ShimmerTitle
 
 _LEETVIBE_HOME = Path.home() / ".leetvibe"
 _USER_ENV_PATH = _LEETVIBE_HOME / ".env"
-
-_GRADIENT = ["#FFD700", "#FFAF00", "#FF8205", "#FA500F", "#E92700"]
-
-
-def _gradient_text(text: str) -> Text:
-    """Apply character-level gradient across text."""
-    rich = Text(justify="center")
-    n = len(text)
-    for i, ch in enumerate(text):
-        idx = int(i / max(1, n - 1) * (len(_GRADIENT) - 1))
-        rich.append(ch, style=f"bold {_GRADIENT[idx]}")
-    return rich
 
 
 def _verify_key(key: str) -> str | None:
@@ -51,9 +41,9 @@ def _verify_key(key: str) -> str | None:
 class ApiKeyScreen(Screen):
     def compose(self) -> ComposeResult:
         with Static(id="api-container"):
-            yield Static("", id="api-title")
+            yield ShimmerTitle("Mistral API Key", id="api-title")
             yield Static(
-                "LeetVibe is powered by [bold #FF8205]Mistral AI[/bold #FF8205], "
+                "LeetVibe is powered by [bold white]Mistral AI[/bold white]\n\n"
                 "A [bold white]Mistral API key[/bold white] is required to get started.",
                 id="api-description",
             )
@@ -68,19 +58,18 @@ class ApiKeyScreen(Screen):
             )
             yield Label("", id="error-label")
         yield Label(
-            "[bold #FF8205]Enter[/bold #FF8205] to save  ·  "
+            "[bold #FF8205]Enter[/bold #FF8205] to save · "
             "[bold #FF8205]Esc[/bold #FF8205] to cancel",
             id="submit-hint",
         )
 
     def on_mount(self) -> None:
-        self.query_one("#api-title", Static).update(_gradient_text("Mistral API Key"))
         self.query_one("#api-key-input", Input).focus()
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         self._submit(event.value)
 
-    def on_key(self, event) -> None:
+    def on_key(self, event: Key) -> None:
         if event.key == "escape":
             self.app.exit(None)
 

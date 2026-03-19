@@ -77,6 +77,8 @@ def sign_up(email: str, password: str) -> AuthResult:
         data = resp.json()
         if "error" in data:
             return AuthResult(ok=False, error=_friendly(data["error"]))
+        if not data.get("localId") or not data.get("email"):
+            return AuthResult(ok=False, error="Unexpected response from auth server.")
         _save_session(data)
         return AuthResult(ok=True, user_id=data["localId"], email=data["email"])
     except Exception as exc:
@@ -95,6 +97,8 @@ def sign_in(email: str, password: str) -> AuthResult:
         data = resp.json()
         if "error" in data:
             return AuthResult(ok=False, error=_friendly(data["error"]))
+        if not data.get("localId") or not data.get("email"):
+            return AuthResult(ok=False, error="Unexpected response from auth server.")
         _save_session(data)
         return AuthResult(ok=True, user_id=data["localId"], email=data["email"])
     except Exception as exc:

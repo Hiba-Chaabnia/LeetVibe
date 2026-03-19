@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-import asyncio
-
 from textual import work
 from textual.app import ComposeResult
+from textual.events import Key
 from textual.screen import Screen
 from textual.widgets import Input, Label, Static
 
@@ -18,8 +17,8 @@ class LoginScreen(Screen):
             yield Input(placeholder="Password", password=True, id="password-input", classes="form-input")
             yield Label("", id="form-error")
             yield Label(
-                "[bold #FF8205]Tab[/bold #FF8205] to switch fields  ·  "
-                "[bold #FF8205]Enter[/bold #FF8205] to sign in  ·  "
+                "[bold #FF8205]Tab[/bold #FF8205] to switch fields · "
+                "[bold #FF8205]Enter[/bold #FF8205] to sign in ·\n "
                 "[bold #FF8205]Esc[/bold #FF8205] to go back",
                 id="form-hint",
             )
@@ -27,7 +26,7 @@ class LoginScreen(Screen):
     def on_mount(self) -> None:
         self.query_one("#email-input", Input).focus()
 
-    def on_key(self, event) -> None:
+    def on_key(self, event: Key) -> None:
         if event.key == "escape":
             self.app.pop_screen()
         elif event.key == "enter":
@@ -37,18 +36,32 @@ class LoginScreen(Screen):
 
     def _submit(self, email: str, password: str) -> None:
         email = email.strip()
-        password = password.strip()
         if not email or not password:
             self.query_one("#form-error", Label).update("Email and password are required.")
             return
         self._run_sign_in(email, password)
 
-    @work
-    async def _run_sign_in(self, email: str, password: str) -> None:
+    @work(thread=True)
+    def _run_sign_in(self, email: str, password: str) -> None:
         from ...cloud.auth import sign_in
-        self.query_one("#form-error", Label).update("Signing in…")
-        result = await asyncio.to_thread(sign_in, email, password)
-        if result.ok:
-            self.app.exit("completed")
-        else:
-            self.query_one("#form-error", Label).update(result.error or "Sign in failed.")
+        self.app.call_from_thread(
+            self._set_status, "Signing in…"
+        )
+        result = sign_in(email, password)
+        self.app.call_from_thread(self._on_result, result)
+
+    def _set_status(self, msg: str) -> None:
+        try:
+            self.query_one("#form-error", Label).update(msg)
+        except Exception:
+            pass
+
+    def _on_result(self, result) -> None:
+        try:
+            if result.ok:
+                self.app.exit("completed")
+            else:
+                self.query_one("#form-error", Label).update(result.error or "Sign in failed.")
+                self.query_one("#email-input", Input).focus()
+        except Exception:
+            pass

@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-import asyncio
-
 from textual import work
 from textual.app import ComposeResult
+from textual.events import Key
 from textual.screen import Screen
 from textual.widgets import Input, Label, Static
 
@@ -19,8 +18,8 @@ class SignupScreen(Screen):
             yield Input(placeholder="Confirm password", password=True, id="confirm-input", classes="form-input")
             yield Label("", id="form-error")
             yield Label(
-                "[bold #FF8205]Tab[/bold #FF8205] to switch fields  ·  "
-                "[bold #FF8205]Enter[/bold #FF8205] to create  ·  "
+                "[bold #FF8205]Tab[/bold #FF8205] to switch fields · "
+                "[bold #FF8205]Enter[/bold #FF8205] to create ·\n"
                 "[bold #FF8205]Esc[/bold #FF8205] to go back",
                 id="form-hint",
             )
@@ -28,7 +27,7 @@ class SignupScreen(Screen):
     def on_mount(self) -> None:
         self.query_one("#email-input", Input).focus()
 
-    def on_key(self, event) -> None:
+    def on_key(self, event: Key) -> None:
         if event.key == "escape":
             self.app.pop_screen()
         elif event.key == "enter":
@@ -39,8 +38,6 @@ class SignupScreen(Screen):
 
     def _submit(self, email: str, password: str, confirm: str) -> None:
         email = email.strip()
-        password = password.strip()
-        confirm = confirm.strip()
         if not email or not password:
             self.query_one("#form-error", Label).update("Email and password are required.")
             return
@@ -49,12 +46,25 @@ class SignupScreen(Screen):
             return
         self._run_sign_up(email, password)
 
-    @work
-    async def _run_sign_up(self, email: str, password: str) -> None:
+    @work(thread=True)
+    def _run_sign_up(self, email: str, password: str) -> None:
         from ...cloud.auth import sign_up
-        self.query_one("#form-error", Label).update("Creating account…")
-        result = await asyncio.to_thread(sign_up, email, password)
-        if result.ok:
-            self.app.exit("completed")
-        else:
-            self.query_one("#form-error", Label).update(result.error or "Sign up failed.")
+        self.app.call_from_thread(self._set_status, "Creating account…")
+        result = sign_up(email, password)
+        self.app.call_from_thread(self._on_result, result)
+
+    def _set_status(self, msg: str) -> None:
+        try:
+            self.query_one("#form-error", Label).update(msg)
+        except Exception:
+            pass
+
+    def _on_result(self, result) -> None:
+        try:
+            if result.ok:
+                self.app.exit("completed")
+            else:
+                self.query_one("#form-error", Label).update(result.error or "Sign up failed.")
+                self.query_one("#email-input", Input).focus()
+        except Exception:
+            pass

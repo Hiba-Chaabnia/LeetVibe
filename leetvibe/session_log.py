@@ -1,12 +1,12 @@
 """Development session logger.
 
 Appends one JSON-Lines entry per agent session to logs/sessions.log.
-Each entry contains: timestamp, challenge info, mode, full output text,
+Each entry contains: timestamp, problem info, mode, full output text,
 duration, tool calls made, and any error.
 
 Usage (called automatically from AgentSessionScreen._run_agent):
     from leetvibe.session_log import SessionLog
-    log = SessionLog(challenge, mode, user_code)
+    log = SessionLog(problem, mode, user_code)
     log.record_chunk(chunk)       # call for each streamed chunk
     log.finish(error=None)        # call when session ends
 """
@@ -26,8 +26,8 @@ def _strip_markup(text: str) -> str:
 
 
 class SessionLog:
-    def __init__(self, challenge, mode: str, user_code: str) -> None:
-        self._challenge = challenge
+    def __init__(self, problem, mode: str, user_code: str) -> None:
+        self._problem = problem
         self._mode = mode
         self._has_user_code = bool(user_code.strip())
         self._start = time.monotonic()
@@ -64,12 +64,12 @@ class SessionLog:
         """Write the completed session entry to logs/sessions.log."""
         elapsed = round(time.monotonic() - self._start, 1)
         full_text = _strip_markup("".join(self._chunks))
-        ch = self._challenge
+        ch = self._problem
 
         entry = {
             "ts": self._started_at,
-            "challenge_id": ch.id,
-            "challenge_title": ch.title,
+            "problem_id": ch.id,
+            "problem_title": ch.title,
             "difficulty": ch.difficulty,
             "mode": self._mode,
             "has_user_code": self._has_user_code,

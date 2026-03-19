@@ -1,4 +1,4 @@
-"""ChallengeListScreen — browse, filter and search all challenges."""
+"""ProblemListScreen — browse, filter and search all problems."""
 
 from __future__ import annotations
 
@@ -11,12 +11,12 @@ from textual.widgets import DataTable, Input, Select, Static
 from textual import work
 from textual.worker import Worker, WorkerState
 
-from ...challenge_loader import Challenge, load_all_challenges
-from ..widgets.challenge_table import ChallengeTable
+from ...problem_loader import Problem, load_all_problems
+from ..widgets.problem_table import ProblemTable
 from ..widgets.status_bar import StatusBar
 from ..widgets.truncated_select import TruncatedSelect
 from .base import BaseScreen
-from .challenge_detail import ChallengeDetailScreen
+from .problem_detail import ProblemDetailScreen
 
 _SOLUTION_TOGGLE_LABEL = "Has Solution"
 
@@ -27,7 +27,7 @@ _SOLVED_OPTIONS = [
 ]
 
 
-class ChallengeListScreen(BaseScreen):
+class ProblemListScreen(BaseScreen):
     BINDINGS = [
         Binding("escape", "pop_screen", "Back"),
         Binding("ctrl+q", "quit_app", "Quit"),
@@ -44,14 +44,15 @@ class ChallengeListScreen(BaseScreen):
         super().__init__()
         self._mode = mode
         self._initial_topic = initial_topic
-        self._all_challenges: list[Challenge] = []
+        self._all_problems: list[Problem] = []
         self._filtered_count: int = 0
         self._solved_slugs: set[str] | None = None
+        self._drafts: dict[str, str] = {}
 
     def compose(self) -> ComposeResult:
         footer_hints = [
-            ("Enter",  "Open challenge", None),
-            ("Ctrl+R", "Reload challenges", None),
+            ("Enter",  "Open problem", None),
+            ("Ctrl+R", "Reload problems", None),
             ("Esc",    "go home",        self.action_pop_screen),
             ("Ctrl+Q", "Exit LeetVibe", self.action_quit_app),
         ]
@@ -79,7 +80,7 @@ class ChallengeListScreen(BaseScreen):
             Input(placeholder="Search Problem…", id="search-input"),
             id="list-header",
         )
-        yield ChallengeTable(id="challenge-table")
+        yield ProblemTable(id="problem-table")
         yield StatusBar(
             hints=footer_hints,
             show_count=True,
@@ -88,37 +89,43 @@ class ChallengeListScreen(BaseScreen):
         )
 
     def on_mount(self) -> None:
-        self._load_challenges()
+        self._load_problems()
         self._load_solved_slugs()
         from ...cloud.auth import is_logged_in
         if not is_logged_in():
             self.query_one("#solved-filter", TruncatedSelect).add_class("hidden")
 
     @work(thread=True)
-    def _load_challenges(self) -> list[Challenge]:
-        return load_all_challenges()
+    def _load_problems(self) -> list[Problem]:
+        return load_all_problems()
 
     @work(thread=True)
     def _load_solved_slugs(self) -> set[str]:
         from ...cloud.db import get_solved_slugs
         return get_solved_slugs()
 
+    def on_screen_resume(self) -> None:
+        """Refresh solved status whenever we return to this screen."""
+        from ...cloud.auth import is_logged_in
+        if is_logged_in():
+            self._load_solved_slugs()
+
     def on_worker_state_changed(self, event: Worker.StateChanged) -> None:
-        if event.worker.name == "_load_challenges" and event.state == WorkerState.SUCCESS:
-            self._all_challenges = event.worker.result or []
+        if event.worker.name == "_load_problems" and event.state == WorkerState.SUCCESS:
+            self._all_problems = event.worker.result or []
             self._populate_topic_filter()
             self._repopulate()
-            table = self.query_one("#challenge-table", ChallengeTable)
+            table = self.query_one("#problem-table", ProblemTable)
             table.focus()
             if table.row_count > 0:
                 table.move_cursor(row=0)
         elif event.worker.name == "_load_solved_slugs" and event.state == WorkerState.SUCCESS:
             self._solved_slugs = event.worker.result or set()
-            if self._all_challenges:
+            if self._all_problems:
                 self._repopulate()
 
     def _populate_topic_filter(self) -> None:
-        topics = sorted({t for ch in self._all_challenges for t in ch.topics if t})
+        topics = sorted({t for ch in self._all_problems for t in ch.topics if t})
         options = [("All topics", "all")] + [(t, t) for t in topics]
         sel = self.query_one("#topic-filter", TruncatedSelect)
         sel.set_options(options)
@@ -130,7 +137,7 @@ class ChallengeListScreen(BaseScreen):
                 pass
 
     def watch_filter_difficulty(self, value: str) -> None:
-        if self._all_challenges:
+        if self._all_problems:
             self._repopulate()
         try:
             sel = self.query_one("#difficulty-filter", TruncatedSelect)
@@ -139,7 +146,7 @@ class ChallengeListScreen(BaseScreen):
             pass
 
     def watch_filter_topic(self, value: str) -> None:
-        if self._all_challenges:
+        if self._all_problems:
             self._repopulate()
         try:
             sel = self.query_one("#topic-filter", TruncatedSelect)
@@ -148,7 +155,7 @@ class ChallengeListScreen(BaseScreen):
             pass
 
     def watch_filter_solution(self, value: str) -> None:
-        if self._all_challenges:
+        if self._all_problems:
             self._repopulate()
         try:
             self.query_one("#btn-solution-toggle", Static).set_class(value == "yes", "sol-active")
@@ -156,7 +163,7 @@ class ChallengeListScreen(BaseScreen):
             pass
 
     def watch_filter_solved(self, value: str) -> None:
-        if self._all_challenges:
+        if self._all_problems:
             self._repopulate()
         try:
             sel = self.query_one("#solved-filter", TruncatedSelect)
@@ -165,7 +172,7 @@ class ChallengeListScreen(BaseScreen):
             pass
 
     def watch_search_query(self, value: str) -> None:
-        if self._all_challenges:
+        if self._all_problems:
             self._repopulate()
         try:
             inp = self.query_one("#search-input", Input)
@@ -174,9 +181,9 @@ class ChallengeListScreen(BaseScreen):
             pass
 
     def _repopulate(self) -> None:
-        table = self.query_one("#challenge-table", ChallengeTable)
+        table = self.query_one("#problem-table", ProblemTable)
         filtered = table.filter(
-            self._all_challenges,
+            self._all_problems,
             self.filter_difficulty,
             self.filter_topic,
             self.search_query,
@@ -186,7 +193,7 @@ class ChallengeListScreen(BaseScreen):
         )
         self._filtered_count = len(filtered)
         self.query_one("#list-status", StatusBar).update_count(
-            self._filtered_count, len(self._all_challenges)
+            self._filtered_count, len(self._all_problems)
         )
 
     def on_click(self, event: Click) -> None:
@@ -203,27 +210,34 @@ class ChallengeListScreen(BaseScreen):
 
     def on_input_changed(self, event: Input.Changed) -> None:
         if event.input.id == "search-input":
-            self.search_query = event.value
+            self._pending_search = event.value
+            if getattr(self, "_search_timer", None) is not None:
+                self._search_timer.stop()
+            self._search_timer = self.set_timer(0.2, self._apply_search)
+
+    def _apply_search(self) -> None:
+        self._search_timer = None
+        self.search_query = getattr(self, "_pending_search", "")
 
     def on_data_table_row_selected(self, event: DataTable.RowSelected) -> None:
-        challenge_id = str(event.row_key.value)
-        challenge = None
+        problem_id = str(event.row_key.value)
+        problem = None
         index = -1
-        for i, c in enumerate(self._all_challenges):
-            if c.id == challenge_id:
-                challenge = c
+        for i, c in enumerate(self._all_problems):
+            if c.id == problem_id:
+                problem = c
                 index = i
                 break
-        if challenge:
+        if problem:
             if self._mode == "interview":
                 from .agent_session import AgentSessionScreen
-                self.app.push_screen(AgentSessionScreen(challenge, mode="interview"))
+                self.app.push_screen(AgentSessionScreen(problem, mode="interview"))
             else:
                 self.app.push_screen(
-                    ChallengeDetailScreen(challenge, self._all_challenges, index, self._mode)
+                    ProblemDetailScreen(problem, self._all_problems, index, self._mode, self._drafts)
                 )
 
     def action_reload(self) -> None:
-        self._all_challenges = []
-        self.query_one("#challenge-table", ChallengeTable).clear()
-        self._load_challenges()
+        self._all_problems = []
+        self.query_one("#problem-table", ProblemTable).clear()
+        self._load_problems()

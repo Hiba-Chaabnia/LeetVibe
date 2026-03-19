@@ -7,6 +7,11 @@ from __future__ import annotations
 
 import os
 import sys
+import warnings
+
+# requests 2.32.x warns when chardet >=6 or urllib3 >=2.5 is installed alongside it.
+# The warning is purely cosmetic — requests works fine with these versions.
+warnings.filterwarnings("ignore", category=Warning, message=".*doesn't match a supported version.*")
 
 # Force UTF-8 output on Windows so Rich box-drawing chars render correctly.
 if sys.platform == "win32":

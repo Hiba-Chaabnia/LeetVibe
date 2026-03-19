@@ -17,7 +17,7 @@ if str(_PROJECT_ROOT) not in sys.path:
 from mistralai import Mistral
 
 from .config import Config
-from .challenge_loader import Challenge
+from .problem_loader import Problem
 
 _CODE_BLOCK_RE = re.compile(r"```(?:python)?\n(.*?)```", re.DOTALL)
 
@@ -63,6 +63,9 @@ Without calling any tools, write a single focused paragraph (4–6 sentences) th
 - Traces the journey: what made the brute force slow and exactly what eliminated that bottleneck.
 - States the final time and space complexity and why the problem constraints make further improvement impossible.
 Write it as a crisp, memorable takeaway — the one paragraph a developer should carry away from this session.
+
+[bold]STEP 9 — NARRATE (optional)[/bold]
+If ElevenLabs is available, call narrate() with a condensed 1–2 sentence version of the synthesis paragraph (≤300 chars) using voice_type="mentor".
 
 Rules:
 - Think out loud before every code block. Never write code without explaining the reasoning first.
@@ -142,6 +145,9 @@ Without calling any tools, write a single focused paragraph (4–6 sentences) th
 - Traces the journey: what made the user's original approach slow and exactly what eliminated that bottleneck.
 - States the final time and space complexity and why the problem constraints make further improvement impossible.
 Write it as a crisp, memorable takeaway — the one paragraph the user should carry away from this coaching session.
+
+[bold]STEP 9 — NARRATE (optional)[/bold]
+If ElevenLabs is available, call narrate() with a condensed 1–2 sentence version of the synthesis paragraph (≤300 chars) using voice_type="coach".
 
 Rules:
 - Always be encouraging — frame issues as learning opportunities, not failures.
@@ -231,6 +237,32 @@ _TOOLS: list[dict] = [
             },
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "narrate",
+            "description": (
+                "Read a short piece of text aloud via ElevenLabs TTS. "
+                "Use this optionally after STEP 8 to narrate the synthesis paragraph. "
+                "Keep text under 300 characters for best results."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "description": "Text to speak aloud (keep concise, ≤300 chars).",
+                    },
+                    "voice_type": {
+                        "type": "string",
+                        "enum": ["mentor", "coach", "excited"],
+                        "description": "Voice persona. Default: mentor.",
+                    },
+                },
+                "required": ["text"],
+            },
+        },
+    },
 ]
 
 
@@ -252,7 +284,7 @@ class VibeAgent:
 
     def solve_streaming(
         self,
-        challenge: Challenge,
+        problem: Problem,
         mode: str = "learn",
         user_code: str = "",
     ) -> Generator[str, None, None]:
@@ -266,7 +298,7 @@ class VibeAgent:
             system = SYSTEM_PROMPT
         self._messages = [
             {"role": "system", "content": system},
-            {"role": "user", "content": self._build_prompt(challenge, mode, user_code)},
+            {"role": "user", "content": self._build_prompt(problem, mode, user_code)},
         ]
         self._start_ts = time.time()
         self._approaches_tried = 0
@@ -484,33 +516,33 @@ class VibeAgent:
         return ""
 
     def _build_prompt(
-        self, challenge: Challenge, mode: str, user_code: str
+        self, problem: Problem, mode: str, user_code: str
     ) -> str:
         if mode == "interview":
-            desc = (challenge.description or "")[:600]
+            desc = (problem.description or "")[:600]
             return (
-                f"Problem: {challenge.title} ({challenge.difficulty}).\n\n"
+                f"Problem: {problem.title} ({problem.difficulty}).\n\n"
                 f"{desc}\n\n"
                 "Begin the interview now. Greet the candidate, state the problem title "
                 "and difficulty, then ask them to walk you through their initial approach. "
                 "Keep it to 3 sentences."
             )
         parts = [
-            f"# Problem: {challenge.title}",
-            f"**Difficulty:** {challenge.difficulty}",
-            f"**Topics:** {', '.join(challenge.topics or [])}",
+            f"# Problem: {problem.title}",
+            f"**Difficulty:** {problem.difficulty}",
+            f"**Topics:** {', '.join(problem.topics or [])}",
             "",
             "## Description",
-            challenge.description or "(no description available)",
+            problem.description or "(no description available)",
             "",
         ]
-        if challenge.python_snippet:
-            parts += ["## Starter Code", "```python", challenge.python_snippet, "```", ""]
-        if challenge.test_cases:
+        if problem.python_snippet:
+            parts += ["## Starter Code", "```python", problem.python_snippet, "```", ""]
+        if problem.test_cases:
             case_lines = []
             raw_lines = []
             for i, (inputs, expected) in enumerate(
-                zip(challenge.test_cases, challenge.expected_outputs or []), 1
+                zip(problem.test_cases, problem.expected_outputs or []), 1
             ):
                 case_lines.append(f"Case {i}: {', '.join(inputs)} → {expected}")
                 raw_lines.extend(inputs)

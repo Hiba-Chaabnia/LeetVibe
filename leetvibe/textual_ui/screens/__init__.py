@@ -2,8 +2,8 @@
 
 from .base import BaseScreen
 from .home import HomeScreen
-from .challenge_list import ChallengeListScreen
-from .challenge_detail import ChallengeDetailScreen
+from .problem_list import ProblemListScreen
+from .problem_detail import ProblemDetailScreen
 from .agent_session import AgentSessionScreen
 from .stats import StatsScreen
 from .login import LoginScreen
@@ -14,8 +14,8 @@ from .notes_modal import NotesModal
 __all__ = [
     "BaseScreen",
     "HomeScreen",
-    "ChallengeListScreen",
-    "ChallengeDetailScreen",
+    "ProblemListScreen",
+    "ProblemDetailScreen",
     "AgentSessionScreen",
     "StatsScreen",
     "LoginScreen",

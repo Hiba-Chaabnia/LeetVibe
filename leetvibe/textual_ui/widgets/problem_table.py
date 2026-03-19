@@ -1,11 +1,11 @@
-"""Challenge DataTable widget with filtering support."""
+"""Problem DataTable widget with filtering support."""
 
 from __future__ import annotations
 
 from rich.text import Text  # used for gradient column headers
 from textual.widgets import DataTable
 
-from ...challenge_loader import Challenge
+from ...problem_loader import Problem
 
 _DIFF_STYLES: dict[str, tuple[str, str]] = {
     "easy":   ("Easy",   "#FFD700"),  # GOLD
@@ -48,8 +48,8 @@ def _truncate(text: str, max_width: int) -> str:
     return text
 
 
-class ChallengeTable(DataTable):
-    """DataTable pre-configured for challenge display."""
+class ProblemTable(DataTable):
+    """DataTable pre-configured for problem display."""
 
     def on_mount(self) -> None:
         self.cursor_type = "row"
@@ -70,14 +70,14 @@ class ChallengeTable(DataTable):
 
     def populate(
         self,
-        challenges: list[Challenge],
+        problems: list[Problem],
         solved_slugs: set[str] | None = None,
     ) -> None:
-        """Clear and repopulate the table with the given challenges."""
+        """Clear and repopulate the table with the given problems."""
         self.clear()
         prob_w   = self._col_widths.get("Problem", 40)
         topics_w = self._col_widths.get("Topics",  30)
-        for ch in challenges:
+        for ch in problems:
             topics_str = ", ".join(ch.topics[:3]) or "—"
             label, color = _DIFF_STYLES.get(ch.difficulty, (ch.difficulty.capitalize(), "#888888"))
             row: list = [
@@ -93,16 +93,16 @@ class ChallengeTable(DataTable):
 
     def filter(
         self,
-        challenges: list[Challenge],
+        problems: list[Problem],
         difficulty: str,
         topic: str,
         query: str,
         has_solution: str = "all",
         solved_slugs: set[str] | None = None,
         is_solved: str = "all",
-    ) -> list[Challenge]:
+    ) -> list[Problem]:
         """Return filtered subset and repopulate table."""
-        filtered = challenges
+        filtered = problems
 
         if difficulty and difficulty != "all":
             filtered = [c for c in filtered if c.difficulty == difficulty]

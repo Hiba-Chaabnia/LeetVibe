@@ -26,7 +26,7 @@ _DEFAULT_TYPE = "general"
 
 
 class FeedbackModal(ModalScreen[bool]):
-    """Modal for submitting feedback about a specific challenge."""
+    """Modal for submitting feedback about a specific problem."""
 
     DEFAULT_CSS = """
     FeedbackModal {
