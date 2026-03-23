@@ -30,6 +30,7 @@ def _build_options(email: str | None) -> list[Option]:
         _opt("Learn",            "Let LeetVibe teach you the approach, step by step",              "learn"),
         _opt("Pair Programming", "Code alongside LeetVibe — live tests, hints, and full feedback", "coach"),
         _opt("Interview",        "Simulate a real technical interview with an AI interviewer",      "interview"),
+        _opt("Playbook",         "Recognise patterns faster, solve problems smarter",              "concepts"),
         _opt("Statistics",       "See how far you've come — sessions, solved problems, and more",  "stats"),
         _opt("Account",          account_desc,                                                      "account"),
         _opt("Quit",             "Exit LeetVibe",                                                   "quit"),
@@ -48,9 +49,10 @@ class HomeScreen(BaseScreen):
         Binding("1", "select_option('learn')",     "Learn",     show=False),
         Binding("2", "select_option('coach')",     "Solve",     show=False),
         Binding("3", "select_option('interview')", "Interview", show=False),
-        Binding("4", "select_option('stats')",     "Stats",     show=False),
-        Binding("5", "select_option('account')",   "Account",   show=False),
-        Binding("6", "quit_app",                   "Quit",      show=False),
+        Binding("4", "select_option('concepts')",  "Playbook",  show=False),
+        Binding("5", "select_option('stats')",     "Stats",     show=False),
+        Binding("6", "select_option('account')",   "Account",   show=False),
+        Binding("7", "quit_app",                   "Quit",      show=False),
     ]
 
     def compose(self) -> ComposeResult:

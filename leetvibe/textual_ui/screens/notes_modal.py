@@ -22,53 +22,6 @@ class NotesModal(ModalScreen[str | None]):
         Binding("escape", "cancel",    "Cancel",  show=True),
     ]
 
-    DEFAULT_CSS = f"""
-    NotesModal {{
-        align: center middle;
-    }}
-    #notes-dialog {{
-        width: 72;
-        height: 24;
-        background: #1a1a1a;
-        border: round {FIRE};
-        padding: 1 2;
-    }}
-    #notes-title {{
-        color: {GOLD};
-        text-style: bold;
-        height: 1;
-        margin-bottom: 1;
-    }}
-    #notes-hint {{
-        color: #555555;
-        height: 1;
-        margin-bottom: 1;
-    }}
-    #notes-area {{
-        height: 13;
-        border: round #444444;
-        background: #0e0e0e;
-    }}
-    #notes-buttons {{
-        height: 3;
-        align: right middle;
-        margin-top: 1;
-    }}
-    #notes-buttons Button {{
-        margin-left: 1;
-        background: transparent;
-        min-width: 14;
-    }}
-    #btn-save {{
-        color: {FIRE};
-        border: round {FIRE};
-    }}
-    #btn-cancel {{
-        color: #888888;
-        border: round #444444;
-    }}
-    """
-
     def __init__(self, topic_title: str, existing_note: str = "") -> None:
         super().__init__()
         self._topic_title = topic_title

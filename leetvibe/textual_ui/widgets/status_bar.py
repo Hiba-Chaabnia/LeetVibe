@@ -3,6 +3,12 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from importlib.metadata import version as _pkg_version, PackageNotFoundError
+
+try:
+    _VERSION = _pkg_version("leetvibe")
+except PackageNotFoundError:
+    _VERSION = "dev"
 
 from rich.text import Text
 from textual.app import ComposeResult
@@ -76,53 +82,6 @@ class StatusBar(Horizontal):
 
     ALLOW_MAXIMIZE = False
 
-    DEFAULT_CSS = """
-    StatusBar {
-        height: 1;
-        background: #16213e;
-        padding: 0 2;
-        dock: bottom;
-    }
-    StatusBar Label {
-        color: #888888;
-    }
-
-    /* Hint container */
-    StatusBar #status-hints {
-        width: auto;
-        height: 1;
-        padding: 0;
-    }
-
-    /* Individual hint labels */
-    HintLabel {
-        height: 1;
-        width: auto;
-        padding: 0 1;
-        background: transparent;
-    }
-    HintLabel:hover {
-        background: #2a2a2a;
-    }
-
-    /* Separator between hints */
-    StatusBar .hint-sep {
-        color: #555555;
-        width: auto;
-        height: 1;
-        padding: 0 0;
-    }
-
-    /* Default (left-aligned) layout */
-    StatusBar #status-left   { width: 1fr; }
-    StatusBar #status-spacer { width: 1fr; }
-    StatusBar #status-right  { width: auto; }
-
-    /* Centred layout: count left — hints centre — version right */
-    StatusBar.hints-centered #status-count { width: 1fr; }
-    StatusBar.hints-centered #status-right { width: 1fr; text-align: right; }
-    """
-
     def __init__(
         self,
         hints: list[Hint] | None = None,
@@ -152,7 +111,7 @@ class StatusBar(Horizontal):
                     if i > 0:
                         yield Label("·", id=f"sep-{i}", classes="hint-sep")
                     yield HintLabel(hint[0], hint[1], hint[2], gradient=len(hint) > 3 and bool(hint[3]), id=f"hint-{i}")
-            yield Label("LeetVibe v0.1.0", id="status-right")
+            yield Label(f"LeetVibe v{_VERSION}", id="status-right")
         elif self._left_label or not self._hints:
             # [left-label 1fr] [hints auto] [version auto]
             yield Label(self._left_label, id="status-left")
@@ -161,7 +120,7 @@ class StatusBar(Horizontal):
                     if i > 0:
                         yield Label("·", id=f"sep-{i}", classes="hint-sep")
                     yield HintLabel(hint[0], hint[1], hint[2], gradient=len(hint) > 3 and bool(hint[3]), id=f"hint-{i}")
-            yield Label("LeetVibe v0.1.0", id="status-right")
+            yield Label(f"LeetVibe v{_VERSION}", id="status-right")
         else:
             # [hints auto] [spacer 1fr] [version auto]
             with Horizontal(id="status-hints"):
@@ -170,7 +129,7 @@ class StatusBar(Horizontal):
                         yield Label("·", id=f"sep-{i}", classes="hint-sep")
                     yield HintLabel(hint[0], hint[1], hint[2], gradient=len(hint) > 3 and bool(hint[3]), id=f"hint-{i}")
             yield Label("", id="status-spacer")
-            yield Label("LeetVibe v0.1.0", id="status-right")
+            yield Label(f"LeetVibe v{_VERSION}", id="status-right")
 
     def update_left_label(self, text: str) -> None:
         """Update the left-side label text (e.g. auth status)."""

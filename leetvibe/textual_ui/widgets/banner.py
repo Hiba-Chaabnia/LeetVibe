@@ -34,14 +34,6 @@ def _chargradient(text: str, colors: list[str]) -> Text:
 class Banner(Static):
     """Renders the LeetVibe block-char banner with fire gradient."""
 
-    DEFAULT_CSS = """
-    Banner {
-        text-align: center;
-        padding: 1 2;
-        height: auto;
-    }
-    """
-
     def on_mount(self) -> None:
         self.update(self._render_banner())
 

@@ -25,62 +25,6 @@ class ProblemCard(Widget):
 
     show_hints: reactive[bool] = reactive(False)
 
-    DEFAULT_CSS = """
-    ProblemCard {
-        height: auto;
-        text-align: left;
-    }
-    ProblemCard #card-title {
-        height: auto;
-        padding: 0 0 1 0;
-        color: white;
-        text-style: bold;
-        text-align: left;
-    }
-    ProblemCard #tags-row {
-        height: auto;
-        padding: 0 0 0 0;
-    }
-    ProblemCard .badge {
-        height: 1;
-        width: auto;
-        padding: 0 1;
-        margin: 0 1 0 0;
-        background: #2a2a2a;
-        color: #aaaaaa;
-    }
-    ProblemCard .badge-easy   { background: #1a3a1a; color: #00C44F; }
-    ProblemCard .badge-medium { background: #3a2a00; color: #FFB300; }
-    ProblemCard .badge-hard   { background: #3a1010; color: #E53935; }
-    ProblemCard .badge-trading { background: #0a2a2a; color: #00BCD4; }
-    ProblemCard .badge-topic  { background: #252525; color: #aaaaaa; }
-    ProblemCard #card-description {
-        height: auto;
-        color: #e0e0e0;
-        padding: 1 0;
-        border-top: solid #333333;
-        margin-top: 1;
-        text-align: left;
-    }
-    ProblemCard #hints-placeholder {
-        color: #888888;
-        text-style: italic;
-        padding: 1 0;
-        border-top: solid #333333;
-        margin-top: 1;
-    }
-    ProblemCard #hints-content {
-        height: auto;
-        color: #FFB300;
-        padding: 1 0;
-        border-top: solid #333333;
-        margin-top: 1;
-    }
-    ProblemCard .hidden {
-        display: none;
-    }
-    """
-
     def __init__(self, problem: Problem, **kwargs) -> None:
         super().__init__(**kwargs)
         self._problem = problem

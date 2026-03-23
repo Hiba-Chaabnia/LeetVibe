@@ -115,6 +115,49 @@ His opening monologue plays as speech via ElevenLabs so the session feels live f
 
 ---
 
+## 📖 Playbook
+
+*"I want to study algorithm patterns before I practice."*
+
+The Playbook is an in-terminal algorithm reference guide covering **53 patterns** — from foundational Arrays and Binary Search to advanced topics like Network Flow, Segment Tree, and Digit DP. Every topic includes a diagram, code templates, complexity analysis, pitfalls, and classic problems to practice.
+
+| Section | What's Inside |
+|---------|--------------|
+| Recognise by | Keywords and constraints that signal this pattern |
+| Diagram | ASCII art showing the data-structure or pointer movement |
+| When to use | One-line decision rule |
+| Pattern | Primary code template in Python |
+| Pattern — Variant | Second template for related sub-patterns |
+| Complexity | Time and space with explanation |
+| Pitfalls | Common mistakes and edge-case traps |
+| Classic Problems | Curated LeetCode problems with difficulty |
+| My Notes | Personal notes you write and persist locally |
+
+**53 topics across 11 categories and 3 tiers:**
+
+| Tier | Topics |
+|------|--------|
+| ① Foundational | Arrays, Two Pointers, Sliding Window, Stack, Binary Search, Linked List, Trees, Graphs, BFS/DFS, Dynamic Programming, Heap, Strings, Simulation, Backtracking |
+| ② Intermediate | Monotonic Stack/Queue, Fast & Slow Pointers, Modified Binary Search, Tries, Union Find, Topological Sort, Dijkstra, Greedy, Intervals, Merge Sort, Cyclic Sort, Sweep Line, Difference Array, LRU Cache, Sorted List, Iterator |
+| ③ Advanced | Bellman-Ford, Floyd-Warshall, Segment Tree, SCC, Eulerian Path, Network Flow, Digit DP, Probability DP, Game Theory, Rabin-Karp, Z-Algorithm, Manacher's, Concurrency, Reservoir Sampling |
+
+**Playbook keyboard shortcuts:**
+
+| Key | Action |
+|-----|--------|
+| `↑` / `↓` | Navigate topics |
+| `C` | Cycle category filter (Arrays → Stack & Queue → … → All) |
+| `T` | Cycle tier filter (All → ① → ② → ③ → All) |
+| `E` | Ask Vibe AI about the current pattern (inline chat) |
+| `P` | Jump to practice problems for this topic |
+| `N` | Add or edit personal notes |
+| `X` | Export all topics + notes to DOCX |
+| `Esc` | Go back |
+
+A **▶ Pattern Selector** entry at the top maps problem keywords to patterns — use it when you can't immediately identify which pattern applies.
+
+---
+
 ## ✨ More Features
 
 - 📚 **Problem browser** — filter by difficulty, topic, or solved status; free-text search across hundreds of LeetCode problems
@@ -192,8 +235,9 @@ flowchart TD
     Home -- "1 · Learn" --> LL["Problem List"]
     Home -- "2 · Pair" --> CL["Problem List"]
     Home -- "3 · Interview" --> IL["Problem List"]
-    Home -- "4 · Stats" --> Stats["📊 Statistics"]
-    Home -- "5 · Account" --> Login["🔐 Login / Sign Up"]
+    Home -- "4 · Playbook" --> Playbook["📖 Playbook\n53 algorithm topics"]
+    Home -- "5 · Stats" --> Stats["📊 Statistics"]
+    Home -- "6 · Account" --> Login["🔐 Login / Sign Up"]
     Login -- result --> Home
 
     LL & CL --> Detail["Problem Detail\ncode editor + tests"]
@@ -230,6 +274,7 @@ graph TD
         ProblemList["📋 Problem List"]
         Detail["✏️ Problem Detail"]
         AgentSession["💬 Agent Session"]
+        Playbook["📖 Playbook"]
         Stats["📊 Statistics"]
         Login["🔐 Login"]
     end
@@ -255,7 +300,7 @@ graph TD
     Audio["🔊 System Audio"]
 
     User --> Home
-    Home --> ProblemList & Stats & Login
+    Home --> ProblemList & Playbook & Stats & Login
     ProblemList --> Detail & AgentSession
     Detail --> AgentSession
 
@@ -280,9 +325,11 @@ leetvibe/
 ├── cloud/
 │   ├── auth.py               Firebase auth (email + Google OAuth)
 │   └── db.py                 Cloud sync — solved slugs, sessions
+├── data/
+│   └── topics/               53 algorithm topic modules + metadata
 └── textual_ui/
     ├── screens/              home, problem_list, problem_detail,
-    │                         agent_session, stats, login
+    │                         agent_session, reference_guide, stats, login
     └── widgets/              banner, problem_table, status_bar
 
 skills/

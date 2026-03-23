@@ -34,47 +34,6 @@ class StatsScreen(BaseScreen):
         Binding("q",      "pop_screen", "Back", show=False),
     ]
 
-    DEFAULT_CSS = f"""
-    StatsScreen {{
-        background: #121212;
-    }}
-    #stats-scroll {{
-        height: 1fr;
-        padding: 1 2;
-    }}
-    .stat-card {{
-        padding: 1 2;
-        height: auto;
-        background: #0e0e0e;
-    }}
-    #progress-card {{
-        border: round {GOLD};
-        margin-bottom: 1;
-    }}
-    #mid-row {{
-        height: 11;
-        margin-bottom: 1;
-    }}
-    #sessions-card {{
-        border: round {FIRE};
-        width: 1fr;
-        height: 1fr;
-        margin-right: 1;
-    }}
-    #account-card {{
-        border: round {EMBER};
-        width: 1fr;
-        height: 1fr;
-    }}
-    #library-card {{
-        border: round {LAVA};
-        margin-top: 1;
-    }}
-    #stats-status {{
-        background: #121212;
-    }}
-    """
-
     def compose(self) -> ComposeResult:
         with VerticalScroll(id="stats-scroll"):
             yield Static(id="progress-card", classes="stat-card")

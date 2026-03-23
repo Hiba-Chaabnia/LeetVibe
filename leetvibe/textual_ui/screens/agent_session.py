@@ -90,21 +90,6 @@ class ChatScroll(VerticalScroll):
 class UserMessage(Static):
     """User / problem turn: orange heavy left-border bubble."""
 
-    DEFAULT_CSS = """
-    UserMessage {
-        width: 100%;
-        height: auto;
-        margin: 1 0 0 0;
-    }
-    UserMessage .msg-content {
-        height: auto;
-        padding: 0 1;
-        border-left: heavy #FF8205;
-        color: #FF8205;
-        text-style: bold;
-    }
-    """
-
     def __init__(self, text: str) -> None:
         super().__init__()
         self._text = text
@@ -115,41 +100,6 @@ class UserMessage(Static):
 
 class CopyableCodeBlock(Static):
     """Inline code block with a one-click ⎘ copy button."""
-
-    DEFAULT_CSS = """
-    CopyableCodeBlock {
-        width: 100%;
-        height: auto;
-        margin: 1 0 1 0;
-    }
-    CopyableCodeBlock .cb-header {
-        width: 100%;
-        height: 1;
-        align: left middle;
-    }
-    CopyableCodeBlock .cb-lang {
-        width: 1fr;
-        height: 1;
-    }
-    CopyableCodeBlock .cb-btn {
-        height: 1;
-        width: auto;
-        min-width: 0;
-        padding: 0 1;
-        background: transparent;
-        border: none;
-        color: #555555;
-    }
-    CopyableCodeBlock .cb-btn:hover { color: #FF8205; }
-    CopyableCodeBlock .cb-btn.-active { background: transparent; }
-    CopyableCodeBlock .cb-body {
-        width: 100%;
-        height: auto;
-        padding: 0 1;
-        background: #1a1a1a;
-        color: #cccccc;
-    }
-    """
 
     def __init__(self, lang: str) -> None:
         super().__init__()
@@ -245,28 +195,6 @@ class BackgroundStep(Static):
 
     SPINNER = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
 
-    DEFAULT_CSS = """
-    BackgroundStep {
-        width: 100%;
-        height: auto;
-    }
-    BackgroundStep .step-header {
-        width: 100%;
-        height: 1;
-        padding: 0 1;
-    }
-    BackgroundStep .step-content {
-        width: 100%;
-        height: auto;
-        padding: 0 0 0 4;
-    }
-    BackgroundStep .step-text {
-        width: 100%;
-        height: auto;
-        color: #505050;
-    }
-    """
-
     def __init__(self, step_num: int, title: str, content_visible: bool = False) -> None:
         super().__init__()
         self._step_num = step_num
@@ -349,29 +277,6 @@ class BackgroundStep(Static):
 class FinalAnswer(Static):
     """Final synthesis step: always fully visible, supports copyable code blocks."""
 
-    DEFAULT_CSS = """
-    FinalAnswer {
-        width: 100%;
-        height: auto;
-        margin: 1 0 0 0;
-    }
-    FinalAnswer .final-sep {
-        width: 100%;
-        height: 1;
-        padding: 0 1;
-    }
-    FinalAnswer .final-content {
-        width: 100%;
-        height: auto;
-        padding: 0 1;
-    }
-    FinalAnswer .step-text {
-        width: 100%;
-        height: auto;
-        color: #ffffff;
-    }
-    """
-
     def __init__(self, step_num: int, title: str) -> None:
         super().__init__()
         self._step_num = step_num
@@ -411,50 +316,6 @@ class FinalAnswer(Static):
 
 class NarrationPanel(Static):
     """Post-session on-demand voice playback panel."""
-
-    DEFAULT_CSS = """
-    NarrationPanel {
-        width: 100%;
-        height: auto;
-        margin: 1 0 0 0;
-    }
-    NarrationPanel .narr-header {
-        width: 100%;
-        height: 1;
-        padding: 0 1;
-        color: #555555;
-    }
-    NarrationPanel .narr-row {
-        width: 100%;
-        height: 3;
-        padding: 0 1;
-        align: left middle;
-    }
-    NarrationPanel Button {
-        background: transparent;
-        border: round #444444;
-        color: #888888;
-        height: 3;
-        min-width: 0;
-        padding: 0 2;
-    }
-    NarrationPanel Button:hover {
-        border: round #FF8205;
-        color: #FF8205;
-    }
-    NarrationPanel Button:disabled {
-        color: #444444;
-        border: round #333333;
-    }
-    NarrationPanel #narr-stop {
-        color: #E53935;
-        border: round #E53935;
-    }
-    NarrationPanel #narr-stop:disabled {
-        color: #444444;
-        border: round #333333;
-    }
-    """
 
     def __init__(self, items: list[tuple[str, str, str]]) -> None:
         # items: list of (label, text_to_speak, voice_type)
@@ -525,27 +386,6 @@ class NarrationPanel(Static):
 class MnemonicBlock(Static):
     """Displays the algorithm pattern mnemonic after session completion."""
 
-    DEFAULT_CSS = """
-    MnemonicBlock {
-        width: 100%;
-        height: auto;
-        margin: 1 0 0 0;
-    }
-    MnemonicBlock .mnemonic-header {
-        width: 100%;
-        height: 1;
-        padding: 0 1;
-    }
-    MnemonicBlock .mnemonic-text {
-        width: 100%;
-        height: auto;
-        padding: 1 2;
-        color: #FFD700;
-        text-style: italic;
-        border-left: heavy #FFD700;
-    }
-    """
-
     def __init__(self, mnemonic: str, pattern: str) -> None:
         super().__init__()
         self._mnemonic = mnemonic
@@ -566,19 +406,6 @@ class MnemonicBlock(Static):
 
 class AssistantBlock(Static):
     """One follow-up AI turn (or fallback block): accumulates streamed Rich-markup lines."""
-
-    DEFAULT_CSS = """
-    AssistantBlock {
-        width: 100%;
-        height: auto;
-        margin: 1 0 0 0;
-    }
-    AssistantBlock Static {
-        width: 100%;
-        height: auto;
-        padding: 0 1;
-    }
-    """
 
     def __init__(self) -> None:
         super().__init__()
@@ -619,130 +446,6 @@ class AgentSessionScreen(BaseScreen):
         Binding("ctrl+d",  "toggle_description",  "Problem",       show=False, priority=True),
         Binding("ctrl+q",  "quit_app",            "Quit",          show=False),
     ]
-
-    DEFAULT_CSS = f"""
-    AgentSessionScreen {{
-        background: #121212;
-    }}
-
-    /* ── Top bar ─────────────────────────────────────────────────── */
-    #session-bar {{
-        height: 4;
-        background: #1a1a1a;
-        border-bottom: solid {FIRE};
-        padding: 0 1;
-        align: left middle;
-    }}
-    #session-title {{
-        width: 1fr;
-        height: 3;
-        content-align: center middle;
-        color: {FIRE};
-        text-style: bold;
-    }}
-    #session-bar Button {{
-        background: transparent;
-        padding: 0 1;
-        min-width: 0;
-        height: 3;
-    }}
-    #session-bar Button:focus,
-    #session-bar Button.-active {{
-        background: transparent;
-    }}
-    #btn-back        {{ color: #aaaaaa; border: round #444444; text-style: dim; }}
-    #btn-stop        {{ color: {RED};   border: round {RED}; }}
-    #btn-copy        {{ color: {GREEN}; border: round {GREEN}; }}
-    #btn-copy:disabled   {{ color: #333333; border: round #333333; }}
-    #btn-reset       {{ color: #888888; border: round #444444; text-style: dim; }}
-    #btn-reset:disabled  {{ color: #333333; border: round #333333; }}
-
-    /* ── Prior history panel ─────────────────────────────────── */
-    #prior-history {{
-        width: 100%;
-        height: auto;
-        background: #0e0e0e;
-        border-bottom: solid #333333;
-        padding: 0 1 1 1;
-        display: none;
-    }}
-    #prior-history-title {{
-        color: #555555;
-        text-style: italic;
-        padding: 0 1;
-        margin-bottom: 1;
-    }}
-
-    /* ── Body: description panel + chat side by side ─────────────── */
-    #session-body {{
-        height: 1fr;
-        width: 100%;
-    }}
-    #description-panel {{
-        width: 45%;
-        height: 100%;
-        background: #0d0d0d;
-        border-right: solid #333333;
-        padding: 0 1 1 1;
-        display: none;
-    }}
-    #interview-opening {{
-        width: 100%;
-        height: auto;
-        padding: 1 0 0 0;
-        border-top: solid #333333;
-        color: #cccccc;
-        margin-top: 1;
-    }}
-
-    /* ── Chat scroll (fills remaining space) ─────────────────────── */
-    ChatScroll {{
-        height: 100%;
-        width: 1fr;
-        background: transparent;
-    }}
-    #messages {{
-        width: 100%;
-        height: auto;
-        padding: 0 1 1 1;
-    }}
-
-    /* ── Input container (always visible) ───────────────────────── */
-    #chat-input-container {{
-        height: auto;
-        width: 100%;
-        padding: 0 1 0 1;
-    }}
-    #input-box {{
-        height: auto;
-        width: 100%;
-        background: transparent;
-    }}
-    #chat-input {{
-        width: 1fr;
-        background: #121212;
-        color: #e0e0e0;
-        border: round #444444;
-    }}
-    #chat-input:focus {{
-        background: #121212;
-        border: round {FIRE};
-    }}
-    #chat-input:disabled {{ color: #555555; border: round #2a2a2a; }}
-    #btn-send {{
-        width: auto;
-        height: 3;
-        border: round {FIRE};
-        background: transparent;
-        color: {FIRE};
-        padding: 0 2;
-        min-width: 6;
-        content-align: center middle;
-    }}
-    #btn-send:focus, #btn-send.-active {{ background: transparent; }}
-    #btn-send:disabled {{ color: #444444; border: round #444444; }}
-    #session-status    {{ background: #121212; }}
-    """
 
     def __init__(
         self,

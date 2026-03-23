@@ -397,25 +397,775 @@ Input:focus {
     border: round #333333;
 }
 
-/* ── Agent session chat input overrides ── */
-#chat-input {
-    background: #121212;
-    border: round #444444;
-}
-
-#chat-input:focus {
-    border: round #FF8205;
-}
-
-#chat-input:disabled {
-    border: round #2a2a2a;
-}
-
-
 /* ============================================================
    Loading indicator
    ============================================================ */
 
 LoadingIndicator {
     color: $brand;
+}
+
+
+/* ============================================================
+   Banner widget
+   ============================================================ */
+
+Banner {
+    text-align: center;
+    padding: 1 2;
+    height: auto;
+}
+
+
+/* ============================================================
+   StatusBar / HintLabel widgets
+   ============================================================ */
+
+StatusBar {
+    height: 1;
+    background: #16213e;
+    padding: 0 2;
+    dock: bottom;
+}
+StatusBar Label {
+    color: $muted;
+}
+StatusBar #status-hints {
+    width: auto;
+    height: 1;
+    padding: 0;
+}
+HintLabel {
+    height: 1;
+    width: auto;
+    padding: 0 1;
+    background: transparent;
+}
+HintLabel:hover {
+    background: #2a2a2a;
+}
+StatusBar .hint-sep {
+    color: #555555;
+    width: auto;
+    height: 1;
+    padding: 0 0;
+}
+StatusBar #status-left   { width: 1fr; }
+StatusBar #status-spacer { width: 1fr; }
+StatusBar #status-right  { width: auto; }
+StatusBar.hints-centered #status-count { width: 1fr; }
+StatusBar.hints-centered #status-right { width: 1fr; text-align: right; }
+
+
+/* ============================================================
+   ProblemCard widget
+   ============================================================ */
+
+ProblemCard {
+    height: auto;
+    text-align: left;
+}
+ProblemCard #card-title {
+    height: auto;
+    padding: 0 0 1 0;
+    color: white;
+    text-style: bold;
+    text-align: left;
+}
+ProblemCard #tags-row {
+    height: auto;
+}
+ProblemCard .badge {
+    height: 1;
+    width: auto;
+    padding: 0 1;
+    margin: 0 1 0 0;
+    background: #2a2a2a;
+    color: #aaaaaa;
+}
+ProblemCard .badge-easy    { background: #1a3a1a; color: $easy; }
+ProblemCard .badge-medium  { background: #3a2a00; color: $amber; }
+ProblemCard .badge-hard    { background: #3a1010; color: $hard; }
+ProblemCard .badge-trading { background: #0a2a2a; color: $trading; }
+ProblemCard .badge-topic   { background: #252525; color: #aaaaaa; }
+ProblemCard #card-description {
+    height: auto;
+    color: $text;
+    padding: 1 0;
+    border-top: solid #333333;
+    margin-top: 1;
+    text-align: left;
+}
+ProblemCard #hints-placeholder {
+    color: $muted;
+    text-style: italic;
+    padding: 1 0;
+    border-top: solid #333333;
+    margin-top: 1;
+}
+ProblemCard #hints-content {
+    height: auto;
+    color: $amber;
+    padding: 1 0;
+    border-top: solid #333333;
+    margin-top: 1;
+}
+ProblemCard .hidden {
+    display: none;
+}
+
+
+/* ============================================================
+   LoginScreen
+   ============================================================ */
+
+LoginScreen {
+    align: center middle;
+}
+#login-container {
+    width: 58;
+    height: auto;
+    border: round $brand;
+    background: #0e0e0e;
+    padding: 1 2 2 2;
+}
+#login-title {
+    width: 100%;
+    content-align: center middle;
+    color: $brand;
+    text-style: bold;
+    margin: 0 0 1 0;
+    height: 1;
+}
+#mode-row {
+    height: 3;
+    width: 100%;
+    align: center middle;
+    margin: 0 0 1 0;
+}
+#btn-signin-mode, #btn-signup-mode {
+    border: round #444444;
+    background: transparent;
+    color: $muted;
+    padding: 0 2;
+    min-width: 12;
+    height: 3;
+}
+#btn-signin-mode.active, #btn-signup-mode.active {
+    background: #3a2200;
+    color: $brand;
+    text-style: bold;
+    border: round $brand;
+}
+#btn-signin-mode:focus, #btn-signin-mode.-active,
+#btn-signup-mode:focus, #btn-signup-mode.-active {
+    background: transparent;
+}
+#btn-signin-mode.active:focus, #btn-signin-mode.active.-active,
+#btn-signup-mode.active:focus, #btn-signup-mode.active.-active {
+    background: #3a2200;
+}
+#login-status {
+    width: 100%;
+    color: $muted;
+    height: 1;
+    text-align: center;
+    margin: 0 0 1 0;
+}
+#btn-google {
+    width: 100%;
+    border: round #888888;
+    background: transparent;
+    color: #e0e0e0;
+    height: 3;
+}
+#btn-google:hover    { background: #1a1a1a; border: round #aaaaaa; }
+#btn-google:disabled { color: #444444; border: round #333333; }
+#btn-google:focus, #btn-google.-active { background: transparent; }
+LoginScreen #divider {
+    width: 100%;
+    content-align: center middle;
+    color: $muted;
+    margin: 1 0;
+    height: 1;
+}
+#confirm-input {
+    display: none;
+}
+#google-note {
+    width: 100%;
+    color: $muted;
+    height: auto;
+    min-height: 1;
+    margin: 1 0 0 0;
+    text-align: center;
+    text-style: italic;
+}
+LoginScreen #btn-submit {
+    width: 100%;
+    margin: 1 0 0 0;
+    background: $brand;
+    color: #000000;
+    text-style: bold;
+    border: none;
+    height: 3;
+}
+LoginScreen #btn-submit:hover    { background: $amber; }
+LoginScreen #btn-submit:disabled { background: #3a2200; color: #555555; }
+#login-error {
+    width: 100%;
+    color: $hard;
+    height: auto;
+    min-height: 1;
+    margin: 1 0 0 0;
+    text-align: center;
+}
+#login-info {
+    width: 100%;
+    color: $easy;
+    height: auto;
+    min-height: 1;
+    margin: 0;
+    text-align: center;
+}
+
+
+/* ============================================================
+   StatsScreen
+   ============================================================ */
+
+StatsScreen {
+    background: #121212;
+}
+#stats-scroll {
+    height: 1fr;
+    padding: 1 2;
+}
+.stat-card {
+    padding: 1 2;
+    height: auto;
+    background: #0e0e0e;
+}
+#progress-card {
+    border: round $grad1;
+    margin-bottom: 1;
+}
+#mid-row {
+    height: 11;
+    margin-bottom: 1;
+}
+#sessions-card {
+    border: round $brand;
+    width: 1fr;
+    height: 1fr;
+    margin-right: 1;
+}
+#account-card {
+    border: round $grad4;
+    width: 1fr;
+    height: 1fr;
+}
+#library-card {
+    border: round $grad5;
+    margin-top: 1;
+}
+#stats-status {
+    background: #121212;
+}
+
+
+/* ============================================================
+   NotesModal
+   ============================================================ */
+
+NotesModal {
+    align: center middle;
+}
+#notes-dialog {
+    width: 72;
+    height: 24;
+    background: #1a1a1a;
+    border: round $brand;
+    padding: 1 2;
+}
+#notes-title {
+    color: $grad1;
+    text-style: bold;
+    height: 1;
+    margin-bottom: 1;
+}
+#notes-hint {
+    color: #555555;
+    height: 1;
+    margin-bottom: 1;
+}
+#notes-area {
+    height: 13;
+    border: round #444444;
+    background: #0e0e0e;
+}
+#notes-buttons {
+    height: 3;
+    align: right middle;
+    margin-top: 1;
+}
+#notes-buttons Button {
+    margin-left: 1;
+    background: transparent;
+    min-width: 14;
+}
+NotesModal #btn-save {
+    color: $brand;
+    border: round $brand;
+}
+NotesModal #btn-cancel {
+    color: #888888;
+    border: round #444444;
+}
+
+
+/* ============================================================
+   FeedbackModal
+   ============================================================ */
+
+FeedbackModal {
+    align: center middle;
+}
+#feedback-dialog {
+    width: 72;
+    height: auto;
+    background: #1a1a1a;
+    border: round $brand;
+    padding: 2 3;
+}
+#feedback-title {
+    color: $brand;
+    text-style: bold;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1;
+}
+#feedback-type-label {
+    color: $muted;
+    margin-bottom: 0;
+}
+#feedback-type {
+    width: 100%;
+    margin-bottom: 1;
+}
+#feedback-msg-label {
+    color: $muted;
+    margin-bottom: 0;
+}
+#feedback-text {
+    width: 100%;
+    height: 8;
+    border: round #444444;
+    background: #121212;
+    margin-bottom: 1;
+}
+#feedback-text:focus {
+    border: round $brand;
+}
+#feedback-error {
+    color: #ff4444;
+    height: auto;
+    min-height: 1;
+    width: 100%;
+    text-align: center;
+}
+#feedback-buttons {
+    width: 100%;
+    height: auto;
+    align: right middle;
+    margin-top: 1;
+}
+#btn-feedback-cancel {
+    border: round #555555;
+    background: transparent;
+    color: #888888;
+    height: 3;
+    text-style: dim;
+    margin-right: 1;
+}
+#btn-feedback-cancel:focus, #btn-feedback-cancel.-active { background: transparent; }
+#btn-feedback-submit {
+    border: round $brand;
+    background: transparent;
+    color: $brand;
+    height: 3;
+}
+#btn-feedback-submit:focus, #btn-feedback-submit.-active { background: transparent; }
+#btn-feedback-submit:hover    { background: #3a2200; }
+#btn-feedback-submit:disabled { color: #444444; border: round #333333; }
+
+
+/* ============================================================
+   AgentSessionScreen — sub-widgets
+   ============================================================ */
+
+UserMessage {
+    width: 100%;
+    height: auto;
+    margin: 1 0 0 0;
+}
+UserMessage .msg-content {
+    height: auto;
+    padding: 0 1;
+    border-left: heavy $brand;
+    color: $brand;
+    text-style: bold;
+}
+
+CopyableCodeBlock {
+    width: 100%;
+    height: auto;
+    margin: 1 0 1 0;
+}
+CopyableCodeBlock .cb-header {
+    width: 100%;
+    height: 1;
+    align: left middle;
+}
+CopyableCodeBlock .cb-lang {
+    width: 1fr;
+    height: 1;
+}
+CopyableCodeBlock .cb-btn {
+    height: 1;
+    width: auto;
+    min-width: 0;
+    padding: 0 1;
+    background: transparent;
+    border: none;
+    color: #555555;
+}
+CopyableCodeBlock .cb-btn:hover   { color: $brand; }
+CopyableCodeBlock .cb-btn.-active { background: transparent; }
+CopyableCodeBlock .cb-body {
+    width: 100%;
+    height: auto;
+    padding: 0 1;
+    background: #1a1a1a;
+    color: #cccccc;
+}
+
+BackgroundStep {
+    width: 100%;
+    height: auto;
+}
+BackgroundStep .step-header {
+    width: 100%;
+    height: 1;
+    padding: 0 1;
+}
+BackgroundStep .step-content {
+    width: 100%;
+    height: auto;
+    padding: 0 0 0 4;
+}
+BackgroundStep .step-text {
+    width: 100%;
+    height: auto;
+    color: #505050;
+}
+
+FinalAnswer {
+    width: 100%;
+    height: auto;
+    margin: 1 0 0 0;
+}
+FinalAnswer .final-sep {
+    width: 100%;
+    height: 1;
+    padding: 0 1;
+}
+FinalAnswer .final-content {
+    width: 100%;
+    height: auto;
+    padding: 0 1;
+}
+FinalAnswer .step-text {
+    width: 100%;
+    height: auto;
+    color: #ffffff;
+}
+
+NarrationPanel {
+    width: 100%;
+    height: auto;
+    margin: 1 0 0 0;
+}
+NarrationPanel .narr-header {
+    width: 100%;
+    height: 1;
+    padding: 0 1;
+    color: #555555;
+}
+NarrationPanel .narr-row {
+    width: 100%;
+    height: 3;
+    padding: 0 1;
+    align: left middle;
+}
+NarrationPanel Button {
+    background: transparent;
+    border: round #444444;
+    color: $muted;
+    height: 3;
+    min-width: 0;
+    padding: 0 2;
+}
+NarrationPanel Button:hover {
+    border: round $brand;
+    color: $brand;
+}
+NarrationPanel Button:disabled {
+    color: #444444;
+    border: round #333333;
+}
+NarrationPanel #narr-stop {
+    color: $hard;
+    border: round $hard;
+}
+NarrationPanel #narr-stop:disabled {
+    color: #444444;
+    border: round #333333;
+}
+
+MnemonicBlock {
+    width: 100%;
+    height: auto;
+    margin: 1 0 0 0;
+}
+MnemonicBlock .mnemonic-header {
+    width: 100%;
+    height: 1;
+    padding: 0 1;
+}
+MnemonicBlock .mnemonic-text {
+    width: 100%;
+    height: auto;
+    padding: 1 2;
+    color: $grad1;
+    text-style: italic;
+    border-left: heavy $grad1;
+}
+
+AssistantBlock {
+    width: 100%;
+    height: auto;
+    margin: 1 0 0 0;
+}
+AssistantBlock Static {
+    width: 100%;
+    height: auto;
+    padding: 0 1;
+}
+
+
+/* ============================================================
+   AgentSessionScreen
+   ============================================================ */
+
+AgentSessionScreen {
+    background: #121212;
+}
+#session-bar {
+    height: 4;
+    background: #1a1a1a;
+    border-bottom: solid $brand;
+    padding: 0 1;
+    align: left middle;
+}
+#session-title {
+    width: 1fr;
+    height: 3;
+    content-align: center middle;
+    color: $brand;
+    text-style: bold;
+}
+#session-bar Button {
+    background: transparent;
+    padding: 0 1;
+    min-width: 0;
+    height: 3;
+}
+#session-bar Button:focus,
+#session-bar Button.-active {
+    background: transparent;
+}
+AgentSessionScreen #btn-back           { color: #aaaaaa; border: round #444444; text-style: dim; }
+#btn-stop                              { color: $hard;   border: round $hard; }
+#btn-copy                              { color: $easy;   border: round $easy; }
+#btn-copy:disabled                     { color: #333333; border: round #333333; }
+AgentSessionScreen #btn-reset          { color: #888888; border: round #444444; text-style: dim; }
+AgentSessionScreen #btn-reset:disabled { color: #333333; border: round #333333; }
+#prior-history {
+    width: 100%;
+    height: auto;
+    background: #0e0e0e;
+    border-bottom: solid #333333;
+    padding: 0 1 1 1;
+    display: none;
+}
+#prior-history-title {
+    color: #555555;
+    text-style: italic;
+    padding: 0 1;
+    margin-bottom: 1;
+}
+#session-body {
+    height: 1fr;
+    width: 100%;
+}
+#description-panel {
+    width: 45%;
+    height: 100%;
+    background: #0d0d0d;
+    border-right: solid #333333;
+    padding: 0 1 1 1;
+    display: none;
+}
+#interview-opening {
+    width: 100%;
+    height: auto;
+    padding: 1 0 0 0;
+    border-top: solid #333333;
+    color: #cccccc;
+    margin-top: 1;
+}
+ChatScroll {
+    height: 100%;
+    width: 1fr;
+    background: transparent;
+}
+#messages {
+    width: 100%;
+    height: auto;
+    padding: 0 1 1 1;
+}
+#chat-input-container {
+    height: auto;
+    width: 100%;
+    padding: 0 1 0 1;
+    background: transparent;
+}
+#input-box {
+    height: auto;
+    width: 100%;
+    background: transparent;
+}
+AgentSessionScreen #chat-input {
+    width: 1fr;
+    background: #121212;
+    color: white;
+    border: round #444444;
+}
+AgentSessionScreen #chat-input:focus    { background: #121212; background-tint: transparent; border: round $brand; color: white; }
+AgentSessionScreen #chat-input.-focused { background: #121212; background-tint: transparent; border: round $brand; color: white; }
+AgentSessionScreen #chat-input:disabled { color: #555555; border: round #2a2a2a; }
+#btn-send {
+    width: auto;
+    height: 3;
+    border: round $brand;
+    background: transparent;
+    color: $brand;
+    padding: 0 2;
+    min-width: 6;
+    content-align: center middle;
+}
+#btn-send:focus, #btn-send.-active { background: transparent; }
+#btn-send:disabled { color: #444444; border: round #444444; }
+#session-status { background: #121212; }
+
+
+/* ============================================================
+   PlaybookBreadcrumb / PlaybookChatPanel / ReferenceGuideScreen
+   ============================================================ */
+
+PlaybookBreadcrumb {
+    height: 2;
+    background: #121212;
+}
+PlaybookBreadcrumb #bc-left {
+    width: 1fr;
+    padding: 0 1;
+}
+
+PlaybookChatPanel {
+    width: 60;
+    display: none;
+    border: round #333333;
+    background: #121212;
+    margin-left: 1;
+}
+PlaybookChatPanel.open {
+    display: block;
+}
+PlaybookChatPanel #chat-log {
+    height: 1fr;
+    padding: 1 1;
+    scrollbar-size: 1 1;
+    background: transparent;
+}
+PlaybookChatPanel #chat-input {
+    height: 3;
+    border: round #444444;
+    background: #121212;
+    padding: 0 2;
+    color: white;
+}
+PlaybookChatPanel #chat-input:focus    { background: #121212; background-tint: transparent; border: round $brand; color: white; }
+PlaybookChatPanel #chat-input.-focused { background: #121212; background-tint: transparent; border: round $brand; color: white; }
+
+ReferenceGuideScreen {
+    background: #121212;
+}
+ReferenceGuideScreen #ref-body {
+    height: 1fr;
+    padding: 0 1 1 1;
+}
+ReferenceGuideScreen #ref-topics {
+    width: 28;
+    border: round #333333;
+    background: #121212;
+    padding: 0;
+    margin-right: 1;
+}
+#sidebar-header {
+    height: 3;
+    background: #121212;
+    border-bottom: solid $grad5;
+    content-align: left middle;
+    padding: 0 2;
+}
+#ref-topics OptionList {
+    height: 1fr;
+    background: transparent;
+    border: none;
+    padding: 0;
+    scrollbar-size: 1 1;
+}
+#ref-topics .option-list--option {
+    padding: 0 1;
+    color: $text;
+}
+#ref-topics .option-list--option-highlighted {
+    background: $brand;
+    color: #000000;
+    text-style: bold;
+}
+#ref-content-scroll {
+    width: 1fr;
+    border: round #333333;
+    padding: 1 2;
+    scrollbar-size: 1 1;
+}
+#ref-content {
+    width: 100%;
+    height: auto;
+}
+#ref-status {
+    background: #121212;
 }
