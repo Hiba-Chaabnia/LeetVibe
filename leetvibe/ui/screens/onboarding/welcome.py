@@ -7,7 +7,7 @@ from textual.events import Key
 from textual.screen import Screen
 from textual.widgets import Label
 
-from ...textual_ui.widgets.banner import Banner
+from ...widgets.banner import Banner
 
 
 class WelcomeScreen(Screen):

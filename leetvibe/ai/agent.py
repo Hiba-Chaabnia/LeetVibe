@@ -4,20 +4,13 @@ from __future__ import annotations
 
 import json
 import re
-import sys
 import time
-from pathlib import Path
 from typing import Generator
-
-# Ensure project root is on sys.path so `skills.*` imports resolve
-_PROJECT_ROOT = Path(__file__).parent.parent
-if str(_PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(_PROJECT_ROOT))
 
 from mistralai import Mistral
 
-from .config import Config
-from .problem_loader import Problem
+from ..config import Config
+from ..problem_loader import Problem
 
 _CODE_BLOCK_RE = re.compile(r"```(?:python)?\n(.*?)```", re.DOTALL)
 
@@ -568,16 +561,16 @@ class VibeAgent:
     def _execute_tool(self, name: str, args: dict) -> object:
         """Dispatch tool calls directly to skill module functions."""
         if name == "run_code":
-            from skills.test_runner.server import run_code
+            from .skills.test_runner.server import run_code
             return run_code(**args)
         elif name == "narrate":
-            from skills.voice_narrator.server import narrate
+            from .skills.voice_narrator.server import narrate
             return narrate(**args)
         elif name == "analyze_complexity":
-            from skills.complexity_analyzer.server import analyze_complexity
+            from .skills.complexity_analyzer.server import analyze_complexity
             return analyze_complexity(**args)
         elif name == "explain_approach":
-            from skills.teaching_mode.server import explain_approach
+            from .skills.teaching_mode.server import explain_approach
             return explain_approach(**args)
         else:
             return {"error": f"Unknown tool: {name}"}

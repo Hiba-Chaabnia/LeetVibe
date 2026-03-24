@@ -11,12 +11,11 @@ from textual.widgets import Static
 
 from ...problem_loader import Problem
 
-_DIFF_ICONS = {"easy": "●", "medium": "◆", "hard": "★", "trading": "₿"}
+_DIFF_ICONS = {"easy": "●", "medium": "◆", "hard": "★"}
 _DIFF_STYLES = {
     "easy": "#00C44F",
     "medium": "#FFB300",
     "hard": "#E53935",
-    "trading": "#00BCD4",
 }
 
 

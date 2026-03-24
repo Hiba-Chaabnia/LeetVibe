@@ -6,7 +6,7 @@ from pathlib import Path
 
 from textual.app import App
 
-from .screens import (
+from .screens.onboarding import (
     WelcomeScreen,
     ApiKeyScreen,
     ElevenLabsKeyScreen,

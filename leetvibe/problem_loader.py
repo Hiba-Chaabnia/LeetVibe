@@ -20,14 +20,13 @@ from pathlib import Path
 from typing import Optional
 
 
-PROBLEMS_DIR = Path(__file__).parent / "problems"
+PROBLEMS_DIR = Path(__file__).parent / "data" / "problems"
 
-DIFFICULTY_ORDER = {"easy": 0, "medium": 1, "hard": 2, "trading": 3}
+DIFFICULTY_ORDER = {"easy": 0, "medium": 1, "hard": 2}
 DIFFICULTY_COLORS = {
     "easy": "green",
     "medium": "yellow",
     "hard": "red",
-    "trading": "cyan",
 }
 
 _HTML_TAG = re.compile(r"<[^>]+>")

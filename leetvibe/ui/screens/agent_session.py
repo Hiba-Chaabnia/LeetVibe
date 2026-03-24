@@ -341,7 +341,7 @@ class NarrationPanel(Static):
 
         if btn_id == "narr-stop":
             try:
-                from skills.voice_narrator.server import stop_playback
+                from ...ai.skills.voice_narrator.server import stop_playback
                 stop_playback()
             except Exception:
                 pass
@@ -365,7 +365,7 @@ class NarrationPanel(Static):
 
         def _play_and_restore() -> None:
             try:
-                from skills.voice_narrator.server import narrate_blocking
+                from ...ai.skills.voice_narrator.server import narrate_blocking
                 narrate_blocking(text, voice_type=voice_type)
             except Exception:
                 pass
@@ -566,7 +566,7 @@ class AgentSessionScreen(BaseScreen):
     def on_unmount(self) -> None:
         """Stop any in-progress audio when the screen is closed."""
         try:
-            from skills.voice_narrator.server import stop_playback
+            from ...ai.skills.voice_narrator.server import stop_playback
             stop_playback()
         except Exception:
             pass
@@ -628,7 +628,7 @@ class AgentSessionScreen(BaseScreen):
 
         try:
             from ...config import load_config
-            from ...vibe_agent import VibeAgent, COACH_PROMPT, SYSTEM_PROMPT, INTERVIEW_PROMPT
+            from ...ai.agent import VibeAgent, COACH_PROMPT, SYSTEM_PROMPT, INTERVIEW_PROMPT
 
             self._agent = VibeAgent(load_config())
 
@@ -1085,7 +1085,7 @@ class AgentSessionScreen(BaseScreen):
         if not text:
             return
         try:
-            from skills.voice_narrator.server import narrate
+            from ...ai.skills.voice_narrator.server import narrate
             narrate(text, voice_type="coach")
         except Exception:
             pass

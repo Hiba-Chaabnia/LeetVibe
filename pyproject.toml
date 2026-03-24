@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "leetvibe"
-version = "0.1.4"
+version = "0.1.5"
 description = "AI Pair Programming CLI for LeetCode — powered by Mistral AI"
 readme = "README.md"
 license = { text = "MIT" }
@@ -64,10 +64,10 @@ Repository = "https://github.com/hibachaabnia/leetvibe"
 leetvibe = "leetvibe.cli:main"
 
 [tool.hatch.build.targets.wheel]
-include = ["leetvibe/", "skills/", "config.yaml"]
+include = ["leetvibe/", "config.yaml"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"leetvibe/problems" = "leetvibe/problems"
+"leetvibe/data/problems" = "leetvibe/data/problems"
 
 [tool.uv]
 package = true

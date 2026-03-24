@@ -33,12 +33,12 @@ def cli() -> None:
     from .config import needs_setup
 
     if needs_setup():
-        from .setup.onboarding import run_onboarding
+        from .ui.onboarding import run_onboarding
         if not run_onboarding():
             click.echo("Setup cancelled. Run `leetvibe` again to get started.")
             return
 
-    from .textual_ui.app import LeetVibeApp
+    from .ui.app import LeetVibeApp
     LeetVibeApp().run()
 
 

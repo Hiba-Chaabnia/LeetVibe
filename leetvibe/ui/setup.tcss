@@ -1,5 +1,10 @@
 /* ── Onboarding app — global ── */
 
+$brand:    #FF8205;
+$muted:    #888888;
+$bg-card:  #0e0e0e;
+$bg-input: #1a1a1a;
+
 Screen {
     background: #0f0f0f;
     align: center middle;
@@ -14,13 +19,13 @@ Screen {
     height: auto;
     padding: 2 4;
     border: round #333333;
-    background: #0e0e0e;
+    background: $bg-card;
 }
 
 /* ── Welcome ── */
 
 #hint {
-    color: #888888;
+    color: $muted;
     text-align: center;
     width: 100%;
     margin-top: 2;
@@ -29,7 +34,7 @@ Screen {
 /* ── API key / ElevenLabs key ── */
 
 #api-title {
-    color: #FF8205;
+    color: $brand;
     text-style: bold;
     text-align: center;
     width: 100%;
@@ -45,25 +50,32 @@ Screen {
 }
 
 #link-hint {
-    color: #888888;
+    color: $muted;
     text-align: center;
     width: 100%;
     margin-bottom: 1;
 }
 
-#api-key-input {
+/* ── Shared input style (api-key screen + login/signup forms) ── */
+
+#api-key-input,
+.form-input {
     width: 100%;
     border: tall #444444;
-    background: #1a1a1a;
+    background: $bg-input;
     color: #ffffff;
     margin-bottom: 1;
 }
 
-#api-key-input:focus {
-    border: tall #FF8205;
+#api-key-input:focus,
+.form-input:focus {
+    border: tall $brand;
 }
 
-#error-label {
+/* ── Shared error label (api-key screen + login/signup forms) ── */
+
+#error-label,
+#form-error {
     color: #ff4444;
     text-align: center;
     width: 100%;
@@ -75,7 +87,7 @@ Screen {
     text-align: center;
     width: 100%;
     padding: 1 0;
-    color: #888888;
+    color: $muted;
 }
 
 /* ── Auth choice ── */
@@ -87,7 +99,7 @@ Screen {
 }
 
 #auth-subtitle {
-    color: #888888;
+    color: $muted;
     text-align: center;
     width: 100%;
     margin-bottom: 2;
@@ -103,29 +115,19 @@ Screen {
     color: #cccccc;
 }
 
-.auth-btn:hover {
-    border: round #FF8205;
-    background: transparent;
-    color: #FF8205;
-}
-
-.auth-btn:focus {
-    border: round #FF8205;
-    background: transparent;
-    color: #FF8205;
-}
-
+.auth-btn:hover,
+.auth-btn:focus,
 .auth-btn.-active {
-    border: round #FF8205;
+    border: round $brand;
     background: transparent;
-    color: #FF8205;
+    color: $brand;
 }
 
 #auth-note {
     width: 100%;
     height: auto;
     margin-top: 1;
-    color: #888888;
+    color: $muted;
     text-align: center;
 }
 
@@ -134,40 +136,21 @@ Screen {
     text-align: center;
     width: 100%;
     padding: 1 0;
-    color: #888888;
+    color: $muted;
 }
 
 /* ── Login / Signup / Google auth ── */
 
 #form-title {
-    color: #FF8205;
+    color: $brand;
     text-style: bold;
     text-align: center;
     width: 100%;
     margin-bottom: 2;
 }
 
-.form-input {
-    width: 100%;
-    border: tall #444444;
-    background: #1a1a1a;
-    color: #ffffff;
-    margin-bottom: 1;
-}
-
-.form-input:focus {
-    border: tall #FF8205;
-}
-
-#form-error {
-    color: #ff4444;
-    text-align: center;
-    width: 100%;
-    height: 1;
-}
-
 #form-hint {
-    color: #888888;
+    color: $muted;
     text-align: center;
     width: 100%;
     margin-top: 1;

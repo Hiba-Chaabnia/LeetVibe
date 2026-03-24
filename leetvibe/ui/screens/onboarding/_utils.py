@@ -5,7 +5,7 @@ from __future__ import annotations
 from rich.text import Text
 from textual.widgets import Static
 
-from ...textual_ui.theme import SHIMMER as _SHIMMER
+from ...theme import SHIMMER as _SHIMMER
 
 
 class ShimmerTitle(Static):
