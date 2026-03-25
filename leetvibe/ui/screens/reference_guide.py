@@ -263,9 +263,9 @@ def _trunc(text: str, max_chars: int) -> str:
 _CAT_OPTIONS  = [("All Categories", "all")] + [(c["name"], c["name"]) for c in CATEGORIES]
 _TIER_OPTIONS = [
     ("All Tiers",        "all"),
-    ("① Foundational",  "1"),
-    ("② Intermediate",  "2"),
-    ("③ Advanced",      "3"),
+    ("Foundational",  "1"),
+    ("Intermediate",  "2"),
+    ("Advanced",      "3"),
 ]
 
 

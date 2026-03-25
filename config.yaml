@@ -3,6 +3,7 @@
 mistral:
   api_key: ${MISTRAL_API_KEY}
   model: "mistral-large-latest"
+  qa_model: "mistral-small-latest"
   vibe_enabled: true
 
 elevenlabs:

@@ -874,6 +874,7 @@ BackgroundStep .step-header {
     width: 100%;
     height: 1;
     padding: 0 1;
+    text-style: underline;
 }
 BackgroundStep .step-content {
     width: 100%;
@@ -907,67 +908,6 @@ FinalAnswer .step-text {
     color: #ffffff;
 }
 
-NarrationPanel {
-    width: 100%;
-    height: auto;
-    margin: 1 0 0 0;
-}
-NarrationPanel .narr-header {
-    width: 100%;
-    height: 1;
-    padding: 0 1;
-    color: #555555;
-}
-NarrationPanel .narr-row {
-    width: 100%;
-    height: 3;
-    padding: 0 1;
-    align: left middle;
-}
-NarrationPanel Button {
-    background: transparent;
-    border: round #444444;
-    color: $muted;
-    height: 3;
-    min-width: 0;
-    padding: 0 2;
-}
-NarrationPanel Button:hover {
-    border: round $brand;
-    color: $brand;
-}
-NarrationPanel Button:disabled {
-    color: #444444;
-    border: round #333333;
-}
-NarrationPanel #narr-stop {
-    color: $hard;
-    border: round $hard;
-}
-NarrationPanel #narr-stop:disabled {
-    color: #444444;
-    border: round #333333;
-}
-
-MnemonicBlock {
-    width: 100%;
-    height: auto;
-    margin: 1 0 0 0;
-}
-MnemonicBlock .mnemonic-header {
-    width: 100%;
-    height: 1;
-    padding: 0 1;
-}
-MnemonicBlock .mnemonic-text {
-    width: 100%;
-    height: auto;
-    padding: 1 2;
-    color: $grad1;
-    text-style: italic;
-    border-left: heavy $grad1;
-}
-
 AssistantBlock {
     width: 100%;
     height: auto;
@@ -983,6 +923,13 @@ AssistantBlock Static {
 /* ============================================================
    AgentSessionScreen
    ============================================================ */
+
+#topic-context {
+    height: 1;
+    width: 100%;
+    padding: 0 1;
+    color: $muted;
+}
 
 AgentSessionScreen {
     background: $bg;

@@ -36,6 +36,7 @@ def _expand(value: str) -> str:
 class Config:
     mistral_api_key: str
     mistral_model: str
+    mistral_qa_model: str
     elevenlabs_api_key: str
     elevenlabs_voice_id: str
 
@@ -57,6 +58,7 @@ def load_config() -> Config:
     return Config(
         mistral_api_key=_get("mistral", "api_key") or os.environ.get("MISTRAL_API_KEY", ""),
         mistral_model=_get("mistral", "model", "mistral-large-latest"),
+        mistral_qa_model=_get("mistral", "qa_model", "mistral-small-latest"),
         elevenlabs_api_key=_get("elevenlabs", "api_key") or os.environ.get("ELEVENLABS_API_KEY", ""),
         elevenlabs_voice_id=_get("elevenlabs", "voice_id", "EXAVITQu4vr4xnSDxMaL"),
     )

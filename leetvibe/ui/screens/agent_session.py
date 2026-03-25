@@ -314,96 +314,6 @@ class FinalAnswer(Static):
         )
 
 
-class NarrationPanel(Static):
-    """Post-session on-demand voice playback panel."""
-
-    def __init__(self, items: list[tuple[str, str, str]]) -> None:
-        # items: list of (label, text_to_speak, voice_type)
-        super().__init__()
-        self._items = items
-        self._active_btn: Button | None = None
-        self._active_label: str = ""
-
-    def compose(self) -> ComposeResult:
-        yield Static(
-            "[dim]━━  🔊 Voice Playback  ━━[/dim]",
-            markup=True,
-            classes="narr-header",
-        )
-        for i, (label, _text, _voice) in enumerate(self._items):
-            with Horizontal(classes="narr-row"):
-                yield Button(f"▶  {label}", id=f"narr-btn-{i}")
-        with Horizontal(classes="narr-row"):
-            yield Button("■  Stop", id="narr-stop", disabled=True)
-
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        btn_id = event.button.id or ""
-
-        if btn_id == "narr-stop":
-            try:
-                from ...ai.skills.voice_narrator.server import stop_playback
-                stop_playback()
-            except Exception:
-                pass
-            return
-
-        if not btn_id.startswith("narr-btn-"):
-            return
-        idx = int(btn_id.split("-")[-1])
-        if idx >= len(self._items):
-            return
-        label, text, voice_type = self._items[idx]
-        btn = event.button
-        btn.label = "⠋  Playing…"
-        btn.disabled = True
-        self._active_btn = btn
-        self._active_label = label
-        try:
-            self.query_one("#narr-stop", Button).disabled = False
-        except Exception:
-            pass
-
-        def _play_and_restore() -> None:
-            try:
-                from ...ai.skills.voice_narrator.server import narrate_blocking
-                narrate_blocking(text, voice_type=voice_type)
-            except Exception:
-                pass
-            self.app.call_from_thread(self._restore_btn, btn, label)
-
-        threading.Thread(target=_play_and_restore, daemon=True).start()
-
-    def _restore_btn(self, btn: Button, label: str) -> None:
-        btn.label = f"✓  {label}"
-        btn.disabled = False
-        self._active_btn = None
-        try:
-            self.query_one("#narr-stop", Button).disabled = True
-        except Exception:
-            pass
-
-
-class MnemonicBlock(Static):
-    """Displays the algorithm pattern mnemonic after session completion."""
-
-    def __init__(self, mnemonic: str, pattern: str) -> None:
-        super().__init__()
-        self._mnemonic = mnemonic
-        self._pattern = pattern
-
-    def compose(self) -> ComposeResult:
-        yield Static(
-            f"[bold #FFD700]━━  💡 {self._pattern}  ━━[/bold #FFD700]",
-            markup=True,
-            classes="mnemonic-header",
-        )
-        yield Static(
-            self._mnemonic,
-            markup=False,
-            classes="mnemonic-text",
-        )
-
-
 class AssistantBlock(Static):
     """One follow-up AI turn (or fallback block): accumulates streamed Rich-markup lines."""
 
@@ -460,6 +370,8 @@ class AgentSessionScreen(BaseScreen):
         self._running = False
         self._line_buffer = ""
         self._agent = None
+        self._concept_agent: "ConceptAgent | None" = None
+        self._session_summary: dict = {}
         self._chat_running = False
         self._current_block: AssistantBlock | None = None
         # Step-mode state (initial session only)
@@ -628,51 +540,51 @@ class AgentSessionScreen(BaseScreen):
 
         try:
             from ...config import load_config
-            from ...ai.agent import VibeAgent, COACH_PROMPT, SYSTEM_PROMPT, INTERVIEW_PROMPT
+            config = load_config()
 
-            self._agent = VibeAgent(load_config())
-
-            # Establish (or retrieve) the cloud session row
             self._cloud_session_id = upsert_session(
                 problem_slug, problem.difficulty, mode
             )
 
-            # Check for a prior conversation to resume
-            prior_messages = (
-                load_messages(problem_slug, mode)
-                if self._cloud_session_id
-                else []
-            )
-
-            if prior_messages and mode != "interview":
-                # Resume: inject saved history so follow-ups have full context.
-                # Skip the full solve workflow — the AI already ran it last time.
-                # Interview mode always starts fresh — no resuming.
-                if mode == "interview":
-                    system = INTERVIEW_PROMPT
-                    self._agent._interview_mode = True
-                elif mode == "coach" and user_code.strip():
-                    system = COACH_PROMPT
-                else:
-                    system = SYSTEM_PROMPT
-                self._agent.inject_history(
-                    [{"role": "system", "content": system}, *prior_messages]
-                )
-                self._prior_messages = prior_messages
-                self.app.call_from_thread(self._render_prior_history, prior_messages)
-                self.app.call_from_thread(
-                    self._write_line,
-                    "[dim]📎  Resumed from last session — "
-                    "press Ctrl+H to view prior conversation.[/dim]",
-                )
-            else:
-                # Fresh session: run the full solve workflow
-                for chunk in self._agent.solve_streaming(problem, mode, user_code):
+            if mode == "interview":
+                from ...ai.agent import InterviewAgent
+                self._agent = InterviewAgent(config)
+                for chunk in self._agent.start_streaming(problem):
                     if not self._running:
                         break
                     session_log.record_chunk(chunk)
                     self.app.call_from_thread(self._buffer_chunk, chunk)
                 self.app.call_from_thread(self._flush_buffer)
+            else:
+                from ...ai.agent import VibeAgent, COACH_PROMPT, SYSTEM_PROMPT
+                self._agent = VibeAgent(config)
+                prior_messages = (
+                    load_messages(problem_slug, mode)
+                    if self._cloud_session_id
+                    else []
+                )
+                if prior_messages:
+                    system = (
+                        COACH_PROMPT if mode == "coach" and user_code.strip()
+                        else SYSTEM_PROMPT
+                    )
+                    self._agent.inject_history(
+                        [{"role": "system", "content": system}, *prior_messages]
+                    )
+                    self._prior_messages = prior_messages
+                    self.app.call_from_thread(self._render_prior_history, prior_messages)
+                    self.app.call_from_thread(
+                        self._write_line,
+                        "[dim]📎  Resumed from last session — "
+                        "press Ctrl+H to view prior conversation.[/dim]",
+                    )
+                else:
+                    for chunk in self._agent.solve_streaming(problem, mode, user_code):
+                        if not self._running:
+                            break
+                        session_log.record_chunk(chunk)
+                        self.app.call_from_thread(self._buffer_chunk, chunk)
+                    self.app.call_from_thread(self._flush_buffer)
 
         except Exception as exc:
             error_msg = str(exc)
@@ -796,7 +708,17 @@ class AgentSessionScreen(BaseScreen):
             step7_text = ""
             if self._current_final is not None:
                 step7_text = self._extract_narration_text(self._current_final._all_lines)
-            self._trigger_post_session_audio(step7_text)
+            pattern = self._extract_algorithm_pattern(self._agent) if self._agent else ""
+            log_data = self._extract_log_session_data(self._agent) if self._agent else {}
+            self._session_summary = {
+                "title": self._problem.title,
+                "difficulty": self._problem.difficulty,
+                "topics": self._problem.topics or [],
+                "algorithm_pattern": pattern,
+                "synthesis": step7_text,
+                "complexity": log_data.get("final_complexity", ""),
+            }
+            self._trigger_mnemonic()
 
         # Append session-complete separator (not in interview — session stays open for chat)
         if self._mode != "interview":
@@ -833,71 +755,38 @@ class AgentSessionScreen(BaseScreen):
 
         return " ".join(clean_lines).strip()
 
-    # ── Post-session audio (mnemonic + voice panel) ──────────────────
+    # ── Post-session mnemonic ─────────────────────────────────────────
 
-    def _mount_mnemonic_block(self, mnemonic: str, pattern: str) -> None:
-        """Mount the mnemonic widget into the messages area."""
-        block = MnemonicBlock(mnemonic, pattern)
-        self.query_one("#messages", VerticalGroup).mount(block)
-        self._scroll_to_bottom()
-
-    def _mount_narration_panel(self, items: list[tuple[str, str, str]]) -> None:
-        """Mount the on-demand voice playback panel."""
-        panel = NarrationPanel(items)
-        self.query_one("#messages", VerticalGroup).mount(panel)
-        self._scroll_to_bottom()
-
-    def _trigger_post_session_audio(self, step7_text: str = "") -> None:
-        """Launch the post-session worker to build the voice playback panel."""
+    def _trigger_mnemonic(self) -> None:
+        """Generate and append the algorithm mnemonic inline after the session."""
         if self._agent is None:
             return
         threading.Thread(
             target=self._post_session_worker,
-            args=(self, self._problem, self._agent, step7_text),
+            args=(self, self._agent),
             daemon=True,
         ).start()
 
     @staticmethod
-    def _post_session_worker(
-        screen: "AgentSessionScreen",
-        problem: object,
-        agent: object,
-        step7_text: str,
-    ) -> None:
-        """Generate mnemonic + recap texts and mount the voice playback panel."""
+    def _post_session_worker(screen: "AgentSessionScreen", agent: object) -> None:
+        """Fetch the mnemonic and append it as a dim line to the final step."""
         try:
-            has_voice = bool(os.environ.get("ELEVENLABS_API_KEY"))
-            items: list[tuple[str, str, str]] = []
-
-            # ── Step 7 explanation ────────────────────────────────────
-            if step7_text:
-                items.append(("Step 7 Explanation", step7_text, "mentor"))
-
-            # ── Mnemonic ──────────────────────────────────────────────
             pattern = AgentSessionScreen._extract_algorithm_pattern(agent)
-            if pattern:
-                mnemonic = AgentSessionScreen._get_or_generate_mnemonic(pattern)
-                if mnemonic:
-                    screen.app.call_from_thread(
-                        screen._mount_mnemonic_block, mnemonic, pattern
-                    )
-                    items.append((f"Algorithm Mnemonic: {pattern}", mnemonic, "mentor"))
+            if not pattern:
+                return
+            mnemonic = AgentSessionScreen._get_or_generate_mnemonic(pattern)
+            if mnemonic:
+                line = f"\n[dim]Mnemonic:[/dim] {mnemonic}"
+                screen.app.call_from_thread(screen._append_mnemonic, line)
+        except Exception:
+            pass
 
-            # ── Recap ─────────────────────────────────────────────────
-            log_data = AgentSessionScreen._extract_log_session_data(agent)
-            recap = AgentSessionScreen._generate_recap_text(problem, log_data)
-            if recap:
-                items.append(("Session Recap", recap, "mentor"))
-
-            # ── Mount playback panel ───────────────────────────────────
-            if has_voice and items:
-                screen.app.call_from_thread(screen._mount_narration_panel, items)
-
-        except Exception as exc:
-            screen.app.call_from_thread(
-                screen.notify, f"Post-session error: {exc}",
-                severity="error", timeout=4,
-            )
+    def _append_mnemonic(self, line: str) -> None:
+        if self._current_final is not None:
+            self._current_final.write_line(line)
+        elif self._current_block is not None:
+            self._current_block.write_line(line)
+        self._scroll_to_bottom()
 
     @staticmethod
     def _extract_algorithm_pattern(agent: object) -> str:
@@ -1014,56 +903,6 @@ class AgentSessionScreen(BaseScreen):
             "solved": True,
         }
 
-    @staticmethod
-    def _generate_recap_text(problem: object, log_data: dict) -> str:
-        """Call Mistral to write a 2-sentence podcast recap; template on failure."""
-        title = log_data.get("problem_title") or getattr(problem, "title", "the problem")
-        difficulty = (log_data.get("difficulty") or getattr(problem, "difficulty", "")).capitalize()
-        time_s = int(log_data.get("time_seconds") or 0)
-        complexity = log_data.get("final_complexity", "")
-        solved = log_data.get("solved", True)
-        approaches = int(log_data.get("approaches_tried") or 1)
-
-        context = (
-            f"Problem: {title}. Difficulty: {difficulty}. "
-            f"Solved: {solved}. Time: {time_s}s. "
-            f"Final complexity: {complexity}. Attempts: {approaches}."
-        )
-
-        try:
-            from mistralai import Mistral
-            client = Mistral(api_key=os.environ.get("MISTRAL_API_KEY", ""))
-            resp = client.chat.complete(
-                model="mistral-small-latest",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": (
-                            "You are a calm technical mentor summarizing a coding session. "
-                            "Write exactly 2 clear sentences: what was solved and the key algorithmic insight. "
-                            "Be precise and direct. No exclamation marks, no hype, no emojis, no markdown."
-                        ),
-                    },
-                    {"role": "user", "content": context},
-                ],
-                max_tokens=80,
-            )
-            return resp.choices[0].message.content.strip()
-        except Exception:
-            return AgentSessionScreen._template_recap(title, difficulty, time_s, complexity, solved, approaches)
-
-    @staticmethod
-    def _template_recap(
-        title: str, difficulty: str, time_s: int, complexity: str, solved: bool, approaches: int
-    ) -> str:
-        time_str = f"{time_s // 60}m {time_s % 60}s" if time_s >= 60 else f"{time_s}s"
-        outcome = "Solved" if solved else "Worked through"
-        first = f"{outcome} {title} — {difficulty} — in {time_str}."
-        second = f"Final complexity: {complexity}." if complexity else (
-            "First attempt, clean run." if approaches == 1 else f"{approaches} attempts to nail it."
-        )
-        return f"{first} {second}"
-
     # ── Interview mode narration ──────────────────────────────────────
 
     def _flush_and_narrate_interview(self) -> None:
@@ -1126,8 +965,18 @@ class AgentSessionScreen(BaseScreen):
         self.app.call_from_thread(self._mount_user_message, safe_msg)
         self.app.call_from_thread(self._mount_assistant_block)
         try:
-            for chunk in self._agent.chat_streaming(user_message):
-                self.app.call_from_thread(self._buffer_chunk, chunk)
+            if self._mode == "interview":
+                agent = self._agent
+            else:
+                if self._concept_agent is None:
+                    from ...ai.agent import ConceptAgent
+                    from ...config import load_config
+                    self._concept_agent = ConceptAgent(load_config(), self._session_summary)
+                agent = self._concept_agent
+
+            if agent is not None:
+                for chunk in agent.chat_streaming(user_message):
+                    self.app.call_from_thread(self._buffer_chunk, chunk)
             if self._mode == "interview":
                 self.app.call_from_thread(self._flush_and_narrate_interview)
             else:
@@ -1139,7 +988,7 @@ class AgentSessionScreen(BaseScreen):
             )
         finally:
             self._chat_running = False
-            if self._cloud_session_id and self._agent is not None:
+            if self._mode == "interview" and self._cloud_session_id and self._agent is not None:
                 save_messages(self._cloud_session_id, self._agent._messages)
             self.app.call_from_thread(self._set_chat_busy, False)
 

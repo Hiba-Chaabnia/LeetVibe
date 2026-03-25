@@ -32,16 +32,16 @@ graph LR
     You --> Pair["🤝 Pair Programming\nVibe reviews your attempt"]
     You --> Interview["🎤 Interview\nAlex tests you live"]
 
-    Learn & Pair --> Agent["🤖 LeetVibe\nmistral-large-latest"]
-    Interview --> Alex["🎙️ Alex\nAI interviewer"]
-    Alex --> Agent
+    Learn & Pair --> VibeAgent["🤖 VibeAgent\nmistral-large-latest"]
+    Interview --> InterviewAgent["🎙️ InterviewAgent\nmistral-large-latest"]
+    Learn & Pair -.->|"follow-up Q&A"| ConceptAgent["💡 ConceptAgent\nmistral-small-latest"]
 
-    Agent --> Tools["🔧 Agent Tools"]
+    VibeAgent --> Tools["🔧 Agent Tools"]
     Tools --> RunCode["▶ run_code\nexecute & test"]
     Tools --> Complexity["📊 analyze_complexity\nAST inspection"]
     Tools --> Explain["📖 explain_approach\nalgorithm walkthrough"]
 
-    Agent --> Voice["🔊 ElevenLabs\nvoice narration"]
+    InterviewAgent --> Voice["🔊 ElevenLabs\ninterview narration"]
 ```
 
 ---
@@ -50,7 +50,7 @@ graph LR
 
 *"Teach me how to solve this."*
 
-LeetVibe takes the wheel. It walks through the problem using a strict **7-step workflow** — reasoning out loud, running real code, and narrating every decision. You watch, listen, and absorb.
+LeetVibe takes the wheel. It walks through the problem using a strict **8-step workflow** — reasoning out loud, running real code, and narrating every decision. You watch, listen, and absorb.
 
 | Step | What Vibe Does |
 |------|---------------|
@@ -59,10 +59,13 @@ LeetVibe takes the wheel. It walks through the problem using a strict **7-step w
 | 3️⃣ Analyse | Calls `analyze_complexity` — "This is O(n²) because of the nested loops" |
 | 4️⃣ Key Insight | Names the one idea that eliminates the bottleneck |
 | 5️⃣ Optimal | Writes the optimised solution and validates it with `run_code` |
-| 6️⃣ Compare | "We improved from O(n²) → O(n) by eliminating redundant lookups" |
+| 6️⃣ Compare | Calls `analyze_complexity` again — "We improved from O(n²) → O(n)" |
 | 7️⃣ Walkthrough | Calls `explain_approach` for a structured pattern breakdown |
+| 8️⃣ Synthesis | Writes a crisp 4–6 sentence takeaway paragraph — the core insight, the journey, the final complexity |
 
 > Vibe never skips a step, even for trivial problems. If a test fails, it debugs and fixes before moving on.
+
+> After the session a one-line **algorithm mnemonic** is generated and appended inline — a 25-word analogy that captures the pattern's mechanical action, cached per pattern in `~/.leetvibe/mnemonics.json`.
 
 ---
 
@@ -79,7 +82,9 @@ You write first. Vibe reviews. It follows a **6-step coaching workflow** designe
 | 3️⃣ Analyse | Measures your complexity: "Your solution is O(n²) because..." |
 | 4️⃣ Hint | Nudges without revealing: "What data structure gives O(1) lookup?" |
 | 5️⃣ Optimal | Only now reveals the full solution with line-by-line explanation |
-| 6️⃣ Compare | Side-by-side: your approach vs optimal, with the key insight named |
+| 6️⃣ Compare | Side-by-side: your approach vs optimal, complexity improvement named |
+| 7️⃣ Walkthrough | Calls `explain_approach` for a structured pattern breakdown |
+| 8️⃣ Synthesis | Crisp paragraph: core insight, what changed, final complexity |
 
 ---
 
@@ -107,8 +112,8 @@ His opening monologue plays as speech via ElevenLabs so the session feels live f
 |---|---|---|---|
 | Who codes first | Vibe | You | — (verbal only) |
 | Tools enabled | ✅ run_code, complexity, explain | ✅ run_code, complexity, explain | ❌ none |
-| Voice narration | ✅ auto after each step | ✅ on demand | ✅ opening monologue |
-| Follow-up chat | ✅ | ✅ | ✅ |
+| Voice narration | ❌ | ❌ | ✅ each AI turn (ElevenLabs) |
+| Follow-up chat | ✅ ConceptAgent (mistral-small) | ✅ ConceptAgent (mistral-small) | ✅ InterviewAgent continues |
 | Gives hints | — | ✅ Socratic nudges | ✅ one hint only |
 | Reveals optimal | ✅ always | ✅ after coaching | ❌ never |
 | Response length | Long — full explanations | Long — detailed review | Short — 2–4 sentences |
@@ -279,8 +284,10 @@ graph TD
         Login["🔐 Login"]
     end
 
-    subgraph Agent["AI Agent — vibe_agent.py"]
-        VibeAgent["🤖 VibeAgent\nstreaming tool-calling loop"]
+    subgraph Agents["AI Agents — ai/agent.py"]
+        VibeAgent["🤖 VibeAgent\nlearn + coach"]
+        InterviewAgent["🎙️ InterviewAgent\ninterview"]
+        ConceptAgent["💡 ConceptAgent\nfollow-up Q&A"]
     end
 
     subgraph Skills["🔧 MCP Skills — skills/"]
@@ -304,9 +311,11 @@ graph TD
     ProblemList --> Detail & AgentSession
     Detail --> AgentSession
 
-    AgentSession --> VibeAgent
+    AgentSession --> VibeAgent & InterviewAgent & ConceptAgent
     VibeAgent --> MistralAPI
-    VibeAgent --> TestRunner & Complexity & Teaching & Voice
+    InterviewAgent & ConceptAgent --> MistralAPI
+    VibeAgent --> TestRunner & Complexity & Teaching
+    InterviewAgent --> Voice
 
     Voice --> ElevenLabsAPI --> Audio
     Login & Stats & ProblemList --> FirestoreDB
@@ -318,25 +327,26 @@ graph TD
 ```
 leetvibe/
 ├── cli.py                    Entry point
-├── config.py                 Loads config.yaml + .env
-├── vibe_agent.py             Mistral agent — streaming tool-calling loop
-├── problem_loader.py       Reads problem JSONs from problems/
+├── config.py                 Loads config.yaml + .env → Config dataclass
+├── session_log.py            Local session recorder (JSONL)
+├── problem_loader.py         Reads problem JSONs from problems/
 ├── code_runner.py            Sandboxed Python test execution
+├── ai/
+│   ├── agent.py              VibeAgent · InterviewAgent · ConceptAgent
+│   └── skills/
+│       ├── test_runner/      Execute code against test cases
+│       ├── complexity_analyzer/  AST-based O(n) analysis (result-cached)
+│       ├── teaching_mode/    Algorithm pattern explanations
+│       └── voice_narrator/   ElevenLabs TTS (interview mode only)
 ├── cloud/
 │   ├── auth.py               Firebase auth (email + Google OAuth)
-│   └── db.py                 Cloud sync — solved slugs, sessions
+│   └── db.py                 Cloud sync — solved slugs, sessions, messages
 ├── data/
 │   └── topics/               53 algorithm topic modules + metadata
-└── textual_ui/
+└── ui/
     ├── screens/              home, problem_list, problem_detail,
     │                         agent_session, reference_guide, stats, login
     └── widgets/              banner, problem_table, status_bar
-
-skills/
-├── test_runner/              Execute code against test cases
-├── complexity_analyzer/      AST-based O(n) analysis
-├── teaching_mode/            Algorithm pattern explanations
-└── voice_narrator/           ElevenLabs TTS playback
 
 problems/
 ├── easy/ · medium/ · hard/   Problem JSON files
@@ -346,54 +356,62 @@ problems/
 
 ## ⚙️ How Mistral Vibe Powers LeetVibe
 
-Every session runs through `VibeAgent` — a hand-rolled tool-calling loop built directly on Mistral's streaming API. No LangChain, no wrappers. Just raw streaming with full control over what renders in the terminal.
+Three focused agents, each built directly on Mistral's streaming API. No LangChain, no wrappers — just raw streaming with full control over what renders in the terminal.
+
+| Agent | Model | Purpose | Tools |
+|---|---|---|---|
+| `VibeAgent` | `mistral-large-latest` | Learn + Coach — 8-step structured session | `run_code`, `analyze_complexity`, `explain_approach` |
+| `InterviewAgent` | `mistral-large-latest` | Mock interview — conversational, sliding-window context (last 10 messages) | none |
+| `ConceptAgent` | `mistral-small-latest` | Follow-up Q&A after session — lazily initialised on first question | none |
 
 ### The Agent Loop
 
 ```mermaid
 flowchart TD
-    Start(["solve_streaming(problem, mode)"])
+    Start(["User enters session"])
 
-    Start --> SelectPrompt{mode?}
-    SelectPrompt -- "learn" --> SP["📜 SYSTEM_PROMPT\n7-step workflow"]
-    SelectPrompt -- "coach" --> CP["📜 COACH_PROMPT\nreview + guide"]
-    SelectPrompt -- "interview" --> IP["📜 INTERVIEW_PROMPT\nmock interviewer"]
+    Start --> Mode{mode?}
+    Mode -- "learn / coach" --> VA["🤖 VibeAgent\nsolve_streaming()"]
+    Mode -- "interview" --> IA["🎙️ InterviewAgent\nstart_streaming()"]
+    Mode -- "follow-up Q&A\n(post-session)" --> CA["💡 ConceptAgent\nchat_streaming()\nlazy init on first message"]
 
-    SP & CP --> BuildMsg["Build messages\n+ tools enabled"]
-    IP --> BuildMsgNoTools["Build messages\ntools disabled"]
+    VA --> BuildMsg["Build messages + tools\n(run_code, analyze_complexity, explain_approach)"]
+    IA --> BuildMsgNoTools["Build messages\nno tools · sliding window (last 10)"]
+    CA --> BuildMsgSmall["Build messages\nno tools · session summary as context"]
 
-    BuildMsg & BuildMsgNoTools --> Stream
+    BuildMsg --> Loop
 
     subgraph Loop["🔁 Tool-calling Loop — max 20 turns"]
         Stream["client.chat.stream(messages, tools)"]
-        Collect["Collect response\ntext → yield to TUI live\ntool calls → accumulate"]
+        Collect["Collect response\ntext → yield to TUI live\ntool calls → accumulate (parallel exec)"]
         Stream --> Collect
         Collect --> HasTools{"Tool calls?"}
 
-        HasTools -- "No" --> Save["Append to history → exit"]
-        HasTools -- "Yes" --> Exec["Execute tool\ndirect Python import"]
-        Exec --> AppendResult["Append result to history"]
+        HasTools -- "No" --> Compress["Compress tool results in history\n→ save assistant message → exit"]
+        HasTools -- "Yes" --> Exec["Execute tools\n(parallel if multiple)"]
+        Exec --> AppendResult["Append compact result to history"]
         AppendResult --> Stream
     end
 
-    Save --> Done(["✅ Session complete"])
+    BuildMsgNoTools & BuildMsgSmall --> SimpleStream["client.chat.stream(messages)\nyield chunks → append to history"]
 ```
 
 ### System Prompts
 
 Each mode gets a completely different personality baked into the system prompt:
 
-- 📜 **`SYSTEM_PROMPT`** — instructs Vibe to follow the 7-step workflow exactly, think out loud before every code block, and never skip a step even for trivial problems. Uses Rich markup (`[bold]`, `[dim]`) rendered directly by Textual.
-- 📜 **`COACH_PROMPT`** — instructs Vibe to test the user's code first, be specific about buggy lines, give Socratic hints before revealing anything, and frame all feedback as encouragement.
-- 📜 **`INTERVIEW_PROMPT`** — instructs Alex to speak in 2–4 sentences only, never re-introduce himself, never write code, and give exactly one hint when the candidate is stuck. Tool calls are **disabled entirely** in this mode.
+- 📜 **`SYSTEM_PROMPT`** (`VibeAgent` learn) — 8-step workflow, think out loud before every code block, never skip a step. Rich markup (`[bold]`, `[dim]`) rendered by Textual.
+- 📜 **`COACH_PROMPT`** (`VibeAgent` coach) — test user's code first, diagnose exact lines, give Socratic hints before revealing the optimal, frame feedback as encouragement.
+- 📜 **`INTERVIEW_PROMPT`** (`InterviewAgent`) — 2–4 sentences per turn, never re-introduce, never write code, one hint max. No tools. Sliding window keeps context lean.
+- 📜 **`_CONCEPT_SYSTEM`** (`ConceptAgent`) — algorithm educator persona, answer concisely with examples, connect back to the problem just solved. Session context (pattern, synthesis, complexity) injected at init.
 
 ### Agent Tools
 
-| 🔧 Tool | Skill | What It Does |
-|---------|-------|-------------|
-| `run_code` | `test_runner` | Executes Python code against test cases in a sandboxed namespace with stdlib pre-imported. Returns pass/fail per case. |
-| `analyze_complexity` | `complexity_analyzer` | Walks the AST — counts loop nesting depth, detects sorting calls, memoization decorators, and dynamic allocations. Returns `{time, space, explanation}`. |
-| `explain_approach` | `teaching_mode` | Generates a structured 6-step walkthrough for 15+ algorithm patterns (two-pointer, DP, sliding window, BFS, heap, trie…). |
+| 🔧 Tool | Agent | Skill | What It Does |
+|---------|-------|-------|-------------|
+| `run_code` | `VibeAgent` | `test_runner` | Executes Python code against test cases in a sandboxed namespace. Returns pass/fail per case. Results compressed in history after use. |
+| `analyze_complexity` | `VibeAgent` | `complexity_analyzer` | Walks the AST — counts loop nesting depth, detects sorting calls, memoization. Returns `{time, space, explanation}`. Results cached per code hash. |
+| `explain_approach` | `VibeAgent` | `teaching_mode` | Generates a structured 6-step walkthrough for 15+ algorithm patterns (two-pointer, DP, sliding window, BFS, heap, trie…). |
 
 ### Full Session Flow
 
@@ -406,7 +424,7 @@ sequenceDiagram
     participant S as MCP Skills
     participant EL as ElevenLabs
 
-    U->>UI: Select problem (Learn mode)
+    U->>UI: Select problem (Learn / Coach mode)
     UI->>A: solve_streaming(problem, mode="learn")
     A->>M: chat.stream(messages, tools=_TOOLS)
 
@@ -432,23 +450,21 @@ sequenceDiagram
 
     M-->>A: final text (no tool calls)
     A->>A: save to message history
-    A->>EL: narrate(explanation, voice_type="mentor")
-    EL-->>U: 🔊 audio playback
+    A->>A: compress tool results in history
+    Note over UI,A: Follow-up questions → ConceptAgent (mistral-small)\nlazy-initialised with session summary
 ```
 
 ---
 
 ## 🔊 How ElevenLabs Powers the Voice
 
-Voice narration is handled by the `voice_narrator` skill. It converts text to raw PCM audio via ElevenLabs and plays it directly through `sounddevice` — no ffmpeg required.
+Voice narration is used exclusively in **Interview mode** — `InterviewAgent` narrates each of Alex's responses via ElevenLabs. The `voice_narrator` skill converts text to raw PCM audio and plays it directly through `sounddevice` — no ffmpeg required.
 
 ### Voice Personas
 
 | Persona | Voice | Used In |
 |---------|-------|---------|
-| `mentor` | Sarah | Learn — calm, instructive |
-| `coach` | Adam | Pair Programming — encouraging |
-| `excited` | Elli | High-energy moments |
+| `mentor` | Sarah | Interview — Alex's turn narration |
 
 ### Audio Pipeline
 
@@ -522,6 +538,7 @@ sequenceDiagram
 ```yaml
 mistral:
   model: "mistral-large-latest"
+  qa_model: "mistral-small-latest"   # used by ConceptAgent for follow-up Q&A
 
 elevenlabs:
   voice_id: "EXAVITQu4vr4xnSDxMaL"
