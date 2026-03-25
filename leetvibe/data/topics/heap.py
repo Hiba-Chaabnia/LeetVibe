@@ -5,8 +5,8 @@ TOPIC: dict = {
     "slug": "Heap (Priority Queue)",
     "recognize": (
         "top-K elements, K-th largest/smallest, streaming median,\n"
-        "  merge K sorted lists, task scheduling, Dijkstra.\n"
-        "  \"split into lower/upper half\" → two-heaps (median, IPO)."
+        "merge K sorted lists, task scheduling, Dijkstra.\n"
+        "split into lower/upper half → two-heaps (median, IPO)."
     ),
     "diagram": (
         "  min-heap:       1              max-heap (negate):\n"
@@ -20,42 +20,49 @@ TOPIC: dict = {
     ),
     "when": (
         "Top-K elements, streaming medians, task scheduling,\n"
-        "  Dijkstra's shortest path, or merging K sorted lists."
+        "Dijkstra's shortest path, or merging K sorted lists."
     ),
-    "pattern": (
-        "import heapq\n"
-        "\n"
-        "# Min-heap (Python default)\n"
-        "heap = []\n"
-        "heapq.heappush(heap, val)\n"
-        "smallest = heapq.heappop(heap)\n"
-        "peek = heap[0]\n"
-        "\n"
-        "# Max-heap: negate values\n"
-        "heapq.heappush(heap, -val)\n"
-        "largest = -heapq.heappop(heap)\n"
-        "\n"
-        "# Heapify in-place  O(n)\n"
-        "heapq.heapify(arr)\n"
-        "\n"
-        "# Top K largest  O(n log k)\n"
-        "return heapq.nlargest(k, nums)"
-    ),
-    "pattern2": (
-        "# Find Median from Data Stream — two heaps\n"
-        "lo = []   # max-heap (negate) — lower half\n"
-        "hi = []   # min-heap          — upper half\n"
-        "\n"
-        "def add_num(num):\n"
-        "    heapq.heappush(lo, -num)\n"
-        "    heapq.heappush(hi, -heapq.heappop(lo))   # balance\n"
-        "    if len(lo) < len(hi):\n"
-        "        heapq.heappush(lo, -heapq.heappop(hi))\n"
-        "\n"
-        "def find_median():\n"
-        "    if len(lo) > len(hi): return -lo[0]\n"
-        "    return (-lo[0] + hi[0]) / 2"
-    ),
+    "patterns": [
+        {
+            "name": "Heap API (Min / Max / Top-K)",
+            "code": (
+                "import heapq\n"
+                "\n"
+                "# Min-heap (Python default)\n"
+                "heap = []\n"
+                "heapq.heappush(heap, val)\n"
+                "smallest = heapq.heappop(heap)\n"
+                "peek = heap[0]\n"
+                "\n"
+                "# Max-heap: negate values\n"
+                "heapq.heappush(heap, -val)\n"
+                "largest = -heapq.heappop(heap)\n"
+                "\n"
+                "# Heapify in-place  O(n)\n"
+                "heapq.heapify(arr)\n"
+                "\n"
+                "# Top K largest  O(n log k)\n"
+                "return heapq.nlargest(k, nums)"
+            ),
+        },
+        {
+            "name": "Find Median from Data Stream — two heaps",
+            "code": (
+                "lo = []   # max-heap (negate) — lower half\n"
+                "hi = []   # min-heap          — upper half\n"
+                "\n"
+                "def add_num(num):\n"
+                "    heapq.heappush(lo, -num)\n"
+                "    heapq.heappush(hi, -heapq.heappop(lo))   # balance\n"
+                "    if len(lo) < len(hi):\n"
+                "        heapq.heappush(lo, -heapq.heappop(hi))\n"
+                "\n"
+                "def find_median():\n"
+                "    if len(lo) > len(hi): return -lo[0]\n"
+                "    return (-lo[0] + hi[0]) / 2"
+            ),
+        },
+    ],
     "pitfalls": (
         "• Python heapq is min-heap only — negate values for max-heap.\n"
         "• heap[0] peeks without popping; never index beyond [0] in an unsorted heap.\n"

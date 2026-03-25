@@ -4,8 +4,8 @@ TOPIC: dict = {
     "title": "Cyclic Sort",
     "slug": "Cyclic Sort",
     "recognize": (
-        "array of integers in range [1..n] or [0..n], \"find missing number\",\n"
-        "  \"find all duplicates\", \"first missing positive\", \"find corrupt pair\"."
+        "array of integers in range [1..n] or [0..n], find missing number,\n"
+        "find all duplicates, first missing positive, find corrupt pair."
     ),
     "diagram": (
         "  Place each number at its correct index:  nums[i] should be i+1\n"
@@ -20,49 +20,55 @@ TOPIC: dict = {
     ),
     "when": (
         "Input is n integers in a known range like [1..n] or [0..n].\n"
-        "  Goal is to find missing, duplicate, or misplaced values\n"
-        "  in O(n) time and O(1) space without a hash set."
+        "Goal is to find missing, duplicate, or misplaced values\n"
+        "in O(n) time and O(1) space without a hash set."
     ),
-    "pattern": (
-        "# Cyclic Sort — place every number at nums[i]-1\n"
-        "i = 0\n"
-        "while i < len(nums):\n"
-        "    j = nums[i] - 1              # correct index for nums[i]\n"
-        "    if nums[i] != nums[j]:       # not in the right place\n"
-        "        nums[i], nums[j] = nums[j], nums[i]\n"
-        "    else:\n"
-        "        i += 1                   # already correct, advance\n"
-        "\n"
-        "# After sort: find missing numbers\n"
-        "missing = []\n"
-        "for i, num in enumerate(nums):\n"
-        "    if num != i + 1:\n"
-        "        missing.append(i + 1)\n"
-        "return missing"
-    ),
-    "pattern2": (
-        "# First Missing Positive — numbers outside [1..n] are irrelevant\n"
-        "n = len(nums)\n"
-        "i = 0\n"
-        "while i < n:\n"
-        "    j = nums[i] - 1\n"
-        "    if 1 <= nums[i] <= n and nums[i] != nums[j]:\n"
-        "        nums[i], nums[j] = nums[j], nums[i]\n"
-        "    else:\n"
-        "        i += 1\n"
-        "\n"
-        "for i in range(n):\n"
-        "    if nums[i] != i + 1:\n"
-        "        return i + 1\n"
-        "return n + 1   # all [1..n] present, answer is n+1\n"
-        "\n"
-        "# Find all duplicates — after cyclic sort, nums[i] != i+1 → duplicate\n"
-        "duplicates = []\n"
-        "for i in range(len(nums)):\n"
-        "    if nums[i] != i + 1:\n"
-        "        duplicates.append(nums[i])\n"
-        "return duplicates"
-    ),
+    "patterns": [
+        {
+            "name": "Cyclic Sort — place every number at nums[i]-1",
+            "code": (
+                "i = 0\n"
+                "while i < len(nums):\n"
+                "    j = nums[i] - 1              # correct index for nums[i]\n"
+                "    if nums[i] != nums[j]:       # not in the right place\n"
+                "        nums[i], nums[j] = nums[j], nums[i]\n"
+                "    else:\n"
+                "        i += 1                   # already correct, advance\n"
+                "\n"
+                "# After sort: find missing numbers\n"
+                "missing = []\n"
+                "for i, num in enumerate(nums):\n"
+                "    if num != i + 1:\n"
+                "        missing.append(i + 1)\n"
+                "return missing"
+            ),
+        },
+        {
+            "name": "First Missing Positive — numbers outside [1..n] are irrelevant",
+            "code": (
+                "n = len(nums)\n"
+                "i = 0\n"
+                "while i < n:\n"
+                "    j = nums[i] - 1\n"
+                "    if 1 <= nums[i] <= n and nums[i] != nums[j]:\n"
+                "        nums[i], nums[j] = nums[j], nums[i]\n"
+                "    else:\n"
+                "        i += 1\n"
+                "\n"
+                "for i in range(n):\n"
+                "    if nums[i] != i + 1:\n"
+                "        return i + 1\n"
+                "return n + 1   # all [1..n] present, answer is n+1\n"
+                "\n"
+                "# Find all duplicates — after cyclic sort, nums[i] != i+1 → duplicate\n"
+                "duplicates = []\n"
+                "for i in range(len(nums)):\n"
+                "    if nums[i] != i + 1:\n"
+                "        duplicates.append(nums[i])\n"
+                "return duplicates"
+            ),
+        },
+    ],
     "pitfalls": (
         "• Termination condition: only advance i when nums[i] is already correct;\n"
         "  otherwise keep swapping in-place at the same i until it settles.\n"

@@ -4,8 +4,8 @@ TOPIC: dict = {
     "title": "Prefix Sum",
     "slug": "Prefix Sum",
     "recognize": (
-        "\"subarray sum equals k\", \"range sum query\",\n"
-        "  \"find pivot index\", multiple range queries on the same array."
+        "subarray sum equals k, range sum query,\n"
+        "find pivot index, multiple range queries on the same array."
     ),
     "diagram": (
         "  arr:    [ 3,  1,  4,  1,  5 ]\n"
@@ -18,28 +18,34 @@ TOPIC: dict = {
     ),
     "when": (
         "Multiple range-sum queries on a static array.\n"
-        "  Counting subarrays whose sum equals a target."
+        "Counting subarrays whose sum equals a target."
     ),
-    "pattern": (
-        "# Build prefix sum — O(n) build, O(1) per query\n"
-        "prefix = [0] * (len(arr) + 1)\n"
-        "for i, v in enumerate(arr):\n"
-        "    prefix[i + 1] = prefix[i] + v\n"
-        "\n"
-        "def range_sum(l, r):           # inclusive [l, r]\n"
-        "    return prefix[r + 1] - prefix[l]"
-    ),
-    "pattern2": (
-        "# Subarray sum equals k — hash map of running prefix sums\n"
-        "from collections import defaultdict\n"
-        "count = defaultdict(int, {0: 1})   # seed: empty prefix\n"
-        "running, res = 0, 0\n"
-        "for v in nums:\n"
-        "    running += v\n"
-        "    res    += count[running - k]    # seen this prefix before?\n"
-        "    count[running] += 1\n"
-        "return res"
-    ),
+    "patterns": [
+        {
+            "name": "Build prefix sum — O(n) build, O(1) per query",
+            "code": (
+                "prefix = [0] * (len(arr) + 1)\n"
+                "for i, v in enumerate(arr):\n"
+                "    prefix[i + 1] = prefix[i] + v\n"
+                "\n"
+                "def range_sum(l, r):           # inclusive [l, r]\n"
+                "    return prefix[r + 1] - prefix[l]"
+            ),
+        },
+        {
+            "name": "Subarray sum equals k — hash map of running prefix sums",
+            "code": (
+                "from collections import defaultdict\n"
+                "count = defaultdict(int, {0: 1})   # seed: empty prefix\n"
+                "running, res = 0, 0\n"
+                "for v in nums:\n"
+                "    running += v\n"
+                "    res    += count[running - k]    # seen this prefix before?\n"
+                "    count[running] += 1\n"
+                "return res"
+            ),
+        },
+    ],
     "pitfalls": (
         "• Off-by-one: use prefix[0]=0 sentinel; query is prefix[r+1]-prefix[l].\n"
         "• Subarray sum = k: seed count[0]=1 BEFORE the loop.\n"

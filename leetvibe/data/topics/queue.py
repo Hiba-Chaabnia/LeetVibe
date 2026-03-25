@@ -5,7 +5,7 @@ TOPIC: dict = {
     "slug": "Queue",
     "recognize": (
         "FIFO processing, BFS (already uses deque), sliding window with\n"
-        "  index tracking, \"first non-repeating\", moving average from stream."
+        "index tracking, first non-repeating, moving average from stream."
     ),
     "diagram": (
         "  deque (double-ended queue):\n"
@@ -19,57 +19,64 @@ TOPIC: dict = {
     ),
     "when": (
         "Any FIFO-ordered processing: BFS, sliding window tracking by index,\n"
-        "  moving average, first unique character in a stream."
+        "moving average, first unique character in a stream."
     ),
-    "pattern": (
-        "from collections import deque\n"
-        "\n"
-        "# Moving Average from Data Stream\n"
-        "class MovingAverage:\n"
-        "    def __init__(self, size):\n"
-        "        self.size   = size\n"
-        "        self.queue  = deque()\n"
-        "        self.window_sum = 0\n"
-        "\n"
-        "    def next(self, val):\n"
-        "        if len(self.queue) == self.size:\n"
-        "            self.window_sum -= self.queue.popleft()\n"
-        "        self.queue.append(val)\n"
-        "        self.window_sum += val\n"
-        "        return self.window_sum / len(self.queue)"
-    ),
-    "pattern2": (
-        "# First Non-Repeating Character in a Stream\n"
-        "from collections import deque, Counter\n"
-        "\n"
-        "def first_non_repeating(stream):\n"
-        "    freq   = Counter()\n"
-        "    result = []\n"
-        "    q      = deque()       # candidates in arrival order\n"
-        "    for ch in stream:\n"
-        "        freq[ch] += 1\n"
-        "        q.append(ch)\n"
-        "        while q and freq[q[0]] > 1:  # evict repeated chars from front\n"
-        "            q.popleft()\n"
-        "        result.append(q[0] if q else '#')\n"
-        "    return ''.join(result)\n"
-        "\n"
-        "# Design Hit Counter — sliding window with deque of timestamps\n"
-        "class HitCounter:\n"
-        "    def __init__(self):\n"
-        "        self.hits = deque()     # stores (timestamp, count) pairs\n"
-        "\n"
-        "    def hit(self, timestamp):\n"
-        "        if self.hits and self.hits[-1][0] == timestamp:\n"
-        "            self.hits[-1] = (timestamp, self.hits[-1][1] + 1)\n"
-        "        else:\n"
-        "            self.hits.append((timestamp, 1))\n"
-        "\n"
-        "    def get_hits(self, timestamp):\n"
-        "        while self.hits and self.hits[0][0] <= timestamp - 300:\n"
-        "            self.hits.popleft()\n"
-        "        return sum(c for _, c in self.hits)"
-    ),
+    "patterns": [
+        {
+            "name": "Moving Average from Data Stream",
+            "code": (
+                "from collections import deque\n"
+                "\n"
+                "# Moving Average from Data Stream\n"
+                "class MovingAverage:\n"
+                "    def __init__(self, size):\n"
+                "        self.size   = size\n"
+                "        self.queue  = deque()\n"
+                "        self.window_sum = 0\n"
+                "\n"
+                "    def next(self, val):\n"
+                "        if len(self.queue) == self.size:\n"
+                "            self.window_sum -= self.queue.popleft()\n"
+                "        self.queue.append(val)\n"
+                "        self.window_sum += val\n"
+                "        return self.window_sum / len(self.queue)"
+            ),
+        },
+        {
+            "name": "First Non-Repeating Character in a Stream",
+            "code": (
+                "from collections import deque, Counter\n"
+                "\n"
+                "def first_non_repeating(stream):\n"
+                "    freq   = Counter()\n"
+                "    result = []\n"
+                "    q      = deque()       # candidates in arrival order\n"
+                "    for ch in stream:\n"
+                "        freq[ch] += 1\n"
+                "        q.append(ch)\n"
+                "        while q and freq[q[0]] > 1:  # evict repeated chars from front\n"
+                "            q.popleft()\n"
+                "        result.append(q[0] if q else '#')\n"
+                "    return ''.join(result)\n"
+                "\n"
+                "# Design Hit Counter — sliding window with deque of timestamps\n"
+                "class HitCounter:\n"
+                "    def __init__(self):\n"
+                "        self.hits = deque()     # stores (timestamp, count) pairs\n"
+                "\n"
+                "    def hit(self, timestamp):\n"
+                "        if self.hits and self.hits[-1][0] == timestamp:\n"
+                "            self.hits[-1] = (timestamp, self.hits[-1][1] + 1)\n"
+                "        else:\n"
+                "            self.hits.append((timestamp, 1))\n"
+                "\n"
+                "    def get_hits(self, timestamp):\n"
+                "        while self.hits and self.hits[0][0] <= timestamp - 300:\n"
+                "            self.hits.popleft()\n"
+                "        return sum(c for _, c in self.hits)"
+            ),
+        },
+    ],
     "pitfalls": (
         "• Use collections.deque, NOT a list — list.pop(0) is O(n).\n"
         "• deque maxlen parameter auto-evicts from the left when full — handy\n"

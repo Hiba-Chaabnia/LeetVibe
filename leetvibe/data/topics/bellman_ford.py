@@ -4,8 +4,8 @@ TOPIC: dict = {
     "title": "Bellman-Ford",
     "slug": "Bellman-Ford",
     "recognize": (
-        "shortest path with NEGATIVE edge weights, \"negative cycle\",\n"
-        "  \"cheapest flights within K stops\", distributed routing."
+        "shortest path with NEGATIVE edge weights, negative cycle,\n"
+        "cheapest flights within K stops, distributed routing."
     ),
     "diagram": (
         "  Relax ALL edges (V-1) times:\n"
@@ -25,44 +25,50 @@ TOPIC: dict = {
     ),
     "when": (
         "Shortest path when edge weights can be negative.\n"
-        "  Detecting negative cycles. K-step constrained shortest paths."
+        "Detecting negative cycles. K-step constrained shortest paths."
     ),
-    "pattern": (
-        "# Standard Bellman-Ford\n"
-        "dist = [float('inf')] * n\n"
-        "dist[src] = 0\n"
-        "\n"
-        "for _ in range(n - 1):          # relax all edges n-1 times\n"
-        "    updated = False\n"
-        "    for u, v, w in edges:        # edges: (from, to, weight)\n"
-        "        if dist[u] != float('inf') and dist[u] + w < dist[v]:\n"
-        "            dist[v] = dist[u] + w\n"
-        "            updated = True\n"
-        "    if not updated: break        # early exit if stable\n"
-        "\n"
-        "# Check for negative cycle (one more pass still relaxes)\n"
-        "for u, v, w in edges:\n"
-        "    if dist[u] + w < dist[v]:\n"
-        "        return None             # negative cycle exists\n"
-        "return dist"
-    ),
-    "pattern2": (
-        "# Cheapest Flights Within K Stops\n"
-        "# Key: copy dist from previous iteration so each pass\n"
-        "# represents exactly ONE additional hop.\n"
-        "import math\n"
-        "dist = [math.inf] * n\n"
-        "dist[src] = 0\n"
-        "\n"
-        "for _ in range(k + 1):           # k stops = k+1 edges\n"
-        "    temp = dist[:]               # snapshot — don't use updates\n"
-        "    for u, v, w in flights:\n"
-        "        if dist[u] != math.inf and dist[u] + w < temp[v]:\n"
-        "            temp[v] = dist[u] + w\n"
-        "    dist = temp\n"
-        "\n"
-        "return dist[dst] if dist[dst] != math.inf else -1"
-    ),
+    "patterns": [
+        {
+            "name": "Standard Bellman-Ford",
+            "code": (
+                "dist = [float('inf')] * n\n"
+                "dist[src] = 0\n"
+                "\n"
+                "for _ in range(n - 1):          # relax all edges n-1 times\n"
+                "    updated = False\n"
+                "    for u, v, w in edges:        # edges: (from, to, weight)\n"
+                "        if dist[u] != float('inf') and dist[u] + w < dist[v]:\n"
+                "            dist[v] = dist[u] + w\n"
+                "            updated = True\n"
+                "    if not updated: break        # early exit if stable\n"
+                "\n"
+                "# Check for negative cycle (one more pass still relaxes)\n"
+                "for u, v, w in edges:\n"
+                "    if dist[u] + w < dist[v]:\n"
+                "        return None             # negative cycle exists\n"
+                "return dist"
+            ),
+        },
+        {
+            "name": "Cheapest Flights Within K Stops",
+            "code": (
+                "# Key: copy dist from previous iteration so each pass\n"
+                "# represents exactly ONE additional hop.\n"
+                "import math\n"
+                "dist = [math.inf] * n\n"
+                "dist[src] = 0\n"
+                "\n"
+                "for _ in range(k + 1):           # k stops = k+1 edges\n"
+                "    temp = dist[:]               # snapshot — don't use updates\n"
+                "    for u, v, w in flights:\n"
+                "        if dist[u] != math.inf and dist[u] + w < temp[v]:\n"
+                "            temp[v] = dist[u] + w\n"
+                "    dist = temp\n"
+                "\n"
+                "return dist[dst] if dist[dst] != math.inf else -1"
+            ),
+        },
+    ],
     "pitfalls": (
         "• Always copy dist before each pass when the problem has a hop limit —\n"
         "  otherwise a single pass can chain multiple edges in one iteration.\n"

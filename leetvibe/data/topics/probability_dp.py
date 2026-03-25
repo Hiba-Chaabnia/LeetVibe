@@ -4,9 +4,9 @@ TOPIC: dict = {
     "title": "Probability DP",
     "slug": "Probability DP",
     "recognize": (
-        "\"probability of reaching state\", \"expected number of steps\",\n"
-        "  \"knight probability\", \"dice rolls to target\",\n"
-        "  \"new 21 game\", floating-point DP states."
+        "probability of reaching state, expected number of steps,\n"
+        "knight probability, dice rolls to target,\n"
+        "new 21 game, floating-point DP states."
     ),
     "diagram": (
         "  State: dp[i] = probability of being in state i\n"
@@ -24,53 +24,59 @@ TOPIC: dict = {
     ),
     "when": (
         "The state space has probabilities (floats 0..1) instead of counts.\n"
-        "  Use when: each transition has a fixed probability, and you need\n"
-        "  either P(reaching state X) or E[steps to reach state X]."
+        "Use when: each transition has a fixed probability, and you need\n"
+        "either P(reaching state X) or E[steps to reach state X]."
     ),
-    "pattern": (
-        "# Knight Probability in Chessboard\n"
-        "MOVES = [(-2,-1),(-2,1),(-1,-2),(-1,2),(1,-2),(1,2),(2,-1),(2,1)]\n"
-        "\n"
-        "def knight_probability(n, k, row, col):\n"
-        "    # dp[r][c] = probability of being at (r,c) after current step\n"
-        "    dp = [[0.0] * n for _ in range(n)]\n"
-        "    dp[row][col] = 1.0\n"
-        "\n"
-        "    for _ in range(k):\n"
-        "        new_dp = [[0.0] * n for _ in range(n)]\n"
-        "        for r in range(n):\n"
-        "            for c in range(n):\n"
-        "                if dp[r][c] == 0: continue\n"
-        "                for dr, dc in MOVES:\n"
-        "                    nr, nc = r + dr, c + dc\n"
-        "                    if 0 <= nr < n and 0 <= nc < n:\n"
-        "                        new_dp[nr][nc] += dp[r][c] / 8\n"
-        "        dp = new_dp\n"
-        "\n"
-        "    return sum(dp[r][c] for r in range(n) for c in range(n))"
-    ),
-    "pattern2": (
-        "# New 21 Game — probability that score stops in [0, maxPts]\n"
-        "# Player draws cards in [1, maxK] until score >= minK\n"
-        "def new21_game(maxPts, minK, maxK):\n"
-        "    if minK == 0 or maxPts >= minK + maxK:\n"
-        "        return 1.0   # always stays within range\n"
-        "\n"
-        "    dp = [0.0] * (maxPts + 1)\n"
-        "    dp[0] = 1.0\n"
-        "    window_sum = 1.0   # sum of dp[i-maxK .. i-1] (sliding window)\n"
-        "    result = 0.0\n"
-        "\n"
-        "    for i in range(1, maxPts + 1):\n"
-        "        dp[i] = window_sum / maxK\n"
-        "        if i >= minK:              # game stops here — add to result\n"
-        "            result += dp[i]\n"
-        "        if i >= maxK:              # slide window\n"
-        "            window_sum -= dp[i - maxK]\n"
-        "        if i < minK:               # game still running — add to window\n"
-        "            window_sum += dp[i]\n"
-        "    return result"
-    ),
+    "patterns": [
+        {
+            "name": "Knight Probability in Chessboard",
+            "code": (
+                "MOVES = [(-2,-1),(-2,1),(-1,-2),(-1,2),(1,-2),(1,2),(2,-1),(2,1)]\n"
+                "\n"
+                "def knight_probability(n, k, row, col):\n"
+                "    # dp[r][c] = probability of being at (r,c) after current step\n"
+                "    dp = [[0.0] * n for _ in range(n)]\n"
+                "    dp[row][col] = 1.0\n"
+                "\n"
+                "    for _ in range(k):\n"
+                "        new_dp = [[0.0] * n for _ in range(n)]\n"
+                "        for r in range(n):\n"
+                "            for c in range(n):\n"
+                "                if dp[r][c] == 0: continue\n"
+                "                for dr, dc in MOVES:\n"
+                "                    nr, nc = r + dr, c + dc\n"
+                "                    if 0 <= nr < n and 0 <= nc < n:\n"
+                "                        new_dp[nr][nc] += dp[r][c] / 8\n"
+                "        dp = new_dp\n"
+                "\n"
+                "    return sum(dp[r][c] for r in range(n) for c in range(n))"
+            ),
+        },
+        {
+            "name": "New 21 Game — probability that score stops in [0, maxPts]",
+            "code": (
+                "# Player draws cards in [1, maxK] until score >= minK\n"
+                "def new21_game(maxPts, minK, maxK):\n"
+                "    if minK == 0 or maxPts >= minK + maxK:\n"
+                "        return 1.0   # always stays within range\n"
+                "\n"
+                "    dp = [0.0] * (maxPts + 1)\n"
+                "    dp[0] = 1.0\n"
+                "    window_sum = 1.0   # sum of dp[i-maxK .. i-1] (sliding window)\n"
+                "    result = 0.0\n"
+                "\n"
+                "    for i in range(1, maxPts + 1):\n"
+                "        dp[i] = window_sum / maxK\n"
+                "        if i >= minK:              # game stops here — add to result\n"
+                "            result += dp[i]\n"
+                "        if i >= maxK:              # slide window\n"
+                "            window_sum -= dp[i - maxK]\n"
+                "        if i < minK:               # game still running — add to window\n"
+                "            window_sum += dp[i]\n"
+                "    return result"
+            ),
+        },
+    ],
     "pitfalls": (
         "• Floating-point errors accumulate — use Python's float (64-bit) which\n"
         "  is usually sufficient; don't use integer arithmetic.\n"

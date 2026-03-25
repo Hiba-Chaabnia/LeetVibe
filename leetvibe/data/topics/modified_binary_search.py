@@ -5,7 +5,7 @@ TOPIC: dict = {
     "slug": "Modified Binary Search",
     "recognize": (
         "rotated sorted array, find first/last position of target,\n"
-        "  search in a matrix, \"find peak element\", bitonic array."
+        "search in a matrix, find peak element, bitonic array."
     ),
     "diagram": (
         "  Rotated sorted array — which half is sorted?\n"
@@ -23,54 +23,60 @@ TOPIC: dict = {
     ),
     "when": (
         "Sorted array with a twist: rotation, duplicates, a 2D matrix,\n"
-        "  or any search space where the standard pivot logic breaks."
+        "or any search space where the standard pivot logic breaks."
     ),
-    "pattern": (
-        "# Search in Rotated Sorted Array\n"
-        "left, right = 0, len(nums) - 1\n"
-        "while left <= right:\n"
-        "    mid = (left + right) // 2\n"
-        "    if nums[mid] == target:\n"
-        "        return mid\n"
-        "    if nums[left] <= nums[mid]:          # left half is sorted\n"
-        "        if nums[left] <= target < nums[mid]:\n"
-        "            right = mid - 1              # target in left half\n"
-        "        else:\n"
-        "            left  = mid + 1              # target in right half\n"
-        "    else:                                # right half is sorted\n"
-        "        if nums[mid] < target <= nums[right]:\n"
-        "            left  = mid + 1\n"
-        "        else:\n"
-        "            right = mid - 1\n"
-        "return -1"
-    ),
-    "pattern2": (
-        "# Find First and Last Position (left / right boundary)\n"
-        "def binary_boundary(nums, target, find_left):\n"
-        "    left, right, result = 0, len(nums) - 1, -1\n"
-        "    while left <= right:\n"
-        "        mid = (left + right) // 2\n"
-        "        if nums[mid] == target:\n"
-        "            result = mid\n"
-        "            if find_left: right = mid - 1  # keep going left\n"
-        "            else:         left  = mid + 1  # keep going right\n"
-        "        elif nums[mid] < target:\n"
-        "            left  = mid + 1\n"
-        "        else:\n"
-        "            right = mid - 1\n"
-        "    return result\n"
-        "\n"
-        "# Search a 2D Matrix (treat as flat sorted array)\n"
-        "rows, cols = len(matrix), len(matrix[0])\n"
-        "left, right = 0, rows * cols - 1\n"
-        "while left <= right:\n"
-        "    mid = (left + right) // 2\n"
-        "    val = matrix[mid // cols][mid % cols]\n"
-        "    if   val == target: return True\n"
-        "    elif val  < target: left  = mid + 1\n"
-        "    else:               right = mid - 1\n"
-        "return False"
-    ),
+    "patterns": [
+        {
+            "name": "Search in Rotated Sorted Array",
+            "code": (
+                "left, right = 0, len(nums) - 1\n"
+                "while left <= right:\n"
+                "    mid = (left + right) // 2\n"
+                "    if nums[mid] == target:\n"
+                "        return mid\n"
+                "    if nums[left] <= nums[mid]:          # left half is sorted\n"
+                "        if nums[left] <= target < nums[mid]:\n"
+                "            right = mid - 1              # target in left half\n"
+                "        else:\n"
+                "            left  = mid + 1              # target in right half\n"
+                "    else:                                # right half is sorted\n"
+                "        if nums[mid] < target <= nums[right]:\n"
+                "            left  = mid + 1\n"
+                "        else:\n"
+                "            right = mid - 1\n"
+                "return -1"
+            ),
+        },
+        {
+            "name": "Find First and Last Position (left / right boundary)",
+            "code": (
+                "def binary_boundary(nums, target, find_left):\n"
+                "    left, right, result = 0, len(nums) - 1, -1\n"
+                "    while left <= right:\n"
+                "        mid = (left + right) // 2\n"
+                "        if nums[mid] == target:\n"
+                "            result = mid\n"
+                "            if find_left: right = mid - 1  # keep going left\n"
+                "            else:         left  = mid + 1  # keep going right\n"
+                "        elif nums[mid] < target:\n"
+                "            left  = mid + 1\n"
+                "        else:\n"
+                "            right = mid - 1\n"
+                "    return result\n"
+                "\n"
+                "# Search a 2D Matrix (treat as flat sorted array)\n"
+                "rows, cols = len(matrix), len(matrix[0])\n"
+                "left, right = 0, rows * cols - 1\n"
+                "while left <= right:\n"
+                "    mid = (left + right) // 2\n"
+                "    val = matrix[mid // cols][mid % cols]\n"
+                "    if   val == target: return True\n"
+                "    elif val  < target: left  = mid + 1\n"
+                "    else:               right = mid - 1\n"
+                "return False"
+            ),
+        },
+    ],
     "pitfalls": (
         "• Rotated array: check which HALF is sorted first, then check if\n"
         "  target falls within that half — don't compare to mid blindly.\n"

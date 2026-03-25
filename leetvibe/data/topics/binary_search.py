@@ -4,8 +4,8 @@ TOPIC: dict = {
     "title": "Binary Search",
     "slug": "Binary Search",
     "recognize": (
-        "sorted array, \"O(log n) required\", \"minimum / maximum valid answer\",\n"
-        "  any monotonic feasibility condition on an answer space."
+        "sorted array, O(log n) required, minimum / maximum valid answer,\n"
+        "any monotonic feasibility condition on an answer space."
     ),
     "diagram": (
         "  idx:  0    1    2    3    4    5    6\n"
@@ -21,42 +21,48 @@ TOPIC: dict = {
     ),
     "when": (
         "Sorted array, or any monotonic search space.\n"
-        "  Finding a value, a boundary, or the min/max valid answer."
+        "Finding a value, a boundary, or the min/max valid answer."
     ),
-    "pattern": (
-        "# Find exact value\n"
-        "left, right = 0, len(arr) - 1\n"
-        "while left <= right:\n"
-        "    mid = left + (right - left) // 2   # avoids overflow\n"
-        "    if   arr[mid] == target:  return mid\n"
-        "    elif arr[mid] <  target:  left  = mid + 1\n"
-        "    else:                     right = mid - 1\n"
-        "return -1"
-    ),
-    "pattern2": (
-        "# Binary search on INTEGER answer space — smallest valid answer\n"
-        "left, right = lo, hi          # define the answer range\n"
-        "while left < right:           # converges to smallest valid\n"
-        "    mid = (left + right) // 2\n"
-        "    if feasible(mid):         # monotonic: once True, stays True\n"
-        "        right = mid           # mid could be the answer\n"
-        "    else:\n"
-        "        left = mid + 1\n"
-        "return left\n"
-        "\n"
-        "# Binary search on REAL-VALUED answer space\n"
-        "# Use when the answer is a float (speed, distance, ratio)\n"
-        "# e.g. Minimize Max Distance to Gas Station\n"
-        "lo, hi = 0.0, max_possible\n"
-        "for _ in range(100):          # ~100 iterations gives 1e-30 precision\n"
-        "    mid = (lo + hi) / 2\n"
-        "    if feasible(mid):         # check if mid is achievable\n"
-        "        hi = mid\n"
-        "    else:\n"
-        "        lo = mid\n"
-        "return lo                     # converged to the minimum feasible value\n"
-        "# Alternative termination: while hi - lo > 1e-7: ..."
-    ),
+    "patterns": [
+        {
+            "name": "Find exact value",
+            "code": (
+                "left, right = 0, len(arr) - 1\n"
+                "while left <= right:\n"
+                "    mid = left + (right - left) // 2   # avoids overflow\n"
+                "    if   arr[mid] == target:  return mid\n"
+                "    elif arr[mid] <  target:  left  = mid + 1\n"
+                "    else:                     right = mid - 1\n"
+                "return -1"
+            ),
+        },
+        {
+            "name": "Binary search on INTEGER answer space — smallest valid answer",
+            "code": (
+                "left, right = lo, hi          # define the answer range\n"
+                "while left < right:           # converges to smallest valid\n"
+                "    mid = (left + right) // 2\n"
+                "    if feasible(mid):         # monotonic: once True, stays True\n"
+                "        right = mid           # mid could be the answer\n"
+                "    else:\n"
+                "        left = mid + 1\n"
+                "return left\n"
+                "\n"
+                "# Binary search on REAL-VALUED answer space\n"
+                "# Use when the answer is a float (speed, distance, ratio)\n"
+                "# e.g. Minimize Max Distance to Gas Station\n"
+                "lo, hi = 0.0, max_possible\n"
+                "for _ in range(100):          # ~100 iterations gives 1e-30 precision\n"
+                "    mid = (lo + hi) / 2\n"
+                "    if feasible(mid):         # check if mid is achievable\n"
+                "        hi = mid\n"
+                "    else:\n"
+                "        lo = mid\n"
+                "return lo                     # converged to the minimum feasible value\n"
+                "# Alternative termination: while hi - lo > 1e-7: ..."
+            ),
+        },
+    ],
     "pitfalls": (
         "• Exact search: left <= right. Boundary search: left < right.\n"
         "• mid = left + (right - left) // 2 prevents integer overflow.\n"

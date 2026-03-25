@@ -49,7 +49,7 @@ _PAGE_BG    = "121212"             # page background
 
 
 def export_reference_docx(topics: list[dict], notes: dict[str, str]) -> str:
-    """Export *topics* + *notes* to a formatted DOCX file.
+    """Export *topics* + *notes* to a formatted DOCX file, grouped by category.
 
     Saves to ~/Desktop/leetvibe_reference.docx and returns that path as str.
     Raises ImportError if python-docx is not installed.
@@ -59,6 +59,13 @@ def export_reference_docx(topics: list[dict], notes: dict[str, str]) -> str:
     from docx.oxml import OxmlElement                 # type: ignore[import]
     from docx.oxml.ns import qn                       # type: ignore[import]
     from docx.shared import Inches, Pt, RGBColor      # type: ignore[import]
+
+    from .data.topics import CATEGORIES
+
+    _DIFF_FULL = {"E": "Easy", "M": "Medium", "H": "Hard"}
+
+    # Build lookup: title → topic dict
+    topic_by_title = {t["title"]: t for t in topics}
 
     doc = Document()
 
@@ -72,62 +79,99 @@ def export_reference_docx(topics: list[dict], notes: dict[str, str]) -> str:
     # ── Cover page ──────────────────────────────────────────────────────
     _cover(doc, WD_ALIGN_PARAGRAPH, Pt, RGBColor)
 
-    # ── Topics ──────────────────────────────────────────────────────────
-    for i, topic in enumerate(topics):
-        if i > 0:
+    first_block = True
+
+    # ── Topics grouped by category ───────────────────────────────────────
+    for cat in CATEGORIES:
+        cat_topics = [topic_by_title[t] for t in cat["topics"] if t in topic_by_title]
+        if not cat_topics:
+            continue
+
+        if not first_block:
             doc.add_page_break()
+        first_block = False
 
-        note = notes.get(topic["slug"], "").strip()
-
-        # Heading
-        h = doc.add_heading(topic["title"], level=1)
-        _color_runs(h, RGBColor(*_FIRE))
-        _set_para_spacing(h, before=0, after=6)
-
-        # Separator line
+        # Category heading
+        cat_heading = doc.add_heading(f"{cat['icon']}  {cat['name']}", level=1)
+        _color_runs(cat_heading, RGBColor(*_FIRE))
+        _set_para_spacing(cat_heading, before=0, after=8)
         _hr(doc, OxmlElement, qn, RGBColor(*_FIRE))
 
-        # Diagram
-        _section_label(doc, "Diagram", Pt, RGBColor(*_GOLD))
-        _code_block(doc, topic["diagram"], Pt, RGBColor, OxmlElement, qn)
+        for topic in cat_topics:
+            note = notes.get(topic["slug"], "").strip()
 
-        # When to use
-        _section_label(doc, "When to use", Pt, RGBColor(*_GOLD))
-        _body(doc, topic["when"].replace("\n  ", " "), Pt)
+            # Topic title (H2)
+            h = doc.add_heading(topic["title"], level=2)
+            _color_runs(h, RGBColor(*_GOLD))
+            _set_para_spacing(h, before=12, after=4)
 
-        # Pattern
-        _section_label(doc, "Pattern", Pt, RGBColor(*_GOLD))
-        _code_block(doc, topic["pattern"], Pt, RGBColor, OxmlElement, qn)
+            # Recognised by
+            recognize = topic.get("recognize", "").replace("\n  ", " ").strip()
+            if recognize:
+                _section_label(doc, "Recognised by", Pt, RGBColor(*_GOLD))
+                _body(doc, recognize, Pt)
 
-        # Complexity
-        _section_label(doc, "Complexity", Pt, RGBColor(*_GOLD))
-        p = doc.add_paragraph()
-        _set_para_spacing(p, before=0, after=2)
-        _run(p, "Time:   ", Pt(10), bold=True)
-        _run(p, topic["time"] + "    ", Pt(10), color=RGBColor(*_AMBER))
-        _run(p, "Space:  ", Pt(10), bold=True)
-        _run(p, topic["space"], Pt(10), color=RGBColor(*_AMBER))
+            # Diagram
+            if topic.get("diagram"):
+                _section_label(doc, "Diagram", Pt, RGBColor(*_GOLD))
+                _code_block(doc, topic["diagram"], Pt, RGBColor, OxmlElement, qn)
 
-        # Classic problems
-        if topic.get("problems"):
-            _section_label(doc, "Classic Problems", Pt, RGBColor(*_GOLD))
-            _DIFF_FULL = {"E": "Easy", "M": "Medium", "H": "Hard"}
-            for prob in topic["problems"]:
-                if isinstance(prob, tuple):
-                    name, diff = prob
-                    label = f"{name}  [{_DIFF_FULL.get(diff, diff)}]"
-                else:
-                    label = str(prob)
-                bp = doc.add_paragraph(style="List Bullet")
-                bp.add_run(label).font.size = Pt(10)
-                _set_para_spacing(bp, before=0, after=1)
+            # When to use
+            if topic.get("when"):
+                _section_label(doc, "When to use", Pt, RGBColor(*_GOLD))
+                _body(doc, topic["when"].replace("\n  ", " "), Pt)
 
-        # Notes
-        if note:
-            _section_label(doc, "My Notes", Pt, RGBColor(*_GOLD))
-            np = doc.add_paragraph()
-            np.add_run(note).font.size = Pt(10)
-            _set_para_spacing(np, before=0, after=4)
+            # Patterns (numbered list)
+            patterns = topic.get("patterns", [])
+            if patterns:
+                _section_label(doc, "Patterns", Pt, RGBColor(*_GOLD))
+                for i, pat in enumerate(patterns, 1):
+                    np = doc.add_paragraph()
+                    r = np.add_run(f"{i}. {pat['name']}")
+                    r.bold = True
+                    r.font.size = Pt(10)
+                    _set_para_spacing(np, before=4, after=2)
+                    _code_block(doc, pat["code"], Pt, RGBColor, OxmlElement, qn)
+
+            # Complexity
+            t_val = topic.get("time", "").strip()
+            s_val = topic.get("space", "").strip()
+            if t_val or s_val:
+                _section_label(doc, "Complexity", Pt, RGBColor(*_GOLD))
+                p = doc.add_paragraph()
+                _set_para_spacing(p, before=0, after=2)
+                if t_val:
+                    _run(p, "Time:   ", Pt(10), bold=True)
+                    _run(p, t_val + "    ", Pt(10), color=RGBColor(*_AMBER))
+                if s_val:
+                    _run(p, "Space:  ", Pt(10), bold=True)
+                    _run(p, s_val, Pt(10), color=RGBColor(*_AMBER))
+
+            # Pitfalls
+            pitfalls = topic.get("pitfalls", "").strip()
+            if pitfalls:
+                _section_label(doc, "Pitfalls", Pt, RGBColor(*_GOLD))
+                _body(doc, pitfalls, Pt)
+
+            # Classic problems
+            if topic.get("problems"):
+                _section_label(doc, "Classic Problems", Pt, RGBColor(*_GOLD))
+                for prob in topic["problems"]:
+                    if isinstance(prob, tuple):
+                        name, diff = prob
+                        label = f"{name}  [{_DIFF_FULL.get(diff, diff)}]"
+                    else:
+                        label = str(prob)
+                    bp = doc.add_paragraph(style="List Bullet")
+                    bp.add_run(label).font.size = Pt(10)
+                    _set_para_spacing(bp, before=0, after=1)
+
+            # Notes
+            if note:
+                _section_label(doc, "My Notes", Pt, RGBColor(*_GOLD))
+                np = doc.add_paragraph()
+                np.add_run(note).font.size = Pt(10)
+                _set_para_spacing(np, before=0, after=4)
 
     # ── Save ────────────────────────────────────────────────────────────
     out = _desktop() / "leetvibe_reference.docx"

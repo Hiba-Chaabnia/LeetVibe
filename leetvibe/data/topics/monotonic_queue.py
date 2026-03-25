@@ -4,8 +4,8 @@ TOPIC: dict = {
     "title": "Monotonic Queue",
     "slug": "Monotonic Queue",
     "recognize": (
-        "sliding window maximum / minimum, \"maximum in window of size k\",\n"
-        "  \"Jump Game VI\" (max score path), shortest subarray with sum ≥ k."
+        "sliding window maximum / minimum, maximum in window of size k,\n"
+        "Jump Game VI (max score path), shortest subarray with sum ≥ k."
     ),
     "diagram": (
         "  Sliding Window Maximum — window size k=3:\n"
@@ -24,47 +24,54 @@ TOPIC: dict = {
     ),
     "when": (
         "Finding the maximum or minimum within a sliding window of fixed size k.\n"
-        "  Or any problem needing O(1) window-max after O(n) preprocessing."
+        "Or any problem needing O(1) window-max after O(n) preprocessing."
     ),
-    "pattern": (
-        "from collections import deque\n"
-        "\n"
-        "# Sliding Window Maximum — O(n) total\n"
-        "dq  = deque()   # stores indices; front = index of window max\n"
-        "res = []\n"
-        "for i in range(len(nums)):\n"
-        "    # evict indices that have fallen outside the window\n"
-        "    while dq and dq[0] < i - k + 1:\n"
-        "        dq.popleft()\n"
-        "    # maintain decreasing order: pop smaller values from the back\n"
-        "    while dq and nums[dq[-1]] < nums[i]:\n"
-        "        dq.pop()\n"
-        "    dq.append(i)\n"
-        "    if i >= k - 1:              # window is full\n"
-        "        res.append(nums[dq[0]])\n"
-        "return res"
-    ),
-    "pattern2": (
-        "# Jump Game VI — max score reaching end (dp + monotonic deque)\n"
-        "# dp[i] = max score at index i; can jump up to k steps back\n"
-        "from collections import deque\n"
-        "\n"
-        "dp = [0] * len(nums)\n"
-        "dp[0] = nums[0]\n"
-        "dq = deque([0])   # indices of dp values, decreasing order\n"
-        "\n"
-        "for i in range(1, len(nums)):\n"
-        "    # evict indices outside the k-step window\n"
-        "    while dq and dq[0] < i - k:\n"
-        "        dq.popleft()\n"
-        "    dp[i] = dp[dq[0]] + nums[i]   # front = best previous index\n"
-        "    # maintain decreasing dp order in deque\n"
-        "    while dq and dp[dq[-1]] <= dp[i]:\n"
-        "        dq.pop()\n"
-        "    dq.append(i)\n"
-        "\n"
-        "return dp[-1]"
-    ),
+    "patterns": [
+        {
+            "name": "Sliding Window Maximum — O(n) total",
+            "code": (
+                "from collections import deque\n"
+                "\n"
+                "# Sliding Window Maximum — O(n) total\n"
+                "dq  = deque()   # stores indices; front = index of window max\n"
+                "res = []\n"
+                "for i in range(len(nums)):\n"
+                "    # evict indices that have fallen outside the window\n"
+                "    while dq and dq[0] < i - k + 1:\n"
+                "        dq.popleft()\n"
+                "    # maintain decreasing order: pop smaller values from the back\n"
+                "    while dq and nums[dq[-1]] < nums[i]:\n"
+                "        dq.pop()\n"
+                "    dq.append(i)\n"
+                "    if i >= k - 1:              # window is full\n"
+                "        res.append(nums[dq[0]])\n"
+                "return res"
+            ),
+        },
+        {
+            "name": "Jump Game VI — max score reaching end (dp + monotonic deque)",
+            "code": (
+                "# dp[i] = max score at index i; can jump up to k steps back\n"
+                "from collections import deque\n"
+                "\n"
+                "dp = [0] * len(nums)\n"
+                "dp[0] = nums[0]\n"
+                "dq = deque([0])   # indices of dp values, decreasing order\n"
+                "\n"
+                "for i in range(1, len(nums)):\n"
+                "    # evict indices outside the k-step window\n"
+                "    while dq and dq[0] < i - k:\n"
+                "        dq.popleft()\n"
+                "    dp[i] = dp[dq[0]] + nums[i]   # front = best previous index\n"
+                "    # maintain decreasing dp order in deque\n"
+                "    while dq and dp[dq[-1]] <= dp[i]:\n"
+                "        dq.pop()\n"
+                "    dq.append(i)\n"
+                "\n"
+                "return dp[-1]"
+            ),
+        },
+    ],
     "pitfalls": (
         "• Store INDICES in the deque, not values — you need indices to check\n"
         "  whether the front element has gone out of the window.\n"

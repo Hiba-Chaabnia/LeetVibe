@@ -11,12 +11,14 @@ from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.widget import Widget
-from textual.widgets import Input, OptionList, RichLog, Static
+from textual.reactive import reactive
+from textual.widgets import Input, OptionList, RichLog, Select, Static
 from textual.widgets.option_list import Option
 
 from ...data.topics import CATEGORIES, TIER_MAP, TOPICS
-from ..theme import AMBER, DIM, EMBER, FIRE, GOLD, GREEN, LAVA, RED
+from ..theme import AMBER, DIM, EMBER, FIRE, GOLD, GRADIENT, GREEN, LAVA, RED
 from ..widgets.status_bar import StatusBar
+from ..widgets.truncated_select import TruncatedSelect
 from .base import BaseScreen
 
 # ── Notes persistence ──────────────────────────────────────────────────────────
@@ -40,6 +42,21 @@ def _save_notes(notes: dict[str, str]) -> None:
         pass
 
 
+# ── Database topic slug cache ──────────────────────────────────────────────────
+
+_DB_TOPIC_SLUGS: set[str] | None = None
+
+
+def _get_db_topic_slugs() -> set[str]:
+    """Return the set of topic tags that exist in the problems database (cached)."""
+    global _DB_TOPIC_SLUGS
+    if _DB_TOPIC_SLUGS is None:
+        from ...problem_loader import load_all_problems
+        problems = load_all_problems()
+        _DB_TOPIC_SLUGS = {t for ch in problems for t in (ch.topics or [])}
+    return _DB_TOPIC_SLUGS
+
+
 # ── Rich markup helper ─────────────────────────────────────────────────────────
 
 def _esc(text: str) -> str:
@@ -55,26 +72,24 @@ _DIFF_LABEL = {"E": "Easy", "M": "Med ", "H": "Hard"}
 
 # ── Content renderer ───────────────────────────────────────────────────────────
 
-def _sh(label: str) -> str:
-    """Section header: accent bar + uppercase label."""
-    return f"[{LAVA}]▍[/{LAVA}] [bold {FIRE}]{label.upper()}[/bold {FIRE}]"
+def _sh(label: str, idx: int = 0) -> str:
+    """Section header: title-case label in a cycling gradient color."""
+    color = GRADIENT[idx % len(GRADIENT)]
+    return f"[bold {color}]{label.title()}[/bold {color}]"
 
 
 def _render_title(title: str) -> str:
-    """First word in FIRE, rest in default text."""
-    words = title.split(" ", 1)
-    if len(words) == 1:
-        return f"[bold {FIRE}]{words[0]}[/bold {FIRE}]"
-    return f"[bold {FIRE}]{words[0]}[/bold {FIRE}][bold] {words[1]}[/bold]"
+    """Title with fire gradient per character."""
+    title = title.upper()
+    n = len(title)
+    chars = []
+    for i, ch in enumerate(title):
+        idx = min(int(i / max(n - 1, 1) * (len(GRADIENT) - 1) + 0.5), len(GRADIENT) - 1)
+        color = GRADIENT[idx]
+        chars.append(f"[bold {color}]{ch}[/bold {color}]")
+    return "".join(chars)
 
 
-def _pill_tags(recognize: str) -> str:
-    """Extract double-quoted keywords from recognize text → amber pill tags."""
-    tags = re.findall(r'"([^"]+)"', recognize)
-    if not tags:
-        return ""
-    pills = [f"[on #1a1000][{AMBER}] {tag} [/{AMBER}][/on #1a1000]" for tag in tags]
-    return "  " + " ".join(pills)
 
 
 def _infobox(text: str) -> list[str]:
@@ -86,7 +101,7 @@ def _code_block(block: str) -> list[str]:
     """Render a code block with box-drawing header and │-prefixed lines."""
     lines = [f"  [{DIM}]┌── python {'─' * 30}[/{DIM}]"]
     for ln in block.split("\n"):
-        lines.append(f"  [{LAVA}]│[/{LAVA}] {ln}")
+        lines.append(f"  [{DIM}]│[/{DIM}] {ln}")
     lines.append(f"  [{DIM}]└{'─' * 41}[/{DIM}]")
     return lines
 
@@ -98,9 +113,7 @@ def _render_topic(topic: dict, note: str) -> str:
     if topic["slug"] == "_selector":
         lines: list[str] = [
             "",
-            _render_title(topic["title"]),
-            "",
-            _sh("How to pick a pattern"),
+            _sh("How to pick a pattern", 0),
             f"  [{DIM}]{'─' * 48}[/{DIM}]",
         ]
         for ln in _esc(topic["diagram"]).split("\n"):
@@ -112,60 +125,46 @@ def _render_topic(topic: dict, note: str) -> str:
         ]
         return "\n".join(lines)
 
-    title    = topic["title"]
     diagram  = _esc(topic.get("diagram", ""))
     when     = _esc(topic.get("when", ""))
-    pattern  = _esc(topic.get("pattern", ""))
-    pattern2 = _esc(topic.get("pattern2", ""))
     t_val    = _esc(topic.get("time", ""))
-    s_val    = _esc(topic.get("space", ""))
-    recognize = topic.get("recognize", "")   # parsed before escaping
+    s_val     = _esc(topic.get("space", ""))
+    recognize = _esc(topic.get("recognize", ""))
     pitfalls  = _esc(topic.get("pitfalls", ""))
     related   = topic.get("related", [])
 
-    lines: list[str] = [
-        "",
-        _render_title(title),
-    ]
+    lines: list[str] = [""]
+    h = 0  # gradient index for section headers
 
-    # Keyword pill tags (extracted from quoted strings in recognize)
-    tags_line = _pill_tags(recognize)
-    if tags_line:
-        lines.append(tags_line)
-    lines.append("")
-
-    # Recognise by
+    # Recognised by
     if recognize:
-        lines.append(_sh("Recognise by"))
-        for ln in _esc(recognize).split("\n"):
-            lines.append(f"  {ln}")
+        lines.append(_sh("Recognised by", h)); h += 1
+        for ln in recognize.split("\n"):
+            lines.append(f"  [{DIM}]{ln}[/{DIM}]")
         lines.append("")
 
     # Diagram
-    lines.append(_sh("Diagram"))
+    lines.append(_sh("Diagram", h)); h += 1
     lines += _infobox(diagram)
     lines.append("")
 
     # When to use
-    lines.append(_sh("When to use"))
+    lines.append(_sh("When to use", h)); h += 1
     lines += _infobox(when)
     lines.append("")
 
-    # Pattern
-    if pattern:
-        lines.append(_sh("Pattern"))
-        lines += _code_block(pattern)
-        lines.append("")
-
-    # Pattern variant
-    if pattern2:
-        lines.append(_sh("Pattern — Variant"))
-        lines += _code_block(pattern2)
-        lines.append("")
+    # Patterns
+    patterns = topic.get("patterns", [])
+    if patterns:
+        lines.append(_sh("Patterns", h)); h += 1
+        for i, pat in enumerate(patterns, 1):
+            lines.append(f"  [bold #ffffff]{i}. {_esc(pat['name'])}[/bold #ffffff]")
+            lines += _code_block(_esc(pat["code"]))
+            lines.append("")
 
     # Complexity
     if t_val or s_val:
-        lines.append(_sh("Complexity"))
+        lines.append(_sh("Complexity", h)); h += 1
         if t_val:
             lines.append(f"  Time   [{AMBER}]{t_val}[/{AMBER}]")
         if s_val:
@@ -174,14 +173,14 @@ def _render_topic(topic: dict, note: str) -> str:
 
     # Pitfalls
     if pitfalls:
-        lines.append(_sh("Pitfalls"))
+        lines.append(_sh("Pitfalls", h)); h += 1
         for ln in pitfalls.split("\n"):
             lines.append(f"  [{RED}]{ln}[/{RED}]")
         lines.append("")
 
     # Classic Problems
     if topic.get("problems"):
-        lines.append(_sh("Classic Problems"))
+        lines.append(_sh("Classic Problems", h)); h += 1
         for item in topic["problems"]:
             if isinstance(item, tuple):
                 name, diff = item
@@ -196,7 +195,7 @@ def _render_topic(topic: dict, note: str) -> str:
 
     # Related Topics
     if related:
-        lines.append(_sh("Related Topics"))
+        lines.append(_sh("Related Topics", h)); h += 1
         lines.append(
             "  " + "  ·  ".join(f"[{EMBER}]{r}[/{EMBER}]" for r in related)
         )
@@ -204,7 +203,7 @@ def _render_topic(topic: dict, note: str) -> str:
 
     # Notes
     if note.strip():
-        lines.append(_sh("My Notes"))
+        lines.append(_sh("My Notes", h))
         for note_line in note.strip().split("\n"):
             lines.append(f"  {_esc(note_line)}")
     else:
@@ -213,23 +212,6 @@ def _render_topic(topic: dict, note: str) -> str:
         )
 
     return "\n".join(lines)
-
-
-# ── Top breadcrumb bar ─────────────────────────────────────────────────────────
-
-class PlaybookBreadcrumb(Horizontal):
-    """Breadcrumb bar: Playbook › <topic>  with key hints on right."""
-
-    def compose(self) -> ComposeResult:
-        yield Static("", id="bc-left", markup=True)
-
-    def set_topic(self, topic_title: str) -> None:
-        text = (
-            f"[bold {FIRE}]Playbook[/bold {FIRE}]  [{DIM}]›[/{DIM}]  "
-        )
-        if topic_title:
-            text += f"{topic_title}"
-        self.query_one("#bc-left", Static).update(text)
 
 
 # ── Inline chat panel ──────────────────────────────────────────────────────────
@@ -269,9 +251,22 @@ class PlaybookChatPanel(Widget):
 
 # ── Filter helpers ─────────────────────────────────────────────────────────────
 
-_TIER_LABEL = {1: "① Foundational", 2: "② Intermediate", 3: "③ Advanced"}
-_CAT_NAMES  = [None] + [c["name"] for c in CATEGORIES]   # None = All
-_TIER_CYCLE = [None, 1, 2, 3]                             # None = All
+# All topic titles that belong to a named category group
+_CAT_TOPIC_SET = {name for cat in CATEGORIES for name in cat["topics"]}
+
+
+def _trunc(text: str, max_chars: int) -> str:
+    if len(text) > max_chars:
+        return text[: max_chars - 1] + "…"
+    return text
+
+_CAT_OPTIONS  = [("All Categories", "all")] + [(c["name"], c["name"]) for c in CATEGORIES]
+_TIER_OPTIONS = [
+    ("All Tiers",        "all"),
+    ("① Foundational",  "1"),
+    ("② Intermediate",  "2"),
+    ("③ Advanced",      "3"),
+]
 
 
 # ── Screen ─────────────────────────────────────────────────────────────────────
@@ -280,15 +275,17 @@ class ReferenceGuideScreen(BaseScreen):
     """Playbook mode — browse algorithm topics, add notes, and export to DOCX."""
 
     BINDINGS = [
-        Binding("escape",  "pop_screen",      "← Back"),
-        Binding("ctrl+q",  "quit_app",        "Quit"),
-        Binding("c",       "cycle_category",  "Category",    show=False),
-        Binding("t",       "cycle_tier",      "Tier",        show=False),
-        Binding("e",       "explain_more",    "Explain More", show=False),
-        Binding("p",       "practice",        "Practice",    show=False),
-        Binding("n",       "edit_note",       "Edit Note",   show=False),
-        Binding("x",       "export_docx",     "Export DOCX", show=False),
+        Binding("escape",  "pop_screen",   "← Back"),
+        Binding("ctrl+q",  "quit_app",     "Quit"),
+        Binding("e",       "explain_more", "Explain More", show=False),
+        Binding("p",       "practice",     "Practice",     show=False),
+        Binding("n",       "edit_note",    "Edit Note",    show=False),
+        Binding("x",       "export_docx",  "Export DOCX",  show=False),
     ]
+
+    filter_cat:   reactive[str] = reactive("all")
+    filter_tier:  reactive[str] = reactive("all")
+    search_query: reactive[str] = reactive("")
 
     def __init__(self) -> None:
         super().__init__()
@@ -296,35 +293,38 @@ class ReferenceGuideScreen(BaseScreen):
         self._notes: dict[str, str] = {}
         self._chat_open: bool = False
         self._chat_history: list[dict] = []
-        self._filter_cat: str | None = None   # None = All categories
-        self._filter_tier: int | None = None  # None = All tiers
+        self._option_map: list[int | None] = []  # OptionList pos → _visible_topics idx
 
     # ── Filtered topic list ──────────────────────────────────────────────
 
     @property
     def _visible_topics(self) -> list[dict]:
-        result = TOPICS
-        if self._filter_cat is not None:
-            result = [t for t in result if t.get("category") == self._filter_cat]
-        if self._filter_tier is not None:
-            result = [t for t in result if t.get("tier") == self._filter_tier]
+        result = list(TOPICS)
+        if self.filter_cat != "all":
+            result = [t for t in result if t.get("category") == self.filter_cat]
+        if self.filter_tier != "all":
+            result = [t for t in result if t.get("tier") == int(self.filter_tier)]
+        q = self.search_query.strip().lower()
+        if q:
+            result = [t for t in result if q in t["title"].lower()]
         return result
 
     def compose(self) -> ComposeResult:
-        yield PlaybookBreadcrumb(id="ref-breadcrumb")
+        with Horizontal(id="ref-filter-bar"):
+            yield TruncatedSelect(_CAT_OPTIONS,  value="all", id="cat-filter",  allow_blank=False)
+            yield TruncatedSelect(_TIER_OPTIONS, value="all", id="tier-filter", allow_blank=False)
+            yield Input(placeholder="Search topic…", id="topic-search")
         with Horizontal(id="ref-body"):
             with Vertical(id="ref-topics"):
-                yield Static("", id="filter-bar", markup=True)
                 yield OptionList(id="topic-list")
             with VerticalScroll(id="ref-content-scroll"):
-                yield Static("", id="ref-content", markup=True)
+                yield Static("", id="ref-content-title", markup=True)
+                yield Static("", id="ref-content-body", markup=True)
             yield PlaybookChatPanel(id="chat-panel")
 
         yield StatusBar(
             hints=[
                 ("↑↓",     "navigate",         None),
-                ("C",      "category filter",  self.action_cycle_category),
-                ("T",      "tier filter",      self.action_cycle_tier),
                 ("E",      "ask Vibe AI",      self.action_explain_more),
                 ("P",      "practice",         self.action_practice),
                 ("N",      "edit note",        self.action_edit_note),
@@ -339,47 +339,114 @@ class ReferenceGuideScreen(BaseScreen):
         self._notes = _load_notes()
         self._rebuild_list()
 
-    # ── Filter actions ───────────────────────────────────────────────────
+    # ── Reactive filter watchers ─────────────────────────────────────────
 
-    def action_cycle_category(self) -> None:
-        idx = _CAT_NAMES.index(self._filter_cat)
-        self._filter_cat = _CAT_NAMES[(idx + 1) % len(_CAT_NAMES)]
+    def watch_filter_cat(self, value: str) -> None:
+        try:
+            self.query_one("#cat-filter", TruncatedSelect).set_class(value != "all", "filter-active")
+            self._rebuild_list()
+        except Exception:
+            pass
+
+    def watch_filter_tier(self, value: str) -> None:
+        try:
+            self.query_one("#tier-filter", TruncatedSelect).set_class(value != "all", "filter-active")
+            self._rebuild_list()
+        except Exception:
+            pass
+
+    def watch_search_query(self, value: str) -> None:
+        try:
+            self.query_one("#topic-search", Input).set_class(bool(value.strip()), "filter-active")
+            self._rebuild_list()
+        except Exception:
+            pass
+
+    def on_resize(self) -> None:
         self._rebuild_list()
 
-    def action_cycle_tier(self) -> None:
-        idx = _TIER_CYCLE.index(self._filter_tier)
-        self._filter_tier = _TIER_CYCLE[(idx + 1) % len(_TIER_CYCLE)]
-        self._rebuild_list()
+    def on_select_changed(self, event: Select.Changed) -> None:
+        if event.select.id == "cat-filter":
+            self.filter_cat = str(event.value)
+        elif event.select.id == "tier-filter":
+            self.filter_tier = str(event.value)
+
+    def on_input_changed(self, event: Input.Changed) -> None:
+        if event.input.id == "topic-search":
+            self._pending_search = event.value
+            if getattr(self, "_search_timer", None) is not None:
+                self._search_timer.stop()
+            self._search_timer = self.set_timer(0.2, self._apply_search)
+
+    def _apply_search(self) -> None:
+        self._search_timer = None
+        self.search_query = getattr(self, "_pending_search", "")
+
+
+    def _sidebar_max_chars(self) -> int:
+        try:
+            w = self.query_one("#ref-topics").size.width
+            return max(10, w - 4)  # subtract border (2) + padding (2)
+        except Exception:
+            return 24
 
     def _rebuild_list(self) -> None:
         """Repopulate the OptionList from _visible_topics and reset selection."""
         visible = self._visible_topics
         topic_list = self.query_one("#topic-list", OptionList)
         topic_list.clear_options()
-        for i, t in enumerate(visible):
-            topic_list.add_option(Option(t["title"], id=f"topic-{i}"))
-        self._current_idx = 0
-        if visible:
-            topic_list.highlighted = 0
-        self._refresh_filter_bar()
+        self._option_map = []
+
+        if self.filter_cat == "all":
+            max_w = self._sidebar_max_chars()
+            # Ungrouped items first (Pattern Selector / anything without a category group)
+            for i, t in enumerate(visible):
+                if t["title"] not in _CAT_TOPIC_SET:
+                    topic_list.add_option(Option(_trunc(t["title"], max_w), id=f"topic-{i}"))
+                    self._option_map.append(i)
+
+            # Grouped categories in CATEGORIES order
+            for cat in CATEGORIES:
+                cat_visible: list[tuple[int, dict]] = []
+                for title in cat["topics"]:
+                    for i, t in enumerate(visible):
+                        if t["title"] == title:
+                            cat_visible.append((i, t))
+                            break
+                if not cat_visible:
+                    continue
+                safe_id = cat["name"].replace(" ", "-").replace("&", "and").replace("/", "-")
+                topic_list.add_option(
+                    Option(_trunc(f"{cat['icon']}  {cat['name']}", max_w), id=f"cat-{safe_id}", disabled=True)
+                )
+                self._option_map.append(None)
+                for i, t in cat_visible:
+                    label = "  " + _trunc(t["title"], max_w - 2)
+                    topic_list.add_option(Option(label, id=f"topic-{i}"))
+                    self._option_map.append(i)
+        else:
+            max_w = self._sidebar_max_chars()
+            # Single category filtered — flat list
+            for i, t in enumerate(visible):
+                topic_list.add_option(Option(_trunc(t["title"], max_w), id=f"topic-{i}"))
+                self._option_map.append(i)
+
+        # Select first non-header option
+        first_pos = next((p for p, ti in enumerate(self._option_map) if ti is not None), 0)
+        self._current_idx = self._option_map[first_pos] if self._option_map else 0
+        if self._option_map:
+            topic_list.highlighted = first_pos
         self._refresh_content()
         topic_list.focus()
-
-    def _refresh_filter_bar(self) -> None:
-        cat_label  = self._filter_cat or "All"
-        tier_label = _TIER_LABEL.get(self._filter_tier, "All") if self._filter_tier else "All"
-        count      = len(self._visible_topics)
-        bar = (
-            f"[{DIM}]Cat :[/{DIM}] [{AMBER}]{cat_label}[/{AMBER}]  "
-            f"[{DIM}]Tier:[/{DIM}] [{AMBER}]{tier_label}[/{AMBER}]  "
-            f"[{DIM}]({count} topics)[/{DIM}]"
-        )
-        self.query_one("#filter-bar", Static).update(bar)
 
     # ── Topic navigation ─────────────────────────────────────────────────
 
     def on_option_list_option_highlighted(self, event: OptionList.OptionHighlighted) -> None:
-        self._current_idx = event.option_index
+        pos = event.option_index
+        topic_idx = self._option_map[pos] if pos < len(self._option_map) else None
+        if topic_idx is None:
+            return  # header row — ignore
+        self._current_idx = topic_idx
         self._refresh_content()
         if self._chat_open:
             visible = self._visible_topics
@@ -393,19 +460,19 @@ class ReferenceGuideScreen(BaseScreen):
         visible = self._visible_topics
         if not visible:
             try:
-                self.query_one("#ref-content", Static).update(
+                self.query_one("#ref-content-title", Static).update("")
+                self.query_one("#ref-content-body", Static).update(
                     f"\n  [{DIM}]No topics match the current filters.[/{DIM}]"
                 )
-                self.query_one("#ref-breadcrumb", PlaybookBreadcrumb).set_topic("")
             except Exception:
                 pass
             return
         topic = visible[self._current_idx]
         note  = self._notes.get(topic["slug"], "")
         try:
-            self.query_one("#ref-content", Static).update(_render_topic(topic, note))
+            self.query_one("#ref-content-title", Static).update(_render_title(topic["title"]))
+            self.query_one("#ref-content-body", Static).update(_render_topic(topic, note))
             self.query_one("#ref-content-scroll", VerticalScroll).scroll_home(animate=False)
-            self.query_one("#ref-breadcrumb", PlaybookBreadcrumb).set_topic(topic["title"])
         except Exception:
             pass
 
@@ -508,9 +575,24 @@ class ReferenceGuideScreen(BaseScreen):
         visible = self._visible_topics
         if not visible:
             return
-        from .problem_list import ProblemListScreen
         topic = visible[self._current_idx]
-        self.app.push_screen(ProblemListScreen(mode="learn", initial_topic=topic["slug"]))
+        self._open_practice(topic)
+
+    @work(thread=True)
+    def _open_practice(self, topic: dict) -> None:
+        slug = topic["slug"]
+        if slug not in _get_db_topic_slugs():
+            self.app.call_from_thread(
+                self.notify,
+                f"No problems tagged for '{topic['title']}' yet.",
+                severity="warning",
+            )
+            return
+        from .problem_list import ProblemListScreen
+        self.app.call_from_thread(
+            self.app.push_screen,
+            ProblemListScreen(mode="learn", initial_topic=slug),
+        )
 
     def action_edit_note(self) -> None:
         """Open the notes modal for the current topic."""

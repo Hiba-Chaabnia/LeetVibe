@@ -973,7 +973,7 @@ class AgentSessionScreen(BaseScreen):
                 ],
                 max_tokens=60,
             )
-            return resp.choices[0].message.content.strip().strip("\"'")
+            return resp.choices[0].message.content.strip().strip("'")
         except Exception:
             return ""
 

@@ -4,8 +4,8 @@ TOPIC: dict = {
     "title": "Reservoir Sampling",
     "slug": "Reservoir Sampling",
     "recognize": (
-        "\"random pick\" from unknown-length stream, \"random node in linked list\",\n"
-        "  uniform random sample without knowing n upfront."
+        "random pick from unknown-length stream, random node in linked list,\n"
+        "uniform random sample without knowing n upfront."
     ),
     "diagram": (
         "  Stream: [a, b, c, d, e, ...]  — length N unknown\n"
@@ -22,56 +22,63 @@ TOPIC: dict = {
     ),
     "when": (
         "Random sampling from a stream or linked list of unknown / very large size,\n"
-        "  where you cannot store all elements in memory."
+        "where you cannot store all elements in memory."
     ),
-    "pattern": (
-        "import random\n"
-        "\n"
-        "# Random Pick Index — pick one uniform random index where nums[i] == target\n"
-        "class Solution:\n"
-        "    def __init__(self, nums):\n"
-        "        self.nums = nums\n"
-        "\n"
-        "    def pick(self, target):\n"
-        "        count = result = 0\n"
-        "        for i, num in enumerate(self.nums):\n"
-        "            if num == target:\n"
-        "                count += 1\n"
-        "                if random.randint(1, count) == 1:  # replace with prob 1/count\n"
-        "                    result = i\n"
-        "        return result"
-    ),
-    "pattern2": (
-        "# Random Node in a Linked List\n"
-        "import random\n"
-        "\n"
-        "class Solution:\n"
-        "    def __init__(self, head):\n"
-        "        self.head = head\n"
-        "\n"
-        "    def get_random(self):\n"
-        "        scope  = 1\n"
-        "        chosen = None\n"
-        "        curr   = self.head\n"
-        "        while curr:\n"
-        "            if random.randint(1, scope) == 1:  # replace with prob 1/scope\n"
-        "                chosen = curr.val\n"
-        "            curr  = curr.next\n"
-        "            scope += 1\n"
-        "        return chosen\n"
-        "\n"
-        "# k-reservoir (keep k items, each with equal probability k/N)\n"
-        "def reservoir_sample(stream, k):\n"
-        "    reservoir = []\n"
-        "    for i, item in enumerate(stream):\n"
-        "        if i < k:\n"
-        "            reservoir.append(item)\n"
-        "        else:\n"
-        "            j = random.randint(0, i)     # random index in [0, i]\n"
-        "            if j < k:\n"
-        "                reservoir[j] = item      # replace with prob k/(i+1)\n"
-        "    return reservoir"
-    ),
+    "patterns": [
+        {
+            "name": "Random Pick Index — pick one uniform random index where nums[i] == target",
+            "code": (
+                "import random\n"
+                "\n"
+                "# Random Pick Index — pick one uniform random index where nums[i] == target\n"
+                "class Solution:\n"
+                "    def __init__(self, nums):\n"
+                "        self.nums = nums\n"
+                "\n"
+                "    def pick(self, target):\n"
+                "        count = result = 0\n"
+                "        for i, num in enumerate(self.nums):\n"
+                "            if num == target:\n"
+                "                count += 1\n"
+                "                if random.randint(1, count) == 1:  # replace with prob 1/count\n"
+                "                    result = i\n"
+                "        return result"
+            ),
+        },
+        {
+            "name": "Random Node in a Linked List",
+            "code": (
+                "import random\n"
+                "\n"
+                "class Solution:\n"
+                "    def __init__(self, head):\n"
+                "        self.head = head\n"
+                "\n"
+                "    def get_random(self):\n"
+                "        scope  = 1\n"
+                "        chosen = None\n"
+                "        curr   = self.head\n"
+                "        while curr:\n"
+                "            if random.randint(1, scope) == 1:  # replace with prob 1/scope\n"
+                "                chosen = curr.val\n"
+                "            curr  = curr.next\n"
+                "            scope += 1\n"
+                "        return chosen\n"
+                "\n"
+                "# k-reservoir (keep k items, each with equal probability k/N)\n"
+                "def reservoir_sample(stream, k):\n"
+                "    reservoir = []\n"
+                "    for i, item in enumerate(stream):\n"
+                "        if i < k:\n"
+                "            reservoir.append(item)\n"
+                "        else:\n"
+                "            j = random.randint(0, i)     # random index in [0, i]\n"
+                "            if j < k:\n"
+                "                reservoir[j] = item      # replace with prob k/(i+1)\n"
+                "    return reservoir"
+            ),
+        },
+    ],
     "pitfalls": (
         "• Replace with probability 1/count (not 1/i) — count only tracks\n"
         "  occurrences of the target, not all elements seen.\n"

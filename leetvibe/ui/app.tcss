@@ -118,13 +118,28 @@ Screen {
 
 #difficulty-filter > SelectCurrent,
 #topic-filter > SelectCurrent,
-#solved-filter > SelectCurrent,
+#solved-filter > SelectCurrent { overflow: hidden; border: none; padding: 0 1; color: $muted; }
 #feedback-type > SelectCurrent { overflow: hidden; border: none; padding: 0 1; }
 
 #difficulty-filter > SelectCurrent > #label,
 #topic-filter > SelectCurrent > #label,
-#solved-filter > SelectCurrent > #label,
+#solved-filter > SelectCurrent > #label { overflow: hidden; color: $muted; }
 #feedback-type > SelectCurrent > #label { overflow: hidden; }
+
+#difficulty-filter:focus-within > SelectCurrent,
+#difficulty-filter.filter-active > SelectCurrent { color: $grad1; }
+#difficulty-filter:focus-within > SelectCurrent > #label,
+#difficulty-filter.filter-active > SelectCurrent > #label { color: $grad1; }
+
+#topic-filter:focus-within > SelectCurrent,
+#topic-filter.filter-active > SelectCurrent { color: $grad2; }
+#topic-filter:focus-within > SelectCurrent > #label,
+#topic-filter.filter-active > SelectCurrent > #label { color: $grad2; }
+
+#solved-filter:focus-within > SelectCurrent,
+#solved-filter.filter-active > SelectCurrent { color: $grad3; }
+#solved-filter:focus-within > SelectCurrent > #label,
+#solved-filter.filter-active > SelectCurrent > #label { color: $grad3; }
 
 /* ── topic-filter  (grad2 HONEY) ── */
 #topic-filter {
@@ -181,13 +196,13 @@ Screen {
     width: 1fr;
     margin: 0 1;
     border: round $muted;
-    color: $text;
+    color: $muted;
 }
 
 #search-input:focus,
 #search-input.filter-active {
     border: round $grad5;
-    color: $text;
+    color: $grad5;
 }
 
 /* ── Problem Table── */
@@ -1085,17 +1100,9 @@ AgentSessionScreen #chat-input:disabled { color: #555555; border: round #2a2a2a;
    PlaybookBreadcrumb / PlaybookChatPanel / ReferenceGuideScreen
    ============================================================ */
 
-PlaybookBreadcrumb {
-    height: 2;
-    background: $bg;
-}
-PlaybookBreadcrumb #bc-left {
-    width: 1fr;
-    padding: 0 1;
-}
 
 PlaybookChatPanel {
-    width: 60;
+    width: 27.5%;
     display: none;
     border: round #333333;
     background: $bg;
@@ -1123,12 +1130,64 @@ PlaybookChatPanel #chat-input.-focused { background: $bg; background-tint: trans
 ReferenceGuideScreen {
     background: $bg;
 }
+#ref-filter-bar {
+    height: auto;
+    background: transparent;
+    padding: 0 1;
+    align: left middle;
+}
+#cat-filter {
+    width: 22;
+    margin: 0 1;
+    border: round $muted;
+    color: $muted;
+}
+#cat-filter:focus-within,
+#cat-filter.filter-active {
+    border: round $grad2;
+    color: $grad2;
+}
+#tier-filter {
+    width: 22;
+    margin: 0 1;
+    border: round $muted;
+    color: $muted;
+}
+#tier-filter:focus-within,
+#tier-filter.filter-active {
+    border: round $grad3;
+    color: $grad3;
+}
+#topic-search {
+    width: 1fr;
+    margin: 0 1;
+    border: round $muted;
+    color: $muted;
+}
+#topic-search:focus,
+#topic-search.filter-active {
+    border: round $grad5;
+    color: $grad5;
+}
+#topic-search > .input--placeholder { color: $muted; }
+#cat-filter > SelectCurrent,
+#tier-filter > SelectCurrent { overflow: hidden; border: none; padding: 0 1; color: $muted; }
+#cat-filter > SelectCurrent > #label,
+#tier-filter > SelectCurrent > #label { overflow: hidden; color: $muted; }
+#cat-filter:focus-within > SelectCurrent,
+#cat-filter.filter-active > SelectCurrent { color: $grad2; }
+#tier-filter:focus-within > SelectCurrent,
+#tier-filter.filter-active > SelectCurrent { color: $grad3; }
+#cat-filter:focus-within > SelectCurrent > #label,
+#cat-filter.filter-active > SelectCurrent > #label { color: $grad2; }
+#tier-filter:focus-within > SelectCurrent > #label,
+#tier-filter.filter-active > SelectCurrent > #label { color: $grad3; }
 ReferenceGuideScreen #ref-body {
     height: 1fr;
     padding: 0 1 1 1;
 }
 ReferenceGuideScreen #ref-topics {
-    width: 28;
+    width: 17.5%;
     border: round #333333;
     background: $bg;
     padding: 0;
@@ -1157,13 +1216,23 @@ ReferenceGuideScreen #ref-topics {
     color: #000000;
     text-style: bold;
 }
+#ref-topics .option-list--option-disabled {
+    color: $amber;
+    text-style: bold;
+    background: #1a0a00;
+    padding: 0 1;
+}
 #ref-content-scroll {
     width: 1fr;
     border: round #333333;
-    padding: 1 2;
+    padding: 0 2 1 2;
     scrollbar-size: 1 1;
 }
-#ref-content {
+#ref-content-title {
+    width: 100%;
+    height: auto;
+}
+#ref-content-body {
     width: 100%;
     height: auto;
 }

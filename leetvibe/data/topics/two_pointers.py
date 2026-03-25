@@ -5,7 +5,7 @@ TOPIC: dict = {
     "slug": "Two Pointers",
     "recognize": (
         "sorted array + find pair/triplet, palindrome check,\n"
-        "  merge two sorted arrays, remove duplicates in-place."
+        "merge two sorted arrays, remove duplicates in-place."
     ),
     "diagram": (
         "  sorted:  1    2    3    4    5    6\n"
@@ -18,50 +18,62 @@ TOPIC: dict = {
     ),
     "when": (
         "Sorted array or linked list. Looking for a pair/triplet\n"
-        "  satisfying a condition — replaces O(n²) nested loops."
+        "satisfying a condition — replaces O(n²) nested loops."
     ),
-    "pattern": (
-        "# Two Sum II — sorted array\n"
-        "left, right = 0, len(arr) - 1\n"
-        "while left < right:\n"
-        "    s = arr[left] + arr[right]\n"
-        "    if   s == target:  return [left + 1, right + 1]\n"
-        "    elif s <  target:  left  += 1\n"
-        "    else:              right -= 1"
-    ),
-    "pattern2": (
-        "# 3Sum — fix one element, two-pointer on the rest\n"
-        "nums.sort()\n"
-        "res = []\n"
-        "for i in range(len(nums) - 2):\n"
-        "    if i > 0 and nums[i] == nums[i - 1]: continue  # skip dupe\n"
-        "    l, r = i + 1, len(nums) - 1\n"
-        "    while l < r:\n"
-        "        s = nums[i] + nums[l] + nums[r]\n"
-        "        if   s == 0: res.append([nums[i], nums[l], nums[r]]); l += 1; r -= 1\n"
-        "        elif s <  0: l += 1\n"
-        "        else:        r -= 1\n"
-        "        while l < r and nums[l] == nums[l - 1]: l += 1  # skip dupe\n"
-        "        while l < r and nums[r] == nums[r + 1]: r -= 1  # skip dupe\n"
-        "\n"
-        "# Remove Duplicates in-place — write pointer k\n"
-        "# k points to the next position to write a new unique value\n"
-        "if not nums: return 0\n"
-        "k = 1\n"
-        "for i in range(1, len(nums)):\n"
-        "    if nums[i] != nums[i - 1]:   # new unique value found\n"
-        "        nums[k] = nums[i]\n"
-        "        k += 1\n"
-        "return k  # first k elements are the deduplicated array\n"
-        "\n"
-        "# Allow up to 2 duplicates (Remove Duplicates II variant)\n"
-        "k = 0\n"
-        "for num in nums:\n"
-        "    if k < 2 or nums[k - 2] != num:  # safe to write\n"
-        "        nums[k] = num\n"
-        "        k += 1\n"
-        "return k"
-    ),
+    "patterns": [
+        {
+            "name": "Two Sum II (Opposite Ends)",
+            "code": (
+                "left, right = 0, len(arr) - 1\n"
+                "while left < right:\n"
+                "    s = arr[left] + arr[right]\n"
+                "    if   s == target:  return [left + 1, right + 1]\n"
+                "    elif s <  target:  left  += 1\n"
+                "    else:              right -= 1"
+            ),
+        },
+        {
+            "name": "3Sum (Fix + Two-Pointer)",
+            "code": (
+                "nums.sort()\n"
+                "res = []\n"
+                "for i in range(len(nums) - 2):\n"
+                "    if i > 0 and nums[i] == nums[i - 1]: continue  # skip dupe\n"
+                "    l, r = i + 1, len(nums) - 1\n"
+                "    while l < r:\n"
+                "        s = nums[i] + nums[l] + nums[r]\n"
+                "        if   s == 0: res.append([nums[i], nums[l], nums[r]]); l += 1; r -= 1\n"
+                "        elif s <  0: l += 1\n"
+                "        else:        r -= 1\n"
+                "        while l < r and nums[l] == nums[l - 1]: l += 1  # skip dupe\n"
+                "        while l < r and r < len(nums) - 1 and nums[r] == nums[r + 1]: r -= 1  # skip dupe"
+            ),
+        },
+        {
+            "name": "Remove Duplicates In-Place",
+            "code": (
+                "# k points to the next position to write a new unique value\n"
+                "if not nums: return 0\n"
+                "k = 1\n"
+                "for i in range(1, len(nums)):\n"
+                "    if nums[i] != nums[i - 1]:   # new unique value found\n"
+                "        nums[k] = nums[i]\n"
+                "        k += 1\n"
+                "return k  # first k elements are the deduplicated array"
+            ),
+        },
+        {
+            "name": "Allow Up to K Duplicates",
+            "code": (
+                "k = 0\n"
+                "for num in nums:\n"
+                "    if k < 2 or nums[k - 2] != num:  # safe to write\n"
+                "        nums[k] = num\n"
+                "        k += 1\n"
+                "return k"
+            ),
+        },
+    ],
     "pitfalls": (
         "• 3Sum: skip duplicate values at i, l, r to avoid duplicate triplets.\n"
         "• Array must be sorted first — don't forget nums.sort().\n"

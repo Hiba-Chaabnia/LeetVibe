@@ -4,8 +4,8 @@ TOPIC: dict = {
     "title": "Dijkstra",
     "slug": "Dijkstra",
     "recognize": (
-        "\"shortest path\", \"minimum cost\", weighted graph,\n"
-        "  non-negative edge weights, \"network delay\", \"cheapest flights\"."
+        "shortest path, minimum cost, weighted graph,\n"
+        "non-negative edge weights, network delay, cheapest flights."
     ),
     "diagram": (
         "  Weighted graph  (src = 0):\n"
@@ -24,51 +24,58 @@ TOPIC: dict = {
     ),
     "when": (
         "Shortest path in a weighted graph with non-negative edge weights.\n"
-        "  For negative weights use Bellman-Ford instead."
+        "For negative weights use Bellman-Ford instead."
     ),
-    "pattern": (
-        "import heapq\n"
-        "\n"
-        "def dijkstra(graph, src, n):\n"
-        "    # graph[u] = [(weight, v), ...]\n"
-        "    dist = [float('inf')] * n\n"
-        "    dist[src] = 0\n"
-        "    heap = [(0, src)]         # (distance, node)\n"
-        "    while heap:\n"
-        "        d, u = heapq.heappop(heap)\n"
-        "        if d > dist[u]: continue   # stale entry — skip\n"
-        "        for w, v in graph[u]:\n"
-        "            if dist[u] + w < dist[v]:\n"
-        "                dist[v] = dist[u] + w\n"
-        "                heapq.heappush(heap, (dist[v], v))\n"
-        "    return dist"
-    ),
-    "pattern2": (
-        "# Dijkstra with path reconstruction\n"
-        "import heapq\n"
-        "\n"
-        "dist = [float('inf')] * n\n"
-        "prev = [-1] * n               # predecessor array\n"
-        "dist[src] = 0\n"
-        "heap = [(0, src)]\n"
-        "\n"
-        "while heap:\n"
-        "    d, u = heapq.heappop(heap)\n"
-        "    if d > dist[u]: continue\n"
-        "    for w, v in graph[u]:\n"
-        "        if dist[u] + w < dist[v]:\n"
-        "            dist[v] = dist[u] + w\n"
-        "            prev[v] = u\n"
-        "            heapq.heappush(heap, (dist[v], v))\n"
-        "\n"
-        "# Reconstruct path from src to dst\n"
-        "path, node = [], dst\n"
-        "while node != -1:\n"
-        "    path.append(node)\n"
-        "    node = prev[node]\n"
-        "path.reverse()                 # path is built backwards\n"
-        "return path if path[0] == src else []   # [] if dst unreachable"
-    ),
+    "patterns": [
+        {
+            "name": "Dijkstra's Algorithm",
+            "code": (
+                "import heapq\n"
+                "\n"
+                "def dijkstra(graph, src, n):\n"
+                "    # graph[u] = [(weight, v), ...]\n"
+                "    dist = [float('inf')] * n\n"
+                "    dist[src] = 0\n"
+                "    heap = [(0, src)]         # (distance, node)\n"
+                "    while heap:\n"
+                "        d, u = heapq.heappop(heap)\n"
+                "        if d > dist[u]: continue   # stale entry — skip\n"
+                "        for w, v in graph[u]:\n"
+                "            if dist[u] + w < dist[v]:\n"
+                "                dist[v] = dist[u] + w\n"
+                "                heapq.heappush(heap, (dist[v], v))\n"
+                "    return dist"
+            ),
+        },
+        {
+            "name": "Dijkstra with path reconstruction",
+            "code": (
+                "import heapq\n"
+                "\n"
+                "dist = [float('inf')] * n\n"
+                "prev = [-1] * n               # predecessor array\n"
+                "dist[src] = 0\n"
+                "heap = [(0, src)]\n"
+                "\n"
+                "while heap:\n"
+                "    d, u = heapq.heappop(heap)\n"
+                "    if d > dist[u]: continue\n"
+                "    for w, v in graph[u]:\n"
+                "        if dist[u] + w < dist[v]:\n"
+                "            dist[v] = dist[u] + w\n"
+                "            prev[v] = u\n"
+                "            heapq.heappush(heap, (dist[v], v))\n"
+                "\n"
+                "# Reconstruct path from src to dst\n"
+                "path, node = [], dst\n"
+                "while node != -1:\n"
+                "    path.append(node)\n"
+                "    node = prev[node]\n"
+                "path.reverse()                 # path is built backwards\n"
+                "return path if path[0] == src else []   # [] if dst unreachable"
+            ),
+        },
+    ],
     "pitfalls": (
         "• Always skip stale entries: if d > dist[u]: continue.\n"
         "• Negative weights → Dijkstra gives wrong results; use Bellman-Ford.\n"
