@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Backtracking",
     "slug": "Backtracking",
     "recognize": (
-        "all combinations, all permutations, all subsets,\n"
-        "N-Queens, Sudoku, Word Search, Palindrome Partitioning."
+        "All combinations, all permutations, all subsets, N-Queens, Sudoku, Word Search, Palindrome Partitioning.\n"
+        "Signal: 'return all' — if the problem asks to enumerate solutions, it's almost always backtracking."
+    ),
+    "intuition": (
+        "• Every solution is a path from root to leaf in a decision tree — build it incrementally.\n"
+        "• Undo the last choice before trying the next branch (unchoose) — same path object, no copying.\n"
+        "• Prune early: if a partial path already violates a constraint, skip the entire subtree."
     ),
     "diagram": (
         "  Subsets of [1, 2, 3]:\n"
@@ -19,10 +24,6 @@ TOPIC: dict = {
         "    [1,2,3]\n"
         "\n"
         "  pattern:  choose → explore → unchoose (undo)"
-    ),
-    "when": (
-        "Generating all combinations, permutations, or subsets.\n"
-        "Constraint-satisfaction (N-Queens, Sudoku, Word Search)."
     ),
     "patterns": [
         {
@@ -111,13 +112,49 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Subsets (no duplicates) — append path copy at every node; use start index.\n"
+        "• Subsets II (with duplicates) — sort; skip nums[i]==nums[i-1] when i > start.\n"
+        "• Combination Sum (reuse allowed) — pass i (not i+1) so the same element can repeat.\n"
+        "• Combination Sum II (no reuse, duplicates) — sort + skip same value at same depth.\n"
+        "• Permutations (no duplicates) — no start index; use a visited/used array.\n"
+        "• Permutations II (with duplicates) — sort + skip when nums[i]==nums[i-1] and not used[i-1].\n"
+        "• Constraint-satisfaction (N-Queens, Sudoku) — maintain aux sets for O(1) validity checks.\n"
+        "• Word Search (grid DFS) — mark cell in-place (board[r][c]='#'); restore on backtrack."
+    ),
     "pitfalls": (
         "• Append path[:] (a copy), not path — path is mutated throughout.\n"
-        "• Permutations with duplicates: sort + skip same value when prev not used.\n"
-        "• Pruning: add early-exit conditions before recursing to cut dead branches.\n"
-        "• Constraint problems (Sudoku): maintain row/col/box sets to check validity\n"
-        "  in O(1) instead of scanning the board each time.\n"
-        "• Python recursion limit: import sys; sys.setrecursionlimit(10**5)."
+        "• Permutations with duplicates: sort + skip same value only when prev sibling not used.\n"
+        "• Sudoku: maintain row/col/box sets for O(1) validity, not O(9) board scans.\n"
+        "• Python recursion limit: sys.setrecursionlimit(10**5) for deep trees."
+    ),
+    "edge_cases": (
+        "• Empty input — backtrack never enters the loop; subsets should return [[]], not [].\n"
+        "• All identical elements — without duplicate-skip logic, result has n! identical permutations.\n"
+        "• target == 0 in Combination Sum — empty subset [] is valid; base case must record it.\n"
+        "• Sudoku board already solved — bt(0) returns True at idx==0 without entering the loop."
+    ),
+    "confusion": (
+        "┌───────────────────────┬──────────────────────────────────────────────────────┐\n"
+        "│ Often confused with   │ Distinguishing question                              │\n"
+        "├───────────────────────┼──────────────────────────────────────────────────────┤\n"
+        "│ Dynamic Programming   │ Do you need every solution, or just the count /      │\n"
+        "│                       │ optimal value? DP counts/optimises; backtracking     │\n"
+        "│                       │ enumerates. If the problem says 'return all', it's   │\n"
+        "│                       │ almost always backtracking.                          │\n"
+        "├───────────────────────┼──────────────────────────────────────────────────────┤\n"
+        "│ DFS on a graph / tree │ Is there a fixed combinatorial structure (subsets,   │\n"
+        "│                       │ permutations, placements) being built step by step,  │\n"
+        "│                       │ or are you traversing an existing graph/tree? The    │\n"
+        "│                       │ 'unchoose' undo step is the hallmark of backtracking │\n"
+        "│                       │ and does not appear in plain DFS.                    │\n"
+        "└───────────────────────┴──────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Can you generate the subsets iteratively instead of recursively?\n"
+        "• If you only need the count of valid combinations, can you do better than backtracking?\n"
+        "• How would you parallelise this?\n"
+        "• Your Sudoku solver is slow on adversarial boards — how do you speed it up?"
     ),
     "time": "O(2ⁿ) subsets   /   O(n!) permutations",
     "space": "O(n)   recursion depth",

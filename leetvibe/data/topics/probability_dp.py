@@ -4,9 +4,15 @@ TOPIC: dict = {
     "title": "Probability DP",
     "slug": "Probability DP",
     "recognize": (
-        "probability of reaching state, expected number of steps,\n"
-        "knight probability, dice rolls to target,\n"
-        "new 21 game, floating-point DP states."
+        "Probability of reaching a state, expected number of steps,\n"
+        "knight probability, dice rolls to target, New 21 Game.\n"
+        "Signal: state values are floats between 0 and 1, not integer counts."
+    ),
+    "intuition": (
+        "• It's standard DP with float states. Each transition splits probability\n"
+        "  proportionally: dp[next] += dp[cur] × (1 / num_transitions).\n"
+        "• Invariant: after k steps, dp[state] = exact probability of being there.\n"
+        "• Only keep two layers (current and next) — prior steps are never needed again."
     ),
     "diagram": (
         "  State: dp[i] = probability of being in state i\n"
@@ -21,11 +27,6 @@ TOPIC: dict = {
         "  (probability of still being on the board after N moves)\n"
         "\n"
         "  Space opt: only need current and previous layer → O(k²)"
-    ),
-    "when": (
-        "The state space has probabilities (floats 0..1) instead of counts.\n"
-        "Use when: each transition has a fixed probability, and you need\n"
-        "either P(reaching state X) or E[steps to reach state X]."
     ),
     "patterns": [
         {
@@ -77,13 +78,38 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Knight Probability — 2D grid DP; roll two layers for O(n²) space.\n"
+        "• New 21 Game — 1D DP with sliding window sum; O(maxPts) time and space.\n"
+        "• Dice Roll to Target — same structure but integer counts, not probabilities.\n"
+        "• Soup Servings — probability that soup A runs out first; DP on (a, b) state.\n"
+        "• Expected value DP — dp[state] = 1 + (1/k) × Σ dp[next]; solve as linear system."
+    ),
     "pitfalls": (
-        "• Floating-point errors accumulate — use Python's float (64-bit) which\n"
-        "  is usually sufficient; don't use integer arithmetic.\n"
-        "• dp[state] = 0 is fine to skip for performance, but initialise all to 0.0.\n"
-        "• Space optimisation: if only the previous step matters, keep just two layers.\n"
-        "• New 21 Game uses a sliding window sum to compute dp[i] in O(1) per step\n"
-        "  instead of O(maxK) — the key optimisation to hit O(n) total."
+        "• Use floats, not integers — dp values are probabilities in [0.0, 1.0].\n"
+        "• New 21 Game: sliding window sum replaces O(maxK) inner loop → O(n) total.\n"
+        "• Skip cells where dp[r][c] == 0 for performance — not needed for correctness."
+    ),
+    "edge_cases": (
+        "• k=0 in Knight Probability — no moves; still on board with prob 1.0; return 1.0.\n"
+        "• minK=0 or maxPts >= minK+maxK in New 21 — always in range; return 1.0 early.\n"
+        "• Non-uniform transition probabilities — replace /8 with the actual weight per edge."
+    ),
+    "confusion": (
+        "┌──────────────────────────┬─────────────────────────────────────────────────────┐\n"
+        "│ Often confused with      │ Distinguishing question                             │\n"
+        "├──────────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Standard counting DP     │ State values are counts (integers)? → Standard DP.  │\n"
+        "│                          │ State values are probabilities (floats)? → Prob DP. │\n"
+        "├──────────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Simulation / Monte Carlo │ State space tractable for exact DP? → DP.           │\n"
+        "│                          │ State space too large? → Monte Carlo (approximate). │\n"
+        "└──────────────────────────┴─────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Can you compute Knight Probability without the two-layer space optimisation?\n"
+        "• Why does New 21 Game use a sliding window instead of summing dp[i-maxK..i-1] directly?\n"
+        "• What if transition probabilities are not uniform?"
     ),
     "time": "O(k × n²) knight  /  O(maxPts) New 21",
     "space": "O(n²) knight  /  O(maxPts) New 21",

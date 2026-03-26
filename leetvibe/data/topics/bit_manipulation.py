@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Bit Manipulation",
     "slug": "Bit Manipulation",
     "recognize": (
-        "single number, unique among duplicates, count bits,\n"
-        "missing number, sum without +, bitmask DP over subsets."
+        "Single number, unique among duplicates, count bits, missing number, sum without +, bitmask DP over subsets.\n"
+        "Keywords: binary representations, bitmask flags, XOR cancels pairs, subsets as integers."
+    ),
+    "intuition": (
+        "• XOR self-cancels (a ^ a = 0) and has identity 0 (a ^ 0 = a) — XOR-ing pairs leaves only the unique element.\n"
+        "• n & (n-1) clears the lowest set bit; repeat until 0 to count bits in O(k) not O(32).\n"
+        "• Bitmask DP encodes all 2ⁿ subsets as integers — subset transitions become O(1) bit ops."
     ),
     "diagram": (
         "  AND  &    OR  |    XOR  ^    NOT  ~    SHIFT  <<  >>\n"
@@ -20,10 +25,6 @@ TOPIC: dict = {
         "  n | (1 << k)   →  set bit k\n"
         "  n & ~(1 << k)  →  clear bit k\n"
         "  n ^ (1 << k)   →  toggle bit k"
-    ),
-    "when": (
-        "Binary representations, bitmask flags, counting set bits,\n"
-        "or finding unique elements among duplicates."
     ),
     "patterns": [
         {
@@ -68,7 +69,7 @@ TOPIC: dict = {
                 "submask = mask\n"
                 "while submask > 0:\n"
                 "    # process submask here\n"
-                "    submask = (submask - 1) & mask   # strips the lowest set bit of submask\n"
+                "    submask = (submask - 1) & mask   # next smaller submask of mask\n"
                 "# Note: submask=0 (empty set) is NOT visited by this loop; handle separately\n"
                 "\n"
                 "# Two unique numbers among duplicates:\n"
@@ -84,12 +85,45 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Single number (one unique, rest appear twice) — XOR all elements.\n"
+        "• Single number II (one unique, rest appear three times) — track bits mod 3 with two integers.\n"
+        "• Two unique numbers — XOR all, isolate a differing bit, partition and XOR each group.\n"
+        "• Missing number in [0..n] — XOR all indices and all values; pairs cancel.\n"
+        "• Count set bits (array) — DP: dp[i] = dp[i>>1] + (i&1).\n"
+        "• Power of 2 — n > 0 and (n & n-1) == 0.\n"
+        "• Bitmask DP over subsets — O(n·2ⁿ); feasible only for n ≤ 20.\n"
+        "• Submask enumeration — O(3ⁿ) total; use (submask-1)&mask idiom."
+    ),
     "pitfalls": (
         "• Python ~n = -(n+1), not a bitwise flip to 0/1 — use (n ^ mask) instead.\n"
         "• Bitmask DP: 2^n states — only feasible for n ≤ 20.\n"
         "• Submask loop: the empty subset (submask=0) is never visited — add it manually.\n"
-        "• Power of 2: n=0 fails n & (n-1) == 0 — guard with n > 0.\n"
-        "• Two unique numbers: XOR split only works if exactly two unique values exist."
+        "• Power of 2: guard n > 0 before checking n & (n-1) == 0."
+    ),
+    "edge_cases": (
+        "• n = 0 in Brian Kernighan — loop never runs; count = 0. Correct.\n"
+        "• n = 0 in power-of-2 check — (0 & -1) == 0 is True; must guard with n > 0.\n"
+        "• Negative numbers in XOR problems — XOR works on bit pattern; mask to 32 bits in fixed-width languages.\n"
+        "• n > 20 in bitmask DP — 2²⁰ = 1M is fine; 2²⁵ = 33M may OOM."
+    ),
+    "confusion": (
+        "┌──────────────────────────┬─────────────────────────────────────────────────────┐\n"
+        "│ Often confused with      │ Distinguishing question                             │\n"
+        "├──────────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Hash map frequency count │ Do you need O(1) space and the input has a known    │\n"
+        "│                          │ duplicate structure (pairs, triples)? → XOR / bits. │\n"
+        "│                          │ Arbitrary frequencies or need exact counts? → hash. │\n"
+        "├──────────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Backtracking subsets     │ Need to enumerate subsets with pruning or ordering  │\n"
+        "│                          │ constraints? → backtracking. Need to run DP over    │\n"
+        "│                          │ all 2ⁿ subsets in a fixed order? → bitmask DP.      │\n"
+        "└──────────────────────────┴─────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• What if every element appears three times except one? Can you still do O(1) space?\n"
+        "• How would you add two integers without using + or -?\n"
+        "• Your bitmask DP is O(n·2ⁿ) — what's the largest n you could handle in an interview?"
     ),
     "time": "O(1) bitwise ops   /   O(log n) per-bit loops   /   O(2ⁿ) bitmask DP",
     "space": "O(1)   (O(2ⁿ) for bitmask DP)",

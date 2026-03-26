@@ -4,9 +4,13 @@ TOPIC: dict = {
     "title": "Game Theory",
     "slug": "Game Theory",
     "recognize": (
-        "can the first player win?, Nim game, Stone game,\n"
-        "predict the winner, two players play optimally,\n"
-        "can I win, minimax, take-away games."
+        "Can the first player win? Nim game, Stone Game, Predict the Winner, Can I Win.\n"
+        "Signal: two players alternate turns, both play optimally — win/lose/draw is the answer."
+    ),
+    "intuition": (
+        "• Every position is WIN (current player can force a win) or LOSE (every move hands a win to opponent).\n"
+        "• Minimax DP tracks score DIFFERENCE (current − opponent) — opponent's gain is your subtraction.\n"
+        "• XOR of pile sizes determines Nim instantly: non-zero XOR → first player wins; zero → loses."
     ),
     "diagram": (
         "  Two approaches:\n"
@@ -20,10 +24,6 @@ TOPIC: dict = {
         "     Current player picks left or right, then opponent plays optimally:\n"
         "     dp[i][j] = max(nums[i] - dp[i+1][j],\n"
         "                    nums[j] - dp[i][j-1])"
-    ),
-    "when": (
-        "Two-player zero-sum games where both players play optimally.\n"
-        "Nim/XOR for pile-taking games. DP minimax for sequence/interval games."
     ),
     "patterns": [
         {
@@ -55,12 +55,11 @@ TOPIC: dict = {
             ),
         },
         {
-            "name": "Stone Game (even number of piles, total always determined)",
+            "name": "Can I Win — bitmask DP over chosen numbers",
             "code": (
                 "def stone_game(piles):\n"
                 "    return True   # first player always wins with optimal play (math proof)\n"
                 "\n"
-                "# Can I Win — bitmask DP over chosen numbers\n"
                 "from functools import cache\n"
                 "\n"
                 "def can_i_win(max_choosable, desired_total):\n"
@@ -80,13 +79,44 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Nim (multi-pile, take any from one pile) — XOR of all pile sizes.\n"
+        "• Simple Nim (single pile, take 1–k) — n % (k+1) != 0 for first player win.\n"
+        "• Misère Nim (last to move loses) — win iff XOR != 0 AND some pile > 1, OR XOR == 0 AND all piles ≤ 1.\n"
+        "• Predict the Winner / Stone Game — interval DP minimax; dp[i][j] = max score difference for [i..j].\n"
+        "• Stone Game (even piles, first player always wins) — pure math, no DP needed.\n"
+        "• Can I Win — bitmask DP over used numbers; O(2ⁿ × n); only for n ≤ ~20.\n"
+        "• Complex state games (Stone Game II) — add extra DP dimensions for the current limit."
+    ),
     "pitfalls": (
-        "• Predict the Winner: dp(i,j) is the DIFFERENCE, not the absolute score —\n"
-        "  returning max(nums[i]-dp(...), nums[j]-dp(...)) handles opponent subtraction.\n"
-        "• Nim XOR: works ONLY for standard Nim (pick any amount from one pile);\n"
-        "  misère Nim (last to move loses) has a different rule.\n"
-        "• Can I Win: check total feasibility (sum of 1..maxChoosable) before recursing.\n"
-        "• Bitmask DP: only feasible when maxChoosable ≤ ~20."
+        "• Predict the Winner: dp(i,j) is the DIFFERENCE, not absolute score — opponent's score is subtracted.\n"
+        "• Nim XOR: only valid for standard Nim; misère Nim has a different rule.\n"
+        "• Can I Win: check total feasibility (sum 1..maxChoosable) before recursing.\n"
+        "• Bitmask DP: only feasible for maxChoosable ≤ ~20."
+    ),
+    "edge_cases": (
+        "• desired_total <= 0 in Can I Win — first player wins immediately; return True before recursion.\n"
+        "• All zeros in Predict the Winner — dp = 0 everywhere; first player ties (≥ 0) → True.\n"
+        "• Single pile of size 0 in Nim — XOR = 0 → second player wins (no valid move for first).\n"
+        "• max_choosable = 0 in Can I Win — no numbers available; desired_total > 0 → False."
+    ),
+    "confusion": (
+        "┌──────────────────────┬─────────────────────────────────────────────────────┐\n"
+        "│ Often confused with  │ Distinguishing question                             │\n"
+        "├──────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Plain interval DP    │ Two players alternating turns, optimal play?        │\n"
+        "│                      │ → Game Theory (minimax DP, score difference).       │\n"
+        "│                      │ Single agent optimising over an interval? → DP.     │\n"
+        "├──────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Bit manipulation XOR │ XOR to cancel duplicate values? → Bit Manipulation. │\n"
+        "│                      │ XOR to determine winner of pile-taking game?        │\n"
+        "│                      │ → Game Theory (Sprague-Grundy).                     │\n"
+        "└──────────────────────┴─────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Stone Game always returns True — is that really correct? Can you prove it?\n"
+        "• Can you solve Predict the Winner bottom-up to avoid recursion depth issues?\n"
+        "• What changes for misère Nim (last to move loses)?"
     ),
     "time": "O(n²) minimax DP  /  O(2ⁿ × n) bitmask DP",
     "space": "O(n²)  /  O(2ⁿ) bitmask",
