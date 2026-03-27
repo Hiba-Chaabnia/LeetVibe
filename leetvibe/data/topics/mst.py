@@ -4,8 +4,16 @@ TOPIC: dict = {
     "title": "Minimum Spanning Tree",
     "slug": "MST",
     "recognize": (
-        "connect all nodes with minimum total cost, minimum cost network,\n"
-        "minimum cables to connect cities, undirected weighted graph."
+        "Connect all nodes with minimum total cost, minimum cost network,\n"
+        "minimum cables to connect cities, undirected weighted graph.\n"
+        "Keywords: connect ALL nodes (not just find a path between two), minimise TOTAL edge weight."
+    ),
+    "intuition": (
+        "• Kruskal's is a greedy proof: adding the globally cheapest edge that doesn't create a cycle\n"
+        "  never hurts — the cut property guarantees the minimum edge crossing any cut is in SOME MST.\n"
+        "• Union Find is what makes 'doesn't create a cycle' an O(α(n)) check instead of a graph search.\n"
+        "• Prim's grows one connected blob outward, always picking the cheapest edge leaving the blob —\n"
+        "  same greedy guarantee, different bookkeeping (min-heap of frontier edges, like Dijkstra)."
     ),
     "diagram": (
         "  Graph:  A──1──B──4──C\n"
@@ -21,11 +29,6 @@ TOPIC: dict = {
         "\n"
         "  Prim: grow MST from a seed node, always pick cheapest edge to outside\n"
         "  (same result, different traversal — use min-heap like Dijkstra)"
-    ),
-    "when": (
-        "Connecting all nodes in an undirected weighted graph with minimum\n"
-        "total edge weight. Kruskal is simpler to implement with Union Find;\n"
-        "Prim is better for dense graphs."
     ),
     "patterns": [
         {
@@ -70,13 +73,41 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Kruskal's — sort all edges once, greedily union; best for sparse graphs.\n"
+        "• Prim's — min-heap grows one tree from a seed node; best for dense graphs.\n"
+        "• Minimum cost to connect points (Euclidean) — build all O(n²) edges first, then Kruskal/Prim.\n"
+        "• MST with must-include edges — union those first, then run Kruskal on the rest.\n"
+        "• Second-best MST — for each MST edge, temporarily exclude it and recompute (O(E) MSTs)."
+    ),
     "pitfalls": (
-        "• Kruskal: MST is only possible if the graph is connected — check that\n"
-        "  exactly n-1 edges were added; otherwise return -1 or infinity.\n"
-        "• Prim: skip already-visited nodes when popping from the heap (same\n"
-        "  stale-entry trick as Dijkstra).\n"
-        "• MST is for UNDIRECTED graphs — Dijkstra/Bellman-Ford are for directed.\n"
-        "• Kruskal O(E log E); Prim with heap O(E log V) — Prim better for dense graphs."
+        "• MST only exists if the graph is connected — check exactly n-1 edges were added;\n"
+        "  otherwise return -1 or infinity.\n"
+        "• Prim: skip already-visited nodes when popping from the heap (same stale-entry\n"
+        "  trick as Dijkstra).\n"
+        "• MST is for UNDIRECTED graphs — Dijkstra/Bellman-Ford solve directed shortest paths.\n"
+        "• Kruskal O(E log E); Prim with heap O(E log V) — Prim is better for dense graphs."
+    ),
+    "edge_cases": (
+        "• Disconnected graph — no spanning tree exists; Kruskal adds < n-1 edges, return -1.\n"
+        "• n=1 (single node) — MST cost is 0, no edges needed.\n"
+        "• Duplicate-weight edges — any valid MST is acceptable; ties don't affect total cost.\n"
+        "• Self-loops — always skip; they can never be part of a spanning tree."
+    ),
+    "confusion": (
+        "┌─────────────────────┬────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                            │\n"
+        "├─────────────────────┼────────────────────────────────────────────────────┤\n"
+        "│ Dijkstra            │ Need cheapest path from ONE source to all nodes? → │\n"
+        "│                     │ Dijkstra. Need to connect ALL nodes with minimum   │\n"
+        "│                     │ TOTAL edge weight (no single source)? → MST.       │\n"
+        "└─────────────────────┴────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Why does Dijkstra's greedy choice not work for MST and vice versa?\n"
+        "• How would you find the second-minimum spanning tree?\n"
+        "• The graph is dense (E ≈ V²) — which algorithm do you pick and why?\n"
+        "• How would you handle a graph that must include certain edges?"
     ),
     "time": "O(E log E) Kruskal  /  O(E log V) Prim",
     "space": "O(V) Union Find  /  O(V + E) adjacency list",

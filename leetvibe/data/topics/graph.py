@@ -4,10 +4,13 @@ TOPIC: dict = {
     "title": "Graphs",
     "slug": "Graph",
     "recognize": (
-        "network traversal, connectivity, cycle detection, clone,\n"
-        "word ladder, friend groups, number of components,\n"
-        "bipartite, 2-colorable, is it possible to divide into two groups,\n"
-        "walls and gates, rotting oranges (multi-source BFS)."
+        "Network traversal, connectivity, cycle detection, clone, bipartite check, word ladder, friend groups.\n"
+        "Multi-source BFS: rotting oranges, walls and gates, 01 matrix (nearest source to each cell)."
+    ),
+    "intuition": (
+        "• BFS expands level by level — the first time a node is reached, its distance is provably minimal.\n"
+        "• DFS tracks which nodes are on the current call stack — a back edge to an in-stack node proves a cycle.\n"
+        "• Multi-source BFS: enqueue ALL sources at distance 0 before the loop; one BFS, not one per source."
     ),
     "diagram": (
         "  adjacency list:\n"
@@ -19,10 +22,6 @@ TOPIC: dict = {
         "\n"
         "  BFS → queue    shortest path, level order\n"
         "  DFS → stack    connectivity, cycles, components"
-    ),
-    "when": (
-        "Network traversal, connectivity, shortest path (unweighted),\n"
-        "  cycle detection, or counting connected components."
     ),
     "patterns": [
         {
@@ -46,10 +45,10 @@ TOPIC: dict = {
                 "q = deque()\n"
                 "for r in range(rows):\n"
                 "    for c in range(cols):\n"
-                "        if grid[r][c] == SOURCE:     # enqueue ALL sources\n"
+                "        if grid[r][c] == SOURCE:\n"
                 "            dist[r][c] = 0\n"
                 "            q.append((r, c))\n"
-                "while q:                            # single BFS from all sources\n"
+                "while q:\n"
                 "    r, c = q.popleft()\n"
                 "    for dr, dc in DIRS:\n"
                 "        nr, nc = r + dr, c + dc\n"
@@ -61,8 +60,6 @@ TOPIC: dict = {
         {
             "name": "Bipartite check — 2-colour BFS",
             "code": (
-                "# A graph is bipartite if it can be coloured with 2 colours s.t.\n"
-                "# no two adjacent nodes share the same colour.\n"
                 "from collections import deque\n"
                 "color = [-1] * n\n"
                 "for start in range(n):              # handle disconnected components\n"
@@ -73,13 +70,13 @@ TOPIC: dict = {
                 "        node = q.popleft()\n"
                 "        for nei in graph[node]:\n"
                 "            if color[nei] == -1:\n"
-                "                color[nei] = 1 - color[node]   # flip colour\n"
+                "                color[nei] = 1 - color[node]\n"
                 "                q.append(nei)\n"
-                "            elif color[nei] == color[node]:    # same colour → not bipartite\n"
+                "            elif color[nei] == color[node]:\n"
                 "                return False\n"
                 "return True\n"
                 "\n"
-                "# DFS — connected components + cycle detection (directed)\n"
+                "# DFS — directed cycle detection\n"
                 "# state: 0=unvisited  1=in-stack  2=done\n"
                 "state = [0] * n\n"
                 "\n"
@@ -96,14 +93,44 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• BFS shortest path (unweighted) — single-source; mark visited on ENQUEUE, not dequeue.\n"
+        "• Multi-source BFS — enqueue all sources at distance 0 before the loop.\n"
+        "• DFS connectivity / component count — track visited; new DFS per unvisited starting node.\n"
+        "• Directed cycle detection — three-state DFS (unvisited / in-stack / done).\n"
+        "• Undirected cycle detection — two-state DFS; pass parent to skip the incoming edge.\n"
+        "• Bipartite check — 2-colour BFS or DFS; loop over all nodes to handle disconnected components.\n"
+        "• Clone graph — DFS/BFS with an old→new node map to avoid infinite loops on cycles.\n"
+        "• Word Ladder — words as nodes, single-letter-change as edges; BFS gives minimum steps."
+    ),
     "pitfalls": (
-        "• Mark visited BEFORE enqueuing (BFS), not after dequeuing — prevents re-enqueue.\n"
-        "• Directed cycle: needs 3 states (unvisited / in-stack / done).\n"
-        "• Undirected cycle: track parent to avoid treating the incoming edge as a back edge.\n"
-        "• Bipartite: always loop over ALL nodes to handle disconnected components.\n"
-        "• Multi-source BFS: enqueue ALL source nodes at distance 0 BEFORE the loop;\n"
-        "  never start from one source and then restart — that gives wrong distances.\n"
-        "• Python recursion limit: import sys; sys.setrecursionlimit(10**5) before DFS."
+        "• Mark visited BEFORE enqueuing — prevents the same node being enqueued multiple times.\n"
+        "• Directed cycle: needs 3 states; undirected: track parent to avoid back-edge false positives.\n"
+        "• Bipartite: always loop over ALL nodes — disconnected components are silently missed otherwise.\n"
+        "• Multi-source BFS: all sources go in BEFORE the while loop — never restart BFS per source.\n"
+        "• Python recursion limit: sys.setrecursionlimit(10**5) before deep DFS."
+    ),
+    "edge_cases": (
+        "• Empty graph — BFS returns inf/unreachable; component count is 0; bipartite is True.\n"
+        "• Self-loop — directed cycle detected immediately (state[node]==1 on revisit). Undirected: handle separately.\n"
+        "• Disconnected graph in bipartite check — outer for-loop over all nodes handles this.\n"
+        "• Very deep graph — convert DFS to iterative with an explicit stack, or setrecursionlimit."
+    ),
+    "confusion": (
+        "┌─────────────────────┬─────────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                                 │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────────┤\n"
+        "│ Dijkstra            │ All edges unweighted (or weight 1)? → BFS.              │\n"
+        "│                     │ Non-negative variable weights? → Dijkstra.              │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────────┤\n"
+        "│ Union Find          │ Need shortest path or traversal order? → BFS/DFS.       │\n"
+        "│                     │ Just connectivity / component membership? → Union Find. │\n"
+        "└─────────────────────┴─────────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• The graph is weighted — what replaces BFS?\n"
+        "• Can you detect a cycle in an undirected graph without tracking the parent?\n"
+        "• Your DFS is recursive and the graph has 10⁵ nodes — what breaks?"
     ),
     "time": "O(V + E)",
     "space": "O(V)",

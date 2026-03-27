@@ -4,8 +4,17 @@ TOPIC: dict = {
     "title": "Union Find",
     "slug": "Union Find",
     "recognize": (
-        "connected components, same group, merge, friends,\n"
-        "redundant connection, dynamic connectivity queries."
+        "Connected components, same group, merge, friends, redundant connection,\n"
+        "dynamic connectivity queries.\n"
+        "Keywords: edges/unions arrive incrementally, repeated 'are these in the same group' queries."
+    ),
+    "intuition": (
+        "• Path compression makes find() flatten the tree every time it's called — after enough\n"
+        "  calls, almost every node points directly at its root, so future finds are nearly O(1).\n"
+        "• Union by rank always attaches the shorter tree under the taller one's root, keeping\n"
+        "  worst-case tree height at O(log n) even before compression kicks in.\n"
+        "• Together they give amortised O(α(n)) — inverse Ackermann, effectively constant for any\n"
+        "  n that fits in memory — far better than re-running BFS/DFS after every new edge."
     ),
     "diagram": (
         "  parent: [0, 1, 2, 3, 4]  (each node is its own root)\n"
@@ -16,10 +25,6 @@ TOPIC: dict = {
         "\n"
         "  find(3) with path compression:\n"
         "  3→2→0  then  parent[3]=0, parent[2]=0  (flattened)"
-    ),
-    "when": (
-        "Detecting connected components, merging groups, or checking\n"
-        "whether two nodes are in the same component."
     ),
     "patterns": [
         {
@@ -86,12 +91,41 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Cycle detection (Redundant Connection) — union() returns False on the edge that closes a cycle.\n"
+        "• Component counting — count decrements by 1 on every successful union; final count = answer.\n"
+        "• Component size tracking — size[] array merged alongside rank; answers 'largest group' queries.\n"
+        "• String/object nodes (Accounts Merge) — map to integer ids via a dict before building the UF.\n"
+        "• Weighted Union Find — parent[x] stores a relative value/ratio to its root (Evaluate Division)."
+    ),
     "pitfalls": (
-        "• Path compression alone is O(log n); union by rank is needed for O(α(n)).\n"
-        "• union() returns False when already connected — use this for cycle detection.\n"
+        "• Path compression alone is O(log n); union by rank is needed for the O(α(n)) bound.\n"
+        "• union() returns False when already connected — use this directly for cycle detection.\n"
         "• String nodes: map them to integers with a dict before creating the UF.\n"
-        "• size[] variant: update size[rx] += size[ry] BEFORE incrementing rank;\n"
-        "  use component_size() to answer 'largest island' type follow-ups."
+        "• size[] variant: update size[rx] += size[ry] BEFORE incrementing rank; use\n"
+        "  component_size() to answer 'largest island' type follow-ups."
+    ),
+    "edge_cases": (
+        "• n=1 (single node) — already its own component; count=1, no unions possible.\n"
+        "• No edges at all — count stays n; every node is its own component.\n"
+        "• Union of a node with itself — find(x)==find(x); union() returns False, no-op.\n"
+        "• All nodes already connected — every subsequent union() call returns False (redundant edge)."
+    ),
+    "confusion": (
+        "┌─────────────────────┬──────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                              │\n"
+        "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
+        "│ Graphs (DFS/BFS     │ Graph is static, one-time component count needed? →  │\n"
+        "│ components)         │ plain DFS/BFS, O(V+E) once. Edges/unions arrive      │\n"
+        "│                     │ incrementally with repeated 'same group?' queries? → │\n"
+        "│                     │ Union Find, near-O(1) per query.                     │\n"
+        "└─────────────────────┴──────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Why is union by rank alone not enough — why do you also need path compression?\n"
+        "• How would you support 'disconnect' (undo a union)? What breaks?\n"
+        "• Accounts Merge: why map emails to integers instead of using them as UF keys directly?\n"
+        "• Can Union Find detect a cycle in a DIRECTED graph? Why or why not?"
     ),
     "time": "O(α(n)) ≈ O(1) per operation  (inverse Ackermann)",
     "space": "O(n)",

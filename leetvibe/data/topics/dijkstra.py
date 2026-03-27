@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Dijkstra",
     "slug": "Dijkstra",
     "recognize": (
-        "shortest path, minimum cost, weighted graph,\n"
-        "non-negative edge weights, network delay, cheapest flights."
+        "Shortest path, minimum cost, weighted graph, non-negative edge weights.\n"
+        "Keywords: network delay, cheapest flights, minimum effort — any weighted shortest path with no negative edges."
+    ),
+    "intuition": (
+        "• Greedily settle the node with the smallest known distance first — it can never be improved later.\n"
+        "• Non-negative weights guarantee the first time a node is popped, its distance is already optimal.\n"
+        "• Negative edges break this: a later edge could improve a settled node, so use Bellman-Ford instead."
     ),
     "diagram": (
         "  Weighted graph  (src = 0):\n"
@@ -21,10 +26,6 @@ TOPIC: dict = {
         "  pop (3,3) → relax: dist[1]=min(4,5) — no update\n"
         "  pop (4,1) → done\n"
         "  dist: [0, 4, 2, 3]"
-    ),
-    "when": (
-        "Shortest path in a weighted graph with non-negative edge weights.\n"
-        "For negative weights use Bellman-Ford instead."
     ),
     "patterns": [
         {
@@ -76,10 +77,41 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Standard single-source — returns dist[] from src to all nodes.\n"
+        "• Path reconstruction — add prev[] array; walk back from dst to src and reverse.\n"
+        "• Early termination — break as soon as dst is popped; skips rest of the graph.\n"
+        "• Grid Dijkstra — nodes are (r,c) cells; encode as r*cols+c or use a 2D dist array.\n"
+        "• State-augmented — add extra state to the node tuple (e.g. stops_remaining).\n"
+        "• All-pairs — run Dijkstra from every node: O(V·(V+E) log V)."
+    ),
     "pitfalls": (
         "• Always skip stale entries: if d > dist[u]: continue.\n"
         "• Negative weights → Dijkstra gives wrong results; use Bellman-Ford.\n"
-        "• K-stops constraint (Cheapest Flights): modified BFS or Bellman-Ford, not Dijkstra."
+        "• K-stops constraint (Cheapest Flights): plain Dijkstra fails — add stops_remaining\n"
+        "  to the node state, or use Bellman-Ford (simpler)."
+    ),
+    "edge_cases": (
+        "• src == dst — dist[dst] = 0 immediately; heap pops src and finds no update.\n"
+        "• Disconnected graph — unreachable nodes keep dist = inf; check before using.\n"
+        "• All edge weights zero — Dijkstra degenerates to BFS; still correct.\n"
+        "• Dense graph with many stale heap entries — stale-entry guard ensures each node processed once."
+    ),
+    "confusion": (
+        "┌─────────────────────┬─────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                             │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Bellman-Ford        │ Any negative edge weights? → Bellman-Ford.          │\n"
+        "│                     │ All non-negative? → Dijkstra (faster).              │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ BFS                 │ Are all edge weights equal (all 1)? → BFS (O(V+E)). │\n"
+        "│                     │ Variable non-negative weights? → Dijkstra.          │\n"
+        "└─────────────────────┴─────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• What breaks if there are negative edges?\n"
+        "• How would you reconstruct the actual shortest path, not just the distance?\n"
+        "• The graph has 10⁶ nodes and 10⁷ edges — is Dijkstra still fast enough?"
     ),
     "time": "O((V + E) log V)",
     "space": "O(V + E)",

@@ -4,9 +4,13 @@ TOPIC: dict = {
     "title": "Eulerian Path / Circuit",
     "slug": "Eulerian",
     "recognize": (
-        "use every edge exactly once, reconstruct itinerary,\n"
-        "valid arrangement of pairs, Chinese postman,\n"
-        "path/circuit that visits every EDGE (not vertex) once."
+        "Use every edge exactly once, reconstruct itinerary, valid arrangement of pairs.\n"
+        "Signal: path/circuit that visits every EDGE (not vertex) once — check degree conditions first."
+    ),
+    "intuition": (
+        "• When DFS gets stuck (no unused edges), that stuck node belongs at the END of the path — append it.\n"
+        "• Backtracking splices completed sub-cycles into the growing path at the correct insertion point.\n"
+        "• Reverse the result at the end: Hierholzer builds the path backwards."
     ),
     "diagram": (
         "  Eulerian Circuit exists iff:\n"
@@ -23,11 +27,6 @@ TOPIC: dict = {
         "  2. Keep going until stuck (no unused edges)\n"
         "  3. Append current node to result, backtrack\n"
         "  4. Result is the path in reverse"
-    ),
-    "when": (
-        "Problems asking to use every edge exactly once.\n"
-        "Reconstruct Itinerary, Valid Arrangement of Pairs.\n"
-        "First check existence conditions; then run Hierholzer's."
     ),
     "patterns": [
         {
@@ -85,14 +84,41 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Directed Eulerian circuit — every node has in-degree == out-degree; start anywhere.\n"
+        "• Directed Eulerian path — one node with out-in=+1 (start), one with in-out=+1 (end).\n"
+        "• Undirected Eulerian circuit — all vertices even degree; remove edges from both adj lists.\n"
+        "• Lexicographically smallest (Reconstruct Itinerary) — sort adj lists in reverse; pop() gives smallest.\n"
+        "• Existence check only — verify degree conditions in O(V+E); skip Hierholzer's."
+    ),
     "pitfalls": (
-        "• Check existence before running: if the degree conditions fail,\n"
-        "  no Eulerian path/circuit exists — return [] or raise an error.\n"
-        "• Hierholzer iterative: use a stack, not recursion — graphs with\n"
-        "  many edges will overflow Python's call stack recursively.\n"
-        "• Lexicographic order (Reconstruct Itinerary): sort adjacency lists\n"
-        "  in REVERSE so pop() yields the smallest destination.\n"
-        "• Eulerian PATH vs CIRCUIT: path has two odd-degree nodes; circuit has none."
+        "• Check degree conditions before running — if they fail, no Eulerian path exists.\n"
+        "• Use iterative Hierholzer (stack), NOT recursion — large graphs overflow Python's call stack.\n"
+        "• Lexicographic order: sort adjacency lists in REVERSE so pop() yields the smallest destination."
+    ),
+    "edge_cases": (
+        "• Single edge — path is [u, v]; both nodes have degree 1; it's a path, not a circuit.\n"
+        "• Disconnected graph — Eulerian path requires all edges in one connected component; check first.\n"
+        "• Duplicate edges (multi-edges) — each edge is an independent list entry; Hierholzer handles correctly.\n"
+        "• Degree conditions violated — algorithm terminates early with a partial path; always validate upfront."
+    ),
+    "confusion": (
+        "┌─────────────────────────┬────────────────────────────────────────────────────┐\n"
+        "│ Often confused with     │ Distinguishing question                            │\n"
+        "├─────────────────────────┼────────────────────────────────────────────────────┤\n"
+        "│ Hamiltonian path        │ Visit every EDGE once? → Eulerian (poly-time).     │\n"
+        "│                         │ Visit every VERTEX once? → Hamiltonian (NP-hard).  │\n"
+        "├─────────────────────────┼────────────────────────────────────────────────────┤\n"
+        "│ Plain DFS / topological │ Is the problem about using every edge exactly once │\n"
+        "│ sort                    │ (Eulerian), or about reachability / ordering       │\n"
+        "│                         │ (DFS/topo)? The dead-end append-and-backtrack step │\n"
+        "│                         │ is unique to Hierholzer.                           │\n"
+        "└─────────────────────────┴────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• What if there is no valid itinerary — how do you detect that early?\n"
+        "• Can Hierholzer's be implemented recursively?\n"
+        "• How is this different from finding a Hamiltonian path?"
     ),
     "time": "O(E log E)  (sorting adjacency lists)  /  O(E) Hierholzer itself",
     "space": "O(V + E)",

@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Bellman-Ford",
     "slug": "Bellman-Ford",
     "recognize": (
-        "shortest path with NEGATIVE edge weights, negative cycle,\n"
-        "cheapest flights within K stops, distributed routing."
+        "Shortest path with NEGATIVE edge weights, negative cycle detection,\n"
+        "cheapest flights within K stops, distributed routing with negative costs."
+    ),
+    "intuition": (
+        "• After k passes, dist[v] holds the shortest path using at most k edges — run V-1 passes for all simple paths.\n"
+        "• Unlike Dijkstra, no greedy settlement is made, so a later negative edge can correct earlier estimates.\n"
+        "• A V-th pass that still relaxes an edge proves a negative cycle exists."
     ),
     "diagram": (
         "  Relax ALL edges (V-1) times:\n"
@@ -22,10 +27,6 @@ TOPIC: dict = {
         "  final:  [0, 1, -2]\n"
         "\n"
         "  V-th pass still relaxes → negative cycle detected!"
-    ),
-    "when": (
-        "Shortest path when edge weights can be negative.\n"
-        "Detecting negative cycles. K-step constrained shortest paths."
     ),
     "patterns": [
         {
@@ -69,13 +70,41 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Standard shortest path — run V-1 passes; add a V-th to detect negative cycles.\n"
+        "• K-hop constrained (Cheapest Flights Within K Stops) — run k+1 passes; snapshot dist before each.\n"
+        "• Negative cycle detection only — run V-1 passes, then one more; flag if any edge still relaxes.\n"
+        "• All-pairs with negatives — run Bellman-Ford from every source: O(V²×E).\n"
+        "• SPFA — queue-based variant; only enqueue when distance improves; faster average case."
+    ),
     "pitfalls": (
-        "• Always copy dist before each pass when the problem has a hop limit —\n"
-        "  otherwise a single pass can chain multiple edges in one iteration.\n"
-        "• Early-exit optimisation: if no edge was relaxed, stop early.\n"
-        "• Dijkstra fails with negative edges; use Bellman-Ford instead.\n"
-        "• Time is O(V × E) — slow for dense graphs with no negative edges;\n"
-        "  prefer Dijkstra (O((V+E) log V)) when all weights are non-negative."
+        "• K-stops: snapshot dist before each pass (temp = dist[:]) — chains form within one pass without it.\n"
+        "• Early-exit: if no edge was relaxed, stop — don't loop the full V-1 rounds needlessly.\n"
+        "• Dijkstra fails with negative edges; use Bellman-Ford."
+    ),
+    "edge_cases": (
+        "• src == dst — dist[dst] = 0 immediately; return 0 without entering the loop.\n"
+        "• Unreachable destination — dist[dst] remains inf; return -1 or inf as required.\n"
+        "• Negative cycle NOT on the path to dst — dist[dst] is still valid; naively flagging all is wrong.\n"
+        "• k == 0 in K-stops — loop runs once (range(1)); only direct src→dst edges considered."
+    ),
+    "confusion": (
+        "┌─────────────────────┬──────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                              │\n"
+        "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
+        "│ Dijkstra            │ Are all edge weights non-negative? → Dijkstra        │\n"
+        "│                     │ (O((V+E) log V)). Any negative weight possible, or   │\n"
+        "│                     │ need cycle detection? → Bellman-Ford.                │\n"
+        "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
+        "│ Floyd-Warshall      │ Need shortest path from ONE source, or ALL pairs?    │\n"
+        "│                     │ One source → Bellman-Ford. All pairs (small V, dense │\n"
+        "│                     │ graph) → Floyd-Warshall (O(V³) but simpler code).    │\n"
+        "└─────────────────────┴──────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Dijkstra is faster — when would you actually choose Bellman-Ford?\n"
+        "• Your solution is O(VE). The graph has 10⁴ nodes and 10⁶ edges — is that acceptable?\n"
+        "• What if there's a negative cycle but you still want the shortest path to nodes not affected by it?"
     ),
     "time": "O(V × E)",
     "space": "O(V)",
@@ -84,7 +113,6 @@ TOPIC: dict = {
         ("Network Delay Time",              "M"),
         ("Negative Weight Cycle",           "M"),
         ("Minimum Cost to Reach City",      "M"),
-        ("Path With Minimum Effort",        "M"),
     ],
     "related": ["Dijkstra", "Graphs", "Dynamic Programming", "Topological Sort"],
 }

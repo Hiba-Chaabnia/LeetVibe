@@ -4,9 +4,13 @@ TOPIC: dict = {
     "title": "Matrix / Grid",
     "slug": "Matrix",
     "recognize": (
-        "grid, matrix, island, flood fill, neighbors,\n"
-        "  shortest path in 2D space, 0/1 matrix, walls and gates,\n"
-        "  diagonal, anti-diagonal, spiral traversal."
+        "Grid traversal, number of islands, flood fill, shortest path in 2D, spiral, diagonal, word search.\n"
+        "Signal: 2D input where cells are nodes and edges connect adjacent neighbours."
+    ),
+    "intuition": (
+        "• A grid IS a graph — BFS/DFS apply directly; DIRS = [(-1,0),(1,0),(0,-1),(0,1)] encodes the edges.\n"
+        "• BFS: mark visited on ENQUEUE, not dequeue — prevents the same cell being added twice.\n"
+        "• Multi-source BFS: enqueue ALL sources at distance 0 before the loop — one BFS, not one per source."
     ),
     "diagram": (
         "  4-directional neighbours of (r, c):\n"
@@ -22,11 +26,6 @@ TOPIC: dict = {
         "  Anti-diagonal:   r-c is constant  (top-right to bottom-left)\n"
         "\n"
         "  Multi-source BFS — enqueue ALL sources at distance 0 first."
-    ),
-    "when": (
-        "Shortest path or flood-fill in a 2D grid.\n"
-        "  BFS for shortest path; DFS for area/component counting.\n"
-        "  Use (r+c) grouping for diagonal traversal problems."
     ),
     "patterns": [
         {
@@ -66,21 +65,19 @@ TOPIC: dict = {
                 "            count += 1\n"
                 "\n"
                 "# Diagonal Traversal — group by (r + c)\n"
-                "# Elements on same diagonal share the same r+c value\n"
                 "from collections import defaultdict\n"
                 "diagonals = defaultdict(list)\n"
                 "for r in range(rows):\n"
                 "    for c in range(cols):\n"
                 "        diagonals[r + c].append(matrix[r][c])\n"
                 "\n"
-                "# Flatten: alternate direction each diagonal (Diagonal Traverse)\n"
                 "result = []\n"
                 "for d in range(rows + cols - 1):\n"
-                "    diag = diagonals[d]\n"
-                "    result.extend(diag if d % 2 == 0 else diag[::-1])\n"
+                "    diag = diagonals[d]   # collected top-down (increasing r)\n"
+                "    # even diagonals travel UP-RIGHT → reverse the top-down order\n"
+                "    result.extend(diag[::-1] if d % 2 == 0 else diag)\n"
                 "\n"
-                "# Anti-diagonal grouping: elements share (r - c) value\n"
-                "# Useful for: Longest Increasing Path, Top-Left to Bottom-Right diagonals\n"
+                "# Anti-diagonal grouping: r - c constant\n"
                 "anti_diags = defaultdict(list)\n"
                 "for r in range(rows):\n"
                 "    for c in range(cols):\n"
@@ -88,12 +85,43 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• BFS shortest path — single source; mark visited on enqueue; O(m×n).\n"
+        "• Multi-source BFS — all sources at distance 0 before the loop (01 Matrix, Rotting Oranges, Walls and Gates).\n"
+        "• DFS flood fill / island count — mark in-place to avoid a visited set; restore if grid must be unchanged.\n"
+        "• 8-directional grid — add diagonal pairs (±1,±1) to DIRS.\n"
+        "• Spiral traversal — maintain four boundaries (top, bottom, left, right); shrink after each direction.\n"
+        "• Diagonal grouping — r+c for top-left→bottom-right; r-c for anti-diagonals.\n"
+        "• Word Search — DFS with in-place marking; restore on backtrack."
+    ),
     "pitfalls": (
-        "• Bounds check: 0 <= nr < rows AND 0 <= nc < cols (both axes).\n"
-        "• Multi-source BFS: enqueue ALL sources at distance 0 before the loop starts.\n"
-        "• Mark visited when enqueuing, not when dequeuing.\n"
-        "• Diagonal grouping: r+c for top-left→bottom-right diagonals;\n"
-        "  r-c for top-right→bottom-left (anti-diagonals)."
+        "• Bounds check: 0 <= nr < rows AND 0 <= nc < cols — use the correct dimension for each axis.\n"
+        "• Mark visited on ENQUEUE, not dequeue — prevents the same cell being added multiple times.\n"
+        "• Multi-source BFS: enqueue ALL sources at distance 0 before the while loop.\n"
+        "• Diagonal: r+c for top-left→bottom-right; r-c for anti-diagonals (easy to mix up)."
+    ),
+    "edge_cases": (
+        "• 1×1 grid — single cell; BFS returns 0 if src==dst; DFS island count = 1 if '1', else 0.\n"
+        "• All cells walls — BFS exhausts queue without reaching target; return -1 or inf.\n"
+        "• Non-square grid (m ≠ n) — bounds check must use rows for row axis and cols for col axis.\n"
+        "• Very large grid DFS — recursion depth can hit Python's limit; convert to iterative DFS or setrecursionlimit."
+    ),
+    "confusion": (
+        "┌───────────────────────┬────────────────────────────────────────────────────┐\n"
+        "│ Often confused with   │ Distinguishing question                            │\n"
+        "├───────────────────────┼────────────────────────────────────────────────────┤\n"
+        "│ General graph BFS/DFS │ Is the structure a 2D grid with (r,c) coordinates? │\n"
+        "│                       │ → Matrix pattern (DIRS, bounds check). Adjacency   │\n"
+        "│                       │ list? → General graph traversal.                   │\n"
+        "├───────────────────────┼────────────────────────────────────────────────────┤\n"
+        "│ Sliding Window        │ Moving a rectangular subgrid window? → 2D Sliding  │\n"
+        "│                       │ Window. Exploring reachable cells? → BFS/DFS.      │\n"
+        "└───────────────────────┴────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Can you solve Number of Islands without modifying the grid?\n"
+        "• What if moves are 8-directional (including diagonals)?\n"
+        "• Your DFS crashes on a 10⁶-cell grid — how do you fix it?"
     ),
     "time": "O(m × n)",
     "space": "O(m × n)  visited set  /  O(m×n) recursion stack for DFS",
