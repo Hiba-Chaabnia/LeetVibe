@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Arrays & Hashing",
     "slug": "Array",
     "recognize": (
-        "duplicate, count frequency, group by, two elements\n"
-        "satisfying a sum condition, anagram detection.\n"
+        "Duplicate, count frequency, group by, two elements satisfying a sum condition, anagram detection.\n"
+        "Keywords: fast O(1) lookup, counting frequencies, detecting duplicates, grouping by a computed key."
+    ),
+    "intuition": (
+        "• Hash map stores value→index in O(1), so complement lookup drops O(n²) to O(n).\n"
+        "• Kadane's: the max subarray ending at i is either nums[i] alone (restart) or extended from i-1.\n"
+        "• Once cur goes negative, starting fresh is always better — no previous prefix can help."
     ),
     "diagram": (
         "  index:   0    1    2    3    4\n"
@@ -21,10 +26,6 @@ TOPIC: dict = {
         "  │  7     │   1   │\n"
         "  │  11    │   2   │\n"
         "  └────────┴───────┘"
-    ),
-    "when": (
-        "Fast O(1) lookups, counting frequencies, detecting duplicates,\n"
-        "or grouping elements by a computed key."
     ),
     "patterns": [
         {
@@ -71,11 +72,47 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Two Sum (single pair) — hash map; store value→index.\n"
+        "• Two Sum II (sorted) — two pointers instead; O(1) space.\n"
+        "• k-Sum — fix k-2 elements with loops, reduce inner two to Two Sum.\n"
+        "• Group Anagrams by sorted key — tuple(sorted(word)) as dict key.\n"
+        "• Group Anagrams by frequency key — tuple of 26 char counts; avoids sorting.\n"
+        "• Maximum Subarray (Kadane's) — track cur and max_sum; restart on negative.\n"
+        "• Maximum Sum Circular Subarray — Kadane's + (total − min_subarray); guard all-negative.\n"
+        "• Longest Consecutive Sequence — set; only start chain when num-1 is absent."
+    ),
     "pitfalls": (
-        "• defaultdict vs plain dict — plain dict raises KeyError on missing key.\n"
-        "• Counter is not a set; it counts duplicates, not deduplicates.\n"
-        "• tuple(sorted()) works as a dict key; list is unhashable.\n"
-        "• Kadane's: must initialise max_sum = nums[0], not 0 (handles all-negative)."
+        "• Use defaultdict if missing keys matter; plain dict raises KeyError.\n"
+        "• Counter counts duplicates — it is NOT a set.\n"
+        "• tuple(sorted()) as dict key; list is unhashable.\n"
+        "• Kadane's: initialise max_sum = nums[0], not 0 — handles all-negative input."
+    ),
+    "edge_cases": (
+        "• Empty array — Kadane's crashes on nums[0] (Two Sum just returns nothing); guard with 'if not nums'.\n"
+        "• All negative numbers — Kadane's initialised to nums[0] handles this; 0 initialisation silently returns 0.\n"
+        "• Circular subarray where all elements are negative — total − min_sum = 0; return plain max_sum.\n"
+        "• Duplicate index in Two Sum — store seen[val] = i AFTER checking, not before."
+    ),
+    "confusion": (
+        "┌─────────────────────┬─────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                             │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Sliding Window      │ Do you need a contiguous subarray with a size/sum   │\n"
+        "│                     │ constraint? → Sliding Window.                       │\n"
+        "│                     │ Do you need to look up or group arbitrary elements? │\n"
+        "│                     │ → Arrays & Hashing.                                 │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Two Pointers        │ Is the array sorted (or can it be sorted cheaply)?  │\n"
+        "│                     │ → Two Pointers (O(1) space).                        │\n"
+        "│                     │ Must you preserve original indices? → Hash Map.     │\n"
+        "└─────────────────────┴─────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Two Sum: What if there can be multiple valid pairs — return all of them?\n"
+        "• Two Sum: What if the array is sorted? Can you do it in O(1) space?\n"
+        "• Kadane's: What if the array can wrap around (circular)?\n"
+        "• Group Anagrams: Can you avoid sorting each word?"
     ),
     "time": "O(n)",
     "space": "O(n)",

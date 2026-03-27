@@ -4,8 +4,18 @@ TOPIC: dict = {
     "title": "Two Pointers",
     "slug": "Two Pointers",
     "recognize": (
-        "sorted array + find pair/triplet, palindrome check,\n"
-        "merge two sorted arrays, remove duplicates in-place."
+        "Sorted array + find pair/triplet, palindrome check, merge two sorted arrays,\n"
+        "remove duplicates in-place.\n"
+        "Keywords: sorted (or sortable) input, looking for a PAIR, not a contiguous run."
+    ),
+    "intuition": (
+        "• On a sorted array, moving left forward strictly increases the sum, and moving right\n"
+        "  backward strictly decreases it — that monotonicity means you never need to re-check a\n"
+        "  pair once you've moved past it, giving O(n) instead of O(n²).\n"
+        "• Each pointer moves at most n times total, so even though it looks like nested iteration\n"
+        "  conceptually, the two pointers together do O(n) work, not O(n²).\n"
+        "• In-place write-pointer patterns (remove duplicates) work because the write position\n"
+        "  never overtakes the read position — you're always writing into a cell you've already read."
     ),
     "diagram": (
         "  sorted:  1    2    3    4    5    6\n"
@@ -15,10 +25,6 @@ TOPIC: dict = {
         "  sum < target  →  left  += 1\n"
         "  sum > target  →  right -= 1\n"
         "  sum = target  →  found!"
-    ),
-    "when": (
-        "Sorted array or linked list. Looking for a pair/triplet\n"
-        "satisfying a condition — replaces O(n²) nested loops."
     ),
     "patterns": [
         {
@@ -42,11 +48,15 @@ TOPIC: dict = {
                 "    l, r = i + 1, len(nums) - 1\n"
                 "    while l < r:\n"
                 "        s = nums[i] + nums[l] + nums[r]\n"
-                "        if   s == 0: res.append([nums[i], nums[l], nums[r]]); l += 1; r -= 1\n"
-                "        elif s <  0: l += 1\n"
-                "        else:        r -= 1\n"
-                "        while l < r and nums[l] == nums[l - 1]: l += 1  # skip dupe\n"
-                "        while l < r and r < len(nums) - 1 and nums[r] == nums[r + 1]: r -= 1  # skip dupe"
+                "        if   s < 0: l += 1\n"
+                "        elif s > 0: r -= 1\n"
+                "        else:\n"
+                "            res.append([nums[i], nums[l], nums[r]])\n"
+                "            l += 1; r -= 1\n"
+                "            # skip dupes ONLY after a match — skipping on every\n"
+                "            # iteration can jump past valid triplets\n"
+                "            while l < r and nums[l] == nums[l - 1]: l += 1\n"
+                "            while l < r and nums[r] == nums[r + 1]: r -= 1"
             ),
         },
         {
@@ -74,12 +84,44 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Opposite-ends convergence (Two Sum II, Container With Most Water) — left/right close in\n"
+        "  based on a comparison against target.\n"
+        "• Fix-one + two-pointer (3Sum, 4Sum) — outer loop fixes k-2 elements, inner two pointers\n"
+        "  solve the remaining pair.\n"
+        "• Same-direction read/write pointers (Remove Duplicates, Move Zeroes) — slow pointer marks\n"
+        "  the next write position, fast pointer scans ahead.\n"
+        "• Merge two sorted arrays/lists — one pointer per array, advance whichever is smaller.\n"
+        "• Trapping Rain Water — two pointers + running max-from-each-side, no extra array needed."
+    ),
     "pitfalls": (
         "• 3Sum: skip duplicate values at i, l, r to avoid duplicate triplets.\n"
         "• Array must be sorted first — don't forget nums.sort().\n"
         "• Loop condition is left < right (strict), not <=.\n"
-        "• Write-pointer: compare nums[i] with nums[i-1] (sorted input), not nums[k-1],\n"
-        "  so you always move past all duplicates before deciding to write."
+        "• Write-pointer: compare nums[i] with nums[i-1] (sorted input), not nums[k-1], so you\n"
+        "  always move past all duplicates before deciding to write."
+    ),
+    "edge_cases": (
+        "• Array length < 2 — pair-finding patterns have no valid answer; guard before the loop.\n"
+        "• All elements identical — 3Sum's duplicate-skip logic must still find one valid triplet.\n"
+        "• Target unreachable — opposite-ends loop terminates with left >= right and no match.\n"
+        "• Already deduplicated input — remove-duplicates write pointer just copies every element."
+    ),
+    "confusion": (
+        "┌─────────────────────┬────────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                                │\n"
+        "├─────────────────────┼────────────────────────────────────────────────────────┤\n"
+        "│ Sliding Window      │ Need a fixed PAIR of elements (not necessarily         │\n"
+        "│                     │ adjacent) from a sorted structure? → Two Pointers.     │\n"
+        "│                     │ Need a CONTIGUOUS run satisfying a size/sum condition? │\n"
+        "│                     │ → Sliding Window.                                      │\n"
+        "└─────────────────────┴────────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• 3Sum: how would you extend this to 4Sum or general k-Sum?\n"
+        "• What if the array isn't sorted — is sorting first always worth the O(n log n) cost?\n"
+        "• Container With Most Water: why does moving the shorter wall always work as the greedy move?\n"
+        "• Can you solve Two Sum II without extra space if the array is a linked list instead?"
     ),
     "time": "O(n) pair  /  O(n²) triplet",
     "space": "O(1)  (excluding output)",

@@ -4,9 +4,18 @@ TOPIC: dict = {
     "title": "Ordered Set / SortedList",
     "slug": "SortedList",
     "recognize": (
-        "dynamic sorted order, insert + delete + rank in O(log n),\n"
-        "sliding window median, count of smaller numbers, falling squares,\n"
-        "any problem needing a mutable sorted structure."
+        "Dynamic sorted order, insert + delete + rank in O(log n), sliding window median,\n"
+        "count of smaller numbers, falling squares, any problem needing a mutable sorted structure.\n"
+        "Keywords: elements change over time AND you need order statistics (rank, k-th, range count)."
+    ),
+    "intuition": (
+        "• A balanced sorted structure keeps elements ordered as they're inserted/removed, so\n"
+        "  'what index would x have' (bisect_left) is answerable in O(log n) instead of a full sort.\n"
+        "• Rank queries (count of elements < x) fall out for free once order is maintained — the\n"
+        "  bisect index IS the count.\n"
+        "• Unlike a heap (only the extremes are cheap) or a plain sorted array (insert is O(n)),\n"
+        "  SortedList keeps EVERY position accessible at O(log n), which is the whole point when\n"
+        "  you need both dynamic updates and arbitrary rank/median queries."
     ),
     "diagram": (
         "  SortedList  (sortedcontainers — pure Python, O(log n) all ops)\n"
@@ -21,11 +30,6 @@ TOPIC: dict = {
         "\n"
         "  Compare: heapq can't delete arbitrary elements; set has no rank query;\n"
         "  sorted() re-sorts everything O(n log n). SortedList does all O(log n)."
-    ),
-    "when": (
-        "You need a sorted collection that changes dynamically and you also\n"
-        "need rank queries (index of element, k-th smallest) or range counts.\n"
-        "For static data use prefix sums; for mutable data use SortedList."
     ),
     "patterns": [
         {
@@ -79,13 +83,43 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Rank/order-statistics queries — sl[k] for k-th smallest, bisect_left for count-less-than.\n"
+        "• Sliding window median — add/remove at window edges; median from sl[mid] or sl[mid-1:mid+1].\n"
+        "• Count of smaller/larger elements — process right-to-left, bisect before each insert.\n"
+        "• Range count queries — bisect_left(hi) - bisect_left(lo) for elements in [lo, hi).\n"
+        "• Fenwick Tree fallback — when sortedcontainers is unavailable, coordinate-compress values\n"
+        "  and use a Fenwick Tree for the same rank/count operations."
+    ),
     "pitfalls": (
-        "• sortedcontainers is NOT in the Python standard library — check if\n"
-        "  your judge has it (LeetCode does; some others don't).\n"
+        "• sortedcontainers is NOT in the Python standard library — check if your judge has it\n"
+        "  (LeetCode does; some others don't).\n"
         "• sl.remove(x) raises ValueError if x is absent — use sl.discard(x) instead.\n"
         "• sl.bisect_left(x) returns an INDEX, not the element — sl[sl.bisect_left(x)].\n"
-        "• For problems that need O(log n) rank on integers in a known range,\n"
-        "  a Fenwick Tree is a safe fallback if sortedcontainers is unavailable."
+        "• For O(log n) rank on integers in a known range, a Fenwick Tree is a safe fallback\n"
+        "  if sortedcontainers is unavailable."
+    ),
+    "edge_cases": (
+        "• Empty SortedList — sl[0] raises IndexError; guard len(sl) > 0 before indexing.\n"
+        "• Duplicate values — SortedList keeps all copies; bisect_left/right differ by the run length.\n"
+        "• Removing a value not present — sl.remove() raises; use sl.discard() when uncertain.\n"
+        "• Window size 1 (sliding window median) — median is simply sl[0], the single element."
+    ),
+    "confusion": (
+        "┌────────────────────────┬────────────────────────────────────────────────────────┐\n"
+        "│ Often confused with    │ Distinguishing question                                │\n"
+        "├────────────────────────┼────────────────────────────────────────────────────────┤\n"
+        "│ Segment Tree / Fenwick │ Values fit a known small range, and you're comfortable │\n"
+        "│                        │ coordinate-compressing? → Fenwick Tree (no external    │\n"
+        "│                        │ library). Need a general-purpose ordered container     │\n"
+        "│                        │ with minimal code? → SortedList.                       │\n"
+        "└────────────────────────┴────────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• How would you implement this if sortedcontainers weren't available?\n"
+        "• Can you find the sliding window median with two heaps instead?\n"
+        "• How do you handle duplicate values when computing rank?\n"
+        "• What's the time complexity of SortedList's __getitem__ and why is it O(log n), not O(1)?"
     ),
     "time": "O(log n) add / remove / rank",
     "space": "O(n)",

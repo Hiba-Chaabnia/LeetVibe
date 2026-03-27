@@ -4,9 +4,17 @@ TOPIC: dict = {
     "title": "Difference Array",
     "slug": "Difference Array",
     "recognize": (
-        "add value to a range [l, r], range update then query,\n"
-        "car pooling, flight bookings, corporate schedule,\n"
-        "batch range increments on an array, then a single read pass."
+        "Add value to a range [l, r], range update then query, car pooling, flight bookings,\n"
+        "corporate schedule, batch range increments on an array then a single read pass.\n"
+        "Keywords: many range updates arrive first, all reads happen after."
+    ),
+    "intuition": (
+        "• A range update [l,r] += val only changes the RATE OF CHANGE at two points: it starts at l\n"
+        "  and reverts at r+1. Recording just those two deltas is O(1), regardless of range length.\n"
+        "• Taking the prefix sum of the delta array replays every recorded start/stop exactly once,\n"
+        "  reconstructing the fully-updated array in a single O(n) pass.\n"
+        "• This only works because updates and reads are separated in time — it's the inverse\n"
+        "  operation of prefix sums (which separate static reads from a single build pass)."
     ),
     "diagram": (
         "  Goal: add +3 to indices [1,3] and +1 to [2,4] then read arr\n"
@@ -22,11 +30,6 @@ TOPIC: dict = {
         "           i=0  1   2   3   4\n"
         "\n"
         "  O(1) per update  +  O(n) single read pass  =  O(q + n) total"
-    ),
-    "when": (
-        "Multiple range-increment updates on an array, followed by reading\n"
-        "the final values. Much faster than updating each element: O(1)\n"
-        "per update vs O(n). Use when updates arrive before reads."
     ),
     "patterns": [
         {
@@ -89,15 +92,42 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• 1D range increment (Range Addition) — diff[l] += val, diff[r+1] -= val.\n"
+        "• Car Pooling / Corporate Flight Bookings — stop/day indices as the range; check capacity.\n"
+        "• 2D rectangle updates — four-corner inclusion-exclusion; double prefix sum to reconstruct.\n"
+        "• Range increment then single point query — still O(n) prefix pass, or O(1) per query if you\n"
+        "  precompute the full prefix-sum array once after all updates."
+    ),
     "pitfalls": (
-        "• Difference array size must be n+1 (not n) so diff[r+1] is always valid\n"
-        "  even when r == n-1.\n"
-        "• Car Pooling: subtract at diff[end], NOT diff[end+1] — passengers exit\n"
-        "  at the destination stop, not one stop later.\n"
-        "• Difference array only works when ALL updates happen before ALL reads.\n"
-        "  For interleaved update+query, use a Segment Tree or Fenwick Tree.\n"
-        "• 2D difference array: the inclusion-exclusion at the corner (r2+1,c2+1)\n"
-        "  adds back the doubly-subtracted corner — easy to forget."
+        "• Difference array size must be n+1 (not n) so diff[r+1] is always valid even when r == n-1.\n"
+        "• Car Pooling: subtract at diff[end], NOT diff[end+1] — passengers exit at the destination\n"
+        "  stop, not one stop later.\n"
+        "• Only works when ALL updates happen before ALL reads — for interleaved update+query,\n"
+        "  use a Segment Tree or Fenwick Tree instead.\n"
+        "• 2D difference array: the inclusion-exclusion at corner (r2+1,c2+1) adds back the\n"
+        "  doubly-subtracted corner — easy to forget."
+    ),
+    "edge_cases": (
+        "• Zero updates — reconstructed array equals the original input unchanged.\n"
+        "• Range covers the whole array [0, n-1] — diff[n] must exist; array sized n+1 handles it.\n"
+        "• Overlapping ranges that cancel out — deltas can sum to 0 at a point; still correct.\n"
+        "• Single-element range [l, l] — diff[l] += val, diff[l+1] -= val; don't special-case it."
+    ),
+    "confusion": (
+        "┌─────────────────────┬───────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                               │\n"
+        "├─────────────────────┼───────────────────────────────────────────────────────┤\n"
+        "│ Segment Tree        │ All updates arrive before all reads? → Difference     │\n"
+        "│                     │ Array, O(1) per update. Updates and range-sum queries │\n"
+        "│                     │ interleaved? → Segment Tree, O(log n) per operation.  │\n"
+        "└─────────────────────┴───────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• What if a query needs the array's state BETWEEN two updates, not just at the end?\n"
+        "• How would you extend this to 2D rectangle updates?\n"
+        "• Can you answer a single point query in O(1) without reconstructing the whole array?\n"
+        "• What data structure would you need if updates and reads were interleaved?"
     ),
     "time": "O(1) per range update  /  O(n) to reconstruct",
     "space": "O(n)  difference array",

@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Intervals",
     "slug": "Intervals",
     "recognize": (
-        "overlapping, scheduling, meeting rooms, insert interval,\n"
-        "merge ranges, minimum intervals to remove."
+        "Overlapping, scheduling, meeting rooms, insert interval, merge ranges, minimum removals.\n"
+        "Signal: [start, end] pairs where overlaps must be detected, merged, or counted."
+    ),
+    "intuition": (
+        "• Sorting by start time means overlaps can only occur between consecutive intervals — one pass suffices.\n"
+        "• Merge condition: next.start ≤ current.end; extend current.end to max(current.end, next.end).\n"
+        "• Meeting rooms: a min-heap of end times lets you reuse the earliest-finishing room in O(log n)."
     ),
     "diagram": (
         "  Merge overlapping intervals:\n"
@@ -14,10 +19,6 @@ TOPIC: dict = {
         "  output:  [1────────5]      [6──8]  [9─10]\n"
         "\n"
         "  overlap condition:  next.start  <=  current.end"
-    ),
-    "when": (
-        "Scheduling, calendar conflicts, merging ranges,\n"
-        "or finding the minimum coverage / number of rooms needed."
     ),
     "patterns": [
         {
@@ -68,12 +69,43 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Merge overlapping intervals — sort by start; extend running end; O(n log n).\n"
+        "• Insert interval into sorted list — 3-phase scan: copy before, merge overlap, copy after; O(n).\n"
+        "• Non-overlapping intervals (minimum removals) — sort by end; greedy keep earliest-ending non-conflicting.\n"
+        "• Meeting Rooms I (can attend all?) — sort by start; check if any consecutive pair overlaps.\n"
+        "• Meeting Rooms II (minimum rooms) — min-heap of end times; heap size is the answer.\n"
+        "• Minimum Interval per Query — offline: sort queries and intervals; min-heap of (length, end)."
+    ),
     "pitfalls": (
         "• Always sort by start time first.\n"
-        "• Merge: use max(current.end, next.end) — next may be fully contained.\n"
-        "• Insert Interval: overlap condition is intervals[i][0] <= new_interval[1]\n"
-        "  (strictly ≤, not <) — adjacent intervals that touch should merge.\n"
-        "• Non-overlapping (remove minimum): sort by end, greedy keep earliest-ending."
+        "• Merge: use max(current.end, next.end) — next may be fully contained inside current.\n"
+        "• Insert Interval: overlap condition is intervals[i][0] <= new_interval[1] (≤, not <).\n"
+        "• Non-overlapping (remove minimum): sort by END, not start."
+    ),
+    "edge_cases": (
+        "• Empty input — return [] immediately; merged[0] initialisation crashes without a guard.\n"
+        "• Single interval — no merging; return as-is.\n"
+        "• Touching intervals ([1,3] and [3,5]) — condition ≤ merges them into [1,5]; change to < if problem says 'touching' is non-overlap.\n"
+        "• Fully contained ([1,10] contains [3,5]) — max(current.end, next.end) handles this correctly."
+    ),
+    "confusion": (
+        "┌─────────────────────┬───────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                               │\n"
+        "├─────────────────────┼───────────────────────────────────────────────────────┤\n"
+        "│ Greedy (general)    │ Specifically merging/counting/scheduling [s,e] pairs? │\n"
+        "│                     │ → Intervals pattern. Broader optimisation with a      │\n"
+        "│                     │ greedy proof? → Greedy.                               │\n"
+        "├─────────────────────┼───────────────────────────────────────────────────────┤\n"
+        "│ Sliding Window      │ 'Intervals' defined by array indices + constraint?    │\n"
+        "│                     │ → Sliding Window. Arbitrary [start,end] pairs?        │\n"
+        "│                     │ → Intervals.                                          │\n"
+        "└─────────────────────┴───────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Can you solve Meeting Rooms II without a heap?\n"
+        "• What if intervals have equal start times — does merge still work?\n"
+        "• Insert Interval is O(n) — can you do O(log n)?"
     ),
     "time": "O(n log n)",
     "space": "O(n)",

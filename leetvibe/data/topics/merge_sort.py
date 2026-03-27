@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Merge Sort / Divide & Conquer",
     "slug": "Merge Sort",
     "recognize": (
-        "sort a linked list, count inversions, K-th element via partition,\n"
-        "merge K sorted lists, divide problem in half recursively."
+        "Sort a linked list, count inversions, K-th element via partition, merge K sorted lists.\n"
+        "Signal: 'sort without random access', or 'count cross-partition relationships during merge'."
+    ),
+    "intuition": (
+        "• Split in half recursively (log n levels); merge in O(n) per level — total O(n log n).\n"
+        "• During merge, when right[j] < left[i], ALL remaining left elements form inversions with right[j] — count len(left)-i.\n"
+        "• Linked list: use slow/fast pointer to find middle; no random access needed, unlike quicksort."
     ),
     "diagram": (
         "  Merge Sort — split, recurse, merge:\n"
@@ -21,11 +26,6 @@ TOPIC: dict = {
         "\n"
         "  O(n log n) time   O(n) space (merge buffer)"
     ),
-    "when": (
-        "Sorting a linked list (no random access → can't use quicksort).\n"
-        "Counting inversions. Any divide-and-conquer where merging\n"
-        "two sorted halves produces useful information."
-    ),
     "patterns": [
         {
             "name": "Merge Sort on a Linked List (Sort List)",
@@ -33,12 +33,11 @@ TOPIC: dict = {
                 "def sort_list(head):\n"
                 "    if not head or not head.next: return head\n"
                 "\n"
-                "    # Find middle using slow/fast pointers\n"
                 "    slow, fast = head, head.next\n"
                 "    while fast and fast.next:\n"
                 "        slow, fast = slow.next, fast.next.next\n"
                 "    mid        = slow.next\n"
-                "    slow.next  = None          # split the list\n"
+                "    slow.next  = None          # split\n"
                 "\n"
                 "    left  = sort_list(head)\n"
                 "    right = sort_list(mid)\n"
@@ -56,7 +55,7 @@ TOPIC: dict = {
             ),
         },
         {
-            "name": "Count Inversions — augment merge sort to count during merge",
+            "name": "Count Inversions + Quick Select",
             "code": (
                 "def merge_count(arr):\n"
                 "    if len(arr) <= 1: return arr, 0\n"
@@ -70,7 +69,7 @@ TOPIC: dict = {
                 "            merged.append(left[i]); i += 1\n"
                 "        else:\n"
                 "            merged.append(right[j]); j += 1\n"
-                "            mc += len(left) - i    # all remaining left elements > right[j]\n"
+                "            mc += len(left) - i    # all remaining left > right[j]\n"
                 "    merged += left[i:] + right[j:]\n"
                 "    return merged, lc + rc + mc\n"
                 "\n"
@@ -87,13 +86,42 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Merge sort on arrays — O(n log n) time, O(n) auxiliary space for merge buffer.\n"
+        "• Merge sort on linked list — O(n log n) time, O(log n) space (recursion stack, no buffer).\n"
+        "• Count inversions — augment merge: when right[j] < left[i], add len(left)-i.\n"
+        "• Quick Select (K-th largest) — partition; recurse one side; O(n) average, O(n²) worst; randomise pivot.\n"
+        "• Merge K sorted lists — min-heap of (val, list_idx, node); O(n log k).\n"
+        "• Augmented divide-and-conquer — Count of Smaller Numbers, Reverse Pairs."
+    ),
     "pitfalls": (
-        "• Linked list merge sort: split by finding middle WITH slow.next = None\n"
-        "  to disconnect the two halves — forgetting this causes infinite recursion.\n"
-        "• Count inversions: the count is len(left) - i, NOT just 1, when right[j]\n"
-        "  is smaller — all remaining left elements are also greater.\n"
-        "• Quick Select: worst case O(n²) with bad pivot; randomise to avoid it.\n"
+        "• Linked list split: set slow.next = None to disconnect the two halves — forgetting causes infinite recursion.\n"
+        "• Count inversions: increment is len(left) - i, NOT 1 — all remaining left elements are also inversions.\n"
+        "• Quick Select: worst case O(n²) with bad pivot — randomise to avoid adversarial inputs.\n"
         "• Arrays merge sort needs O(n) extra space; linked list version is O(log n)."
+    ),
+    "edge_cases": (
+        "• Empty list or single element — base case returns immediately; no split.\n"
+        "• All identical elements — merge always takes from left (≤); inversion count = 0.\n"
+        "• Already sorted input — merge sort is still O(n log n); Python's Timsort detects runs and runs O(n).\n"
+        "• Linked list even length — slow/fast with fast=head.next gives equal halves; verify the split point."
+    ),
+    "confusion": (
+        "┌─────────────────────┬────────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                                │\n"
+        "├─────────────────────┼────────────────────────────────────────────────────────┤\n"
+        "│ Heap (Top-K)        │ K-th largest once from unsorted? → Quick Select O(n).  │\n"
+        "│                     │ Top-K repeatedly from a stream? → Min-heap O(n log k). │\n"
+        "├─────────────────────┼────────────────────────────────────────────────────────┤\n"
+        "│ Quicksort           │ In-place O(1) extra space, O(n log n) average?         │\n"
+        "│                     │ → Quicksort. Guaranteed O(n log n) worst case, or      │\n"
+        "│                     │ sorting a linked list? → Merge Sort.                   │\n"
+        "└─────────────────────┴────────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Why can't you use quicksort on a linked list?\n"
+        "• Can you count inversions in O(n log n) without copying subarrays?\n"
+        "• Quick Select is O(n) average but O(n²) worst — is there an O(n) worst-case algorithm?"
     ),
     "time": "O(n log n) merge sort   /   O(n) avg Quick Select",
     "space": "O(n) merge sort arrays   /   O(log n) linked list (recursion stack)",

@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Modified Binary Search",
     "slug": "Modified Binary Search",
     "recognize": (
-        "rotated sorted array, find first/last position of target,\n"
-        "search in a matrix, find peak element, bitonic array."
+        "Rotated sorted array, find first/last position of target, search in a matrix, find peak element.\n"
+        "Signal: sorted array with a twist — rotation, duplicates, 2D layout, or boundary needed."
+    ),
+    "intuition": (
+        "• A rotated array has exactly one breakpoint — at any midpoint, one half is fully sorted.\n"
+        "• Check which half is sorted (nums[left] <= nums[mid]), then check if target falls there.\n"
+        "• Boundary search: when found, save result and keep shrinking toward the boundary instead of returning."
     ),
     "diagram": (
         "  Rotated sorted array — which half is sorted?\n"
@@ -21,10 +26,6 @@ TOPIC: dict = {
         "  first: when found, set right=mid-1 to keep shrinking left\n"
         "  last:  when found, set left=mid+1  to keep shrinking right"
     ),
-    "when": (
-        "Sorted array with a twist: rotation, duplicates, a 2D matrix,\n"
-        "or any search space where the standard pivot logic breaks."
-    ),
     "patterns": [
         {
             "name": "Search in Rotated Sorted Array",
@@ -36,9 +37,9 @@ TOPIC: dict = {
                 "        return mid\n"
                 "    if nums[left] <= nums[mid]:          # left half is sorted\n"
                 "        if nums[left] <= target < nums[mid]:\n"
-                "            right = mid - 1              # target in left half\n"
+                "            right = mid - 1\n"
                 "        else:\n"
-                "            left  = mid + 1              # target in right half\n"
+                "            left  = mid + 1\n"
                 "    else:                                # right half is sorted\n"
                 "        if nums[mid] < target <= nums[right]:\n"
                 "            left  = mid + 1\n"
@@ -77,13 +78,41 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Rotated sorted array (no duplicates) — sorted-half detection; two range checks per iteration.\n"
+        "• Rotated sorted array II (with duplicates) — when nums[left]==nums[mid], fall back to left+=1; O(n) worst case.\n"
+        "• Find minimum in rotated array — binary search for breakpoint; if nums[mid] > nums[right], min is right.\n"
+        "• First/last position — boundary binary search; record result on match, continue shrinking.\n"
+        "• Search in 2D sorted matrix — flatten with mid//cols, mid%cols mapping.\n"
+        "• Find peak element — move toward the higher neighbour; guaranteed to converge."
+    ),
     "pitfalls": (
-        "• Rotated array: check which HALF is sorted first, then check if\n"
-        "  target falls within that half — don't compare to mid blindly.\n"
-        "• Boundary search: save result when found, then keep shrinking\n"
-        "  (don't return immediately) to find the true boundary.\n"
-        "• Find Peak Element: valid to go toward the higher neighbour;\n"
-        "  always converges because peaks must exist at boundaries."
+        "• Rotated array: determine which half is SORTED first, then check if target falls in that half.\n"
+        "• Boundary search: save result when found, keep shrinking — don't return immediately.\n"
+        "• Duplicates: when nums[left]==nums[mid], can't determine sorted half — must increment left."
+    ),
+    "edge_cases": (
+        "• Single element — left==right==mid; check and return; no rotation logic fires.\n"
+        "• Not rotated (rotation point = 0) — nums[left] ≤ nums[mid] always; degenerates to standard binary search.\n"
+        "• Target not in array — result initialised to -1; boundary search returns -1 correctly.\n"
+        "• Rotated array with all duplicates — nums[left]==nums[mid]==nums[right]; must increment left; O(n) worst."
+    ),
+    "confusion": (
+        "┌────────────────────────┬─────────────────────────────────────────────────────┐\n"
+        "│ Often confused with    │ Distinguishing question                             │\n"
+        "├────────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Standard Binary Search │ Array sorted without modification? → Standard BS.   │\n"
+        "│                        │ Rotation, duplicates, 2D layout? → Modified BS.     │\n"
+        "├────────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ BS on answer space     │ Searching concrete array values? → Modified BS.     │\n"
+        "│                        │ Abstract range with a feasibility function? → BS on │\n"
+        "│                        │ answer space.                                       │\n"
+        "└────────────────────────┴─────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• What if the rotated array has duplicates — does O(log n) still hold?\n"
+        "• Can you find the rotation index in O(log n)?\n"
+        "• How would you search in a 2D matrix where rows are sorted but last element of row i may exceed first of row i+1?"
     ),
     "time": "O(log n)",
     "space": "O(1)",

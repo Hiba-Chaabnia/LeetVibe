@@ -4,8 +4,15 @@ TOPIC: dict = {
     "title": "Binary Search",
     "slug": "Binary Search",
     "recognize": (
-        "sorted array, O(log n) required, minimum / maximum valid answer,\n"
-        "any monotonic feasibility condition on an answer space."
+        "Sorted array, or any space where a condition flips False → True.\n"
+        "Keywords: O(log n) required, 'minimum valid answer', 'maximum valid answer'.\n"
+        "If you can write a monotonic yes/no check on an answer — binary search it."
+    ),
+    "intuition": (
+        "• Your condition splits the space: NO NO NO YES YES YES.\n"
+        "  Binary search finds the boundary by halving candidates each step.\n"
+        "• Once the condition flips, it never flips back — that's what makes it work.\n"
+        "• Exact match: converge on the value. Boundary: converge on the edge."
     ),
     "diagram": (
         "  idx:  0    1    2    3    4    5    6\n"
@@ -18,10 +25,6 @@ TOPIC: dict = {
         "  target = arr[mid]  →  found!\n"
         "\n"
         "  search space halves every iteration  →  O(log n)"
-    ),
-    "when": (
-        "Sorted array, or any monotonic search space.\n"
-        "Finding a value, a boundary, or the min/max valid answer."
     ),
     "patterns": [
         {
@@ -37,7 +40,7 @@ TOPIC: dict = {
             ),
         },
         {
-            "name": "Binary search on INTEGER answer space — smallest valid answer",
+            "name": "Smallest valid answer (binary search on answer space)",
             "code": (
                 "left, right = lo, hi          # define the answer range\n"
                 "while left < right:           # converges to smallest valid\n"
@@ -48,27 +51,54 @@ TOPIC: dict = {
                 "        left = mid + 1\n"
                 "return left\n"
                 "\n"
-                "# Binary search on REAL-VALUED answer space\n"
-                "# Use when the answer is a float (speed, distance, ratio)\n"
-                "# e.g. Minimize Max Distance to Gas Station\n"
+                "# Float answer space (e.g. Minimize Max Distance to Gas Station)\n"
                 "lo, hi = 0.0, max_possible\n"
-                "for _ in range(100):          # ~100 iterations gives 1e-30 precision\n"
+                "for _ in range(100):          # ~100 iterations → 1e-30 precision\n"
                 "    mid = (lo + hi) / 2\n"
-                "    if feasible(mid):         # check if mid is achievable\n"
+                "    if feasible(mid):\n"
                 "        hi = mid\n"
                 "    else:\n"
                 "        lo = mid\n"
-                "return lo                     # converged to the minimum feasible value\n"
-                "# Alternative termination: while hi - lo > 1e-7: ..."
+                "return lo"
             ),
         },
     ],
+    "variants": (
+        "• Exact value — left <= right; return mid on match, -1 if not found.\n"
+        "• First True (smallest valid) — left < right; feasible → right=mid; else left=mid+1.\n"
+        "• Last True (largest valid) — feasible → left=mid; else right=mid-1; mid=(l+r+1)//2.\n"
+        "• Rotated sorted array — detect sorted half by comparing arr[mid] to arr[left].\n"
+        "• Float answer space — 100 fixed iterations, not a while loop.\n"
+        "• 2D matrix — treat as 1D; map mid → (mid//cols, mid%cols).\n"
+        "• bisect module — bisect_left(arr, x) for leftmost insert position; bisect_right for rightmost."
+    ),
     "pitfalls": (
-        "• Exact search: left <= right. Boundary search: left < right.\n"
-        "• mid = left + (right - left) // 2 prevents integer overflow.\n"
-        "• Boundary: when feasible(mid) is True set right=mid (NOT mid-1).\n"
-        "• Float answer space: use fixed iteration count (100) not hi-lo>eps —\n"
-        "  the eps-based loop can be very slow when lo and hi are large."
+        "• Exact search: left <= right. Boundary search: left < right. Don't mix them.\n"
+        "• Boundary: set right=mid (not mid-1) when feasible is True.\n"
+        "• Largest valid: use mid=(left+right+1)//2 to avoid infinite loop on 2-element range.\n"
+        "• Float space: fixed 100 iterations — eps-based loop is slow when lo/hi are large."
+    ),
+    "edge_cases": (
+        "• Empty array — left > right immediately; return -1.\n"
+        "• Rotated + duplicates — arr[left]==arr[mid] breaks sorted-half detection; shrink left by 1.\n"
+        "• All elements identical — loop still terminates; exact match returns on first check."
+    ),
+    "confusion": (
+        "┌─────────────────────────┬───────────────────────────────────────────────────────┐\n"
+        "│ Often confused with     │ Distinguishing question                               │\n"
+        "├─────────────────────────┼───────────────────────────────────────────────────────┤\n"
+        "│ Two Pointers            │ Searching for a value in a sorted structure? → BS.    │\n"
+        "│                         │ Moving two indices toward each other for a pair? → TP │\n"
+        "├─────────────────────────┼───────────────────────────────────────────────────────┤\n"
+        "│ Linear / sliding window │ Is the answer space monotonic? Yes → BS.              │\n"
+        "│                         │ No monotonicity? You need a different approach.       │\n"
+        "└─────────────────────────┴───────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Can you find the first and last position of a target in O(log n)?\n"
+        "• The array is sorted but rotated — how does binary search change?\n"
+        "• Your feasible() runs in O(n) — what's the overall complexity?\n"
+        "• How would you binary search a 2D sorted matrix?"
     ),
     "time": "O(log n)",
     "space": "O(1)",

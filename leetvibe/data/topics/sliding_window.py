@@ -4,8 +4,18 @@ TOPIC: dict = {
     "title": "Sliding Window",
     "slug": "Sliding Window",
     "recognize": (
-        "contiguous subarray, substring, window,\n"
-        "longest/shortest meeting a condition, fixed-size subarray stat."
+        "Contiguous subarray, substring, window, longest/shortest meeting a condition,\n"
+        "fixed-size subarray stat.\n"
+        "Keywords: CONTIGUOUS (not just any subset), window grows/shrinks as you scan left to right."
+    ),
+    "intuition": (
+        "• Because the window is contiguous, extending right and shrinking left only ever adds or\n"
+        "  removes ONE element — the window's aggregate (count, sum) updates in O(1) instead of\n"
+        "  being recomputed from scratch.\n"
+        "• The left pointer only ever moves forward — once a position is invalid to keep, it's\n"
+        "  never valid again as the window grows further, so left never needs to reset backward.\n"
+        "• This monotonicity is what gives amortised O(n): each index is added to the window once\n"
+        "  (by right) and removed once (by left), for O(n) total pointer movement."
     ),
     "diagram": (
         "  Variable window (expand right, shrink left when invalid):\n"
@@ -16,10 +26,6 @@ TOPIC: dict = {
         "  window violates condition:\n"
         "     ↑        ↑\n"
         "    left     right        ← shrink: left += 1"
-    ),
-    "when": (
-        "Contiguous subarray or substring of variable or fixed size.\n"
-        "Finding longest or shortest window meeting a condition."
     ),
     "patterns": [
         {
@@ -71,11 +77,42 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Variable window, longest valid — expand right, shrink left while invalid, track max size.\n"
+        "• Variable window, shortest valid — expand right, shrink left WHILE STILL valid, track min size.\n"
+        "• Fixed-size window — slide by adding nums[right] and subtracting nums[right-k], O(1) per step.\n"
+        "• Exactly-K trick — exactly(k) = atMost(k) - atMost(k-1); direct window can't express 'exactly'.\n"
+        "• Two-window / two-pointer hybrid (Minimum Window Substring) — track a need/have count map\n"
+        "  alongside the window bounds."
+    ),
     "pitfalls": (
         "• Window size formula: right - left + 1 (both ends inclusive).\n"
         "• Fixed window: slide by adding nums[i] and subtracting nums[i-k].\n"
-        "• Variable inner while is O(n) amortised — each element enters/leaves once.\n"
+        "• Variable inner while is O(n) amortised — each element enters/leaves the window once.\n"
         "• 'Exactly k distinct' can't be done directly — use atMost(k) - atMost(k-1)."
+    ),
+    "edge_cases": (
+        "• Empty string/array — return 0 immediately; loop body never executes.\n"
+        "• k larger than the array length (fixed window) — no valid window exists; guard before the loop.\n"
+        "• All elements identical — variable window may grow to cover the whole array; verify shrink\n"
+        "  condition still triggers correctly.\n"
+        "• Window that never satisfies the condition — result stays at its initial value (0 or infinity)."
+    ),
+    "confusion": (
+        "┌─────────────────────┬───────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                               │\n"
+        "├─────────────────────┼───────────────────────────────────────────────────────┤\n"
+        "│ Two Pointers        │ Need a CONTIGUOUS run with a size/sum/count           │\n"
+        "│                     │ constraint? → Sliding Window. Need a PAIR of elements │\n"
+        "│                     │ (not necessarily adjacent) from a sorted structure?   │\n"
+        "│                     │ → Two Pointers.                                       │\n"
+        "└─────────────────────┴───────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• How would you find the number of subarrays with EXACTLY k distinct elements?\n"
+        "• Can you solve Minimum Window Substring in O(n) instead of O(n × alphabet)?\n"
+        "• What breaks if the array can contain negative numbers (for a sum-based window)?\n"
+        "• How would you adapt this to a circular array?"
     ),
     "time": "O(n)  — each element enters and leaves the window at most once",
     "space": "O(k)  k = window constraint / alphabet size",
