@@ -4,8 +4,16 @@ TOPIC: dict = {
     "title": "Reservoir Sampling",
     "slug": "Reservoir Sampling",
     "recognize": (
-        "random pick from unknown-length stream, random node in linked list,\n"
-        "uniform random sample without knowing n upfront."
+        "Random pick from a stream or linked list of unknown length.\n"
+        "Uniform random sample without knowing n upfront, O(1) space.\n"
+        "Signal: 'random node', 'random index', stream of unbounded size."
+    ),
+    "intuition": (
+        "• Invariant: after seeing i elements, the reservoir holds a uniform random\n"
+        "  sample — each element has probability 1/i of being chosen.\n"
+        "• At element i, replace the current choice with probability 1/i.\n"
+        "  This preserves the invariant: P(earlier element j survives) = (1/i) × (i/(i+1)) = 1/(i+1).\n"
+        "• For k-reservoir: replace with probability k/(i+1) instead; fill first k greedily."
     ),
     "diagram": (
         "  Stream: [a, b, c, d, e, ...]  — length N unknown\n"
@@ -19,10 +27,6 @@ TOPIC: dict = {
         "  After N items: every element has been chosen with prob 1/N  ✓\n"
         "\n"
         "  Proof: P(item i survives to end) = (1/i) × (i/(i+1)) × ... = 1/N"
-    ),
-    "when": (
-        "Random sampling from a stream or linked list of unknown / very large size,\n"
-        "where you cannot store all elements in memory."
     ),
     "patterns": [
         {
@@ -79,12 +83,37 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• k=1 (single pick) — replace with prob 1/count; for Random Pick Index / Linked List.\n"
+        "• k-reservoir — fill first k; for element i ≥ k, replace reservoir[j] if j < k.\n"
+        "• Weighted reservoir (Efraimidis-Spirakis) — key = uniform^(1/weight); keep k largest keys.\n"
+        "• Random Pick with Weight — prefix sum + binary search on random value; O(log n) per pick."
+    ),
     "pitfalls": (
-        "• Replace with probability 1/count (not 1/i) — count only tracks\n"
-        "  occurrences of the target, not all elements seen.\n"
-        "• k-reservoir: replace reservoir[j] only when j < k — not just any j.\n"
-        "• The random.randint(1, count) == 1 idiom is equivalent to\n"
-        "  random.random() < 1/count — either form is correct."
+        "• Replace with 1/count (not 1/i) — count tracks only target occurrences, not all elements.\n"
+        "• k-reservoir: replace reservoir[j] only when j < k.\n"
+        "• random.randint(1, count)==1 is equivalent to random.random() < 1/count — either is correct."
+    ),
+    "edge_cases": (
+        "• Empty stream — reservoir is empty; return None or guard at call site.\n"
+        "• target never appears in Random Pick Index — problem guarantees it exists; guard if not.\n"
+        "• k > stream length — reservoir fills from the first k; else branch never runs; still correct."
+    ),
+    "confusion": (
+        "┌─────────────────────────┬──────────────────────────────────────────────────┐\n"
+        "│ Often confused with     │ Distinguishing question                          │\n"
+        "├─────────────────────────┼──────────────────────────────────────────────────┤\n"
+        "│ Fisher-Yates shuffle    │ Full array in memory? → Shuffle in-place O(n).   │\n"
+        "│                         │ Stream of unknown length? → Reservoir sampling.  │\n"
+        "├─────────────────────────┼──────────────────────────────────────────────────┤\n"
+        "│ Random Pick with Weight │ All elements equally likely? → Reservoir.        │\n"
+        "│                         │ Different weights? → Prefix sum + binary search. │\n"
+        "└─────────────────────────┴──────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Prove that reservoir sampling is uniformly random.\n"
+        "• How would you sample k elements instead of 1?\n"
+        "• What if elements have different weights and you want weighted sampling from a stream?"
     ),
     "time": "O(n)  single pass through stream",
     "space": "O(1)  (O(k) for k-reservoir)",

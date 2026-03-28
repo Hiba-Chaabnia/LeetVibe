@@ -4,9 +4,18 @@ TOPIC: dict = {
     "title": "Sweep Line",
     "slug": "Sweep Line",
     "recognize": (
-        "event at a point in time, number of overlapping intervals at any moment,\n"
-        "skyline problem, meeting rooms, car pooling,\n"
-        "count concurrent events, maximum overlap."
+        "Event at a point in time, number of overlapping intervals at any moment, skyline problem,\n"
+        "meeting rooms, car pooling, count concurrent events, maximum overlap.\n"
+        "Keywords: the answer depends on the state of the timeline AT EVERY POINT, not just per-interval."
+    ),
+    "intuition": (
+        "• Instead of asking 'does interval A overlap interval B' pairwise (O(n²)), convert each\n"
+        "  interval into two EVENTS (start, end) and sort them — the active count only changes at\n"
+        "  event points, so scanning events in time order tracks the true state cheaply.\n"
+        "• Sorting (time, delta) as tuples resolves ties automatically: Python compares the second\n"
+        "  element when times match, so encoding end=-1 before start=+1 processes departures first.\n"
+        "• This is the same idea as a difference array, just applied to continuous/event time\n"
+        "  instead of discrete array indices."
     ),
     "diagram": (
         "  Events (start=+1, end=-1) sorted by time:\n"
@@ -22,11 +31,6 @@ TOPIC: dict = {
         "\n"
         "  Key: on tie (same time), process END events before START events\n"
         "  (or START before END depending on whether endpoints are inclusive)."
-    ),
-    "when": (
-        "Any problem asking about the state at every point in a timeline:\n"
-        "maximum simultaneous events, coverage gaps, the skyline profile,\n"
-        "or whether a new event fits without overlap."
     ),
     "patterns": [
         {
@@ -80,14 +84,45 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Max concurrent overlap (Meeting Rooms II) — (time, ±1) events; track running active count.\n"
+        "• Difference array sweep (Car Pooling) — discrete stop/day indices instead of raw timestamps.\n"
+        "• Skyline problem — events carry a height; track a multiset/heap of active heights, not just a count.\n"
+        "• Query-based sweep (count covered at query points) — sort events and queries together,\n"
+        "  process in time order, or bisect against sorted starts/ends.\n"
+        "• Heap alternative (Meeting Rooms II) — min-heap of end times; push/pop instead of sorting\n"
+        "  all events, same O(n log n) but no explicit event list."
+    ),
     "pitfalls": (
-        "• Tie-breaking at the same timestamp matters: whether an ending and a\n"
-        "  starting event at the same time create an overlap depends on whether\n"
-        "  intervals are open or closed — read the problem carefully.\n"
-        "• Difference array sweep: mark +delta at start, -delta at end (not end+1\n"
-        "  for continuous time — check if indices are discrete or continuous).\n"
-        "• Sorting events as tuples (time, delta) handles ties automatically:\n"
-        "  (t, -1) sorts before (t, +1) so ends are processed first."
+        "• Tie-breaking at the same timestamp matters: whether an ending and starting event at the\n"
+        "  same time overlap depends on whether intervals are open or closed — read carefully.\n"
+        "• Difference array sweep: mark +delta at start, -delta at end (not end+1 for continuous\n"
+        "  time — check if indices are discrete or continuous).\n"
+        "• Sorting events as tuples (time, delta) handles ties automatically: (t, -1) sorts before\n"
+        "  (t, +1) so ends are processed first."
+    ),
+    "edge_cases": (
+        "• No intervals — max_active stays 0.\n"
+        "• All intervals identical — max_active equals the total count of intervals.\n"
+        "• Point intervals (start == end) — decide whether they count as overlapping instantly or not.\n"
+        "• Intervals touching at endpoints ([1,3] and [3,5]) — tie-break order determines whether\n"
+        "  they're treated as overlapping."
+    ),
+    "confusion": (
+        "┌───────────────────────┬──────────────────────────────────────────────────────┐\n"
+        "│ Often confused with   │ Distinguishing question                              │\n"
+        "├───────────────────────┼──────────────────────────────────────────────────────┤\n"
+        "│ Heap / Priority Queue │ Just need the max concurrent count, no per-event     │\n"
+        "│                       │ detail? → Sweep Line (sort events). Need to actively │\n"
+        "│                       │ track and reuse specific resources (which room is    │\n"
+        "│                       │ free)? → Heap of end times.                          │\n"
+        "└───────────────────────┴──────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• How would you solve Meeting Rooms II with a heap instead of sorted events?\n"
+        "• What changes if intervals are half-open [start, end) vs closed [start, end]?\n"
+        "• How would you extend this to report WHICH intervals overlap at the peak, not just the count?\n"
+        "• Can you answer 'how many events active at time T' for arbitrary query T efficiently?"
     ),
     "time": "O(n log n)  sorting events",
     "space": "O(n)  events list  /  O(k)  difference array (k = range size)",

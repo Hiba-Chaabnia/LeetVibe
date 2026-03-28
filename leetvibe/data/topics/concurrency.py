@@ -4,8 +4,16 @@ TOPIC: dict = {
     "title": "Concurrency",
     "slug": "Concurrency",
     "recognize": (
-        "print in order, print FooBar alternately, dining philosophers,\n"
-        "H2O, web crawler multithreaded, synchronisation between threads."
+        "Print in order, print FooBar alternately, dining philosophers, H2O, web crawler multithreaded.\n"
+        "Keywords: synchronise multiple threads, ordering constraint, mutual exclusion, LeetCode 'Concurrency' tag."
+    ),
+    "intuition": (
+        "• A semaphore is a blocking counter — Semaphore(0) forces the acquirer to wait until another\n"
+        "  thread calls release(), which is exactly how you encode 'B must run after A'.\n"
+        "• Threads aren't actually racing for speed here — you're constraining WHEN each is allowed\n"
+        "  to proceed, not computing anything faster than a single thread would.\n"
+        "• Lock = mutual exclusion (one at a time). Semaphore(n) = bounded concurrency (up to n at a time).\n"
+        "  Pick the primitive whose shape matches the constraint."
     ),
     "diagram": (
         "  Python synchronisation primitives:\n"
@@ -22,10 +30,6 @@ TOPIC: dict = {
         "  Pattern: Semaphore(0) as a gate\n"
         "  Thread A: do work, then sem.release()   # open the gate\n"
         "  Thread B: sem.acquire(), then do work   # wait at gate"
-    ),
-    "when": (
-        "LeetCode Concurrency problems (tag: concurrency).\n"
-        "Synchronise multiple threads with ordering or mutual-exclusion constraints."
     ),
     "patterns": [
         {
@@ -79,34 +83,57 @@ TOPIC: dict = {
                 "# H2O — 2 hydrogen threads + 1 oxygen thread per molecule\n"
                 "class H2O:\n"
                 "    def __init__(self):\n"
-                "        self.h_sem = threading.Semaphore(2)  # 2 H allowed\n"
-                "        self.o_sem = threading.Semaphore(0)  # O waits for 2 H\n"
-                "        self.barrier = threading.Barrier(3)  # sync all 3 before next\n"
+                "        self.h_sem = threading.Semaphore(2)  # at most 2 H per molecule\n"
+                "        self.o_sem = threading.Semaphore(1)  # at most 1 O per molecule\n"
+                "        self.barrier = threading.Barrier(3)  # gather 2 H + 1 O\n"
                 "\n"
                 "    def hydrogen(self, releaseHydrogen):\n"
-                "        self.h_sem.acquire()\n"
+                "        self.h_sem.acquire()   # claim an H slot\n"
+                "        self.barrier.wait()    # wait until 2 H + 1 O gathered\n"
                 "        releaseHydrogen()\n"
-                "        self.barrier.wait()    # wait for both H + O\n"
-                "        self.o_sem.release()   # signal O\n"
+                "        self.h_sem.release()   # free the slot for the next molecule\n"
                 "\n"
                 "    def oxygen(self, releaseOxygen):\n"
-                "        self.o_sem.acquire()   # wait for 2 H\n"
+                "        self.o_sem.acquire()   # claim the O slot\n"
+                "        self.barrier.wait()    # wait until 2 H + 1 O gathered\n"
                 "        releaseOxygen()\n"
-                "        self.barrier.wait()    # sync\n"
-                "        self.h_sem.release()   # release 2 H for next molecule\n"
-                "        self.h_sem.release()"
+                "        self.o_sem.release()   # free the slot for the next molecule"
             ),
         },
     ],
+    "variants": (
+        "• Strict order (A→B→C) — chain of semaphores; each stage releases the next in line.\n"
+        "• Alternating execution (FooBar) — two semaphores ping-pong; one pre-acquired to go first.\n"
+        "• N-of-M rendezvous (H2O) — Semaphore(k) caps concurrent entrants + Barrier(k) syncs completion.\n"
+        "• Producer/consumer hand-off — queue.Queue (already thread-safe) instead of manual semaphores.\n"
+        "• Reader/writer coordination — multiple concurrent readers, one exclusive writer (Condition)."
+    ),
     "pitfalls": (
-        "• Semaphore(0) starts locked — the first acquire() blocks immediately.\n"
+        "• Semaphore(0) starts locked — first acquire() blocks immediately.\n"
         "  Semaphore(1) starts open — first acquire() passes through.\n"
-        "• Always acquire before the work and release after — swapping order\n"
-        "  creates race conditions or deadlocks.\n"
-        "• threading.Lock() is not reentrant — a thread that holds the lock\n"
-        "  and tries to acquire it again will deadlock. Use RLock() if needed.\n"
-        "• Python's GIL limits true parallelism for CPU-bound tasks;\n"
-        "  these problems test synchronisation logic, not speed."
+        "• Acquire before the work, release after — swapping the order causes races or deadlocks.\n"
+        "• threading.Lock() is not reentrant — a thread re-acquiring its own lock deadlocks; use RLock().\n"
+        "• Python's GIL limits true CPU parallelism — these problems test synchronisation logic, not speed."
+    ),
+    "edge_cases": (
+        "• n=0 (e.g. FooBar with zero iterations) — loop body never runs; no acquire/release fires.\n"
+        "• Single thread only — semaphores still work, just add pure overhead; no deadlock risk.\n"
+        "• Reentrant acquire by the same thread on a plain Lock — deadlocks immediately; needs RLock.\n"
+        "• More threads than Semaphore(k)'s cap — extra threads block until a release happens."
+    ),
+    "confusion": (
+        "┌───────────────────────────┬─────────────────────────────────────────────────────┐\n"
+        "│ Often confused with       │ Distinguishing question                             │\n"
+        "├───────────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Queue (producer/consumer) │ Just need thread-safe FIFO hand-off? → queue.Queue. │\n"
+        "│                           │ Need custom ordering/gating logic? → semaphores.    │\n"
+        "└───────────────────────────┴─────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• What happens if you swap the acquire/release order in one thread?\n"
+        "• How would you generalise Print in Order to N functions instead of 3?\n"
+        "• Why doesn't Python's GIL make these synchronisation problems unnecessary?\n"
+        "• How would you implement this with a Condition variable instead of semaphores?"
     ),
     "time": "O(n)  per thread  (synchronisation overhead is O(1) per primitive)",
     "space": "O(1)  semaphores / locks",

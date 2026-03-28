@@ -4,9 +4,18 @@ TOPIC: dict = {
     "title": "Simulation",
     "slug": "Simulation",
     "recognize": (
-        "implement the rules exactly as described, no optimisation needed,\n"
-        "game of life, robot on a grid, design a spreadsheet,\n"
-        "step-by-step state machine, simulate the process."
+        "Implement the rules exactly as described, no optimisation needed, game of life,\n"
+        "robot on a grid, design a spreadsheet, step-by-step state machine, simulate the process.\n"
+        "Keywords: 'simulate', constraints are small, the difficulty is implementation, not algorithm choice."
+    ),
+    "intuition": (
+        "• If the problem statement IS the algorithm — there's no shortest path, no optimal\n"
+        "  substructure, no search space to prune — then the fastest path to a correct solution is\n"
+        "  to just model the state and execute the rules literally.\n"
+        "• Correctness bugs come from state-update ORDER (reading a value you already overwrote this\n"
+        "  step), not from complexity — so isolate 'compute next state' from 'apply next state'.\n"
+        "• Small constraints are the tell: if n is small enough that an O(n²) or O(n·m) direct\n"
+        "  simulation fits the time limit, the problem wants literal execution, not cleverness."
     ),
     "diagram": (
         "  Recognition test: can you solve it by just doing what the problem says?\n"
@@ -21,10 +30,6 @@ TOPIC: dict = {
         "  └──────────────────────────────────────────────────────────┘\n"
         "\n"
         "  The difficulty is usually implementation detail, not algorithm choice."
-    ),
-    "when": (
-        "The problem describes a concrete process and asks you to execute it.\n"
-        "No pattern matching needed — read carefully, track state precisely."
     ),
     "patterns": [
         {
@@ -105,17 +110,47 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Grid traversal simulation (spiral, rotate) — shrinking boundary pointers, no recursion.\n"
+        "• Direction-cycling movement (robot, snake) — dirs[(d+turn) % 4] table lookup.\n"
+        "• In-place multi-state encoding (Game of Life) — extra states hide the 'before' value.\n"
+        "• Stack-based parsing (decode string, basic calculator) — mirrors nested structure exactly.\n"
+        "• Design-a-system simulation (Tic-Tac-Toe, spreadsheet, LRU-like) — model state in a class,\n"
+        "  update methods mutate it; no algorithmic trick, just correct bookkeeping."
+    ),
     "pitfalls": (
-        "• In-place mutation during iteration: encode intermediate states\n"
-        "  (like Game of Life 0-3) to avoid using the updated value as input.\n"
-        "• Spiral Matrix: always check top<=bottom AND left<=right before the\n"
-        "  third and fourth sweeps — a 1-row or 1-col matrix can double-count.\n"
-        "• Direction cycling: (d - 1) % 4 is -1 % 4 = 3 in Python (correct),\n"
-        "  but use (d + 3) % 4 to be explicit and language-agnostic.\n"
-        "• Rotate matrix: transpose then reverse rows (not reverse then transpose)\n"
-        "  for clockwise; transpose then reverse columns for counter-clockwise.\n"
-        "• Decode String: handle multi-digit k (k = k*10 + int(ch)) before pushing\n"
-        "  to stack — single-digit assumption breaks on inputs like '10[a]'."
+        "• In-place mutation during iteration: encode intermediate states (Game of Life 0-3) to\n"
+        "  avoid reading an already-updated value as input.\n"
+        "• Spiral Matrix: check top<=bottom AND left<=right before the third and fourth sweeps —\n"
+        "  a 1-row or 1-col matrix double-counts otherwise.\n"
+        "• Direction cycling: (d - 1) % 4 == -1 % 4 == 3 in Python (correct), but (d + 3) % 4 is\n"
+        "  explicit and avoids relying on Python's modulo sign convention.\n"
+        "• Rotate matrix: transpose then reverse ROWS for clockwise; transpose then reverse\n"
+        "  COLUMNS for counter-clockwise — don't swap the order.\n"
+        "• Decode String: handle multi-digit k (k = k*10 + int(ch)) — single-digit assumption\n"
+        "  breaks on inputs like '10[a]'."
+    ),
+    "edge_cases": (
+        "• 1x1 matrix — spiral/rotate must return immediately without index errors.\n"
+        "• Single row or single column matrix — spiral's third/fourth sweep must be skipped.\n"
+        "• Empty board (Game of Life 0x0) — loops don't execute; return input unchanged.\n"
+        "• Nested brackets at max depth (decode string) — stack must handle deep nesting without\n"
+        "  assuming a fixed depth."
+    ),
+    "confusion": (
+        "┌─────────────────────────┬─────────────────────────────────────────────────────────┐\n"
+        "│ Often confused with     │ Distinguishing question                                 │\n"
+        "├─────────────────────────┼─────────────────────────────────────────────────────────┤\n"
+        "│ Matrix / Grid (BFS/DFS) │ Need to search/find a path or reachable region in the   │\n"
+        "│                         │ grid? → Matrix/Grid traversal. Just execute a fully     │\n"
+        "│                         │ defined step-by-step process on the grid? → Simulation. │\n"
+        "└─────────────────────────┴─────────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Game of Life: can you do it in-place without extra memory for large boards?\n"
+        "• Spiral Matrix: can you generate the matrix in spiral order instead of reading it?\n"
+        "• Decode String: how would you handle malformed input gracefully?\n"
+        "• When would you stop 'just simulating' and look for a mathematical shortcut instead?"
     ),
     "time": "O(m × n)  for matrix problems  /  O(n) for sequence simulations",
     "space": "O(1)  in-place  /  O(m × n)  if output array needed",
