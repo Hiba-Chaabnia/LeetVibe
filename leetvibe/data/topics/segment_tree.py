@@ -4,8 +4,18 @@ TOPIC: dict = {
     "title": "Segment Tree",
     "slug": "Segment Tree",
     "recognize": (
-        "range queries WITH point/range updates, range sum after updates,\n"
-        "range minimum/maximum, count inversions, mutable prefix sums."
+        "Range queries WITH point/range updates, range sum after updates, range minimum/maximum,\n"
+        "count inversions, mutable prefix sums.\n"
+        "Keywords: the array CHANGES over time and you still need fast range queries afterward."
+    ),
+    "intuition": (
+        "• Each internal node stores the aggregate (sum/min/max) of a contiguous range; a query\n"
+        "  decomposes the target range into O(log n) pre-aggregated segments instead of scanning.\n"
+        "• Updating a leaf only invalidates O(log n) ancestors (its path to the root), so update\n"
+        "  and query share the same O(log n) cost — unlike a plain prefix-sum array where an update\n"
+        "  invalidates every suffix.\n"
+        "• Fenwick Tree exploits the same idea with the binary representation of indices (i & -i)\n"
+        "  to implicitly encode the tree in a flat array — same complexity, smaller constant."
     ),
     "diagram": (
         "  arr = [1, 3, 5, 7, 9, 11]   (n = 6)\n"
@@ -20,12 +30,6 @@ TOPIC: dict = {
         "\n"
         "  Node i → children: 2i+1 (left), 2i+2 (right)  (0-indexed)\n"
         "  Build: O(n)   Query: O(log n)   Update: O(log n)"
-    ),
-    "when": (
-        "Range queries (sum, min, max, GCD) on a mutable array.\n"
-        "Prefix sum handles static arrays in O(1); Segment Tree handles\n"
-        "dynamic updates in O(log n). Use a Fenwick Tree for simpler\n"
-        "point-update + prefix-sum queries."
     ),
     "patterns": [
         {
@@ -87,14 +91,42 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Sum segment tree — combine as tree[node] = left + right; supports range sum queries.\n"
+        "• Min/Max segment tree — combine with min()/max(); same build/update/query shape.\n"
+        "• Fenwick Tree (BIT) — simpler point-update + prefix-sum only; smaller constant factor.\n"
+        "• Lazy propagation — defer range updates with a pending-delta array; push down on descent.\n"
+        "• Merge sort tree — each node stores a sorted list of its range; supports rank queries.\n"
+        "• Persistent segment tree — keep every historical version; used for 'k-th smallest over time'."
+    ),
     "pitfalls": (
         "• Segment Tree size: allocate 4*n nodes to be safe (2*2^ceil(log2(n))).\n"
         "• Fenwick Tree is 1-indexed — shift all indices by +1 from the array.\n"
-        "• Prefer Fenwick Tree when only point updates + prefix queries are needed;\n"
-        "  it is simpler to code and has a smaller constant than Segment Tree.\n"
-        "• Lazy propagation (range update): store a pending delta at each node;\n"
-        "  push it down to children before any query or update that touches them.\n"
-        "  Without lazy propagation, range updates cost O(n) instead of O(log n)."
+        "• Prefer Fenwick Tree when only point updates + prefix queries are needed — simpler to code\n"
+        "  and a smaller constant than Segment Tree.\n"
+        "• Lazy propagation (range update): store a pending delta at each node, push it down to\n"
+        "  children before any query/update that touches them. Without it, range updates cost O(n)."
+    ),
+    "edge_cases": (
+        "• n=1 (single element) — tree has one leaf; build/update/query all degenerate to O(1).\n"
+        "• Query range equals the full array — resolves in a single full-overlap call at the root.\n"
+        "• Query range outside [0, n-1] — must return the identity element (0 for sum, -inf for max).\n"
+        "• Repeated updates to the same index — each update just overwrites; no special handling needed."
+    ),
+    "confusion": (
+        "┌─────────────────────┬──────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                              │\n"
+        "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
+        "│ Prefix Sum          │ Array is static, queries only? → Prefix Sum, O(1)    │\n"
+        "│                     │ per query after O(n) build. Array is MUTATED between │\n"
+        "│                     │ queries? → Segment Tree, O(log n) per update/query.  │\n"
+        "└─────────────────────┴──────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Why is a plain prefix-sum array wrong once updates are allowed?\n"
+        "• When would you choose a Fenwick Tree over a full Segment Tree?\n"
+        "• How does lazy propagation change the update complexity for range updates?\n"
+        "• Can you support range-min-query AND range-update at the same time?"
     ),
     "time": "O(n) build   /   O(log n) update & query",
     "space": "O(n)",

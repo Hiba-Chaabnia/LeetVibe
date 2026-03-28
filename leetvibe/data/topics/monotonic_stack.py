@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Monotonic Stack",
     "slug": "Monotonic Stack",
     "recognize": (
-        "next greater element, next smaller, previous larger,\n"
-        "daily temperatures, histogram areas, stock span."
+        "Next greater element, next smaller, previous larger, daily temperatures, histogram areas, stock span.\n"
+        "Signal: 'for each element, find the nearest element satisfying a comparison' — one pass, O(n)."
+    ),
+    "intuition": (
+        "• Any stack element smaller than the new arrival can never be the next-greater for any future element — pop it now.\n"
+        "• Each element is pushed once and popped at most once — O(n) total regardless of input.\n"
+        "• Elements remaining at the end have no answer — set them to -1 (or 0 for some problems)."
     ),
     "diagram": (
         "  Find next greater element — decreasing stack:\n"
@@ -18,10 +23,6 @@ TOPIC: dict = {
         "  i=4: 6>arr[3] pop→res[3]=6; 6>arr[2] pop→res[2]=6; push 4\n"
         "  i=5: push 5          stack: [4,5]\n"
         "  remaining → -1:  res[4]=-1, res[5]=-1"
-    ),
-    "when": (
-        "Problems requiring the next or previous element that is strictly\n"
-        "larger or smaller. Histogram-area problems use a variation."
     ),
     "patterns": [
         {
@@ -55,10 +56,42 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Next greater element (left→right) — decreasing stack; pop when new > top.\n"
+        "• Next smaller element — increasing stack; pop when new < top.\n"
+        "• Previous greater element — traverse right→left with decreasing stack.\n"
+        "• Circular array (Next Greater Element II) — traverse 2n with i % n; second pass fills unresolved.\n"
+        "• Largest Rectangle in Histogram — augmented stack with (start, height); width = i - stored start.\n"
+        "• Trapping Rain Water — two-pointer (O(1) space) or stack-based (O(n) space).\n"
+        "• Sum of Subarray Minimums — find left/right boundaries with monotonic stack; count subarrays per element."
+    ),
     "pitfalls": (
         "• Decreasing stack → next greater; increasing stack → next smaller.\n"
-        "• Store indices (not values) so you can compute span/width.\n"
-        "• After the loop, elements left on the stack have no next greater — set -1."
+        "• Store INDICES (not values) — you need indices to compute span/width.\n"
+        "• After the loop, elements left on the stack have no answer — set them to -1."
+    ),
+    "edge_cases": (
+        "• Empty array — loop doesn't run; return [].\n"
+        "• Strictly decreasing array — everything pushed, nothing popped; all answers -1.\n"
+        "• All identical elements — strict < means identicals are NOT popped; verify strict vs non-strict.\n"
+        "• Circular array — initialise res to -1; second pass only updates elements still on the stack."
+    ),
+    "confusion": (
+        "┌─────────────────────┬─────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                             │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Monotonic Queue     │ Sliding window with an expiry condition? → Queue.   │\n"
+        "│                     │ Next/previous boundary without a window? → Stack.   │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Two Pointers        │ Searching for a pair from both ends? → Two Ptrs.    │\n"
+        "│                     │ Nearest element with a comparison condition at each │\n"
+        "│                     │ position? → Monotonic Stack.                        │\n"
+        "└─────────────────────┴─────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• What if the array is circular (Next Greater Element II)?\n"
+        "• How do you find the PREVIOUS greater element instead of next?\n"
+        "• Trapping Rain Water — explain the stack-based approach vs two-pointer."
     ),
     "time": "O(n)  — each element pushed and popped at most once",
     "space": "O(n)",

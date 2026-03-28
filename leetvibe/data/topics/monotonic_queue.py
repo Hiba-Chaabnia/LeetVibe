@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Monotonic Queue",
     "slug": "Monotonic Queue",
     "recognize": (
-        "sliding window maximum / minimum, maximum in window of size k,\n"
-        "Jump Game VI (max score path), shortest subarray with sum ≥ k."
+        "Sliding window maximum / minimum, maximum in window of size k, Jump Game VI, shortest subarray with sum ≥ k.\n"
+        "Signal: need O(1) window max/min as the window slides — a heap is too slow."
+    ),
+    "intuition": (
+        "• Any element in the window that is smaller than the new arrival can NEVER be the future window max — evict it now.\n"
+        "• The deque stores indices in decreasing-value order; the front is always the current window maximum.\n"
+        "• Each index is pushed once and popped at most once — O(n) total, versus O(n log k) for a heap."
     ),
     "diagram": (
         "  Sliding Window Maximum — window size k=3:\n"
@@ -22,17 +27,12 @@ TOPIC: dict = {
         "\n"
         "  Invariant: deque is always DECREASING (for max); front = window max."
     ),
-    "when": (
-        "Finding the maximum or minimum within a sliding window of fixed size k.\n"
-        "Or any problem needing O(1) window-max after O(n) preprocessing."
-    ),
     "patterns": [
         {
             "name": "Sliding Window Maximum — O(n) total",
             "code": (
                 "from collections import deque\n"
                 "\n"
-                "# Sliding Window Maximum — O(n) total\n"
                 "dq  = deque()   # stores indices; front = index of window max\n"
                 "res = []\n"
                 "for i in range(len(nums)):\n"
@@ -43,7 +43,7 @@ TOPIC: dict = {
                 "    while dq and nums[dq[-1]] < nums[i]:\n"
                 "        dq.pop()\n"
                 "    dq.append(i)\n"
-                "    if i >= k - 1:              # window is full\n"
+                "    if i >= k - 1:\n"
                 "        res.append(nums[dq[0]])\n"
                 "return res"
             ),
@@ -51,7 +51,6 @@ TOPIC: dict = {
         {
             "name": "Jump Game VI — max score reaching end (dp + monotonic deque)",
             "code": (
-                "# dp[i] = max score at index i; can jump up to k steps back\n"
                 "from collections import deque\n"
                 "\n"
                 "dp = [0] * len(nums)\n"
@@ -59,11 +58,9 @@ TOPIC: dict = {
                 "dq = deque([0])   # indices of dp values, decreasing order\n"
                 "\n"
                 "for i in range(1, len(nums)):\n"
-                "    # evict indices outside the k-step window\n"
                 "    while dq and dq[0] < i - k:\n"
                 "        dq.popleft()\n"
-                "    dp[i] = dp[dq[0]] + nums[i]   # front = best previous index\n"
-                "    # maintain decreasing dp order in deque\n"
+                "    dp[i] = dp[dq[0]] + nums[i]\n"
                 "    while dq and dp[dq[-1]] <= dp[i]:\n"
                 "        dq.pop()\n"
                 "    dq.append(i)\n"
@@ -72,12 +69,40 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Sliding window maximum — decreasing deque (pop back when new ≥ back value).\n"
+        "• Sliding window minimum — increasing deque (pop back when new ≤ back value).\n"
+        "• DP optimisation (Jump Game VI, Constrained Subsequence Sum) — deque over dp values; window by constraint.\n"
+        "• Shortest subarray with sum ≥ k — prefix sums + increasing deque; pop front when prefix diff ≥ k."
+    ),
     "pitfalls": (
-        "• Store INDICES in the deque, not values — you need indices to check\n"
-        "  whether the front element has gone out of the window.\n"
-        "• Evict from the FRONT (out-of-window) and pop from the BACK (smaller value).\n"
+        "• Store INDICES in the deque, not values — you need indices to check window expiry.\n"
+        "• Evict from FRONT (out-of-window) and pop from BACK (dominated smaller values).\n"
         "• Decreasing deque → window max; increasing deque → window min.\n"
-        "• Don't confuse with Monotonic Stack — the stack doesn't track a window."
+        "• Don't confuse with Monotonic Stack — the stack has no window/expiry condition."
+    ),
+    "edge_cases": (
+        "• k = 1 — every element is its own window max; deque holds one index at all times.\n"
+        "• k = n — window covers entire array; deque never evicts from front; result is one value.\n"
+        "• All identical elements — back-popping uses strict <; identicals are NOT popped; correct.\n"
+        "• k > len(nums) — window never fills; guard at i >= k-1 never fires; return []."
+    ),
+    "confusion": (
+        "┌───────────────────────┬──────────────────────────────────────────────────┐\n"
+        "│ Often confused with   │ Distinguishing question                          │\n"
+        "├───────────────────────┼──────────────────────────────────────────────────┤\n"
+        "│ Monotonic Stack       │ Sliding window with expiry? → Monotonic Queue.   │\n"
+        "│                       │ Next-greater/previous-smaller without a window?  │\n"
+        "│                       │ → Monotonic Stack.                               │\n"
+        "├───────────────────────┼──────────────────────────────────────────────────┤\n"
+        "│ Heap (sliding window) │ O(n log k) acceptable? → Min/Max-heap of size k. │\n"
+        "│                       │ Need O(n) total? → Monotonic deque.              │\n"
+        "└───────────────────────┴──────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Why use a deque instead of a heap for this problem?\n"
+        "• What changes for sliding window minimum?\n"
+        "• Can you solve Shortest Subarray with Sum ≥ K with this pattern?"
     ),
     "time": "O(n)  — each element pushed and popped from deque at most once",
     "space": "O(k)  deque holds at most k indices",

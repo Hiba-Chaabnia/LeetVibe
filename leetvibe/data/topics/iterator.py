@@ -4,9 +4,13 @@ TOPIC: dict = {
     "title": "Iterator Design Pattern",
     "slug": "Iterator",
     "recognize": (
-        "implement next() / hasNext(), flatten nested structures,\n"
-        "peek at the next element without consuming it,\n"
-        "lazy evaluation of a sequence, generator-based traversal."
+        "Implement next() / hasNext(), flatten nested structures, peek without consuming, lazy evaluation.\n"
+        "Signal: 'design a class that traverses X on demand' — the iterator pattern."
+    ),
+    "intuition": (
+        "• Peek-and-cache: consume one element from the underlying iterator and store it — lookahead without side effects.\n"
+        "• Nested iterator: a stack replaces recursion; push children in reverse so the first child is on top.\n"
+        "• BST iterator: only the leftmost path lives on the stack (O(h) space, O(1) amortised per next())."
     ),
     "diagram": (
         "  Iterator contract:\n"
@@ -20,11 +24,6 @@ TOPIC: dict = {
         "  Use a stack; push children in reverse order for correct traversal\n"
         "\n"
         "  Generator shortcut: yield from flattens any iterable lazily"
-    ),
-    "when": (
-        "Design problems requiring lazy sequential access to a data source.\n"
-        "Any time you need next() / hasNext() semantics, or must flatten\n"
-        "a recursive/nested structure into a flat stream."
     ),
     "patterns": [
         {
@@ -78,7 +77,7 @@ TOPIC: dict = {
                 "def flatten(nested):\n"
                 "    for item in nested:\n"
                 "        if isinstance(item, list):\n"
-                "            yield from flatten(item)   # recursive generator\n"
+                "            yield from flatten(item)\n"
                 "        else:\n"
                 "            yield item\n"
                 "\n"
@@ -95,7 +94,7 @@ TOPIC: dict = {
                 "\n"
                 "    def next(self):\n"
                 "        node = self.stack.pop()\n"
-                "        self._push_left(node.right)   # prepare right subtree\n"
+                "        self._push_left(node.right)\n"
                 "        return node.val\n"
                 "\n"
                 "    def hasNext(self):\n"
@@ -103,15 +102,42 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Peek Iterator — cache one element with a boolean flag; wraps any iterator.\n"
+        "• Flatten Nested List — stack-based; push in reverse order; hasNext() unwinds lists until an integer is on top.\n"
+        "• BST Iterator — stack holds leftmost path; _push_left on right subtree after each pop; O(h) space, O(1) amortised.\n"
+        "• Flatten 2D Vector — track outer and inner indices; advance outer when inner is exhausted.\n"
+        "• Zigzag Iterator — alternate between two iterators; generalises to k with round-robin index.\n"
+        "• Generator-based — yield / yield from for recursive flattening; not usable when a class interface is required."
+    ),
     "pitfalls": (
-        "• Peek Iterator: cache the peeked value with a flag — don't call next()\n"
-        "  twice or you'll skip elements.\n"
-        "• Flatten Nested List: push children in REVERSE order onto the stack\n"
-        "  so the first child ends up on top.\n"
-        "• BST Iterator: the _push_left helper maintains O(h) stack space —\n"
-        "  the amortised cost of next() is O(1), not O(h) per call.\n"
-        "• yield from is the Pythonic way to delegate to sub-generators;\n"
-        "  don't manually loop and yield each item when flattening."
+        "• Peek Iterator: cache with a flag — calling next() twice without a peek flag skips elements.\n"
+        "• Flatten Nested List: push children in REVERSE so the first child ends up on top.\n"
+        "• BST Iterator: _push_left is O(h) per call but O(1) amortised — each node pushed/popped exactly once.\n"
+        "• yield from is the Pythonic recursive delegation; don't yield each item individually."
+    ),
+    "edge_cases": (
+        "• Empty iterator — hasNext() returns False immediately; next() raises StopIteration.\n"
+        "• Deeply nested empty lists — hasNext() must fully unwind all empty lists before returning False.\n"
+        "• BST with only left children (linked-list shape) — stack grows to O(n); O(h) = O(n) in the worst case.\n"
+        "• Peek called multiple times without next() — must return same cached value each time."
+    ),
+    "confusion": (
+        "┌─────────────────────┬───────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                           │\n"
+        "├─────────────────────┼───────────────────────────────────────────────────┤\n"
+        "│ Stack-based DFS     │ Traversal for reachability/ordering? → DFS.       │\n"
+        "│                     │ On-demand sequential access via next()/hasNext()? │\n"
+        "│                     │ → Iterator (may use a stack internally).          │\n"
+        "├─────────────────────┼───────────────────────────────────────────────────┤\n"
+        "│ Queue / deque       │ FIFO order? → Queue. Lazy evaluation with peek?   │\n"
+        "│                     │ → Iterator.                                       │\n"
+        "└─────────────────────┴───────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Your BST Iterator uses O(h) space — can you do O(1)?\n"
+        "• How would you implement a Zigzag Iterator for k lists instead of 2?\n"
+        "• Can you make NestedIterator support push_back (un-consume an element)?"
     ),
     "time": "O(1) amortised next() / hasNext()",
     "space": "O(h) BST iterator (h = tree height)  /  O(d) nested list (d = depth)",

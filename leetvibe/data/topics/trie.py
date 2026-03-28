@@ -4,8 +4,17 @@ TOPIC: dict = {
     "title": "Tries",
     "slug": "Trie",
     "recognize": (
-        "prefix search, autocomplete, starts with, spell-checking,\n"
-        "word search in a board, grouping words by shared prefix."
+        "Prefix search, autocomplete, starts with, spell-checking, word search in a board,\n"
+        "grouping words by shared prefix.\n"
+        "Keywords: repeated PREFIX operations across many words, not just exact-match lookup."
+    ),
+    "intuition": (
+        "• Words sharing a prefix share the same path from the root — storing that path once instead\n"
+        "  of once per word is what makes prefix queries O(m) regardless of how many words are stored.\n"
+        "• A hash set can only answer 'is this exact string present' in O(1) — it has no notion of\n"
+        "  'characters so far', so prefix/autocomplete queries would need scanning every entry.\n"
+        "• is_end marks completed words distinctly from intermediate prefixes, so 'cat' being stored\n"
+        "  doesn't make 'ca' incorrectly register as a valid word."
     ),
     "diagram": (
         '  insert: "car"  "cat"  "cab"\n'
@@ -21,10 +30,6 @@ TOPIC: dict = {
         "\n"
         '  search("cat") → root→c→a→t → found (is_end=True)\n'
         '  startsWith("ca") → root→c→a → True (no is_end check)'
-    ),
-    "when": (
-        "Prefix search, autocomplete, spell-checking,\n"
-        "or grouping words by shared prefixes."
     ),
     "patterns": [
         {
@@ -94,12 +99,43 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Standard Trie — insert/search/startsWith; array[26] children for speed if lowercase a-z only.\n"
+        "• Prefix count Trie — increment a counter at every node along the insert path.\n"
+        "• Wildcard search ('.') — DFS branches over all children at the wildcard position.\n"
+        "• Word Search II (board + word list) — Trie prunes DFS paths that can't match any word.\n"
+        "• Compressed Trie (radix tree) — merge single-child chains into one edge to save space."
+    ),
     "pitfalls": (
         "• search() requires is_end=True; starts_with() does not.\n"
         "• For wildcard '.', DFS over all children at that character position.\n"
         "• Array[26] instead of dict is faster but only works for lowercase a-z.\n"
-        "• count field must be incremented for EVERY node along the path, not\n"
-        "  just the terminal node — decrement on delete the same way."
+        "• count field must be incremented for EVERY node along the path, not just the terminal\n"
+        "  node — decrement on delete the same way."
+    ),
+    "edge_cases": (
+        "• Empty string insert/search — decide whether root.is_end=True counts as containing '',\n"
+        "  most implementations treat it as valid.\n"
+        "• Single character words — is_end set on the first-level child.\n"
+        "• Word that's a prefix of another (e.g. 'car' and 'card') — is_end distinguishes them\n"
+        "  correctly at their respective nodes.\n"
+        "• All wildcard query ('...') — DFS branches at every position; worst case O(26^m)."
+    ),
+    "confusion": (
+        "┌─────────────────────┬──────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                              │\n"
+        "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
+        "│ Arrays & Hashing    │ Only need exact-match membership (is this word       │\n"
+        "│ (hash set)          │ present)? → Hash Set, O(1). Need PREFIX operations   │\n"
+        "│                     │ (startsWith, autocomplete, count words with prefix)? │\n"
+        "│                     │ → Trie.                                              │\n"
+        "└─────────────────────┴──────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• How would you support wildcard '.' search efficiently for many queries?\n"
+        "• Can you reduce memory usage for a Trie with many long, sparse words?\n"
+        "• How would you return the top-k autocomplete suggestions for a prefix?\n"
+        "• Word Search II: how does the Trie let you prune the board DFS early?"
     ),
     "time": "O(m)  per insert/search  (m = word length)",
     "space": "O(m × n)  n = number of words",

@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "Linked List",
     "slug": "Linked List",
     "recognize": (
-        "reversal, cycle detection, find middle, merge sorted lists,\n"
-        "remove N-th from end, reorder list."
+        "Reversal, cycle detection, find middle, merge sorted lists, remove N-th from end, reorder list.\n"
+        "Signal: pointer manipulation — no index arithmetic, use a dummy head."
+    ),
+    "intuition": (
+        "• Use a dummy head node — it gives every node a 'previous', eliminating edge cases for empty list and head deletion.\n"
+        "• Iterative reversal: prev/curr swap in 3 lines; after the loop, prev is the new head.\n"
+        "• Gap trick for N-th from end: advance right n steps, then move both until right is None."
     ),
     "diagram": (
         "  head\n"
@@ -17,10 +22,6 @@ TOPIC: dict = {
         "  [1] → [2] → [3] → [4] → [5]\n"
         "                ↑____________↑\n"
         "   slow +1, fast +2 → meet inside cycle → cycle exists"
-    ),
-    "when": (
-        "Reversals, cycle detection, finding the middle,\n"
-        "merging sorted lists, or removing the N-th node."
     ),
     "patterns": [
         {
@@ -65,8 +66,8 @@ TOPIC: dict = {
                 "    prev.next  = nxt\n"
                 "return dummy.next\n"
                 "\n"
-                "# Reverse Nodes in k-Group — reverse each chunk of k\n"
-                "def get_kth(curr, k):              # check if k nodes remain\n"
+                "# Reverse Nodes in k-Group\n"
+                "def get_kth(curr, k):\n"
                 "    while curr and k > 0:\n"
                 "        curr = curr.next; k -= 1\n"
                 "    return curr\n"
@@ -82,20 +83,51 @@ TOPIC: dict = {
                 "        nxt = curr.next\n"
                 "        curr.next = prev\n"
                 "        prev = curr; curr = nxt\n"
-                "    tmp = group_prev.next       # connect reversed group back\n"
+                "    tmp = group_prev.next\n"
                 "    group_prev.next = kth\n"
                 "    group_prev = tmp\n"
                 "return dummy.next"
             ),
         },
     ],
+    "variants": (
+        "• Reverse entire list — iterative prev/curr swap; O(n), O(1).\n"
+        "• Reverse sublist [left, right] — advance to node before sublist; front-insertion trick.\n"
+        "• Reverse in k-groups — get_kth check; reverse each group; leave remainder as-is.\n"
+        "• Find middle — even length: slow lands on second middle; use fast.next and fast.next.next for first.\n"
+        "• Remove N-th from end — gap technique with dummy head; one pass.\n"
+        "• Merge two sorted lists — compare heads; advance the smaller; O(n+m).\n"
+        "• Reorder list — find middle, reverse second half, merge alternately.\n"
+        "• Copy list with random pointer — two-pass hash map, or interleave clones in-place for O(1) space."
+    ),
     "pitfalls": (
-        "• Use a dummy head node to simplify edge cases (empty list, head deletion).\n"
-        "• Cycle start: after slow/fast meet, reset one pointer to head, step both by 1.\n"
-        "• Reverse in groups: save group_prev.next before reversing — it becomes\n"
-        "  the tail of the reversed group and the new group_prev for the next chunk.\n"
-        "• Reverse II (partial): the insertion trick (nxt.next = prev.next, prev.next = nxt)\n"
-        "  inserts nodes one-by-one at the front of the sublist — draw it out first."
+        "• Use a dummy head — it eliminates empty-list and head-deletion edge cases.\n"
+        "• Cycle start (phase 2): reset one pointer to HEAD, step both at 1×; they meet at the cycle entry.\n"
+        "• Reverse in groups: save group_prev.next before reversing — it becomes the tail and the next group_prev.\n"
+        "• Partial reverse (Reverse II): the front-insertion trick inserts one node at a time — draw it out first."
+    ),
+    "edge_cases": (
+        "• Empty list — dummy head guards this; return dummy.next = None.\n"
+        "• Remove head (n = list length) — left stays at dummy; left.next = left.next.next skips head.\n"
+        "• k-Group where n is not a multiple of k — get_kth returns None; remainder left as-is.\n"
+        "• Single node — reverse returns it unchanged; all other ops handle correctly."
+    ),
+    "confusion": (
+        "┌───────────────────────┬────────────────────────────────────────────────────┐\n"
+        "│ Often confused with   │ Distinguishing question                            │\n"
+        "├───────────────────────┼────────────────────────────────────────────────────┤\n"
+        "│ Two Pointers (arrays) │ Is it a linked list with next pointers? → DLL/SLL  │\n"
+        "│                       │ techniques (dummy head, gap trick). Array indices? │\n"
+        "│                       │ → Two Pointers.                                    │\n"
+        "├───────────────────────┼────────────────────────────────────────────────────┤\n"
+        "│ Fast & Slow Pointers  │ Cycle detection or finding middle? → Fast & Slow.  │\n"
+        "│                       │ Reversal, removal, or merging? → Linked List.      │\n"
+        "└───────────────────────┴────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Can you reverse a linked list recursively? What's the space cost?\n"
+        "• How would you detect if a linked list is a palindrome in O(n) time and O(1) space?\n"
+        "• Your k-group reversal leaves the last partial group unreversed — what if the problem requires reversing it?"
     ),
     "time": "O(n)",
     "space": "O(1)",

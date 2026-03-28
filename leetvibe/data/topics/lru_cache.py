@@ -4,8 +4,13 @@ TOPIC: dict = {
     "title": "LRU Cache",
     "slug": "LRU Cache",
     "recognize": (
-        "LRU cache, most recently used, evict least recently used,\n"
-        "O(1) get and put with bounded capacity, LFU cache."
+        "LRU cache, most recently used, evict least recently used, O(1) get and put with bounded capacity.\n"
+        "Signal: 'design a cache' — hash map for O(1) lookup, doubly linked list for O(1) eviction."
+    ),
+    "intuition": (
+        "• Hash map gives O(1) lookup by key → node; doubly linked list gives O(1) removal at any position.\n"
+        "• Every get and put moves the accessed node to the tail (MRU position) — the LRU is always at head.next.\n"
+        "• Dummy head/tail sentinels eliminate all null-pointer edge cases for _remove and _insert_tail."
     ),
     "diagram": (
         "  Doubly Linked List + Hash Map:\n"
@@ -18,10 +23,6 @@ TOPIC: dict = {
         "  get(2):  move B to tail   → head ↔ [1] ↔ [3] ↔ [2] ↔ tail\n"
         "  put(4):  evict head.next (node 1), insert 4 at tail\n"
         "           → head ↔ [3] ↔ [2] ↔ [4] ↔ tail"
-    ),
-    "when": (
-        "Any fixed-capacity cache requiring O(1) lookup AND O(1) eviction\n"
-        "of the least recently used item."
     ),
     "patterns": [
         {
@@ -45,7 +46,7 @@ TOPIC: dict = {
                 "        node.prev.next = node.next\n"
                 "        node.next.prev = node.prev\n"
                 "\n"
-                "    def _insert_tail(self, node):          # insert just before tail\n"
+                "    def _insert_tail(self, node):\n"
                 "        node.prev         = self.tail.prev\n"
                 "        node.next         = self.tail\n"
                 "        self.tail.prev.next = node\n"
@@ -64,15 +65,14 @@ TOPIC: dict = {
                 "        self.cache[key] = node\n"
                 "        self._insert_tail(node)\n"
                 "        if len(self.cache) > self.cap:\n"
-                "            lru = self.head.next           # evict LRU\n"
+                "            lru = self.head.next\n"
                 "            self._remove(lru)\n"
                 "            del self.cache[lru.key]"
             ),
         },
         {
-            "name": "Python shortcut: OrderedDict maintains insertion order",
+            "name": "Python shortcut: OrderedDict",
             "code": (
-                "# move_to_end() + popitem(last=False) implement LRU in ~10 lines\n"
                 "from collections import OrderedDict\n"
                 "\n"
                 "class LRUCache:\n"
@@ -82,7 +82,7 @@ TOPIC: dict = {
                 "\n"
                 "    def get(self, key):\n"
                 "        if key not in self.cache: return -1\n"
-                "        self.cache.move_to_end(key)    # mark as most recently used\n"
+                "        self.cache.move_to_end(key)\n"
                 "        return self.cache[key]\n"
                 "\n"
                 "    def put(self, key, value):\n"
@@ -90,17 +90,44 @@ TOPIC: dict = {
                 "            self.cache.move_to_end(key)\n"
                 "        self.cache[key] = value\n"
                 "        if len(self.cache) > self.cap:\n"
-                "            self.cache.popitem(last=False)  # evict LRU (first item)"
+                "            self.cache.popitem(last=False)  # evict LRU"
             ),
         },
     ],
+    "variants": (
+        "• LRU Cache — doubly linked list (LRU→MRU) + hash map (key→node); O(1) all ops.\n"
+        "• LRU Cache (Python shortcut) — OrderedDict; move_to_end + popitem(last=False); acceptable in interviews.\n"
+        "• LFU Cache — evict least FREQUENTLY used; two hash maps + min_freq tracker; significantly more complex.\n"
+        "• All O(1) Data Structure (inc/dec/getMaxKey/getMinKey) — generalises the frequency-bucket idea."
+    ),
     "pitfalls": (
-        "• Always update both the hash map AND the linked list together —\n"
-        "  forgetting to del cache[lru.key] after eviction causes memory leak.\n"
-        "• Dummy head/tail sentinels eliminate all edge-case checks for empty list.\n"
-        "• Python's OrderedDict is interview-acceptable but interviewers often\n"
-        "  expect the doubly linked list implementation to test pointer manipulation.\n"
-        "• LFU cache (evict least frequently used) needs TWO hash maps + freq tracking."
+        "• Always update both hash map AND linked list — forgetting del cache[lru.key] after eviction is a memory leak.\n"
+        "• Dummy head/tail sentinels are mandatory — they prevent null-pointer edge cases for _remove.\n"
+        "• OrderedDict is interview-acceptable, but interviewers often ask for the DLL implementation.\n"
+        "• LFU (least FREQUENTLY used) needs two hash maps + freq tracking — not the same as LRU."
+    ),
+    "edge_cases": (
+        "• capacity = 1 — every put evicts the previous entry (if different key).\n"
+        "• put with an existing key (update) — move to MRU AND update value; forgetting the move causes stale ordering.\n"
+        "• get on a non-existent key — return -1; do not insert or modify the list.\n"
+        "• Eviction of the only element — sentinels make head ↔ tail re-linking automatic."
+    ),
+    "confusion": (
+        "┌─────────────────────┬─────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                             │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ LFU Cache           │ Evict LEAST RECENTLY used? → LRU (one DLL + map).   │\n"
+        "│                     │ Evict LEAST FREQUENTLY used? → LFU (two maps + freq │\n"
+        "│                     │ buckets — significantly more complex).              │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Plain hash map      │ Bounded capacity with eviction? → LRU Cache.        │\n"
+        "│                     │ Just O(1) lookup, no eviction? → dict.              │\n"
+        "└─────────────────────┴─────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Can you implement LFU Cache in O(1)?\n"
+        "• Why do you need a doubly linked list? Would singly linked work?\n"
+        "• What changes if you need a thread-safe LRU cache?"
     ),
     "time": "O(1) get and put",
     "space": "O(capacity)",

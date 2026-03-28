@@ -4,8 +4,17 @@ TOPIC: dict = {
     "title": "Trees",
     "slug": "Tree",
     "recognize": (
-        "hierarchical data, BST property, path sum, depth/height,\n"
-        "lowest common ancestor, serialise/deserialise tree."
+        "Hierarchical data, BST property, path sum, depth/height, lowest common ancestor,\n"
+        "serialise/deserialise tree.\n"
+        "Keywords: parent-child structure, each node has at most a fixed number of children."
+    ),
+    "intuition": (
+        "• A tree is a graph with no cycles and exactly one path between any two nodes — that's what\n"
+        "  lets you solve most problems with a single DFS/BFS pass instead of tracking visited sets.\n"
+        "• BST ordering (left < node < right) means the search space HALVES at every node on average,\n"
+        "  and inorder traversal visits values in sorted order for free.\n"
+        "• Tree DP (post-order 'return info to parent') works because a subtree's answer never\n"
+        "  depends on anything outside it — compute children first, combine at the parent."
     ),
     "diagram": (
         "           4\n"
@@ -19,10 +28,6 @@ TOPIC: dict = {
         "  DFS postorder (L→R→N): 1 3 2 5 7 6 4\n"
         "  BFS level-order:       4 2 6 1 3 5 7"
     ),
-    "when": (
-        "Hierarchical data. Use DFS for path problems and subtree queries;\n"
-        "BFS for level-by-level processing or shortest paths."
-    ),
     "patterns": [
         {
             "name": "DFS recursive — max depth",
@@ -33,7 +38,7 @@ TOPIC: dict = {
                 "\n"
                 "# BFS iterative — level order\n"
                 "from collections import deque\n"
-                "q, res = deque([root]), []\n"
+                "q, res = deque([root] if root else []), []\n"
                 "while q:\n"
                 "    level = []\n"
                 "    for _ in range(len(q)):    # snapshot length each level\n"
@@ -101,16 +106,45 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• DFS pre/in/post-order — recursive traversal; inorder gives sorted output on a BST.\n"
+        "• BFS level-order — deque with per-level length snapshot; needed for level-by-level output.\n"
+        "• BST-specific operations — validate, insert, delete, LCA all use the ordering to prune.\n"
+        "• Tree DP (post-order return-to-parent) — diameter, max path sum, house robber III.\n"
+        "• Serialize/Deserialize — preorder with null markers, or level-order with a queue.\n"
+        "• Construct from traversals — preorder+inorder (or postorder+inorder) rebuilds a unique tree."
+    ),
     "pitfalls": (
-        "• BST validation: pass lo/hi bounds through recursion, not just checking\n"
-        "  the immediate parent — a node's ancestor constraint must hold.\n"
-        "• General LCA: the trick is returning root when root is p or q —\n"
-        "  this assumes both nodes exist in the tree (guaranteed by problem).\n"
-        "• DFS space is O(h); a skewed tree is O(n). Use the iterative inorder\n"
-        "  pattern when recursion depth could exceed the call stack.\n"
+        "• BST validation: pass lo/hi bounds through recursion, not just checking the immediate\n"
+        "  parent — a node's ancestor constraint must hold transitively.\n"
+        "• General LCA: the trick is returning root when root is p or q — this assumes both nodes\n"
+        "  exist in the tree (guaranteed by the problem statement).\n"
+        "• DFS space is O(h); a skewed tree is O(n). Use the iterative inorder pattern when\n"
+        "  recursion depth could exceed the call stack.\n"
         "• Level-order: snapshot len(q) at the start of each level iteration.\n"
-        "• Python default recursion limit is 1000 — add at top of solution:\n"
-        "  import sys; sys.setrecursionlimit(10**5)"
+        "• Python default recursion limit is 1000 — sys.setrecursionlimit(10**5) for deep trees."
+    ),
+    "edge_cases": (
+        "• Empty tree (root is None) — depth/height is 0; traversals return empty lists.\n"
+        "• Single node — depth 1; LCA of a node with itself is itself.\n"
+        "• Completely skewed tree (linked-list shape) — O(n) recursion depth; risk of stack overflow.\n"
+        "• Duplicate values in a BST — decide whether duplicates go left or right consistently\n"
+        "  before validating or inserting."
+    ),
+    "confusion": (
+        "┌─────────────────────┬────────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                                │\n"
+        "├─────────────────────┼────────────────────────────────────────────────────────┤\n"
+        "│ Tries               │ Nodes represent arbitrary values with parent/child     │\n"
+        "│                     │ structure (BST, binary tree)? → Trees. Nodes represent │\n"
+        "│                     │ CHARACTERS along a path for prefix operations? → Trie. │\n"
+        "└─────────────────────┴────────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Can you validate a BST using O(1) extra space (Morris traversal)?\n"
+        "• How would you find the LCA if nodes don't have parent pointers vs if they do?\n"
+        "• Can you serialize/deserialize without recursion, for a very deep tree?\n"
+        "• What changes if the tree isn't guaranteed to have unique values?"
     ),
     "time": "O(n)",
     "space": "O(h)   h = height  (O(n) worst — fully skewed tree)",

@@ -4,8 +4,17 @@ TOPIC: dict = {
     "title": "Queue",
     "slug": "Queue",
     "recognize": (
-        "FIFO processing, BFS (already uses deque), sliding window with\n"
-        "index tracking, first non-repeating, moving average from stream."
+        "FIFO processing, BFS level tracking, moving average from stream,\n"
+        "first non-repeating character, sliding window with index eviction.\n"
+        "Any time 'process in arrival order' — reach for deque."
+    ),
+    "intuition": (
+        "• deque gives O(1) append and popleft. list.pop(0) is O(n) and silently\n"
+        "  degrades BFS and sliding windows from O(n) to O(n²). Always use deque.\n"
+        "• Maintain a running sum for moving average — re-summing the window each\n"
+        "  call turns O(1) into O(size) unnecessarily.\n"
+        "• For first non-repeating: keep candidates in arrival order, evict from front\n"
+        "  as soon as their frequency exceeds 1."
     ),
     "diagram": (
         "  deque (double-ended queue):\n"
@@ -16,10 +25,6 @@ TOPIC: dict = {
         "  Monotonic deque: maintain order by popping from BOTH ends\n"
         "\n"
         "  collections.deque: O(1) append/popleft — list.pop(0) is O(n)!"
-    ),
-    "when": (
-        "Any FIFO-ordered processing: BFS, sliding window tracking by index,\n"
-        "moving average, first unique character in a stream."
     ),
     "patterns": [
         {
@@ -77,11 +82,40 @@ TOPIC: dict = {
             ),
         },
     ],
+    "variants": (
+        "• Plain FIFO — deque with append + popleft; use for BFS level tracking.\n"
+        "• Bounded queue (moving average) — maintain running sum; evict oldest when full.\n"
+        "• Circular buffer — deque(maxlen=k) auto-evicts oldest on append; hides popleft.\n"
+        "• Queue from two stacks — push stack + pop stack; O(1) amortised per op.\n"
+        "• Priority queue — use heapq (not deque); see Heap topic.\n"
+        "• Monotonic deque — see Monotonic Queue topic."
+    ),
     "pitfalls": (
         "• Use collections.deque, NOT a list — list.pop(0) is O(n).\n"
-        "• deque maxlen parameter auto-evicts from the left when full — handy\n"
-        "  for fixed-size sliding windows but hides the eviction logic.\n"
-        "• For BFS always add to visited BEFORE enqueuing, not after dequeuing."
+        "• deque(maxlen=k) auto-evicts from the left — handy but hides the eviction logic.\n"
+        "• BFS: add to visited BEFORE enqueuing, not after dequeuing."
+    ),
+    "edge_cases": (
+        "• Empty deque — popleft() raises IndexError; always check 'if dq:' before popping.\n"
+        "• All identical characters in first-non-repeating — queue empties on first repeat; return '#'.\n"
+        "• Hit Counter with non-increasing timestamps — the problem guarantees sorted input;\n"
+        "  popleft eviction breaks otherwise."
+    ),
+    "confusion": (
+        "┌─────────────────────┬─────────────────────────────────────────────────────┐\n"
+        "│ Often confused with │ Distinguishing question                             │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Stack               │ Process oldest first (FIFO)? → Queue (popleft).     │\n"
+        "│                     │ Process newest first (LIFO)? → Stack (pop).         │\n"
+        "├─────────────────────┼─────────────────────────────────────────────────────┤\n"
+        "│ Monotonic Queue     │ Just need FIFO order? → Plain deque.                │\n"
+        "│                     │ Need running max/min within a sliding window? → MQ. │\n"
+        "└─────────────────────┴─────────────────────────────────────────────────────┘"
+    ),
+    "follow_up_questions": (
+        "• Why is list.pop(0) O(n)? How does deque fix this?\n"
+        "• Implement a queue using two stacks.\n"
+        "• How would you modify Hit Counter to support out-of-order timestamps?"
     ),
     "time": "O(1) append / popleft",
     "space": "O(n)",
