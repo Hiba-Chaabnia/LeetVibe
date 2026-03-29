@@ -423,6 +423,18 @@ LoadingIndicator {
 
 
 /* ============================================================
+   Tooltip
+   ============================================================ */
+
+Tooltip {
+    background: $bg-raised;
+    color: $text;
+    border: round $muted;
+    padding: 0 1;
+}
+
+
+/* ============================================================
    Banner widget
    ============================================================ */
 
@@ -1054,15 +1066,27 @@ PlaybookChatPanel {
     border: round #333333;
     background: $bg;
     margin-left: 1;
+    overflow: hidden hidden;
 }
 PlaybookChatPanel.open {
     display: block;
 }
+PlaybookChatPanel.open.expanded {
+    width: 55%;
+}
 PlaybookChatPanel #chat-log {
+    width: 100%;
     height: 1fr;
+    scrollbar-size: 0 0;
     padding: 1 1;
     scrollbar-size: 1 1;
     background: transparent;
+    overflow-x: hidden;
+}
+ThinkingIndicator {
+    display: none;
+    height: 1;
+    padding: 0 1;
 }
 PlaybookChatPanel #chat-input {
     height: 3;
@@ -1073,6 +1097,40 @@ PlaybookChatPanel #chat-input {
 }
 PlaybookChatPanel #chat-input:focus    { background: $bg; background-tint: transparent; border: round $brand; color: white; }
 PlaybookChatPanel #chat-input.-focused { background: $bg; background-tint: transparent; border: round $brand; color: white; }
+PlaybookChatPanel #chat-input:disabled { color: #555555; border: round #2a2a2a; }
+#chat-header {
+    height: 4;
+    padding: 0 1;
+    align: left middle;
+}
+#chat-header-spacer {
+    width: 1fr;
+}
+PlaybookChatPanel .chat-expand-btn {
+    width: auto;
+    height: 3;
+    min-width: 3;
+    background: transparent;
+    border: round #444444;
+    color: #555555;
+    padding: 0 1;
+    text-style: bold;
+}
+PlaybookChatPanel .chat-expand-btn:hover  { color: #FF8205; border: round #FF8205; }
+PlaybookChatPanel .chat-expand-btn:focus,
+PlaybookChatPanel .chat-expand-btn.-active { background: transparent; }
+PlaybookChatPanel .chat-reset-btn {
+    min-width: 3;
+    height: 3;
+    background: transparent;
+    border: round #444444;
+    color: #555555;
+    padding: 0 1;
+    text-style: bold;
+}
+PlaybookChatPanel .chat-reset-btn:hover  { color: #FF8205; border: round #FF8205; }
+PlaybookChatPanel .chat-reset-btn:focus,
+PlaybookChatPanel .chat-reset-btn.-active { background: transparent; }
 
 ReferenceGuideScreen {
     background: $bg;
@@ -1169,11 +1227,38 @@ ReferenceGuideScreen #ref-topics {
     background: #1a0a00;
     padding: 0 1;
 }
+#ref-center {
+    width: 1fr;
+    height: 1fr;
+}
 #ref-content-scroll {
     width: 1fr;
+    height: 1fr;
     border: round #333333;
     padding: 0 2 1 2;
     scrollbar-size: 1 1;
+}
+NotesPanel {
+    display: none;
+    height: 11;
+    width: 1fr;
+    border: round #333333;
+    background: $bg;
+}
+NotesPanel.open {
+    display: block;
+}
+#notes-hint {
+    height: 1;
+    padding: 0 2;
+    color: $muted;
+}
+#notes-textarea {
+    height: 1fr;
+    background: $bg;
+    border: none;
+    padding: 0 2;
+    scrollbar-size: 0 0;
 }
 #ref-content-title {
     width: 100%;

@@ -6,17 +6,22 @@ import json
 import re
 from pathlib import Path
 
+from rich.panel import Panel
+from rich.text import Text
+
 from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalScroll
+from textual.events import Key
 from textual.widget import Widget
 from textual.reactive import reactive
-from textual.widgets import Input, OptionList, RichLog, Select, Static
+from textual.message import Message
+from textual.widgets import Button, Input, OptionList, RichLog, Select, Static, TextArea
 from textual.widgets.option_list import Option
 
 from ...data.topics import CATEGORIES, TIER_MAP, TOPICS
-from ..theme import AMBER, DIM, EMBER, FIRE, GOLD, GRADIENT, GREEN, LAVA, RED
+from ..theme import AMBER, DIM, EMBER, FIRE, GOLD, GRADIENT, GREEN, LAVA, RED, SHIMMER
 from ..widgets.status_bar import StatusBar
 from ..widgets.truncated_select import TruncatedSelect
 from .base import BaseScreen
@@ -42,6 +47,26 @@ def _save_notes(notes: dict[str, str]) -> None:
         pass
 
 
+_HISTORIES_FILE = _NOTES_DIR / "chat_histories.json"
+
+
+def _load_histories() -> dict[str, list[dict]]:
+    try:
+        return json.loads(_HISTORIES_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def _save_histories(histories: dict[str, list[dict]]) -> None:
+    try:
+        _NOTES_DIR.mkdir(parents=True, exist_ok=True)
+        _HISTORIES_FILE.write_text(
+            json.dumps(histories, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+    except Exception:
+        pass
+
+
 # ── Database topic slug cache ──────────────────────────────────────────────────
 
 _DB_TOPIC_SLUGS: set[str] | None = None
@@ -62,6 +87,9 @@ def _get_db_topic_slugs() -> set[str]:
 def _esc(text: str) -> str:
     """Escape [ so Rich doesn't interpret user content as markup tags."""
     return text.replace("[", r"\[")
+
+
+_SPINNER_FRAMES: list[str] = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
 
 
 # ── Difficulty badge helpers ───────────────────────────────────────────────────
@@ -97,13 +125,83 @@ def _infobox(text: str) -> list[str]:
     return [f"  [{DIM}]{ln}[/{DIM}]" for ln in text.split("\n")]
 
 
-def _code_block(block: str) -> list[str]:
+def _code_block(block: str, width: int = 24) -> list[str]:
     """Render a code block with box-drawing header and │-prefixed lines."""
-    lines = [f"  [{DIM}]┌── python {'─' * 30}[/{DIM}]"]
+    # "  ┌── python " = 13 chars; fill rest with dashes up to total width
+    dash_header = max(2, width - 13)
+    dash_footer = max(2, width - 3)
+    lines = [f"  [{DIM}]┌── python {'─' * dash_header}[/{DIM}]"]
     for ln in block.split("\n"):
         lines.append(f"  [{DIM}]│[/{DIM}] {ln}")
-    lines.append(f"  [{DIM}]└{'─' * 41}[/{DIM}]")
+    lines.append(f"  [{DIM}]└{'─' * dash_footer}[/{DIM}]")
     return lines
+
+
+def _md_inline(line: str) -> str:
+    """Convert inline markdown to Rich markup, safely escaping literal brackets."""
+    line = line.replace("[", "\x00")
+    line = re.sub(r"\*\*(.+?)\*\*", r"[bold]\1[/bold]", line)
+    line = re.sub(r"`([^`]+)`", rf"[bold {AMBER}]\1[/bold {AMBER}]", line)
+    if re.match(r"^[-•]\s", line):
+        line = f"  [{DIM}]•[/{DIM}] " + line[2:]
+    line = line.replace("\x00", r"\[")
+    return line
+
+
+def _render_response_to_markup(content: str) -> str:
+    """Convert AI response markdown to a Rich markup string for Panel display."""
+    lines_out: list[str] = []
+    in_code = False
+    code_lines: list[str] = []
+
+    for line in content.split("\n"):
+        if line.startswith("```"):
+            if in_code:
+                for rendered in _code_block("\n".join(code_lines), width=22):
+                    lines_out.append(rendered)
+                lines_out.append("")
+                code_lines = []
+                in_code = False
+            else:
+                in_code = True
+        elif in_code:
+            code_lines.append(line)
+        elif line.strip():
+            lines_out.append(_md_inline(line))
+        else:
+            lines_out.append("")
+
+    if in_code and code_lines:
+        for rendered in _code_block("\n".join(code_lines), width=22):
+            lines_out.append(rendered)
+
+    while lines_out and not lines_out[-1].strip():
+        lines_out.pop()
+
+    return "\n".join(lines_out)
+
+
+def _build_topic_context(topic: dict) -> str:
+    """Build a concise reference string for the AI system prompt."""
+    parts = [f"Pattern: {topic['title']}"]
+    if topic.get("recognize"):
+        parts.append(f"Recognised by: {topic['recognize']}")
+    if topic.get("intuition"):
+        parts.append(f"Intuition: {topic['intuition']}")
+    if topic.get("time") or topic.get("space"):
+        parts.append(
+            f"Complexity: Time {topic.get('time', '?')}, Space {topic.get('space', '?')}"
+        )
+    if topic.get("patterns"):
+        parts.append("Code patterns:")
+        for pat in topic["patterns"]:
+            parts.append(f"  {pat['name']}:")
+            parts.append(f"```python\n{pat['code']}\n```")
+    if topic.get("variants"):
+        parts.append(f"Variants: {topic['variants']}")
+    if topic.get("pitfalls"):
+        parts.append(f"Pitfalls: {topic['pitfalls']}")
+    return "\n".join(parts)
 
 
 def _render_topic(topic: dict, note: str) -> str:
@@ -121,16 +219,19 @@ def _render_topic(topic: dict, note: str) -> str:
         lines += [
             f"  [{DIM}]{'─' * 48}[/{DIM}]",
             "",
-            f"  [{DIM}]{_esc(topic['when'])}[/{DIM}]",
+            f"  [{DIM}]{_esc(topic.get('when', ''))}[/{DIM}]",
         ]
         return "\n".join(lines)
 
-    diagram  = _esc(topic.get("diagram", ""))
-    when     = _esc(topic.get("when", ""))
-    t_val    = _esc(topic.get("time", ""))
+    diagram   = _esc(topic.get("diagram", ""))
+    t_val     = _esc(topic.get("time", ""))
     s_val     = _esc(topic.get("space", ""))
     recognize = _esc(topic.get("recognize", ""))
+    intuition = _esc(topic.get("intuition", ""))
     pitfalls  = _esc(topic.get("pitfalls", ""))
+    variants  = _esc(topic.get("variants", ""))
+    confusion = _esc(topic.get("confusion", ""))
+    follow_up = _esc(topic.get("follow_up_questions", ""))
     related   = topic.get("related", [])
 
     lines: list[str] = [""]
@@ -143,14 +244,16 @@ def _render_topic(topic: dict, note: str) -> str:
             lines.append(f"  [{DIM}]{ln}[/{DIM}]")
         lines.append("")
 
+    # Intuition
+    if intuition:
+        lines.append(_sh("Intuition", h)); h += 1
+        for ln in intuition.split("\n"):
+            lines.append(f"  {_md_inline(ln)}")
+        lines.append("")
+
     # Diagram
     lines.append(_sh("Diagram", h)); h += 1
     lines += _infobox(diagram)
-    lines.append("")
-
-    # When to use
-    lines.append(_sh("When to use", h)); h += 1
-    lines += _infobox(when)
     lines.append("")
 
     # Patterns
@@ -159,8 +262,15 @@ def _render_topic(topic: dict, note: str) -> str:
         lines.append(_sh("Patterns", h)); h += 1
         for i, pat in enumerate(patterns, 1):
             lines.append(f"  [bold #ffffff]{i}. {_esc(pat['name'])}[/bold #ffffff]")
-            lines += _code_block(_esc(pat["code"]))
+            lines += _code_block(_esc(pat["code"]), width=48)
             lines.append("")
+
+    # Variants
+    if variants:
+        lines.append(_sh("Variants", h)); h += 1
+        for ln in variants.split("\n"):
+            lines.append(f"  {_md_inline(ln)}")
+        lines.append("")
 
     # Complexity
     if t_val or s_val:
@@ -176,6 +286,20 @@ def _render_topic(topic: dict, note: str) -> str:
         lines.append(_sh("Pitfalls", h)); h += 1
         for ln in pitfalls.split("\n"):
             lines.append(f"  [{RED}]{ln}[/{RED}]")
+        lines.append("")
+
+    # Don't mix up with
+    if confusion:
+        lines.append(_sh("Don't mix up with", h)); h += 1
+        for ln in confusion.split("\n"):
+            lines.append(f"  [{DIM}]{ln}[/{DIM}]")
+        lines.append("")
+
+    # Follow-up questions
+    if follow_up:
+        lines.append(_sh("Follow-up questions", h)); h += 1
+        for ln in follow_up.split("\n"):
+            lines.append(f"  [{GOLD}]{ln}[/{GOLD}]")
         lines.append("")
 
     # Classic Problems
@@ -216,11 +340,59 @@ def _render_topic(topic: dict, note: str) -> str:
 
 # ── Inline chat panel ──────────────────────────────────────────────────────────
 
+class ThinkingIndicator(Static):
+    """Animated spinner + shimmering 'thinking…' label."""
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__("", **kwargs)
+        self._offset: int = 0
+        self._frame: int = 0
+
+    def on_mount(self) -> None:
+        self.set_interval(0.08, self._tick)
+
+    def _tick(self) -> None:
+        if not self.display:
+            return
+        self._offset = (self._offset + 1) % len(SHIMMER)
+        self._frame = (self._frame + 1) % len(_SPINNER_FRAMES)
+        self.update(self._build_text())
+
+    def _build_text(self) -> Text:
+        text = Text()
+        text.append("  ")
+        text.append(_SPINNER_FRAMES[self._frame], style=f"bold {FIRE}")
+        text.append(" ")
+        for i, ch in enumerate("thinking…"):
+            color = SHIMMER[(i + self._offset) % len(SHIMMER)]
+            text.append(ch, style=f"bold {color}")
+        return text
+
+
 class PlaybookChatPanel(Widget):
     """Inline AI chat panel — ask Vibe about the current topic."""
 
+    class Cleared(Message):
+        """Posted when the user presses the reset button."""
+
+    class Toggled(Message):
+        """Posted when the panel is expanded or collapsed."""
+
     def compose(self) -> ComposeResult:
-        yield RichLog(id="chat-log", markup=True, wrap=True, highlight=False)
+        with Horizontal(id="chat-header"):
+            expand_btn = Button("◀", id="chat-expand", classes="chat-expand-btn")
+            expand_btn.tooltip = "Expand chat panel"
+            expand_btn.can_focus = False
+            yield expand_btn
+            yield Static("", id="chat-header-spacer")
+            reset_btn = Button("🗑", id="chat-reset", classes="chat-reset-btn")
+            reset_btn.tooltip = "Clear chat history"
+            reset_btn.can_focus = False
+            yield reset_btn
+        chat_log = RichLog(id="chat-log", markup=True, wrap=True, highlight=False, min_width=1)
+        chat_log.can_focus = False
+        yield chat_log
+        yield ThinkingIndicator(id="chat-thinking")
         yield Input(placeholder="Ask about this pattern…", id="chat-input")
 
     def set_topic(self, topic: dict) -> None:
@@ -232,21 +404,122 @@ class PlaybookChatPanel(Widget):
     def focus_input(self) -> None:
         self.query_one("#chat-input", Input).focus()
 
+    def set_busy(self, busy: bool) -> None:
+        self.query_one("#chat-input", Input).disabled = busy
+        self.query_one("#chat-thinking", ThinkingIndicator).display = busy
+
     def append_user(self, message: str) -> None:
         log = self.query_one("#chat-log", RichLog)
-        log.write(f"[{DIM}]YOU[/{DIM}]")
-        log.write(f"[on #1a1000][{AMBER}] {_esc(message)} [/{AMBER}][/on #1a1000]")
-        log.write("")
+        log.write(Panel(
+            _esc(message),
+            title=f"[bold {AMBER}] you [/bold {AMBER}]",
+            title_align="left",
+            border_style=AMBER,
+            padding=(0, 1),
+            expand=True,
+        ))
+        log.scroll_end(animate=False)
 
-    def append_ai_label(self) -> None:
-        self.query_one("#chat-log", RichLog).write(f"[{DIM}]VIBE AI[/{DIM}]")
+    def append_ai(self, content: str) -> None:
+        log = self.query_one("#chat-log", RichLog)
+        log.write(Panel(
+            Text.from_markup(_render_response_to_markup(content)),
+            title=f"[bold {FIRE}] vibe [/bold {FIRE}]",
+            title_align="left",
+            border_style=FIRE,
+            padding=(0, 1),
+            expand=True,
+        ))
+        log.scroll_end(animate=False)
 
-    def append_ai_line(self, line: str) -> None:
-        self.query_one("#chat-log", RichLog).write(f"  {line}")
+    def append_error(self, message: str) -> None:
+        log = self.query_one("#chat-log", RichLog)
+        log.write(Panel(
+            f"[{RED}]{_esc(message)}[/{RED}]",
+            title=f"[bold {RED}] error [/bold {RED}]",
+            title_align="left",
+            border_style=RED,
+            padding=(0, 1),
+            expand=True,
+        ))
+        log.scroll_end(animate=False)
 
-    def append_log(self, markup: str) -> None:
-        """Legacy helper."""
-        self.query_one("#chat-log", RichLog).write(markup)
+    def append_raw(self, line: str) -> None:
+        self.query_one("#chat-log", RichLog).write(line)
+
+    def restore_history(self, messages: list[dict]) -> None:
+        """Re-render a saved conversation history into the log."""
+        log = self.query_one("#chat-log", RichLog)
+        log.clear()
+        for msg in messages:
+            if msg["role"] == "user":
+                self.append_user(msg["content"])
+            elif msg["role"] == "assistant":
+                self.append_ai(msg["content"])
+
+    def on_key(self, event: Key) -> None:
+        if event.key == "space":
+            inp = self.query_one("#chat-input", Input)
+            if inp.has_focus and not inp.disabled:
+                inp.insert_text_at_cursor(" ")
+                event.prevent_default()
+                event.stop()
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if event.button.id == "chat-expand":
+            self.toggle_class("expanded")
+            btn = self.query_one("#chat-expand", Button)
+            if "expanded" in self.classes:
+                btn.label = "▶"
+                btn.tooltip = "Collapse chat panel"
+            else:
+                btn.label = "◀"
+                btn.tooltip = "Expand chat panel"
+            event.stop()
+            self.post_message(self.Toggled())
+            self.call_after_refresh(self.focus_input)
+        elif event.button.id == "chat-reset":
+            self.reset()
+            self.post_message(self.Cleared())
+            self.focus_input()
+
+
+# ── Inline notes panel ────────────────────────────────────────────────────────
+
+class NotesPanel(Widget):
+    """Inline notes editor — slides in below content when N is pressed."""
+
+    class Closed(Message):
+        """Posted when the panel is closed, carrying the saved text."""
+        def __init__(self, text: str) -> None:
+            super().__init__()
+            self.text = text
+
+    def compose(self) -> ComposeResult:
+        yield Static(
+            f"[{DIM}]✎  Type your notes — press Esc to save & close[/{DIM}]",
+            id="notes-hint",
+            markup=True,
+        )
+        yield TextArea("", id="notes-textarea", show_line_numbers=False)
+
+    def load(self, note: str) -> None:
+        ta = self.query_one("#notes-textarea", TextArea)
+        ta.load_text(note)
+        self.call_after_refresh(ta.focus)
+
+    def get_text(self) -> str:
+        return self.query_one("#notes-textarea", TextArea).text
+
+    def on_key(self, event: Key) -> None:
+        ta = self.query_one("#notes-textarea", TextArea)
+        if event.key == "space" and ta.has_focus:
+            ta.insert(" ")
+            event.prevent_default()
+            event.stop()
+        elif event.key == "escape":
+            self.post_message(self.Closed(self.get_text()))
+            event.stop()
 
 
 # ── Filter helpers ─────────────────────────────────────────────────────────────
@@ -275,12 +548,12 @@ class ReferenceGuideScreen(BaseScreen):
     """Playbook mode — browse algorithm topics, add notes, and export to DOCX."""
 
     BINDINGS = [
-        Binding("escape",  "pop_screen",   "← Back"),
-        Binding("ctrl+q",  "quit_app",     "Quit"),
-        Binding("e",       "explain_more", "Explain More", show=False),
-        Binding("p",       "practice",     "Practice",     show=False),
-        Binding("n",       "edit_note",    "Edit Note",    show=False),
-        Binding("x",       "export_docx",  "Export DOCX",  show=False),
+        Binding("escape",  "pop_screen",      "← Back"),
+        Binding("ctrl+q",  "quit_app",        "Quit"),
+        Binding("e",       "explain_more",    "Explain More", show=False),
+        Binding("p",       "practice",        "Practice",     show=False),
+        Binding("n",       "edit_note",       "Edit Note",    show=False),
+        Binding("x",       "export_docx",     "Export DOCX",  show=False),
     ]
 
     filter_cat:   reactive[str] = reactive("all")
@@ -292,7 +565,9 @@ class ReferenceGuideScreen(BaseScreen):
         self._current_idx: int = 0
         self._notes: dict[str, str] = {}
         self._chat_open: bool = False
-        self._chat_history: list[dict] = []
+        self._notes_open: bool = False
+        self._streaming: bool = False
+        self._histories: dict[str, list[dict]] = {}
         self._option_map: list[int | None] = []  # OptionList pos → _visible_topics idx
 
     # ── Filtered topic list ──────────────────────────────────────────────
@@ -317,9 +592,11 @@ class ReferenceGuideScreen(BaseScreen):
         with Horizontal(id="ref-body"):
             with Vertical(id="ref-topics"):
                 yield OptionList(id="topic-list")
-            with VerticalScroll(id="ref-content-scroll"):
-                yield Static("", id="ref-content-title", markup=True)
-                yield Static("", id="ref-content-body", markup=True)
+            with Vertical(id="ref-center"):
+                with VerticalScroll(id="ref-content-scroll"):
+                    yield Static("", id="ref-content-title", markup=True)
+                    yield Static("", id="ref-content-body", markup=True)
+                yield NotesPanel(id="notes-panel")
             yield PlaybookChatPanel(id="chat-panel")
 
         yield StatusBar(
@@ -337,6 +614,7 @@ class ReferenceGuideScreen(BaseScreen):
 
     def on_mount(self) -> None:
         self._notes = _load_notes()
+        self._histories = _load_histories()
         self._rebuild_list()
 
     # ── Reactive filter watchers ─────────────────────────────────────────
@@ -363,7 +641,22 @@ class ReferenceGuideScreen(BaseScreen):
             pass
 
     def on_resize(self) -> None:
-        self._rebuild_list()
+        self._rebuild_list(refocus=False)
+        if self._chat_open and not self._streaming:
+            if getattr(self, "_chat_resize_timer", None) is not None:
+                self._chat_resize_timer.stop()
+            self._chat_resize_timer = self.set_timer(0.15, self._rerender_chat)
+
+    def _rerender_chat(self) -> None:
+        self._chat_resize_timer = None
+        if not self._chat_open or self._streaming:
+            return
+        visible = self._visible_topics
+        if not visible:
+            return
+        slug = visible[self._current_idx]["slug"]
+        panel = self.query_one(PlaybookChatPanel)
+        panel.restore_history(self._histories.get(slug, []))
 
     def on_select_changed(self, event: Select.Changed) -> None:
         if event.select.id == "cat-filter":
@@ -390,7 +683,7 @@ class ReferenceGuideScreen(BaseScreen):
         except Exception:
             return 24
 
-    def _rebuild_list(self) -> None:
+    def _rebuild_list(self, *, refocus: bool = True) -> None:
         """Repopulate the OptionList from _visible_topics and reset selection."""
         visible = self._visible_topics
         topic_list = self.query_one("#topic-list", OptionList)
@@ -437,7 +730,8 @@ class ReferenceGuideScreen(BaseScreen):
         if self._option_map:
             topic_list.highlighted = first_pos
         self._refresh_content()
-        topic_list.focus()
+        if refocus:
+            topic_list.focus()
 
     # ── Topic navigation ─────────────────────────────────────────────────
 
@@ -446,15 +740,27 @@ class ReferenceGuideScreen(BaseScreen):
         topic_idx = self._option_map[pos] if pos < len(self._option_map) else None
         if topic_idx is None:
             return  # header row — ignore
+
+        visible = self._visible_topics
+
+        if self._notes_open and visible:
+            prev_slug = visible[self._current_idx]["slug"]
+            self._save_note(prev_slug, self.query_one(NotesPanel).get_text())
+
         self._current_idx = topic_idx
         self._refresh_content()
-        if self._chat_open:
-            visible = self._visible_topics
+
+        if self._notes_open and visible:
+            topic = visible[self._current_idx]
+            self.query_one(NotesPanel).load(self._notes.get(topic["slug"], ""))
+
+        if self._chat_open and not self._streaming:
             if visible:
+                topic = visible[self._current_idx]
                 panel = self.query_one(PlaybookChatPanel)
-                panel.set_topic(visible[self._current_idx])
-                panel.reset()
-                self._chat_history = []
+                panel.set_topic(topic)
+                slug = topic["slug"]
+                panel.restore_history(self._histories.get(slug, []))
 
     def _refresh_content(self) -> None:
         visible = self._visible_topics
@@ -478,6 +784,19 @@ class ReferenceGuideScreen(BaseScreen):
 
     # ── Actions ──────────────────────────────────────────────────────────
 
+    def action_pop_screen(self) -> None:
+        if self._chat_open:
+            self.action_explain_more()
+        elif self._notes_open:
+            self.action_edit_note()
+        else:
+            self.app.pop_screen()
+
+    def _save_note(self, slug: str, text: str) -> None:
+        self._notes[slug] = text
+        _save_notes(self._notes)
+        self._refresh_content()
+
     def action_explain_more(self) -> None:
         """Toggle the inline Vibe AI chat panel for the current topic."""
         panel = self.query_one(PlaybookChatPanel)
@@ -491,11 +810,22 @@ class ReferenceGuideScreen(BaseScreen):
                 return
             topic = visible[self._current_idx]
             panel.set_topic(topic)
-            panel.reset()
-            self._chat_history = []
+            panel.restore_history(self._histories.get(topic["slug"], []))
             panel.add_class("open")
             self._chat_open = True
-            panel.focus_input()
+            self.call_after_refresh(panel.focus_input)
+
+    def on_playbook_chat_panel_toggled(self, _event: PlaybookChatPanel.Toggled) -> None:
+        self.call_after_refresh(self._rerender_chat)
+
+    def on_playbook_chat_panel_cleared(self, _event: PlaybookChatPanel.Cleared) -> None:
+        """Clear saved history for the current topic when user resets chat."""
+        visible = self._visible_topics
+        if not visible:
+            return
+        slug = visible[self._current_idx]["slug"]
+        self._histories.pop(slug, None)
+        _save_histories(self._histories)
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         if event.input.id != "chat-input":
@@ -515,15 +845,20 @@ class ReferenceGuideScreen(BaseScreen):
         if not visible:
             return
         topic = visible[self._current_idx]
+        slug  = topic["slug"]
+
+        self._streaming = True
+        self.app.call_from_thread(panel.set_busy, True)
+
+        history = self._histories.setdefault(slug, [])
+        history.append({"role": "user", "content": user_message})
 
         system_prompt = (
-            f"You are Vibe, an expert algorithm tutor inside LeetVibe. "
-            f"The user is studying the '{topic['title']}' pattern. "
-            f"Answer clearly and concisely. Use short code snippets when helpful. "
-            f"Keep responses focused on this algorithm pattern."
+            "You are Vibe, a concise algorithm tutor inside LeetVibe. "
+            "Answer questions about the current pattern clearly and briefly. "
+            "Use **bold** for key terms and ``` for code blocks.\n\n"
+            f"=== Pattern Reference ===\n{_build_topic_context(topic)}"
         )
-
-        self._chat_history.append({"role": "user", "content": user_message})
 
         try:
             from mistralai import Mistral
@@ -532,16 +867,14 @@ class ReferenceGuideScreen(BaseScreen):
             config = load_config()
             client = Mistral(api_key=config.mistral_api_key)
 
-            self.app.call_from_thread(panel.append_ai_label)
-
             full_response = ""
-            buffer = ""
 
             with client.chat.stream(
-                model=getattr(config, "model", "mistral-large-latest") or "mistral-large-latest",
+                model=config.mistral_qa_model,
                 messages=[
                     {"role": "system", "content": system_prompt},
-                    *self._chat_history,
+                    *history[:-1][-10:],  # last 10 prior turns; full history kept on disk
+                    {"role": "user", "content": user_message},
                 ],
             ) as stream:
                 for event in stream:
@@ -549,26 +882,20 @@ class ReferenceGuideScreen(BaseScreen):
                         chunk = event.data.choices[0].delta.content or ""
                     except (AttributeError, IndexError):
                         continue
-                    if chunk:
-                        full_response += chunk
-                        buffer += chunk
-                        while "\n" in buffer:
-                            line, buffer = buffer.split("\n", 1)
-                            self.app.call_from_thread(
-                                panel.append_ai_line, _esc(line)
-                            )
+                    full_response += chunk
 
-            if buffer:
-                self.app.call_from_thread(panel.append_ai_line, _esc(buffer))
+            if full_response.strip():
+                self.app.call_from_thread(panel.append_ai, full_response)
 
-            self.app.call_from_thread(panel.append_log, "")
-            self._chat_history.append({"role": "assistant", "content": full_response})
+            history.append({"role": "assistant", "content": full_response})
+            _save_histories(self._histories)
 
         except Exception as exc:
-            self.app.call_from_thread(
-                panel.append_log,
-                f"  [{RED}]Error: {_esc(str(exc)[:120])}[/{RED}]",
-            )
+            history.pop()
+            self.app.call_from_thread(panel.append_error, str(exc)[:120])
+        finally:
+            self._streaming = False
+            self.app.call_from_thread(panel.set_busy, False)
 
     def action_practice(self) -> None:
         """Open problem list pre-filtered to the current topic."""
@@ -595,25 +922,29 @@ class ReferenceGuideScreen(BaseScreen):
         )
 
     def action_edit_note(self) -> None:
-        """Open the notes modal for the current topic."""
+        """Toggle the inline notes panel for the current topic."""
         visible = self._visible_topics
         if not visible:
             return
-        from .notes_modal import NotesModal
-        topic    = visible[self._current_idx]
-        existing = self._notes.get(topic["slug"], "")
+        topic = visible[self._current_idx]
+        panel = self.query_one(NotesPanel)
+        if self._notes_open:
+            self._save_note(topic["slug"], panel.get_text())
+            panel.remove_class("open")
+            self._notes_open = False
+            self.query_one("#topic-list", OptionList).focus()
+        else:
+            panel.load(self._notes.get(topic["slug"], ""))
+            panel.add_class("open")
+            self._notes_open = True
 
-        def _on_result(result: str | None) -> None:
-            if result is not None:
-                self._notes[topic["slug"]] = result
-                _save_notes(self._notes)
-                self._refresh_content()
-                self.notify(
-                    f"Note saved for {topic['title']}",
-                    severity="information",
-                )
-
-        self.app.push_screen(NotesModal(topic["title"], existing), _on_result)
+    def on_notes_panel_closed(self, event: NotesPanel.Closed) -> None:
+        visible = self._visible_topics
+        if visible:
+            self._save_note(visible[self._current_idx]["slug"], event.text)
+        self.query_one(NotesPanel).remove_class("open")
+        self._notes_open = False
+        self.query_one("#topic-list", OptionList).focus()
 
     def action_export_docx(self) -> None:
         """Export all topics and notes to a DOCX file in a background thread."""

@@ -111,6 +111,12 @@ def export_reference_docx(topics: list[dict], notes: dict[str, str]) -> str:
                 _section_label(doc, "Recognised by", Pt, RGBColor(*_GOLD))
                 _body(doc, recognize, Pt)
 
+            # Intuition
+            intuition = topic.get("intuition", "").strip()
+            if intuition:
+                _section_label(doc, "Intuition", Pt, RGBColor(*_GOLD))
+                _body(doc, intuition, Pt)
+
             # Diagram
             if topic.get("diagram"):
                 _section_label(doc, "Diagram", Pt, RGBColor(*_GOLD))
@@ -133,6 +139,12 @@ def export_reference_docx(topics: list[dict], notes: dict[str, str]) -> str:
                     _set_para_spacing(np, before=4, after=2)
                     _code_block(doc, pat["code"], Pt, RGBColor, OxmlElement, qn)
 
+            # Variants
+            variants = topic.get("variants", "").strip()
+            if variants:
+                _section_label(doc, "Variants", Pt, RGBColor(*_GOLD))
+                _body(doc, variants, Pt)
+
             # Complexity
             t_val = topic.get("time", "").strip()
             s_val = topic.get("space", "").strip()
@@ -153,6 +165,24 @@ def export_reference_docx(topics: list[dict], notes: dict[str, str]) -> str:
                 _section_label(doc, "Pitfalls", Pt, RGBColor(*_GOLD))
                 _body(doc, pitfalls, Pt)
 
+            # Edge cases
+            edge_cases = topic.get("edge_cases", "").strip()
+            if edge_cases:
+                _section_label(doc, "Edge Cases", Pt, RGBColor(*_GOLD))
+                _body(doc, edge_cases, Pt)
+
+            # Don't mix up with
+            confusion = topic.get("confusion", "").strip()
+            if confusion:
+                _section_label(doc, "Don't mix up with", Pt, RGBColor(*_GOLD))
+                _code_block(doc, confusion, Pt, RGBColor, OxmlElement, qn)
+
+            # Follow-up questions
+            follow_up = topic.get("follow_up_questions", "").strip()
+            if follow_up:
+                _section_label(doc, "Follow-up Questions", Pt, RGBColor(*_GOLD))
+                _body(doc, follow_up, Pt)
+
             # Classic problems
             if topic.get("problems"):
                 _section_label(doc, "Classic Problems", Pt, RGBColor(*_GOLD))
@@ -165,6 +195,14 @@ def export_reference_docx(topics: list[dict], notes: dict[str, str]) -> str:
                     bp = doc.add_paragraph(style="List Bullet")
                     bp.add_run(label).font.size = Pt(10)
                     _set_para_spacing(bp, before=0, after=1)
+
+            # Related topics
+            related = topic.get("related", [])
+            if related:
+                _section_label(doc, "Related Topics", Pt, RGBColor(*_GOLD))
+                rp = doc.add_paragraph()
+                rp.add_run("  ·  ".join(related)).font.size = Pt(10)
+                _set_para_spacing(rp, before=0, after=4)
 
             # Notes
             if note:

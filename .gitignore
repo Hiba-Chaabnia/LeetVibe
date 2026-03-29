@@ -36,6 +36,7 @@ Thumbs.db
 # Development Folders
 problems_seed/
 .pytest_cache/
+tests/test_topic_schema.py
 .claude/
 logs/
 secrets/
