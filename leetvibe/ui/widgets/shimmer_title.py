@@ -1,11 +1,11 @@
-"""Shared utilities for onboarding screens."""
+"""ShimmerTitle — a title widget animated with the brand fire shimmer effect."""
 
 from __future__ import annotations
 
 from rich.text import Text
 from textual.widgets import Static
 
-from ...theme import SHIMMER as _SHIMMER
+from ..theme import SHIMMER as _SHIMMER
 
 
 class ShimmerTitle(Static):

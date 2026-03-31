@@ -31,7 +31,6 @@ class StatsScreen(BaseScreen):
     BINDINGS = [
         Binding("escape", "pop_screen", "← Back"),
         Binding("ctrl+q", "quit_app",   "Exit LeetVibe"),
-        Binding("q",      "pop_screen", "Back", show=False),
     ]
 
     def compose(self) -> ComposeResult:
@@ -44,7 +43,7 @@ class StatsScreen(BaseScreen):
         yield StatusBar(
             hints=[
                 ("Esc",    "go back",      self.action_pop_screen),
-                ("Ctrl+Q", "Exit LeetVibe", self.action_quit_app),
+                ("Ctrl+Q", "exit LeetVibe", self.action_quit_app),
             ],
             id="stats-status",
         )

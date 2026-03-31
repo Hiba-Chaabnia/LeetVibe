@@ -1,0 +1,151 @@
+/* ── Shared auth flow (onboarding + Account menu) ── */
+
+AuthScreenBase {
+    background: #0f0f0f;
+    align: center middle;
+}
+
+/* ── Clickable key-hint rows (shared HintLabel widget) ── */
+
+HintLabel {
+    height: 1;
+    width: auto;
+    padding: 0 1;
+    background: transparent;
+}
+
+HintLabel:hover {
+    background: #2a2a2a;
+}
+
+.hint-sep {
+    color: #555555;
+    width: auto;
+    height: 1;
+}
+
+/* ── Card containers ── */
+
+#auth-container,
+#form-container {
+    width: 64;
+    height: auto;
+    padding: 2 4;
+    border: round #333333;
+    background: #0e0e0e;
+}
+
+/* ── Auth choice ── */
+
+#auth-title {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1;
+}
+
+#auth-subtitle {
+    color: #888888;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+    height: auto;
+}
+
+.auth-btn {
+    width: 100%;
+    height: 3;
+    margin-bottom: 1;
+    border: round #444444;
+    background: transparent;
+    color: #cccccc;
+}
+
+.auth-btn:hover,
+.auth-btn:focus,
+.auth-btn.-active {
+    border: round #FF8205;
+    background: transparent;
+    color: #FF8205;
+    text-style: bold;
+}
+
+#auth-row {
+    width: 100%;
+    height: auto;
+}
+
+#auth-row .auth-btn {
+    width: 1fr;
+}
+
+#auth-row #btn-login {
+    margin-right: 2;
+}
+
+/* Sits right under the card instead of docked to the screen's bottom edge.
+   Matches #auth-container/#form-container's width (not 100% or auto) so
+   Screen{align:center middle} centers both the same way, and the hint row's
+   own content centers within that matching width. */
+#auth-hint {
+    width: 64;
+    height: 1;
+    margin-top: 1;
+    align: center middle;
+}
+
+/* ── Login / Signup / Google auth forms ── */
+
+#form-title {
+    color: #FF8205;
+    text-style: bold;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1;
+}
+
+#form-subtitle {
+    color: #888888;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+    height: auto;
+}
+
+.form-input {
+    width: 100%;
+    border: tall #444444;
+    background: #1a1a1a;
+    color: #ffffff;
+    margin-bottom: 1;
+}
+
+.form-input:focus {
+    border: tall #FF8205;
+}
+
+#form-error {
+    color: #ff4444;
+    text-align: center;
+    width: 100%;
+    height: 1;
+}
+
+/* Google auth's single "Esc to cancel" hint — stays nested inside
+   #form-container (short enough to never overflow it). */
+#form-hint {
+    width: 100%;
+    height: 1;
+    margin-top: 1;
+    align: center middle;
+}
+
+/* Login / Signup — hint row sits right under the card instead of nested
+   inside it, where it could overflow the card's padded interior (56 cols)
+   once it grew past two hints. Matches #form-container's width (64), same
+   pattern as #auth-hint/#submit-hint-inline. */
+#form-hint-inline {
+    width: 64;
+    height: 1;
+    margin-top: 1;
+    align: center middle;
+}

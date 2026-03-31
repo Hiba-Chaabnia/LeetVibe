@@ -273,6 +273,7 @@ ProblemTable > .datatable--odd-row {
 #btn-problem-list.-active, #btn-prev.-active, #btn-next.-active,
 #btn-run.-active, #btn-submit.-active, #btn-feedback.-active, #btn-solution.-active {
     background: transparent;
+    text-style: bold;
 }
 
 #btn-problem-list, #btn-prev, #btn-next { color: $muted; border: round #444444; text-style: dim; }
@@ -336,15 +337,6 @@ ProblemTable > .datatable--odd-row {
     display: none;
 }
 
-/* Header override */
-Header {
-    background: transparent;
-    color: $grad2;
-    text-style: bold;
-    border-bottom: solid $brand;
-}
-
-
 /* ============================================================
    Select widget
    ============================================================ */
@@ -400,19 +392,6 @@ Input:focus {
     border: round $brand;
 }
 
-/* ── Login screen input overrides ── */
-#login-container Input {
-    border: round #555555;
-}
-
-#login-container Input:focus {
-    border: round $brand;
-}
-
-#login-container Input:disabled {
-    border: round #333333;
-}
-
 /* ============================================================
    Loading indicator
    ============================================================ */
@@ -431,6 +410,17 @@ Tooltip {
     color: $text;
     border: round $muted;
     padding: 0 1;
+}
+
+
+/* ============================================================
+   Buttons — global
+   ============================================================ */
+
+/* Textual's default focus style is "bold reverse", which swaps a button's
+   foreground into its background (solid colored fill). Keep just the bold. */
+Button:focus {
+    text-style: bold;
 }
 
 
@@ -544,121 +534,6 @@ ProblemCard .hidden {
 
 
 /* ============================================================
-   LoginScreen
-   ============================================================ */
-
-LoginScreen {
-    align: center middle;
-}
-#login-container {
-    width: 58;
-    height: auto;
-    border: round $brand;
-    background: $bg-card;
-    padding: 1 2 2 2;
-}
-#login-title {
-    width: 100%;
-    content-align: center middle;
-    color: $brand;
-    text-style: bold;
-    margin: 0 0 1 0;
-    height: 1;
-}
-#mode-row {
-    height: 3;
-    width: 100%;
-    align: center middle;
-    margin: 0 0 1 0;
-}
-#btn-signin-mode, #btn-signup-mode {
-    border: round #444444;
-    background: transparent;
-    color: $muted;
-    padding: 0 2;
-    min-width: 12;
-    height: 3;
-}
-#btn-signin-mode.active, #btn-signup-mode.active {
-    background: #3a2200;
-    color: $brand;
-    text-style: bold;
-    border: round $brand;
-}
-#btn-signin-mode:focus, #btn-signin-mode.-active,
-#btn-signup-mode:focus, #btn-signup-mode.-active {
-    background: transparent;
-}
-#btn-signin-mode.active:focus, #btn-signin-mode.active.-active,
-#btn-signup-mode.active:focus, #btn-signup-mode.active.-active {
-    background: #3a2200;
-}
-#login-status {
-    width: 100%;
-    color: $muted;
-    height: 1;
-    text-align: center;
-    margin: 0 0 1 0;
-}
-#btn-google {
-    width: 100%;
-    border: round $muted;
-    background: transparent;
-    color: #e0e0e0;
-    height: 3;
-}
-#btn-google:hover    { background: $bg-raised; border: round #aaaaaa; }
-#btn-google:disabled { color: #444444; border: round #333333; }
-#btn-google:focus, #btn-google.-active { background: transparent; }
-LoginScreen #divider {
-    width: 100%;
-    content-align: center middle;
-    color: $muted;
-    margin: 1 0;
-    height: 1;
-}
-#confirm-input {
-    display: none;
-}
-#google-note {
-    width: 100%;
-    color: $muted;
-    height: auto;
-    min-height: 1;
-    margin: 1 0 0 0;
-    text-align: center;
-    text-style: italic;
-}
-LoginScreen #btn-submit {
-    width: 100%;
-    margin: 1 0 0 0;
-    background: $brand;
-    color: #000000;
-    text-style: bold;
-    border: none;
-    height: 3;
-}
-LoginScreen #btn-submit:hover    { background: $amber; }
-LoginScreen #btn-submit:disabled { background: #3a2200; color: #555555; }
-#login-error {
-    width: 100%;
-    color: $hard;
-    height: auto;
-    min-height: 1;
-    margin: 1 0 0 0;
-    text-align: center;
-}
-#login-info {
-    width: 100%;
-    color: $easy;
-    height: auto;
-    min-height: 1;
-    margin: 0;
-    text-align: center;
-}
-
-
-/* ============================================================
    StatsScreen
    ============================================================ */
 
@@ -703,72 +578,21 @@ StatsScreen {
 
 
 /* ============================================================
-   NotesModal
-   ============================================================ */
-
-NotesModal {
-    align: center middle;
-}
-#notes-dialog {
-    width: 72;
-    height: 24;
-    background: $bg-raised;
-    border: round $brand;
-    padding: 1 2;
-}
-#notes-title {
-    color: $grad1;
-    text-style: bold;
-    height: 1;
-    margin-bottom: 1;
-}
-#notes-hint {
-    color: #555555;
-    height: 1;
-    margin-bottom: 1;
-}
-#notes-area {
-    height: 13;
-    border: round #444444;
-    background: $bg-card;
-}
-#notes-buttons {
-    height: 3;
-    align: right middle;
-    margin-top: 1;
-}
-#notes-buttons Button {
-    margin-left: 1;
-    background: transparent;
-    min-width: 14;
-}
-NotesModal #btn-save {
-    color: $brand;
-    border: round $brand;
-}
-NotesModal #btn-cancel {
-    color: $muted;
-    border: round #444444;
-}
-
-
-/* ============================================================
    FeedbackModal
    ============================================================ */
 
 FeedbackModal {
     align: center middle;
+    background: $bg;
 }
 #feedback-dialog {
     width: 72;
     height: auto;
-    background: $bg-raised;
-    border: round $brand;
+    background: $bg;
+    border: round #333333;
     padding: 2 3;
 }
 #feedback-title {
-    color: $brand;
-    text-style: bold;
     text-align: center;
     width: 100%;
     margin-bottom: 1;
@@ -780,6 +604,10 @@ FeedbackModal {
 #feedback-type {
     width: 100%;
     margin-bottom: 1;
+    background: transparent;
+}
+#feedback-type > SelectCurrent {
+    background: transparent;
 }
 #feedback-msg-label {
     color: $muted;
@@ -1056,7 +884,7 @@ AgentSessionScreen #chat-input:disabled { color: #555555; border: round #2a2a2a;
 
 
 /* ============================================================
-   PlaybookBreadcrumb / PlaybookChatPanel / ReferenceGuideScreen
+   PlaybookChatPanel / ReferenceGuideScreen
    ============================================================ */
 
 

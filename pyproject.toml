@@ -4,10 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "leetvibe"
-version = "0.1.8"
-description = "AI Pair Programming CLI for LeetCode"
-readme = "README.md"
-license = { text = "MIT" }
+version = "0.1.9"
+description = "AI Pair Programming CLI for LeetCode — powered by Mistral AI"
+readme = "PYPI.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 authors = [
     { name = "Hiba Chaabnia", email = "hiba.chaabnia.pro@gmail.com" },
@@ -26,7 +27,6 @@ classifiers = [
     "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: Education",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -47,7 +47,6 @@ dependencies = [
     "sounddevice>=0.5.0",
     "numpy>=1.26.0",
     # Utilities
-    "pydantic>=2.10.6",
     "python-dotenv>=1.0.1",
     "pyyaml>=6.0.2",
     "requests>=2.32.3",
@@ -56,9 +55,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/hibachaabnia/leetvibe"
-Repository = "https://github.com/hibachaabnia/leetvibe"
-"Bug Tracker" = "https://github.com/hibachaabnia/leetvibe/issues"
+Homepage = "https://github.com/Hiba-Chaabnia/LeetVibe"
+Repository = "https://github.com/Hiba-Chaabnia/LeetVibe"
+"Bug Tracker" = "https://github.com/Hiba-Chaabnia/LeetVibe/issues"
+Changelog = "https://github.com/Hiba-Chaabnia/LeetVibe/blob/main/CHANGELOG.md"
 
 [project.scripts]
 leetvibe = "leetvibe.cli:main"
@@ -72,13 +72,3 @@ include = ["leetvibe/", "config.yaml"]
 [tool.uv]
 package = true
 required-version = ">=0.6.0"
-
-[dependency-groups]
-dev = [
-    "pytest>=8.3.4",
-    "pytest-asyncio>=0.24.0",
-]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-addopts = "-v"

@@ -10,16 +10,23 @@ from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalGroup, VerticalScroll
+from textual.events import Key
 from textual.widgets import Button, Input, Static
 
-from ...problem_loader import Problem
-from ..theme import FIRE, GRADIENT, GREEN, RED, SHIMMER
-from ..widgets.problem_card import ProblemCard
-from ..widgets.status_bar import StatusBar
-from .base import BaseScreen
+from leetvibe.problem_loader import Problem
+from leetvibe.ui.theme import FIRE, GREEN, RED
+from leetvibe.ui.widgets import ProblemCard, StatusBar
+from leetvibe.ui.screens.base import BaseScreen
 
-# Strip Rich markup tags like [bold], [/dim], [#FF0000] before regex matching
-_MARKUP_RE = re.compile(r"\[/?[^\]]*\]")
+from .chat_widgets import (
+    AssistantBlock,
+    BackgroundStep,
+    ChatScroll,
+    FinalAnswer,
+    UserMessage,
+)
+from .markdown import MARKUP_RE
+
 # Strip markdown bold (**text**) and heading (### text) markers before matching
 _MD_DECORATION_RE = re.compile(r"^[*#\s]+|[*#\s]+$")
 # Matches "STEP N — Title", "STEP N - Title", "STEP N: Title" (case-insensitive)
@@ -27,322 +34,6 @@ _MD_DECORATION_RE = re.compile(r"^[*#\s]+|[*#\s]+$")
 _STEP_RE = re.compile(r"^\s*STEP\s+(\d+)\s*[—–\-:]+\s*(.*)", re.IGNORECASE)
 # Matches standalone "Call toolname(...)" lines emitted by the LLM before tool dispatch
 _TOOL_CALL_LINE_RE = re.compile(r"^Call\s+\w+\s*\(.*\)\s*$", re.IGNORECASE)
-
-# ── Markdown → Rich markup ─────────────────────────────────────────────────────
-_MD_FENCE_RE = re.compile(r"^```(\w*)")
-_MD_HEADING_RE = re.compile(r"^#{1,3}\s+(.*)")
-_MD_BOLD_RE = re.compile(r"\*\*(.+?)\*\*")
-_MD_INLINE_CODE_RE = re.compile(r"`([^`]+)`")
-_MD_HR_RE = re.compile(r"^[-]{3,}$")
-
-
-def _md_to_rich(line: str, in_code_block: bool) -> tuple[str, bool]:
-    """Convert one streamed Markdown line to Rich markup.
-
-    Returns (rendered_line, new_in_code_block). Handles:
-      - ``` fences → dim language label / closing blank line
-      - Code block content → escaped so Rich doesn't mis-parse brackets
-      - ### headings → bold fire-orange
-      - **bold** → [bold]…[/bold]
-      - `inline code` → fire-orange
-      - --- → dim horizontal rule
-    """
-    stripped = line.strip()
-
-    # Code fence open/close
-    fence_m = _MD_FENCE_RE.match(stripped)
-    if fence_m:
-        if in_code_block:
-            return "", False
-        lang = fence_m.group(1) or "code"
-        dashes = "─" * max(0, 14 - len(lang))
-        return f"[dim]─── {lang} {dashes}[/dim]", True
-
-    if in_code_block:
-        # Escape [ so Rich doesn't try to parse code as markup
-        return line.replace("[", r"\["), True
-
-    # Horizontal rule — suppress (LLM-emitted --- adds visual noise before steps)
-    if _MD_HR_RE.match(stripped):
-        return "", False
-
-    # Headings (# / ## / ###) → bold fire-orange, prefixed with blank line
-    h = _MD_HEADING_RE.match(stripped)
-    if h:
-        title = _MD_BOLD_RE.sub(r"\1", h.group(1).strip())
-        return f"\n[bold #FF8205]{title}[/bold #FF8205]", False
-
-    # Inline: **bold** and `code`
-    line = _MD_BOLD_RE.sub(r"[bold]\1[/bold]", line)
-    line = _MD_INLINE_CODE_RE.sub(r"[#FF8205]\1[/#FF8205]", line)
-    return line, False
-
-# ── Chat widgets ───────────────────────────────────────────────────────────────
-
-
-class ChatScroll(VerticalScroll):
-    """Performance-optimised scroll container — skips cascading style recalcs."""
-
-    def update_node_styles(self, animate: bool = True) -> None:  # noqa: FBT001
-        pass
-
-
-class UserMessage(Static):
-    """User / problem turn: orange heavy left-border bubble."""
-
-    def __init__(self, text: str) -> None:
-        super().__init__()
-        self._text = text
-
-    def compose(self) -> ComposeResult:
-        yield Static(self._text, markup=True, classes="msg-content")
-
-
-class CopyableCodeBlock(Static):
-    """Inline code block with a one-click ⎘ copy button."""
-
-    def __init__(self, lang: str) -> None:
-        super().__init__()
-        self._lang = lang or "code"
-        self._lines: list[str] = []
-        self._body: Static | None = None
-        self._btn: Button | None = None
-
-    def compose(self) -> ComposeResult:
-        dashes = "─" * max(0, 14 - len(self._lang))
-        with Horizontal(classes="cb-header"):
-            yield Static(
-                f"[dim]─── {self._lang} {dashes}[/dim]",
-                markup=True, classes="cb-lang",
-            )
-            self._btn = Button("⎘", classes="cb-btn")
-            yield self._btn
-        self._body = Static("", markup=False, classes="cb-body")
-        yield self._body
-
-    def add_line(self, line: str) -> None:
-        self._lines.append(line)
-        if self._body is not None:
-            try:
-                self._body.update("\n".join(self._lines))
-            except Exception:
-                pass
-
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        self.app.copy_to_clipboard("\n".join(self._lines))
-        event.stop()
-        if self._btn is not None:
-            self._btn.label = "✓"
-            self.set_timer(1.5, self._reset_btn)
-
-    def _reset_btn(self) -> None:
-        if self._btn is not None:
-            self._btn.label = "⎘"
-
-
-def _write_line_to_container(
-    line: str,
-    container: "VerticalGroup",
-    text_lines: list[str],
-    text_widget_ref: list["Static | None"],
-    code_block_ref: list["CopyableCodeBlock | None"],
-    in_code_block_ref: list[bool],
-) -> None:
-    """Shared logic: route a streamed line into a VerticalGroup as text or code widget."""
-    stripped = line.strip()
-    fence_m = _MD_FENCE_RE.match(stripped)
-
-    if fence_m:
-        if in_code_block_ref[0]:
-            # Close code block — start a fresh text segment
-            in_code_block_ref[0] = False
-            code_block_ref[0] = None
-            new_text = Static("", markup=True, classes="step-text")
-            text_widget_ref[0] = new_text
-            text_lines.clear()
-            try:
-                container.mount(new_text)
-            except Exception:
-                pass
-        else:
-            # Open code block
-            lang = fence_m.group(1) or "code"
-            in_code_block_ref[0] = True
-            cb = CopyableCodeBlock(lang)
-            code_block_ref[0] = cb
-            try:
-                container.mount(cb)
-            except Exception:
-                pass
-        return
-
-    if in_code_block_ref[0]:
-        if code_block_ref[0] is not None:
-            code_block_ref[0].add_line(line)
-    else:
-        rendered, _ = _md_to_rich(line, False)
-        text_lines.append(rendered)
-        tw = text_widget_ref[0]
-        if tw is not None:
-            try:
-                tw.update("\n".join(text_lines))
-            except Exception:
-                pass
-
-
-class BackgroundStep(Static):
-    """Steps 1-7 and 9+: shimmer spinner header + collapsible content (hidden by default)."""
-
-    SPINNER = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
-
-    def __init__(self, step_num: int, title: str, content_visible: bool = False) -> None:
-        super().__init__()
-        self._step_num = step_num
-        self._title = title
-        self._tick = 0
-        self._done = False
-        self._done_color: str = GRADIENT[0]
-        self._content_visible = content_visible
-        self._header_widget: Static | None = None
-        self._content_container: VerticalGroup | None = None
-        # Mutable refs passed to the shared write helper
-        self._text_lines: list[str] = []
-        self._text_widget_ref: list[Static | None] = [None]
-        self._code_block_ref: list[CopyableCodeBlock | None] = [None]
-        self._in_code_block_ref: list[bool] = [False]
-
-    def compose(self) -> ComposeResult:
-        self._header_widget = Static(self._render_header(), markup=True, classes="step-header")
-        yield self._header_widget
-        self._content_container = VerticalGroup(classes="step-content")
-        yield self._content_container
-
-    def on_mount(self) -> None:
-        if self._content_container is not None:
-            self._content_container.display = self._content_visible
-            init_text = Static("", markup=True, classes="step-text")
-            self._text_widget_ref[0] = init_text
-            self._content_container.mount(init_text)
-
-    def _shimmer_text(self, text: str) -> str:
-        parts: list[str] = []
-        n = len(SHIMMER)
-        for i, ch in enumerate(text):
-            color = SHIMMER[(self._tick + i) % n]
-            safe = ch.replace("[", r"\[")
-            parts.append(f"[bold {color}]{safe}[/bold {color}]")
-        return "".join(parts)
-
-    def _render_header(self) -> str:
-        if self._done:
-            color = self._done_color
-            icon = f"[bold {color}]✓[/bold {color}]"
-            return f"{icon} [{color}]Step {self._step_num} — {self._title}[/{color}]"
-        spinner_ch = self.SPINNER[self._tick % len(self.SPINNER)]
-        return self._shimmer_text(f"{spinner_ch} Step {self._step_num} — {self._title}")
-
-    def advance_spinner(self) -> None:
-        if not self._done:
-            self._tick += 1
-            if self._header_widget is not None:
-                try:
-                    self._header_widget.update(self._render_header())
-                except Exception:
-                    pass
-
-    def mark_done(self) -> None:
-        self._done = True
-        self._done_color = GRADIENT[(self._step_num - 1) % len(GRADIENT)]
-        if self._header_widget is not None:
-            try:
-                self._header_widget.update(self._render_header())
-            except Exception:
-                pass
-
-    def write_line(self, line: str) -> None:
-        if self._content_container is None:
-            return
-        _write_line_to_container(
-            line, self._content_container,
-            self._text_lines, self._text_widget_ref,
-            self._code_block_ref, self._in_code_block_ref,
-        )
-
-    def toggle_content(self, visible: bool) -> None:
-        self._content_visible = visible
-        if self._content_container is not None:
-            self._content_container.display = visible
-
-
-class FinalAnswer(Static):
-    """Final synthesis step: always fully visible, supports copyable code blocks."""
-
-    def __init__(self, step_num: int, title: str) -> None:
-        super().__init__()
-        self._step_num = step_num
-        self._title = title
-        self._content_container: VerticalGroup | None = None
-        self._all_lines: list[str] = []   # raw lines kept for narration
-        self._text_lines: list[str] = []
-        self._text_widget_ref: list[Static | None] = [None]
-        self._code_block_ref: list[CopyableCodeBlock | None] = [None]
-        self._in_code_block_ref: list[bool] = [False]
-
-    def compose(self) -> ComposeResult:
-        yield Static(
-            f"[bold {FIRE}]━━  Step {self._step_num} — {self._title}  ━━[/bold {FIRE}]",
-            markup=True,
-            classes="final-sep",
-        )
-        self._content_container = VerticalGroup(classes="final-content")
-        yield self._content_container
-
-    def on_mount(self) -> None:
-        if self._content_container is not None:
-            init_text = Static("", markup=True, classes="step-text")
-            self._text_widget_ref[0] = init_text
-            self._content_container.mount(init_text)
-
-    def write_line(self, line: str) -> None:
-        self._all_lines.append(line)
-        if self._content_container is None:
-            return
-        _write_line_to_container(
-            line, self._content_container,
-            self._text_lines, self._text_widget_ref,
-            self._code_block_ref, self._in_code_block_ref,
-        )
-
-
-class AssistantBlock(Static):
-    """One follow-up AI turn (or fallback block): accumulates streamed Rich-markup lines."""
-
-    def __init__(self) -> None:
-        super().__init__()
-        self._lines: list[str] = []
-        self._in_code_block = False
-        self._display: Static | None = None
-
-    def compose(self) -> ComposeResult:
-        self._display = Static("", markup=True)
-        yield self._display
-
-    def on_mount(self) -> None:
-        # Flush any lines that arrived before compose() ran
-        if self._lines and self._display is not None:
-            self._display.update("\n".join(self._lines))
-
-    def write_line(self, line: str) -> None:
-        rendered, self._in_code_block = _md_to_rich(line, self._in_code_block)
-        self._lines.append(rendered)
-        if self._display is not None:
-            try:
-                self._display.update("\n".join(self._lines))
-            except Exception:
-                pass
-
-
-# ── Screen ─────────────────────────────────────────────────────────────────────
 
 
 class AgentSessionScreen(BaseScreen):
@@ -446,7 +137,6 @@ class AgentSessionScreen(BaseScreen):
         diff_color = {"easy": GREEN, "medium": "#FFB300", "hard": RED}.get(
             ch.difficulty.lower(), "#888888"
         )
-        from ..widgets.status_bar import StatusBar
         status = self.query_one("#session-status", StatusBar)
         # Ctrl+H (index 3) is hidden until prior history is confirmed
         status.set_hint_visible(3, False)
@@ -478,7 +168,7 @@ class AgentSessionScreen(BaseScreen):
     def on_unmount(self) -> None:
         """Stop any in-progress audio when the screen is closed."""
         try:
-            from ...ai.skills.voice_narrator.server import stop_playback
+            from leetvibe.ai.skills.voice_narrator.server import stop_playback
             stop_playback()
         except Exception:
             pass
@@ -530,16 +220,12 @@ class AgentSessionScreen(BaseScreen):
     @work(thread=True)
     def _run_agent(self, problem: Problem, mode: str, user_code: str) -> None:
         """Background thread: streams agent output into step widgets."""
-        from ...session_log import SessionLog
-        from ...cloud.db import load_messages, save_messages, upsert_session
-
-        session_log = SessionLog(problem, mode, user_code)
-        error_msg: str | None = None
+        from leetvibe.cloud.db import load_messages, save_messages, upsert_session
 
         problem_slug = getattr(problem, "title_slug", None) or problem.title
 
         try:
-            from ...config import load_config
+            from leetvibe.config import load_config
             config = load_config()
 
             self._cloud_session_id = upsert_session(
@@ -547,16 +233,15 @@ class AgentSessionScreen(BaseScreen):
             )
 
             if mode == "interview":
-                from ...ai.agent import InterviewAgent
+                from leetvibe.ai.agent import InterviewAgent
                 self._agent = InterviewAgent(config)
                 for chunk in self._agent.start_streaming(problem):
                     if not self._running:
                         break
-                    session_log.record_chunk(chunk)
                     self.app.call_from_thread(self._buffer_chunk, chunk)
                 self.app.call_from_thread(self._flush_buffer)
             else:
-                from ...ai.agent import VibeAgent, COACH_PROMPT, SYSTEM_PROMPT
+                from leetvibe.ai.agent import VibeAgent, COACH_PROMPT, SYSTEM_PROMPT
                 self._agent = VibeAgent(config)
                 prior_messages = (
                     load_messages(problem_slug, mode)
@@ -582,18 +267,15 @@ class AgentSessionScreen(BaseScreen):
                     for chunk in self._agent.solve_streaming(problem, mode, user_code):
                         if not self._running:
                             break
-                        session_log.record_chunk(chunk)
                         self.app.call_from_thread(self._buffer_chunk, chunk)
                     self.app.call_from_thread(self._flush_buffer)
 
         except Exception as exc:
-            error_msg = str(exc)
-            safe = error_msg.replace("[", r"\[").replace("\n", " ")
+            safe = str(exc).replace("[", r"\[").replace("\n", " ")
             self.app.call_from_thread(
                 self._write_line, f"[bold red]Fatal error: {safe}[/bold red]"
             )
         finally:
-            session_log.finish(error=error_msg)
             if self._cloud_session_id and self._agent is not None:
                 save_messages(self._cloud_session_id, self._agent._messages)
             self.app.call_from_thread(self._on_agent_done)
@@ -602,7 +284,6 @@ class AgentSessionScreen(BaseScreen):
 
     def _render_prior_history(self, messages: list[dict]) -> None:
         """Populate the #prior-history container with saved messages."""
-        from ..widgets.status_bar import StatusBar
         if self._mode != "interview":
             self.query_one("#session-status", StatusBar).set_hint_visible(3, True)
         container = self.query_one("#prior-history", VerticalGroup)
@@ -637,7 +318,7 @@ class AgentSessionScreen(BaseScreen):
     def _write_line(self, line: str) -> None:
         if self._step_mode:
             # Strip Rich markup then markdown bold/heading decorators before matching
-            clean = _MARKUP_RE.sub("", line).strip()
+            clean = MARKUP_RE.sub("", line).strip()
             clean = _MD_DECORATION_RE.sub("", clean).strip()
             m = _STEP_RE.match(clean)
             if m:
@@ -746,7 +427,7 @@ class AgentSessionScreen(BaseScreen):
 
         clean_lines = []
         for line in lines:
-            plain = _MARKUP_RE.sub("", line).strip()
+            plain = MARKUP_RE.sub("", line).strip()
             if not plain or _SKIP_RE.search(plain):
                 continue
             plain = _BACKTICK_RE.sub("", plain).strip()
@@ -924,7 +605,7 @@ class AgentSessionScreen(BaseScreen):
         if not text:
             return
         try:
-            from ...ai.skills.voice_narrator.server import narrate
+            from leetvibe.ai.skills.voice_narrator.server import narrate
             narrate(text, voice_type="coach")
         except Exception:
             pass
@@ -934,7 +615,7 @@ class AgentSessionScreen(BaseScreen):
         """Return the full AI interview response, clean of markup."""
         clean = []
         for line in lines:
-            plain = _MARKUP_RE.sub("", line).strip()
+            plain = MARKUP_RE.sub("", line).strip()
             if plain and not plain.startswith(("⚙", "→", "⠋", "⠙", "⠹")):
                 clean.append(plain)
         return " ".join(clean).strip()
@@ -957,7 +638,7 @@ class AgentSessionScreen(BaseScreen):
 
     @work(thread=True)
     def _run_chat(self, user_message: str) -> None:
-        from ...cloud.db import save_messages
+        from leetvibe.cloud.db import save_messages
 
         self._chat_running = True
         self.app.call_from_thread(self._set_chat_busy, True)
@@ -969,8 +650,8 @@ class AgentSessionScreen(BaseScreen):
                 agent = self._agent
             else:
                 if self._concept_agent is None:
-                    from ...ai.agent import ConceptAgent
-                    from ...config import load_config
+                    from leetvibe.ai.agent import ConceptAgent
+                    from leetvibe.config import load_config
                     self._concept_agent = ConceptAgent(load_config(), self._session_summary)
                 agent = self._concept_agent
 
@@ -1000,6 +681,16 @@ class AgentSessionScreen(BaseScreen):
             inp.focus()
 
     # ── Events ────────────────────────────────────────────────────────
+
+    def on_key(self, event: Key) -> None:
+        # Space can be swallowed before reaching the Input in some terminals
+        # (same issue as the Playbook chat panel) — insert it manually.
+        if event.key == "space":
+            inp = self.query_one("#chat-input", Input)
+            if inp.has_focus and not inp.disabled:
+                inp.insert_text_at_cursor(" ")
+                event.prevent_default()
+                event.stop()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         btn = event.button.id
@@ -1039,7 +730,7 @@ class AgentSessionScreen(BaseScreen):
     @work(thread=True)
     def _do_reset(self) -> None:
         """Delete cloud messages then switch to a fresh session screen."""
-        from ...cloud.db import reset_session
+        from leetvibe.cloud.db import reset_session
         ch = self._problem
         problem_slug = getattr(ch, "title_slug", None) or ch.title
         reset_session(problem_slug, self._mode)

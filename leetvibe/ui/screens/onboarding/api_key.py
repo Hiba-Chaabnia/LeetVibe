@@ -8,11 +8,13 @@ from pathlib import Path
 from dotenv import set_key
 from textual import work
 from textual.app import ComposeResult
+from textual.containers import Horizontal
 from textual.events import Key
 from textual.screen import Screen
 from textual.widgets import Input, Label, Static  # Static used as container
 
-from ._utils import ShimmerTitle
+from ...widgets import HintLabel
+from ...widgets.shimmer_title import ShimmerTitle
 
 _LEETVIBE_HOME = Path.home() / ".leetvibe"
 _USER_ENV_PATH = _LEETVIBE_HOME / ".env"
@@ -48,7 +50,8 @@ class ApiKeyScreen(Screen):
                 id="api-description",
             )
             yield Label(
-                "Get your key at [bold]console.mistral.ai[/bold]",
+                "Get your key at "
+                "[bold][@click=screen.open_url('https://console.mistral.ai')]console.mistral.ai[/][/bold]",
                 id="link-hint",
             )
             yield Input(
@@ -57,21 +60,26 @@ class ApiKeyScreen(Screen):
                 id="api-key-input",
             )
             yield Label("", id="error-label")
-        yield Label(
-            "[bold #FF8205]Enter[/bold #FF8205] to save · "
-            "[bold #FF8205]Esc[/bold #FF8205] to cancel",
-            id="submit-hint",
-        )
+        with Horizontal(id="submit-hint-inline"):
+            yield HintLabel("Enter", "save", self._submit_from_input)
+            yield Label("·", classes="hint-sep")
+            yield HintLabel("Esc", "go back", self.app.pop_screen)
 
     def on_mount(self) -> None:
         self.query_one("#api-key-input", Input).focus()
 
+    def action_open_url(self, url: str) -> None:
+        self.app.open_url(url)
+
     def on_input_submitted(self, event: Input.Submitted) -> None:
         self._submit(event.value)
 
+    def _submit_from_input(self) -> None:
+        self._submit(self.query_one("#api-key-input", Input).value)
+
     def on_key(self, event: Key) -> None:
         if event.key == "escape":
-            self.app.exit(None)
+            self.app.pop_screen()
 
     def _submit(self, raw: str) -> None:
         key = raw.strip()

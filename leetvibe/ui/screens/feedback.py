@@ -8,6 +8,8 @@ from textual.containers import Horizontal, Vertical
 from textual.screen import ModalScreen
 from textual.widgets import Button, Label, Select, TextArea
 
+from ..widgets.shimmer_title import ShimmerTitle
+
 
 # All types accepted by the feedback table CHECK constraint (001_initial_schema.sql)
 _FEEDBACK_TYPES: list[tuple[str, str]] = [
@@ -39,7 +41,7 @@ class FeedbackModal(ModalScreen[bool]):
 
     def compose(self) -> ComposeResult:
         with Vertical(id="feedback-dialog"):
-            yield Label("Send Feedback", id="feedback-title")
+            yield ShimmerTitle("Send Feedback", id="feedback-title")
             yield Label("Type", id="feedback-type-label")
             yield Select(
                 _FEEDBACK_TYPES,

@@ -63,7 +63,11 @@ class HomeScreen(BaseScreen):
                     OptionList(*_build_options(None), id="main-menu"),
                     id="home-center",
                 )
-        yield StatusBar(show_count=False, left_label="", id="home-status")
+        yield StatusBar(
+            show_count=False,
+            left_label=_auth_footer(None),
+            id="home-status",
+        )
 
     def on_mount(self) -> None:
         self.query_one("#main-menu", OptionList).focus()
@@ -117,8 +121,8 @@ class HomeScreen(BaseScreen):
             self._refresh_auth()
             self.notify("Signed out.", severity="information")
         else:
-            from .login import LoginScreen
-            self.app.push_screen(LoginScreen(), self._on_login_result)
+            from .auth import AuthChoiceScreen
+            self.app.push_screen(AuthChoiceScreen(), self._on_login_result)
 
     def _on_login_result(self, result) -> None:
         if result and result.ok:
@@ -126,5 +130,5 @@ class HomeScreen(BaseScreen):
             self.notify(f"Signed in as {result.email}", severity="information")
 
     def _go_problems(self, mode: str) -> None:
-        from .problem_list import ProblemListScreen
+        from .problem.list import ProblemListScreen
         self.app.push_screen(ProblemListScreen(mode=mode))

@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Iterable
 
+from textual import work
 from textual.app import App, SystemCommand
 from textual.binding import Binding
 from textual.command import CommandPalette
@@ -12,8 +13,10 @@ from textual.screen import Screen
 from textual.system_commands import SystemCommandsProvider
 from textual.widget import Widget
 
-from .screens import HomeScreen, ProblemListScreen, StatsScreen
-from .screens.reference_guide import ReferenceGuideScreen
+from leetvibe.update_check import check_for_update
+from leetvibe.ui.screens.home import HomeScreen
+from leetvibe.ui.screens.playbook.screen import ReferenceGuideScreen
+from leetvibe.ui.screens.stats import StatsScreen
 
 
 def _in_maximizable_panel(widget: Widget) -> bool:
@@ -40,9 +43,14 @@ class _CompactPalette(CommandPalette):
 class LeetVibeApp(App):
     """LeetVibe full-screen TUI application."""
 
-    CSS_PATH = Path(__file__).parent / "app.tcss"
+    CSS_PATH = Path(__file__).parent / "styles" / "main.tcss"
     TITLE = "LeetVibe"
     SUB_TITLE = "AI Pair Programming for LeetCode"
+
+    # Ctrl+P is freed up for ProblemDetailScreen's "Pair" shortcut. Ctrl+Shift+P
+    # (the VS Code convention) collides with Windows Terminal's own built-in
+    # command palette, so this uses Ctrl+K instead.
+    COMMAND_PALETTE_BINDING = "ctrl+k"
 
     # SystemCommandsProvider surfaces get_system_commands() in the palette.
     # Theme and Quit are excluded by overriding get_system_commands() below.
@@ -60,6 +68,18 @@ class LeetVibeApp(App):
 
     def on_mount(self) -> None:
         self.push_screen("home")
+        self._notify_if_update_available()
+
+    @work(thread=True, exclusive=True)
+    def _notify_if_update_available(self) -> None:
+        latest = check_for_update()
+        if latest:
+            self.call_from_thread(
+                self.notify,
+                f"LeetVibe v{latest} is out — run [bold #FF8205]pip install -U leetvibe[/] to upgrade.",
+                title="Update available",
+                timeout=12,
+            )
 
     def action_command_palette(self) -> None:
         """Open the compact palette (no search bar)."""
@@ -67,21 +87,13 @@ class LeetVibeApp(App):
             self.push_screen(_CompactPalette(id="--command-palette"))
 
     def get_system_commands(self, screen: Screen) -> Iterable[SystemCommand]:
-        """Palette commands: Keys + Maximize (right-panel only) + Screenshot."""
-        # Keys / help panel toggle
-        if screen.query("HelpPanel"):
-            yield SystemCommand(
-                "Keys",
-                "Hide the keys and widget help panel",
-                self.action_hide_help_panel,
-            )
-        else:
-            yield SystemCommand(
-                "Keys",
-                "Show help for the focused widget and a summary of available keys",
-                self.action_show_help_panel,
-            )
+        """Palette commands: Maximize (right-panel only) + Screenshot.
 
+        The "Keys" help-panel command was removed — the footer already covers every
+        LeetVibe-specific shortcut, and the panel's remaining content was almost
+        entirely generic TextArea/Input editing bindings (cursor movement, cut/copy/
+        paste, undo/redo) that don't need a discovery UI.
+        """
         # Maximize / Minimize — restricted to the code editor and testcase tabs only.
         # Buttons, left-panel content, etc. are intentionally excluded.
         focused = screen.focused

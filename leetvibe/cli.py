@@ -27,18 +27,18 @@ import click
 
 
 @click.command(context_settings={"help_option_names": ["-h", "--help"]})
-@click.version_option("0.1.0", prog_name="leetvibe")
+@click.version_option(package_name="leetvibe", prog_name="leetvibe")
 def cli() -> None:
     """LeetVibe — AI Pair Programming for LeetCode, powered by Mistral."""
     from .config import needs_setup
 
     if needs_setup():
-        from .ui.onboarding import run_onboarding
+        from .ui.apps.onboarding import run_onboarding
         if not run_onboarding():
             click.echo("Setup cancelled. Run `leetvibe` again to get started.")
             return
 
-    from .ui.app import LeetVibeApp
+    from .ui.apps.main import LeetVibeApp
     LeetVibeApp().run()
 
 

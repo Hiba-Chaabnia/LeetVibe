@@ -1,38 +1,52 @@
-"""LoginScreen (onboarding) — email and password sign-in during first-run setup."""
+"""LoginScreen — email and password sign-in for the shared auth flow."""
 
 from __future__ import annotations
 
 from textual import work
 from textual.app import ComposeResult
+from textual.containers import Horizontal
 from textual.events import Key
-from textual.screen import Screen
 from textual.widgets import Input, Label, Static
 
+from ...widgets import HintLabel
+from ...widgets.shimmer_title import ShimmerTitle
+from .base import AuthScreenBase
 
-class LoginScreen(Screen):
+
+class LoginScreen(AuthScreenBase):
     def compose(self) -> ComposeResult:
         with Static(id="form-container"):
-            yield Label("Sign In", id="form-title")
+            yield ShimmerTitle("Sign In", id="form-title")
+            yield Static(
+                "Welcome back — pick up where you left off.",
+                id="form-subtitle",
+            )
             yield Input(placeholder="Email", id="email-input", classes="form-input")
             yield Input(placeholder="Password", password=True, id="password-input", classes="form-input")
             yield Label("", id="form-error")
-            yield Label(
-                "[bold #FF8205]Tab[/bold #FF8205] to switch fields · "
-                "[bold #FF8205]Enter[/bold #FF8205] to sign in ·\n "
-                "[bold #FF8205]Esc[/bold #FF8205] to go back",
-                id="form-hint",
-            )
+        with Horizontal(id="form-hint-inline"):
+            yield HintLabel("Enter", "sign in", self._submit_from_inputs)
+            yield Label("·", classes="hint-sep")
+            yield HintLabel("Tab", "switch fields", None)
+            yield Label("·", classes="hint-sep")
+            yield HintLabel("Esc", "go back", self._go_back)
 
     def on_mount(self) -> None:
         self.query_one("#email-input", Input).focus()
 
+    def _go_back(self) -> None:
+        self.dismiss(None)
+
+    def _submit_from_inputs(self) -> None:
+        email = self.query_one("#email-input", Input).value
+        password = self.query_one("#password-input", Input).value
+        self._submit(email, password)
+
     def on_key(self, event: Key) -> None:
         if event.key == "escape":
-            self.app.pop_screen()
+            self._go_back()
         elif event.key == "enter":
-            email = self.query_one("#email-input", Input).value
-            password = self.query_one("#password-input", Input).value
-            self._submit(email, password)
+            self._submit_from_inputs()
 
     def _submit(self, email: str, password: str) -> None:
         email = email.strip()
@@ -43,7 +57,7 @@ class LoginScreen(Screen):
 
     @work(thread=True)
     def _run_sign_in(self, email: str, password: str) -> None:
-        from ...cloud.auth import sign_in
+        from leetvibe.cloud.auth import sign_in
         self.app.call_from_thread(
             self._set_status, "Signing in…"
         )
@@ -59,7 +73,7 @@ class LoginScreen(Screen):
     def _on_result(self, result) -> None:
         try:
             if result.ok:
-                self.app.exit("completed")
+                self.dismiss(result)
             else:
                 self.query_one("#form-error", Label).update(result.error or "Sign in failed.")
                 self.query_one("#email-input", Input).focus()

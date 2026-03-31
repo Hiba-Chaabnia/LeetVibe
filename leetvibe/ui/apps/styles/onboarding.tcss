@@ -1,0 +1,114 @@
+/* ── Onboarding app — global ── */
+
+$brand:    #FF8205;
+$muted:    #888888;
+$bg-card:  #0e0e0e;
+$bg-input: #1a1a1a;
+
+Screen {
+    background: #0f0f0f;
+    align: center middle;
+}
+
+/* ── Clickable key-hint rows (shared HintLabel widget) ── */
+
+HintLabel {
+    height: 1;
+    width: auto;
+    padding: 0 1;
+    background: transparent;
+}
+
+HintLabel:hover {
+    background: #2a2a2a;
+}
+
+.hint-sep {
+    color: #555555;
+    width: auto;
+    height: 1;
+}
+
+/* ── Card container ── */
+
+#api-container {
+    width: 64;
+    height: auto;
+    padding: 2 4;
+    border: round #333333;
+    background: $bg-card;
+}
+
+/* ── Welcome ── */
+
+Banner {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+#hint {
+    width: 100%;
+    height: 1;
+    margin-top: 2;
+    align: center middle;
+}
+
+/* ── API key / ElevenLabs key ── */
+
+#api-title {
+    color: $brand;
+    text-style: bold;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+}
+
+#api-description {
+    color: #cccccc;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+    height: auto;
+}
+
+#link-hint {
+    color: $muted;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1;
+}
+
+/* ── API key input ── */
+
+#api-key-input {
+    width: 100%;
+    border: tall #444444;
+    background: $bg-input;
+    color: #ffffff;
+    margin-bottom: 1;
+}
+
+#api-key-input:focus {
+    border: tall $brand;
+}
+
+/* ── API key error label ── */
+
+#error-label {
+    color: #ff4444;
+    text-align: center;
+    width: 100%;
+    height: 1;
+}
+
+/* Mistral API key + ElevenLabs key screens — hint row sits right under the
+   card instead of docked to the screen's bottom edge. Matches #api-container's
+   width (not 100% or auto) so Screen{align:center middle} centers both the
+   same way, and the hint row's own content centers within that matching width. */
+#submit-hint-inline {
+    width: 64;
+    height: 1;
+    margin-top: 1;
+    align: center middle;
+}

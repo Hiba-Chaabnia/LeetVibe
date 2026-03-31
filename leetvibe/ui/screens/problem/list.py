@@ -11,12 +11,10 @@ from textual.widgets import DataTable, Input, Select, Static
 from textual import work
 from textual.worker import Worker, WorkerState
 
-from ...problem_loader import Problem, load_all_problems
-from ..widgets.problem_table import ProblemTable
-from ..widgets.status_bar import StatusBar
-from ..widgets.truncated_select import TruncatedSelect
-from .base import BaseScreen
-from .problem_detail import ProblemDetailScreen
+from leetvibe.problem_loader import Problem, load_all_problems
+from leetvibe.ui.widgets import ProblemTable, StatusBar, TruncatedSelect
+from leetvibe.ui.screens.base import BaseScreen
+from leetvibe.ui.screens.problem.detail import ProblemDetailScreen
 
 _SOLUTION_TOGGLE_LABEL = "Has Solution"
 
@@ -51,10 +49,10 @@ class ProblemListScreen(BaseScreen):
 
     def compose(self) -> ComposeResult:
         footer_hints = [
-            ("Enter",  "Open problem", None),
-            ("Ctrl+R", "Reload problems", None),
+            ("Enter",  "open problem", self.action_open_selected),
+            ("Ctrl+R", "reload problems", self.action_reload),
             ("Esc",    "go home",        self.action_pop_screen),
-            ("Ctrl+Q", "Exit LeetVibe", self.action_quit_app),
+            ("Ctrl+Q", "exit LeetVibe", self.action_quit_app),
         ]
 
         yield Horizontal(
@@ -91,7 +89,7 @@ class ProblemListScreen(BaseScreen):
     def on_mount(self) -> None:
         self._load_problems()
         self._load_solved_slugs()
-        from ...cloud.auth import is_logged_in
+        from leetvibe.cloud.auth import is_logged_in
         if not is_logged_in():
             self.query_one("#solved-filter", TruncatedSelect).add_class("hidden")
 
@@ -101,12 +99,12 @@ class ProblemListScreen(BaseScreen):
 
     @work(thread=True)
     def _load_solved_slugs(self) -> set[str]:
-        from ...cloud.db import get_solved_slugs
+        from leetvibe.cloud.db import get_solved_slugs
         return get_solved_slugs()
 
     def on_screen_resume(self) -> None:
         """Refresh solved status whenever we return to this screen."""
-        from ...cloud.auth import is_logged_in
+        from leetvibe.cloud.auth import is_logged_in
         if is_logged_in():
             self._load_solved_slugs()
 
@@ -230,12 +228,15 @@ class ProblemListScreen(BaseScreen):
                 break
         if problem:
             if self._mode == "interview":
-                from .agent_session import AgentSessionScreen
+                from leetvibe.ui.screens.agent.session import AgentSessionScreen
                 self.app.push_screen(AgentSessionScreen(problem, mode="interview"))
             else:
                 self.app.push_screen(
                     ProblemDetailScreen(problem, self._all_problems, index, self._mode, self._drafts)
                 )
+
+    def action_open_selected(self) -> None:
+        self.query_one("#problem-table", ProblemTable).action_select_cursor()
 
     def action_reload(self) -> None:
         self._all_problems = []

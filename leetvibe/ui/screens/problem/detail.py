@@ -18,6 +18,12 @@ from textual.widgets import (
 )
 from textual.worker import Worker, WorkerState
 
+from leetvibe.problem_loader import Problem
+from leetvibe.cloud.auth import is_logged_in
+from leetvibe.code_runner import CaseResult, run_tests
+from leetvibe.ui.widgets import ProblemCard, StatusBar
+from leetvibe.ui.screens.base import BaseScreen
+
 
 class CodeEditor(TextArea):
     """TextArea with Ctrl+A remapped to select-all (instead of line-start)."""
@@ -26,12 +32,6 @@ class CodeEditor(TextArea):
         Binding("ctrl+a", "select_all", "Select All", show=False, priority=True),
     ]
 
-from ...problem_loader import Problem
-from ...cloud.auth import is_logged_in
-from ...code_runner import CaseResult, run_tests
-from ..widgets.problem_card import ProblemCard
-from ..widgets.status_bar import StatusBar
-from .base import BaseScreen
 
 # ── Defaults ───────────────────────────────────────────────────────────────────
 _DEFAULT_PYTHON = "class Solution:\n    def solve(self):\n        pass\n"
@@ -133,14 +133,14 @@ class ProblemDetailScreen(BaseScreen):
     """Full problem view: top bar, description panel, code editor, tabs."""
 
     BINDINGS = [
-        Binding("escape",  "pop_screen",          "Problem List"),
-        Binding("ctrl+q",  "quit_app",            "Exit LeetVibe"),
-        Binding("ctrl+p",  "open_palette",        "Palette",            show=False),
-        Binding("left",    "prev_problem",      "Prev",               show=False),
-        Binding("right",   "next_problem",      "Next",               show=False),
-        Binding("h",       "toggle_hints",        "Hints"),
-        Binding("l",       "start_learn_session", "Learn with LeetVibe", show=False),
-        Binding("p",       "start_pair_session",  "Pair with LeetVibe",  show=False),
+        Binding("escape",        "pop_screen",          "Problem List"),
+        Binding("ctrl+q",        "quit_app",            "Exit LeetVibe"),
+        Binding("ctrl+k",        "open_palette",        "Palette",            show=False),
+        Binding("left",          "prev_problem",      "Prev",               show=False),
+        Binding("right",         "next_problem",      "Next",               show=False),
+        Binding("ctrl+h",        "toggle_hints",        "Hints"),
+        Binding("ctrl+l",        "start_learn_session", "Learn with LeetVibe", show=False),
+        Binding("ctrl+p",        "start_pair_session",  "Pair with LeetVibe",  show=False),
     ]
 
     def __init__(
@@ -171,16 +171,16 @@ class ProblemDetailScreen(BaseScreen):
         )
         yield _DetailBody(self._problem, id="detail-body")
         if self._mode == "learn":
-            session_hint = ("L", "Learn with AI", self.action_start_learn_session, True)
+            session_hint = ("Ctrl+L", "Learn with AI", self.action_start_learn_session, True)
         else:
-            session_hint = ("P", "Pair with AI",  self.action_start_pair_session,  True)
+            session_hint = ("Ctrl+P", "Pair with AI",  self.action_start_pair_session,  True)
         yield StatusBar(
             hints=[
                 session_hint,
-                ("H",      "toggle hints", self.action_toggle_hints),
-                ("Ctrl+P", "open palette", self.action_open_palette),
-                ("Esc",    "go back",      self.action_pop_screen),
-                ("Ctrl+Q", "Exit LeetVibe",self.action_quit_app),
+                ("Ctrl+H",  "toggle hints", self.action_toggle_hints),
+                ("Ctrl+K",  "key commands", self.action_open_palette),
+                ("Esc",     "go back",      self.action_pop_screen),
+                ("Ctrl+Q",  "exit LeetVibe",self.action_quit_app),
             ],
             show_count=False,
             id="detail-status",
@@ -297,7 +297,7 @@ class ProblemDetailScreen(BaseScreen):
             self._submit_code(code, snippet, ch.test_cases, ch.expected_outputs)
 
         elif btn == "btn-feedback":
-            from .feedback import FeedbackModal
+            from leetvibe.ui.screens.feedback import FeedbackModal
             self.app.push_screen(
                 FeedbackModal(
                     problem_slug=self._problem.id,
@@ -365,7 +365,7 @@ class ProblemDetailScreen(BaseScreen):
         self.query_one("#testcase-tabs", TabbedContent).active = "tab-result"
 
         if passed == total:
-            from ...cloud.auth import is_logged_in
+            from leetvibe.cloud.auth import is_logged_in
             body = f"All {total} test case(s) passed! Saving solution…" if is_logged_in() else f"All {total} test case(s) passed!"
             self.notify(body, title="Accepted", severity="information")
             code = self.query_one("#code-editor", TextArea).text
@@ -379,10 +379,10 @@ class ProblemDetailScreen(BaseScreen):
 
     @work(thread=True)
     def _save_solution(self, code: str) -> None:
-        from ...cloud.auth import is_logged_in
+        from leetvibe.cloud.auth import is_logged_in
         if not is_logged_in():
             return
-        from ...cloud.db import mark_solved
+        from leetvibe.cloud.db import mark_solved
         ch = self._problem
         ok = mark_solved(ch.id, ch.difficulty, code)
         self.app.call_from_thread(self._on_solution_saved, ok)
@@ -393,7 +393,7 @@ class ProblemDetailScreen(BaseScreen):
             self.notify("Solution saved to your profile!", title="Solved", severity="information")
             # Optimistically update the problem list screen so the solved badge
             # appears immediately without waiting for a Firestore re-read.
-            from .problem_list import ProblemListScreen
+            from leetvibe.ui.screens.problem.list import ProblemListScreen
             for screen in self.app.screen_stack:
                 if isinstance(screen, ProblemListScreen) and screen.is_mounted:
                     if screen._solved_slugs is None:
@@ -449,14 +449,14 @@ class ProblemDetailScreen(BaseScreen):
         self.query_one("#problem-card", ProblemCard).show_hints ^= True
 
     def action_start_learn_session(self) -> None:
-        from .agent_session import AgentSessionScreen
+        from leetvibe.ui.screens.agent.session import AgentSessionScreen
         user_code = self.query_one("#code-editor", TextArea).text
         self.app.push_screen(
             AgentSessionScreen(self._problem, mode="learn", user_code=user_code)
         )
 
     def action_start_pair_session(self) -> None:
-        from .agent_session import AgentSessionScreen
+        from leetvibe.ui.screens.agent.session import AgentSessionScreen
         user_code = self.query_one("#code-editor", TextArea).text
         self.app.push_screen(
             AgentSessionScreen(self._problem, mode="coach", user_code=user_code)

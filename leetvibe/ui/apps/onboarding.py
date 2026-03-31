@@ -6,30 +6,13 @@ from pathlib import Path
 
 from textual.app import App
 
-from .screens.onboarding import (
-    WelcomeScreen,
-    ApiKeyScreen,
-    ElevenLabsKeyScreen,
-    AuthChoiceScreen,
-    LoginScreen,
-    SignupScreen,
-    GoogleAuthScreen,
-)
+from leetvibe.ui.screens.onboarding import WelcomeScreen
 
-__all__ = [
-    "run_onboarding",
-    "WelcomeScreen",
-    "ApiKeyScreen",
-    "ElevenLabsKeyScreen",
-    "AuthChoiceScreen",
-    "LoginScreen",
-    "SignupScreen",
-    "GoogleAuthScreen",
-]
+__all__ = ["OnboardingApp", "run_onboarding"]
 
 
 class OnboardingApp(App[str | None]):
-    CSS_PATH = Path(__file__).parent / "setup.tcss"
+    CSS_PATH = Path(__file__).parent / "styles" / "onboarding.tcss"
 
     def on_mount(self) -> None:
         self.push_screen(WelcomeScreen())

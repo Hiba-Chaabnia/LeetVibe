@@ -3,17 +3,9 @@
 from .welcome import WelcomeScreen
 from .api_key import ApiKeyScreen
 from .elevenlabs_key import ElevenLabsKeyScreen
-from .auth_choice import AuthChoiceScreen
-from .login import LoginScreen
-from .signup import SignupScreen
-from .google_auth import GoogleAuthScreen
 
 __all__ = [
     "WelcomeScreen",
     "ApiKeyScreen",
     "ElevenLabsKeyScreen",
-    "AuthChoiceScreen",
-    "LoginScreen",
-    "SignupScreen",
-    "GoogleAuthScreen",
 ]
