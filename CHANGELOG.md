@@ -2,8 +2,23 @@
 
 All notable changes to LeetVibe are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/).
 
-> **Note:** the latest release published to PyPI is **0.1.1**. Versions 0.1.2–0.1.8 exist in this repository but have not been published yet.
+> **Note:** the latest release published to PyPI is **0.1.1**. Versions 0.1.2–0.1.9 exist in this repository but have not been published yet: with major migrations still in flight, releasing would have shipped unstable builds. These changes are instead being held until they are stable and will ship together as one substantial release — **0.2.0**.
 
+
+## [0.1.9] — 2026-03-31
+
+### Added
+- Automatic update check on launch — a toast notifies when a newer version is available on PyPI
+- This changelog
+
+### Changed
+- UI code modularized: app entry points moved to `ui/apps/`, and the large screens split into packages (`problem/`, `agent/`, `playbook/`)
+- Auth flow (choice / login / signup / Google) extracted into a shared `ui/screens/auth/` package, reused by both onboarding and Home → Account
+- `leetvibe --version` now reports the installed package version instead of a hardcoded one
+- Packaging metadata cleaned up: dedicated PyPI readme (`PYPI.md`), SPDX license declaration, corrected GitHub repository URLs
+
+### Removed
+- Dead code: session logging, orphaned notes modal, legacy login screen, and the unused `pydantic` dependency
 
 ## [0.1.8] — 2026-03-29
 
