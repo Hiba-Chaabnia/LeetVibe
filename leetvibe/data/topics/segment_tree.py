@@ -118,8 +118,9 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                              │\n"
         "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
         "│ Prefix Sum          │ Array is static, queries only? → Prefix Sum, O(1)    │\n"
-        "│                     │ per query after O(n) build. Array is MUTATED between │\n"
-        "│                     │ queries? → Segment Tree, O(log n) per update/query.  │\n"
+        "│                     │ per query after O(n) build.                          │\n"
+        "│                     │ Array is MUTATED between queries? → Segment Tree,    │\n"
+        "│                     │ O(log n) per update/query.                           │\n"
         "└─────────────────────┴──────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

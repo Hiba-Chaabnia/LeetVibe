@@ -136,9 +136,10 @@ TOPIC: dict = {
         "│ Often confused with      │ Distinguishing question                               │\n"
         "├──────────────────────────┼───────────────────────────────────────────────────────┤\n"
         "│ Z-Algorithm / Rabin-Karp │ Need every occurrence of ONE specific pattern with    │\n"
-        "│                          │ a guaranteed O(n+m) bound? → KMP/Z-Algorithm. General │\n"
-        "│                          │ transforms (palindrome, parsing, encode/decode), not  │\n"
-        "│                          │ specifically pattern search? → String Manipulation.   │\n"
+        "│                          │ a guaranteed O(n+m) bound? → KMP/Z-Algorithm.         │\n"
+        "│                          │ General transforms (palindrome, parsing,              │\n"
+        "│                          │ encode/decode), not specifically pattern search?      │\n"
+        "│                          │ → String Manipulation.                                │\n"
         "└──────────────────────────┴───────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

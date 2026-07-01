@@ -110,9 +110,9 @@ TOPIC: dict = {
         "│ Often confused with    │ Distinguishing question                                │\n"
         "├────────────────────────┼────────────────────────────────────────────────────────┤\n"
         "│ Segment Tree / Fenwick │ Values fit a known small range, and you're comfortable │\n"
-        "│                        │ coordinate-compressing? → Fenwick Tree (no external    │\n"
-        "│                        │ library). Need a general-purpose ordered container     │\n"
-        "│                        │ with minimal code? → SortedList.                       │\n"
+        "│                        │ coordinate-compressing? → Fenwick Tree.                │\n"
+        "│                        │ Need a general-purpose ordered container with minimal  │\n"
+        "│                        │ code? → SortedList.                                    │\n"
         "└────────────────────────┴────────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

@@ -126,9 +126,9 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                              │\n"
         "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
         "│ Arrays & Hashing    │ Only need exact-match membership (is this word       │\n"
-        "│ (hash set)          │ present)? → Hash Set, O(1). Need PREFIX operations   │\n"
-        "│                     │ (startsWith, autocomplete, count words with prefix)? │\n"
-        "│                     │ → Trie.                                              │\n"
+        "│ (hash set)          │ present)? → Hash Set, O(1).                          │\n"
+        "│                     │ Need PREFIX operations (startsWith, autocomplete,    │\n"
+        "│                     │ count words with prefix)? → Trie.                    │\n"
         "└─────────────────────┴──────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

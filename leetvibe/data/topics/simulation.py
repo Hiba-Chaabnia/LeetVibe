@@ -142,8 +142,9 @@ TOPIC: dict = {
         "│ Often confused with     │ Distinguishing question                                 │\n"
         "├─────────────────────────┼─────────────────────────────────────────────────────────┤\n"
         "│ Matrix / Grid (BFS/DFS) │ Need to search/find a path or reachable region in the   │\n"
-        "│                         │ grid? → Matrix/Grid traversal. Just execute a fully     │\n"
-        "│                         │ defined step-by-step process on the grid? → Simulation. │\n"
+        "│                         │ grid? → Matrix/Grid traversal.                          │\n"
+        "│                         │ Just execute a fully defined step-by-step process       │\n"
+        "│                         │ on the grid? → Simulation.                              │\n"
         "└─────────────────────────┴─────────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

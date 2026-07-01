@@ -111,9 +111,9 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                               │\n"
         "├─────────────────────┼───────────────────────────────────────────────────────┤\n"
         "│ Rabin-Karp          │ Need a guaranteed O(n+m) worst case with no collision │\n"
-        "│                     │ risk? → Z-Algorithm/KMP. OK with average-case speed   │\n"
-        "│                     │ and want simple multi-pattern rolling-hash matching?  │\n"
-        "│                     │ → Rabin-Karp.                                         │\n"
+        "│                     │ risk? → Z-Algorithm/KMP.                              │\n"
+        "│                     │ OK with average-case speed and want simple            │\n"
+        "│                     │ multi-pattern rolling-hash matching? → Rabin-Karp.    │\n"
         "└─────────────────────┴───────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

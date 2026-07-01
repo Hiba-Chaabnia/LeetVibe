@@ -86,9 +86,9 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                               │\n"
         "├─────────────────────┼───────────────────────────────────────────────────────┤\n"
         "│ Monotonic Stack     │ Just need LIFO order (matching, undo, parsing)? →     │\n"
-        "│                     │ plain Stack. Need 'next greater/smaller element' with │\n"
-        "│                     │ elements kept in sorted order on the stack? →         │\n"
-        "│                     │ Monotonic Stack.                                      │\n"
+        "│                     │ plain Stack.                                          │\n"
+        "│                     │ Need 'next greater/smaller element' with elements     │\n"
+        "│                     │ kept in sorted order on the stack? → Monotonic Stack. │\n"
         "└─────────────────────┴───────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

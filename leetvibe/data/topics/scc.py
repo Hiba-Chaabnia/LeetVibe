@@ -131,8 +131,9 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                               │\n"
         "├─────────────────────┼───────────────────────────────────────────────────────┤\n"
         "│ Union Find          │ Graph is undirected, just need component grouping? →  │\n"
-        "│                     │ Union Find. Graph is DIRECTED and you need mutual     │\n"
-        "│                     │ reachability groups? → Strongly Connected Components. │\n"
+        "│                     │ Union Find.                                           │\n"
+        "│                     │ Graph is DIRECTED and you need mutual reachability    │\n"
+        "│                     │ groups? → Strongly Connected Components.              │\n"
         "└─────────────────────┴───────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

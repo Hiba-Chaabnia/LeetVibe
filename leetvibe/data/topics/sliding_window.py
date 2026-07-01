@@ -103,9 +103,9 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                               │\n"
         "├─────────────────────┼───────────────────────────────────────────────────────┤\n"
         "│ Two Pointers        │ Need a CONTIGUOUS run with a size/sum/count           │\n"
-        "│                     │ constraint? → Sliding Window. Need a PAIR of elements │\n"
-        "│                     │ (not necessarily adjacent) from a sorted structure?   │\n"
-        "│                     │ → Two Pointers.                                       │\n"
+        "│                     │ constraint? → Sliding Window.                         │\n"
+        "│                     │ Need a PAIR of elements (not necessarily adjacent)    │\n"
+        "│                     │ from a sorted structure? → Two Pointers.              │\n"
         "└─────────────────────┴───────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

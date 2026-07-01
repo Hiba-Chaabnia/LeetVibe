@@ -129,8 +129,9 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                              │\n"
         "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
         "│ Graphs (DFS cycle   │ Just need to know IF a cycle exists? → plain DFS     │\n"
-        "│ detection)          │ cycle check. Need a full valid ORDERING of all nodes │\n"
-        "│                     │ respecting every dependency? → Topological Sort.     │\n"
+        "│ detection)          │ cycle check.                                         │\n"
+        "│                     │ Need a full valid ORDERING of all nodes respecting   │\n"
+        "│                     │ every dependency? → Topological Sort.                │\n"
         "└─────────────────────┴──────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

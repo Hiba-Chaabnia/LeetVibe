@@ -116,9 +116,10 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                              │\n"
         "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
         "│ Graphs (DFS/BFS     │ Graph is static, one-time component count needed? →  │\n"
-        "│ components)         │ plain DFS/BFS, O(V+E) once. Edges/unions arrive      │\n"
-        "│                     │ incrementally with repeated 'same group?' queries? → │\n"
-        "│                     │ Union Find, near-O(1) per query.                     │\n"
+        "│ components)         │ plain DFS/BFS, O(V+E) once.                          │\n"
+        "│                     │ Edges/unions arrive incrementally with repeated      │\n"
+        "│                     │ 'same group?' queries? → Union Find, near-O(1) per   │\n"
+        "│                     │ query.                                               │\n"
         "└─────────────────────┴──────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

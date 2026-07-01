@@ -136,8 +136,9 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                                │\n"
         "├─────────────────────┼────────────────────────────────────────────────────────┤\n"
         "│ Tries               │ Nodes represent arbitrary values with parent/child     │\n"
-        "│                     │ structure (BST, binary tree)? → Trees. Nodes represent │\n"
-        "│                     │ CHARACTERS along a path for prefix operations? → Trie. │\n"
+        "│                     │ structure (BST, binary tree)? → Trees.                 │\n"
+        "│                     │ Nodes represent CHARACTERS along a path for prefix     │\n"
+        "│                     │ operations? → Trie.                                    │\n"
         "└─────────────────────┴────────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

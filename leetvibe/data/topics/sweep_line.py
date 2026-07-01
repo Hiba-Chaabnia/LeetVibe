@@ -113,9 +113,9 @@ TOPIC: dict = {
         "│ Often confused with   │ Distinguishing question                              │\n"
         "├───────────────────────┼──────────────────────────────────────────────────────┤\n"
         "│ Heap / Priority Queue │ Just need the max concurrent count, no per-event     │\n"
-        "│                       │ detail? → Sweep Line (sort events). Need to actively │\n"
-        "│                       │ track and reuse specific resources (which room is    │\n"
-        "│                       │ free)? → Heap of end times.                          │\n"
+        "│                       │ detail? → Sweep Line (sort events).                  │\n"
+        "│                       │ Need to actively track and reuse specific resources  │\n"
+        "│                       │ (which room is free)? → Heap of end times.           │\n"
         "└───────────────────────┴──────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (
