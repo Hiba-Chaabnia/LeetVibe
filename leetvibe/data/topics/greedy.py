@@ -82,13 +82,12 @@ TOPIC: dict = {
         "┌────────────────────────┬──────────────────────────────────────────────────────┐\n"
         "│ Often confused with    │ Distinguishing question                              │\n"
         "├────────────────────────┼──────────────────────────────────────────────────────┤\n"
-        "│ Dynamic Programming    │ Local choice depends on future sub-problems?         │\n"
-        "│                        │ → DP. Exchange argument holds (local = global)?      │\n"
-        "│                        │ → Greedy.                                            │\n"
+        "│ Dynamic Programming    │ Local choice depends on future sub-problems? → DP.   │\n"
+        "│                        │ Exchange argument holds (local = global)? → Greedy.  │\n"
         "├────────────────────────┼──────────────────────────────────────────────────────┤\n"
         "│ Sorting + two pointers │ After sorting, scanning with two converging indices? │\n"
-        "│                        │ → Two Pointers. Single greedy decision per position? │\n"
-        "│                        │ → Greedy.                                            │\n"
+        "│                        │ → Two Pointers.                                      │\n"
+        "│                        │ Single greedy decision per position? → Greedy.       │\n"
         "└────────────────────────┴──────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

@@ -111,11 +111,12 @@ TOPIC: dict = {
         "│ Often confused with   │ Distinguishing question                            │\n"
         "├───────────────────────┼────────────────────────────────────────────────────┤\n"
         "│ General graph BFS/DFS │ Is the structure a 2D grid with (r,c) coordinates? │\n"
-        "│                       │ → Matrix pattern (DIRS, bounds check). Adjacency   │\n"
-        "│                       │ list? → General graph traversal.                   │\n"
+        "│                       │ → Matrix pattern (DIRS, bounds check).             │\n"
+        "│                       │ Adjacency list? → General graph traversal.         │\n"
         "├───────────────────────┼────────────────────────────────────────────────────┤\n"
         "│ Sliding Window        │ Moving a rectangular subgrid window? → 2D Sliding  │\n"
-        "│                       │ Window. Exploring reachable cells? → BFS/DFS.      │\n"
+        "│                       │ Window.                                            │\n"
+        "│                       │ Exploring reachable cells? → BFS/DFS.              │\n"
         "└───────────────────────┴────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

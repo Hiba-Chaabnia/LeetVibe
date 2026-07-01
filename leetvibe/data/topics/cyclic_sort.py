@@ -99,8 +99,9 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                              │\n"
         "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
         "│ Arrays & Hashing    │ Values NOT restricted to [1..n]? → hash set, O(n)    │\n"
-        "│ (hash set)          │ space. Values ARE exactly [1..n]? → Cyclic Sort,     │\n"
-        "│                     │ O(1) space using the array itself as a lookup table. │\n"
+        "│ (hash set)          │ space.                                               │\n"
+        "│                     │ Values ARE exactly [1..n]? → Cyclic Sort, O(1) space │\n"
+        "│                     │ using the array itself as a lookup table.            │\n"
         "└─────────────────────┴──────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

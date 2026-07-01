@@ -113,7 +113,8 @@ TOPIC: dict = {
         "│                     │ handles the two-cost structure correctly).        │\n"
         "├─────────────────────┼───────────────────────────────────────────────────┤\n"
         "│ Dijkstra            │ Are weights strictly {0,1}? → 0-1 BFS (faster, no │\n"
-        "│                     │ heap). Any other positive weights? → Dijkstra.    │\n"
+        "│                     │ heap).                                            │\n"
+        "│                     │ Any other positive weights? → Dijkstra.           │\n"
         "└─────────────────────┴───────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

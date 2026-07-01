@@ -93,7 +93,8 @@ TOPIC: dict = {
         "│                       │ → Heap O(log n) per op.                               │\n"
         "├───────────────────────┼───────────────────────────────────────────────────────┤\n"
         "│ Monotonic stack/queue │ Running min/max over a sliding window? → Monotonic    │\n"
-        "│                       │ deque O(n). K smallest in an unsorted stream? → Heap. │\n"
+        "│                       │ deque O(n).                                           │\n"
+        "│                       │ K smallest in an unsorted stream? → Heap.             │\n"
         "└───────────────────────┴───────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

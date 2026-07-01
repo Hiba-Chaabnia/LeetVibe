@@ -94,12 +94,12 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                               │\n"
         "├─────────────────────┼───────────────────────────────────────────────────────┤\n"
         "│ Greedy (general)    │ Specifically merging/counting/scheduling [s,e] pairs? │\n"
-        "│                     │ → Intervals pattern. Broader optimisation with a      │\n"
-        "│                     │ greedy proof? → Greedy.                               │\n"
+        "│                     │ → Intervals pattern.                                  │\n"
+        "│                     │ Broader optimisation with a greedy proof? → Greedy.   │\n"
         "├─────────────────────┼───────────────────────────────────────────────────────┤\n"
         "│ Sliding Window      │ 'Intervals' defined by array indices + constraint?    │\n"
-        "│                     │ → Sliding Window. Arbitrary [start,end] pairs?        │\n"
-        "│                     │ → Intervals.                                          │\n"
+        "│                     │ → Sliding Window.                                     │\n"
+        "│                     │ Arbitrary [start,end] pairs? → Intervals.             │\n"
         "└─────────────────────┴───────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

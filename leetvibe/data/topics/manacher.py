@@ -98,12 +98,14 @@ TOPIC: dict = {
         "│ Often confused with      │ Distinguishing question                           │\n"
         "├──────────────────────────┼───────────────────────────────────────────────────┤\n"
         "│ Expand-around-center     │ O(n²) acceptable (n ≤ ~10⁴)? → Expand-around-     │\n"
-        "│                          │ center (far simpler code). O(n) required or all   │\n"
-        "│                          │ radii needed at once? → Manacher's.               │\n"
+        "│                          │ center (far simpler code).                        │\n"
+        "│                          │ O(n) required or all radii needed at once?        │\n"
+        "│                          │ → Manacher's.                                     │\n"
         "├──────────────────────────┼───────────────────────────────────────────────────┤\n"
         "│ DP palindrome (2D table) │ Need is-palindrome lookups for arbitrary (i,j)    │\n"
-        "│                          │ inside another DP? → 2D DP table, O(n²). Need the │\n"
-        "│                          │ longest/count of palindromes? → Manacher's, O(n). │\n"
+        "│                          │ inside another DP? → 2D DP table, O(n²).          │\n"
+        "│                          │ Need the longest/count of palindromes?            │\n"
+        "│                          │ → Manacher's, O(n).                               │\n"
         "└──────────────────────────┴───────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

@@ -116,8 +116,9 @@ TOPIC: dict = {
         "│                          │ Arbitrary frequencies or need exact counts? → hash. │\n"
         "├──────────────────────────┼─────────────────────────────────────────────────────┤\n"
         "│ Backtracking subsets     │ Need to enumerate subsets with pruning or ordering  │\n"
-        "│                          │ constraints? → backtracking. Need to run DP over    │\n"
-        "│                          │ all 2ⁿ subsets in a fixed order? → bitmask DP.      │\n"
+        "│                          │ constraints? → backtracking.                        │\n"
+        "│                          │ Need to run DP over all 2ⁿ subsets in a fixed       │\n"
+        "│                          │ order? → bitmask DP.                                │\n"
         "└──────────────────────────┴─────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

@@ -130,8 +130,8 @@ TOPIC: dict = {
         "│                     │ On-demand sequential access via next()/hasNext()? │\n"
         "│                     │ → Iterator (may use a stack internally).          │\n"
         "├─────────────────────┼───────────────────────────────────────────────────┤\n"
-        "│ Queue / deque       │ FIFO order? → Queue. Lazy evaluation with peek?   │\n"
-        "│                     │ → Iterator.                                       │\n"
+        "│ Queue / deque       │ FIFO order? → Queue.                              │\n"
+        "│                     │ Lazy evaluation with peek? → Iterator.            │\n"
         "└─────────────────────┴───────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

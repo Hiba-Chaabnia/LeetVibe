@@ -114,8 +114,9 @@ TOPIC: dict = {
         "│                     │ Top-K repeatedly from a stream? → Min-heap O(n log k). │\n"
         "├─────────────────────┼────────────────────────────────────────────────────────┤\n"
         "│ Quicksort           │ In-place O(1) extra space, O(n log n) average?         │\n"
-        "│                     │ → Quicksort. Guaranteed O(n log n) worst case, or      │\n"
-        "│                     │ sorting a linked list? → Merge Sort.                   │\n"
+        "│                     │ → Quicksort.                                           │\n"
+        "│                     │ Guaranteed O(n log n) worst case, or sorting           │\n"
+        "│                     │ a linked list? → Merge Sort.                           │\n"
         "└─────────────────────┴────────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (

@@ -93,12 +93,14 @@ TOPIC: dict = {
         "│ Often confused with │ Distinguishing question                              │\n"
         "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
         "│ Dijkstra            │ Are all edge weights non-negative? → Dijkstra        │\n"
-        "│                     │ (O((V+E) log V)). Any negative weight possible, or   │\n"
-        "│                     │ need cycle detection? → Bellman-Ford.                │\n"
+        "│                     │ (O((V+E) log V)).                                    │\n"
+        "│                     │ Any negative weight possible, or need cycle          │\n"
+        "│                     │ detection? → Bellman-Ford.                           │\n"
         "├─────────────────────┼──────────────────────────────────────────────────────┤\n"
         "│ Floyd-Warshall      │ Need shortest path from ONE source, or ALL pairs?    │\n"
-        "│                     │ One source → Bellman-Ford. All pairs (small V, dense │\n"
-        "│                     │ graph) → Floyd-Warshall (O(V³) but simpler code).    │\n"
+        "│                     │ One source → Bellman-Ford.                           │\n"
+        "│                     │ All pairs (small V, dense graph) → Floyd-Warshall    │\n"
+        "│                     │ (O(V³) but simpler code).                            │\n"
         "└─────────────────────┴──────────────────────────────────────────────────────┘"
     ),
     "follow_up_questions": (
