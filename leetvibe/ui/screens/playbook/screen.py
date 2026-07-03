@@ -1,4 +1,4 @@
-"""ReferenceGuideScreen — Playbook mode: algorithm topics with notes and export."""
+"""PlaybookScreen — Playbook mode: algorithm topics with notes and export."""
 
 from __future__ import annotations
 
@@ -63,7 +63,7 @@ _TIER_OPTIONS = [
 
 # ── Screen ─────────────────────────────────────────────────────────────────────
 
-class ReferenceGuideScreen(BaseScreen):
+class PlaybookScreen(BaseScreen):
     """Playbook mode — browse algorithm topics, add notes, and export to DOCX."""
 
     BINDINGS = [
@@ -201,8 +201,13 @@ class ReferenceGuideScreen(BaseScreen):
             return 24
 
     def _rebuild_list(self, *, refocus: bool = True) -> None:
-        """Repopulate the OptionList from _visible_topics and reset selection."""
+        """Repopulate the OptionList from _visible_topics, preserving the current topic."""
         visible = self._visible_topics
+        current_slug = (
+            visible[self._current_idx]["slug"]
+            if visible and 0 <= self._current_idx < len(visible)
+            else None
+        )
         topic_list = self.query_one("#topic-list", OptionList)
         topic_list.clear_options()
         self._option_map = []
@@ -241,11 +246,21 @@ class ReferenceGuideScreen(BaseScreen):
                 topic_list.add_option(Option(_trunc(t["title"], max_w), id=f"topic-{i}"))
                 self._option_map.append(i)
 
-        # Select first non-header option
+        # Re-select the same topic as before the rebuild, if it's still visible;
+        # otherwise fall back to the first non-header option.
         first_pos = next((p for p, ti in enumerate(self._option_map) if ti is not None), 0)
-        self._current_idx = self._option_map[first_pos] if self._option_map else 0
+        target_pos = first_pos
+        if current_slug is not None:
+            target_pos = next(
+                (
+                    p for p, ti in enumerate(self._option_map)
+                    if ti is not None and visible[ti]["slug"] == current_slug
+                ),
+                first_pos,
+            )
+        self._current_idx = self._option_map[target_pos] if self._option_map else 0
         if self._option_map:
-            topic_list.highlighted = first_pos
+            topic_list.highlighted = target_pos
         self._refresh_content()
         if refocus:
             topic_list.focus()
@@ -327,9 +342,12 @@ class ReferenceGuideScreen(BaseScreen):
                 return
             topic = visible[self._current_idx]
             panel.set_topic(topic)
-            panel.restore_history(self._histories.get(topic["slug"], []))
             panel.add_class("open")
             self._chat_open = True
+            # Panel is `display: none` until the "open" class is applied above, so its
+            # RichLog has no real width yet — defer the restore until after layout runs,
+            # otherwise the history bakes in at a stale/collapsed width.
+            self.call_after_refresh(panel.restore_history, self._histories.get(topic["slug"], []))
             self.call_after_refresh(panel.focus_input)
 
     def on_playbook_chat_panel_toggled(self, _event: PlaybookChatPanel.Toggled) -> None:

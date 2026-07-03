@@ -6,7 +6,13 @@ import json
 import re
 from pathlib import Path
 
-from leetvibe.ui.theme import AMBER, DIM, EMBER, GOLD, GRADIENT, GREEN, RED
+from leetvibe.ui.markup import (
+    code_block as _code_block,
+    esc,
+    md_inline as _md_inline,
+    render_response_to_markup,
+)
+from leetvibe.ui.theme import AMBER, DIM, GRADIENT, GREEN, RED
 
 # ── Notes persistence ──────────────────────────────────────────────────────────
 
@@ -51,11 +57,6 @@ def save_histories(histories: dict[str, list[dict]]) -> None:
 
 # ── Rich markup helper ─────────────────────────────────────────────────────────
 
-def esc(text: str) -> str:
-    """Escape [ so Rich doesn't interpret user content as markup tags."""
-    return text.replace("[", r"\[")
-
-
 # ── Difficulty badge helpers ───────────────────────────────────────────────────
 
 _DIFF_COLOR = {"E": GREEN, "M": AMBER, "H": RED}
@@ -82,65 +83,9 @@ def render_title(title: str) -> str:
     return "".join(chars)
 
 
-def _infobox(text: str) -> list[str]:
-    """Render text in a softly dimmed infobox style."""
-    return [f"  [{DIM}]{ln}[/{DIM}]" for ln in text.split("\n")]
-
-
-def _code_block(block: str, width: int = 24) -> list[str]:
-    """Render a code block with box-drawing header and │-prefixed lines."""
-    # "  ┌── python " = 13 chars; fill rest with dashes up to total width
-    dash_header = max(2, width - 13)
-    dash_footer = max(2, width - 3)
-    lines = [f"  [{DIM}]┌── python {'─' * dash_header}[/{DIM}]"]
-    for ln in block.split("\n"):
-        lines.append(f"  [{DIM}]│[/{DIM}] {ln}")
-    lines.append(f"  [{DIM}]└{'─' * dash_footer}[/{DIM}]")
-    return lines
-
-
-def _md_inline(line: str) -> str:
-    """Convert inline markdown to Rich markup, safely escaping literal brackets."""
-    line = line.replace("[", "\x00")
-    line = re.sub(r"\*\*(.+?)\*\*", r"[bold]\1[/bold]", line)
-    line = re.sub(r"`([^`]+)`", rf"[bold {AMBER}]\1[/bold {AMBER}]", line)
-    if re.match(r"^[-•]\s", line):
-        line = f"  [{DIM}]•[/{DIM}] " + line[2:]
-    line = line.replace("\x00", r"\[")
-    return line
-
-
-def render_response_to_markup(content: str) -> str:
-    """Convert AI response markdown to a Rich markup string for Panel display."""
-    lines_out: list[str] = []
-    in_code = False
-    code_lines: list[str] = []
-
-    for line in content.split("\n"):
-        if line.startswith("```"):
-            if in_code:
-                for rendered in _code_block("\n".join(code_lines), width=22):
-                    lines_out.append(rendered)
-                lines_out.append("")
-                code_lines = []
-                in_code = False
-            else:
-                in_code = True
-        elif in_code:
-            code_lines.append(line)
-        elif line.strip():
-            lines_out.append(_md_inline(line))
-        else:
-            lines_out.append("")
-
-    if in_code and code_lines:
-        for rendered in _code_block("\n".join(code_lines), width=22):
-            lines_out.append(rendered)
-
-    while lines_out and not lines_out[-1].strip():
-        lines_out.pop()
-
-    return "\n".join(lines_out)
+# esc / _md_inline / _code_block / render_response_to_markup live in
+# leetvibe.ui.markup (shared with the agent session's bubble log); imported
+# above so playbook callers keep their historical import path.
 
 
 def build_topic_context(topic: dict) -> str:
@@ -188,13 +133,15 @@ def render_topic(topic: dict, note: str) -> str:
     diagram   = esc(topic.get("diagram", ""))
     t_val     = esc(topic.get("time", ""))
     s_val     = esc(topic.get("space", ""))
-    recognize = esc(topic.get("recognize", ""))
-    intuition = esc(topic.get("intuition", ""))
-    pitfalls  = esc(topic.get("pitfalls", ""))
-    edge_cases = esc(topic.get("edge_cases", ""))
-    variants  = esc(topic.get("variants", ""))
     confusion = esc(topic.get("confusion", ""))
-    follow_up = esc(topic.get("follow_up_questions", ""))
+    # Prose fields are NOT pre-escaped: _md_inline escapes brackets itself,
+    # and escaping twice renders literal backslashes (nums\[i]).
+    recognize = topic.get("recognize", "")
+    intuition = topic.get("intuition", "")
+    pitfalls  = topic.get("pitfalls", "")
+    edge_cases = topic.get("edge_cases", "")
+    variants  = topic.get("variants", "")
+    follow_up = topic.get("follow_up_questions", "")
     related   = topic.get("related", [])
 
     lines: list[str] = [""]
@@ -204,7 +151,7 @@ def render_topic(topic: dict, note: str) -> str:
     if recognize:
         lines.append(_sh("Recognised by", h)); h += 1
         for ln in recognize.split("\n"):
-            lines.append(f"  [{DIM}]{ln}[/{DIM}]")
+            lines.append(f"  {_md_inline(ln)}")
         lines.append("")
 
     # Intuition
@@ -216,7 +163,8 @@ def render_topic(topic: dict, note: str) -> str:
 
     # Diagram
     lines.append(_sh("Diagram", h)); h += 1
-    lines += _infobox(diagram)
+    for ln in diagram.split("\n"):
+        lines.append(f"  {ln}")
     lines.append("")
 
     # Patterns
@@ -225,7 +173,8 @@ def render_topic(topic: dict, note: str) -> str:
         lines.append(_sh("Patterns", h)); h += 1
         for i, pat in enumerate(patterns, 1):
             lines.append(f"  [bold #ffffff]{i}. {esc(pat['name'])}[/bold #ffffff]")
-            lines += _code_block(esc(pat["code"]), width=48)
+            # _code_block escapes internally — passing esc'ed code doubles it
+            lines += _code_block(pat["code"], width=48)
             lines.append("")
 
     # Variants
@@ -239,37 +188,37 @@ def render_topic(topic: dict, note: str) -> str:
     if t_val or s_val:
         lines.append(_sh("Complexity", h)); h += 1
         if t_val:
-            lines.append(f"  Time   [{AMBER}]{t_val}[/{AMBER}]")
+            lines.append(f"  Time   {t_val}")
         if s_val:
-            lines.append(f"  Space  [{AMBER}]{s_val}[/{AMBER}]")
+            lines.append(f"  Space  {s_val}")
         lines.append("")
 
     # Pitfalls
     if pitfalls:
         lines.append(_sh("Pitfalls", h)); h += 1
         for ln in pitfalls.split("\n"):
-            lines.append(f"  [{RED}]{ln}[/{RED}]")
+            lines.append(f"  {_md_inline(ln)}")
         lines.append("")
 
     # Edge cases
     if edge_cases:
         lines.append(_sh("Edge cases", h)); h += 1
         for ln in edge_cases.split("\n"):
-            lines.append(f"  [{AMBER}]{ln}[/{AMBER}]")
+            lines.append(f"  {_md_inline(ln)}")
         lines.append("")
 
     # Don't mix up with
     if confusion:
         lines.append(_sh("Don't mix up with", h)); h += 1
         for ln in confusion.split("\n"):
-            lines.append(f"  [{DIM}]{ln}[/{DIM}]")
+            lines.append(f"  {ln}")
         lines.append("")
 
     # Follow-up questions
     if follow_up:
         lines.append(_sh("Follow-up questions", h)); h += 1
         for ln in follow_up.split("\n"):
-            lines.append(f"  [{GOLD}]{ln}[/{GOLD}]")
+            lines.append(f"  {_md_inline(ln)}")
         lines.append("")
 
     # Classic Problems
@@ -290,9 +239,7 @@ def render_topic(topic: dict, note: str) -> str:
     # Related Topics
     if related:
         lines.append(_sh("Related Topics", h)); h += 1
-        lines.append(
-            "  " + "  ·  ".join(f"[{EMBER}]{r}[/{EMBER}]" for r in related)
-        )
+        lines.append("  " + "  ·  ".join(esc(r) for r in related))
         lines.append("")
 
     # Notes
@@ -302,7 +249,7 @@ def render_topic(topic: dict, note: str) -> str:
             lines.append(f"  {esc(note_line)}")
     else:
         lines.append(
-            f"  [{DIM}]No notes yet — press [bold]N[/bold] to add one.[/{DIM}]"
+            f"  [{DIM}]No notes yet — press [bold]Ctrl+N[/bold] to add one.[/{DIM}]"
         )
 
     return "\n".join(lines)

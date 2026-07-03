@@ -884,7 +884,7 @@ AgentSessionScreen #chat-input:disabled { color: #555555; border: round #2a2a2a;
 
 
 /* ============================================================
-   PlaybookChatPanel / ReferenceGuideScreen
+   PlaybookChatPanel / PlaybookScreen
    ============================================================ */
 
 
@@ -960,7 +960,7 @@ PlaybookChatPanel .chat-reset-btn:hover  { color: #FF8205; border: round #FF8205
 PlaybookChatPanel .chat-reset-btn:focus,
 PlaybookChatPanel .chat-reset-btn.-active { background: transparent; }
 
-ReferenceGuideScreen {
+PlaybookScreen {
     background: $bg;
 }
 #ref-filter-bar {
@@ -1015,11 +1015,11 @@ ReferenceGuideScreen {
 #cat-filter.filter-active > SelectCurrent > #label { color: $grad2; }
 #tier-filter:focus-within > SelectCurrent > #label,
 #tier-filter.filter-active > SelectCurrent > #label { color: $grad3; }
-ReferenceGuideScreen #ref-body {
+PlaybookScreen #ref-body {
     height: 1fr;
     padding: 0 1 1 1;
 }
-ReferenceGuideScreen #ref-topics {
+PlaybookScreen #ref-topics {
     width: 17.5%;
     border: round #333333;
     background: $bg;

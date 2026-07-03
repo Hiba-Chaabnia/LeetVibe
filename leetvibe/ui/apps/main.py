@@ -15,7 +15,7 @@ from textual.widget import Widget
 
 from leetvibe.update_check import check_for_update
 from leetvibe.ui.screens.home import HomeScreen
-from leetvibe.ui.screens.playbook.screen import ReferenceGuideScreen
+from leetvibe.ui.screens.playbook.screen import PlaybookScreen
 from leetvibe.ui.screens.stats import StatsScreen
 
 
@@ -59,7 +59,7 @@ class LeetVibeApp(App):
     SCREENS = {
         "home":     HomeScreen,
         "stats":    StatsScreen,
-        "concepts": ReferenceGuideScreen,
+        "concepts": PlaybookScreen,
     }
 
     BINDINGS = [

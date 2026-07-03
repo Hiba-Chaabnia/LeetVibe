@@ -1,51 +1,18 @@
-"""Playbook side panels — inline AI chat, notes editor, and thinking indicator."""
+"""Playbook side panels — inline AI chat, notes editor."""
 
 from __future__ import annotations
-
-from rich.panel import Panel
-from rich.text import Text
 
 from textual.app import ComposeResult
 from textual.containers import Horizontal
 from textual.events import Key
 from textual.message import Message
 from textual.widget import Widget
-from textual.widgets import Button, Input, RichLog, Static, TextArea
+from textual.widgets import Button, Input, Static, TextArea
 
-from leetvibe.ui.theme import AMBER, DIM, FIRE, RED, SHIMMER
+from leetvibe.ui.theme import DIM
+from leetvibe.ui.widgets import ChatBubbleLog, ThinkingIndicator
 
-from .render import esc, render_response_to_markup
-
-_SPINNER_FRAMES: list[str] = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
-
-
-class ThinkingIndicator(Static):
-    """Animated spinner + shimmering 'thinking…' label."""
-
-    def __init__(self, **kwargs) -> None:
-        super().__init__("", **kwargs)
-        self._offset: int = 0
-        self._frame: int = 0
-
-    def on_mount(self) -> None:
-        self.set_interval(0.08, self._tick)
-
-    def _tick(self) -> None:
-        if not self.display:
-            return
-        self._offset = (self._offset + 1) % len(SHIMMER)
-        self._frame = (self._frame + 1) % len(_SPINNER_FRAMES)
-        self.update(self._build_text())
-
-    def _build_text(self) -> Text:
-        text = Text()
-        text.append("  ")
-        text.append(_SPINNER_FRAMES[self._frame], style=f"bold {FIRE}")
-        text.append(" ")
-        for i, ch in enumerate("thinking…"):
-            color = SHIMMER[(i + self._offset) % len(SHIMMER)]
-            text.append(ch, style=f"bold {color}")
-        return text
+from .render import render_response_to_markup
 
 
 class PlaybookChatPanel(Widget):
@@ -64,21 +31,28 @@ class PlaybookChatPanel(Widget):
             expand_btn.can_focus = False
             yield expand_btn
             yield Static("", id="chat-header-spacer")
-            reset_btn = Button("🗑", id="chat-reset", classes="chat-reset-btn")
+            reset_btn = Button("↺", id="chat-reset", classes="chat-reset-btn")
             reset_btn.tooltip = "Clear chat history"
             reset_btn.can_focus = False
             yield reset_btn
-        chat_log = RichLog(id="chat-log", markup=True, wrap=True, highlight=False, min_width=1)
+        chat_log = ChatBubbleLog(
+            id="chat-log",
+            renderer=render_response_to_markup,
+            markup=True, wrap=True, highlight=False, min_width=1,
+        )
         chat_log.can_focus = False
         yield chat_log
         yield ThinkingIndicator(id="chat-thinking")
         yield Input(placeholder="Ask about this pattern…", id="chat-input")
 
+    def _log(self) -> ChatBubbleLog:
+        return self.query_one("#chat-log", ChatBubbleLog)
+
     def set_topic(self, topic: dict) -> None:
         self._topic = topic
 
     def reset(self) -> None:
-        self.query_one("#chat-log", RichLog).clear()
+        self._log().clear()
 
     def focus_input(self) -> None:
         self.query_one("#chat-input", Input).focus()
@@ -88,53 +62,20 @@ class PlaybookChatPanel(Widget):
         self.query_one("#chat-thinking", ThinkingIndicator).display = busy
 
     def append_user(self, message: str) -> None:
-        log = self.query_one("#chat-log", RichLog)
-        log.write(Panel(
-            esc(message),
-            title=f"[bold {AMBER}] you [/bold {AMBER}]",
-            title_align="left",
-            border_style=AMBER,
-            padding=(0, 1),
-            expand=True,
-        ))
-        log.scroll_end(animate=False)
+        self._log().append_user(message)
 
     def append_ai(self, content: str) -> None:
-        log = self.query_one("#chat-log", RichLog)
-        log.write(Panel(
-            Text.from_markup(render_response_to_markup(content)),
-            title=f"[bold {FIRE}] vibe [/bold {FIRE}]",
-            title_align="left",
-            border_style=FIRE,
-            padding=(0, 1),
-            expand=True,
-        ))
-        log.scroll_end(animate=False)
+        self._log().append_ai(content)
 
     def append_error(self, message: str) -> None:
-        log = self.query_one("#chat-log", RichLog)
-        log.write(Panel(
-            f"[{RED}]{esc(message)}[/{RED}]",
-            title=f"[bold {RED}] error [/bold {RED}]",
-            title_align="left",
-            border_style=RED,
-            padding=(0, 1),
-            expand=True,
-        ))
-        log.scroll_end(animate=False)
+        self._log().append_error(message)
 
     def append_raw(self, line: str) -> None:
-        self.query_one("#chat-log", RichLog).write(line)
+        self._log().append_raw(line)
 
     def restore_history(self, messages: list[dict]) -> None:
         """Re-render a saved conversation history into the log."""
-        log = self.query_one("#chat-log", RichLog)
-        log.clear()
-        for msg in messages:
-            if msg["role"] == "user":
-                self.append_user(msg["content"])
-            elif msg["role"] == "assistant":
-                self.append_ai(msg["content"])
+        self._log().restore_history(messages)
 
     def on_key(self, event: Key) -> None:
         if event.key == "space":
