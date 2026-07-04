@@ -1,12 +1,4 @@
-"""Firebase Auth — sign in / sign up / session persistence.
-
-Uses the Firebase Auth REST API so no service account is required.
-Public credentials are baked in for published package use — they are safe
-to expose (the Web API Key is protected by Firebase Security Rules and Auth
-settings; the Desktop OAuth client secret is non-sensitive per Google policy).
-
-Developers can override any value via environment variables in .env.
-"""
+"""Firebase Auth — sign in / sign up / session persistence."""
 
 from __future__ import annotations
 

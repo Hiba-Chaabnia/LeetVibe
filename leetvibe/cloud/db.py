@@ -486,7 +486,7 @@ def submit_feedback(
     message: str,
     problem_slug: str | None = None,
     session_id: str | None = None,
-    app_version: str = "0.1.0",
+    app_version: str = "0.2.0",
 ) -> str | None:
     """Submit user feedback. Returns None on success, error string on failure."""
     headers, user_id = _get_context()
