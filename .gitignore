@@ -18,9 +18,6 @@ build/
 
 # Environment — never commit real keys
 .env
-.env.local
-.env.*.local
-.env.copy
 
 # Virtual environments
 .venv/
@@ -34,10 +31,10 @@ data/cache/
 Thumbs.db
 
 # Development Folders
-problems_seed/
-.pytest_cache/
-tests/test_topic_schema.py
 .claude/
 logs/
+dev/
 secrets/
-assets/dev/
+
+# Local developer notes
+.devnotes/
