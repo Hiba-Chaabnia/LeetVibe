@@ -9,11 +9,14 @@ import ast
 import contextlib
 import io
 import json
+import multiprocessing
 import re
 import traceback
 from collections import deque
 from dataclasses import dataclass
 from typing import Any
+
+_DEFAULT_TIMEOUT = 10.0  # seconds
 
 
 @dataclass
@@ -730,3 +733,102 @@ def run_tests(
             ))
 
     return results
+
+
+# ---------------------------------------------------------------------------
+# Subprocess isolation — run_tests() executes arbitrary AI/user code via a
+# direct exec() with no timeout. An infinite loop (a very plausible bug in
+# code being actively debugged) hangs the calling thread forever with no way
+# to recover: Stop/Ctrl+S only breaks the *streaming* loop between chunks, it
+# cannot preempt a blocking exec() already in flight. Running the actual
+# execution in a subprocess makes it possible to kill outright on timeout.
+# ---------------------------------------------------------------------------
+
+def _run_tests_worker(
+    code: str,
+    snippet: str,
+    test_cases: list[list[str]],
+    expected_outputs: list[str],
+    queue: "multiprocessing.Queue",
+) -> None:
+    """Target for the isolated subprocess — computes results and enqueues them.
+
+    Every CaseResult field is already a plain, picklable type (str/bool/None/
+    list/dict — see _normalize_output), so the result list crosses the
+    process boundary via the queue with no extra serialization work.
+    """
+    try:
+        queue.put(run_tests(code, snippet, test_cases, expected_outputs))
+    except Exception:
+        # run_tests() catches per-case errors internally, so reaching this
+        # branch means something outside that (e.g. a crash while formatting
+        # results) went wrong. Report it instead of leaving the parent to
+        # wait out the full timeout for nothing.
+        last_line = traceback.format_exc().strip().splitlines()[-1]
+        queue.put([
+            CaseResult(case_num=i + 1, inputs=case, error=f"Runner crashed: {last_line}")
+            for i, case in enumerate(test_cases)
+        ])
+
+
+def run_tests_with_timeout(
+    code: str,
+    snippet: str,
+    test_cases: list[list[str]],
+    expected_outputs: list[str],
+    timeout: float = _DEFAULT_TIMEOUT,
+) -> list[CaseResult]:
+    """Execute run_tests() in an isolated subprocess with a hard wall-clock cap.
+
+    On timeout, the subprocess is terminated and every case is reported as
+    failed with a "Time Limit Exceeded" error — there is no way to know which
+    individual case was hanging, so all are marked rather than guessing.
+    """
+    if not test_cases:
+        return run_tests(code, snippet, test_cases, expected_outputs)
+
+    ctx = multiprocessing.get_context("spawn")
+    queue: multiprocessing.Queue = ctx.Queue()
+    proc = ctx.Process(
+        target=_run_tests_worker,
+        args=(code, snippet, test_cases, expected_outputs, queue),
+        daemon=True,
+    )
+    try:
+        proc.start()
+        proc.join(timeout)
+
+        if proc.is_alive():
+            proc.terminate()
+            proc.join(2)
+            if proc.is_alive():
+                proc.kill()
+                proc.join()
+            return [
+                CaseResult(
+                    case_num=i + 1,
+                    inputs=case,
+                    expected=expected_outputs[i] if i < len(expected_outputs) else "",
+                    passed=False,
+                    error=f"Time Limit Exceeded ({timeout:.0f}s) — likely an infinite loop.",
+                )
+                for i, case in enumerate(test_cases)
+            ]
+
+        try:
+            return queue.get_nowait()
+        except Exception:
+            return [
+                CaseResult(case_num=i + 1, inputs=case, error="Runner exited unexpectedly.")
+                for i, case in enumerate(test_cases)
+            ]
+    finally:
+        # By this point proc is confirmed not alive (either it exited on its
+        # own, or the terminate/kill branch above blocked until it was dead)
+        # — safe to release both handles instead of leaving them for the GC.
+        # cancel_join_thread() is defensive: this side never calls put(), so
+        # it has no feeder thread to wait on, but it keeps close() from ever
+        # blocking if that changes later.
+        queue.cancel_join_thread()
+        queue.close()
+        proc.close()

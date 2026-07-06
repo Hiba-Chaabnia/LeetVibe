@@ -11,7 +11,7 @@ if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
 from mcp.server.fastmcp import FastMCP
-from leetvibe.code_runner import CaseResult, run_tests
+from leetvibe.code_runner import CaseResult, run_tests_with_timeout
 
 mcp = FastMCP("test_runner")
 
@@ -55,12 +55,18 @@ def _parse_raw(snippet: str, raw: str) -> list[list[str]]:
     return cases
 
 
+def _case_passed(r: CaseResult) -> bool:
+    """Comparison result when expected was provided, else "ran without error"."""
+    return r.passed if r.passed is not None else not r.error
+
+
 @mcp.tool()
 def run_code(
     code: str,
     snippet: str,
     example_testcases_raw: str = "",
     test_cases: list[dict] = [],
+    expected_outputs: list[str] = [],
 ) -> dict:
     """Execute Python code against test cases. Returns pass/fail per case."""
     if test_cases:
@@ -72,19 +78,29 @@ def run_code(
     else:
         structured = []
 
-    results: list[CaseResult] = run_tests(code, snippet, structured, [])
+    # All-or-nothing comparison: bundled test data (e.g. several trees packed
+    # into one testCases entry) can ship fewer expected outputs than parsed
+    # cases. A partial list would mix "matched expected" and "ran without
+    # error" semantics in one result — drop it instead.
+    expected = list(expected_outputs or [])
+    if expected and len(expected) != len(structured):
+        expected = []
+
+    results: list[CaseResult] = run_tests_with_timeout(code, snippet, structured, expected)
     return {
         "cases": [
             {
                 "case_num": r.case_num,
-                "passed": not r.error,
+                "input": ", ".join(str(arg) for arg in r.inputs),
+                "expected": r.expected or "",
+                "passed": _case_passed(r),
                 "output": repr(r.output),
                 "error": r.error or "",
                 "stdout": r.stdout or "",
             }
             for r in results
         ],
-        "all_passed": all(not r.error for r in results),
+        "all_passed": all(_case_passed(r) for r in results),
     }
 
 
