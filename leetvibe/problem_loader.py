@@ -142,6 +142,20 @@ class Problem:
         return len(self.hints)
 
 
+def session_slug(problem: Problem) -> str:
+    """Identifier for *problem* inside AI chat-session Firestore doc ids.
+
+    Historically falls back to the display title — Problem has no
+    title_slug field, so that branch never actually fires — but is kept
+    exactly as-is (not switched to problem.id, a *different* slug used by
+    mark_solved/get_solved_slugs) so existing users' chat_sessions /
+    chat_messages doc ids don't shift under them. Shared by every caller
+    that needs to reference an AI session's doc id, so they can't drift
+    from each other the way two separate inline copies eventually would.
+    """
+    return getattr(problem, "title_slug", None) or problem.title
+
+
 _problems_cache: list[Problem] | None = None
 
 
