@@ -71,6 +71,35 @@ def _sh(label: str, idx: int = 0) -> str:
     return f"[bold {color}]{label.title()}[/bold {color}]"
 
 
+_SENTENCE_END = (".", "?", "!")
+
+
+def _wrap_prose(text: str) -> list[str]:
+    """Collapse hand-wrapped continuation lines into one logical line per bullet.
+
+    Topic content authors hard-wrap long bullets/sentences across physical
+    lines in the source file (sometimes with a leading-space continuation,
+    sometimes not — there's no consistent marker). Static already word-wraps
+    at render time, so re-emitting each physical line separately double-wraps
+    content once the panel is narrower than the author's assumed width (e.g.
+    with the chat panel open), producing stray mid-sentence indents.
+
+    A physical line continues the previous one unless that previous line
+    already ended a sentence (`.`, `?`, `!`) — mid-sentence breaks end in a
+    comma, semicolon, dash, or nothing at all. Merging continuations back
+    into one logical line lets Static's own wrap be the only thing deciding
+    where lines break, regardless of panel width.
+    """
+    merged: list[str] = []
+    for raw in text.split("\n"):
+        stripped = raw.strip()
+        if merged and not merged[-1].endswith(_SENTENCE_END):
+            merged[-1] = f"{merged[-1]} {stripped}"
+        else:
+            merged.append(stripped)
+    return merged
+
+
 def render_title(title: str) -> str:
     """Title with fire gradient per character."""
     title = title.upper()
@@ -119,7 +148,6 @@ def render_topic(topic: dict, note: str) -> str:
         lines: list[str] = [
             "",
             _sh("How to pick a pattern", 0),
-            f"  [{DIM}]{'─' * 48}[/{DIM}]",
         ]
         for ln in esc(topic["diagram"]).split("\n"):
             lines.append(f"  {ln}")
@@ -150,14 +178,14 @@ def render_topic(topic: dict, note: str) -> str:
     # Recognised by
     if recognize:
         lines.append(_sh("Recognised by", h)); h += 1
-        for ln in recognize.split("\n"):
+        for ln in _wrap_prose(recognize):
             lines.append(f"  {_md_inline(ln)}")
         lines.append("")
 
     # Intuition
     if intuition:
         lines.append(_sh("Intuition", h)); h += 1
-        for ln in intuition.split("\n"):
+        for ln in _wrap_prose(intuition):
             lines.append(f"  {_md_inline(ln)}")
         lines.append("")
 
@@ -180,7 +208,7 @@ def render_topic(topic: dict, note: str) -> str:
     # Variants
     if variants:
         lines.append(_sh("Variants", h)); h += 1
-        for ln in variants.split("\n"):
+        for ln in _wrap_prose(variants):
             lines.append(f"  {_md_inline(ln)}")
         lines.append("")
 
@@ -196,14 +224,14 @@ def render_topic(topic: dict, note: str) -> str:
     # Pitfalls
     if pitfalls:
         lines.append(_sh("Pitfalls", h)); h += 1
-        for ln in pitfalls.split("\n"):
+        for ln in _wrap_prose(pitfalls):
             lines.append(f"  {_md_inline(ln)}")
         lines.append("")
 
     # Edge cases
     if edge_cases:
         lines.append(_sh("Edge cases", h)); h += 1
-        for ln in edge_cases.split("\n"):
+        for ln in _wrap_prose(edge_cases):
             lines.append(f"  {_md_inline(ln)}")
         lines.append("")
 
@@ -217,7 +245,7 @@ def render_topic(topic: dict, note: str) -> str:
     # Follow-up questions
     if follow_up:
         lines.append(_sh("Follow-up questions", h)); h += 1
-        for ln in follow_up.split("\n"):
+        for ln in _wrap_prose(follow_up):
             lines.append(f"  {_md_inline(ln)}")
         lines.append("")
 
