@@ -9,6 +9,7 @@ from textual.message import Message
 from textual.widget import Widget
 from textual.widgets import Button, Input, Static, TextArea
 
+from leetvibe.ui.keys import reinsert_swallowed_space
 from leetvibe.ui.theme import DIM
 from leetvibe.ui.widgets import ChatBubbleLog, ThinkingIndicator
 
@@ -78,12 +79,7 @@ class PlaybookChatPanel(Widget):
         self._log().restore_history(messages)
 
     def on_key(self, event: Key) -> None:
-        if event.key == "space":
-            inp = self.query_one("#chat-input", Input)
-            if inp.has_focus and not inp.disabled:
-                inp.insert_text_at_cursor(" ")
-                event.prevent_default()
-                event.stop()
+        reinsert_swallowed_space(event, self.query_one("#chat-input", Input))
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "chat-expand":
@@ -130,11 +126,7 @@ class NotesPanel(Widget):
         return self.query_one("#notes-textarea", TextArea).text
 
     def on_key(self, event: Key) -> None:
-        ta = self.query_one("#notes-textarea", TextArea)
-        if event.key == "space" and ta.has_focus:
-            ta.insert(" ")
-            event.prevent_default()
-            event.stop()
-        elif event.key == "escape":
+        reinsert_swallowed_space(event, self.query_one("#notes-textarea", TextArea))
+        if event.key == "escape":
             self.post_message(self.Closed(self.get_text()))
             event.stop()
