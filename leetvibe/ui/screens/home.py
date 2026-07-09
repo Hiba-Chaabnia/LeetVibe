@@ -28,7 +28,7 @@ def _build_options(email: str | None) -> list[Option]:
         account_desc = "Sign in to sync your progress to the cloud"
     return [
         _opt("Learn",            "Let LeetVibe teach you the approach, step by step",              "learn"),
-        _opt("Pair Programming", "Code alongside LeetVibe — live tests, hints, and full feedback", "coach"),
+        _opt("Pair Programming", "Code alongside LeetVibe — live tests, hints, and full feedback", "pair"),
         _opt("Interview",        "Simulate a real technical interview with an AI interviewer",      "interview"),
         _opt("Playbook",         "Recognise patterns faster, solve problems smarter",              "concepts"),
         _opt("Statistics",       "See how far you've come — sessions, solved problems, and more",  "stats"),
@@ -47,7 +47,7 @@ class HomeScreen(BaseScreen):
     BINDINGS = [
         Binding("ctrl+q", "quit_app", "Quit"),
         Binding("1", "select_option('learn')",     "Learn",     show=False),
-        Binding("2", "select_option('coach')",     "Solve",     show=False),
+        Binding("2", "select_option('pair')",     "Solve",     show=False),
         Binding("3", "select_option('interview')", "Interview", show=False),
         Binding("4", "select_option('concepts')",  "Playbook",  show=False),
         Binding("5", "select_option('stats')",     "Stats",     show=False),
@@ -111,18 +111,31 @@ class HomeScreen(BaseScreen):
             self.app.push_screen("concepts")
         elif oid == "account":
             self._handle_account()
-        elif oid in ("learn", "coach", "interview"):
+        elif oid in ("learn", "pair", "interview"):
             self._go_problems(oid)
 
     def _handle_account(self) -> None:
-        from ...cloud.auth import clear_session
         if self._current_email():
-            clear_session()
-            self._refresh_auth()
-            self.notify("Signed out.", severity="information")
+            from .confirm import ConfirmModal
+            self.app.push_screen(
+                ConfirmModal(
+                    "Sign Out",
+                    "Cloud sync will stop until you sign back in.",
+                    confirm_label="Sign Out",
+                ),
+                self._on_sign_out_confirmed,
+            )
         else:
             from .auth import AuthChoiceScreen
             self.app.push_screen(AuthChoiceScreen(), self._on_login_result)
+
+    def _on_sign_out_confirmed(self, confirmed: bool | None) -> None:
+        if not confirmed:
+            return
+        from ...cloud.auth import clear_session
+        clear_session()
+        self._refresh_auth()
+        self.notify("Signed out.", severity="information")
 
     def _on_login_result(self, result) -> None:
         if result and result.ok:
