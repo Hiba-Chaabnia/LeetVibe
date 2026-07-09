@@ -19,9 +19,3 @@ transport = "stdio"
 command = "python"
 args = ["leetvibe/ai/skills/complexity_analyzer/server.py"]
 
-[[mcp_servers]]
-name = "teaching_mode"
-transport = "stdio"
-command = "python"
-args = ["leetvibe/ai/skills/teaching_mode/server.py"]
-
