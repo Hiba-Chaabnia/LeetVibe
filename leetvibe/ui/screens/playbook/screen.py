@@ -398,26 +398,19 @@ class PlaybookScreen(BaseScreen):
         try:
             from mistralai import Mistral
             from leetvibe.config import load_config
+            from leetvibe.ai.agent import stream_mistral_chunks
 
             config = load_config()
             client = Mistral(api_key=config.mistral_api_key)
 
-            full_response = ""
-
-            with client.chat.stream(
-                model=config.mistral_qa_model,
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    *history[:-1][-10:],  # last 10 prior turns; full history kept on disk
-                    {"role": "user", "content": user_message},
-                ],
-            ) as stream:
-                for event in stream:
-                    try:
-                        chunk = event.data.choices[0].delta.content or ""
-                    except (AttributeError, IndexError):
-                        continue
-                    full_response += chunk
+            messages = [
+                {"role": "system", "content": system_prompt},
+                *history[:-1][-10:],  # last 10 prior turns; full history kept on disk
+                {"role": "user", "content": user_message},
+            ]
+            full_response = "".join(
+                stream_mistral_chunks(client, config.mistral_qa_model, messages)
+            )
 
             if full_response.strip():
                 self.app.call_from_thread(panel.append_ai, full_response)
