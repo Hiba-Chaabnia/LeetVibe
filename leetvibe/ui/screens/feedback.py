@@ -11,7 +11,8 @@ from textual.widgets import Button, Label, Select, TextArea
 from ..widgets.shimmer_title import ShimmerTitle
 
 
-# All types accepted by the feedback table CHECK constraint (001_initial_schema.sql)
+# Values sent as-is to Firestore's "feedback" collection (cloud/db.py:submit_feedback) —
+# there's no server-side schema/enum enforcing this list, it's just the modal's own options.
 _FEEDBACK_TYPES: list[tuple[str, str]] = [
     ("Bug report",           "bug"),
     ("Wrong solution",       "wrong_solution"),
