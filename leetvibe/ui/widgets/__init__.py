@@ -1,7 +1,7 @@
 """LeetVibe TUI widgets."""
 
 from .banner import Banner
-from .chat_bubbles import ChatBubbleLog, ThinkingIndicator
+from .chat_bubbles import ChatBubbleLog, StepAnswerBubble, ThinkingIndicator
 from .problem_card import ProblemCard
 from .problem_table import ProblemTable
 from .shimmer_title import ShimmerTitle
@@ -17,6 +17,7 @@ __all__ = [
     "ProblemTable",
     "ShimmerTitle",
     "StatusBar",
+    "StepAnswerBubble",
     "ThinkingIndicator",
     "TruncatedSelect",
 ]

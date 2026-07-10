@@ -7,10 +7,12 @@ from typing import Callable
 from rich.panel import Panel
 from rich.text import Text
 
-from textual.widgets import RichLog, Static
+from textual.app import ComposeResult
+from textual.containers import Vertical
+from textual.widgets import Collapsible, RichLog, Static
 
-from leetvibe.ui.markup import MARKUP_RE, esc
-from leetvibe.ui.theme import AMBER, FIRE, GOLD, RED, SHIMMER
+from leetvibe.ui.markup import esc, safe_markup_text
+from leetvibe.ui.theme import AMBER, FIRE, GOLD, GRADIENT, RED, SHIMMER
 
 _SPINNER_FRAMES: list[str] = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
 
@@ -69,12 +71,7 @@ class ChatBubbleLog(RichLog):
     # ── Internals ─────────────────────────────────────────────────────
 
     def _render_content(self, content: str) -> Text:
-        markup = self._renderer(content) if self._renderer else esc(content)
-        try:
-            return Text.from_markup(markup)
-        except Exception:
-            # Malformed markup (stray brackets from the model) — show plain text
-            return Text(MARKUP_RE.sub("", markup))
+        return safe_markup_text(content, self._renderer)
 
     def _write_panel(self, body, title: str, border: str) -> None:
         # expand=True on write: bubbles always span the log's full width
@@ -99,7 +96,7 @@ class ChatBubbleLog(RichLog):
             esc(message), f"[bold {AMBER}] {speaker} [/bold {AMBER}]", AMBER
         )
 
-    def append_ai(self, content: str, speaker: str = "vibe") -> None:
+    def append_ai(self, content: str, speaker: str = "leetvibe") -> None:
         self._write_panel(
             self._render_content(content),
             f"[bold {FIRE}] {speaker} [/bold {FIRE}]",
@@ -126,7 +123,7 @@ class ChatBubbleLog(RichLog):
 
     # ── History ───────────────────────────────────────────────────────
 
-    def restore_history(self, messages: list[dict], ai_speaker: str = "vibe") -> None:
+    def restore_history(self, messages: list[dict], ai_speaker: str = "leetvibe") -> None:
         """Clear the log and re-render a saved conversation as bubbles."""
         self.clear()
         for msg in messages:
@@ -138,3 +135,76 @@ class ChatBubbleLog(RichLog):
                 self.append_user(content)
             elif role == "assistant":
                 self.append_ai(content, speaker=ai_speaker)
+
+
+class StepAnswerBubble(Vertical):
+    """Bubble-styled container for a Learn/Pair step-by-step answer — one
+    Collapsible per step (all expanded initially; the user collapses them
+    manually), each step's header — including its collapse/expand arrow, not
+    just the title text — colored by its position in the brand gradient.
+
+    Mounted directly into the transcript rather than written into a
+    ChatBubbleLog: Collapsible is a live, clickable widget, and RichLog only
+    ever rasterizes a static snapshot of whatever's written to it — it has
+    no way to host an interactive child, so this can't just be another
+    append_* call on the log.
+
+    Coloring is done via a per-step "grad-N" CSS class (see main.tcss)
+    rather than inline [bold #hex] markup on the title string: Collapsible
+    assembles its arrow symbol and label as two independently-styled pieces
+    (textual.widgets._collapsible.CollapsibleTitle._update_label uses
+    Content.assemble(symbol, " ", label), and a bare str part there is
+    inserted as literal, unstyled text) — so markup on the label alone can
+    only ever color the text, never the arrow next to it. Styling the whole
+    CollapsibleTitle by CSS class colors both pieces from one source.
+
+    The arrow sits after the title text, not before it: Collapsible always
+    assembles symbol-then-label with no way to reverse that via public API,
+    so collapsed_symbol/expanded_symbol are set to "" (dropping the built-in
+    left-side arrow) and the arrow is appended to `title` instead, updated
+    on Collapsible.Toggled — the one hook this doesn't need Collapsible's
+    private internals for.
+    """
+
+    _COLLAPSED_ARROW = "▶"
+    _EXPANDED_ARROW = "▼"
+
+    def __init__(
+        self,
+        speaker: str,
+        steps: list[dict],
+        renderer: Callable[[str], str] | None = None,
+        **kwargs,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.border_title = f" {speaker} "
+        self._steps = steps
+        self._renderer = renderer
+
+    def compose(self) -> ComposeResult:
+        for step in self._steps:
+            idx = (step["num"] - 1) % len(GRADIENT)
+            base_title = esc(f"Step {step['num']} — {step['title']}")
+            collapsible = Collapsible(
+                title=f"{base_title}  {self._EXPANDED_ARROW}",
+                collapsed=False,
+                collapsed_symbol="",
+                expanded_symbol="",
+                classes=f"grad-{idx}",
+            )
+            collapsible._step_base_title = base_title  # read back in on_collapsible_toggled
+            with collapsible:
+                yield Static(safe_markup_text(step["content"], self._renderer))
+
+    def on_collapsible_collapsed(self, event: Collapsible.Collapsed) -> None:
+        self._update_arrow(event.collapsible)
+
+    def on_collapsible_expanded(self, event: Collapsible.Expanded) -> None:
+        self._update_arrow(event.collapsible)
+
+    def _update_arrow(self, c: Collapsible) -> None:
+        base = getattr(c, "_step_base_title", None)
+        if base is None:
+            return
+        arrow = self._COLLAPSED_ARROW if c.collapsed else self._EXPANDED_ARROW
+        c.title = f"{base}  {arrow}"
