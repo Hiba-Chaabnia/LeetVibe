@@ -287,7 +287,7 @@
 
       <div id="badge" class="badge" style="display:none"></div>
 
-      <div class="footer-note">LeetVibe v0.1.0</div>
+      <div class="footer-note">LeetVibe v0.2.0</div>
     </div>
   </div>
 
@@ -307,10 +307,10 @@
       <line x1="6" y1="6" x2="18" y2="18"/>
     </svg>`;
 
+    // The local LeetVibe CLI server does the OAuth token exchange itself and
+    // only ever redirects here with `?auth=done` or `?auth=error` — this page
+    // is just the landing screen telling the user to go back to the terminal.
     var query = new URLSearchParams(window.location.search);
-    var hash  = new URLSearchParams(window.location.hash.replace(/^#/, ''));
-
-    function get(k) { return hash.get(k) || query.get(k) || ''; }
 
     var outer         = document.getElementById('outer');
     var iconContainer = document.getElementById('icon-container');
@@ -328,11 +328,7 @@
     }
 
     var auth  = query.get('auth');
-    var port  = query.get('port');
-    var error = get('error');
-    var at    = get('access_token');
-    var rt    = get('refresh_token');
-    var code  = get('code');
+    var error = query.get('error');
 
     if (auth === 'done') {
       show('success', CHECK_SVG,
@@ -340,20 +336,12 @@
         'Authentication successful. You can close this tab and return to your terminal.',
         '→  LeetVibe is ready'
       );
-    } else if (auth === 'error' || error) {
+    } else if (auth === 'error') {
       show('error', ERROR_SVG,
         'Sign-in Failed',
         'Something went wrong during Google authentication. Return to LeetVibe and try again.',
         error || ''
       );
-    } else if (port && (at || code)) {
-      show('pending', BULB_SVG, 'Finalizing Session…', 'Syncing credentials with the LeetVibe CLI server.', '');
-      var p = new URLSearchParams();
-      if (at) { p.set('access_token', at); if (rt) p.set('refresh_token', rt); }
-      else     { p.set('code', code); }
-      setTimeout(function() {
-        window.location.replace('http://127.0.0.1:' + port + '/result?' + p.toString());
-      }, 800);
     } else {
       show('pending', BULB_SVG,
         'Waiting for Google…',
