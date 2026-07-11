@@ -11,16 +11,27 @@ $grad5: #E92700;
 
 $brand: #FF8205;
 $easy: #00C44F;
-$medium: #FFB300;
 $hard: #E53935;
+$error: #ff4444;
 $blue: #4A9EFF;
 $trading: #00BCD4;
 $amber: #FFB300;
-$muted: #888888;
+
+/* Text ramp (brightest → faintest) */
+$text-bright: white;
 $text: #e0e0e0;
+$text-dim: #aaaaaa;
+$muted: #888888;
+
 $bg: #121212;
 $bg-card: #0e0e0e;
 $bg-raised: #1a1a1a;
+
+/* Neutral gray ramp (darkest → lightest) — shared across borders, text, and fills */
+$gray1: #2a2a2a;
+$gray2: #333333;
+$gray3: #444444;
+$gray4: #555555;
 
 
 /* ============================================================
@@ -81,10 +92,6 @@ Screen {
 }
 
 #home-status {
-    dock: bottom;
-    height: 1;
-    background: transparent;
-    padding: 0 2;
     color: $muted;
 }
 
@@ -215,7 +222,7 @@ ProblemTable {
 }
 
 ProblemTable > .datatable--header {
-    background: #1e1e1e;
+    background: $bg-raised;
 }
 
 ProblemTable > .datatable--cursor {
@@ -233,16 +240,12 @@ ProblemTable > .datatable--odd-row {
 }
 
 #list-status {
-    dock: bottom;
-    height: 1;
-    background: transparent;
-    padding: 0 2;
     color: $muted;
 }
 
 
 /* ============================================================
-   ProblemDetailScreen
+   ProblemWorkspaceScreen
    ============================================================ */
 
 /* ── Top bar ── */
@@ -250,10 +253,6 @@ ProblemTable > .datatable--odd-row {
     height: 4;
     background: transparent;
     padding: 0 1;
-}
-
-#detail-status {
-    background: transparent;
 }
 
 #nav-section    { width: 1fr; align: left middle; }
@@ -268,22 +267,23 @@ ProblemTable > .datatable--odd-row {
     height: 3;
 }
 
+/* ID-level :focus needed — the global Button:focus (0,1,1) loses to the
+   text-style:dim set at ID specificity (1,0,0) on the nav/solution buttons. */
 #btn-problem-list:focus, #btn-prev:focus, #btn-next:focus,
 #btn-run:focus, #btn-submit:focus, #btn-feedback:focus, #btn-solution:focus,
 #btn-problem-list.-active, #btn-prev.-active, #btn-next.-active,
 #btn-run.-active, #btn-submit.-active, #btn-feedback.-active, #btn-solution.-active {
-    background: transparent;
     text-style: bold;
 }
 
-#btn-problem-list, #btn-prev, #btn-next { color: $muted; border: round #444444; text-style: dim; }
-#btn-prev:disabled, #btn-next:disabled  { color: #444444; border: round #2a2a2a; }
+#btn-problem-list, #btn-prev, #btn-next { color: $muted; border: round $gray3; text-style: dim; }
+#btn-prev:disabled, #btn-next:disabled  { color: $gray3; border: round $gray1; }
 #btn-run                                { color: $easy;  border: round $easy; }
 #btn-submit                             { color: $blue;  border: round $blue; }
 #btn-feedback                           { color: $muted; border: round $muted; }
-#btn-solution                           { color: #FFD700; border: round #7A6500; text-style: dim; }
+#btn-solution                           { color: $grad1; border: round #7A6500; text-style: dim; }
 
-#btn-submit:disabled { color: #444444; border: round #444444; }
+#btn-submit:disabled { color: $gray3; border: round $gray3; }
 
 /* ── Main body ── */
 #detail-body {
@@ -312,13 +312,16 @@ ProblemTable > .datatable--odd-row {
 #editor-panel {
     height: 4fr;
     border: round $brand;
-    margin-bottom: 0;
 }
-#code-editor { height: 1fr; }
+/* No inner border, blurred or focused — the fire cursor block is enough of a
+   focus indicator, and a second border competing with #editor-panel's own
+   round $brand frame just reads as visual noise. */
+#code-editor          { height: 1fr; border: none; }
+#code-editor:focus    { height: 1fr; border: none; }
 
 /* ── Bottom tabs ── */
-#testcase-tabs              { height: 1fr; border: round $brand; }
-#testcase-table, #result-table { height: 1fr; }
+#console-tabs               { height: 1fr; border: round $brand; }
+#test-cases-table, #test-results-table { height: 1fr; }
 
 #solution-explanation {
     height: auto;
@@ -365,6 +368,7 @@ Select > SelectOverlay > .option-list--option {
 Select > SelectOverlay > .option-list--option-highlighted {
     background: $brand;
     color: #000000;
+    text-style: bold;
 }
 
 
@@ -417,8 +421,13 @@ Tooltip {
    Buttons — global
    ============================================================ */
 
-/* Textual's default focus style is "bold reverse", which swaps a button's
-   foreground into its background (solid colored fill). Keep just the bold. */
+/* Textual's default focus/active style is "bold reverse", which swaps a button's
+   foreground into its background (solid colored fill). Individual buttons define
+   their own focus/active look via border+color, so drop the fill globally and
+   keep just the bold weight on focus. */
+Button:focus, Button.-active {
+    background: transparent;
+}
 Button:focus {
     text-style: bold;
 }
@@ -441,7 +450,7 @@ Banner {
 
 StatusBar {
     height: 1;
-    background: #16213e;
+    background: transparent;
     padding: 0 2;
     dock: bottom;
 }
@@ -460,10 +469,10 @@ HintLabel {
     background: transparent;
 }
 HintLabel:hover {
-    background: #2a2a2a;
+    background: $gray1;
 }
 StatusBar .hint-sep {
-    color: #555555;
+    color: $gray4;
     width: auto;
     height: 1;
     padding: 0 0;
@@ -486,7 +495,7 @@ ProblemCard {
 ProblemCard #card-title {
     height: auto;
     padding: 0 0 1 0;
-    color: white;
+    color: $text-bright;
     text-style: bold;
     text-align: left;
 }
@@ -498,19 +507,18 @@ ProblemCard .badge {
     width: auto;
     padding: 0 1;
     margin: 0 1 0 0;
-    background: #2a2a2a;
-    color: #aaaaaa;
+    background: $gray1;
+    color: $text-dim;
 }
 ProblemCard .badge-easy    { background: #1a3a1a; color: $easy; }
 ProblemCard .badge-medium  { background: #3a2a00; color: $amber; }
 ProblemCard .badge-hard    { background: #3a1010; color: $hard; }
 ProblemCard .badge-trading { background: #0a2a2a; color: $trading; }
-ProblemCard .badge-topic   { background: #252525; color: #aaaaaa; }
 ProblemCard #card-description {
     height: auto;
     color: $text;
     padding: 1 0;
-    border-top: solid #333333;
+    border-top: solid $gray2;
     margin-top: 1;
     text-align: left;
 }
@@ -518,18 +526,15 @@ ProblemCard #hints-placeholder {
     color: $muted;
     text-style: italic;
     padding: 1 0;
-    border-top: solid #333333;
+    border-top: solid $gray2;
     margin-top: 1;
 }
 ProblemCard #hints-content {
     height: auto;
     color: $amber;
     padding: 1 0;
-    border-top: solid #333333;
+    border-top: solid $gray2;
     margin-top: 1;
-}
-ProblemCard .hidden {
-    display: none;
 }
 
 
@@ -537,9 +542,6 @@ ProblemCard .hidden {
    StatsScreen
    ============================================================ */
 
-StatsScreen {
-    background: $bg;
-}
 #stats-scroll {
     height: 1fr;
     padding: 1 2;
@@ -572,9 +574,6 @@ StatsScreen {
     border: round $grad5;
     margin-top: 1;
 }
-#stats-status {
-    background: $bg;
-}
 
 
 /* ============================================================
@@ -589,7 +588,7 @@ FeedbackModal {
     width: 72;
     height: auto;
     background: $bg;
-    border: round #333333;
+    border: round $gray2;
     padding: 2 3;
 }
 #feedback-title {
@@ -616,7 +615,7 @@ FeedbackModal {
 #feedback-text {
     width: 100%;
     height: 8;
-    border: round #444444;
+    border: round $gray3;
     background: $bg;
     margin-bottom: 1;
 }
@@ -624,7 +623,7 @@ FeedbackModal {
     border: round $brand;
 }
 #feedback-error {
-    color: #ff4444;
+    color: $error;
     height: auto;
     min-height: 1;
     width: 100%;
@@ -637,7 +636,7 @@ FeedbackModal {
     margin-top: 1;
 }
 #btn-feedback-cancel {
-    border: round #555555;
+    border: round $gray4;
     background: transparent;
     color: $muted;
     height: 3;
@@ -650,141 +649,94 @@ FeedbackModal {
     color: $brand;
     height: 3;
 }
-#btn-feedback-cancel:focus, #btn-feedback-cancel.-active,
-#btn-feedback-submit:focus, #btn-feedback-submit.-active { background: transparent; }
+/* Same specificity trap as the detail top-bar buttons: the ID-level
+   text-style:dim beats the global Button:focus bold. */
+#btn-feedback-cancel:focus, #btn-feedback-cancel.-active { text-style: bold; }
 #btn-feedback-submit:hover    { background: #3a2200; }
-#btn-feedback-submit:disabled { color: #444444; border: round #333333; }
+#btn-feedback-submit:disabled { color: $gray3; border: round $gray2; }
 
 
 /* ============================================================
-   AgentSessionScreen — sub-widgets
+   ConfirmModal
    ============================================================ */
 
-UserMessage {
+ConfirmModal {
+    align: center middle;
+    /* Translucent scrim so the screen behind (e.g. Home) stays dimly visible
+       — this is a popup over that screen, not a second full screen. */
+    background: $bg 70%;
+}
+#confirm-dialog {
+    width: 60;
+    height: auto;
+    background: $bg;
+    border: round $gray2;
+    padding: 2 4;
+}
+#confirm-title {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1;
+}
+#confirm-subtitle {
+    color: $muted;
+    text-align: center;
     width: 100%;
     height: auto;
-    margin: 1 0 0 0;
+    margin-bottom: 2;
 }
-UserMessage .msg-content {
-    height: auto;
-    padding: 0 1;
-    border-left: heavy $brand;
-    color: $brand;
-    text-style: bold;
-}
-
-CopyableCodeBlock {
+#confirm-buttons {
     width: 100%;
     height: auto;
-    margin: 1 0 1 0;
+    align: center middle;
 }
-CopyableCodeBlock .cb-header {
-    width: 100%;
-    height: 1;
-    align: left middle;
-}
-CopyableCodeBlock .cb-lang {
-    width: 1fr;
-    height: 1;
-}
-CopyableCodeBlock .cb-btn {
-    height: 1;
-    width: auto;
-    min-width: 0;
-    padding: 0 1;
+#btn-confirm-cancel {
+    border: round $gray4;
     background: transparent;
-    border: none;
-    color: #555555;
+    color: $muted;
+    height: 3;
+    text-style: dim;
+    margin: 0 2;
 }
-CopyableCodeBlock .cb-btn:hover   { color: $brand; }
-CopyableCodeBlock .cb-btn.-active { background: transparent; }
-CopyableCodeBlock .cb-body {
-    width: 100%;
-    height: auto;
-    padding: 0 1;
-    background: $bg-raised;
-    color: #cccccc;
+#btn-confirm-yes {
+    border: round $hard;
+    background: transparent;
+    color: $hard;
+    height: 3;
+    margin: 0 2;
 }
-
-BackgroundStep {
-    width: 100%;
-    height: auto;
-}
-BackgroundStep .step-header {
-    width: 100%;
-    height: 1;
-    padding: 0 1;
-    text-style: underline;
-}
-BackgroundStep .step-content {
-    width: 100%;
-    height: auto;
-    padding: 0 0 0 4;
-}
-BackgroundStep .step-text {
-    width: 100%;
-    height: auto;
-    color: #505050;
-}
-
-FinalAnswer {
-    width: 100%;
-    height: auto;
-    margin: 1 0 0 0;
-}
-FinalAnswer .final-sep {
-    width: 100%;
-    height: 1;
-    padding: 0 1;
-}
-FinalAnswer .final-content {
-    width: 100%;
-    height: auto;
-    padding: 0 1;
-}
-FinalAnswer .step-text {
-    width: 100%;
-    height: auto;
-    color: #ffffff;
-}
-
-AssistantBlock {
-    width: 100%;
-    height: auto;
-    margin: 1 0 0 0;
-}
-AssistantBlock Static {
-    width: 100%;
-    height: auto;
-    padding: 0 1;
-}
+/* Same specificity trap as the detail top-bar buttons: the ID-level
+   text-style:dim beats the global Button:focus bold. */
+#btn-confirm-cancel:focus, #btn-confirm-cancel.-active { text-style: bold; }
 
 
 /* ============================================================
    AgentSessionScreen
    ============================================================ */
 
-#topic-context {
-    height: 1;
-    width: 100%;
-    padding: 0 1;
-    color: $muted;
-}
-
-AgentSessionScreen {
-    background: $bg;
-}
 #session-bar {
     height: 4;
-    background: $bg-raised;
-    border-bottom: solid $brand;
+    background: transparent;
     padding: 0 1;
     align: left middle;
 }
+/* Side columns size to their own content (width: auto) rather than a fixed
+   1fr third — AgentSessionScreen._equalize_bar_columns() then measures both
+   post-layout and sets them to match whichever is wider, so they stay equal
+   (keeping the title centered) without permanently reserving a full third
+   for a right column that may hold nothing at all (Copy Code + Reset are
+   hidden in interview mode) and needlessly squeezing/wrapping the title. */
+#session-bar-left, #session-bar-right {
+    width: auto;
+    height: 3;
+}
+#session-bar-left  { align: left middle; }
+#session-bar-right { align: right middle; }
 #session-title {
     width: 1fr;
     height: 3;
     content-align: center middle;
+    text-align: center;
     color: $brand;
     text-style: bold;
 }
@@ -794,59 +746,119 @@ AgentSessionScreen {
     min-width: 0;
     height: 3;
 }
-#session-bar Button:focus,
-#session-bar Button.-active {
-    background: transparent;
-}
-AgentSessionScreen #btn-back           { color: #aaaaaa; border: round #444444; text-style: dim; }
-#btn-stop                              { color: $hard;   border: round $hard; }
+AgentSessionScreen #btn-back           { color: $muted; border: round $gray3; text-style: dim; }
 #btn-copy                              { color: $easy;   border: round $easy; }
-#btn-copy:disabled                     { color: #333333; border: round #333333; }
-AgentSessionScreen #btn-reset          { color: $muted; border: round #444444; text-style: dim; }
-AgentSessionScreen #btn-reset:disabled { color: #333333; border: round #333333; }
-#prior-history {
-    width: 100%;
-    height: auto;
-    background: $bg-card;
-    border-bottom: solid #333333;
-    padding: 0 1 1 1;
-    display: none;
-}
-#prior-history-title {
-    color: #555555;
-    text-style: italic;
-    padding: 0 1;
-    margin-bottom: 1;
-}
+#btn-copy:disabled                     { color: $gray2; border: round $gray2; }
+AgentSessionScreen #btn-reset          { color: $muted; border: round $gray3; text-style: dim; }
+AgentSessionScreen #btn-reset:disabled { color: $gray2; border: round $gray2; }
+/* Same specificity trap as the detail top-bar buttons: the ID-level
+   text-style:dim beats the global Button:focus bold. */
+AgentSessionScreen #btn-back:focus,  AgentSessionScreen #btn-back.-active,
+AgentSessionScreen #btn-reset:focus, AgentSessionScreen #btn-reset.-active { text-style: bold; }
 #session-body {
     height: 1fr;
     width: 100%;
 }
+/* Rounded box like #left-panel in ProblemWorkspaceScreen, but colored to
+   match PlaybookChatPanel's border ($gray2) rather than the brand color. */
 #description-panel {
     width: 45%;
     height: 100%;
-    background: #0d0d0d;
-    border-right: solid #333333;
-    padding: 0 1 1 1;
+    background: transparent;
+    border: round $gray2;
+    margin: 0 1 0 1;
+    padding: 1 2;
     display: none;
 }
-#interview-opening {
-    width: 100%;
-    height: auto;
-    padding: 1 0 0 0;
-    border-top: solid #333333;
-    color: #cccccc;
-    margin-top: 1;
-}
-ChatScroll {
-    height: 100%;
+#chat-column {
     width: 1fr;
-    background: transparent;
+    height: 100%;
 }
-#messages {
+/* Hidden until a resumed session sets it; Ctrl+R (action_show_history)
+   hides it again once the prior conversation has been printed, so the hint
+   doesn't linger after it's served its purpose. */
+#resume-hint {
     width: 100%;
     height: auto;
-    padding: 0 1 1 1;
+    padding: 0 1;
+    color: $gray4;
+    display: none;
+}
+/* Transcript spans the same width as the input row below it: padding 0 1
+   matches #chat-input-container, so bubble borders align with the Input's
+   left edge and run to the Send button's side of the screen. Holds a mix of
+   ChatBubbleLog segments (plain bubbles — user/mnemonic/error/follow-up) and
+   mounted StepAnswerBubble widgets (Learn/Pair step answers, which need a
+   live interactive Collapsible per step — RichLog can only ever rasterize a
+   static write, so those can't be just another log segment). */
+#chat-scroll {
+    width: 100%;
+    height: 1fr;
+    background: transparent;
+    padding: 0 1;
+    scrollbar-size: 1 1;
+}
+/* Each segment sizes to its own content — RichLog with height:auto grows to
+   fit everything written to it instead of clipping to a fixed viewport,
+   which is what lets several of them stack cleanly inside #chat-scroll. */
+AgentSessionScreen .bubble-log {
+    width: 100%;
+    height: auto;
+    background: transparent;
+    overflow-x: hidden;
+}
+AgentSessionScreen StepAnswerBubble {
+    width: 100%;
+    height: auto;
+    border: round $brand;
+    border-title-color: $brand;
+    border-title-style: bold;
+    border-title-align: left;
+    background: transparent;
+    padding: 0 1;
+    margin-bottom: 1;
+}
+AgentSessionScreen StepAnswerBubble Collapsible {
+    background: transparent;
+    border-top: none;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+/* Colors the whole CollapsibleTitle (arrow + label together, not just the
+   text) per step, cycling through the brand gradient — see the grad-N
+   classes assigned in StepAnswerBubble.compose(). */
+AgentSessionScreen StepAnswerBubble Collapsible.grad-0 CollapsibleTitle,
+AgentSessionScreen StepAnswerBubble Collapsible.grad-0 CollapsibleTitle:hover,
+AgentSessionScreen StepAnswerBubble Collapsible.grad-0 CollapsibleTitle:focus {
+    color: $grad1;
+    text-style: bold;
+}
+AgentSessionScreen StepAnswerBubble Collapsible.grad-1 CollapsibleTitle,
+AgentSessionScreen StepAnswerBubble Collapsible.grad-1 CollapsibleTitle:hover,
+AgentSessionScreen StepAnswerBubble Collapsible.grad-1 CollapsibleTitle:focus {
+    color: $grad2;
+    text-style: bold;
+}
+AgentSessionScreen StepAnswerBubble Collapsible.grad-2 CollapsibleTitle,
+AgentSessionScreen StepAnswerBubble Collapsible.grad-2 CollapsibleTitle:hover,
+AgentSessionScreen StepAnswerBubble Collapsible.grad-2 CollapsibleTitle:focus {
+    color: $grad3;
+    text-style: bold;
+}
+AgentSessionScreen StepAnswerBubble Collapsible.grad-3 CollapsibleTitle,
+AgentSessionScreen StepAnswerBubble Collapsible.grad-3 CollapsibleTitle:hover,
+AgentSessionScreen StepAnswerBubble Collapsible.grad-3 CollapsibleTitle:focus {
+    color: $grad4;
+    text-style: bold;
+}
+AgentSessionScreen StepAnswerBubble Collapsible.grad-4 CollapsibleTitle,
+AgentSessionScreen StepAnswerBubble Collapsible.grad-4 CollapsibleTitle:hover,
+AgentSessionScreen StepAnswerBubble Collapsible.grad-4 CollapsibleTitle:focus {
+    color: $grad5;
+    text-style: bold;
+}
+#session-thinking {
+    width: 100%;
 }
 #chat-input-container {
     height: auto;
@@ -862,12 +874,12 @@ ChatScroll {
 AgentSessionScreen #chat-input {
     width: 1fr;
     background: $bg;
-    color: white;
-    border: round #444444;
+    color: $text-bright;
+    border: round $gray3;
 }
-AgentSessionScreen #chat-input:focus    { background: $bg; background-tint: transparent; border: round $brand; color: white; }
-AgentSessionScreen #chat-input.-focused { background: $bg; background-tint: transparent; border: round $brand; color: white; }
-AgentSessionScreen #chat-input:disabled { color: #555555; border: round #2a2a2a; }
+AgentSessionScreen #chat-input:focus    { background: $bg; background-tint: transparent; border: round $brand; color: $text-bright; }
+AgentSessionScreen #chat-input.-focused { background: $bg; background-tint: transparent; border: round $brand; color: $text-bright; }
+AgentSessionScreen #chat-input:disabled { color: $gray4; border: round $gray1; }
 #btn-send {
     width: auto;
     height: 3;
@@ -878,9 +890,8 @@ AgentSessionScreen #chat-input:disabled { color: #555555; border: round #2a2a2a;
     min-width: 6;
     content-align: center middle;
 }
-#btn-send:focus, #btn-send.-active { background: transparent; }
-#btn-send:disabled { color: #444444; border: round #444444; }
-#session-status { background: $bg; }
+#btn-send.-stop    { color: $hard; border: round $hard; }
+#btn-send:disabled { color: $gray3; border: round $gray3; }
 
 
 /* ============================================================
@@ -891,7 +902,7 @@ AgentSessionScreen #chat-input:disabled { color: #555555; border: round #2a2a2a;
 PlaybookChatPanel {
     width: 27.5%;
     display: none;
-    border: round #333333;
+    border: round $gray2;
     background: $bg;
     margin-left: 1;
     overflow: hidden hidden;
@@ -905,7 +916,6 @@ PlaybookChatPanel.open.expanded {
 PlaybookChatPanel #chat-log {
     width: 100%;
     height: 1fr;
-    scrollbar-size: 0 0;
     padding: 1 1;
     scrollbar-size: 1 1;
     background: transparent;
@@ -918,14 +928,14 @@ ThinkingIndicator {
 }
 PlaybookChatPanel #chat-input {
     height: 3;
-    border: round #444444;
+    border: round $gray3;
     background: $bg;
     padding: 0 2;
-    color: white;
+    color: $text-bright;
 }
-PlaybookChatPanel #chat-input:focus    { background: $bg; background-tint: transparent; border: round $brand; color: white; }
-PlaybookChatPanel #chat-input.-focused { background: $bg; background-tint: transparent; border: round $brand; color: white; }
-PlaybookChatPanel #chat-input:disabled { color: #555555; border: round #2a2a2a; }
+PlaybookChatPanel #chat-input:focus    { background: $bg; background-tint: transparent; border: round $brand; color: $text-bright; }
+PlaybookChatPanel #chat-input.-focused { background: $bg; background-tint: transparent; border: round $brand; color: $text-bright; }
+PlaybookChatPanel #chat-input:disabled { color: $gray4; border: round $gray1; }
 #chat-header {
     height: 4;
     padding: 0 1;
@@ -935,34 +945,24 @@ PlaybookChatPanel #chat-input:disabled { color: #555555; border: round #2a2a2a; 
     width: 1fr;
 }
 PlaybookChatPanel .chat-expand-btn {
-    width: auto;
     height: 3;
     min-width: 3;
     background: transparent;
-    border: round #444444;
-    color: #555555;
-    padding: 0 1;
+    border: round $gray3;
+    color: $gray4;
     text-style: bold;
 }
-PlaybookChatPanel .chat-expand-btn:hover  { color: #FF8205; border: round #FF8205; }
-PlaybookChatPanel .chat-expand-btn:focus,
-PlaybookChatPanel .chat-expand-btn.-active { background: transparent; }
+PlaybookChatPanel .chat-expand-btn:hover  { color: $brand; border: round $brand; }
 PlaybookChatPanel .chat-reset-btn {
     min-width: 3;
     height: 3;
     background: transparent;
-    border: round #444444;
-    color: #555555;
-    padding: 0 1;
+    border: round $gray3;
+    color: $gray4;
     text-style: bold;
 }
-PlaybookChatPanel .chat-reset-btn:hover  { color: #FF8205; border: round #FF8205; }
-PlaybookChatPanel .chat-reset-btn:focus,
-PlaybookChatPanel .chat-reset-btn.-active { background: transparent; }
+PlaybookChatPanel .chat-reset-btn:hover  { color: $brand; border: round $brand; }
 
-PlaybookScreen {
-    background: $bg;
-}
 #ref-filter-bar {
     height: auto;
     background: transparent;
@@ -1021,14 +1021,13 @@ PlaybookScreen #ref-body {
 }
 PlaybookScreen #ref-topics {
     width: 17.5%;
-    border: round #333333;
+    border: round $gray2;
     background: $bg;
     padding: 0;
     margin-right: 1;
 }
 #sidebar-header {
     height: 3;
-    background: $bg;
     border-bottom: solid $grad5;
     content-align: left middle;
     padding: 0 2;
@@ -1053,7 +1052,6 @@ PlaybookScreen #ref-topics {
     color: $amber;
     text-style: bold;
     background: #1a0a00;
-    padding: 0 1;
 }
 #ref-center {
     width: 1fr;
@@ -1062,7 +1060,7 @@ PlaybookScreen #ref-topics {
 #ref-content-scroll {
     width: 1fr;
     height: 1fr;
-    border: round #333333;
+    border: round $gray2;
     padding: 0 2 1 2;
     scrollbar-size: 1 1;
 }
@@ -1070,7 +1068,7 @@ NotesPanel {
     display: none;
     height: 11;
     width: 1fr;
-    border: round #333333;
+    border: round $gray2;
     background: $bg;
 }
 NotesPanel.open {
@@ -1095,7 +1093,4 @@ NotesPanel.open {
 #ref-content-body {
     width: 100%;
     height: auto;
-}
-#ref-status {
-    background: $bg;
 }
