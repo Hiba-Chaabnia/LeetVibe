@@ -1,4 +1,4 @@
-"""ProblemDetailScreen — LeetCode-style two-panel layout with custom top bar."""
+"""ProblemWorkspaceScreen — LeetCode-style two-panel layout with custom top bar."""
 
 from __future__ import annotations
 
@@ -6,6 +6,8 @@ from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalScroll
+from textual.events import Key
+from rich.style import Style
 from rich.text import Text as RichText
 
 from textual.widgets import (
@@ -16,21 +18,108 @@ from textual.widgets import (
     TabPane,
     TextArea,
 )
+from textual.widgets.text_area import TextAreaTheme
 from textual.worker import Worker, WorkerState
 
 from leetvibe.problem_loader import Problem
 from leetvibe.cloud.auth import is_logged_in
-from leetvibe.code_runner import CaseResult, run_tests
+from leetvibe.code_runner import CaseResult, run_tests_with_timeout
 from leetvibe.ui.widgets import ProblemCard, StatusBar
 from leetvibe.ui.screens.base import BaseScreen
 
+# ── Code editor theme — a builtin theme's real token colors (kept as-is,
+# unmodified, for familiarity), re-backgrounded onto the app's own dark tone
+# instead of the theme's native background. Only the background-tied fields
+# are overridden; syntax_styles, the cursor block, bracket matching and
+# selection colors are reused verbatim from the builtin theme. Swap
+# _BASE_THEME_NAME to pick a different builtin palette (e.g. "monokai",
+# "dracula") — the cursor-line shade is derived from it automatically, so
+# nothing else here needs to change.
+_BASE_THEME_NAME = "monokai"
+_EDITOR_BG = "#161310"
+
+
+def _rgb(color) -> tuple[int, int, int]:
+    t = color.get_truecolor()
+    return t.red, t.green, t.blue
+
+
+def _hex(rgb: tuple[int, int, int]) -> str:
+    return "#" + "".join(f"{max(0, min(255, c)):02x}" for c in rgb)
+
+
+def _rebase_cursor_line(editor_bg: str, base_theme: TextAreaTheme) -> str:
+    """Shade *editor_bg* the same way *base_theme* shades its own background
+    for the cursor line, so the base->highlighted-line relationship holds
+    regardless of which builtin theme (and its own bg tone) is chosen."""
+    base_rgb = _rgb(base_theme.base_style.bgcolor)
+    line_rgb = _rgb(base_theme.cursor_line_style.bgcolor)
+    delta = tuple(line_c - base_c for line_c, base_c in zip(line_rgb, base_rgb))
+    editor_rgb = tuple(int(editor_bg[i : i + 2], 16) for i in (1, 3, 5))
+    return _hex(tuple(c + d for c, d in zip(editor_rgb, delta)))
+
+
+_base_theme = TextAreaTheme.get_builtin_theme(_BASE_THEME_NAME)
+assert _base_theme is not None
+_EDITOR_LINE_BG = _rebase_cursor_line(_EDITOR_BG, _base_theme)
+
+LEETVIBE_EDITOR_THEME = TextAreaTheme(
+    name="leetvibe",
+    base_style=Style(color=_base_theme.base_style.color, bgcolor=_EDITOR_BG),
+    gutter_style=Style(color=_base_theme.gutter_style.color, bgcolor=_EDITOR_BG),
+    cursor_style=_base_theme.cursor_style,
+    cursor_line_style=Style(bgcolor=_EDITOR_LINE_BG),
+    cursor_line_gutter_style=Style(
+        color=_base_theme.cursor_line_gutter_style.color, bgcolor=_EDITOR_LINE_BG
+    ),
+    bracket_matching_style=_base_theme.bracket_matching_style,
+    selection_style=_base_theme.selection_style,
+    syntax_styles=_base_theme.syntax_styles,
+)
+
 
 class CodeEditor(TextArea):
-    """TextArea with Ctrl+A remapped to select-all (instead of line-start)."""
+    """TextArea with Ctrl+A remapped to select-all, plus indent-aware Enter,
+    always themed with LeetVibe's brand palette regardless of the ``theme``
+    kwarg passed at construction — a custom theme must be registered on the
+    instance before it can be selected, so this can't just be a constructor
+    default the way the builtin theme names are.
+
+    Textual's TextArea has no auto-indent of any kind here — Enter is
+    handled directly inside TextArea._on_key() (never routed through the
+    actions/bindings system), which just inserts a bare "\\n". Intercepting
+    it before that runs is the only hook point: carry the current line's
+    leading whitespace onto the new line, and add one more indent level
+    when the line up to the edit point ends with ':' (block openers).
+    """
 
     BINDINGS = [
         Binding("ctrl+a", "select_all", "Select All", show=False, priority=True),
     ]
+
+    def __init__(self, *args, **kwargs) -> None:
+        kwargs.pop("theme", None)
+        super().__init__(*args, **kwargs)
+        self.register_theme(LEETVIBE_EDITOR_THEME)
+        self.theme = "leetvibe"
+
+    async def _on_key(self, event: Key) -> None:
+        if event.key == "enter" and not self.read_only:
+            event.stop()
+            event.prevent_default()
+            self._insert_smart_newline()
+            return
+        await super()._on_key(event)
+
+    def _insert_smart_newline(self) -> None:
+        start, end = self.selection
+        row, col = start
+        line = self.document.get_line(row)
+        before = line[:col]
+        indent = before[: len(before) - len(before.lstrip(" \t"))]
+        if before.rstrip().endswith(":"):
+            indent += "\t" if self.indent_type == "tabs" else " " * self.indent_width
+        self.replace("\n" + indent, start, end)
 
 
 # ── Defaults ───────────────────────────────────────────────────────────────────
@@ -41,12 +130,6 @@ _I_PREV   = "←"    # Prev
 _I_NEXT   = "→"    # Next
 _I_RUN    = "▶"    # Run
 _I_SUBMIT = "↑"    # Submit
-_I_CASE   = "▤"    # Test Cases tab
-_I_CHART  = "▦"    # Test Results tab
-_I_BULB   = "✦"    # Solution tab / Hints
-_I_BOLT   = "⚡"   # Session (footer)
-
-
 
 class _DetailTopBar(Horizontal):
     """Top navigation bar with nav, action and solution buttons."""
@@ -106,22 +189,28 @@ class _DetailBody(Horizontal):
                 yield CodeEditor(
                     ch.python_snippet or _DEFAULT_PYTHON,
                     language="python",
-                    theme="monokai",
                     soft_wrap=False,
                     tab_behavior="indent",
                     show_line_numbers=True,
                     id="code-editor",
                 )
 
-            with TabbedContent(id="testcase-tabs"):
-                with TabPane(f"{_I_CASE}  Testcase", id="tab-testcase"):
-                    yield DataTable(id="testcase-table", show_cursor=False, zebra_stripes=True)
-                with TabPane(f"{_I_CHART}  Test Result", id="tab-result"):
-                    yield DataTable(id="result-table", show_cursor=False, zebra_stripes=True)
-                with TabPane(f"{_I_BULB}  Solution Explanation", id="tab-solution-explanation"):
+            with TabbedContent(id="console-tabs"):
+                with TabPane(f" Test Cases ", id="tab-test-cases"):
+                    yield DataTable(id="test-cases-table", show_cursor=False, zebra_stripes=True)
+                with TabPane(f" Test Results ", id="tab-test-results"):
+                    yield DataTable(id="test-results-table", show_cursor=False, zebra_stripes=True)
+                with TabPane(f" Solution Explanation ", id="tab-solution-explanation"):
                     with VerticalScroll():
                         if ch.has_solutions:
-                            yield Static(ch.solution_explanation or "", id="solution-explanation")
+                            # Raw LeetCode solution text, never Rich-markup-templated —
+                            # markup=False so a literal "[...]" in an example (e.g.
+                            # equations = ["a!=b","b!=a"]) can't crash markup parsing.
+                            yield Static(
+                                ch.solution_explanation or "",
+                                id="solution-explanation",
+                                markup=False,
+                            )
                         else:
                             yield Static(
                                 "No solution available for this problem.",
@@ -129,16 +218,15 @@ class _DetailBody(Horizontal):
                             )
 
 
-class ProblemDetailScreen(BaseScreen):
+class ProblemWorkspaceScreen(BaseScreen):
     """Full problem view: top bar, description panel, code editor, tabs."""
 
     BINDINGS = [
         Binding("escape",        "pop_screen",          "Problem List"),
         Binding("ctrl+q",        "quit_app",            "Exit LeetVibe"),
-        Binding("ctrl+k",        "open_palette",        "Palette",            show=False),
         Binding("left",          "prev_problem",      "Prev",               show=False),
         Binding("right",         "next_problem",      "Next",               show=False),
-        Binding("ctrl+h",        "toggle_hints",        "Hints"),
+        Binding("ctrl+g",        "toggle_hints",        "Hints"),
         Binding("ctrl+l",        "start_learn_session", "Learn with LeetVibe", show=False),
         Binding("ctrl+p",        "start_pair_session",  "Pair with LeetVibe",  show=False),
     ]
@@ -159,7 +247,28 @@ class ProblemDetailScreen(BaseScreen):
         self._drafts: dict[str, str] = drafts if drafts is not None else {}
         self._solution_shown = False
         self._logged_in = is_logged_in()
-        self._cloud_session_id: str | None = None
+        self._cloud_session_id = self._compute_session_id()
+
+    def _compute_session_id(self) -> str | None:
+        """Deterministic id of the AI chat session for this problem+mode.
+
+        ProblemWorkspaceScreen never itself creates a chat_sessions doc — only
+        AgentSessionScreen does, on demand — but the id is fully derivable
+        from user_id + problem + mode without needing one to exist yet, so
+        feedback submitted from the code editor still correlates correctly
+        even before (or without) the user ever starting a Learn/Pair session
+        on this problem. None when not signed in, matching every other
+        cloud.db call's "no-op when logged out" contract.
+        """
+        if not self._logged_in:
+            return None
+        from leetvibe.cloud.auth import load_session
+        from leetvibe.problem_loader import session_slug
+        session = load_session()
+        user_id = session.get("user_id") if session else None
+        if not user_id:
+            return None
+        return f"{user_id}__{session_slug(self._problem)}__{self._mode}"
 
     def compose(self) -> ComposeResult:
         yield _DetailTopBar(
@@ -177,7 +286,7 @@ class ProblemDetailScreen(BaseScreen):
         yield StatusBar(
             hints=[
                 session_hint,
-                ("Ctrl+H",  "toggle hints", self.action_toggle_hints),
+                ("Ctrl+G",  "get hints",    self.action_toggle_hints),
                 ("Ctrl+K",  "key commands", self.action_open_palette),
                 ("Esc",     "go back",      self.action_pop_screen),
                 ("Ctrl+Q",  "exit LeetVibe",self.action_quit_app),
@@ -189,9 +298,10 @@ class ProblemDetailScreen(BaseScreen):
     # ── Lifecycle ──────────────────────────────────────────────────────
 
     def on_mount(self) -> None:
-        self.query_one("#testcase-tabs", TabbedContent).hide_tab(
-            "tab-solution-explanation"
-        )
+        tabs = self.query_one("#console-tabs", TabbedContent)
+        tabs.hide_tab("tab-solution-explanation")
+        # No run has happened yet — an empty results table isn't worth a tab.
+        tabs.hide_tab("tab-test-results")
         self._populate_testcase_table()
         self._setup_result_table()
         if not self._problem.hints:
@@ -205,7 +315,7 @@ class ProblemDetailScreen(BaseScreen):
 
     def _populate_testcase_table(self) -> None:
         ch = self._problem
-        table = self.query_one("#testcase-table", DataTable)
+        table = self.query_one("#test-cases-table", DataTable)
         table.add_columns("#", "Input", "Expected Output")
         for i, inputs in enumerate(ch.test_cases[:5], 1):
             expected = ch.expected_outputs[i - 1] if i - 1 < len(ch.expected_outputs) else "—"
@@ -213,8 +323,16 @@ class ProblemDetailScreen(BaseScreen):
             table.add_row(str(i), input_str, expected)
 
     def _setup_result_table(self) -> None:
-        table = self.query_one("#result-table", DataTable)
+        table = self.query_one("#test-results-table", DataTable)
         table.add_columns("#", "Input", "Expected", "Actual Output", "Status")
+
+    def _reveal_results_tab(self) -> None:
+        """Show and focus the Test Results tab — only called once it actually
+        has content (a finished run's rows, or an error row). Hidden on mount
+        and after a hide, since an empty table isn't worth a tab."""
+        tabs = self.query_one("#console-tabs", TabbedContent)
+        tabs.show_tab("tab-test-results")
+        tabs.active = "tab-test-results"
 
     def _load_editor(self, code: str) -> None:
         self.query_one("#code-editor", TextArea).load_text(code)
@@ -230,7 +348,7 @@ class ProblemDetailScreen(BaseScreen):
 
     def _toggle_solution(self) -> None:
         ch = self._problem
-        tabs = self.query_one("#testcase-tabs", TabbedContent)
+        tabs = self.query_one("#console-tabs", TabbedContent)
         if self._solution_shown:
             tabs.hide_tab("tab-solution-explanation")
             self._load_editor(ch.python_snippet or _DEFAULT_PYTHON)
@@ -258,7 +376,7 @@ class ProblemDetailScreen(BaseScreen):
         elif btn == "btn-prev" and self._index > 0:
             self._save_draft()
             self.app.switch_screen(
-                ProblemDetailScreen(
+                ProblemWorkspaceScreen(
                     self._problems[self._index - 1],
                     self._problems,
                     self._index - 1,
@@ -270,7 +388,7 @@ class ProblemDetailScreen(BaseScreen):
         elif btn == "btn-next" and self._index < len(self._problems) - 1:
             self._save_draft()
             self.app.switch_screen(
-                ProblemDetailScreen(
+                ProblemWorkspaceScreen(
                     self._problems[self._index + 1],
                     self._problems,
                     self._index + 1,
@@ -284,9 +402,7 @@ class ProblemDetailScreen(BaseScreen):
             ch = self._problem
             snippet = ch.python_snippet or _DEFAULT_PYTHON
             self.query_one("#btn-run", Button).disabled = True
-            self.query_one("#result-table", DataTable).clear()
-            tabs = self.query_one("#testcase-tabs", TabbedContent)
-            tabs.active = "tab-result"
+            self.query_one("#test-results-table", DataTable).clear()
             self._run_code(code, snippet, ch.test_cases, ch.expected_outputs)
 
         elif btn == "btn-submit":
@@ -319,7 +435,7 @@ class ProblemDetailScreen(BaseScreen):
         test_cases: list[list[str]],
         expected_outputs: list[str],
     ) -> list[CaseResult]:
-        return run_tests(code, snippet, test_cases, expected_outputs)
+        return run_tests_with_timeout(code, snippet, test_cases, expected_outputs)
 
     @work(thread=True)
     def _submit_code(
@@ -329,7 +445,7 @@ class ProblemDetailScreen(BaseScreen):
         test_cases: list[list[str]],
         expected_outputs: list[str],
     ) -> list[CaseResult]:
-        return run_tests(code, snippet, test_cases, expected_outputs)
+        return run_tests_with_timeout(code, snippet, test_cases, expected_outputs)
 
     def on_worker_state_changed(self, event: Worker.StateChanged) -> None:
         if event.worker.name == "_run_code":
@@ -337,9 +453,10 @@ class ProblemDetailScreen(BaseScreen):
             if event.state == WorkerState.SUCCESS:
                 self._display_results(event.worker.result or [])
             elif event.state == WorkerState.ERROR:
-                table = self.query_one("#result-table", DataTable)
+                table = self.query_one("#test-results-table", DataTable)
                 table.clear()
                 table.add_row("—", "—", "—", "—", RichText("Internal error", style="bold red"))
+                self._reveal_results_tab()
 
         elif event.worker.name == "_submit_code":
             if self._logged_in:
@@ -362,7 +479,6 @@ class ProblemDetailScreen(BaseScreen):
         total = len(results)
 
         self._display_results(results)
-        self.query_one("#testcase-tabs", TabbedContent).active = "tab-result"
 
         if passed == total:
             from leetvibe.cloud.auth import is_logged_in
@@ -421,23 +537,24 @@ class ProblemDetailScreen(BaseScreen):
         return repr(v)
 
     def _display_results(self, results: list[CaseResult]) -> None:
-        table = self.query_one("#result-table", DataTable)
+        table = self.query_one("#test-results-table", DataTable)
         table.clear()
         for r in results:
             input_str = ",  ".join(self._fmt_value(v) for v in r.inputs) if r.inputs else "—"
             expected = r.expected or "—"
             if r.error:
                 actual = RichText(r.error, style="red")
-                status = RichText("✗  Error", style="bold red")
+                status = RichText("Error", style="bold red")
             else:
                 actual = RichText(self._fmt_value(r.output), style="white")
                 if r.passed is True:
-                    status = RichText("✓  Pass", style="bold #00C44F")
+                    status = RichText("Pass", style="bold #00C44F")
                 elif r.passed is False:
-                    status = RichText("✗  Fail", style="bold yellow")
+                    status = RichText("Fail", style="bold yellow")
                 else:
                     status = RichText("—", style="dim")
             table.add_row(str(r.case_num), input_str, expected, actual, status)
+        self._reveal_results_tab()
 
     # ── Actions ────────────────────────────────────────────────────────
 
@@ -459,14 +576,14 @@ class ProblemDetailScreen(BaseScreen):
         from leetvibe.ui.screens.agent.session import AgentSessionScreen
         user_code = self.query_one("#code-editor", TextArea).text
         self.app.push_screen(
-            AgentSessionScreen(self._problem, mode="coach", user_code=user_code)
+            AgentSessionScreen(self._problem, mode="pair", user_code=user_code)
         )
 
     def action_prev_problem(self) -> None:
         if self._index > 0:
             self._save_draft()
             self.app.switch_screen(
-                ProblemDetailScreen(
+                ProblemWorkspaceScreen(
                     self._problems[self._index - 1],
                     self._problems,
                     self._index - 1,
@@ -479,7 +596,7 @@ class ProblemDetailScreen(BaseScreen):
         if self._index < len(self._problems) - 1:
             self._save_draft()
             self.app.switch_screen(
-                ProblemDetailScreen(
+                ProblemWorkspaceScreen(
                     self._problems[self._index + 1],
                     self._problems,
                     self._index + 1,

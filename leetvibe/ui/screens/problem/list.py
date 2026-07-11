@@ -14,7 +14,7 @@ from textual.worker import Worker, WorkerState
 from leetvibe.problem_loader import Problem, load_all_problems
 from leetvibe.ui.widgets import ProblemTable, StatusBar, TruncatedSelect
 from leetvibe.ui.screens.base import BaseScreen
-from leetvibe.ui.screens.problem.detail import ProblemDetailScreen
+from leetvibe.ui.screens.problem.workspace import ProblemWorkspaceScreen
 
 _SOLUTION_TOGGLE_LABEL = "Has Solution"
 
@@ -232,7 +232,7 @@ class ProblemListScreen(BaseScreen):
                 self.app.push_screen(AgentSessionScreen(problem, mode="interview"))
             else:
                 self.app.push_screen(
-                    ProblemDetailScreen(problem, self._all_problems, index, self._mode, self._drafts)
+                    ProblemWorkspaceScreen(problem, self._all_problems, index, self._mode, self._drafts)
                 )
 
     def action_open_selected(self) -> None:

@@ -20,10 +20,10 @@ from leetvibe.ui.screens.stats import StatsScreen
 
 
 def _in_maximizable_panel(widget: Widget) -> bool:
-    """True if *widget* is inside the code editor or testcase-tabs panel."""
+    """True if *widget* is inside the code editor or console-tabs panel."""
     node: Widget | None = widget
     while node is not None:
-        if getattr(node, "id", None) in ("testcase-tabs", "editor-panel"):
+        if getattr(node, "id", None) in ("console-tabs", "editor-panel"):
             return True
         node = node.parent  # type: ignore[assignment]
     return False
@@ -47,9 +47,7 @@ class LeetVibeApp(App):
     TITLE = "LeetVibe"
     SUB_TITLE = "AI Pair Programming for LeetCode"
 
-    # Ctrl+P is freed up for ProblemDetailScreen's "Pair" shortcut. Ctrl+Shift+P
-    # (the VS Code convention) collides with Windows Terminal's own built-in
-    # command palette, so this uses Ctrl+K instead.
+    # Textual's default is ctrl+p, which must stay free for "Pair with AI".
     COMMAND_PALETTE_BINDING = "ctrl+k"
 
     # SystemCommandsProvider surfaces get_system_commands() in the palette.
@@ -69,6 +67,7 @@ class LeetVibeApp(App):
     def on_mount(self) -> None:
         self.push_screen("home")
         self._notify_if_update_available()
+        self._flush_pending_saves()
 
     @work(thread=True, exclusive=True)
     def _notify_if_update_available(self) -> None:
@@ -81,20 +80,31 @@ class LeetVibeApp(App):
                 timeout=12,
             )
 
+    @work(thread=True, exclusive=True)
+    def _flush_pending_saves(self) -> None:
+        """Retry any chat-history saves that failed last run (offline, expired
+        token, ...) instead of leaving them stuck unsynced indefinitely."""
+        from leetvibe.cloud.auth import is_logged_in
+        if not is_logged_in():
+            return
+        from leetvibe.cloud.db import flush_pending_saves
+        synced = flush_pending_saves()
+        if synced:
+            self.call_from_thread(
+                self.notify,
+                f"Synced {synced} session{'s' if synced != 1 else ''} that couldn't save earlier.",
+                title="Sync recovered",
+                timeout=6,
+            )
+
     def action_command_palette(self) -> None:
         """Open the compact palette (no search bar)."""
         if self.use_command_palette and not CommandPalette.is_open(self):
             self.push_screen(_CompactPalette(id="--command-palette"))
 
     def get_system_commands(self, screen: Screen) -> Iterable[SystemCommand]:
-        """Palette commands: Maximize (right-panel only) + Screenshot.
-
-        The "Keys" help-panel command was removed — the footer already covers every
-        LeetVibe-specific shortcut, and the panel's remaining content was almost
-        entirely generic TextArea/Input editing bindings (cursor movement, cut/copy/
-        paste, undo/redo) that don't need a discovery UI.
-        """
-        # Maximize / Minimize — restricted to the code editor and testcase tabs only.
+        """Palette commands: Maximize (right-panel only) + Screenshot."""
+        # Maximize / Minimize — restricted to the code editor and console tabs only.
         # Buttons, left-panel content, etc. are intentionally excluded.
         focused = screen.focused
         if screen.maximized is not None:
