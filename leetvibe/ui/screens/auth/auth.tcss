@@ -130,19 +130,17 @@ HintLabel:hover {
     height: 1;
 }
 
-/* Google auth's single "Esc to cancel" hint — stays nested inside
-   #form-container (short enough to never overflow it). */
-#form-hint {
-    width: 100%;
-    height: 1;
-    margin-top: 1;
-    align: center middle;
+/* Google auth reuses #form-error's slot for in-progress narration, not just
+   errors — .status overrides the default red to a neutral active tone so
+   "waiting for sign-in" doesn't read as a failure. Login/Signup never add
+   this class, so their error-only usage is unaffected. */
+#form-error.status {
+    color: #FFB300;
 }
 
-/* Login / Signup — hint row sits right under the card instead of nested
-   inside it, where it could overflow the card's padded interior (56 cols)
-   once it grew past two hints. Matches #form-container's width (64), same
-   pattern as #auth-hint/#submit-hint-inline. */
+/* Hint row sits right under the card instead of nested inside it, where it
+   could overflow the card's padded interior (56 cols) once it grew past two
+   hints. Matches #form-container's width (64), same pattern as #auth-hint. */
 #form-hint-inline {
     width: 64;
     height: 1;

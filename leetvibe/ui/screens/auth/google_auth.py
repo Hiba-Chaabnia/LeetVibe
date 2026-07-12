@@ -12,16 +12,21 @@ from textual.events import Key
 from textual.widgets import Label, Static
 
 from ...widgets import HintLabel
+from ...widgets.shimmer_title import ShimmerTitle
 from .base import AuthScreenBase
 
 
 class GoogleAuthScreen(AuthScreenBase):
     def compose(self) -> ComposeResult:
         with Static(id="form-container"):
-            yield Label("Sign in with Google", id="form-title")
+            yield ShimmerTitle("Sign in with Google", id="form-title")
+            yield Static(
+                "Continue in your browser to finish signing in.",
+                id="form-subtitle",
+            )
             yield Label("", id="form-error")
-            with Horizontal(id="form-hint"):
-                yield HintLabel("Esc", "cancel", self._cancel)
+        with Horizontal(id="form-hint-inline"):
+            yield HintLabel("Esc", "cancel", self._cancel)
 
     def on_mount(self) -> None:
         self._run_google_auth()
@@ -41,7 +46,7 @@ class GoogleAuthScreen(AuthScreenBase):
         state = await asyncio.to_thread(start_google_auth)
 
         if not isinstance(state, GoogleAuthState):
-            self._set_status(state.error or "Google auth failed.")
+            self._set_status(state.error or "Google auth failed.", error=True)
             return
 
         webbrowser.open(state.oauth_url)
@@ -53,17 +58,25 @@ class GoogleAuthScreen(AuthScreenBase):
         completed = await asyncio.to_thread(state.done.wait, 120)
 
         if not completed:
-            self._set_status("Timed out. Press Esc and try again.")
+            self._set_status("Timed out. Press Esc and try again.", error=True)
             return
 
         result = state.result
         if result and result.ok:
             self.dismiss(result)
         else:
-            self._set_status((result.error if result else None) or "Google sign-in failed.")
+            self._set_status(
+                (result.error if result else None) or "Google sign-in failed.",
+                error=True,
+            )
 
-    def _set_status(self, msg: str) -> None:
+    def _set_status(self, msg: str, *, error: bool = False) -> None:
+        """Update the status line. Plain progress narration (the default)
+        renders in a neutral in-progress tone; error=True keeps it in the
+        shared #form-error red used for genuine failures."""
         try:
-            self.query_one("#form-error", Label).update(msg)
+            label = self.query_one("#form-error", Label)
+            label.set_class(not error, "status")
+            label.update(msg)
         except Exception:
             pass
