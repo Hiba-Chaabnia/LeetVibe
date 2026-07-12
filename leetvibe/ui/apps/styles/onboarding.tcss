@@ -102,10 +102,7 @@ Banner {
     height: 1;
 }
 
-/* Mistral API key + ElevenLabs key screens — hint row sits right under the
-   card instead of docked to the screen's bottom edge. Matches #api-container's
-   width (not 100% or auto) so Screen{align:center middle} centers both the
-   same way, and the hint row's own content centers within that matching width. */
+/* Mistral API key + ElevenLabs key screens hint row */
 #submit-hint-inline {
     width: 64;
     height: 1;

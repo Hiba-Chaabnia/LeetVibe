@@ -13,6 +13,7 @@ __all__ = ["OnboardingApp", "run_onboarding"]
 
 class OnboardingApp(App[str | None]):
     CSS_PATH = Path(__file__).parent / "styles" / "onboarding.tcss"
+    ENABLE_COMMAND_PALETTE = False
 
     def on_mount(self) -> None:
         self.push_screen(WelcomeScreen())
