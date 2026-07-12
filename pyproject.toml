@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "leetvibe"
-version = "0.1.9"
+version = "0.2.0"
 description = "AI Pair Programming CLI for LeetCode — powered by Mistral AI"
 readme = "PYPI.md"
 license = "MIT"
@@ -38,6 +38,9 @@ dependencies = [
     "textual>=0.89.0",
     "click>=8.1.7",
     "rich>=13.7.0",
+    # Code editor syntax highlighting (TextArea language="python")
+    "tree-sitter>=0.25.0",
+    "tree-sitter-python>=0.23.0",
     # AI/ML
     "mistralai>=1.2.5",
     "elevenlabs>=1.11.0",
