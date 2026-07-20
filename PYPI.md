@@ -24,9 +24,6 @@
 
 Stop grinding alone. LeetVibe puts a senior engineer in your terminal who can teach, coach, or interview you — depending on how much help you want today.
 
-![LeetVibe Learn mode demo](https://raw.githubusercontent.com/Hiba-Chaabnia/LeetVibe/main/assets/hero-learn.gif)
-
-
 ## 🧠 Three Modes
 
 | | 🎓 Learn | 🤝 Pair Programming | 🎤 Interview |
@@ -49,9 +46,6 @@ An in-terminal algorithm reference covering **52 patterns** — from Arrays and 
 - 🎤 The **follow-up questions** an interviewer would ask next
 
 Ask AI about any pattern without leaving the guide, keep per-topic notes, and export it all to DOCX.
-
-![LeetVibe Playbook](https://raw.githubusercontent.com/Hiba-Chaabnia/LeetVibe/main/assets/playbook.gif)
-
 
 ## ✨ More Features
 

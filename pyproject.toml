@@ -72,6 +72,9 @@ include = ["leetvibe/", "config.yaml"]
 [tool.hatch.build.targets.wheel.force-include]
 "leetvibe/data/problems" = "leetvibe/data/problems"
 
+[tool.hatch.build.targets.sdist]
+exclude = ["assets/*.gif"]
+
 [tool.uv]
 package = true
 required-version = ">=0.6.0"
