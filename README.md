@@ -1,183 +1,37 @@
-# 🎯 LeetVibe
+<div align="center">
+  <a href="https://pypi.org/project/leetvibe/">
+    <img alt="LeetVibe" src="assets/logo.png" width="380" />
+  </a>
 
-> **Your AI pair programmer for LeetCode — powered by Mistral AI**
+  <h3>Your AI pair programmer for LeetCode — a senior engineer in your terminal.</h3>
 
-Stop grinding alone. LeetVibe puts a senior engineer in your terminal who can teach, coach, or interview you — depending on how much help you want today.
+  <p>
+    <a href="https://pypi.org/project/leetvibe/"><img src="https://img.shields.io/pypi/v/leetvibe" alt="PyPI" /></a>
+    <a href="https://pepy.tech/project/leetvibe"><img src="https://img.shields.io/pepy/dt/leetvibe" alt="Downloads" /></a>
+    <a href="https://pypi.org/project/leetvibe/"><img src="https://img.shields.io/badge/python-3.11%2B-blue" alt="Python 3.11+" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License: MIT" /></a>
+  </p>
 
----
+  <p>
+    <a href="#-quickstart">Quickstart</a> ·
+    <a href="#-the-three-modes">Modes</a> ·
+    <a href="#-the-playbook">Playbook</a> ·
+    <a href="#-under-the-hood">Under the Hood</a> ·
+    <a href="#-faq--troubleshooting">FAQ</a>
+  </p>
+</div>
 
-## 🎬 Demo
+![LeetVibe Learn mode demo](assets/hero-learn.gif)
 
-### Full App Demo
+## 🔥 Why LeetVibe
 
-[![LeetVibe Demo](assets/screenshot.png)](https://www.youtube.com/watch?v=eEAsmaeVm14)
+Grinding LeetCode alone is slow, and pasting problems into a chatbot either hands you the answer or loses the thread entirely. LeetVibe is a different kind of study partner:
 
-> Click the thumbnail to watch the full demo on YouTube.
+- ⚡ **It doesn't just talk — it executes.** The agent writes real code and runs it against the problem's test cases, then inspects the AST to gauge Big-O complexity and reasons about whether that estimate actually holds before it says "this is O(n²) because of the nested loops."
+- 🎭 **Three relationships, one goal.** Have it *teach* you a full solution step by step, *coach* you on your own attempt without spoiling the answer, or *interview* you out loud like it's the real thing.
+- 💻 **Terminal native.** No browser tabs, no copy-paste loop. Browse 2,800+ problems, write code, run tests, and talk to the agent — all in one TUI.
 
-### ⚙️ Onboarding Setup
-
-![LeetVibe Onboarding](assets/onboarding.gif)
-
----
-
-## 🧠 How It Works
-
-LeetVibe is an autonomous AI agent that doesn't just answer questions, it reasons, runs code, measures complexity, and explains its thinking step by step. Every session is a live conversation: you can ask follow-up questions, push back, or go deeper at any point.
-
-**Three modes. Three different relationships with the AI.**
-
-```mermaid
-graph LR
-    You(["🧑‍💻 You"]) --> Learn["🎓 Learn\nWatch LeetVibe solve it"]
-    You --> Pair["🤝 Pair Programming\nVibe reviews your attempt"]
-    You --> Interview["🎤 Interview\nAlex tests you live"]
-
-    Learn & Pair --> VibeAgent["🤖 VibeAgent\nmistral-large-latest"]
-    Interview --> InterviewAgent["🎙️ InterviewAgent\nmistral-large-latest"]
-    Learn & Pair -.->|"follow-up Q&A"| ConceptAgent["💡 ConceptAgent\nmistral-small-latest"]
-
-    VibeAgent --> Tools["🔧 Agent Tools"]
-    Tools --> RunCode["▶ run_code\nexecute & test"]
-    Tools --> Complexity["📊 analyze_complexity\nAST inspection"]
-    Tools --> Explain["📖 explain_approach\nalgorithm walkthrough"]
-
-    InterviewAgent --> Voice["🔊 ElevenLabs\ninterview narration"]
-```
-
----
-
-## 🎓 Learn Mode
-
-*"Teach me how to solve this."*
-
-LeetVibe takes the wheel. It walks through the problem using a strict **8-step workflow** — reasoning out loud, running real code, and narrating every decision. You watch, listen, and absorb.
-
-| Step | What Vibe Does |
-|------|---------------|
-| 1️⃣ Understand | Restates the problem, identifies edge cases and algorithm family |
-| 2️⃣ Brute Force | Writes the simplest correct solution and runs it against test cases |
-| 3️⃣ Analyse | Calls `analyze_complexity` — "This is O(n²) because of the nested loops" |
-| 4️⃣ Key Insight | Names the one idea that eliminates the bottleneck |
-| 5️⃣ Optimal | Writes the optimised solution and validates it with `run_code` |
-| 6️⃣ Compare | Calls `analyze_complexity` again — "We improved from O(n²) → O(n)" |
-| 7️⃣ Walkthrough | Calls `explain_approach` for a structured pattern breakdown |
-| 8️⃣ Synthesis | Writes a crisp 4–6 sentence takeaway paragraph — the core insight, the journey, the final complexity |
-
-> Vibe never skips a step, even for trivial problems. If a test fails, it debugs and fixes before moving on.
-
-> After the session a one-line **algorithm mnemonic** is generated and appended inline — a 25-word analogy that captures the pattern's mechanical action, cached per pattern in `~/.leetvibe/mnemonics.json`.
-
----
-
-## 🤝 Pair Programming Mode
-
-*"Review my attempt and guide me to the optimal."*
-
-You write first. Vibe reviews. It follows a **6-step coaching workflow** designed to push you toward the answer — not hand it to you.
-
-| Step | What Vibe Does |
-|------|---------------|
-| 1️⃣ Test | Runs your code: "Your solution passes 3/5 test cases" |
-| 2️⃣ Diagnose | Points to exact lines — bugs, inefficiencies, edge case gaps |
-| 3️⃣ Analyse | Measures your complexity: "Your solution is O(n²) because..." |
-| 4️⃣ Hint | Nudges without revealing: "What data structure gives O(1) lookup?" |
-| 5️⃣ Optimal | Only now reveals the full solution with line-by-line explanation |
-| 6️⃣ Compare | Side-by-side: your approach vs optimal, complexity improvement named |
-| 7️⃣ Walkthrough | Calls `explain_approach` for a structured pattern breakdown |
-| 8️⃣ Synthesis | Crisp paragraph: core insight, what changed, final complexity |
-
----
-
-## 🎤 Interview Mode
-
-*"Test me like it's a real interview."*
-
-Meet **Alex** — a senior software engineer who conducts 30-minute mock technical interviews. No hints unless you're stuck. No code written for you. Just a realistic conversation.
-
-**Alex's rules:**
-- 🤝 Greets you once, states the problem, asks for your approach
-- 🔍 Probes with *"What's the time complexity?"* / *"Any edge cases?"* / *"Can you do better?"*
-- 💡 Gives **one small hint** if you're stuck, then waits
-- ✅ Closes with brief feedback on correctness, complexity, and one thing to improve
-- 🔇 Never re-introduces himself on follow-up turns
-- 🚫 Never writes code, never reveals the optimal solution unprompted
-
-His opening monologue plays as speech via ElevenLabs so the session feels live from the first second.
-
----
-
-## 🆚 Mode Comparison
-
-| | 🎓 Learn | 🤝 Pair Programming | 🎤 Interview |
-|---|---|---|---|
-| Who codes first | Vibe | You | — (verbal only) |
-| Tools enabled | ✅ run_code, complexity, explain | ✅ run_code, complexity, explain | ❌ none |
-| Voice narration | ❌ | ❌ | ✅ each AI turn (ElevenLabs) |
-| Follow-up chat | ✅ ConceptAgent (mistral-small) | ✅ ConceptAgent (mistral-small) | ✅ InterviewAgent continues |
-| Gives hints | — | ✅ Socratic nudges | ✅ one hint only |
-| Reveals optimal | ✅ always | ✅ after coaching | ❌ never |
-| Response length | Long — full explanations | Long — detailed review | Short — 2–4 sentences |
-
----
-
-## 📖 Playbook
-
-*"I want to study algorithm patterns before I practice."*
-
-The Playbook is an in-terminal algorithm reference guide covering **53 patterns** — from foundational Arrays and Binary Search to advanced topics like Network Flow, Segment Tree, and Digit DP. Every topic includes a diagram, code templates, complexity analysis, pitfalls, and classic problems to practice.
-
-| Section | What's Inside |
-|---------|--------------|
-| Recognise by | Keywords and constraints that signal this pattern |
-| Diagram | ASCII art showing the data-structure or pointer movement |
-| When to use | One-line decision rule |
-| Pattern | Primary code template in Python |
-| Pattern — Variant | Second template for related sub-patterns |
-| Complexity | Time and space with explanation |
-| Pitfalls | Common mistakes and edge-case traps |
-| Classic Problems | Curated LeetCode problems with difficulty |
-| My Notes | Personal notes you write and persist locally |
-
-**53 topics across 11 categories and 3 tiers:**
-
-| Tier | Topics |
-|------|--------|
-| ① Foundational | Arrays, Two Pointers, Sliding Window, Stack, Binary Search, Linked List, Trees, Graphs, BFS/DFS, Dynamic Programming, Heap, Strings, Simulation, Backtracking |
-| ② Intermediate | Monotonic Stack/Queue, Fast & Slow Pointers, Modified Binary Search, Tries, Union Find, Topological Sort, Dijkstra, Greedy, Intervals, Merge Sort, Cyclic Sort, Sweep Line, Difference Array, LRU Cache, Sorted List, Iterator |
-| ③ Advanced | Bellman-Ford, Floyd-Warshall, Segment Tree, SCC, Eulerian Path, Network Flow, Digit DP, Probability DP, Game Theory, Rabin-Karp, Z-Algorithm, Manacher's, Concurrency, Reservoir Sampling |
-
-**Playbook keyboard shortcuts:**
-
-| Key | Action |
-|-----|--------|
-| `↑` / `↓` | Navigate topics |
-| `C` | Cycle category filter (Arrays → Stack & Queue → … → All) |
-| `T` | Cycle tier filter (All → ① → ② → ③ → All) |
-| `E` | Ask Vibe AI about the current pattern (inline chat) |
-| `P` | Jump to practice problems for this topic |
-| `N` | Add or edit personal notes |
-| `X` | Export all topics + notes to DOCX |
-| `Esc` | Go back |
-
-A **▶ Pattern Selector** entry at the top maps problem keywords to patterns — use it when you can't immediately identify which pattern applies.
-
----
-
-## ✨ More Features
-
-- 📚 **Problem browser** — filter by difficulty, topic, or solved status; free-text search across hundreds of LeetCode problems
-- ✏️ **Inline code editor** — write Python in the terminal with syntax highlighting and run it against the problem's test cases without leaving the app
-- 📋 **Live test results** — pass/fail output per test case shown immediately
-- 💡 **Solution tab** — reference solutions when they exist in the problem data
-- 📊 **Statistics screen** — session counts, solved problem tracking, progress over time
-- ☁️ **Cloud sync** — optional account (email/password or Google OAuth) to persist progress across machines
-- 🧙 **Onboarding wizard** — first-run setup collects API keys and account details interactively; nothing to configure by hand
-
----
-
-## 🚀 Getting Started
-
-### Install from PyPI
+## 🚀 Quickstart
 
 Requires **Python 3.11+**.
 
@@ -185,392 +39,199 @@ Requires **Python 3.11+**.
 # with uv (recommended)
 uv tool install leetvibe
 
-# with pip
+# or with pip
 pip install leetvibe
 ```
 
 ```bash
+# first launch opens the onboarding wizard
 leetvibe
 ```
 
-The onboarding wizard opens automatically on first launch. It will ask for your **Mistral API key** (required) and optionally your **ElevenLabs key** for voice narration. Keys are saved to `~/.leetvibe/.env` and never touched again.
+The wizard asks for your **Mistral API key** (required) and optionally an **ElevenLabs key** for interview voice narration. Keys are saved to `~/.leetvibe/.env` and never touched again.
 
 - 🔑 Get a Mistral key: https://console.mistral.ai
 - 🔊 Get an ElevenLabs key: https://elevenlabs.io *(optional)*
 
----
+![LeetVibe onboarding wizard](assets/onboarding.gif)
 
-### Install from Source
+<details>
+<summary><strong>Install from source</strong></summary>
 
-**Requirements:** Python 3.11+, [uv](https://docs.astral.sh/uv/)
+Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/hibachaabnia/leetvibe.git
-cd leetvibe
+git clone https://github.com/Hiba-Chaabnia/LeetVibe.git
+cd LeetVibe
 uv sync
 uv run leetvibe
 ```
 
-For local development, copy `.env.exemple` to `.env` and fill in your keys:
+For local development, copy `.env.example` to `.env` and fill in your keys:
 
 ```
 MISTRAL_API_KEY=your_key_here
 ELEVENLABS_API_KEY=your_key_here   # optional
 ```
 
----
+</details>
 
-## 🗺️ Navigation
+## 🎯 The Three Modes
 
-```mermaid
-flowchart TD
-    Launch(["▶ leetvibe"])
-    Launch --> Check{"MISTRAL_API_KEY\nset?"}
-    Check -- "No — first run" --> Onboard
-    Check -- "Yes" --> Home
+Every session is a live conversation — ask follow-up questions, push back, or go deeper at any point. The three modes differ in one thing: **how much help you want today.**
 
-    subgraph Onboard["🧙 Onboarding Wizard"]
-        W["Welcome"] --> AK["Mistral API Key"]
-        AK --> EL["ElevenLabs Key\n(optional)"]
-        EL --> AC["Account Setup\n(optional)"]
-    end
+### 🎓 Learn — *"Teach me how to solve this."*
 
-    Onboard --> Home["🏠 Home"]
+Vibe takes the wheel. It works through the problem in a strict 7-step workflow — reasoning out loud, running real code, and explaining every decision while you watch and absorb:
 
-    Home -- "1 · Learn" --> LL["Problem List"]
-    Home -- "2 · Pair" --> CL["Problem List"]
-    Home -- "3 · Interview" --> IL["Problem List"]
-    Home -- "4 · Playbook" --> Playbook["📖 Playbook\n53 algorithm topics"]
-    Home -- "5 · Stats" --> Stats["📊 Statistics"]
-    Home -- "6 · Account" --> Login["🔐 Login / Sign Up"]
-    Login -- result --> Home
+- Starts from the **brute force**, runs it, and names its complexity — so you see *why* the optimal exists, not just what it is.
+- Identifies the **one key insight** that eliminates the bottleneck, then writes and validates the optimal solution.
+- Closes with a crisp synthesis paragraph: the core insight, the journey, the final complexity.
+- Ends by coining a one-line **algorithm mnemonic** — a tiny analogy that makes the pattern's mechanics stick.
 
-    LL & CL --> Detail["Problem Detail\ncode editor + tests"]
-    Detail -- "Submit" --> Session["💬 Agent Session\nstreaming chat"]
-    IL --> Session
+<details>
+<summary>The full 7-step Learn workflow</summary>
 
-    Session -- "Esc" --> CL2["Problem List"]
-    Detail -- "Esc" --> CL2
-    CL2 -- "Esc" --> Home
-```
+| Step | What Vibe Does |
+|------|---------------|
+| 1. Understand | Summarises the task in one sentence, identifies edge cases and the key constraint |
+| 2. First Pass | Writes the simplest correct solution and runs it against test cases |
+| 3. Spot the Bottleneck | Calls `analyze_complexity` — "This is O(n²) because of the nested loops" |
+| 4. The Insight | Names the single observation that unlocks a faster approach |
+| 5. Optimize | Writes the optimised solution and validates it with `run_code` |
+| 6. Measure the Gain | Calls `analyze_complexity` again — "We improved from O(n²) → O(n)" |
+| 7. Takeaway | A crisp 4–6 sentence takeaway plus one open question, inviting a follow-up chat |
 
-**Keyboard shortcuts:**
+Vibe never skips a step, even for trivial problems — if the brute force is already optimal, it says so honestly instead of inventing a fake improvement. If a test fails, it debugs and fixes before moving on.
 
-| Key | Action |
-|-----|--------|
-| `1`–`6` | Home screen quick-select |
-| `Enter` | Open / confirm |
-| `Esc` | Go back |
-| `Ctrl+D` | Toggle description panel (+ Alex's opening in Interview) |
-| `Ctrl+V` | Toggle voice narration |
-| `Ctrl+C` | Copy last code block |
-| `Ctrl+Q` | Quit from anywhere |
+</details>
 
----
+### 🤝 Pair Programming — *"Review my attempt and guide me to the optimal."*
 
-## 🏗️ Architecture
+You write first. Vibe reviews — and it's designed to push you toward the answer, not hand it to you:
 
-```mermaid
-graph TD
-    User(["🧑‍💻 User"])
+- Runs your code and reports exactly what passed: *"Your solution passes 3/5 test cases."*
+- Diagnoses precise lines — bugs, inefficiencies, missed edge cases — and measures *your* complexity.
+- Nudges with Socratic hints (*"What data structure gives O(1) lookup?"*) before revealing anything.
+- Only then shows the optimal, side by side with your approach, and names the improvement.
 
-    subgraph TUI["Textual TUI"]
-        Home["🏠 Home"]
-        ProblemList["📋 Problem List"]
-        Detail["✏️ Problem Detail"]
-        AgentSession["💬 Agent Session"]
-        Playbook["📖 Playbook"]
-        Stats["📊 Statistics"]
-        Login["🔐 Login"]
-    end
+![LeetVibe Pair Programming — LeetVibe reviewing user code and pair programming with hints](assets/pair-programming.gif)
 
-    subgraph Agents["AI Agents — ai/agent.py"]
-        VibeAgent["🤖 VibeAgent\nlearn + coach"]
-        InterviewAgent["🎙️ InterviewAgent\ninterview"]
-        ConceptAgent["💡 ConceptAgent\nfollow-up Q&A"]
-    end
+<details>
+<summary>The full 7-step pair programming workflow</summary>
 
-    subgraph Skills["🔧 MCP Skills — skills/"]
-        TestRunner["▶ test_runner"]
-        Complexity["📊 complexity_analyzer"]
-        Teaching["📖 teaching_mode"]
-        Voice["🔊 voice_narrator"]
-    end
+| Step | What Vibe Does |
+|------|---------------|
+| 1. Run Your Code | Runs your attempt against the real test cases and interprets the pass/fail split |
+| 2. Diagnose | Points to exact lines — bugs, inefficiencies, edge case gaps |
+| 3. Your Complexity | Measures your complexity: "Your solution is O(n²) because..." |
+| 4. Bridge the Gap | Narrates the hint-to-reveal chain: the bottleneck, the unlocking question, and its answer |
+| 5. Optimize | Reveals the full solution with line-by-line explanation (or, if yours was already optimal, polish and alternatives instead) |
+| 6. Compare | Side-by-side: your approach vs optimal, complexity improvement named |
+| 7. Takeaway | Crisp paragraph — core insight, what changed, final complexity — plus one open question |
 
-    subgraph External["☁️ External Services"]
-        MistralAPI["Mistral AI API"]
-        ElevenLabsAPI["ElevenLabs API"]
-        FirestoreDB["Firebase"]
-    end
+</details>
 
-    Problems[("📁 problems/\nJSON files")]
-    Audio["🔊 System Audio"]
+### 🎤 Interview — *"Test me like it's a real interview."*
 
-    User --> Home
-    Home --> ProblemList & Playbook & Stats & Login
-    ProblemList --> Detail & AgentSession
-    Detail --> AgentSession
+Meet **Alex** — a senior engineer who conducts 30-minute mock technical interviews. His opening monologue plays as voice via ElevenLabs, so the session feels live from the first second.
 
-    AgentSession --> VibeAgent & InterviewAgent & ConceptAgent
-    VibeAgent --> MistralAPI
-    InterviewAgent & ConceptAgent --> MistralAPI
-    VibeAgent --> TestRunner & Complexity & Teaching
-    InterviewAgent --> Voice
+- States the problem once, then asks for *your* approach — and probes: *"What's the time complexity?" "Any edge cases?" "Can you do better?"*
+- Gives **one small hint** if you're stuck, then waits.
+- Never writes code, never reveals the optimal solution unprompted.
+- Closes with brief feedback: correctness, complexity, and one thing to improve.
 
-    Voice --> ElevenLabsAPI --> Audio
-    Login & Stats & ProblemList --> FirestoreDB
-    ProblemList --> Problems
-```
+https://github.com/user-attachments/assets/095d8696-1255-4c04-bbd0-636b7a8eb269
 
-**Project layout:**
+*🔊 Sound on to hear Alex conduct the interview.*
 
-```
-leetvibe/
-├── cli.py                    Entry point
-├── config.py                 Loads config.yaml + .env → Config dataclass
-├── session_log.py            Local session recorder (JSONL)
-├── problem_loader.py         Reads problem JSONs from problems/
-├── code_runner.py            Sandboxed Python test execution
-├── ai/
-│   ├── agent.py              VibeAgent · InterviewAgent · ConceptAgent
-│   └── skills/
-│       ├── test_runner/      Execute code against test cases
-│       ├── complexity_analyzer/  AST-based O(n) analysis (result-cached)
-│       ├── teaching_mode/    Algorithm pattern explanations
-│       └── voice_narrator/   ElevenLabs TTS (interview mode only)
-├── cloud/
-│   ├── auth.py               Firebase auth (email + Google OAuth)
-│   └── db.py                 Cloud sync — solved slugs, sessions, messages
-├── data/
-│   └── topics/               53 algorithm topic modules + metadata
-└── ui/
-    ├── screens/              home, problem_list, problem_detail,
-    │                         agent_session, reference_guide, stats, login
-    └── widgets/              banner, problem_table, status_bar
+## 📖 The Playbook
 
-problems/
-├── easy/ · medium/ · hard/   Problem JSON files
-```
+An in-terminal algorithm reference covering **52 patterns** — from foundational Arrays and Binary Search to Network Flow, Segment Tree, and Digit DP. 
 
----
+Every topic teaches the intuition behind the technique, walks through annotated code templates, and — most usefully — tells you which pattern it's most often confused with and what an interviewer would ask next.
 
-## ⚙️ How Mistral Vibe Powers LeetVibe
+And it's not a static document. On any topic you can:
 
-Three focused agents, each built directly on Mistral's streaming API. No LangChain, no wrappers — just raw streaming with full control over what renders in the terminal.
+- 💬 Press `Ctrl+E` to **ask AI about the pattern** — a chat panel with per-topic history that persists across sessions.
+- 📝 Press `Ctrl+N` to keep **inline notes**, saved per topic.
+- 🧩 Press `Ctrl+O` to jump straight to **practice problems** for that pattern.
+- 📤 Press `Ctrl+X` to **export everything** — all topics plus your notes — to DOCX.
+
+![LeetVibe Playbook — asking AI about a pattern and taking notes](assets/playbook.gif)
+
+<details>
+<summary>All 52 topics, by tier</summary>
+
+| Tier | Topics |
+|------|--------|
+| ① Foundational (16) | Arrays & Hashing, Prefix Sum, Two Pointers, Sliding Window, Stack, Queue, Linked List, Binary Search, Trees, Graphs, Matrix / Grid, Dynamic Programming, Heap / Priority Queue, String Manipulation, Backtracking, Simulation |
+| ② Intermediate (22) | Cyclic Sort, Sorting Algorithms, Monotonic Stack, Monotonic Queue, Fast & Slow Pointers, LRU Cache, Modified Binary Search, Tries, Union Find, Topological Sort, Dijkstra, Minimum Spanning Tree, 0-1 BFS, Greedy, Intervals, Merge Sort / Divide & Conquer, Ordered Set / SortedList, Math Patterns, Bit Manipulation, Sweep Line, Iterator Design Pattern, Difference Array |
+| ③ Advanced (14) | Bellman-Ford, Floyd-Warshall, Strongly Connected Components, Eulerian Path / Circuit, Network Flow, Digit DP, Probability DP, Segment Tree, Rabin-Karp, Z-Algorithm, Manacher's Algorithm, Game Theory, Reservoir Sampling, Concurrency |
+
+Each topic page includes: how to recognise the pattern, the intuition, an ASCII diagram, annotated code templates, variants, complexity, pitfalls, edge cases, a "don't mix up with" comparison, interviewer follow-up questions, classic problems, related topics, and your notes.
+
+</details>
+
+## ✨ Beyond the Modes
+
+- 📚 **Problem browser** — filter 2,800+ LeetCode problems by difficulty, topic, or solved status, with free-text search.
+- 💡 **Built-in solutions** — 1,900+ problems ship with a written solution and explanation; a "Has Solution" filter surfaces them.
+- ✏️ **Inline code editor** — write Python and run it against the problem's test cases without leaving the app.
+- ✅ **Live test results** — pass/fail output per test case, immediately, run in an isolated subprocess so an infinite loop times out instead of hanging the session.
+- 📊 **Statistics** — session counts, solved-problem tracking, progress over time.
+- ☁️ **Cloud sync** *(optional)* — sign in with email or Google to persist progress across machines.
+- 🔔 **Update notifications** — LeetVibe checks PyPI once a day and shows a toast when a newer version is available.
+
+## 🔧 Under the Hood
+
+Three focused agents, each built directly on Mistral's streaming API — no wrappers, full control over what renders in the terminal.
 
 | Agent | Model | Purpose | Tools |
 |---|---|---|---|
-| `VibeAgent` | `mistral-large-latest` | Learn + Coach — 8-step structured session | `run_code`, `analyze_complexity`, `explain_approach` |
-| `InterviewAgent` | `mistral-large-latest` | Mock interview — conversational, sliding-window context (last 10 messages) | none |
-| `ConceptAgent` | `mistral-small-latest` | Follow-up Q&A after session — lazily initialised on first question | none |
+| `VibeAgent` | `mistral-large-latest` | Learn + Pair — the 7-step structured session | `run_code`, `analyze_complexity` |
+| `InterviewAgent` | `mistral-large-latest` | Mock interview — conversational, sliding-window context | none |
+| `ConceptAgent` | `mistral-small-latest` | Follow-up Q&A after a session | none |
 
-### The Agent Loop
+> [!NOTE]
+> The system diagram, codebase layout, agent loop, system prompts, tool specifications, playbook internals, voice pipeline, and cloud sync live in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-```mermaid
-flowchart TD
-    Start(["User enters session"])
+## ❓ FAQ & Troubleshooting
 
-    Start --> Mode{mode?}
-    Mode -- "learn / coach" --> VA["🤖 VibeAgent\nsolve_streaming()"]
-    Mode -- "interview" --> IA["🎙️ InterviewAgent\nstart_streaming()"]
-    Mode -- "follow-up Q&A\n(post-session)" --> CA["💡 ConceptAgent\nchat_streaming()\nlazy init on first message"]
+**Do I need an ElevenLabs key?**
+No. It's only used for voice narration in Interview mode — everything else works without it.
 
-    VA --> BuildMsg["Build messages + tools\n(run_code, analyze_complexity, explain_approach)"]
-    IA --> BuildMsgNoTools["Build messages\nno tools · sliding window (last 10)"]
-    CA --> BuildMsgSmall["Build messages\nno tools · session summary as context"]
+**What does it cost?**
+LeetVibe itself is free and open source. You bring your own Mistral API key; requests are billed to your Mistral account according to your plan.
 
-    BuildMsg --> Loop
+**What leaves my machine?**
+Problem statements and code go to the Mistral API during sessions; Alex's replies go to ElevenLabs if voice is enabled. Progress syncs to Firebase **only** if you create an account. Your API keys never leave `~/.leetvibe/.env`.
 
-    subgraph Loop["🔁 Tool-calling Loop — max 20 turns"]
-        Stream["client.chat.stream(messages, tools)"]
-        Collect["Collect response\ntext → yield to TUI live\ntool calls → accumulate (parallel exec)"]
-        Stream --> Collect
-        Collect --> HasTools{"Tool calls?"}
+**Where does LeetVibe keep its config and data?**
+Everything lives in `~/.leetvibe/` — your API keys (`.env`), auth session, cached mnemonics, and the update-check cache. Prefer environment variables? The loader checks `~/.leetvibe/.env`, then a project `.env`, then your environment, so setting `MISTRAL_API_KEY` in your shell works as long as no `.env` file defines it first.
 
-        HasTools -- "No" --> Compress["Compress tool results in history\n→ save assistant message → exit"]
-        HasTools -- "Yes" --> Exec["Execute tools\n(parallel if multiple)"]
-        Exec --> AppendResult["Append compact result to history"]
-        AppendResult --> Stream
-    end
+**No audio in Interview mode?**
+Voice requires an `ELEVENLABS_API_KEY`. Audio plays through your system's default output device via `sounddevice` — if you hear nothing, check that a default device is set.
 
-    BuildMsgNoTools & BuildMsgSmall --> SimpleStream["client.chat.stream(messages)\nyield chunks → append to history"]
-```
+**Which terminals are supported?**
+Any modern terminal with truecolor support. On Windows, use Windows Terminal rather than legacy `cmd.exe`.
 
-### System Prompts
+**How do I update?**
+`uv tool upgrade leetvibe` or `pip install -U leetvibe`. The app notifies you when a newer version is on PyPI.
 
-Each mode gets a completely different personality baked into the system prompt:
+## 🤝 Contributing & Feedback
 
-- 📜 **`SYSTEM_PROMPT`** (`VibeAgent` learn) — 8-step workflow, think out loud before every code block, never skip a step. Rich markup (`[bold]`, `[dim]`) rendered by Textual.
-- 📜 **`COACH_PROMPT`** (`VibeAgent` coach) — test user's code first, diagnose exact lines, give Socratic hints before revealing the optimal, frame feedback as encouragement.
-- 📜 **`INTERVIEW_PROMPT`** (`InterviewAgent`) — 2–4 sentences per turn, never re-introduce, never write code, one hint max. No tools. Sliding window keeps context lean.
-- 📜 **`_CONCEPT_SYSTEM`** (`ConceptAgent`) — algorithm educator persona, answer concisely with examples, connect back to the problem just solved. Session context (pattern, synthesis, complexity) injected at init.
+Every bit of feedback shapes what gets built next — and there are two easy ways to send it:
 
-### Agent Tools
+- **Right inside the app** — sign in and hit the **Feedback** button on any problem screen. Wrong solution, unclear explanation, UI quirk, feature idea, or just praise: it arrives tagged with the problem you were on, so it's immediately actionable.
+- **On GitHub** — [open an issue](https://github.com/Hiba-Chaabnia/LeetVibe/issues) for bugs and feature requests.
 
-| 🔧 Tool | Agent | Skill | What It Does |
-|---------|-------|-------|-------------|
-| `run_code` | `VibeAgent` | `test_runner` | Executes Python code against test cases in a sandboxed namespace. Returns pass/fail per case. Results compressed in history after use. |
-| `analyze_complexity` | `VibeAgent` | `complexity_analyzer` | Walks the AST — counts loop nesting depth, detects sorting calls, memoization. Returns `{time, space, explanation}`. Results cached per code hash. |
-| `explain_approach` | `VibeAgent` | `teaching_mode` | Generates a structured 6-step walkthrough for 15+ algorithm patterns (two-pointer, DP, sliding window, BFS, heap, trie…). |
+PRs are welcome too — **new Playbook topics especially**. See the [Contribution Guide](CONTRIBUTING.md) for setup instructions and the topic schema.
 
-### Full Session Flow
+## 🙏 Acknowledgments
 
-```mermaid
-sequenceDiagram
-    participant U as 🧑‍💻 User
-    participant UI as AgentSession
-    participant A as VibeAgent
-    participant M as Mistral API
-    participant S as MCP Skills
-    participant EL as ElevenLabs
-
-    U->>UI: Select problem (Learn / Coach mode)
-    UI->>A: solve_streaming(problem, mode="learn")
-    A->>M: chat.stream(messages, tools=_TOOLS)
-
-    loop Streaming
-        M-->>A: text chunk
-        A-->>UI: yield → rendered live in terminal
-    end
-
-    M-->>A: tool_call: run_code(code, snippet)
-    A->>S: test_runner.run_code()
-    S-->>A: {all_passed: true, cases: [...]}
-    A->>M: append result → continue
-
-    M-->>A: tool_call: analyze_complexity(code)
-    A->>S: complexity_analyzer.analyze_complexity()
-    S-->>A: {time: "O(n)", space: "O(1)"}
-    A->>M: append result → continue
-
-    M-->>A: tool_call: explain_approach(...)
-    A->>S: teaching_mode.explain_approach()
-    S-->>A: structured walkthrough text
-    A->>M: append result → continue
-
-    M-->>A: final text (no tool calls)
-    A->>A: save to message history
-    A->>A: compress tool results in history
-    Note over UI,A: Follow-up questions → ConceptAgent (mistral-small)\nlazy-initialised with session summary
-```
-
----
-
-## 🔊 How ElevenLabs Powers the Voice
-
-Voice narration is used exclusively in **Interview mode** — `InterviewAgent` narrates each of Alex's responses via ElevenLabs. The `voice_narrator` skill converts text to raw PCM audio and plays it directly through `sounddevice` — no ffmpeg required.
-
-### Voice Personas
-
-| Persona | Voice | Used In |
-|---------|-------|---------|
-| `mentor` | Sarah | Interview — Alex's turn narration |
-
-### Audio Pipeline
-
-```mermaid
-sequenceDiagram
-    participant A as VibeAgent
-    participant VN as voice_narrator
-    participant EL as ElevenLabs API
-    participant SD as sounddevice
-
-    A->>VN: narrate(text, voice_type="mentor")
-    VN->>EL: text_to_speech.convert()<br/>model=eleven_flash_v2_5 · format=pcm_22050
-    EL-->>VN: raw PCM bytes (22050 Hz, 16-bit)
-    VN->>VN: np.frombuffer(bytes, dtype=np.int16)
-    Note over VN: Acquire _AUDIO_LOCK<br/>prevents overlapping playback
-    VN->>SD: sd.play(audio_array, samplerate=22050)
-    SD-->>VN: sd.wait()
-    VN-->>A: "playing X.Xs of audio"
-    Note over VN,SD: Navigating away → stop_playback()<br/>calls sd.stop() → playback ends immediately
-```
-
-**Two playback modes:**
-- 🔄 `narrate()` — fires a background thread, returns immediately. Used during agent tool loops so the AI keeps going while audio plays.
-- ⏸️ `narrate_blocking()` — blocks until audio finishes. Used for Alex's interview opening so the session feels live before you type.
-
----
-
-## 🔐 Auth Flow
-
-Optional cloud account to sync your progress. Two sign-in methods via Firebase:
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant App as LeetVibe TUI
-    participant Auth as cloud/auth.py
-    participant Firebase
-    participant Browser
-
-    rect rgb(30, 30, 60)
-        Note over User,Firebase: 📧 Email / Password
-        User->>App: Enter email + password
-        App->>Auth: sign_in(email, password)
-        Auth->>Firebase: REST API signInWithPassword
-        Firebase-->>Auth: {idToken, refreshToken}
-        Auth->>Auth: save → ~/.leetvibe/session.json
-        Auth-->>App: AuthResult(ok=True)
-    end
-
-    rect rgb(20, 50, 30)
-        Note over User,Firebase: 🌐 Google OAuth
-        User->>App: Click "Sign in with Google"
-        App->>Auth: start_google_auth()
-        Auth->>Auth: bind ephemeral port on 127.0.0.1
-        Auth->>Auth: start one-shot HTTP callback server
-        App->>Browser: open Google OAuth URL
-        User->>Browser: complete Google sign-in
-        Browser->>Auth: redirect → http://127.0.0.1:{port}
-        Auth->>Firebase: REST API signInWithIdp (Google ID token)
-        Firebase-->>Auth: {idToken, refreshToken}
-        Auth->>Auth: save → ~/.leetvibe/session.json
-        Auth-->>App: AuthResult(ok=True)
-    end
-```
-
----
-
-## 🔧 Configuration
-
-`config.yaml` (committed — no secrets):
-```yaml
-mistral:
-  model: "mistral-large-latest"
-  qa_model: "mistral-small-latest"   # used by ConceptAgent for follow-up Q&A
-
-elevenlabs:
-  voice_id: "EXAVITQu4vr4xnSDxMaL"
-  enabled: true
-```
-
-`~/.leetvibe/.env` (created by the wizard — never committed):
-```
-MISTRAL_API_KEY=your_key
-ELEVENLABS_API_KEY=your_key    # optional
-```
-
-The config loader checks `~/.leetvibe/.env` → project `.env` → environment variables, in that order.
-
----
-
-## 📦 Dependencies
-
-| Package | Purpose |
-|---------|---------|
-| `mistralai` | Mistral AI SDK — streaming chat + tool calling |
-| `elevenlabs` | Text-to-speech |
-| `textual` | Terminal UI framework |
-| `sounddevice` + `numpy` | PCM audio playback |
-| `firebase` (REST API) | Auth + cloud sync |
-| `mcp` | MCP skill server infrastructure |
-| `python-dotenv` · `pyyaml` | Config loading |
-| `click` | CLI entry point |
-| `rich` | Terminal formatting |
-
----
+LeetVibe was born at the **Mistral AI Hackathon 2026**. The reasoning is powered by [Mistral AI](https://mistral.ai), and the interview voice by [ElevenLabs](https://elevenlabs.io).
 
 ## 📄 License
 
-MIT © 2026 Hiba Chaabnia
+MIT © 2026 Hiba Chaabnia — see [LICENSE](LICENSE) for the full text.

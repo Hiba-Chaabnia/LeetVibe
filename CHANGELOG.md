@@ -5,7 +5,7 @@ All notable changes to LeetVibe are documented in this file. The format follows 
 > **Note:** the latest release published to PyPI is **0.1.1**. Versions 0.1.2–0.2.0 exist in this repository but have not been published yet: with major migrations still in flight, releasing would have shipped unstable builds. These changes are instead being held until they are stable and will ship together as one substantial release — **0.2.0**.
 
 
-## [0.2.0] — 2026-07-19
+## [0.2.0] — 2026-07-20
 
 ### Added
 - `run_code` executes in an isolated, timed-out subprocess (`run_tests_with_timeout`) — an infinite loop in AI- or user-written code is killed after 10s instead of hanging the session; results now report expected vs. actual output per test case
