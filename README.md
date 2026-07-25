@@ -17,7 +17,8 @@
     <a href="#-the-three-modes">Modes</a> ·
     <a href="#-the-playbook">Playbook</a> ·
     <a href="#-under-the-hood">Under the Hood</a> ·
-    <a href="#-faq--troubleshooting">FAQ</a>
+    <a href="#-faq--troubleshooting">FAQ</a> ·
+    <a href="#-whats-next">What's Next</a>
   </p>
 </div>
 
@@ -218,6 +219,15 @@ Any modern terminal with truecolor support. On Windows, use Windows Terminal rat
 
 **How do I update?**
 `uv tool upgrade leetvibe` or `pip install -U leetvibe`. The app notifies you when a newer version is on PyPI.
+
+## 🛣️ What's Next
+
+**Practice mode — LeetVibe without the AI.** The most requested change so far: users want to use LeetVibe as a plain terminal LeetCode client, and find the built-in solutions useful on their own. That's what gets built next:
+
+- 🎯 **A fourth mode, "Practice"** — browse, write code, run tests, pull up hints, and read the built-in solution and explanation, with no agent in the loop.
+- 🔑 **The Mistral API key becomes optional** — onboarding will let you skip it and go straight to solving. AI modes unlock the moment you add a key.
+
+Most of the AI-free flow already ships today — the editor, the isolated test runner, hints, and 1,900+ written solutions. What's missing is a way in that doesn't ask for a key first.
 
 ## 🤝 Contributing & Feedback
 

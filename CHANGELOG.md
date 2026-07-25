@@ -5,6 +5,12 @@ All notable changes to LeetVibe are documented in this file. The format follows 
 > **Note:** the latest release published to PyPI is **0.1.1**. Versions 0.1.2–0.2.0 exist in this repository but have not been published yet: with major migrations still in flight, releasing would have shipped unstable builds. These changes are instead being held until they are stable and will ship together as one substantial release — **0.2.0**.
 
 
+## [Unreleased]
+
+### Planned
+- **Practice mode** — a fourth, AI-free mode: browse, write code, run tests, view hints, and read the built-in solution and explanation with no agent in the loop. Requested by users who want LeetVibe as a plain terminal LeetCode client and find the shipped solutions useful on their own
+- **Optional Mistral API key** — the onboarding wizard will offer a skip so the app is usable without one; AI modes unlock as soon as a key is added
+
 ## [0.2.0] — 2026-07-20
 
 ### Added

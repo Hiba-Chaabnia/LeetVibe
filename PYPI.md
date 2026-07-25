@@ -58,6 +58,10 @@ Ask AI about any pattern without leaving the guide, keep per-topic notes, and ex
 - 🧙 **Onboarding wizard** — first-run setup collects API keys interactively; nothing to configure by hand
 
 
+## 🛣️ Coming Next
+
+**Practice mode** — a fourth, AI-free mode for using LeetVibe as a plain terminal LeetCode client: write code, run tests, check hints, and read the built-in solutions with no agent in the loop. The Mistral API key becomes optional alongside it. Requested by users — [more feedback welcome](https://github.com/Hiba-Chaabnia/LeetVibe/issues).
+
 ## 🚀 Getting Started
 
 Requires **Python 3.11+**.
