@@ -104,6 +104,9 @@ class PlaybookScreen(BaseScreen):
         return result
 
     def compose(self) -> ComposeResult:
+        from leetvibe.config import has_mistral_key
+        has_key = has_mistral_key()
+
         with Horizontal(id="ref-filter-bar"):
             yield TruncatedSelect(_CAT_OPTIONS,  value="all", id="cat-filter",  allow_blank=False)
             yield TruncatedSelect(_TIER_OPTIONS, value="all", id="tier-filter", allow_blank=False)
@@ -116,18 +119,18 @@ class PlaybookScreen(BaseScreen):
                     yield Static("", id="ref-content-title", markup=True)
                     yield Static("", id="ref-content-body", markup=True)
                 yield NotesPanel(id="notes-panel")
-            yield PlaybookChatPanel(id="chat-panel")
+            if has_key:
+                yield PlaybookChatPanel(id="chat-panel")
 
-        yield StatusBar(
-            hints=[
-                ("↑↓",     "navigate",         None),
-                ("Ctrl+E", "ask AI",      self.action_explain_more),
-                ("Ctrl+O", "open problems",    self.action_practice),
-                ("Ctrl+N", "note it down",     self.action_edit_note),
-                ("Ctrl+X", "export DOCX",      self.action_export_docx),
-            ],
-            id="ref-status",
-        )
+        hints = [("↑↓", "navigate", None)]
+        if has_key:
+            hints.append(("Ctrl+E", "ask AI", self.action_explain_more))
+        hints += [
+            ("Ctrl+O", "open problems", self.action_practice),
+            ("Ctrl+N", "note it down",  self.action_edit_note),
+            ("Ctrl+X", "export DOCX",   self.action_export_docx),
+        ]
+        yield StatusBar(hints=hints, id="ref-status")
 
     def on_mount(self) -> None:
         self._notes = load_notes()
@@ -331,7 +334,9 @@ class PlaybookScreen(BaseScreen):
 
     def action_explain_more(self) -> None:
         """Toggle the inline Vibe AI chat panel for the current topic."""
-        panel = self.query_one(PlaybookChatPanel)
+        panel = self.safe_query_one("#chat-panel", PlaybookChatPanel)
+        if panel is None:
+            return  # no Mistral key — chat-panel wasn't composed
         if self._chat_open:
             panel.remove_class("open")
             self._chat_open = False
