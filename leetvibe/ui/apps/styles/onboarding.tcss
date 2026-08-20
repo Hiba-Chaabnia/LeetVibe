@@ -1,10 +1,5 @@
 /* ── Onboarding app — global ── */
 
-$brand:    #FF8205;
-$muted:    #888888;
-$bg-card:  #0e0e0e;
-$bg-input: #1a1a1a;
-
 Screen {
     background: #0f0f0f;
     align: center middle;
@@ -29,17 +24,10 @@ HintLabel:hover {
     height: 1;
 }
 
-/* ── Card container ── */
-
-#api-container {
-    width: 64;
-    height: auto;
-    padding: 2 4;
-    border: round #333333;
-    background: $bg-card;
-}
-
-/* ── Welcome ── */
+/* ── Welcome ──
+   ApiKeyScreen and ElevenLabsKeyScreen style themselves via their own
+   CSS_PATH (key_screens.tcss) — self-sufficient across both this app and
+   the main app, so nothing screen-specific for them lives here. */
 
 Banner {
     width: 100%;
@@ -51,61 +39,5 @@ Banner {
     width: 100%;
     height: 1;
     margin-top: 2;
-    align: center middle;
-}
-
-/* ── API key / ElevenLabs key ── */
-
-#api-title {
-    color: $brand;
-    text-style: bold;
-    text-align: center;
-    width: 100%;
-    margin-bottom: 2;
-}
-
-#api-description {
-    color: #cccccc;
-    text-align: center;
-    width: 100%;
-    margin-bottom: 2;
-    height: auto;
-}
-
-#link-hint {
-    color: $muted;
-    text-align: center;
-    width: 100%;
-    margin-bottom: 1;
-}
-
-/* ── API key input ── */
-
-#api-key-input {
-    width: 100%;
-    border: tall #444444;
-    background: $bg-input;
-    color: #ffffff;
-    margin-bottom: 1;
-}
-
-#api-key-input:focus {
-    border: tall $brand;
-}
-
-/* ── API key error label ── */
-
-#error-label {
-    color: #ff4444;
-    text-align: center;
-    width: 100%;
-    height: 1;
-}
-
-/* Mistral API key + ElevenLabs key screens hint row */
-#submit-hint-inline {
-    width: 64;
-    height: 1;
-    margin-top: 1;
     align: center middle;
 }

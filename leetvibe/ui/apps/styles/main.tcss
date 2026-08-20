@@ -96,6 +96,51 @@ Screen {
 }
 
 
+/* ============================================================
+   AISettingsScreen
+   ============================================================ */
+
+#settings-scroll {
+    height: 1fr;
+    align: center middle;
+}
+
+#settings-content {
+    height: auto;
+    width: auto;
+    align: center middle;
+}
+
+#settings-center {
+    width: auto;
+    height: auto;
+    align: center middle;
+    padding: 1 4;
+}
+
+#settings-menu {
+    width: auto;
+    border: round $brand;
+    background: transparent;
+    padding: 1 2;
+}
+
+#settings-menu > .option-list--option {
+    padding: 0 1;
+    color: $text;
+}
+
+#settings-menu > .option-list--option-highlighted {
+    background: $brand;
+    color: #000000;
+    text-style: bold;
+}
+
+#settings-status {
+    color: $muted;
+}
+
+
 
 /* ============================================================
    ProblemListScreen

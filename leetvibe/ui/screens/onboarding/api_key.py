@@ -40,15 +40,51 @@ def _verify_key(key: str) -> str | None:
         return f"Could not verify key: {msg[:60]}"
 
 
-class ApiKeyScreen(Screen):
+class ApiKeyScreen(Screen[bool]):
+    """Collects a Mistral API key.
+
+    Used in two contexts: during onboarding (``standalone=False``, the
+    default) it's one step in a chain — skip is allowed, and success moves
+    on to ElevenLabs setup. Pushed later to unlock an AI mode from the home
+    menu (``standalone=True``), there's no skip (the user already asked for
+    AI) and it just dismisses with whether a key was saved.
+
+    Uses its own CSS_PATH (rather than relying on the onboarding app's
+    stylesheet) so it renders correctly when pushed onto the main app too —
+    see key_screens.tcss.
+    """
+
+    CSS_PATH = Path(__file__).parent / "key_screens.tcss"
+
+    def __init__(self, standalone: bool = False, replacing: bool = False) -> None:
+        super().__init__()
+        self._standalone = standalone
+        self._replacing = replacing
+
     def compose(self) -> ComposeResult:
+        if self._replacing:
+            description = (
+                "LeetVibe is powered by [bold white]Mistral AI[/bold white]\n\n"
+                "Enter a new [bold white]Mistral API key[/bold white] to replace "
+                "your current one."
+            )
+        elif self._standalone:
+            description = (
+                "LeetVibe is powered by [bold white]Mistral AI[/bold white]\n\n"
+                "A [bold white]Mistral API key[/bold white] unlocks Learn, Pair "
+                "Programming and Interview mode."
+            )
+        else:
+            description = (
+                "LeetVibe is powered by [bold white]Mistral AI[/bold white]\n\n"
+                "A [bold white]Mistral API key[/bold white] unlocks Learn, Pair "
+                "Programming and Interview mode.\n\n"
+                "[bold white]No key?[/bold white] You can still use Practice mode — "
+                "add a key anytime later from AI Settings."
+            )
         with Static(id="api-container"):
             yield ShimmerTitle("Mistral API Key", id="api-title")
-            yield Static(
-                "LeetVibe is powered by [bold white]Mistral AI[/bold white]\n\n"
-                "A [bold white]Mistral API key[/bold white] is required to get started.",
-                id="api-description",
-            )
+            yield Static(description, id="api-description")
             yield Label(
                 "Get your key at "
                 "[bold][@click=screen.open_url('https://console.mistral.ai')]console.mistral.ai[/][/bold]",
@@ -62,8 +98,11 @@ class ApiKeyScreen(Screen):
             yield Label("", id="error-label")
         with Horizontal(id="submit-hint-inline"):
             yield HintLabel("Enter", "save", self._submit_from_input)
+            if not self._standalone:
+                yield Label("·", classes="hint-sep")
+                yield HintLabel("Ctrl+J", "skip for now", self._skip)
             yield Label("·", classes="hint-sep")
-            yield HintLabel("Esc", "go back", self.app.pop_screen)
+            yield HintLabel("Esc", "go back", self._go_back)
 
     def on_mount(self) -> None:
         self.query_one("#api-key-input", Input).focus()
@@ -79,7 +118,24 @@ class ApiKeyScreen(Screen):
 
     def on_key(self, event: Key) -> None:
         if event.key == "escape":
+            self._go_back()
+        elif event.key == "ctrl+j" and not self._standalone:
+            self._skip()
+
+    def _go_back(self) -> None:
+        if self._standalone:
+            self.dismiss(False)
+        else:
             self.app.pop_screen()
+
+    def _skip(self) -> None:
+        """Onboarding only — proceed without a key, straight past ElevenLabs
+        setup (voice narration is moot without AI sessions) to auth."""
+        from ..auth import AuthChoiceScreen
+        self.app.push_screen(AuthChoiceScreen(onboarding=True), self._finish)
+
+    def _finish(self, result) -> None:
+        self.app.exit("completed")
 
     def _submit(self, raw: str) -> None:
         key = raw.strip()
@@ -113,5 +169,8 @@ class ApiKeyScreen(Screen):
         set_key(str(_USER_ENV_PATH), "MISTRAL_API_KEY", key)
         os.environ["MISTRAL_API_KEY"] = key
 
-        from .elevenlabs_key import ElevenLabsKeyScreen
-        self.app.push_screen(ElevenLabsKeyScreen())
+        if self._standalone:
+            self.dismiss(True)
+        else:
+            from .elevenlabs_key import ElevenLabsKeyScreen
+            self.app.push_screen(ElevenLabsKeyScreen())

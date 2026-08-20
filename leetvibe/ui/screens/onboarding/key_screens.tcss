@@ -1,0 +1,91 @@
+/* ── Shared by ApiKeyScreen / ElevenLabsKeyScreen — both get pushed from
+   onboarding AND from AI Settings on the main app, so (like auth.tcss) this
+   is self-sufficient rather than relying on the onboarding app's stylesheet. ── */
+
+ApiKeyScreen,
+ElevenLabsKeyScreen {
+    background: #0e0e0e;
+    align: center middle;
+}
+
+/* ── Clickable key-hint rows (shared HintLabel widget) ── */
+
+HintLabel {
+    height: 1;
+    width: auto;
+    padding: 0 1;
+    background: transparent;
+}
+
+HintLabel:hover {
+    background: #2a2a2a;
+}
+
+.hint-sep {
+    color: #555555;
+    width: auto;
+    height: 1;
+}
+
+/* ── Card container ── */
+
+#api-container {
+    width: 64;
+    height: auto;
+    padding: 2 4;
+    border: round #333333;
+    background: #0e0e0e;
+}
+
+#api-title {
+    color: #FF8205;
+    text-style: bold;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+}
+
+#api-description {
+    color: #cccccc;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+    height: auto;
+}
+
+#link-hint {
+    color: #888888;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1;
+}
+
+/* ── API key input ── */
+
+#api-key-input {
+    width: 100%;
+    border: tall #444444;
+    background: #1a1a1a;
+    color: #ffffff;
+    margin-bottom: 1;
+}
+
+#api-key-input:focus {
+    border: tall #FF8205;
+}
+
+/* ── API key error label (ApiKeyScreen only) ── */
+
+#error-label {
+    color: #ff4444;
+    text-align: center;
+    width: 100%;
+    height: 1;
+}
+
+#submit-hint-inline {
+    width: 64;
+    height: 1;
+    margin-top: 1;
+    align: center middle;
+}
