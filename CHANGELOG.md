@@ -2,14 +2,19 @@
 
 All notable changes to LeetVibe are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/).
 
-> **Note:** the latest release published to PyPI is **0.1.1**. Versions 0.1.2–0.2.0 exist in this repository but have not been published yet: with major migrations still in flight, releasing would have shipped unstable builds. These changes are instead being held until they are stable and will ship together as one substantial release — **0.2.0**.
+> **Note:** the latest release published to PyPI is **0.1.1**. Versions 0.1.2–0.2.1 exist in this repository but have not been published yet: with major migrations still in flight, releasing would have shipped unstable builds. These changes are instead being held until they are stable and will ship together as one substantial release — **0.2.1**.
 
 
-## [Unreleased]
+## [0.2.1] — 2026-08-20
 
-### Planned
-- **Practice mode** — a fourth, AI-free mode: browse, write code, run tests, view hints, and read the built-in solution and explanation with no agent in the loop. Requested by users who want LeetVibe as a plain terminal LeetCode client and find the shipped solutions useful on their own
-- **Optional Mistral API key** — the onboarding wizard will offer a skip so the app is usable without one; AI modes unlock as soon as a key is added
+### Added
+- **Practice mode** — a fourth mode: browse, write code, run tests, view hints, and read the built-in solution and explanation with no AI agent in the loop. Requested by users who want LeetVibe as a plain terminal LeetCode client and find the shipped solutions useful on their own
+- **AI Settings** — a menu screen to add, replace, or remove the Mistral and ElevenLabs keys at any time, not just during onboarding
+
+### Changed
+- The Mistral API key is now optional — skip it during onboarding and Practice is the only mode available; Learn, Pair Programming, and Interview appear once a key is added via AI Settings. Skipping the key also skips the ElevenLabs step, which now offers itself right after a key is added later instead
+- Onboarding completion is now tracked by a dedicated marker (`~/.leetvibe/.setup_complete`) instead of key presence, so it runs exactly once regardless of whether a key is ever added
+- Playbook's AI chat panel (`Ctrl+E`) is hidden when no Mistral key is configured, instead of surfacing a raw API error
 
 ## [0.2.0] — 2026-07-20
 

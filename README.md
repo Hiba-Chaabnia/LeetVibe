@@ -14,11 +14,10 @@
 
   <p>
     <a href="#-quickstart">Quickstart</a> ·
-    <a href="#-the-three-modes">Modes</a> ·
+    <a href="#-the-three-ai-modes">Modes</a> ·
     <a href="#-the-playbook">Playbook</a> ·
     <a href="#-under-the-hood">Under the Hood</a> ·
-    <a href="#-faq--troubleshooting">FAQ</a> ·
-    <a href="#-whats-next">What's Next</a>
+    <a href="#-faq--troubleshooting">FAQ</a>
   </p>
 </div>
 
@@ -49,7 +48,7 @@ pip install leetvibe
 leetvibe
 ```
 
-The wizard asks for your **Mistral API key** (required) and optionally an **ElevenLabs key** for interview voice narration. Keys are saved to `~/.leetvibe/.env` and never touched again.
+The wizard asks for your **Mistral API key** and an **ElevenLabs key** for interview voice narration. Keys are saved to `~/.leetvibe/.env`.
 
 - 🔑 Get a Mistral key: https://console.mistral.ai
 - 🔊 Get an ElevenLabs key: https://elevenlabs.io *(optional)*
@@ -77,9 +76,12 @@ ELEVENLABS_API_KEY=your_key_here   # optional
 
 </details>
 
-## 🎯 The Three Modes
+## 🎯 The Three AI Modes
 
 Every session is a live conversation — ask follow-up questions, push back, or go deeper at any point. The three modes differ in one thing: **how much help you want today.**
+
+> [!IMPORTANT]
+> **Prefer no AI in the loop?** A fourth mode, **Practice**, skips the agent entirely — browse problems, write code, run tests, pull up hints, and read the built-in solution and explanation on your own. It's always available; the three modes below need a Mistral key, which is optional — skip it during onboarding and Practice is the only mode you'll see until you add one from **AI Settings** in the main menu.
 
 ### 🎓 Learn — *"Teach me how to solve this."*
 
@@ -219,15 +221,6 @@ Any modern terminal with truecolor support. On Windows, use Windows Terminal rat
 
 **How do I update?**
 `uv tool upgrade leetvibe` or `pip install -U leetvibe`. The app notifies you when a newer version is on PyPI.
-
-## 🛣️ What's Next
-
-**Practice mode — LeetVibe without the AI.** The most requested change so far: users want to use LeetVibe as a plain terminal LeetCode client, and find the built-in solutions useful on their own. That's what gets built next:
-
-- 🎯 **A fourth mode, "Practice"** — browse, write code, run tests, pull up hints, and read the built-in solution and explanation, with no agent in the loop.
-- 🔑 **The Mistral API key becomes optional** — onboarding will let you skip it and go straight to solving. AI modes unlock the moment you add a key.
-
-Most of the AI-free flow already ships today — the editor, the isolated test runner, hints, and 1,900+ written solutions. What's missing is a way in that doesn't ask for a key first.
 
 ## 🤝 Contributing & Feedback
 
