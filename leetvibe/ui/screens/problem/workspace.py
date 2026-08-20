@@ -279,18 +279,19 @@ class ProblemWorkspaceScreen(BaseScreen):
             id="top-bar",
         )
         yield _DetailBody(self._problem, id="detail-body")
+        hints = []
         if self._mode == "learn":
-            session_hint = ("Ctrl+L", "Learn with AI", self.action_start_learn_session, True)
-        else:
-            session_hint = ("Ctrl+P", "Pair with AI",  self.action_start_pair_session,  True)
+            hints.append(("Ctrl+L", "Learn with AI", self.action_start_learn_session, True))
+        elif self._mode == "pair":
+            hints.append(("Ctrl+P", "Pair with AI",  self.action_start_pair_session,  True))
+        hints += [
+            ("Ctrl+G",  "get hints",    self.action_toggle_hints),
+            ("Ctrl+K",  "key commands", self.action_open_palette),
+            ("Esc",     "go back",      self.action_pop_screen),
+            ("Ctrl+Q",  "exit LeetVibe",self.action_quit_app),
+        ]
         yield StatusBar(
-            hints=[
-                session_hint,
-                ("Ctrl+G",  "get hints",    self.action_toggle_hints),
-                ("Ctrl+K",  "key commands", self.action_open_palette),
-                ("Esc",     "go back",      self.action_pop_screen),
-                ("Ctrl+Q",  "exit LeetVibe",self.action_quit_app),
-            ],
+            hints=hints,
             show_count=False,
             id="detail-status",
         )
@@ -566,6 +567,8 @@ class ProblemWorkspaceScreen(BaseScreen):
         self.query_one("#problem-card", ProblemCard).show_hints ^= True
 
     def action_start_learn_session(self) -> None:
+        if self._mode != "learn":
+            return
         from leetvibe.ui.screens.agent.session import AgentSessionScreen
         user_code = self.query_one("#code-editor", TextArea).text
         self.app.push_screen(
@@ -573,6 +576,8 @@ class ProblemWorkspaceScreen(BaseScreen):
         )
 
     def action_start_pair_session(self) -> None:
+        if self._mode != "pair":
+            return
         from leetvibe.ui.screens.agent.session import AgentSessionScreen
         user_code = self.query_one("#code-editor", TextArea).text
         self.app.push_screen(
