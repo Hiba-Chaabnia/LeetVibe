@@ -21,4 +21,8 @@ class OnboardingApp(App[str | None]):
 
 def run_onboarding() -> bool:
     """Run the onboarding wizard. Returns True if completed, False if cancelled."""
-    return OnboardingApp().run() == "completed"
+    completed = OnboardingApp().run() == "completed"
+    if completed:
+        from leetvibe.config import mark_setup_complete
+        mark_setup_complete()
+    return completed
