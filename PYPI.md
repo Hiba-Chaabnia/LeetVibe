@@ -14,7 +14,7 @@
 
   <p>
     <a href="https://github.com/Hiba-Chaabnia/LeetVibe#-quickstart">Quickstart</a> ·
-    <a href="https://github.com/Hiba-Chaabnia/LeetVibe#-the-three-modes">Modes</a> ·
+    <a href="https://github.com/Hiba-Chaabnia/LeetVibe#-the-three-ai-modes">Modes</a> ·
     <a href="https://github.com/Hiba-Chaabnia/LeetVibe#-the-playbook">Playbook</a> ·
     <a href="https://github.com/Hiba-Chaabnia/LeetVibe#-under-the-hood">Under the Hood</a> ·
     <a href="https://github.com/Hiba-Chaabnia/LeetVibe#-faq--troubleshooting">FAQ</a>
@@ -24,7 +24,7 @@
 
 Stop grinding alone. LeetVibe puts a senior engineer in your terminal who can teach, coach, or interview you — depending on how much help you want today.
 
-## 🧠 Three Modes
+## 🧠 Three AI Modes
 
 | | 🎓 Learn | 🤝 Pair Programming | 🎤 Interview |
 |---|---|---|---|
@@ -33,6 +33,8 @@ Stop grinding alone. LeetVibe puts a senior engineer in your terminal who can te
 | Reveals optimal | ✅ always | ✅ after coaching | ❌ never |
 
 Every session is a live conversation: ask follow-up questions, push back, or go deeper at any point. The AI executes your code against real test cases, measures Big-O complexity from the AST, and explains algorithm patterns step by step.
+
+**No API Key? No problem.** A fourth mode, **Practice**, drops the agent — browse, code, test, and read built-in solutions on your own. Skip the Mistral key during onboarding and Practice is all you'll see, until you add one later from **AI Settings**.
 
 
 
@@ -58,10 +60,6 @@ Ask AI about any pattern without leaving the guide, keep per-topic notes, and ex
 - 🧙 **Onboarding wizard** — first-run setup collects API keys interactively; nothing to configure by hand
 
 
-## 🛣️ Coming Next
-
-**Practice mode** — a fourth, AI-free mode for using LeetVibe as a plain terminal LeetCode client: write code, run tests, check hints, and read the built-in solutions with no agent in the loop. The Mistral API key becomes optional alongside it. Requested by users — [more feedback welcome](https://github.com/Hiba-Chaabnia/LeetVibe/issues).
-
 ## 🚀 Getting Started
 
 Requires **Python 3.11+**.
@@ -78,7 +76,7 @@ pip install leetvibe
 leetvibe
 ```
 
-The onboarding wizard opens automatically on first launch. It will ask for your **Mistral API key** (required) and optionally your **ElevenLabs key** for voice narration. Keys are saved to `~/.leetvibe/.env` and never touched again.
+The onboarding wizard opens automatically on first launch. It will ask for your **Mistral API key** and your **ElevenLabs key** for voice narration. Keys are saved to `~/.leetvibe/.env`.
 
 - 🔑 Get a Mistral key: https://console.mistral.ai
 - 🔊 Get an ElevenLabs key: https://elevenlabs.io *(optional)*
