@@ -2,9 +2,6 @@
 
 All notable changes to LeetVibe are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/).
 
-> **Note:** the latest release published to PyPI is **0.1.1**. Versions 0.1.2–0.2.1 exist in this repository but have not been published yet: with major migrations still in flight, releasing would have shipped unstable builds. These changes are instead being held until they are stable and will ship together as one substantial release — **0.2.1**.
-
-
 ## [0.2.1] — 2026-08-20
 
 ### Added

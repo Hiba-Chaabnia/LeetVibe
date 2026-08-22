@@ -1,0 +1,50 @@
+name: Publish to PyPI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - pyproject.toml
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.local.outputs.version }}
+      should_publish: ${{ steps.compare.outputs.should_publish }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: local
+        run: |
+          version=$(grep -m1 '^version = ' pyproject.toml | sed -E 's/version = "(.*)"/\1/')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - id: compare
+        run: |
+          name=$(grep -m1 '^name = ' pyproject.toml | sed -E 's/name = "(.*)"/\1/')
+          published=$(curl -s "https://pypi.org/pypi/$name/json" | jq -r '.releases | keys[]' | grep -Fx "${{ steps.local.outputs.version }}" || true)
+          if [ -z "$published" ]; then
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_publish=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  publish:
+    needs: check-version
+    if: needs.check-version.outputs.should_publish == 'true'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install build
+      - run: python -m build
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
