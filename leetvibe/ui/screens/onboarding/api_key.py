@@ -26,7 +26,7 @@ def _verify_key(key: str) -> str | None:
     Uses models.list() — the cheapest possible Mistral API call (no tokens).
     """
     try:
-        from mistralai import Mistral
+        from leetvibe.ai._mistral import Mistral
         Mistral(api_key=key).models.list()
         return None
     except Exception as exc:

@@ -9,7 +9,7 @@ import re
 import time
 from typing import Generator
 
-from mistralai import Mistral
+from ._mistral import Mistral
 
 from ..config import Config
 from ..problem_loader import Problem

@@ -2,6 +2,11 @@
 
 All notable changes to LeetVibe are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.2.2] — 2026-08-24
+
+### Fixed
+- **Onboarding failed with `cannot import name 'Mistral'`** on fresh installs — `mistralai` 2.x moved the client from the top-level package to `mistralai.client`, and the unpinned dependency let new installs resolve to it. Imports now go through a shim that works on both 1.x and 2.x, so no downgrade is forced on environments already using the 2.x SDK
+
 ## [0.2.1] — 2026-08-20
 
 ### Added

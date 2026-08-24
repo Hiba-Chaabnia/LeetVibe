@@ -598,7 +598,7 @@ class AgentSessionScreen(BaseScreen):
     def _generate_mnemonic(pattern: str) -> str:
         """Call Mistral for a vivid 1-sentence analogy for the algorithm pattern."""
         try:
-            from mistralai import Mistral
+            from leetvibe.ai._mistral import Mistral
             from leetvibe.config import load_config
             resp = Mistral(api_key=load_config().mistral_api_key).chat.complete(
                 model="mistral-small-latest",

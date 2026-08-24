@@ -401,7 +401,7 @@ class PlaybookScreen(BaseScreen):
         )
 
         try:
-            from mistralai import Mistral
+            from leetvibe.ai._mistral import Mistral
             from leetvibe.config import load_config
             from leetvibe.ai.agent import stream_mistral_chunks
 
