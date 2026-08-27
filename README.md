@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://pypi.org/project/leetvibe/">
+  <a href="https://hiba-chaabnia.github.io/LeetVibe/">
     <img alt="LeetVibe" src="assets/logo.png" width="380" />
   </a>
 
@@ -13,6 +13,7 @@
   </p>
 
   <p>
+    <a href="https://hiba-chaabnia.github.io/LeetVibe/"><strong>Website</strong></a> ·
     <a href="#-quickstart">Quickstart</a> ·
     <a href="#-the-three-ai-modes">Modes</a> ·
     <a href="#-the-playbook">Playbook</a> ·

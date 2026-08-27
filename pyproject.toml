@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "leetvibe"
-version = "0.2.2"
+version = "0.2.3"
 description = "AI Pair Programming CLI for LeetCode — powered by Mistral AI"
 readme = "PYPI.md"
 license = "MIT"
@@ -58,8 +58,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Hiba-Chaabnia/LeetVibe"
+Homepage = "https://hiba-chaabnia.github.io/LeetVibe/"
 Repository = "https://github.com/Hiba-Chaabnia/LeetVibe"
+Documentation = "https://github.com/Hiba-Chaabnia/LeetVibe/blob/main/docs/ARCHITECTURE.md"
 "Bug Tracker" = "https://github.com/Hiba-Chaabnia/LeetVibe/issues"
 Changelog = "https://github.com/Hiba-Chaabnia/LeetVibe/blob/main/CHANGELOG.md"
 

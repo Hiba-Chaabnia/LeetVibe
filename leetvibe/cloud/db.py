@@ -19,6 +19,7 @@ import datetime
 import json
 import os
 import uuid
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from typing import Any
 
@@ -670,12 +671,19 @@ def get_streak_stats() -> dict:
 
 # ── Feedback ──────────────────────────────────────────────────────────────────
 
+def _app_version() -> str:
+    try:
+        return version("leetvibe")
+    except PackageNotFoundError:
+        return "unknown"  # running from source without install metadata
+
+
 def submit_feedback(
     type: str,
     message: str,
     problem_slug: str | None = None,
     session_id: str | None = None,
-    app_version: str = "0.2.0",
+    app_version: str | None = None,
 ) -> str | None:
     """Submit user feedback. Returns None on success, error string on failure."""
     headers, user_id = _get_context()
@@ -689,7 +697,7 @@ def submit_feedback(
             "message": message,
             "problem_slug": problem_slug,
             "session_id": session_id,
-            "app_version": app_version,
+            "app_version": app_version or _app_version(),
             "created_at": _now(),
         }, headers)
         return None if ok else "Failed to submit feedback."

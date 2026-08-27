@@ -3,11 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LeetVibe | Authentication</title>
+
+  <title>LeetVibe — AI Pair Programmer for LeetCode in Your Terminal</title>
+  <meta name="description" content="LeetVibe is a free, open-source terminal app that pairs you with an AI coach for LeetCode practice. It writes and runs real code, measures Big-O complexity, and teaches, coaches, or interviews you across 2,800+ problems." />
+  <link rel="canonical" href="https://hiba-chaabnia.github.io/LeetVibe/" />
+  <link rel="icon" href="assets/logo.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LeetVibe" />
+  <meta property="og:title" content="LeetVibe — AI Pair Programmer for LeetCode in Your Terminal" />
+  <meta property="og:description" content="A free, open-source terminal coach for LeetCode. LeetVibe runs your code, measures complexity, and teaches, coaches, or interviews you across 2,800+ problems." />
+  <meta property="og:url" content="https://hiba-chaabnia.github.io/LeetVibe/" />
+  <meta property="og:image" content="https://hiba-chaabnia.github.io/LeetVibe/assets/logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="LeetVibe — AI Pair Programmer for LeetCode in Your Terminal" />
+  <meta name="twitter:description" content="A free, open-source terminal coach for LeetCode. Runs your code, measures complexity, teaches, coaches, or interviews you." />
+  <meta name="twitter:image" content="https://hiba-chaabnia.github.io/LeetVibe/assets/logo.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "LeetVibe",
+    "alternateName": "leetvibe",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Windows, macOS, Linux",
+    "description": "LeetVibe is a free, open-source terminal application that acts as an AI pair programmer for LeetCode practice. It writes and runs real code, analyzes Big-O complexity, and offers Learn, Pair Programming, Interview, and Practice modes across 2,800+ problems.",
+    "url": "https://hiba-chaabnia.github.io/LeetVibe/",
+    "downloadUrl": "https://pypi.org/project/leetvibe/",
+    "codeRepository": "https://github.com/Hiba-Chaabnia/LeetVibe",
+    "programmingLanguage": "Python",
+    "license": "https://opensource.org/licenses/MIT",
+    "author": { "@type": "Person", "name": "Hiba Chaabnia" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
   <style>
     :root {
       --bg:      #0f0f0f;
       --surface: #0e0e0e;
+      --raised:  #141414;
       --border:  #2a2a2a;
       --brand:   #FF8205;
       --gold:    #FFD700;
@@ -16,339 +52,708 @@
       --lava:    #E92700;
       --text:    #e0e0e0;
       --dim:     #888888;
+      --faint:   #555555;
       --green:   #00C44F;
-      --amber:   #FFB300;
-      --red:     #E53935;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, monospace;
       background: var(--bg);
       color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      position: relative;
-      overflow: hidden;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* Subtle scanline overlay */
     body::before {
-      content: " ";
-      display: block;
-      position: absolute;
+      content: "";
+      position: fixed;
       inset: 0;
       background:
         linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.08) 50%),
         linear-gradient(90deg, rgba(255,80,0,0.02), rgba(0,0,0,0) 50%, rgba(255,80,0,0.01));
       background-size: 100% 3px, 3px 100%;
-      z-index: 10;
+      z-index: 100;
       pointer-events: none;
     }
 
-    /* Soft radial glow behind the card */
-    body::after {
-      content: "";
-      position: absolute;
-      width: 600px;
-      height: 400px;
-      background: radial-gradient(ellipse, rgba(255,130,5,0.06) 0%, transparent 70%);
-      z-index: 5;
+    .glow {
+      position: fixed;
+      top: -220px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 620px;
+      background: radial-gradient(ellipse, rgba(255,130,5,0.09) 0%, transparent 70%);
       pointer-events: none;
+      z-index: 0;
     }
 
-    .container {
+    .wrap {
       position: relative;
-      z-index: 20;
-      width: 100%;
-      max-width: 480px;
+      z-index: 1;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
     }
 
-    /* Terminal window chrome */
-    .terminal-header {
-      background: #141414;
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand { display: flex; align-items: center; text-decoration: none; }
+    .brand img {
+      display: block;
+      height: 30px;
+      width: auto;
+    }
+
+    nav { display: flex; gap: 1.4rem; font-size: 0.8rem; }
+    nav a {
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    nav a:hover { color: var(--brand); }
+
+    .hero { padding: 4rem 0 3rem; text-align: center; }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--brand);
+      border: 1px solid rgba(255,130,5,0.25);
+      background: rgba(255,130,5,0.06);
+      border-radius: 4px;
+      padding: 0.35rem 0.9rem;
+      margin-bottom: 1.75rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.1rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+    h1 .vibe { color: var(--brand); }
+
+    .tagline {
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+      color: var(--dim);
+      max-width: 620px;
+      margin: 0 auto 2.25rem;
+    }
+    .tagline strong { color: var(--text); font-weight: 600; }
+
+    .cta-row {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.4rem;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
       border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #0f0f0f;
+    }
+    .btn-primary:hover { background: var(--honey); border-color: var(--honey); }
+    .btn-ghost { color: var(--text); background: var(--raised); }
+    .btn-ghost:hover { border-color: var(--brand); color: var(--brand); }
+
+    .install {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: var(--raised);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 0.6rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .install .prompt { color: var(--brand); }
+
+    .terminal {
+      margin: 3rem 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+      text-align: left;
+    }
+    .terminal-bar {
+      background: var(--raised);
       border-bottom: 1px solid #1a1a1a;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      padding: 8px 16px;
+      padding: 8px 14px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
-    .dot { width: 10px; height: 10px; border-radius: 50%; background: #333; }
-    .dot.red    { background: #ff5f56; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.red { background: #ff5f56; }
     .dot.yellow { background: #ffbd2e; }
-    .dot.green  { background: #27c93f; }
-
-    .terminal-title {
-      font-size: 11px;
-      color: var(--dim);
+    .dot.green { background: #27c93f; }
+    .terminal-bar .label {
       flex-grow: 1;
       text-align: center;
+      font-size: 10px;
       letter-spacing: 2px;
       text-transform: uppercase;
+      color: var(--faint);
+    }
+    .terminal-body {
+      background: var(--surface);
+      padding: 1.4rem 1.3rem;
+      font-size: 0.8rem;
+      line-height: 1.85;
+      overflow-x: auto;
+    }
+    .terminal-body .l { white-space: pre; }
+    .c-brand { color: var(--brand); }
+    .c-green { color: var(--green); }
+    .c-gold  { color: var(--gold); }
+    .c-dim   { color: var(--dim); }
+    .c-lava  { color: var(--ember); }
+
+    /* ── In-app (TUI) chrome, mirroring the Learn session screen ── */
+    .app { background: var(--surface); font-size: 0.76rem; }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.9rem;
+    }
+    .app-btn {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.3rem 0.7rem;
+      color: var(--dim);
+      white-space: nowrap;
+    }
+    .app-btn.accent { border-color: rgba(0,196,79,0.45); color: var(--green); }
+    .app-btn.muted  { color: var(--faint); }
+    .app-title {
+      flex: 1;
+      text-align: center;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .app-title .prob { color: var(--ember); }
+    .app-title .sep  { color: var(--faint); }
+    .app-title .mode { color: var(--green); }
+
+    .app-body {
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+      padding: 1rem 1.1rem 1.2rem;
+      line-height: 1.7;
     }
 
-    /* Card body */
+    /* The answer bubble the steps are mounted in, border-titled with the speaker */
+    .bubble {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.1rem 1rem 1rem;
+    }
+    .bubble::before {
+      content: "leetvibe";
+      position: absolute;
+      top: -0.62rem;
+      left: 0.9rem;
+      background: var(--surface);
+      padding: 0 0.4rem;
+      color: var(--brand);
+    }
+
+    .step {
+      font-weight: 700;
+      margin: 1.1rem 0 0.5rem;
+    }
+    .step:first-child { margin-top: 0; }
+    .step + .step { margin-top: 0.35rem; }
+    .step .caret { font-weight: 400; }
+    /* GRADIENT cycles gold → honey → fire → ember → lava, indexed (step - 1) % 5 */
+    .g1 { color: var(--gold); }
+    .g2 { color: var(--honey); }
+    .g3 { color: var(--brand); }
+    .g4 { color: var(--ember); }
+    .g5 { color: var(--lava); }
+
+    .app-body p { color: var(--text); margin-bottom: 0.4rem; }
+
+    .tool {
+      color: var(--dim);
+      margin: 0.55rem 0;
+    }
+    .tool .caret { color: var(--faint); }
+    .tool .ok { color: var(--green); }
+
+    .codebox {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin: 0.7rem 0;
+      overflow-x: auto;
+    }
+    .codebox .lang {
+      color: var(--faint);
+      padding: 0.3rem 0.75rem;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .codebox pre {
+      padding: 0.6rem 0.75rem;
+      line-height: 1.6;
+      font-family: inherit;
+    }
+    .k  { color: #E92700; }
+    .fn { color: #4FA6FF; }
+    .cn { color: var(--gold); }
+    .nu { color: #C792EA; }
+
+    .app-input {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.7rem 0.9rem;
+    }
+    .app-input .field {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.4rem 0.7rem;
+      color: var(--faint);
+    }
+
+    .app-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.55rem 0.9rem 0.75rem;
+      color: var(--dim);
+      font-size: 0.72rem;
+      flex-wrap: wrap;
+    }
+    .app-footer .key { color: var(--brand); font-weight: 700; }
+    .app-footer .ver { color: var(--faint); }
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 1em;
+      background: var(--brand);
+      vertical-align: text-bottom;
+      animation: blink 1.1s steps(2, start) infinite;
+    }
+    @keyframes blink { to { visibility: hidden; } }
+
+    section { padding: 3rem 0; }
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+    .section-sub {
+      color: var(--dim);
+      font-size: 0.88rem;
+      margin-bottom: 2rem;
+      max-width: 640px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-top: none;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-      padding: 2.5rem 2rem 2rem;
-      text-align: center;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
-      transition: border-color 0.35s ease;
+      border-radius: 6px;
+      padding: 1.35rem 1.3rem;
+      transition: border-color 0.25s ease, transform 0.25s ease;
     }
-
-    /* Logo */
-    .logo-wrap {
-      margin-bottom: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .logo-wrap svg {
-      width: 96px;
-      height: 38px;
-      display: block;
-    }
-
-    .wordmark {
-      font-size: 1.4rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-    .wordmark .leet { color: var(--text); }
-    .wordmark .vibe { color: var(--brand); }
-
-    /* Status icon container */
-    .status-icon {
-      margin: 0 auto 1.5rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.1rem;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid transparent;
-      transition: all 0.35s ease;
-      color: var(--dim);
-    }
-
-    h1 {
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 0.65rem;
-      letter-spacing: -0.01em;
-      transition: color 0.35s ease;
+    .card:hover { border-color: rgba(255,130,5,0.35); transform: translateY(-2px); }
+    .card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
       color: var(--text);
     }
-
-    p {
-      font-size: 0.88rem;
-      color: var(--dim);
-      line-height: 1.65;
-      max-width: 320px;
-      margin: 0 auto;
-    }
-
-    .badge {
-      margin-top: 1.75rem;
-      display: inline-block;
-      padding: 0.5rem 1.1rem;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 0.78rem;
-      color: var(--brand);
-      letter-spacing: 0.5px;
-    }
-
-    /* ── State variants ── */
-    .state-success h1            { color: var(--green); }
-    .state-success .card         { border-color: rgba(0,196,79,0.25); }
-    .state-success .status-icon  {
-      color: var(--green);
-      background: rgba(0,196,79,0.08);
-      border-color: rgba(0,196,79,0.2);
-    }
-
-    .state-error h1              { color: var(--red); }
-    .state-error .card           { border-color: rgba(229,57,53,0.25); }
-    .state-error .status-icon    {
-      color: var(--red);
-      background: rgba(229,57,53,0.08);
-      border-color: rgba(229,57,53,0.2);
-    }
-
-    .state-pending h1            { color: var(--brand); }
-    .state-pending .card         { border-color: rgba(255,130,5,0.25); }
-    .state-pending .status-icon  {
-      color: var(--brand);
-      background: rgba(255,130,5,0.08);
-      border-color: rgba(255,130,5,0.2);
-    }
-
-    /* Pulse animation for pending icon */
-    @keyframes pulse {
-      0%   { opacity: 0.4; transform: scale(0.97); }
-      50%  { opacity: 1;   transform: scale(1);    }
-      100% { opacity: 0.4; transform: scale(0.97); }
-    }
-    .state-pending .status-icon svg { animation: pulse 2s infinite ease-in-out; }
-
-    .footer-note {
-      margin-top: 1.75rem;
-      font-size: 10px;
-      color: #444;
-      text-transform: uppercase;
+    .card h3 .tag {
+      display: block;
+      font-size: 0.68rem;
       letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brand);
+      font-weight: 500;
+      margin-bottom: 0.35rem;
+    }
+    .card p { font-size: 0.82rem; color: var(--dim); }
+
+    ul.plain { list-style: none; }
+    ul.plain li {
+      font-size: 0.85rem;
+      color: var(--dim);
+      padding-left: 1.3rem;
+      position: relative;
+      margin-bottom: 0.55rem;
+    }
+    ul.plain li::before {
+      content: "\25B8";
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+    }
+    ul.plain li strong { color: var(--text); font-weight: 600; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .stat {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      background: var(--surface);
+    }
+    .stat .n {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--brand);
+      letter-spacing: -0.02em;
+      display: block;
+    }
+    .stat .k {
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--faint);
     }
 
+    details {
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 0;
+    }
+    details summary {
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details summary::after {
+      content: "+";
+      color: var(--brand);
+      font-weight: 400;
+    }
+    details[open] summary::after { content: "\2212"; }
+    details p {
+      font-size: 0.83rem;
+      color: var(--dim);
+      margin-top: 0.65rem;
+    }
+    details code, .tagline code {
+      background: var(--raised);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.1rem 0.35rem;
+      font-size: 0.95em;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+      padding: 2rem 0 3rem;
+      font-size: 0.78rem;
+      color: var(--faint);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    footer a { color: var(--dim); text-decoration: none; }
+    footer a:hover { color: var(--brand); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
   </style>
 </head>
 <body>
 
-  <div class="container" id="outer">
-    <div class="terminal-header">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
-      <div class="terminal-title">LeetVibe</div>
-    </div>
+  <div class="glow"></div>
 
-    <div class="card">
-      <div class="logo-wrap">
-        <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;">
-          <g transform="matrix(1,0,0,1,-7.462823,-5.88194)">
-            <g transform="matrix(9.362745,0,0,10.403053,-32.913826,-2.770537)">
-              <rect x="5.358" y="5.358" width="3.457" height="3.111" style="fill:#FFD700;"/>
-            </g>
-            <g transform="matrix(9.362745,0,0,10.403053,-32.913826,-13.55892)">
-              <rect x="5.358" y="15.728" width="3.457" height="3.111" style="fill:#FA500F;"/>
-            </g>
-            <g transform="matrix(4.681372,0,0,10.403053,-7.831454,-6.366665)">
-              <rect x="5.358" y="8.815" width="6.914" height="3.111" style="fill:#FFAF00;"/>
-            </g>
-            <g transform="matrix(10.254405,0,0,10.403053,-2.2465,-17.155151)">
-              <rect x="1.901" y="19.185" width="10.37" height="3.111" style="fill:#E92700;"/>
-            </g>
-            <g transform="matrix(1.872544,0,0,10.403053,7.217998,-9.962688)">
-              <rect x="5.358" y="12.272" width="17.284" height="3.111" style="fill:#FF8205;"/>
-            </g>
-            <g transform="matrix(9.362745,0,0,10.403053,171.144942,-2.770537)">
-              <rect x="5.358" y="5.358" width="3.457" height="3.111" style="fill:#FFD700;"/>
-            </g>
-            <g transform="matrix(9.362745,0,0,10.403053,154.962421,-13.55892)">
-              <rect x="5.358" y="15.728" width="3.457" height="3.111" style="fill:#FA500F;"/>
-            </g>
-            <g transform="matrix(4.681372,0,0,10.403053,196.227314,-6.366665)">
-              <rect x="5.358" y="8.815" width="6.914" height="3.111" style="fill:#FFAF00;"/>
-            </g>
-            <g transform="matrix(1.872544,0,0,10.403053,211.276766,-9.962688)">
-              <rect x="5.358" y="12.272" width="17.284" height="3.111" style="fill:#FF8205;"/>
-            </g>
-            <g transform="matrix(9.362745,0,0,10.403053,74.049814,-2.770537)">
-              <rect x="5.358" y="5.358" width="3.457" height="3.111" style="fill:#FFD700;"/>
-            </g>
-            <g transform="matrix(9.362745,0,0,10.403053,90.232336,-13.55892)">
-              <rect x="5.358" y="15.728" width="3.457" height="3.111" style="fill:#FA500F;"/>
-            </g>
-            <g transform="matrix(4.681372,0,0,10.403053,99.132186,-6.366665)">
-              <rect x="5.358" y="8.815" width="6.914" height="3.111" style="fill:#FFAF00;"/>
-            </g>
-            <g transform="matrix(1.872544,0,0,10.403053,114.181638,-9.962688)">
-              <rect x="5.358" y="12.272" width="17.284" height="3.111" style="fill:#FF8205;"/>
-            </g>
-            <g transform="matrix(6.241812,0,0,10.403053,144.711607,-17.155151)">
-              <rect x="1.901" y="19.185" width="10.37" height="3.111" style="fill:#E92700;"/>
-            </g>
-          </g>
-        </svg>
+  <div class="wrap">
+
+    <header>
+      <a class="brand" href="https://hiba-chaabnia.github.io/LeetVibe/">
+        <img src="assets/logo.png" alt="LeetVibe" width="105" height="30" />
+      </a>
+      <nav>
+        <a href="#modes">Modes</a>
+        <a href="#playbook">Playbook</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/Hiba-Chaabnia/LeetVibe">GitHub</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <span class="eyebrow">Free &amp; open source</span>
+      <h1>Leet<span class="vibe">Vibe</span></h1>
+      <p class="tagline">
+        <strong>LeetVibe is an AI pair programmer for LeetCode that lives in your terminal.</strong>
+        It doesn't just talk about your code — it writes it, runs it against the real test cases,
+        measures the Big-O complexity, and coaches you through 2,800+ problems without ever
+        opening a browser tab.
+      </p>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://pypi.org/project/leetvibe/">Install LeetVibe</a>
+        <a class="btn btn-ghost" href="https://github.com/Hiba-Chaabnia/LeetVibe">View on GitHub</a>
       </div>
 
-      <div class="status-icon" id="icon-container">
-        <!-- icon injected by JS -->
+      <div class="install">
+        <span class="prompt">$</span><code>uv tool install leetvibe</code>
       </div>
 
-      <h1 id="title">Initializing…</h1>
-      <p id="msg">Establishing secure connection to Google services.</p>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="label">leetvibe</span>
+        </div>
 
-      <div id="badge" class="badge" style="display:none"></div>
+        <div class="app">
+          <div class="app-header">
+            <span class="app-btn">&larr; Back</span>
+            <span class="app-title">
+              <span class="prob">Two Sum</span>
+              <span class="sep">&nbsp;·&nbsp;</span>
+              <span class="mode">Learn</span>
+            </span>
+            <span class="app-btn accent">⎘ Copy Code</span>
+            <span class="app-btn muted">↺ Reset</span>
+          </div>
 
-      <div class="footer-note">LeetVibe v0.2.0</div>
+          <div class="app-body">
+            <div class="bubble">
+              <div class="step g1">Step 1 — Understand <span class="caret">▶</span></div>
+              <div class="step g2">Step 2 — First Pass <span class="caret">▶</span></div>
+              <div class="step g3">Step 3 — Spot The Bottleneck <span class="caret">▶</span></div>
+
+              <div class="step g4">Step 4 — The Insight <span class="caret">▼</span></div>
+              <p>For each x we already know exactly what we need: <em>target - x</em>. Storing the
+                 values we have seen in a hash map turns the inner scan into an O(1) lookup, so a
+                 single pass is enough.</p>
+
+              <div class="step g5">Step 5 — Optimize <span class="caret">▼</span></div>
+              <div class="codebox">
+                <div class="lang">python</div>
+<pre><span class="k">class</span> <span class="cn">Solution</span>(<span class="cn">object</span>):
+    <span class="k">def</span> <span class="fn">twoSum</span>(self, nums, target):
+        seen = {}
+        <span class="k">for</span> i, x <span class="k">in</span> <span class="fn">enumerate</span>(nums):
+            <span class="k">if</span> target - x <span class="k">in</span> seen:
+                <span class="k">return</span> [seen[target - x], i]
+            seen[x] = i</pre>
+              </div>
+              <div class="tool"><span class="caret">▶</span> run_code — <span class="ok">2/2 tests passed</span></div>
+
+              <div class="step g1">Step 6 — Measure The Gain <span class="caret">▼</span></div>
+              <div class="tool"><span class="caret">▶</span> analyze_complexity — O(n) time, O(n) space</div>
+              <p>We improved from O(n²) → O(n) by trading a rescan for a hash map.<span class="cursor"></span></p>
+            </div>
+          </div>
+
+          <div class="app-input">
+            <span class="field">Ask a follow-up question…</span>
+            <span class="app-btn accent">Send</span>
+          </div>
+
+          <div class="app-footer">
+            <span>
+              <span class="key">Ctrl+D</span> to toggle problem description ·
+              <span class="key">Ctrl+S</span> to stop agent
+            </span>
+            <span class="ver">LeetVibe v0.2.3</span>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <section id="modes">
+      <h2>Four ways to practice</h2>
+      <p class="section-sub">
+        Every session is a live conversation — ask follow-ups, push back, go deeper.
+        The modes differ in one thing: how much help you want today.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3><span class="tag">Learn</span>Teach me how to solve this</h3>
+          <p>A strict 7-step workflow: brute force first, name its complexity, find the one key insight,
+             write the optimal, measure the gain, and close with an algorithm mnemonic that makes the pattern stick.</p>
+        </div>
+        <div class="card">
+          <h3><span class="tag">Pair Programming</span>Review my attempt</h3>
+          <p>You write first. LeetVibe runs your code, reports exactly what passed, diagnoses the precise lines,
+             and nudges you with Socratic hints before revealing anything.</p>
+        </div>
+        <div class="card">
+          <h3><span class="tag">Interview</span>Test me for real</h3>
+          <p>Alex, a senior engineer, runs a 30-minute mock technical interview — spoken aloud via ElevenLabs.
+             He probes your complexity and edge cases, gives one hint, and never hands you the answer.</p>
+        </div>
+        <div class="card">
+          <h3><span class="tag">Practice</span>No AI in the loop</h3>
+          <p>Skip the agent entirely. Browse problems, write code, run tests, pull up hints, and read the
+             built-in solution on your own. No API key required.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="playbook">
+      <h2>The Playbook</h2>
+      <p class="section-sub">
+        An in-terminal algorithm reference covering 52 patterns — from Arrays and Binary Search
+        to Network Flow, Segment Tree, and Digit DP. Every topic teaches the intuition, walks through
+        annotated templates, and tells you which pattern it's most often confused with.
+      </p>
+      <div class="stats">
+        <div class="stat"><span class="n">2,800+</span><span class="k">Problems</span></div>
+        <div class="stat"><span class="n">1,900+</span><span class="k">Solutions</span></div>
+        <div class="stat"><span class="n">52</span><span class="k">Patterns</span></div>
+        <div class="stat"><span class="n">4</span><span class="k">Modes</span></div>
+      </div>
+    </section>
+
+    <section id="features">
+      <h2>Beyond the modes</h2>
+      <ul class="plain">
+        <li><strong>Problem browser</strong> — filter 2,800+ LeetCode problems by difficulty, topic, or solved status.</li>
+        <li><strong>Inline code editor</strong> — write Python and run it against the real test cases without leaving the app.</li>
+        <li><strong>Live test results</strong> — pass/fail per case, run in an isolated subprocess so an infinite loop times out instead of hanging.</li>
+        <li><strong>Complexity analysis</strong> — the agent inspects the AST to gauge Big-O, then reasons about whether that estimate actually holds.</li>
+        <li><strong>Statistics</strong> — session counts, solved-problem tracking, progress over time.</li>
+        <li><strong>Cloud sync</strong> <em>(optional)</em> — sign in to persist progress across machines.</li>
+      </ul>
+    </section>
+
+    <section id="install">
+      <h2>Get started</h2>
+      <p class="section-sub">Requires Python 3.11 or newer. Works on Windows, macOS, and Linux.</p>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="label">install</span>
+        </div>
+        <div class="terminal-body">
+<div class="l"><span class="c-dim"># with uv (recommended)</span></div>
+<div class="l"><span class="c-brand">$</span> uv tool install leetvibe</div>
+<div class="l"> </div>
+<div class="l"><span class="c-dim"># or with pip</span></div>
+<div class="l"><span class="c-brand">$</span> pip install leetvibe</div>
+<div class="l"> </div>
+<div class="l"><span class="c-dim"># first launch opens the onboarding wizard</span></div>
+<div class="l"><span class="c-brand">$</span> leetvibe</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2>FAQ</h2>
+
+      <details>
+        <summary>What is LeetVibe?</summary>
+        <p>LeetVibe is a free, open-source command-line application that turns LeetCode practice into a
+           guided session with an AI coach. It runs entirely in your terminal: browse problems, write
+           Python, run the real test cases, and have the agent teach, coach, or interview you.</p>
+      </details>
+
+      <details>
+        <summary>Do I need an API key?</summary>
+        <p>Only for the AI modes. LeetVibe uses your own Mistral API key for reasoning, and an optional
+           ElevenLabs key for interview voice narration. Practice mode works with no keys at all.</p>
+      </details>
+
+      <details>
+        <summary>What does it cost?</summary>
+        <p>LeetVibe itself is free and MIT-licensed. You bring your own Mistral API key, and those
+           requests are billed to your Mistral account according to your plan.</p>
+      </details>
+
+      <details>
+        <summary>What leaves my machine?</summary>
+        <p>Problem statements and code go to the Mistral API during sessions, and replies go to ElevenLabs
+           if voice is enabled. Progress syncs to the cloud only if you create an account. Your API keys
+           never leave <code>~/.leetvibe/.env</code>.</p>
+      </details>
+
+      <details>
+        <summary>Which terminals are supported?</summary>
+        <p>Any modern terminal with truecolor support. On Windows, use Windows Terminal rather than
+           legacy <code>cmd.exe</code>.</p>
+      </details>
+
+      <details>
+        <summary>How do I update?</summary>
+        <p><code>uv tool upgrade leetvibe</code> or <code>pip install -U leetvibe</code>. LeetVibe also
+           checks PyPI once a day and shows a toast when a newer version is available.</p>
+      </details>
+    </section>
+
+    <footer>
+      <div>
+        MIT licensed · Built at the Mistral AI Hackathon 2026 by
+        <a href="https://github.com/Hiba-Chaabnia">Hiba Chaabnia</a>
+      </div>
+      <div>
+        <a href="https://github.com/Hiba-Chaabnia/LeetVibe">GitHub</a> ·
+        <a href="https://pypi.org/project/leetvibe/">PyPI</a> ·
+        <a href="https://github.com/Hiba-Chaabnia/LeetVibe/issues">Issues</a>
+      </div>
+    </footer>
+
   </div>
 
-
   <script>
-    var BULB_SVG = `<svg width="44" height="44" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-      <path d="M6 2h4M5 3h1M10 3h1M4 4h1M11 4h1M4 5h1M11 5h1M4 6h1M11 6h1M4 7h1M11 7h1M5 8h1M10 8h1M6 9h1M9 9h1" stroke="currentColor" stroke-width="1"/>
-      <path d="M6 10h4M6 11h1M9 11h1M6 12h4M7 13h2" stroke="currentColor" stroke-width="1"/>
-    </svg>`;
-
-    var CHECK_SVG = `<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
-      <path d="M20 6L9 17L4 12"/>
-    </svg>`;
-
-    var ERROR_SVG = `<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
-      <line x1="18" y1="6" x2="6" y2="18"/>
-      <line x1="6" y1="6" x2="18" y2="18"/>
-    </svg>`;
-
-    // The local LeetVibe CLI server does the OAuth token exchange itself and
-    // only ever redirects here with `?auth=done` or `?auth=error` — this page
-    // is just the landing screen telling the user to go back to the terminal.
-    var query = new URLSearchParams(window.location.search);
-
-    var outer         = document.getElementById('outer');
-    var iconContainer = document.getElementById('icon-container');
-    var title         = document.getElementById('title');
-    var msg           = document.getElementById('msg');
-    var badge         = document.getElementById('badge');
-
-    function show(state, svgContent, t, m, b) {
-      outer.className = 'container state-' + state;
-      iconContainer.innerHTML = svgContent;
-      title.textContent = t;
-      msg.textContent   = m;
-      if (b) { badge.textContent = b; badge.style.display = 'inline-block'; }
-      else   { badge.style.display = 'none'; }
-    }
-
-    var auth  = query.get('auth');
-    var error = query.get('error');
-
-    if (auth === 'done') {
-      show('success', CHECK_SVG,
-        'Signed in with Google',
-        'Authentication successful. You can close this tab and return to your terminal.',
-        '→  LeetVibe is ready'
-      );
-    } else if (auth === 'error') {
-      show('error', ERROR_SVG,
-        'Sign-in Failed',
-        'Something went wrong during Google authentication. Return to LeetVibe and try again.',
-        error || ''
-      );
-    } else {
-      show('pending', BULB_SVG,
-        'Waiting for Google…',
-        'Complete sign-in in your browser. This page will update automatically.',
-        ''
-      );
-    }
+    // CLI versions before 0.2.3 send the OAuth callback to the site root
+    // instead of /auth/ — forward those so old installs keep working.
+    (function () {
+      var q = window.location.search;
+      if (/[?&]auth=/.test(q)) {
+        window.location.replace('auth/' + q);
+      }
+    })();
   </script>
+
 </body>
 </html>

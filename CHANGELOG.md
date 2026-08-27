@@ -2,6 +2,18 @@
 
 All notable changes to LeetVibe are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.2.3] — 2026-08-27
+
+### Added
+- **Project website** at [hiba-chaabnia.github.io/LeetVibe](https://hiba-chaabnia.github.io/LeetVibe/) — a real landing page describing the four modes, the Playbook, and the install steps. The GitHub Pages site previously served only the OAuth callback screen at its root, so LeetVibe had no indexable page of its own and did not appear in search results at all
+
+### Changed
+- The Google sign-in landing screen moved from the site root to `/auth/`; the CLI now redirects there directly. Installs from 0.2.2 and earlier still hit the root and are forwarded automatically, so existing sign-in flows keep working
+- `Homepage` in the package metadata now points at the website instead of duplicating `Repository`, and a `Documentation` link was added
+
+### Fixed
+- Feedback submissions were tagged with a hardcoded `app_version` of `0.2.0` regardless of the installed version; the version is now read from package metadata at submit time
+
 ## [0.2.2] — 2026-08-24
 
 ### Fixed

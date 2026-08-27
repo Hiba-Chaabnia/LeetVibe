@@ -180,7 +180,7 @@ def start_google_auth() -> GoogleAuthState | AuthResult:
     return state
 
 
-_PAGES_URL = "https://hiba-chaabnia.github.io/LeetVibe/"
+_PAGES_URL = "https://hiba-chaabnia.github.io/LeetVibe/auth/"
 
 
 def _start_callback_server(state: GoogleAuthState, redirect_uri: str) -> None:
